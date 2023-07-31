@@ -50,10 +50,10 @@
       }
     ],
     "created_at": "2021-12-02T17:48:18Z",
-    "updated_at": "2023-07-17T19:56:12Z",
+    "updated_at": "2023-07-31T16:44:55Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "b60a071ce71e1c8d2b757c2314f9d1786b744c2b",
+    "merge_commit_sha": "f837c09805b4577ee74fc9d18b54c601ddd7e459",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -270,10 +270,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5522,
-        "stargazers_count": 8195,
-        "watchers_count": 8195,
-        "size": 13798,
+        "forks_count": 5534,
+        "stargazers_count": 8218,
+        "watchers_count": 8218,
+        "size": 13787,
         "default_branch": "master",
         "open_issues_count": 112,
         "is_template": false,
@@ -286,9 +286,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-07-16T15:23:33Z",
+        "pushed_at": "2023-07-28T21:37:25Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-07-17T12:24:17Z"
+        "updated_at": "2023-07-31T10:33:05Z"
       }
     },
     "_links": {
@@ -302,7 +302,7 @@
     "deletions": 9,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 5,
+    "review_comments": 6,
     "comments": 3
   },
   "events": [
@@ -1123,6 +1123,58 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1265834888"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1244"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 298,
+      "original_line": 298,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1279600676",
+      "pull_request_review_id": 1555333084,
+      "id": 1279600676,
+      "node_id": "PRRC_kwDOAN28mc5MRSgk",
+      "diff_hunk": "@@ -289,6 +295,7 @@ Note:\n * The sender must allow the receiver to add/remove or modify the receiver's own outputs. (if payment output substitution is disabled, the receiver's outputs must not be removed or decreased in value)\n * The sender should allow the receiver to not add any inputs. This is useful for the receiver to change the paymout output scriptPubKey type.\n * If no input have been added, the sender's wallet implementation should accept the payjoin proposal, but not mark the transaction as an actual payjoin in the user interface.\n+* If no input have been added, the sender's wallet MUST NOT perform changes that would change transaction ID. Such changes would be accepted by the Bitcoin network in this special case but may invalidate smart contracts the receiver participates in. (E.g. Lightning Network channel opening)",
+      "path": "bip-0078.mediawiki",
+      "position": 55,
+      "original_position": 55,
+      "commit_id": "d4e69ca02d5b743b1997d3b3ffd5513a973f28ff",
+      "original_commit_id": "d4e69ca02d5b743b1997d3b3ffd5513a973f28ff",
+      "in_reply_to_id": 1265834888,
+      "user": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "I agree with @NicolasDorier's concern. If any inputs to the transaction are not segwit then the txid could be malleated. @Kixunil do channel opening txs commit to a TXID? Do they accept non-segwit inputs? If yes to both, this requirement might make sense. If they're segwit only then the payjoin receiver can check for that before trying to open a channel and it doesn't need to be part of BIP 78 spec.",
+      "created_at": "2023-07-31T16:44:54Z",
+      "updated_at": "2023-07-31T16:44:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1244#discussion_r1279600676",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1279600676"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1244"
