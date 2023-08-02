@@ -145,10 +145,10 @@
         "svn_url": "https://github.com/Roasbeef/bips",
         "homepage": "bitcoin.org",
         "language": "Go",
-        "forks_count": 23,
+        "forks_count": 24,
         "stargazers_count": 57,
         "watchers_count": 57,
-        "size": 13234,
+        "size": 13016,
         "default_branch": "master",
         "open_issues_count": 3,
         "is_template": false,
@@ -161,9 +161,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-05-30T12:31:52Z",
+        "pushed_at": "2023-07-31T12:16:43Z",
         "created_at": "2016-02-05T19:45:12Z",
-        "updated_at": "2023-05-17T06:31:36Z"
+        "updated_at": "2023-07-31T18:54:54Z"
       }
     },
     "base": {
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5178,
-        "stargazers_count": 8116,
-        "watchers_count": 8116,
-        "size": 13694,
+        "forks_count": 5535,
+        "stargazers_count": 8220,
+        "watchers_count": 8220,
+        "size": 13787,
         "default_branch": "master",
-        "open_issues_count": 115,
+        "open_issues_count": 112,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-06-08T12:03:37Z",
+        "pushed_at": "2023-08-01T12:09:15Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-06-12T10:53:19Z"
+        "updated_at": "2023-08-01T09:08:43Z"
       }
     },
     "_links": {
@@ -620,7 +620,7 @@
       "commit_url": null,
       "created_at": "2019-11-11T00:56:42Z",
       "updated_at": "2019-11-11T00:56:42Z",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "For anti-DoS reasons, there's no way a full node will respond to a few-byte message with a 32MB message. I assume the BIP allows Bitcoin Core to just respond with fewer filters (which it obviously will).",
       "user": {
         "login": "TheBlueMatt",
@@ -756,6 +756,106 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2019-11-11T01:01:46Z"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2019-11-11T12:55:24Z",
+      "updated_at": "2019-11-11T12:55:24Z",
+      "source": {
+        "issue": {
+          "id": 471808898,
+          "node_id": "MDExOlB1bGxSZXF1ZXN0MzAwMzgzOTM1",
+          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/16442",
+          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
+          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/16442/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/16442/comments",
+          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/16442/events",
+          "html_url": "https://github.com/bitcoin/bitcoin/pull/16442",
+          "number": 16442,
+          "state": "closed",
+          "state_reason": null,
+          "title": "Serve BIP 157 compact filters",
+          "body": "This enables nodes to serve block filters compliant with [BIP 157](https://github.com/bitcoin/bips/blob/master/bip-0157.mediawiki). This is the last PR required for BIP 157/158 compatibility.\r\n\r\nIf the node has the block filter index enabled, once the index is in sync, the node will begin signaling the BIP 158 service bit and responding to BIP 157 requests. On invalid requests, the node disconnects the offending peer.\r\n\r\nThis is tested using functional tests. I have also synced an [lnd](https://github.com/lightningnetwork/lnd) testnet node using the neutrino backend connected to a Core node running this code.\r\n\r\nQuestions:\r\n- Should there be a separate CLI flag other than `-blockfilterindex` to enable serving of filters from the index?\r\n- Is the mechanism to only signal the service flag once the index is in sync OK?\r\n- Is the use of `boost::shared_lock` around the checkpoint cache acceptable?",
+          "user": {
+            "login": "jimpo",
+            "id": 881253,
+            "node_id": "MDQ6VXNlcjg4MTI1Mw==",
+            "avatar_url": "https://avatars.githubusercontent.com/u/881253?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/jimpo",
+            "html_url": "https://github.com/jimpo",
+            "followers_url": "https://api.github.com/users/jimpo/followers",
+            "following_url": "https://api.github.com/users/jimpo/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/jimpo/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/jimpo/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/jimpo/subscriptions",
+            "organizations_url": "https://api.github.com/users/jimpo/orgs",
+            "repos_url": "https://api.github.com/users/jimpo/repos",
+            "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/jimpo/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [
+            {
+              "id": 64583,
+              "node_id": "MDU6TGFiZWw2NDU4Mw==",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/Feature",
+              "name": "Feature",
+              "color": "7cf575",
+              "default": false
+            },
+            {
+              "id": 98298007,
+              "node_id": "MDU6TGFiZWw5ODI5ODAwNw==",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/P2P",
+              "name": "P2P",
+              "color": "006b75",
+              "default": false
+            }
+          ],
+          "assignees": [],
+          "author_association": "CONTRIBUTOR",
+          "locked": true,
+          "active_lock_reason": "resolved",
+          "comments": 48,
+          "pull_request": {
+            "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/16442",
+            "html_url": "https://github.com/bitcoin/bitcoin/pull/16442",
+            "diff_url": "https://github.com/bitcoin/bitcoin/pull/16442.diff",
+            "patch_url": "https://github.com/bitcoin/bitcoin/pull/16442.patch"
+          },
+          "closed_at": "2020-05-05T03:08:47Z",
+          "created_at": "2019-07-23T16:49:00Z",
+          "updated_at": "2022-08-16T17:01:59Z"
+        },
+        "type": "issue"
+      }
     },
     {
       "event": "commented",

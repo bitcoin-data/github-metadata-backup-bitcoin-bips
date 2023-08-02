@@ -270,12 +270,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5178,
-        "stargazers_count": 8116,
-        "watchers_count": 8116,
-        "size": 13694,
+        "forks_count": 5535,
+        "stargazers_count": 8220,
+        "watchers_count": 8220,
+        "size": 13787,
         "default_branch": "master",
-        "open_issues_count": 115,
+        "open_issues_count": 112,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -286,9 +286,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-06-08T12:03:37Z",
+        "pushed_at": "2023-08-01T12:09:15Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-06-12T10:53:19Z"
+        "updated_at": "2023-08-01T09:08:43Z"
       }
     },
     "_links": {
@@ -702,7 +702,7 @@
       "commit_id": "6cd6b757ffa93ab9743a5a969ac4d68757da8554",
       "commit_url": null,
       "created_at": null,
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "I'm starting to go through the state machine logic. Some typo fixups below.\r",
       "user": {
         "login": "jonatack",
@@ -738,7 +738,7 @@
       "commit_id": "6cd6b757ffa93ab9743a5a969ac4d68757da8554",
       "commit_url": null,
       "created_at": null,
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "Some serious errors here...\r\n\r\nI think that it's correct to say that the changes are purely soft-forks for any soft-fork activation attempt under the old rules -- some conceivable chains might switch from FAILED to ACTIVE, but none that were ACTIVE would switch to any other state. And all of csv, segwit and bip 91 did reach the ACTIVE state so even if they weren't considered buried, interpretation shouldn't change.\r\n\r\nFWIW, I'm not convinced there's a need to have this as a separate bip rather than just documenting the delta in the taproot bip directly -- that should only be necessary if we wanted to reuse exactly this activation method again in the future, in which case having a separate bip to refer to would be helpful. That seems pretty unlikely. I have an update to bip341 that documents the activation details drafted at https://github.com/ajtowns/bips/blob/202103-bip341-speedy-trial-mtp/bip-0341.mediawiki#Deployment that I was aiming to PR today, but I would really rather avoid having another set of competing PRs on this topic. LMK if you want to persevere with this or would rather switch to that.\r\n\r\n[EDIT: opened as #1104]",
       "user": {
         "login": "ajtowns",
@@ -1084,6 +1084,88 @@
       "created_at": "2021-04-13T19:12:29Z"
     },
     {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2021-04-13T19:13:53Z",
+      "updated_at": "2021-04-13T19:13:53Z",
+      "source": {
+        "issue": {
+          "id": 857161041,
+          "node_id": "MDExOlB1bGxSZXF1ZXN0NjE0NjI3NjA4",
+          "url": "https://api.github.com/repos/bitcoin/bips/issues/1104",
+          "repository_url": "https://api.github.com/repos/bitcoin/bips",
+          "labels_url": "https://api.github.com/repos/bitcoin/bips/issues/1104/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1104/comments",
+          "events_url": "https://api.github.com/repos/bitcoin/bips/issues/1104/events",
+          "html_url": "https://github.com/bitcoin/bips/pull/1104",
+          "number": 1104,
+          "state": "closed",
+          "state_reason": null,
+          "title": "BIP341: speedy trial activation parameters",
+          "body": "Adds mainnet and testnet3 activation parameters. This uses the \"speedy trial\" approach [0]  with some refinements to the exact mechanism [1], as implemented in bitcoin/bitcoin#21377 . Parameters are selected based on previous discussions [2] [3] [4]. The parameters are:\r\n\r\n* starttime = 2021-04-24 00:00 UTC\r\n* timeout = 2021-08-11 00:00 UTC\r\n* min_activation_height = 709632 (est mid November 2021, mainnet only)\r\n* threshold = 1815 / 2016 blocks (90%, mainnet only)\r\n\r\nIn terms of block heights, that will likely mean the first signalling period for mainnet should start at height 681408, approximately April 29th UTC, and will likely mean signalling will continue for 8 retarget periods until height 697536 (which if blocks arrived at 10 minute intervals, would be due around 2021-08-20).\r\n\r\n[0] https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-March/018583.html\r\n[1] https://github.com/bitcoin/bitcoin/pull/21377#issuecomment-814494847\r\n[2] (90%) https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-February/018425.html\r\n[3] (May/August/Nov) https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-March/018715.html\r\n[4] (specific parameters) https://github.com/bitcoin/bips/pull/1081",
+          "user": {
+            "login": "ajtowns",
+            "id": 127186,
+            "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+            "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/ajtowns",
+            "html_url": "https://github.com/ajtowns",
+            "followers_url": "https://api.github.com/users/ajtowns/followers",
+            "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+            "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+            "repos_url": "https://api.github.com/users/ajtowns/repos",
+            "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [],
+          "assignees": [],
+          "author_association": "CONTRIBUTOR",
+          "locked": false,
+          "comments": 66,
+          "pull_request": {
+            "url": "https://api.github.com/repos/bitcoin/bips/pulls/1104",
+            "html_url": "https://github.com/bitcoin/bips/pull/1104",
+            "diff_url": "https://github.com/bitcoin/bips/pull/1104.diff",
+            "patch_url": "https://github.com/bitcoin/bips/pull/1104.patch"
+          },
+          "closed_at": "2021-04-25T21:54:10Z",
+          "created_at": "2021-04-13T17:09:46Z",
+          "updated_at": "2021-04-26T01:48:51Z"
+        },
+        "type": "issue"
+      }
+    },
+    {
       "event": "commented",
       "id": 819026770,
       "node_id": "MDEyOklzc3VlQ29tbWVudDgxOTAyNjc3MA==",
@@ -1224,7 +1306,7 @@
       "commit_url": null,
       "created_at": "2021-04-14T01:36:08Z",
       "updated_at": "2021-04-14T01:36:46Z",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "> @ajtowns I'm confused by this. On IRC wasn't the reason for going with MTP because future soft forks will use ST, and doing so will make testing easier? Otherwise, safety and predictability favored height/BIP8\r\n\r\nI think the next soft fork attempt (which might be taproot again if ST fails to activate) would want to make at least two changes compared to ST as it stands: including some form of UASF mechanism (eg, LAST_CHANCE and mandatory signalling), and using MTP rather than height for the delayed activation, presuming we can come up with a sensible way of doing that (eg addressing issues like [the one Russell raised](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-April/018740.html)). It might be good for such a BIP to also document how activations actually occur for signet in order to test new soft forks.",
       "user": {
         "login": "ajtowns",
@@ -1721,7 +1803,7 @@
       "created_at": "2021-04-13T00:12:39Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612032212",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612032212"
@@ -1825,7 +1907,7 @@
       "created_at": "2021-04-13T14:39:37Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612509853",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612509853"
@@ -1877,7 +1959,7 @@
       "created_at": "2021-04-13T14:41:25Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612511502",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612511502"
@@ -1929,7 +2011,7 @@
       "created_at": "2021-04-13T14:42:55Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612512785",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612512785"
@@ -1981,7 +2063,7 @@
       "created_at": "2021-04-13T14:43:18Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612513161",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612513161"
@@ -2033,7 +2115,7 @@
       "created_at": "2021-04-13T14:44:52Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612514544",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612514544"
@@ -2085,7 +2167,7 @@
       "created_at": "2021-04-13T14:45:37Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612515264",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612515264"
@@ -2137,7 +2219,7 @@
       "created_at": "2021-04-13T14:46:08Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612515736",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612515736"
@@ -2189,7 +2271,7 @@
       "created_at": "2021-04-13T14:47:24Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612516852",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612516852"
@@ -2241,7 +2323,7 @@
       "created_at": "2021-04-13T14:51:57Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612521117",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612521117"
@@ -2293,7 +2375,7 @@
       "created_at": "2021-04-13T14:54:12Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612523316",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612523316"
@@ -2345,7 +2427,7 @@
       "created_at": "2021-04-13T14:56:38Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612525669",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612525669"
@@ -2397,7 +2479,7 @@
       "created_at": "2021-04-13T15:07:24Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612535283",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612535283"
@@ -2501,7 +2583,7 @@
       "created_at": "2021-04-13T18:48:42Z",
       "updated_at": "2021-04-13T19:12:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1101#discussion_r612695978",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/612695978"

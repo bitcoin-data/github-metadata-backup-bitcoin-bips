@@ -261,12 +261,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5178,
-        "stargazers_count": 8116,
-        "watchers_count": 8116,
-        "size": 13694,
+        "forks_count": 5535,
+        "stargazers_count": 8220,
+        "watchers_count": 8220,
+        "size": 13787,
         "default_branch": "master",
-        "open_issues_count": 115,
+        "open_issues_count": 112,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -277,9 +277,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-06-08T12:03:37Z",
+        "pushed_at": "2023-08-01T12:09:15Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-06-12T10:53:19Z"
+        "updated_at": "2023-08-01T09:08:43Z"
       }
     },
     "_links": {
@@ -287,7 +287,7 @@
         "href": "https://api.github.com/repos/bitcoin/bips/pulls/1043"
       }
     },
-    "author_association": "MEMBER",
+    "author_association": "CONTRIBUTOR",
     "draft": false,
     "additions": 1,
     "deletions": 1,
@@ -326,7 +326,7 @@
       "commit_url": null,
       "created_at": "2020-12-07T15:16:46Z",
       "updated_at": "2020-12-07T15:16:46Z",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "If the implementation is to be changed instead, then this patch is to be applied to it:\r\n\r\n<details>\r\n<summary>change net_processing.cpp</summary>\r\n\r\n```diff\r\ndiff --git i/src/net_processing.cpp w/src/net_processing.cpp\r\nindex 1b4a05f0b..e46cbe487 100644\r\n--- i/src/net_processing.cpp\r\n+++ w/src/net_processing.cpp\r\n@@ -2361,15 +2361,12 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat\r\n         if (greatest_common_version >= WTXID_RELAY_VERSION) {\r\n             m_connman.PushMessage(&pfrom, msg_maker.Make(NetMsgType::WTXIDRELAY));\r\n         }\r\n \r\n         m_connman.PushMessage(&pfrom, msg_maker.Make(NetMsgType::VERACK));\r\n \r\n-        // Signal ADDRv2 support (BIP155).\r\n-        m_connman.PushMessage(&pfrom, msg_maker.Make(NetMsgType::SENDADDRV2));\r\n-\r\n         pfrom.nServices = nServices;\r\n         pfrom.SetAddrLocal(addrMe);\r\n         {\r\n             LOCK(pfrom.cs_SubVer);\r\n             pfrom.cleanSubVer = cleanSubVer;\r\n         }\r\n@@ -2509,12 +2506,14 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat\r\n             uint64_t nCMPCTBLOCKVersion = 2;\r\n             if (pfrom.GetLocalServices() & NODE_WITNESS)\r\n                 m_connman.PushMessage(&pfrom, msgMaker.Make(NetMsgType::SENDCMPCT, fAnnounceUsingCMPCTBLOCK, nCMPCTBLOCKVersion));\r\n             nCMPCTBLOCKVersion = 1;\r\n             m_connman.PushMessage(&pfrom, msgMaker.Make(NetMsgType::SENDCMPCT, fAnnounceUsingCMPCTBLOCK, nCMPCTBLOCKVersion));\r\n         }\r\n+        // Signal ADDRv2 support (BIP155).\r\n+        m_connman.PushMessage(&pfrom, msgMaker.Make(NetMsgType::SENDADDRV2));\r\n         pfrom.fSuccessfullyConnected = true;\r\n         return;\r\n     }\r\n \r\n     // Feature negotiation of wtxidrelay should happen between VERSION and\r\n     // VERACK, to avoid relay problems from switching after a connection is up\r\n```\r\n</details>\r\n\r\nthat would send `sendaddrv2` at the same time as sending `sendheaders` and `sendcmpct`.",
       "user": {
         "login": "vasild",
@@ -434,7 +434,7 @@
       "commit_url": null,
       "created_at": "2020-12-07T15:33:41Z",
       "updated_at": "2020-12-07T15:33:41Z",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "> A third option would be to use the same feature negotiation order that was used for wtxidrelay\r\n\r\nThat would be \"`sendaddrv2` SHOULD be sent _before_ sending the `verack` message to the peer\" and would require changing both the BIP and the code. Any of the 3 would work wrt the `sendaddrv2` / `addrv2` logic (= it does not matter when `sendaddrv2` is sent).",
       "user": {
         "login": "vasild",
@@ -488,7 +488,7 @@
       "commit_url": null,
       "created_at": "2020-12-07T15:44:28Z",
       "updated_at": "2020-12-07T15:44:28Z",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "In the same way as wtxidrelay SGTM for being simpler rather than a different mechanism for each.",
       "user": {
         "login": "jonatack",
@@ -604,7 +604,7 @@
       "commit_url": null,
       "created_at": "2020-12-07T17:08:10Z",
       "updated_at": "2020-12-07T17:08:10Z",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "Changed to send it before sending verack (like wtxidrelay).",
       "user": {
         "login": "vasild",
@@ -711,6 +711,134 @@
       "commit_id": "b2eae522631289a9e4b7a2e80a0f761a86b65093",
       "commit_url": "https://api.github.com/repos/sipa/bitcoin/commits/b2eae522631289a9e4b7a2e80a0f761a86b65093",
       "created_at": "2020-12-07T17:14:24Z"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "sipa",
+        "id": 548488,
+        "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sipa",
+        "html_url": "https://github.com/sipa",
+        "followers_url": "https://api.github.com/users/sipa/followers",
+        "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+        "organizations_url": "https://api.github.com/users/sipa/orgs",
+        "repos_url": "https://api.github.com/users/sipa/repos",
+        "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sipa/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2020-12-07T17:15:45Z",
+      "updated_at": "2020-12-07T17:15:45Z",
+      "source": {
+        "issue": {
+          "id": 756659341,
+          "node_id": "MDExOlB1bGxSZXF1ZXN0NTMyMTc0Mjcx",
+          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/20564",
+          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
+          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/20564/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/20564/comments",
+          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/20564/events",
+          "html_url": "https://github.com/bitcoin/bitcoin/pull/20564",
+          "number": 20564,
+          "state": "closed",
+          "state_reason": null,
+          "title": "Don't send 'sendaddrv2' to pre-70016 software, and send before 'verack'",
+          "body": "BIP155 defines addrv2 and sendaddrv2 for all protocol versions, but some implementations reject messages they don't know. As a courtesy, don't send it to nodes with a version before 70016, as no software is known to support BIP155 that doesn't announce at least that protocol version number.\r\n\r\nAlso move the sending of sendaddrv2 earlier (before sending verack), as proposed in https://github.com/bitcoin/bips/pull/1043. This has the side effect that local address broadcast of torv3 will work (as it'll only trigger after we know whether or not the peer supports addrv2).",
+          "user": {
+            "login": "sipa",
+            "id": 548488,
+            "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+            "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/sipa",
+            "html_url": "https://github.com/sipa",
+            "followers_url": "https://api.github.com/users/sipa/followers",
+            "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+            "organizations_url": "https://api.github.com/users/sipa/orgs",
+            "repos_url": "https://api.github.com/users/sipa/repos",
+            "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/sipa/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [
+            {
+              "id": 98298007,
+              "node_id": "MDU6TGFiZWw5ODI5ODAwNw==",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/P2P",
+              "name": "P2P",
+              "color": "006b75",
+              "default": false
+            }
+          ],
+          "assignees": [],
+          "author_association": "MEMBER",
+          "milestone": {
+            "url": "https://api.github.com/repos/bitcoin/bitcoin/milestones/45",
+            "html_url": "https://github.com/bitcoin/bitcoin/milestone/45",
+            "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/milestones/45/labels",
+            "id": 4914019,
+            "node_id": "MDk6TWlsZXN0b25lNDkxNDAxOQ==",
+            "number": 45,
+            "state": "closed",
+            "title": "0.21.0",
+            "description": "",
+            "creator": {
+              "login": "laanwj",
+              "id": 126646,
+              "node_id": "MDQ6VXNlcjEyNjY0Ng==",
+              "avatar_url": "https://avatars.githubusercontent.com/u/126646?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/laanwj",
+              "html_url": "https://github.com/laanwj",
+              "followers_url": "https://api.github.com/users/laanwj/followers",
+              "following_url": "https://api.github.com/users/laanwj/following%7B/other_user%7D",
+              "gists_url": "https://api.github.com/users/laanwj/gists%7B/gist_id%7D",
+              "starred_url": "https://api.github.com/users/laanwj/starred%7B/owner%7D%7B/repo%7D",
+              "subscriptions_url": "https://api.github.com/users/laanwj/subscriptions",
+              "organizations_url": "https://api.github.com/users/laanwj/orgs",
+              "repos_url": "https://api.github.com/users/laanwj/repos",
+              "events_url": "https://api.github.com/users/laanwj/events%7B/privacy%7D",
+              "received_events_url": "https://api.github.com/users/laanwj/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "open_issues": 0,
+            "closed_issues": 132,
+            "created_at": "2019-12-09T08:39:58Z",
+            "updated_at": "2021-01-15T19:50:53Z",
+            "closed_at": "2021-01-15T19:50:53Z"
+          },
+          "locked": true,
+          "active_lock_reason": "resolved",
+          "comments": 32,
+          "pull_request": {
+            "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/20564",
+            "html_url": "https://github.com/bitcoin/bitcoin/pull/20564",
+            "diff_url": "https://github.com/bitcoin/bitcoin/pull/20564.diff",
+            "patch_url": "https://github.com/bitcoin/bitcoin/pull/20564.patch"
+          },
+          "closed_at": "2020-12-09T06:04:51Z",
+          "created_at": "2020-12-03T23:01:28Z",
+          "updated_at": "2022-02-15T11:01:35Z"
+        },
+        "type": "issue"
+      }
     },
     {
       "event": "commented",
@@ -874,7 +1002,7 @@
       "commit_id": "50613bb82ce89d31027ad27daecf46f05aff198e",
       "commit_url": null,
       "created_at": null,
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "Concept ACK",
       "user": {
         "login": "jonatack",
@@ -929,6 +1057,82 @@
       "commit_id": "deef9340aede6503951b133d8ef24686f833946d",
       "commit_url": "https://api.github.com/repos/sipa/bitcoin/commits/deef9340aede6503951b133d8ef24686f833946d",
       "created_at": "2020-12-07T18:42:37Z"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "sipa",
+        "id": 548488,
+        "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sipa",
+        "html_url": "https://github.com/sipa",
+        "followers_url": "https://api.github.com/users/sipa/followers",
+        "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+        "organizations_url": "https://api.github.com/users/sipa/orgs",
+        "repos_url": "https://api.github.com/users/sipa/repos",
+        "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sipa/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2020-12-08T03:20:19Z",
+      "updated_at": "2020-12-08T03:20:19Z",
+      "source": {
+        "issue": {
+          "id": 741833998,
+          "node_id": "MDU6SXNzdWU3NDE4MzM5OTg=",
+          "url": "https://api.github.com/repos/btcsuite/btcd/issues/1661",
+          "repository_url": "https://api.github.com/repos/btcsuite/btcd",
+          "labels_url": "https://api.github.com/repos/btcsuite/btcd/issues/1661/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/btcsuite/btcd/issues/1661/comments",
+          "events_url": "https://api.github.com/repos/btcsuite/btcd/issues/1661/events",
+          "html_url": "https://github.com/btcsuite/btcd/issues/1661",
+          "number": 1661,
+          "state": "closed",
+          "state_reason": "completed",
+          "title": "Btcd disconnects upon receiving sendaddrv2",
+          "body": "Bitcoin Core master, soon to be released, introduces the new `sendaddrv2` message ([BIP 155](https://github.com/bitcoin/bips/blob/master/bip-0155.mediawiki)). When such a Bitcoin Core node connects to a btcd node (tag v0.21.0-beta) it immediately disconnects:\r\n\r\n```\r\n2020-11-12 18:31:13.935 [ERR] PEER: Can't read message from x.x.x.x:42192 (inbound): ReadMessage: unhandled command [sendaddrv2]\r\n2020-11-12 18:31:13.933 [INF] SYNC: New valid peer x.x.x.x:42192 (inbound) (/Satoshi:0.20.99/)\r\n2020-11-12 18:31:13.946 [INF] SYNC: Syncing to block height 656631 from peer x.x.x.x:42192\r\n2020-11-12 18:31:13.946 [INF] SYNC: Lost peer x.x.x.x:42192 (inbound)\r\n```\r\n\r\nOn bitcoind side:\r\n\r\n```\r\n2020-11-12T18:31:13Z Added connection peer=6606\r\n2020-11-12T18:31:13Z sending version (103 bytes) peer=6606\r\n2020-11-12T18:31:13Z send version message: version 70016, blocks=656631, us=[::]:0, peer=6606\r\n2020-11-12T18:31:13Z received: version (113 bytes) peer=6606\r\n2020-11-12T18:31:13Z sending verack (0 bytes) peer=6606\r\n2020-11-12T18:31:13Z sending sendaddrv2 (0 bytes) peer=6606\r\n2020-11-12T18:31:13Z sending getaddr (0 bytes) peer=6606\r\n2020-11-12T18:31:13Z receive version message: /btcwire:0.5.0/btcd:0.21.0/: version 70013, blocks=656631, us=x.x.x.x:42192, peer=6606\r\n2020-11-12T18:31:13Z received: verack (0 bytes) peer=6606\r\n2020-11-12T18:31:13Z New outbound peer connected: version: 70013, blocks=656631, peer=6606 (full-relay)\r\n2020-11-12T18:31:13Z sending sendheaders (0 bytes) peer=6606\r\n2020-11-12T18:31:13Z sending ping (8 bytes) peer=6606\r\n2020-11-12T18:31:13Z sending addr (31 bytes) peer=6606\r\n2020-11-12T18:31:13Z initial getheaders (656630) to peer=6606 (startheight:656631)\r\n2020-11-12T18:31:13Z sending getheaders (1029 bytes) peer=6606\r\n2020-11-12T18:31:13Z sending feefilter (8 bytes) peer=6606\r\n2020-11-12T18:31:13Z received: reject (110 bytes) peer=6606\r\n2020-11-12T18:31:13Z Unknown command \"reject\" from peer=6606\r\n2020-11-12T18:31:13Z socket recv error for peer=6606: Connection reset by peer (104)\r\n2020-11-12T18:31:13Z disconnecting peer=6606\r\n2020-11-12T18:31:13Z Cleared nodestate for peer=6606\r\n```\r\n\r\nI tried with and without the new `peerblockfilters` feature, but that doesn't seem to matter.\r\n\r\nThis may lead to node loneliness. It also happens to Lnd nodes, see https://github.com/breez/breezmobile/issues/408\r\n\r\nThis issue did not occur as of a slightly older Bitcoin Core commit, e.g. https://github.com/bitcoin/bitcoin/commit/1d3ec2a1fda7446323786a52da1fd109c01aa6fb",
+          "user": {
+            "login": "Sjors",
+            "id": 10217,
+            "node_id": "MDQ6VXNlcjEwMjE3",
+            "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/Sjors",
+            "html_url": "https://github.com/Sjors",
+            "followers_url": "https://api.github.com/users/Sjors/followers",
+            "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+            "organizations_url": "https://api.github.com/users/Sjors/orgs",
+            "repos_url": "https://api.github.com/users/Sjors/repos",
+            "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/Sjors/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [],
+          "assignees": [],
+          "author_association": "NONE",
+          "locked": false,
+          "comments": 19,
+          "closed_at": "2020-12-08T03:32:09Z",
+          "created_at": "2020-11-12T18:38:24Z",
+          "updated_at": "2020-12-09T09:40:59Z"
+        },
+        "type": "issue"
+      }
     },
     {
       "event": "head_ref_force_pushed",
@@ -1146,7 +1350,7 @@
       "commit_url": null,
       "created_at": "2020-12-08T09:37:00Z",
       "updated_at": "2020-12-08T09:37:00Z",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "There are many ways to say it, I hope the current phrasing is clear enough and good for everybody.",
       "user": {
         "login": "vasild",
@@ -1342,7 +1546,7 @@
       "commit_id": "e549ed36e8bbb0d15b1bd245cc5bb2c5664d5aa2",
       "commit_url": null,
       "created_at": null,
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "ACK e549ed3",
       "user": {
         "login": "jonatack",
@@ -3416,7 +3620,7 @@
       "created_at": "2020-12-07T18:01:08Z",
       "updated_at": "2020-12-08T09:35:45Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1043#discussion_r537713161",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/537713161"
@@ -3468,7 +3672,7 @@
       "created_at": "2020-12-07T18:14:59Z",
       "updated_at": "2020-12-08T09:35:45Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1043#discussion_r537722227",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/537722227"
@@ -3572,7 +3776,7 @@
       "created_at": "2020-12-08T06:05:05Z",
       "updated_at": "2020-12-08T09:35:45Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1043#discussion_r538059068",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/538059068"
@@ -3624,7 +3828,7 @@
       "created_at": "2020-12-08T06:05:25Z",
       "updated_at": "2020-12-08T09:35:45Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1043#discussion_r538059161",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/538059161"
@@ -3676,7 +3880,7 @@
       "created_at": "2020-12-08T06:06:17Z",
       "updated_at": "2020-12-08T09:35:45Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1043#discussion_r538059451",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/538059451"
@@ -3780,7 +3984,7 @@
       "created_at": "2020-12-08T09:35:46Z",
       "updated_at": "2020-12-08T09:35:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1043#discussion_r538180266",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/538180266"

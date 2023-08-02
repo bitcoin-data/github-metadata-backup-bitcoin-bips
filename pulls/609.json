@@ -144,10 +144,10 @@
         "svn_url": "https://github.com/Roasbeef/bips",
         "homepage": "bitcoin.org",
         "language": "Go",
-        "forks_count": 23,
+        "forks_count": 24,
         "stargazers_count": 57,
         "watchers_count": 57,
-        "size": 13234,
+        "size": 13016,
         "default_branch": "master",
         "open_issues_count": 3,
         "is_template": false,
@@ -160,9 +160,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-05-30T12:31:52Z",
+        "pushed_at": "2023-07-31T12:16:43Z",
         "created_at": "2016-02-05T19:45:12Z",
-        "updated_at": "2023-05-17T06:31:36Z"
+        "updated_at": "2023-07-31T18:54:54Z"
       }
     },
     "base": {
@@ -261,12 +261,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5178,
-        "stargazers_count": 8116,
-        "watchers_count": 8116,
-        "size": 13694,
+        "forks_count": 5535,
+        "stargazers_count": 8220,
+        "watchers_count": 8220,
+        "size": 13787,
         "default_branch": "master",
-        "open_issues_count": 115,
+        "open_issues_count": 112,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -277,9 +277,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-06-08T12:03:37Z",
+        "pushed_at": "2023-08-01T12:09:15Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-06-12T10:53:19Z"
+        "updated_at": "2023-08-01T09:08:43Z"
       }
     },
     "_links": {
@@ -418,7 +418,7 @@
       "commit_id": "83b83c78e189be898573e0bfe936dd0c9b99ecb9",
       "commit_url": null,
       "created_at": null,
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "I found this spec very confusing...I could probably stumble my way through implementing it purely because of the test vectors, but I would certainly miss parts of it the first few times around. Also, there is way too much background information in the \"Specification\" section - it doesn't read as a specification, it reads as a general goal of what you want it to do.",
       "user": {
         "login": "TheBlueMatt",
@@ -1345,7 +1345,7 @@
       "commit_id": "d52f586a1309be04e0297e44fa06f6241780e466",
       "commit_url": null,
       "created_at": null,
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "Just reviewed the P2P part again.",
       "user": {
         "login": "TheBlueMatt",
@@ -1406,6 +1406,316 @@
       "submitted_at": "2017-11-30T23:52:50Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/609"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "jimpo",
+        "id": 881253,
+        "node_id": "MDQ6VXNlcjg4MTI1Mw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/881253?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jimpo",
+        "html_url": "https://github.com/jimpo",
+        "followers_url": "https://api.github.com/users/jimpo/followers",
+        "following_url": "https://api.github.com/users/jimpo/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jimpo/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jimpo/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jimpo/subscriptions",
+        "organizations_url": "https://api.github.com/users/jimpo/orgs",
+        "repos_url": "https://api.github.com/users/jimpo/repos",
+        "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jimpo/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2017-12-08T23:12:40Z",
+      "updated_at": "2017-12-08T23:12:40Z",
+      "source": {
+        "issue": {
+          "id": 280644530,
+          "node_id": "MDExOlB1bGxSZXF1ZXN0MTU3MzUzNTk4",
+          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11857",
+          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
+          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11857/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11857/comments",
+          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11857/events",
+          "html_url": "https://github.com/bitcoin/bitcoin/pull/11857",
+          "number": 11857,
+          "state": "closed",
+          "state_reason": null,
+          "title": "Build tx index in parallel with validation",
+          "body": "This refactors the tx index code to be in it's own class and get built concurrently with validation code. The main benefit is decoupling and moving the txindex into a separate DB. The primary motivation is to lay the groundwork for other indexers that might be desired (such as the [compact filters](https://github.com/bitcoin/bips/pull/636)). The basic idea is that the TxIndex spins up its own thread, which first syncs the txindex to the current block index, then once in sync the BlockConnected ValidationInterface hook writes new blocks.\r\n\r\n### DB changes\r\n\r\nAt the suggestion of some other developers, the txindex has been split out into a separate database. A data migration runs at startup on any nodes with a legacy txindex. Currently the migration blocks node initialization until complete.\r\n\r\n### Open questions\r\n\r\n- Should the migration of txindex data from the old DB to the new DB block in init or should it happen in a background thread? The downside to backgrounding it is that `getrawtransaction` would return an error message saying the txindex is syncing while the migration is running.\r\n\r\n### Impact\r\n\r\nIn a sample size n=1 test where I synced nodes from scratch, the average time [Index writing](https://github.com/bitcoin/bitcoin/blob/master/src/validation.cpp#L1903) was 3.36ms in master and 1.72ms in this branch. The average time between `UpdateTip` log lines for sequential blocks between 400,000 and IBD end on mainnet was 0.297204s in master and 0.286134s in this branch. Most likely this is just variance in IBD times, but I can try with some more trials if people want.",
+          "user": {
+            "login": "jimpo",
+            "id": 881253,
+            "node_id": "MDQ6VXNlcjg4MTI1Mw==",
+            "avatar_url": "https://avatars.githubusercontent.com/u/881253?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/jimpo",
+            "html_url": "https://github.com/jimpo",
+            "followers_url": "https://api.github.com/users/jimpo/followers",
+            "following_url": "https://api.github.com/users/jimpo/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/jimpo/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/jimpo/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/jimpo/subscriptions",
+            "organizations_url": "https://api.github.com/users/jimpo/orgs",
+            "repos_url": "https://api.github.com/users/jimpo/repos",
+            "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/jimpo/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [
+            {
+              "id": 97470796,
+              "node_id": "MDU6TGFiZWw5NzQ3MDc5Ng==",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/UTXO%20Db%20and%20Indexes",
+              "name": "UTXO Db and Indexes",
+              "color": "fbca04",
+              "default": false
+            }
+          ],
+          "assignee": {
+            "login": "laanwj",
+            "id": 126646,
+            "node_id": "MDQ6VXNlcjEyNjY0Ng==",
+            "avatar_url": "https://avatars.githubusercontent.com/u/126646?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/laanwj",
+            "html_url": "https://github.com/laanwj",
+            "followers_url": "https://api.github.com/users/laanwj/followers",
+            "following_url": "https://api.github.com/users/laanwj/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/laanwj/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/laanwj/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/laanwj/subscriptions",
+            "organizations_url": "https://api.github.com/users/laanwj/orgs",
+            "repos_url": "https://api.github.com/users/laanwj/repos",
+            "events_url": "https://api.github.com/users/laanwj/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/laanwj/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "assignees": [
+            {
+              "login": "laanwj",
+              "id": 126646,
+              "node_id": "MDQ6VXNlcjEyNjY0Ng==",
+              "avatar_url": "https://avatars.githubusercontent.com/u/126646?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/laanwj",
+              "html_url": "https://github.com/laanwj",
+              "followers_url": "https://api.github.com/users/laanwj/followers",
+              "following_url": "https://api.github.com/users/laanwj/following%7B/other_user%7D",
+              "gists_url": "https://api.github.com/users/laanwj/gists%7B/gist_id%7D",
+              "starred_url": "https://api.github.com/users/laanwj/starred%7B/owner%7D%7B/repo%7D",
+              "subscriptions_url": "https://api.github.com/users/laanwj/subscriptions",
+              "organizations_url": "https://api.github.com/users/laanwj/orgs",
+              "repos_url": "https://api.github.com/users/laanwj/repos",
+              "events_url": "https://api.github.com/users/laanwj/events%7B/privacy%7D",
+              "received_events_url": "https://api.github.com/users/laanwj/received_events",
+              "type": "User",
+              "site_admin": false
+            }
+          ],
+          "author_association": "CONTRIBUTOR",
+          "locked": true,
+          "active_lock_reason": "resolved",
+          "comments": 35,
+          "pull_request": {
+            "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/11857",
+            "html_url": "https://github.com/bitcoin/bitcoin/pull/11857",
+            "diff_url": "https://github.com/bitcoin/bitcoin/pull/11857.diff",
+            "patch_url": "https://github.com/bitcoin/bitcoin/pull/11857.patch"
+          },
+          "closed_at": "2018-04-20T00:12:41Z",
+          "created_at": "2017-12-08T23:12:40Z",
+          "updated_at": "2021-09-08T11:53:20Z"
+        },
+        "type": "issue"
+      }
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "jonasschnelli",
+        "id": 178464,
+        "node_id": "MDQ6VXNlcjE3ODQ2NA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/178464?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonasschnelli",
+        "html_url": "https://github.com/jonasschnelli",
+        "followers_url": "https://api.github.com/users/jonasschnelli/followers",
+        "following_url": "https://api.github.com/users/jonasschnelli/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonasschnelli/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonasschnelli/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonasschnelli/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonasschnelli/orgs",
+        "repos_url": "https://api.github.com/users/jonasschnelli/repos",
+        "events_url": "https://api.github.com/users/jonasschnelli/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonasschnelli/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2018-01-04T07:20:21Z",
+      "updated_at": "2018-01-04T07:20:21Z",
+      "source": {
+        "issue": {
+          "id": 281025324,
+          "node_id": "MDU6SXNzdWUyODEwMjUzMjQ=",
+          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11863",
+          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
+          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11863/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11863/comments",
+          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11863/events",
+          "html_url": "https://github.com/bitcoin/bitcoin/issues/11863",
+          "number": 11863,
+          "state": "closed",
+          "state_reason": "completed",
+          "title": "Compact Client Side Filtering  for Light Clients (Neutrino server-side support)",
+          "body": "@Roasbeef, @martelletto  and @aakselrod implemented server-side support for this protocol in the btcd client, and the lnd Lightning client is able to use this.\r\n\r\nAre there any prerequisites for implementing server-side support for this protocol in Bitcoin Core, at least as a proof of concept?\r\n\r\n* [draft BIP](https://github.com/Roasbeef/bips/blob/master/gcs_light_client.mediawiki)\r\n* [video presentation](https://www.youtube.com/watch?v=7FWKc8lM4Ek) about the neutrino protocol\r\n* [btcd implementation](https://github.com/btcsuite/btcd/compare/master...Roasbeef:segwit-cbf)\r\n* [mailinglist discussion](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2017-June/014474.html)",
+          "user": {
+            "login": "Sjors",
+            "id": 10217,
+            "node_id": "MDQ6VXNlcjEwMjE3",
+            "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/Sjors",
+            "html_url": "https://github.com/Sjors",
+            "followers_url": "https://api.github.com/users/Sjors/followers",
+            "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+            "organizations_url": "https://api.github.com/users/Sjors/orgs",
+            "repos_url": "https://api.github.com/users/Sjors/repos",
+            "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/Sjors/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [
+            {
+              "id": 64584,
+              "node_id": "MDU6TGFiZWw2NDU4NA==",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/Brainstorming",
+              "name": "Brainstorming",
+              "color": "ebd775",
+              "default": false
+            }
+          ],
+          "assignees": [],
+          "author_association": "MEMBER",
+          "locked": true,
+          "active_lock_reason": "resolved",
+          "comments": 16,
+          "closed_at": "2019-04-29T19:44:26Z",
+          "created_at": "2017-12-11T13:57:00Z",
+          "updated_at": "2021-12-16T14:09:50Z"
+        },
+        "type": "issue"
+      }
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "jimpo",
+        "id": 881253,
+        "node_id": "MDQ6VXNlcjg4MTI1Mw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/881253?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jimpo",
+        "html_url": "https://github.com/jimpo",
+        "followers_url": "https://api.github.com/users/jimpo/followers",
+        "following_url": "https://api.github.com/users/jimpo/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jimpo/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jimpo/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jimpo/subscriptions",
+        "organizations_url": "https://api.github.com/users/jimpo/orgs",
+        "repos_url": "https://api.github.com/users/jimpo/repos",
+        "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jimpo/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2018-01-17T22:20:56Z",
+      "updated_at": "2018-01-17T22:20:56Z",
+      "source": {
+        "issue": {
+          "id": 289434750,
+          "node_id": "MDExOlB1bGxSZXF1ZXN0MTYzNTY4Mzk3",
+          "url": "https://api.github.com/repos/bitcoin/bips/issues/636",
+          "repository_url": "https://api.github.com/repos/bitcoin/bips",
+          "labels_url": "https://api.github.com/repos/bitcoin/bips/issues/636/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/636/comments",
+          "events_url": "https://api.github.com/repos/bitcoin/bips/issues/636/events",
+          "html_url": "https://github.com/bitcoin/bips/pull/636",
+          "number": 636,
+          "state": "closed",
+          "state_reason": null,
+          "title": "BIPs 157 & 158: Block Filtering stuff",
+          "body": "This is a revision of #609 that is intended as a replacement due to the number of substantial changes. Test vectors will be added once the BIP has been reviewed by the community and the reference implementation is updated.\r\n\r\n### Abstract\r\n\r\nThis BIP describes a new light client protocol in Bitcoin that improves upon currently available options. The standard light client protocol in use today, defined in BIP 37, has known flaws that weaken the security and privacy of clients and allow denial-of-service attack vectors on full nodes. The new protocol overcomes these issues by allowing light clients to obtain compact probabilistic filters of block content from full nodes and download full blocks if the filter matches relevant data.\r\n\r\nNew P2P messages empower light clients to securely sync the blockchain without relying on a trusted source. This BIP also defines a filter header, which serves as a commitment to all filters for previous blocks and provides the ability to efficiently detect malicious or faulty peers serving invalid filters. The resulting protocol guarantees that light clients with at least one honest peer are able to identify the correct block filters.\r\n\r\n### State of Implementation\r\n\r\nWe've tested the implementation of both a [light client implementing this BIP](https://github.com/lightninglabs/neutrino), as well as the serving full-node on Bitcoin's testnet over the past several months. Additionally, this new operating mode also serves as the basis for our [light weight Lightning node](https://github.com/lightningnetwork/lnd/). These implementations are based on an earlier version of the spec, and require some updates.",
+          "user": {
+            "login": "jimpo",
+            "id": 881253,
+            "node_id": "MDQ6VXNlcjg4MTI1Mw==",
+            "avatar_url": "https://avatars.githubusercontent.com/u/881253?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/jimpo",
+            "html_url": "https://github.com/jimpo",
+            "followers_url": "https://api.github.com/users/jimpo/followers",
+            "following_url": "https://api.github.com/users/jimpo/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/jimpo/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/jimpo/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/jimpo/subscriptions",
+            "organizations_url": "https://api.github.com/users/jimpo/orgs",
+            "repos_url": "https://api.github.com/users/jimpo/repos",
+            "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/jimpo/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [
+            {
+              "id": 275845989,
+              "node_id": "MDU6TGFiZWwyNzU4NDU5ODk=",
+              "url": "https://api.github.com/repos/bitcoin/bips/labels/New%20BIP",
+              "name": "New BIP",
+              "color": "5319e7",
+              "default": false
+            }
+          ],
+          "assignees": [],
+          "author_association": "CONTRIBUTOR",
+          "locked": false,
+          "comments": 9,
+          "pull_request": {
+            "url": "https://api.github.com/repos/bitcoin/bips/pulls/636",
+            "html_url": "https://github.com/bitcoin/bips/pull/636",
+            "diff_url": "https://github.com/bitcoin/bips/pull/636.diff",
+            "patch_url": "https://github.com/bitcoin/bips/pull/636.patch"
+          },
+          "closed_at": "2018-01-23T02:42:33Z",
+          "created_at": "2018-01-17T22:20:56Z",
+          "updated_at": "2018-03-08T22:19:24Z"
+        },
+        "type": "issue"
+      }
     },
     {
       "event": "commented",
@@ -2216,7 +2526,7 @@
       "created_at": "2017-11-13T19:24:42Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150639633",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150639633"
@@ -2268,7 +2578,7 @@
       "created_at": "2017-11-13T19:27:56Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150640522",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150640522"
@@ -2320,7 +2630,7 @@
       "created_at": "2017-11-13T19:34:36Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150642260",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150642260"
@@ -2372,7 +2682,7 @@
       "created_at": "2017-11-13T19:38:51Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150643321",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150643321"
@@ -2424,7 +2734,7 @@
       "created_at": "2017-11-13T20:17:58Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150653135",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150653135"
@@ -2476,7 +2786,7 @@
       "created_at": "2017-11-13T20:22:28Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150654257",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150654257"
@@ -2528,7 +2838,7 @@
       "created_at": "2017-11-13T20:23:43Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150654551",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150654551"
@@ -2580,7 +2890,7 @@
       "created_at": "2017-11-13T20:28:27Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150655609",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150655609"
@@ -2632,7 +2942,7 @@
       "created_at": "2017-11-13T20:30:14Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150656007",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150656007"
@@ -2684,7 +2994,7 @@
       "created_at": "2017-11-13T20:33:56Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150656915",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150656915"
@@ -2736,7 +3046,7 @@
       "created_at": "2017-11-13T20:35:09Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150657179",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150657179"
@@ -2788,7 +3098,7 @@
       "created_at": "2017-11-13T20:36:12Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150657416",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150657416"
@@ -2840,7 +3150,7 @@
       "created_at": "2017-11-13T20:45:05Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150659449",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150659449"
@@ -2892,7 +3202,7 @@
       "created_at": "2017-11-13T20:46:46Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150659804",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150659804"
@@ -2944,7 +3254,7 @@
       "created_at": "2017-11-13T20:47:36Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150659979",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150659979"
@@ -2996,7 +3306,7 @@
       "created_at": "2017-11-13T20:52:04Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150661111",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150661111"
@@ -3048,7 +3358,7 @@
       "created_at": "2017-11-13T20:56:20Z",
       "updated_at": "2017-11-30T07:28:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r150662137",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/150662137"
@@ -4348,7 +4658,7 @@
       "created_at": "2017-11-30T17:05:18Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154139546",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154139546"
@@ -4400,7 +4710,7 @@
       "created_at": "2017-11-30T17:05:47Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154139679",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154139679"
@@ -4452,7 +4762,7 @@
       "created_at": "2017-11-30T17:08:54Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154140561",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154140561"
@@ -4504,7 +4814,7 @@
       "created_at": "2017-11-30T17:16:16Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154142490",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154142490"
@@ -4556,7 +4866,7 @@
       "created_at": "2017-11-30T17:16:55Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154142669",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154142669"
@@ -4608,7 +4918,7 @@
       "created_at": "2017-11-30T17:19:46Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154143597",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154143597"
@@ -4660,7 +4970,7 @@
       "created_at": "2017-11-30T17:21:35Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154144120",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154144120"
@@ -4712,7 +5022,7 @@
       "created_at": "2017-11-30T17:22:34Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154144380",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154144380"
@@ -4764,7 +5074,7 @@
       "created_at": "2017-11-30T17:23:02Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154144526",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154144526"
@@ -4816,7 +5126,7 @@
       "created_at": "2017-11-30T17:28:28Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154145945",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154145945"
@@ -4868,7 +5178,7 @@
       "created_at": "2017-11-30T17:37:31Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154148392",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154148392"
@@ -4920,7 +5230,7 @@
       "created_at": "2017-11-30T17:39:08Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154148812",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154148812"
@@ -4972,7 +5282,7 @@
       "created_at": "2017-11-30T17:40:29Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154149153",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154149153"
@@ -5024,7 +5334,7 @@
       "created_at": "2017-11-30T17:42:00Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154149478",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154149478"
@@ -5076,7 +5386,7 @@
       "created_at": "2017-11-30T17:44:03Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154150005",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154150005"
@@ -5128,7 +5438,7 @@
       "created_at": "2017-11-30T17:50:22Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154151514",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154151514"
@@ -5180,7 +5490,7 @@
       "created_at": "2017-11-30T18:16:16Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154157805",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154157805"
@@ -5232,7 +5542,7 @@
       "created_at": "2017-11-30T18:16:49Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154157929",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154157929"
@@ -5284,7 +5594,7 @@
       "created_at": "2017-11-30T18:21:14Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154159011",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154159011"
@@ -5336,7 +5646,7 @@
       "created_at": "2017-11-30T18:31:27Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154161739",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154161739"
@@ -5388,7 +5698,7 @@
       "created_at": "2017-11-30T18:33:58Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154162515",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154162515"
@@ -5440,7 +5750,7 @@
       "created_at": "2017-11-30T18:35:03Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154162783",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154162783"
@@ -5492,7 +5802,7 @@
       "created_at": "2017-11-30T18:35:51Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154162999",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154162999"
@@ -5544,7 +5854,7 @@
       "created_at": "2017-11-30T18:36:54Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154163289",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154163289"
@@ -5596,7 +5906,7 @@
       "created_at": "2017-11-30T18:37:51Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154163549",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154163549"
@@ -5648,7 +5958,7 @@
       "created_at": "2017-11-30T18:39:38Z",
       "updated_at": "2017-11-30T18:39:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/609#discussion_r154163993",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/154163993"

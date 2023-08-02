@@ -148,7 +148,7 @@
         "forks_count": 1,
         "stargazers_count": 4,
         "watchers_count": 4,
-        "size": 13762,
+        "size": 13761,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-02-10T18:02:43Z",
+        "pushed_at": "2023-06-29T20:30:38Z",
         "created_at": "2015-10-27T00:37:26Z",
         "updated_at": "2022-01-19T00:36:27Z"
       }
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5178,
-        "stargazers_count": 8116,
-        "watchers_count": 8116,
-        "size": 13694,
+        "forks_count": 5535,
+        "stargazers_count": 8220,
+        "watchers_count": 8220,
+        "size": 13787,
         "default_branch": "master",
-        "open_issues_count": 115,
+        "open_issues_count": 112,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-06-08T12:03:37Z",
+        "pushed_at": "2023-08-01T12:09:15Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-06-12T10:53:19Z"
+        "updated_at": "2023-08-01T09:08:43Z"
       }
     },
     "_links": {
@@ -298,6 +298,98 @@
     "comments": 7
   },
   "events": [
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2018-06-28T03:04:17Z",
+      "updated_at": "2018-06-28T03:04:17Z",
+      "source": {
+        "issue": {
+          "id": 336456382,
+          "node_id": "MDExOlB1bGxSZXF1ZXN0MTk3OTA1MTMw",
+          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/13557",
+          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
+          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/13557/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/13557/comments",
+          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/13557/events",
+          "html_url": "https://github.com/bitcoin/bitcoin/pull/13557",
+          "number": 13557,
+          "state": "closed",
+          "state_reason": null,
+          "title": "BIP 174 PSBT Serializations and RPCs",
+          "body": "This Pull Request fully implements the [updated](https://github.com/bitcoin/bips/pull/694) BIP 174 specification. It is based upon #13425 which implements the majority of the signing logic.\r\n\r\nBIP 174 specifies a binary transaction format which contains the information necessary for a signer to produce signatures for the transaction and holds the signatures for an input while the input does not have a complete set of signatures.\r\n\r\nThis PR contains structs for PSBT, serialization, and deserialzation code. Some changes to `SignatureData` have been made to support detection of UTXO type and storing public keys.\r\n\r\n***\r\n\r\nMany RPCs have been added to handle PSBTs.\r\n\r\n`walletprocesspsbt` takes a PSBT format transaction, updates the PSBT with any inputs related to this wallet, signs, and finalizes the transaction. There is also an option to not sign and just update.\r\n\r\n`walletcreatefundedpsbt` creates a PSBT from user provided data in the same form as createrawtransaction. It also funds the transaction and takes an options argument in the same form as `fundrawtransaction`. The resulting PSBT is blank with no input or output data filled in. It is analogous to a combination of `createrawtransaction` and `fundrawtransaction`\r\n\r\n`decodepsbt` takes a PSBT and decodes it to JSON. It is analogous to `decoderawtransaction`\r\n\r\n`combinepsbt` takes multiple PSBTs for the same tx and combines them. It is analogous to `combinerawtransaction`\r\n\r\n`finalizepsbt` takes a PSBT and finalizes the inputs. If all inputs are final, it extracts the network serialized transaction and returns that instead of a PSBT unless instructed otherwise.\r\n\r\n`createpsbt` is like `createrawtransaction` but for PSBTs instead of raw transactions.\r\n\r\n`convertpsbt` takes a network serialized transaction and converts it into a psbt. The resulting psbt will lose all signature data and an explicit flag must be set to allow transactions with signature data to be converted.\r\n\r\n***\r\n\r\nThis supersedes #12136",
+          "user": {
+            "login": "achow101",
+            "id": 3782274,
+            "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+            "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/achow101",
+            "html_url": "https://github.com/achow101",
+            "followers_url": "https://api.github.com/users/achow101/followers",
+            "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+            "organizations_url": "https://api.github.com/users/achow101/orgs",
+            "repos_url": "https://api.github.com/users/achow101/repos",
+            "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/achow101/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [
+            {
+              "id": 98279177,
+              "node_id": "MDU6TGFiZWw5ODI3OTE3Nw==",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/RPC/REST/ZMQ",
+              "name": "RPC/REST/ZMQ",
+              "color": "0052cc",
+              "default": false
+            }
+          ],
+          "assignees": [],
+          "author_association": "MEMBER",
+          "locked": true,
+          "active_lock_reason": "resolved",
+          "comments": 29,
+          "pull_request": {
+            "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/13557",
+            "html_url": "https://github.com/bitcoin/bitcoin/pull/13557",
+            "diff_url": "https://github.com/bitcoin/bitcoin/pull/13557.diff",
+            "patch_url": "https://github.com/bitcoin/bitcoin/pull/13557.patch"
+          },
+          "closed_at": "2018-07-18T18:26:50Z",
+          "created_at": "2018-06-28T03:04:17Z",
+          "updated_at": "2022-08-16T17:06:02Z"
+        },
+        "type": "issue"
+      }
+    },
     {
       "event": "reviewed",
       "id": 132684500,
@@ -961,7 +1053,7 @@
       "commit_url": null,
       "created_at": "2018-07-05T18:26:12Z",
       "updated_at": "2018-07-05T18:39:45Z",
-      "author_association": "MEMBER",
+      "author_association": "NONE",
       "body": "@achow101 I'm having trouble with my deserializer, as far as I can tell, there is no way to tell when the array of input kv maps stops and the array of kv output maps starts?\r\n\r\nwith this psbt I got from the revised bip:\r\n\r\n```\r\n70736274ff01009a020000000258e87a21b56daf0c23be8e7070456c336f7cbaa5c8757924f545887bb2abdd750000000000ffffffff838d0427d0ec650a68aa46bb0b098aea4422c071b2ca78352a077959d07cea1d0100000000ffffffff0270aaf00800000000160014d85c2b71d0060b09c9886aeb815e50991dda124d00e1f5050000000016001400aea9a2e5f0f876a588df5546e8742d1d87008f00000000000100bb0200000001aad73931018bd25f84ae400b68848be09db706eac2ac18298babee71ab656f8b0000000048473044022058f6fc7c6a33e1b31548d481c826c015bd30135aad42cd67790dab66d2ad243b02204a1ced2604c6735b6393e5b41691dd78b00f0c5942fb9f751856faa938157dba01feffffff0280f0fa020000000017a9140fb9463421696b82c833af241c78c17ddbde493487d0f20a270100000017a91429ca74f8a08f81999428185c97b5d852e4063f6187650000000104475221029583bf39ae0a609747ad199addd634fa6108559d6c5cd39b4c2183f1ab96e07f2102dab61ff49a14db6a7d02b0cd1fbb78fc4b18312b5b4e54dae4dba2fbfef536d752ae2206029583bf39ae0a609747ad199addd634fa6108559d6c5cd39b4c2183f1ab96e07f10d90c6a4f000000800000008000000080220602dab61ff49a14db6a7d02b0cd1fbb78fc4b18312b5b4e54dae4dba2fbfef536d710d90c6a4f0000008000000080010000800001012000c2eb0b0000000017a914b7f5faf40e3d40a5a459b1db3535f2b72fa921e88701042200208c2353173743b595dfb4a07b72ba8e42e3797da74e87fe7d9d7497e3b2028903010547522103089dc10c7ac6db54f91329af617333db388cead0c231f723379d1b99030b02dc21023add904f3d6dcf59ddb906b0dee23529b7ffb9ed50e5e86151926860221f0e7352ae2206023add904f3d6dcf59ddb906b0dee23529b7ffb9ed50e5e86151926860221f0e7310d90c6a4f000000800000008003000080220603089dc10c7ac6db54f91329af617333db388cead0c231f723379d1b99030b02dc10d90c6a4f00000080000000800200008000220203a9a4c37f5996d3aa25dbac6b570af0650394492942460b354753ed9eeca5877110d90c6a4f000000800000008004000080002202027f6399757d2eff55a136ad02c684b1838b6556e5f1b6b34282a94b6b5005109610d90c6a4f00000080000000800500008000\r\n```\r\nmy parser spits out:\r\n```\r\nGLOBAL_UNSIGNED_TX (0)                                                                                 \r\n\t020000000258e87a21b56daf0c23be8e7070456c336f7cbaa5c8757924f545887bb2abdd750000000000ffffffff838d0427d0ec650a68aa46bb0b098aea4422c071b2ca78352a077959d07cea1d0100000000ffffffff0270aaf00800000000160014d85c2b71d0060b09c9886aeb815e50991dda124d00e1f5050000000016001400aea9a2e5f0f876a588df5546e8742d1d87008f00000000\r\nIN_NON_WITNESS_UTXO (0)\r\n\t0200000001aad73931018bd25f84ae400b68848be09db706eac2ac18298babee71ab656f8b0000000048473044022058f6fc7c6a33e1b31548d481c826c015bd30135aad42cd67790dab66d2ad243b02204a1ced2604c6735b6393e5b41691dd78b00f0c5942fb9f751856faa938157dba01feffffff0280f0fa020000000017a9140fb9463421696b82c833af241c78c17ddbde493487d0f20a270100000017a91429ca74f8a08f81999428185c97b5d852e4063f618765000000\r\nIN_REDEEM_SCRIPT (4)\r\n\t5221029583bf39ae0a609747ad199addd634fa6108559d6c5cd39b4c2183f1ab96e07f2102dab61ff49a14db6a7d02b0cd1fbb78fc4b18312b5b4e54dae4dba2fbfef536d752ae\r\nIN_BIP32_DERIVATION (6)\r\n\t029583bf39ae0a609747ad199addd634fa6108559d6c5cd39b4c2183f1ab96e07f: d90c6a4f000000800000008000000080\r\nIN_BIP32_DERIVATION (6)\r\n\t02dab61ff49a14db6a7d02b0cd1fbb78fc4b18312b5b4e54dae4dba2fbfef536d7: d90c6a4f000000800000008001000080\r\nOUT_WITNESS_SCRIPT (1)\r\n\t00c2eb0b0000000017a914b7f5faf40e3d40a5a459b1db3535f2b72fa921e887\r\nUNKNOWN_OUTPUT_TYPE (4)\r\n\t00208c2353173743b595dfb4a07b72ba8e42e3797da74e87fe7d9d7497e3b2028903\r\nUNKNOWN_OUTPUT_TYPE (5)\r\n\t522103089dc10c7ac6db54f91329af617333db388cead0c231f723379d1b99030b02dc21023add904f3d6dcf59ddb906b0dee23529b7ffb9ed50e5e86151926860221f0e7352ae\r\nUNKNOWN_OUTPUT_TYPE (6)\r\n\t023add904f3d6dcf59ddb906b0dee23529b7ffb9ed50e5e86151926860221f0e73: d90c6a4f000000800000008003000080\r\nUNKNOWN_OUTPUT_TYPE (6)\r\n\t03089dc10c7ac6db54f91329af617333db388cead0c231f723379d1b99030b02dc: d90c6a4f000000800000008002000080\r\n```\r\n\r\nit looks like it see's a zero byte after \r\n\r\n```\r\nIN_BIP32_DERIVATION (6)\r\n\t02dab61ff49a14db6a7d02b0cd1fbb78fc4b18312b5b4e54dae4dba2fbfef536d7: d90c6a4f000000800000008001000080\r\n```\r\n\r\nat this point my parser assumes the input kv-map has ended, and starts interpreting the new kv-map as the output map. but perhaps this is wrong, since we could be in the second input kv-map in the input kv-map array. given this, as far as I can tell, there's no way to tell when we have switched to the output key value map array? am I missing something?",
       "user": {
         "login": "jb55",
@@ -1243,7 +1335,7 @@
       "commit_url": null,
       "created_at": "2018-07-05T18:41:11Z",
       "updated_at": "2018-07-05T18:41:11Z",
-      "author_association": "MEMBER",
+      "author_association": "NONE",
       "body": "@achow101 ah right. that makes sense, that was next on my todo. thanks!",
       "user": {
         "login": "jb55",
@@ -1753,6 +1845,88 @@
       "commit_id": "b6547234616fd4950034b7f53fb33be637cc43e0",
       "commit_url": "https://api.github.com/repos/bitcoin/bitcoin/commits/b6547234616fd4950034b7f53fb33be637cc43e0",
       "created_at": "2018-07-18T18:26:57Z"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "HashUnlimited",
+        "id": 26601261,
+        "node_id": "MDQ6VXNlcjI2NjAxMjYx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/26601261?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/HashUnlimited",
+        "html_url": "https://github.com/HashUnlimited",
+        "followers_url": "https://api.github.com/users/HashUnlimited/followers",
+        "following_url": "https://api.github.com/users/HashUnlimited/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/HashUnlimited/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/HashUnlimited/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/HashUnlimited/subscriptions",
+        "organizations_url": "https://api.github.com/users/HashUnlimited/orgs",
+        "repos_url": "https://api.github.com/users/HashUnlimited/repos",
+        "events_url": "https://api.github.com/users/HashUnlimited/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/HashUnlimited/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2018-09-11T18:29:02Z",
+      "updated_at": "2018-09-11T18:29:02Z",
+      "source": {
+        "issue": {
+          "id": 359166781,
+          "node_id": "MDExOlB1bGxSZXF1ZXN0MjE0NzI0MzIz",
+          "url": "https://api.github.com/repos/chaincoin/chaincoin/issues/543",
+          "repository_url": "https://api.github.com/repos/chaincoin/chaincoin",
+          "labels_url": "https://api.github.com/repos/chaincoin/chaincoin/issues/543/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/chaincoin/chaincoin/issues/543/comments",
+          "events_url": "https://api.github.com/repos/chaincoin/chaincoin/issues/543/events",
+          "html_url": "https://github.com/chaincoin/chaincoin/pull/543",
+          "number": 543,
+          "state": "closed",
+          "state_reason": null,
+          "title": "BIP 174 PSCT Serializations and RPCs",
+          "body": "This Pull Request fully implements the [updated](https://github.com/bitcoin/bips/pull/694) BIP 174 specification. It is based upon #13425 which implements the majority of the signing logic.\r\n\r\nBIP 174 specifies a binary transaction format which contains the information necessary for a signer to produce signatures for the transaction and holds the signatures for an input while the input does not have a complete set of signatures.\r\n\r\nThis PR contains structs for PSCT, serialization, and deserialzation code. Some changes to `SignatureData` have been made to support detection of UTXO type and storing public keys.\r\n\r\n***\r\n\r\nMany RPCs have been added to handle PSCTs.\r\n\r\n`walletprocesspsct` takes a PSBT format transaction, updates the PSBT with any inputs related to this wallet, signs, and finalizes the transaction. There is also an option to not sign and just update.\r\n\r\n`walletcreatefundedpsct` creates a PSCT from user provided data in the same form as createrawtransaction. It also funds the transaction and takes an options argument in the same form as `fundrawtransaction`. The resulting PSCT is blank with no input or output data filled in. It is analogous to a combination of `createrawtransaction` and `fundrawtransaction`\r\n\r\n`decodepsct` takes a PSCT and decodes it to JSON. It is analogous to `decoderawtransaction`\r\n\r\n`combinepsct` takes multiple PSCTs for the same tx and combines them. It is analogous to `combinerawtransaction`\r\n\r\n`finalizepsct` takes a PSCT and finalizes the inputs. If all inputs are final, it extracts the network serialized transaction and returns that instead of a PSCT unless instructed otherwise.\r\n\r\n`createpsct` is like `createrawtransaction` but for PSCTs instead of raw transactions.\r\n\r\n`convertpsct` takes a network serialized transaction and converts it into a psct. The resulting psct will lose all signature data and an explicit flag must be set to allow transactions with signature data to be converted.\r\n\r\n***\r\n\r\nThis supersedes #12136\r\n",
+          "user": {
+            "login": "HashUnlimited",
+            "id": 26601261,
+            "node_id": "MDQ6VXNlcjI2NjAxMjYx",
+            "avatar_url": "https://avatars.githubusercontent.com/u/26601261?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/HashUnlimited",
+            "html_url": "https://github.com/HashUnlimited",
+            "followers_url": "https://api.github.com/users/HashUnlimited/followers",
+            "following_url": "https://api.github.com/users/HashUnlimited/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/HashUnlimited/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/HashUnlimited/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/HashUnlimited/subscriptions",
+            "organizations_url": "https://api.github.com/users/HashUnlimited/orgs",
+            "repos_url": "https://api.github.com/users/HashUnlimited/repos",
+            "events_url": "https://api.github.com/users/HashUnlimited/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/HashUnlimited/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [],
+          "assignees": [],
+          "author_association": "MEMBER",
+          "locked": false,
+          "comments": 0,
+          "pull_request": {
+            "url": "https://api.github.com/repos/chaincoin/chaincoin/pulls/543",
+            "html_url": "https://github.com/chaincoin/chaincoin/pull/543",
+            "diff_url": "https://github.com/chaincoin/chaincoin/pull/543.diff",
+            "patch_url": "https://github.com/chaincoin/chaincoin/pull/543.patch"
+          },
+          "closed_at": "2018-09-11T18:29:15Z",
+          "created_at": "2018-09-11T18:29:02Z",
+          "updated_at": "2018-09-11T18:29:15Z"
+        },
+        "type": "issue"
+      }
     }
   ],
   "comments": [

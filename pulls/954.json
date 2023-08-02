@@ -146,8 +146,8 @@
         "homepage": "bitcoin.org",
         "language": "Wikitext",
         "forks_count": 45,
-        "stargazers_count": 139,
-        "watchers_count": 139,
+        "stargazers_count": 141,
+        "watchers_count": 141,
         "size": 13960,
         "default_branch": "bip-taproot",
         "open_issues_count": 8,
@@ -163,7 +163,7 @@
         "visibility": "public",
         "pushed_at": "2023-04-20T20:01:44Z",
         "created_at": "2013-12-27T16:12:37Z",
-        "updated_at": "2022-12-02T21:25:08Z"
+        "updated_at": "2023-07-02T01:14:29Z"
       }
     },
     "base": {
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5178,
-        "stargazers_count": 8116,
-        "watchers_count": 8116,
-        "size": 13694,
+        "forks_count": 5535,
+        "stargazers_count": 8220,
+        "watchers_count": 8220,
+        "size": 13787,
         "default_branch": "master",
-        "open_issues_count": 115,
+        "open_issues_count": 112,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-06-08T12:03:37Z",
+        "pushed_at": "2023-08-01T12:09:15Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-06-12T10:53:19Z"
+        "updated_at": "2023-08-01T09:08:43Z"
       }
     },
     "_links": {
@@ -337,6 +337,98 @@
         "date": "2020-07-28T20:50:50Z"
       },
       "sha": "b9ea863727c8e53d69afc1a816feed8944cc1e58"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "sipa",
+        "id": 548488,
+        "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sipa",
+        "html_url": "https://github.com/sipa",
+        "followers_url": "https://api.github.com/users/sipa/followers",
+        "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+        "organizations_url": "https://api.github.com/users/sipa/orgs",
+        "repos_url": "https://api.github.com/users/sipa/repos",
+        "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sipa/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2020-07-28T20:54:22Z",
+      "updated_at": "2020-07-28T20:54:22Z",
+      "source": {
+        "issue": {
+          "id": 553203106,
+          "node_id": "MDExOlB1bGxSZXF1ZXN0MzY1NTc1Nzcx",
+          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/17977",
+          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
+          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/17977/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/17977/comments",
+          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/17977/events",
+          "html_url": "https://github.com/bitcoin/bitcoin/pull/17977",
+          "number": 17977,
+          "state": "closed",
+          "state_reason": null,
+          "title": "Implement BIP 340-342 validation (Schnorr/taproot/tapscript)",
+          "body": "This is an implementation of the Schnorr/taproot consensus rules proposed by BIPs [340](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki), [341](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki), and [342](https://github.com/bitcoin/bips/blob/master/bip-0342.mediawiki).\r\n\r\nIt consists of:\r\n* Addition of Schnorr signatures and 32-byte pubkey support to libsecp256k1 subtree (https://github.com/bitcoin-core/secp256k1/pull/558 PR 558), following BIP [340](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki).\r\n* The taproot validation specified in BIP [341](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki).\r\n* Script validation under taproot (aka tapscript), specified in BIP [342](https://github.com/bitcoin/bips/blob/master/bip-0342.mediawiki).\r\n* Addition of signing logic for Schnorr/Taproot to the Python test framework, and tests for the above.\r\n\r\nThis does not include any wallet support.\r\n\r\nRelated PRs and PRs that were extracted from this and submitted separately: #18002 #16902 #18388 #18401 #18422 #18675 #19228\r\n\r\nDependencies:\r\n* [x] Merge BIP340 support in libsecp256k1\r\n* [x] Update libsecp256k1 subtree in master (#19944)\r\n\r\nTODO:\r\n* [x] Tests for pre-activation (verify that consensus behavior doesn't change until flag is enabled)\r\n* [ ] Extract small & fast BIP341/BIP342 test vectors with good coverage out of the programmatic & slow feature_taproot.py test\r\n",
+          "user": {
+            "login": "sipa",
+            "id": 548488,
+            "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+            "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/sipa",
+            "html_url": "https://github.com/sipa",
+            "followers_url": "https://api.github.com/users/sipa/followers",
+            "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+            "organizations_url": "https://api.github.com/users/sipa/orgs",
+            "repos_url": "https://api.github.com/users/sipa/repos",
+            "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/sipa/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [
+            {
+              "id": 192202000,
+              "node_id": "MDU6TGFiZWwxOTIyMDIwMDA=",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/Consensus",
+              "name": "Consensus",
+              "color": "009800",
+              "default": false
+            }
+          ],
+          "assignees": [],
+          "author_association": "MEMBER",
+          "locked": true,
+          "active_lock_reason": "resolved",
+          "comments": 59,
+          "pull_request": {
+            "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/17977",
+            "html_url": "https://github.com/bitcoin/bitcoin/pull/17977",
+            "diff_url": "https://github.com/bitcoin/bitcoin/pull/17977.diff",
+            "patch_url": "https://github.com/bitcoin/bitcoin/pull/17977.patch"
+          },
+          "closed_at": "2020-09-14T04:28:01Z",
+          "created_at": "2020-01-21T23:14:40Z",
+          "updated_at": "2022-02-15T11:00:41Z"
+        },
+        "type": "issue"
+      }
     },
     {
       "event": "reviewed",
