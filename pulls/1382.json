@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1382/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1382/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/02ec218c7857ef60914e9a3d383b68caf987f70b",
     "number": 1382,
     "state": "open",
     "locked": false,
@@ -41,10 +41,10 @@
     "body": "ML thread: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-May/020493.html\r\n\r\nSupersedes #1324.",
     "labels": [],
     "created_at": "2022-10-13T21:40:08Z",
-    "updated_at": "2023-08-03T11:07:24Z",
+    "updated_at": "2023-08-07T09:41:10Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "1a064306faedcffcc8ae94c94f8b4cedabd25c0b",
+    "merge_commit_sha": "ee9961f2fa7012f7c4bfaea70e6b8b4a97a7b623",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -52,7 +52,7 @@
     "head": {
       "label": "glozow:2022-10-package-relay",
       "ref": "2022-10-package-relay",
-      "sha": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "sha": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "user": {
         "login": "glozow",
         "id": 25183001,
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-03T11:06:52Z",
+        "pushed_at": "2023-08-07T09:40:09Z",
         "created_at": "2022-04-14T12:52:36Z",
         "updated_at": "2023-06-12T10:57:22Z"
       }
@@ -263,8 +263,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5534,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
+        "stargazers_count": 8227,
+        "watchers_count": 8227,
         "size": 13787,
         "default_branch": "master",
         "open_issues_count": 112,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-03T11:07:04Z",
+        "pushed_at": "2023-08-07T09:40:21Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-03T07:37:01Z"
+        "updated_at": "2023-08-07T09:03:57Z"
       }
     },
     "_links": {
@@ -294,8 +294,8 @@
     "deletions": 0,
     "changed_files": 9,
     "commits": 1,
-    "review_comments": 185,
-    "comments": 22
+    "review_comments": 186,
+    "comments": 23
   },
   "events": [
     {
@@ -1582,7 +1582,7 @@
           "state": "open",
           "state_reason": null,
           "title": "Package Relay Project Tracking",
-          "body": "This issue will be edited frequently to reflect the current status of the project.\r\n\r\n**What should I review now?**\r\n:point_down: :point_down: :point_down: :point_down: :point_down: :point_down: :point_down:\r\n#28031 and #26711\r\n:point_up: :point_up: :point_up: :point_up: :point_up: :point_up: :point_up:\r\n**Mempool, Policy, Validation**\r\n\r\n- [x] Enable validation of multiple transactions in ATMP\r\n  - [x] Refactoring #21062, #22675, #23381\r\n  - [x] Multiple transactions in testmempoolaccept #20833\r\n  - [x] Package limits #21800\r\n  - [x] Allow submission of 1 child with parents #22674\r\n- [x] Enable a child to bump parents in a package #24152\r\n- [x] Make package validation interface available through RPC #24836 \r\n- [x] Avoid the risk of below-minrelaytxfee transactions hanging around forever in the mempool (currently only possible through reorgs and replacements after package CPFP). There are multiple options:\r\n   - Don't ever allow v1 and v2 txs below minrelaytxfee (#26933)\r\n   - Mine everything that makes it into in the mempool (default blockmintxfee to 0). Trim descendant packages <=0 fees, even when the mempool is not full (#27018)\r\n   - Other long-term improvements that address this problem, e.g. #27677.\r\n- [ ] Properly assess incentive compatibility, submit transactions with their in-package ancestor sets (#26711)\r\n- (Some existing DoS and incentive compatibility issues are addressed. It is safe to expose this interface on P2P)\r\n- [ ] Handle any arbitrary package, even if unsorted. Relax from child-with-parents to tx-with-ancestors (#26711)\r\n- [ ] Add v3 rules that make transactions/packages easier to work with (#25038)\r\n- [ ] Introduce a Miner Incentive Compatibility Score rule to RBF\r\n  - This is done for v3 transactions in #25038.\r\n  - Cluster-based mempool would allow this for all transactions: #27677.\r\n- [ ] Enable Package RBF for v3 transactions (#25038)\r\n- (Things like LN can sign things 0-fee, add fees at broadcast, and avoid pinning attacks. Assuming package relay is available.)\r\n- [ ] Add Ephemeral Anchors rules for v3 transactions (#26403)\r\n- (LN symmetry and other things can have 0-value anchors.)\r\n- [ ] When loading mempool, keep transactions that are below minimum feerate(s) but are CPFP'd. (#27476 or other)\r\n\r\n**P2P, Net Processing**\r\nFull implementation: #27742\r\n- [ ] BIP 331 (bitcoin/bips/pull/1382)\r\n- [ ] #28031\r\n- (Orphan-handling is more robust)\r\n- [ ] (Milestone 2/3) Negotiate package relay support with peers, gated by config flag (`sendpackages`). Request ancestor package information for orphans (`MSG_ANCPKGINFO`, `ancpkginfo`).\r\n- (Assuming adoption, in most cases, package relay nodes never need to use txid-based relay)\r\n- [ ] (Milestone 3/3) Using package info, request (`getpkgtxns`), download (`pkgtxns`), and submit packages together.\r\n  - [ ] Introduce a mechanism for protecting orphan transactions from eviction.\r\n  - [ ] Avoid telling legacy peers about transactions that depend on below-fee-filter parents.\r\n- [ ] Default `-packagerelay` config flag to true.\r\n- (Assuming adoption, below-mempool min feerate CPFP'd transactions propagate.)",
+          "body": "This issue will be edited frequently to reflect the current status of the project.\r\n\r\n**What should I review now?**\r\n:point_down: :point_down: :point_down: :point_down: :point_down: :point_down: :point_down:\r\n#28199 and #26711\r\n:point_up: :point_up: :point_up: :point_up: :point_up: :point_up: :point_up:\r\n**Mempool, Policy, Validation**\r\n\r\n- [x] Enable validation of multiple transactions in ATMP\r\n  - [x] Refactoring #21062, #22675, #23381\r\n  - [x] Multiple transactions in testmempoolaccept #20833\r\n  - [x] Package limits #21800\r\n  - [x] Allow submission of 1 child with parents #22674\r\n- [x] Enable a child to bump parents in a package #24152\r\n- [x] Make package validation interface available through RPC #24836 \r\n- [x] Avoid the risk of below-minrelaytxfee transactions hanging around forever in the mempool (currently only possible through reorgs and replacements after package CPFP). There are multiple options:\r\n   - Don't ever allow v1 and v2 txs below minrelaytxfee (#26933)\r\n   - Mine everything that makes it into in the mempool (default blockmintxfee to 0). Trim descendant packages <=0 fees, even when the mempool is not full (#27018)\r\n   - Other long-term improvements that address this problem, e.g. #27677.\r\n- [ ] Properly assess incentive compatibility, submit transactions with their in-package ancestor sets (#26711)\r\n- (Some existing DoS and incentive compatibility issues are addressed. It is safe to expose this interface on P2P)\r\n- [ ] Handle any arbitrary package, even if unsorted. Relax from child-with-parents to tx-with-ancestors (#26711)\r\n- [ ] Add v3 rules that make transactions/packages easier to work with (#25038)\r\n- [ ] Introduce a Miner Incentive Compatibility Score rule to RBF\r\n  - This is done for v3 transactions in #25038.\r\n  - Cluster-based mempool would allow this for all transactions: #27677.\r\n- [ ] Enable Package RBF for v3 transactions (#25038)\r\n- (Things like LN can sign things 0-fee, add fees at broadcast, and avoid pinning attacks. Assuming package relay is available.)\r\n- [ ] Add Ephemeral Anchors rules for v3 transactions (#26403)\r\n- (LN symmetry and other things can have 0-value anchors.)\r\n- [ ] When loading mempool, keep transactions that are below minimum feerate(s) but are CPFP'd. (#27476 or other)\r\n\r\n**P2P, Net Processing**\r\nFull implementation: #27742\r\n- [ ] BIP 331 (bitcoin/bips/pull/1382)\r\n- [ ] #28031\r\n- (Orphan-handling is more robust)\r\n- [ ] (Milestone 2/3) Negotiate package relay support with peers, gated by config flag (`sendpackages`). Request ancestor package information for orphans (`MSG_ANCPKGINFO`, `ancpkginfo`).\r\n- (Assuming adoption, in most cases, package relay nodes never need to use txid-based relay)\r\n- [ ] (Milestone 3/3) Using package info, request (`getpkgtxns`), download (`pkgtxns`), and submit packages together.\r\n  - [ ] Introduce a mechanism for protecting orphan transactions from eviction.\r\n  - [ ] Avoid telling legacy peers about transactions that depend on below-fee-filter parents.\r\n- [ ] Default `-packagerelay` config flag to true.\r\n- (Assuming adoption, below-mempool min feerate CPFP'd transactions propagate.)",
           "user": {
             "login": "glozow",
             "id": 25183001,
@@ -1642,7 +1642,7 @@
           "locked": false,
           "comments": 10,
           "created_at": "2023-04-14T11:14:50Z",
-          "updated_at": "2023-07-07T03:37:29Z"
+          "updated_at": "2023-08-03T14:10:25Z"
         },
         "type": "issue"
       }
@@ -3575,46 +3575,6 @@
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1382"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDk5ODM3Mjg3ZjJkMmVkOGY0OGY4MDMyOWZkM2I1YmU0MjIyMWNkOGQ",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/99837287f2d2ed8f48f80329fd3b5be42221cd8d",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/99837287f2d2ed8f48f80329fd3b5be42221cd8d",
-      "tree": {
-        "sha": "c263c692fd94bd550f3441b37bd3d0e5b333dd83",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/c263c692fd94bd550f3441b37bd3d0e5b333dd83"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/156e8aabe24c1253b38d61459791a939550a4b60",
-          "sha": "156e8aabe24c1253b38d61459791a939550a4b60",
-          "html_url": "https://github.com/bitcoin/bips/commit/156e8aabe24c1253b38d61459791a939550a4b60"
-        }
-      ],
-      "message": "specify BIP331 Ancestor Package Relay",
-      "committer": {
-        "name": "glozow",
-        "email": "gloriajzhao@gmail.com",
-        "date": "2023-08-03T11:06:47Z"
-      },
-      "author": {
-        "name": "glozow",
-        "email": "gloriajzhao@gmail.com",
-        "date": "2022-05-11T19:53:37Z"
-      },
-      "sha": "99837287f2d2ed8f48f80329fd3b5be42221cd8d"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 9997697621,
       "node_id": "HRFPE_lADOAN28mc5T81tmzwAAAAJT6MJV",
@@ -3678,6 +3638,129 @@
       "submitted_at": "2023-08-03T11:07:22Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1382"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDAyZWMyMThjNzg1N2VmNjA5MTRlOWEzZDM4M2I2OGNhZjk4N2Y3MGI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/02ec218c7857ef60914e9a3d383b68caf987f70b",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/02ec218c7857ef60914e9a3d383b68caf987f70b",
+      "tree": {
+        "sha": "f7518b53843736fbb5b5bce1881de35b71250917",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/f7518b53843736fbb5b5bce1881de35b71250917"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/156e8aabe24c1253b38d61459791a939550a4b60",
+          "sha": "156e8aabe24c1253b38d61459791a939550a4b60",
+          "html_url": "https://github.com/bitcoin/bips/commit/156e8aabe24c1253b38d61459791a939550a4b60"
+        }
+      ],
+      "message": "specify BIP331 Ancestor Package Relay",
+      "committer": {
+        "name": "glozow",
+        "email": "gloriajzhao@gmail.com",
+        "date": "2023-08-07T09:40:01Z"
+      },
+      "author": {
+        "name": "glozow",
+        "email": "gloriajzhao@gmail.com",
+        "date": "2022-05-11T19:53:37Z"
+      },
+      "sha": "02ec218c7857ef60914e9a3d383b68caf987f70b"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 10021826010,
+      "node_id": "HRFPE_lADOAN28mc5T81tmzwAAAAJVWO3a",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/10021826010",
+      "actor": {
+        "login": "glozow",
+        "id": 25183001,
+        "node_id": "MDQ6VXNlcjI1MTgzMDAx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25183001?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/glozow",
+        "html_url": "https://github.com/glozow",
+        "followers_url": "https://api.github.com/users/glozow/followers",
+        "following_url": "https://api.github.com/users/glozow/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/glozow/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/glozow/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/glozow/subscriptions",
+        "organizations_url": "https://api.github.com/users/glozow/orgs",
+        "repos_url": "https://api.github.com/users/glozow/repos",
+        "events_url": "https://api.github.com/users/glozow/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/glozow/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-08-07T09:40:20Z"
+    },
+    {
+      "event": "commented",
+      "id": 1667534408,
+      "node_id": "IC_kwDOAN28mc5jZI5I",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1667534408",
+      "actor": {
+        "login": "glozow",
+        "id": 25183001,
+        "node_id": "MDQ6VXNlcjI1MTgzMDAx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25183001?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/glozow",
+        "html_url": "https://github.com/glozow",
+        "followers_url": "https://api.github.com/users/glozow/followers",
+        "following_url": "https://api.github.com/users/glozow/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/glozow/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/glozow/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/glozow/subscriptions",
+        "organizations_url": "https://api.github.com/users/glozow/orgs",
+        "repos_url": "https://api.github.com/users/glozow/repos",
+        "events_url": "https://api.github.com/users/glozow/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/glozow/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-08-07T09:41:10Z",
+      "updated_at": "2023-08-07T09:41:10Z",
+      "author_association": "MEMBER",
+      "body": "Changed combined hash to be single instead of double sha256",
+      "user": {
+        "login": "glozow",
+        "id": 25183001,
+        "node_id": "MDQ6VXNlcjI1MTgzMDAx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25183001?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/glozow",
+        "html_url": "https://github.com/glozow",
+        "followers_url": "https://api.github.com/users/glozow/followers",
+        "following_url": "https://api.github.com/users/glozow/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/glozow/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/glozow/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/glozow/subscriptions",
+        "organizations_url": "https://api.github.com/users/glozow/orgs",
+        "repos_url": "https://api.github.com/users/glozow/repos",
+        "events_url": "https://api.github.com/users/glozow/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/glozow/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1382#issuecomment-1667534408",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1382"
     }
   ],
   "comments": [
@@ -3690,7 +3773,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 142,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "112f8cc859d34b72f42708832172b09b70edfc05",
       "in_reply_to_id": null,
       "user": {
@@ -3742,7 +3825,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 142,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "112f8cc859d34b72f42708832172b09b70edfc05",
       "in_reply_to_id": 1012425379,
       "user": {
@@ -3794,7 +3877,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 93,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -3846,7 +3929,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 100,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -3898,7 +3981,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 113,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -3950,7 +4033,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 136,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -4002,7 +4085,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 134,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -4054,7 +4137,7 @@
       "path": "bip-0331.mediawiki",
       "position": 142,
       "original_position": 138,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -4106,7 +4189,7 @@
       "path": "bip-0331.mediawiki",
       "position": 151,
       "original_position": 143,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -4158,7 +4241,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 164,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -4210,7 +4293,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 274,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -4262,7 +4345,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 336,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -4314,7 +4397,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 208,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -4366,7 +4449,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 319,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "2f65ad1658c4b18c32765455bb844ad771cc36ca",
       "in_reply_to_id": null,
       "user": {
@@ -4418,7 +4501,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 30,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4470,7 +4553,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 66,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4522,7 +4605,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 64,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4574,7 +4657,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 67,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4626,7 +4709,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 82,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4678,7 +4761,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 93,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4730,7 +4813,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 137,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4782,7 +4865,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 138,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4834,7 +4917,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 210,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4886,7 +4969,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 72,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4938,7 +5021,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 154,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -4990,7 +5073,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 124,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5042,7 +5125,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 164,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5094,7 +5177,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 165,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5146,7 +5229,7 @@
       "path": "bip-0331.mediawiki",
       "position": 264,
       "original_position": 286,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5198,7 +5281,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 331,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5250,7 +5333,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 331,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5302,7 +5385,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 331,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5354,7 +5437,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 333,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5406,7 +5489,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 319,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5458,7 +5541,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 335,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5510,7 +5593,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 323,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5562,7 +5645,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 259,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5614,7 +5697,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 191,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5666,7 +5749,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 243,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5718,7 +5801,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 353,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5770,7 +5853,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 367,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5822,7 +5905,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 115,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5874,7 +5957,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 159,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -5926,7 +6009,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 159,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1156060166,
       "user": {
@@ -5978,7 +6061,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 210,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1155725057,
       "user": {
@@ -6030,7 +6113,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 223,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -6082,7 +6165,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 236,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -6134,7 +6217,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 223,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1156233612,
       "user": {
@@ -6186,7 +6269,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 339,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -6238,7 +6321,7 @@
       "path": "bip-0331.mediawiki",
       "position": 264,
       "original_position": 286,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -6290,7 +6373,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 34,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -6342,7 +6425,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 42,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -6394,7 +6477,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 115,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1156046406,
       "user": {
@@ -6446,7 +6529,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 137,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1155703244,
       "user": {
@@ -6498,7 +6581,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 163,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -6550,7 +6633,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 188,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -6602,7 +6685,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 208,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": null,
       "user": {
@@ -6654,7 +6737,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 208,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1157043078,
       "user": {
@@ -6706,7 +6789,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 259,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1155776769,
       "user": {
@@ -6758,7 +6841,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 115,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1156046406,
       "user": {
@@ -6810,7 +6893,7 @@
       "path": "bip-0331.mediawiki",
       "position": 264,
       "original_position": 286,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1156273895,
       "user": {
@@ -6862,7 +6945,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 208,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1157043078,
       "user": {
@@ -6914,7 +6997,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 223,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1156233612,
       "user": {
@@ -6966,7 +7049,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 223,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1156233612,
       "user": {
@@ -7018,7 +7101,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 236,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1156236321,
       "user": {
@@ -7070,7 +7153,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 339,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1156267093,
       "user": {
@@ -7122,7 +7205,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 159,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1156060166,
       "user": {
@@ -7174,7 +7257,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 243,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1155782599,
       "user": {
@@ -7226,7 +7309,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 137,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1155703244,
       "user": {
@@ -7278,7 +7361,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 319,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "43be4d7c9e7fdec4836e4c54cd3e7b8c2a6baa9b",
       "in_reply_to_id": 1155769723,
       "user": {
@@ -7330,7 +7413,7 @@
       "path": "bip-0331.mediawiki",
       "position": 231,
       "original_position": 238,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7382,7 +7465,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 263,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7434,7 +7517,7 @@
       "path": "bip-0331.mediawiki",
       "position": 128,
       "original_position": 127,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7486,7 +7569,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 183,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7538,7 +7621,7 @@
       "path": "bip-0331.mediawiki",
       "position": 160,
       "original_position": 164,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7590,7 +7673,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 285,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7642,7 +7725,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 265,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7694,7 +7777,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 287,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7746,7 +7829,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 308,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7798,7 +7881,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 185,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7850,7 +7933,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 267,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7902,7 +7985,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 189,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -7954,7 +8037,7 @@
       "path": "bip-0331.mediawiki",
       "position": 231,
       "original_position": 238,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192395367,
       "user": {
@@ -8006,7 +8089,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 267,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": null,
       "user": {
@@ -8058,7 +8141,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 308,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192755067,
       "user": {
@@ -8110,7 +8193,7 @@
       "path": "bip-0331.mediawiki",
       "position": 128,
       "original_position": 127,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192438437,
       "user": {
@@ -8162,7 +8245,7 @@
       "path": "bip-0331.mediawiki",
       "position": 160,
       "original_position": 164,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192465038,
       "user": {
@@ -8214,7 +8297,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 185,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192777834,
       "user": {
@@ -8266,7 +8349,7 @@
       "path": "bip-0331.mediawiki",
       "position": 231,
       "original_position": 238,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192395367,
       "user": {
@@ -8318,7 +8401,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 267,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192800702,
       "user": {
@@ -8370,7 +8453,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 267,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1210627208,
       "user": {
@@ -8422,7 +8505,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 263,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192405550,
       "user": {
@@ -8474,7 +8557,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 183,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192451579,
       "user": {
@@ -8526,7 +8609,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 287,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192752953,
       "user": {
@@ -8578,7 +8661,7 @@
       "path": "bip-0331.mediawiki",
       "position": 50,
       "original_position": 50,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": null,
       "user": {
@@ -8630,7 +8713,7 @@
       "path": "bip-0331.mediawiki",
       "position": 144,
       "original_position": 142,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": null,
       "user": {
@@ -8682,7 +8765,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 165,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": null,
       "user": {
@@ -8734,7 +8817,7 @@
       "path": "bip-0331.mediawiki",
       "position": 221,
       "original_position": 220,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": null,
       "user": {
@@ -8786,7 +8869,7 @@
       "path": "bip-0331.mediawiki",
       "position": 144,
       "original_position": 142,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": 1220651721,
       "user": {
@@ -8838,7 +8921,7 @@
       "path": "bip-0331.mediawiki",
       "position": 221,
       "original_position": 220,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": 1220712671,
       "user": {
@@ -8890,7 +8973,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 389,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": null,
       "user": {
@@ -8942,7 +9025,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 389,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": 1221736469,
       "user": {
@@ -8994,7 +9077,7 @@
       "path": "bip-0331.mediawiki",
       "position": 221,
       "original_position": 220,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": 1220712671,
       "user": {
@@ -9046,7 +9129,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 165,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": 1220670659,
       "user": {
@@ -9098,7 +9181,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 20,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9150,7 +9233,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 86,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9202,7 +9285,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 128,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9254,7 +9337,7 @@
       "path": "bip-0331.mediawiki",
       "position": 133,
       "original_position": 131,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9306,7 +9389,7 @@
       "path": "bip-0331.mediawiki",
       "position": 163,
       "original_position": 161,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9358,7 +9441,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 172,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9410,7 +9493,7 @@
       "path": "bip-0331.mediawiki",
       "position": 231,
       "original_position": 238,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1192395367,
       "user": {
@@ -9462,7 +9545,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 308,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9514,7 +9597,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 310,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9566,7 +9649,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 312,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9618,7 +9701,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 151,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9670,7 +9753,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 351,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9722,7 +9805,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 330,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9774,7 +9857,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 377,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -9826,7 +9909,7 @@
       "path": "bip-0331.mediawiki",
       "position": 133,
       "original_position": 131,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225141794,
       "user": {
@@ -9878,7 +9961,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 351,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225190718,
       "user": {
@@ -9930,7 +10013,7 @@
       "path": "bip-0331.mediawiki",
       "position": 133,
       "original_position": 131,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225141794,
       "user": {
@@ -9982,7 +10065,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 330,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225194338,
       "user": {
@@ -10034,7 +10117,7 @@
       "path": "bip-0331.mediawiki",
       "position": 133,
       "original_position": 131,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225141794,
       "user": {
@@ -10086,7 +10169,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 351,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225190718,
       "user": {
@@ -10138,7 +10221,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 330,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225194338,
       "user": {
@@ -10190,7 +10273,7 @@
       "path": "bip-0331.mediawiki",
       "position": 163,
       "original_position": 161,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225156027,
       "user": {
@@ -10242,7 +10325,7 @@
       "path": "bip-0331.mediawiki",
       "position": 133,
       "original_position": 131,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225141794,
       "user": {
@@ -10294,7 +10377,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 351,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225190718,
       "user": {
@@ -10346,7 +10429,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 330,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225194338,
       "user": {
@@ -10398,7 +10481,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 351,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225190718,
       "user": {
@@ -10450,7 +10533,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 351,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225190718,
       "user": {
@@ -10502,7 +10585,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 330,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225194338,
       "user": {
@@ -10554,7 +10637,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 349,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": null,
       "user": {
@@ -10606,7 +10689,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 349,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1229660994,
       "user": {
@@ -10658,7 +10741,7 @@
       "path": "bip-0331.mediawiki",
       "position": 333,
       "original_position": 334,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": null,
       "user": {
@@ -10710,7 +10793,7 @@
       "path": "bip-0331.mediawiki",
       "position": 333,
       "original_position": 334,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1229783524,
       "user": {
@@ -10762,7 +10845,7 @@
       "path": "bip-0331.mediawiki",
       "position": 333,
       "original_position": 334,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1229783524,
       "user": {
@@ -10814,7 +10897,7 @@
       "path": "bip-0331.mediawiki",
       "position": 133,
       "original_position": 131,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225141794,
       "user": {
@@ -10866,7 +10949,7 @@
       "path": "bip-0331.mediawiki",
       "position": 333,
       "original_position": 334,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1229783524,
       "user": {
@@ -10918,7 +11001,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 274,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": null,
       "user": {
@@ -10970,7 +11053,7 @@
       "path": "bip-0331.mediawiki",
       "position": 270,
       "original_position": 269,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": null,
       "user": {
@@ -11022,7 +11105,7 @@
       "path": "bip-0331.mediawiki",
       "position": 301,
       "original_position": 302,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": null,
       "user": {
@@ -11074,7 +11157,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 330,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": null,
       "user": {
@@ -11126,7 +11209,7 @@
       "path": "bip-0331.mediawiki",
       "position": 331,
       "original_position": 332,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": null,
       "user": {
@@ -11178,7 +11261,7 @@
       "path": "bip-0331.mediawiki",
       "position": 351,
       "original_position": 352,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": null,
       "user": {
@@ -11230,7 +11313,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 362,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": null,
       "user": {
@@ -11282,7 +11365,7 @@
       "path": "bip-0331.mediawiki",
       "position": 144,
       "original_position": 142,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": 1220651721,
       "user": {
@@ -11334,7 +11417,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 165,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": 1220670659,
       "user": {
@@ -11386,7 +11469,7 @@
       "path": "bip-0331.mediawiki",
       "position": 221,
       "original_position": 220,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": 1220712671,
       "user": {
@@ -11438,7 +11521,7 @@
       "path": "bip-0331.mediawiki",
       "position": 270,
       "original_position": 269,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1231651784,
       "user": {
@@ -11490,7 +11573,7 @@
       "path": "bip-0331.mediawiki",
       "position": 301,
       "original_position": 302,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1231652747,
       "user": {
@@ -11542,7 +11625,7 @@
       "path": "bip-0331.mediawiki",
       "position": 331,
       "original_position": 332,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1231657260,
       "user": {
@@ -11594,7 +11677,7 @@
       "path": "bip-0331.mediawiki",
       "position": 351,
       "original_position": 352,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1231658625,
       "user": {
@@ -11646,7 +11729,7 @@
       "path": "bip-0331.mediawiki",
       "position": 333,
       "original_position": 334,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1229783524,
       "user": {
@@ -11698,7 +11781,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 330,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225194338,
       "user": {
@@ -11750,7 +11833,7 @@
       "path": "bip-0331.mediawiki",
       "position": 133,
       "original_position": 131,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225141794,
       "user": {
@@ -11802,7 +11885,7 @@
       "path": "bip-0331.mediawiki",
       "position": 301,
       "original_position": 302,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1231652747,
       "user": {
@@ -11854,7 +11937,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 330,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1231653989,
       "user": {
@@ -11906,7 +11989,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 362,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1231659797,
       "user": {
@@ -11958,7 +12041,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 274,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "d07535cc3d6686bc37e72f267bc24c58cad49a12",
       "in_reply_to_id": 1231638592,
       "user": {
@@ -12010,7 +12093,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 86,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225103264,
       "user": {
@@ -12062,7 +12145,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 165,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": 1220670659,
       "user": {
@@ -12114,7 +12197,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 189,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "7118e550cf2e08641fa7b76c532c85153e8dc751",
       "in_reply_to_id": 1193155496,
       "user": {
@@ -12166,7 +12249,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 310,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "0a46f7d4cb997fdd7a228ab280821adbcbc7565b",
       "in_reply_to_id": 1225180817,
       "user": {
@@ -12218,7 +12301,7 @@
       "path": "bip-0331.mediawiki",
       "position": 333,
       "original_position": 334,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": null,
       "user": {
@@ -12270,7 +12353,7 @@
       "path": "bip-0331.mediawiki",
       "position": 333,
       "original_position": 334,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": 1255205696,
       "user": {
@@ -12322,7 +12405,7 @@
       "path": "bip-0331.mediawiki",
       "position": 333,
       "original_position": 334,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": 1255205696,
       "user": {
@@ -12374,7 +12457,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 35,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": null,
       "user": {
@@ -12426,7 +12509,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 41,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": null,
       "user": {
@@ -12478,7 +12561,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 46,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": null,
       "user": {
@@ -12530,7 +12613,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 72,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": null,
       "user": {
@@ -12582,7 +12665,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 106,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": null,
       "user": {
@@ -12634,7 +12717,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 312,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": null,
       "user": {
@@ -12686,7 +12769,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 360,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": null,
       "user": {
@@ -12738,7 +12821,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 275,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": null,
       "user": {
@@ -12788,9 +12871,9 @@
       "node_id": "PRRC_kwDOAN28mc5McE14",
       "diff_hunk": "@@ -0,0 +1,430 @@\n+<pre>\n+  BIP: 331\n+  Layer: Peer Services\n+  Title: Ancestor Package Relay\n+  Author: Gloria Zhao <gloriajzhao@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0331\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2022-08-08\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+Peer-to-peer protocol messages enabling nodes to request and relay the unconfirmed ancestor package\n+of a given transaction, and to request and relay transactions in batches.\n+\n+==Motivation==\n+\n+===Propagate High Feerate Transactions===\n+\n+Since v0.13, Bitcoin Core has used ancestor packages instead of individual transactions to evaluate\n+the incentive compatibility of transactions in the mempool\n+<ref>[https://github.com/bitcoin/bitcoin/pull/7594 Add tracking of ancestor packages]</ref> and\n+selecting them for inclusion in blocks\n+<ref>[https://github.com/bitcoin/bitcoin/pull/7600 Select transactions using feerate-with-ancestors]</ref>.\n+Incentive-compatible mempool and miner policies help create a fair, fee-based market for block\n+space. While miners maximize transaction fees in order to earn higher block rewards, non-mining\n+users participating in transaction relay reap many benefits from employing policies that result in a\n+mempool with similar contents, including faster compact block relay and more accurate fee\n+estimation. Additionally, users may take advantage of mempool and miner policy to bump the priority\n+of their transactions by attaching high-fee descendants (Child Pays for Parent or CPFP).\n+\n+Only individually considering transactions for submission to the mempool creates a limitation in\n+the node's ability to determine which transactions have the highest feerates, since it cannot take\n+into account descendants until all the transactions are in the mempool. Similarly, it cannot use a\n+transaction's descendants when considering which of two conflicting transactions to keep (Replace by\n+Fee or RBF).\n+\n+When a user's transaction does not meet a mempool's minimum feerate and they cannot create a\n+replacement transaction directly, their transaction will simply be rejected by this mempool. They\n+also cannot attach a descendant to pay for replacing a conflicting transaction; it would be rejected\n+for spending inputs that do not exist.\n+\n+This limitation harms users' ability to fee-bump their transactions. Further, it presents a security\n+issue in contracting protocols which rely on presigned, time-sensitive transactions<ref>'''Examples of time-sensitive pre-signed transactions in L2 protocols.'''\n+* [https://github.com/lightning/bolts/blob/master/03-transactions.md#htlc-timeout-and-htlc-success-transactions HTCL-Timeout in LN Penalty]\n+* [https://github.com/revault/practical-revault/blob/master/transactions.md#cancel_tx Unvault Cancel in Revault]\n+* [https://github.com/discreetlogcontracts/dlcspecs/blob/master/Transactions.md#refund-transaction Refund Transaction in Discreet Log Contracts]\n+* [https://gist.github.com/instagibbs/60264606e181451e977e439a49f69fe1 Updates in Eltoo]\n+</ref> to prevent cheating.\n+In other words, a key security assumption of many contracting protocols is that all parties can\n+propagate and confirm transactions in a timely manner.  Increasing attention has been brought to\n+\"pinning attacks,\" a type of censorship in which the attacker uses mempool policy restrictions to\n+prevent a transaction from being relayed or getting mined.\n+<ref>'''Concerns for pinning attacks in L2 protocols'''\n+* [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-May/020458.html Greg Sanders, \"Bringing a nuke to a knife fight: Transaction introspection to stop RBF pinning\"]\n+* [https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-April/002639.html Matt Corallo, \"RBF Pinning with Counterparties and Competing Interest\"]\n+* [https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-June/002758.html Antoine Riard, \"Pinning : The Good, The Bad, The Ugly\"]\n+* [https://github.com/t-bast/lightning-docs/blob/master/pinning-attacks.md Bastien Teinturier, \"Pinning Attacks\"]\n+* [https://gist.github.com/instagibbs/60264606e181451e977e439a49f69fe1 Greg Sanders, \"Eltoo Pinning\"]\n+</ref>\n+\n+These transactions must meet a certain confirmation target to be effective, but their feerates\n+are negotiated well ahead of broadcast time. If the forecast feerate was too low and no\n+fee-bumping options are available, attackers can steal money from their counterparties.  Always\n+overestimating fees may sidestep this issue (but only while mempool traffic is low and\n+predictable), but this solution is not guaranteed to work and wastes users' money. For some attacks,\n+the available defenses require nodes to have a bird's-eye view of Bitcoin nodes' mempools, which is\n+an unreasonable security requirement.\n+\n+The best solution is to enable nodes to consider packages of transactions as a unit, e.g. one or\n+more low-fee ancestor transactions with a high-fee descendant, instead of separately. A package-aware\n+mempool policy can help determine if it would actually be economically rational to accept a\n+transaction to the mempool if it doesn't meet fee requirements individually. Network-wide adoption\n+of these policies would create a more purely-feerate-based market for block space and allow\n+contracting protocols to adjust fees (and therefore mining priority) at broadcast time.\n+\n+Theoretically, developing a safe and incentive-compatible package mempool acceptance policy is\n+sufficient to solve this issue. Nodes could opportunistically accept packages (e.g. by trying\n+combinations of transactions rejected from their mempools), but this practice would likely be\n+inefficient at best and open new Denial of Service attacks at worst.  As such, this proposal\n+suggests adding new p2p messages enabling nodes to request and share package-validation-related\n+information with one another, resulting in a more efficient and reliable way to propagate packages.\n+\n+===Handle Orphans Better===\n+\n+Txid-based transaction relay is problematic since a transaction's witness may be malleated without\n+changing its txid; a node cannot use txid to deduplicate transactions it has already downloaded\n+or validated. Ideally, two nodes that both support BIP339 wtxid-based transaction relay shouldn't\n+ever need to use txid-based transaction relay.\n+\n+A single use case of txid-based relay remains: handling \"orphan\" transactions that spend output(s)\n+from an unconfirmed transaction the receiving node is unaware of. Orphan transactions are very\n+common for new nodes that have just completed Initial Block Download and do not have an up-to-date\n+mempool. Nodes also download transactions from multiple peers. If the peer from which a child\n+transaction was requested responds faster than the peer from which its parent was requested, that\n+child is seen as an orphan transaction.\n+\n+Nodes may handle orphans by storing them in a cache and requesting any missing parent(s) by txid\n+(prevouts specify txid, not wtxid). These parents may end up being orphans as well, if they also\n+spend unconfirmed inputs that the node is unaware of. This method of handling orphans is problematic\n+for two reasons: it requires nodes to allocate memory for unvalidated data received on the p2p\n+network and it relies on txid-based relay between two wtxid-relay peers.\n+\n+This proposal makes orphan-fetching more efficient and no longer require txid-based relay.\n+\n+==Definitions==\n+\n+Given any two transactions Tx0 and Tx1 where Tx1 spends an output of Tx0, Tx0 is a '''parent''' of\n+Tx1 and Tx1 is a '''child''' of Tx0.\n+\n+A transaction's '''ancestors''' include, recursively, its parents, the parents of its parents, etc.\n+A transaction's '''descendants''' include, recursively, its children, the children of its children,\n+etc. A transaction's parent is its ancestor, but an ancestor is not necessarily a parent.\n+\n+A '''package''' is a list of transactions, representable by a connected Directed Acyclic\n+Graph (a directed edge exists between a transaction that spends the output of another transaction).\n+In this proposal, a package is limited to unconfirmed transactions.\n+\n+An '''ancestor package''' consists of an unconfirmed transaction with all of its unconfirmed\n+ancestors.\n+\n+In a '''topologically sorted''' package, each parent appears somewhere in the list before its child.\n+\n+==Specification==\n+\n+Ancestor Package Relay includes two parts: a package information round and a transaction data\n+download round.\n+The package information round is used to help a receiver learn what transactions are in a package and\n+decide whether they want to download them. The transaction data round is used to help a node download\n+multiple transactions in one message instead of as separate messages.\n+<ref>'''Why are package information and transaction data rounds both necessary?'''\n+\n+Several alternative designs were considered. One should measure alternative solutions based on the\n+resources used to communicate (not necessarily trustworthy) information: We would like to minimize\n+network bandwidth, avoid downloading a transaction more than once, avoid downloading transactions\n+that are eventually rejected, and minimize storage allocated for not-yet-validated transactions.\n+\n+<br />\n+\n+'''No Package Information Round:''' One proposal is to just use the child's wtxid to refer to the\n+package and always send the entire package together, skipping the package information round.\n+However, this protocol would make it very likely for honest nodes to redownload duplicate\n+transactions. See the following example, where the high-feerate ancestors were already downloaded\n+and accepted individually.\n+\n+[[File:./bip-0331/no_package_info.png|600px]]\n+<br />\n+\n+'''Package Information Only:''' Just having package information gives enough information for the\n+receiver to accept the packages. That is, rather than using \"getpkgtxns\" and \"pkgtxns\" messages,\n+send \"getdata\" and download the transactions individually. While this option is a potential fallback\n+if batched transaction download fails for some reason, it shouldn't be used as the default because\n+it always requires storage of unvalidated transactions.\n+[[File:./bip-0331/package_info_only.png|1000px]]\n+</ref>\n+\n+Package relay is negotiated between two peers during the version handshake using a \"sendpackages\"\n+message. The versions field within \"sendpackages\" is interpreted as a bitfield; peers may relay\n+multiple versions of packages. Package relay requires both peers to support wtxid-based relay\n+because package transactions are referenced by their wtxids.\n+<ref>'''Why do we need multiple versions? Why can't we just support arbitrary packages?'''\n+Attempting to support arbitrary packages in mempool validation may result in very complex logic, new\n+Denial of Service attack vectors, and policy limitations that could be leveraged to censor\n+transactions (aka \"pinning attacks\"). This protocol is extensible to support other types of\n+packages based on future desired use cases. Future package information messages may describe\n+different types of packages and/or contain more information than a list of wtxids, e.g. feerate or\n+relationships between transactions.</ref>\n+<ref>'''Why use a bitfield instead of a numbering system?'''\n+It should be possible to support some subset of the existing package types.</ref>\n+\n+[[File:./bip-0331/version_negotiation.png|400px]]\n+\n+Nodes indicate support for batched transaction data round (\"getpkgtxns\", \"pkgtxns\", and\n+\"MSG_PKGTXNS\") using the <code>PKG_RELAY_PKGTXNS = (1 << 0)</code> bit in their \"sendpackages\"\n+messages during version handshake. They indicate support for the ancestor package information\n+round (\"ancpkginfo\", \"MSG_ANCPKGINFO\") using the <code>PKG_RELAY_ANC = (1 << 1)</code> bit in their\n+\"sendpackages\" messages during version handshake.\n+\n+===Protocol Flow Examples===\n+\n+This package relay protocol satisfies both use cases (orphan transaction handling and high-feerate\n+transaction paying for low-feerate ancestors).\n+\n+====Orphan Transaction Handling====\n+\n+Upon receiving an orphan transaction, a node may request ancestor package information delineating\n+the wtxids of the transaction's unconfirmed ancestors. This is done without using txid-based relay.\n+The package information can be used to request transaction data. As these transactions are dependent\n+upon one another to be valid, the transactions can be requested and sent as a batch.\n+\n+Contrast this protocol with legacy orphan handling, which requires requesting the missing\n+transactions by their txids and may require new round trips for each generation of missing parents.\n+[[File:./bip-0331/orphan_handling_flow.png|1000px]]\n+\n+====Fee-Bumped Transactions====\n+\n+Too-low-feerate transactions (i.e. below the node's minimum mempool feerate) with high-feerate\n+descendants can also be relayed this way. If the peers are using BIP133 fee filters and a\n+low-feerate transaction is below the node's fee filter, the sender will not announce it. The\n+high-feerate transaction will be sent by the sender, and received and handled as an orphan by the\n+receiver, the transactions are validated as a package, and so the protocol naturally works for this\n+use case.\n+\n+This does not mean BIP133 is required for package relay to work, provided that nodes do not\n+immediately reject transactions previously found to be too low feerate. If the low-feerate\n+transaction was sent and rejected, the receiver should later re-request and accept it after learning\n+that it is the ancestor of another transaction, and that they meet the receiver's mempool policy\n+requirements when validated together.\n+\n+[[File:./bip-0331/package_cpfp_flow.png|600px]]\n+\n+This protocol is receiver-initiated only; nodes do not proactively announce packages to their peers.\n+<ref>'''Why no sender-initiated protocol?''' Sender-initiated package\n+relay can, theoretically, save a round trip by notifying the receiver ahead of time that they will\n+probably need to request and validate a group of transactions together in order for them to be\n+accepted. As with any proactive communication, there is a chance that the receiver already knows\n+this information, so this network bandwidth may be wasted. Shortened latency is less significant\n+than wasted bandwidth.\n+\n+The logic used to decide when to announce a package proactively determines whether it is a net\n+increase or decrease for overall bandwidth usage. However, it is difficult to design anything to\n+save bandwidth without any idea of what its bandwidth usage actually looks like in practice. No\n+historical data is available, as one of the primary goals of this protocol is to enable\n+currently-rejected transactions to propagate. After deploying receiver-initiated package relay, we\n+can observe its usage and then introduce a sender-initiated package relay protocol informed by data\n+collected from the p2p network.</ref>\n+\n+===Combined Hash===\n+\n+A \"combined hash\" serves as a unique \"package id\" for some list of transactions and helps provide a\n+meaningful but short \"notfound\" response to \"getpkgtxns.\"\n+\n+The combined hash of a package of transactions is equal to the double-sha256 hash of each transaction's",
       "path": "bip-0331.mediawiki",
-      "position": 236,
+      "position": null,
       "original_position": 235,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": null,
       "user": {
@@ -12829,7 +12912,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 236,
+      "line": null,
       "original_line": 236,
       "side": "RIGHT"
     },
@@ -12842,7 +12925,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 360,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": 1282417371,
       "user": {
@@ -12894,7 +12977,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 312,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": 1282408213,
       "user": {
@@ -12946,7 +13029,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 275,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": 1282424520,
       "user": {
@@ -12998,7 +13081,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 106,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": 1282367142,
       "user": {
@@ -13050,7 +13133,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 72,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": 1282363418,
       "user": {
@@ -13102,7 +13185,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 46,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": 1282361539,
       "user": {
@@ -13154,7 +13237,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 41,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": 1282359269,
       "user": {
@@ -13206,7 +13289,7 @@
       "path": "bip-0331.mediawiki",
       "position": null,
       "original_position": 35,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
       "in_reply_to_id": 1282357850,
       "user": {
@@ -13258,7 +13341,7 @@
       "path": "bip-0331.mediawiki",
       "position": 50,
       "original_position": 50,
-      "commit_id": "99837287f2d2ed8f48f80329fd3b5be42221cd8d",
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
       "original_commit_id": "70605899186abc0debb7dcf534c21566357d985c",
       "in_reply_to_id": 1220626227,
       "user": {
@@ -13299,6 +13382,58 @@
       "start_side": null,
       "line": 50,
       "original_line": 50,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1285629908",
+      "pull_request_review_id": 1564948477,
+      "id": 1285629908,
+      "node_id": "PRRC_kwDOAN28mc5MoSfU",
+      "diff_hunk": "@@ -0,0 +1,430 @@\n+<pre>\n+  BIP: 331\n+  Layer: Peer Services\n+  Title: Ancestor Package Relay\n+  Author: Gloria Zhao <gloriajzhao@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0331\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2022-08-08\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+Peer-to-peer protocol messages enabling nodes to request and relay the unconfirmed ancestor package\n+of a given transaction, and to request and relay transactions in batches.\n+\n+==Motivation==\n+\n+===Propagate High Feerate Transactions===\n+\n+Since v0.13, Bitcoin Core has used ancestor packages instead of individual transactions to evaluate\n+the incentive compatibility of transactions in the mempool\n+<ref>[https://github.com/bitcoin/bitcoin/pull/7594 Add tracking of ancestor packages]</ref> and\n+selecting them for inclusion in blocks\n+<ref>[https://github.com/bitcoin/bitcoin/pull/7600 Select transactions using feerate-with-ancestors]</ref>.\n+Incentive-compatible mempool and miner policies help create a fair, fee-based market for block\n+space. While miners maximize transaction fees in order to earn higher block rewards, non-mining\n+users participating in transaction relay reap many benefits from employing policies that result in a\n+mempool with similar contents, including faster compact block relay and more accurate fee\n+estimation. Additionally, users may take advantage of mempool and miner policy to bump the priority\n+of their transactions by attaching high-fee descendants (Child Pays for Parent or CPFP).\n+\n+Only individually considering transactions for submission to the mempool creates a limitation in\n+the node's ability to determine which transactions have the highest feerates, since it cannot take\n+into account descendants until all the transactions are in the mempool. Similarly, it cannot use a\n+transaction's descendants when considering which of two conflicting transactions to keep (Replace by\n+Fee or RBF).\n+\n+When a user's transaction does not meet a mempool's minimum feerate and they cannot create a\n+replacement transaction directly, their transaction will simply be rejected by this mempool. They\n+also cannot attach a descendant to pay for replacing a conflicting transaction; it would be rejected\n+for spending inputs that do not exist.\n+\n+This limitation harms users' ability to fee-bump their transactions. Further, it presents a security\n+issue in contracting protocols which rely on presigned, time-sensitive transactions<ref>'''Examples of time-sensitive pre-signed transactions in L2 protocols.'''\n+* [https://github.com/lightning/bolts/blob/master/03-transactions.md#htlc-timeout-and-htlc-success-transactions HTCL-Timeout in LN Penalty]\n+* [https://github.com/revault/practical-revault/blob/master/transactions.md#cancel_tx Unvault Cancel in Revault]\n+* [https://github.com/discreetlogcontracts/dlcspecs/blob/master/Transactions.md#refund-transaction Refund Transaction in Discreet Log Contracts]\n+* [https://gist.github.com/instagibbs/60264606e181451e977e439a49f69fe1 Updates in Eltoo]\n+</ref> to prevent cheating.\n+In other words, a key security assumption of many contracting protocols is that all parties can\n+propagate and confirm transactions in a timely manner.  Increasing attention has been brought to\n+\"pinning attacks,\" a type of censorship in which the attacker uses mempool policy restrictions to\n+prevent a transaction from being relayed or getting mined.\n+<ref>'''Concerns for pinning attacks in L2 protocols'''\n+* [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-May/020458.html Greg Sanders, \"Bringing a nuke to a knife fight: Transaction introspection to stop RBF pinning\"]\n+* [https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-April/002639.html Matt Corallo, \"RBF Pinning with Counterparties and Competing Interest\"]\n+* [https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-June/002758.html Antoine Riard, \"Pinning : The Good, The Bad, The Ugly\"]\n+* [https://github.com/t-bast/lightning-docs/blob/master/pinning-attacks.md Bastien Teinturier, \"Pinning Attacks\"]\n+* [https://gist.github.com/instagibbs/60264606e181451e977e439a49f69fe1 Greg Sanders, \"Eltoo Pinning\"]\n+</ref>\n+\n+These transactions must meet a certain confirmation target to be effective, but their feerates\n+are negotiated well ahead of broadcast time. If the forecast feerate was too low and no\n+fee-bumping options are available, attackers can steal money from their counterparties.  Always\n+overestimating fees may sidestep this issue (but only while mempool traffic is low and\n+predictable), but this solution is not guaranteed to work and wastes users' money. For some attacks,\n+the available defenses require nodes to have a bird's-eye view of Bitcoin nodes' mempools, which is\n+an unreasonable security requirement.\n+\n+The best solution is to enable nodes to consider packages of transactions as a unit, e.g. one or\n+more low-fee ancestor transactions with a high-fee descendant, instead of separately. A package-aware\n+mempool policy can help determine if it would actually be economically rational to accept a\n+transaction to the mempool if it doesn't meet fee requirements individually. Network-wide adoption\n+of these policies would create a more purely-feerate-based market for block space and allow\n+contracting protocols to adjust fees (and therefore mining priority) at broadcast time.\n+\n+Theoretically, developing a safe and incentive-compatible package mempool acceptance policy is\n+sufficient to solve this issue. Nodes could opportunistically accept packages (e.g. by trying\n+combinations of transactions rejected from their mempools), but this practice would likely be\n+inefficient at best and open new Denial of Service attacks at worst.  As such, this proposal\n+suggests adding new p2p messages enabling nodes to request and share package-validation-related\n+information with one another, resulting in a more efficient and reliable way to propagate packages.\n+\n+===Handle Orphans Better===\n+\n+Txid-based transaction relay is problematic since a transaction's witness may be malleated without\n+changing its txid; a node cannot use txid to deduplicate transactions it has already downloaded\n+or validated. Ideally, two nodes that both support BIP339 wtxid-based transaction relay shouldn't\n+ever need to use txid-based transaction relay.\n+\n+A single use case of txid-based relay remains: handling \"orphan\" transactions that spend output(s)\n+from an unconfirmed transaction the receiving node is unaware of. Orphan transactions are very\n+common for new nodes that have just completed Initial Block Download and do not have an up-to-date\n+mempool. Nodes also download transactions from multiple peers. If the peer from which a child\n+transaction was requested responds faster than the peer from which its parent was requested, that\n+child is seen as an orphan transaction.\n+\n+Nodes may handle orphans by storing them in a cache and requesting any missing parent(s) by txid\n+(prevouts specify txid, not wtxid). These parents may end up being orphans as well, if they also\n+spend unconfirmed inputs that the node is unaware of. This method of handling orphans is problematic\n+for two reasons: it requires nodes to allocate memory for unvalidated data received on the p2p\n+network and it relies on txid-based relay between two wtxid-relay peers.\n+\n+This proposal makes orphan-fetching more efficient and no longer require txid-based relay.\n+\n+==Definitions==\n+\n+Given any two transactions Tx0 and Tx1 where Tx1 spends an output of Tx0, Tx0 is a '''parent''' of\n+Tx1 and Tx1 is a '''child''' of Tx0.\n+\n+A transaction's '''ancestors''' include, recursively, its parents, the parents of its parents, etc.\n+A transaction's '''descendants''' include, recursively, its children, the children of its children,\n+etc. A transaction's parent is its ancestor, but an ancestor is not necessarily a parent.\n+\n+A '''package''' is a list of transactions, representable by a connected Directed Acyclic\n+Graph (a directed edge exists between a transaction that spends the output of another transaction).\n+In this proposal, a package is limited to unconfirmed transactions.\n+\n+An '''ancestor package''' consists of an unconfirmed transaction with all of its unconfirmed\n+ancestors.\n+\n+In a '''topologically sorted''' package, each parent appears somewhere in the list before its child.\n+\n+==Specification==\n+\n+Ancestor Package Relay includes two parts: a package information round and a transaction data\n+download round.\n+The package information round is used to help a receiver learn what transactions are in a package and\n+decide whether they want to download them. The transaction data round is used to help a node download\n+multiple transactions in one message instead of as separate messages.\n+<ref>'''Why are package information and transaction data rounds both necessary?'''\n+\n+Several alternative designs were considered. One should measure alternative solutions based on the\n+resources used to communicate (not necessarily trustworthy) information: We would like to minimize\n+network bandwidth, avoid downloading a transaction more than once, avoid downloading transactions\n+that are eventually rejected, and minimize storage allocated for not-yet-validated transactions.\n+\n+<br />\n+\n+'''No Package Information Round:''' One proposal is to just use the child's wtxid to refer to the\n+package and always send the entire package together, skipping the package information round.\n+However, this protocol would make it very likely for honest nodes to redownload duplicate\n+transactions. See the following example, where the high-feerate ancestors were already downloaded\n+and accepted individually.\n+\n+[[File:./bip-0331/no_package_info.png|600px]]\n+<br />\n+\n+'''Package Information Only:''' Just having package information gives enough information for the\n+receiver to accept the packages. That is, rather than using \"getpkgtxns\" and \"pkgtxns\" messages,\n+send \"getdata\" and download the transactions individually. While this option is a potential fallback\n+if batched transaction download fails for some reason, it shouldn't be used as the default because\n+it always requires storage of unvalidated transactions.\n+[[File:./bip-0331/package_info_only.png|1000px]]\n+</ref>\n+\n+Package relay is negotiated between two peers during the version handshake using a \"sendpackages\"\n+message. The versions field within \"sendpackages\" is interpreted as a bitfield; peers may relay\n+multiple versions of packages. Package relay requires both peers to support wtxid-based relay\n+because package transactions are referenced by their wtxids.\n+<ref>'''Why do we need multiple versions? Why can't we just support arbitrary packages?'''\n+Attempting to support arbitrary packages in mempool validation may result in very complex logic, new\n+Denial of Service attack vectors, and policy limitations that could be leveraged to censor\n+transactions (aka \"pinning attacks\"). This protocol is extensible to support other types of\n+packages based on future desired use cases. Future package information messages may describe\n+different types of packages and/or contain more information than a list of wtxids, e.g. feerate or\n+relationships between transactions.</ref>\n+<ref>'''Why use a bitfield instead of a numbering system?'''\n+It should be possible to support some subset of the existing package types.</ref>\n+\n+[[File:./bip-0331/version_negotiation.png|400px]]\n+\n+Nodes indicate support for batched transaction data round (\"getpkgtxns\", \"pkgtxns\", and\n+\"MSG_PKGTXNS\") using the <code>PKG_RELAY_PKGTXNS = (1 << 0)</code> bit in their \"sendpackages\"\n+messages during version handshake. They indicate support for the ancestor package information\n+round (\"ancpkginfo\", \"MSG_ANCPKGINFO\") using the <code>PKG_RELAY_ANC = (1 << 1)</code> bit in their\n+\"sendpackages\" messages during version handshake.\n+\n+===Protocol Flow Examples===\n+\n+This package relay protocol satisfies both use cases (orphan transaction handling and high-feerate\n+transaction paying for low-feerate ancestors).\n+\n+====Orphan Transaction Handling====\n+\n+Upon receiving an orphan transaction, a node may request ancestor package information delineating\n+the wtxids of the transaction's unconfirmed ancestors. This is done without using txid-based relay.\n+The package information can be used to request transaction data. As these transactions are dependent\n+upon one another to be valid, the transactions can be requested and sent as a batch.\n+\n+Contrast this protocol with legacy orphan handling, which requires requesting the missing\n+transactions by their txids and may require new round trips for each generation of missing parents.\n+[[File:./bip-0331/orphan_handling_flow.png|1000px]]\n+\n+====Fee-Bumped Transactions====\n+\n+Too-low-feerate transactions (i.e. below the node's minimum mempool feerate) with high-feerate\n+descendants can also be relayed this way. If the peers are using BIP133 fee filters and a\n+low-feerate transaction is below the node's fee filter, the sender will not announce it. The\n+high-feerate transaction will be sent by the sender, and received and handled as an orphan by the\n+receiver, the transactions are validated as a package, and so the protocol naturally works for this\n+use case.\n+\n+This does not mean BIP133 is required for package relay to work, provided that nodes do not\n+immediately reject transactions previously found to be too low feerate. If the low-feerate\n+transaction was sent and rejected, the receiver should later re-request and accept it after learning\n+that it is the ancestor of another transaction, and that they meet the receiver's mempool policy\n+requirements when validated together.\n+\n+[[File:./bip-0331/package_cpfp_flow.png|600px]]\n+\n+This protocol is receiver-initiated only; nodes do not proactively announce packages to their peers.\n+<ref>'''Why no sender-initiated protocol?''' Sender-initiated package\n+relay can, theoretically, save a round trip by notifying the receiver ahead of time that they will\n+probably need to request and validate a group of transactions together in order for them to be\n+accepted. As with any proactive communication, there is a chance that the receiver already knows\n+this information, so this network bandwidth may be wasted. Shortened latency is less significant\n+than wasted bandwidth.\n+\n+The logic used to decide when to announce a package proactively determines whether it is a net\n+increase or decrease for overall bandwidth usage. However, it is difficult to design anything to\n+save bandwidth without any idea of what its bandwidth usage actually looks like in practice. No\n+historical data is available, as one of the primary goals of this protocol is to enable\n+currently-rejected transactions to propagate. After deploying receiver-initiated package relay, we\n+can observe its usage and then introduce a sender-initiated package relay protocol informed by data\n+collected from the p2p network.</ref>\n+\n+===Combined Hash===\n+\n+A \"combined hash\" serves as a unique \"package id\" for some list of transactions and helps provide a\n+meaningful but short \"notfound\" response to \"getpkgtxns.\"\n+\n+The combined hash of a package of transactions is equal to the double-sha256 hash of each transaction's",
+      "path": "bip-0331.mediawiki",
+      "position": null,
+      "original_position": 235,
+      "commit_id": "02ec218c7857ef60914e9a3d383b68caf987f70b",
+      "original_commit_id": "c2da2cffd6021ee2d575cc7ded326b1df4307b80",
+      "in_reply_to_id": 1282428280,
+      "user": {
+        "login": "glozow",
+        "id": 25183001,
+        "node_id": "MDQ6VXNlcjI1MTgzMDAx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25183001?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/glozow",
+        "html_url": "https://github.com/glozow",
+        "followers_url": "https://api.github.com/users/glozow/followers",
+        "following_url": "https://api.github.com/users/glozow/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/glozow/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/glozow/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/glozow/subscriptions",
+        "organizations_url": "https://api.github.com/users/glozow/orgs",
+        "repos_url": "https://api.github.com/users/glozow/repos",
+        "events_url": "https://api.github.com/users/glozow/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/glozow/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Changed",
+      "created_at": "2023-08-07T09:40:46Z",
+      "updated_at": "2023-08-07T09:40:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1382#discussion_r1285629908",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1285629908"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1382"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 236,
       "side": "RIGHT"
     }
   ]
