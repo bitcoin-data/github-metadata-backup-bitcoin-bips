@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2023-06-05T16:16:42Z",
-    "updated_at": "2023-08-07T22:16:59Z",
+    "updated_at": "2023-08-08T17:50:20Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "da6aa5688f4037be5250a9971599b5a5e6119919",
@@ -270,9 +270,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8230,
-        "watchers_count": 8230,
+        "forks_count": 5540,
+        "stargazers_count": 8234,
+        "watchers_count": 8234,
         "size": 13787,
         "default_branch": "master",
         "open_issues_count": 112,
@@ -288,7 +288,7 @@
         "visibility": "public",
         "pushed_at": "2023-08-07T09:40:21Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-07T19:10:25Z"
+        "updated_at": "2023-08-08T14:56:06Z"
       }
     },
     "_links": {
@@ -303,7 +303,7 @@
     "changed_files": 6,
     "commits": 1,
     "review_comments": 144,
-    "comments": 11
+    "comments": 13
   },
   "events": [
     {
@@ -522,7 +522,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/27827.patch"
           },
           "created_at": "2023-06-05T12:12:23Z",
-          "updated_at": "2023-08-03T10:51:12Z"
+          "updated_at": "2023-08-08T10:39:32Z"
         },
         "type": "issue"
       }
@@ -3028,7 +3028,7 @@
           "assignees": [],
           "author_association": "CONTRIBUTOR",
           "locked": false,
-          "comments": 3,
+          "comments": 4,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/28122",
             "html_url": "https://github.com/bitcoin/bitcoin/pull/28122",
@@ -3036,7 +3036,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28122.patch"
           },
           "created_at": "2023-07-21T18:36:37Z",
-          "updated_at": "2023-08-06T15:26:22Z"
+          "updated_at": "2023-08-08T16:56:18Z"
         },
         "type": "issue"
       }
@@ -3961,6 +3961,114 @@
       "submitted_at": "2023-08-07T22:16:58Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1458"
+    },
+    {
+      "event": "commented",
+      "id": 1669991489,
+      "node_id": "IC_kwDOAN28mc5jigxB",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1669991489",
+      "actor": {
+        "login": "cygnet3",
+        "id": 131168104,
+        "node_id": "U_kgDOB9F3aA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/131168104?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/cygnet3",
+        "html_url": "https://github.com/cygnet3",
+        "followers_url": "https://api.github.com/users/cygnet3/followers",
+        "following_url": "https://api.github.com/users/cygnet3/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/cygnet3/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/cygnet3/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/cygnet3/subscriptions",
+        "organizations_url": "https://api.github.com/users/cygnet3/orgs",
+        "repos_url": "https://api.github.com/users/cygnet3/repos",
+        "events_url": "https://api.github.com/users/cygnet3/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/cygnet3/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-08-08T17:03:22Z",
+      "updated_at": "2023-08-08T17:03:22Z",
+      "author_association": "NONE",
+      "body": "Regarding the test vectors: I think it is best to remove the 'amount' values from the sending tests.\r\n\r\nPayment amounts don't test any logic about silent payments directly. Rather, they are indirectly used for the following two purposes:\r\n\r\n1) to match generated taproot outputs with a specific recipient (because all the amounts are unique)\r\n2) to ensure determinism in testing (sorting on amounts for every silent payment group)\r\n\r\nIn other words, they are used as a sort-able unique identifier for each recipient.\r\n\r\nBoth of these goals can be achieved in another way:\r\n\r\n1) For the sending outputs, expect a dictionary object instead, where the key is a recipient (bech32m string representing a silent payment address), and the value is a list of taproot outputs  (hex encoding of 32-byte x-only public key) generated for this recipient.\r\n2) In the tests, sort by B<sub>m</sub> where we currently sort by amount. This shouldn't reveal any extra information in the generated outputs, since these outputs are calculated as P<sub>mn</sub> = B<sub>m</sub> + t<sub>n</sub>·G and t<sub>n</sub> is a sha256 digest.\r\n\r\nOrdering of a `ECPubKey` does not seem to be implemented in the simplified `secp256k1.py` test library, but it is defined in the [`secp256k1` library itself](https://github.com/bitcoin-core/secp256k1/blob/master/include/secp256k1.h#L471). I have access to it in the `rust-secp256k1` library via the `Ord` and `PartialOrd` trait implementations of the `PublicKey` struct.\r\n\r\nI think doing (1) at least makes a lot of sense. SP implementations will always need to be able to map outputs with specific recipients, so the tests should reflect that.\r\n\r\nFor (2) I am less certain. Regardless, if the only point of 'amounts' is to create deterministic test results, it would be better to rename `amount` to `order` or something.",
+      "user": {
+        "login": "cygnet3",
+        "id": 131168104,
+        "node_id": "U_kgDOB9F3aA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/131168104?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/cygnet3",
+        "html_url": "https://github.com/cygnet3",
+        "followers_url": "https://api.github.com/users/cygnet3/followers",
+        "following_url": "https://api.github.com/users/cygnet3/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/cygnet3/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/cygnet3/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/cygnet3/subscriptions",
+        "organizations_url": "https://api.github.com/users/cygnet3/orgs",
+        "repos_url": "https://api.github.com/users/cygnet3/repos",
+        "events_url": "https://api.github.com/users/cygnet3/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/cygnet3/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1458#issuecomment-1669991489",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1458"
+    },
+    {
+      "event": "commented",
+      "id": 1670050214,
+      "node_id": "IC_kwDOAN28mc5jivGm",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1670050214",
+      "actor": {
+        "login": "Sosthene00",
+        "id": 11726747,
+        "node_id": "MDQ6VXNlcjExNzI2NzQ3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11726747?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sosthene00",
+        "html_url": "https://github.com/Sosthene00",
+        "followers_url": "https://api.github.com/users/Sosthene00/followers",
+        "following_url": "https://api.github.com/users/Sosthene00/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sosthene00/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sosthene00/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sosthene00/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sosthene00/orgs",
+        "repos_url": "https://api.github.com/users/Sosthene00/repos",
+        "events_url": "https://api.github.com/users/Sosthene00/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sosthene00/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-08-08T17:50:20Z",
+      "updated_at": "2023-08-08T17:50:20Z",
+      "author_association": "NONE",
+      "body": "> Regarding the test vectors: I think it is best to remove the 'amount' values from the sending tests.\r\n> \r\n> Payment amounts don't test any logic about silent payments directly. Rather, they are indirectly used for the following two purposes:\r\n> \r\n>     1. to match generated taproot outputs with a specific recipient (because all the amounts are unique)\r\n> \r\n>     2. to ensure determinism in testing (sorting on amounts for every silent payment group)\r\n> \r\n> \r\n> In other words, they are used as a sort-able unique identifier for each recipient.\r\n> \r\n> Both of these goals can be achieved in another way:\r\n> \r\n>     1. For the sending outputs, expect a dictionary object instead, where the key is a recipient (bech32m string representing a silent payment address), and the value is a list of taproot outputs  (hex encoding of 32-byte x-only public key) generated for this recipient.\r\n> \r\n>     2. In the tests, sort by Bm where we currently sort by amount. This shouldn't reveal any extra information in the generated outputs, since these outputs are calculated as Pmn = Bm + tn·G and tn is a sha256 digest.\r\n> \r\n> \r\n> Ordering of a `ECPubKey` does not seem to be implemented in the simplified `secp256k1.py` test library, but it is defined in the [`secp256k1` library itself](https://github.com/bitcoin-core/secp256k1/blob/master/include/secp256k1.h#L471). I have access to it in the `rust-secp256k1` library via the `Ord` and `PartialOrd` trait implementations of the `PublicKey` struct.\r\n> \r\n> I think doing (1) at least makes a lot of sense. SP implementations will always need to be able to map outputs with specific recipients, so the tests should reflect that.\r\n> \r\n> For (2) I am less certain. Regardless, if the only point of 'amounts' is to create deterministic test results, it would be better to rename `amount` to `order` or something.\r\n\r\nI totally support this, and even for determinism frankly I already got rid of the amounts in my own test and it doesn't seem to affect me.\r\n\r\nI would change some other details about the tests and test vectors, I'll make a comment about that specifically soon.",
+      "user": {
+        "login": "Sosthene00",
+        "id": 11726747,
+        "node_id": "MDQ6VXNlcjExNzI2NzQ3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/11726747?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sosthene00",
+        "html_url": "https://github.com/Sosthene00",
+        "followers_url": "https://api.github.com/users/Sosthene00/followers",
+        "following_url": "https://api.github.com/users/Sosthene00/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sosthene00/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sosthene00/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sosthene00/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sosthene00/orgs",
+        "repos_url": "https://api.github.com/users/Sosthene00/repos",
+        "events_url": "https://api.github.com/users/Sosthene00/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sosthene00/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1458#issuecomment-1670050214",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1458"
     }
   ],
   "comments": [
