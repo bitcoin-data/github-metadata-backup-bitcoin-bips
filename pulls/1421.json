@@ -41,10 +41,10 @@
     "body": "Pairs with the draft implementation in https://github.com/bitcoin-inquisition/bitcoin/pull/21.",
     "labels": [],
     "created_at": "2023-02-13T20:55:10Z",
-    "updated_at": "2023-07-28T15:58:04Z",
+    "updated_at": "2023-08-18T00:05:58Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "54a6494ab7ff5e3b80c6d4d1840d7c6a2e6516e9",
+    "merge_commit_sha": "18f19e8d59f8784f25af8b698ff12d52ff618809",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5545,
+        "stargazers_count": 8266,
+        "watchers_count": 8266,
+        "size": 13643,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 114,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2023-08-16T17:42:33Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2023-08-17T18:07:49Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 24,
-    "review_comments": 72,
+    "review_comments": 73,
     "comments": 21
   },
   "events": [
@@ -3869,7 +3869,7 @@
           "events_url": "https://api.github.com/repos/bitcoin/bips/issues/1482/events",
           "html_url": "https://github.com/bitcoin/bips/pull/1482",
           "number": 1482,
-          "state": "open",
+          "state": "closed",
           "state_reason": null,
           "title": "Add James O'Beirne to 119 Author List",
           "body": "I'd like to propose that James O'Beirne be added as an author to BIP-119. James has done extensive research on covenants, including 119, and is actively involved in Bitcoin Development. Since I am no longer actively involved in Development, adding James as an author will give the the BIP an active steward for any changes required going forward.",
@@ -3897,15 +3897,16 @@
           "assignees": [],
           "author_association": "CONTRIBUTOR",
           "locked": false,
-          "comments": 4,
+          "comments": 5,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bips/pulls/1482",
             "html_url": "https://github.com/bitcoin/bips/pull/1482",
             "diff_url": "https://github.com/bitcoin/bips/pull/1482.diff",
             "patch_url": "https://github.com/bitcoin/bips/pull/1482.patch"
           },
+          "closed_at": "2023-08-16T13:49:21Z",
           "created_at": "2023-07-28T21:37:25Z",
-          "updated_at": "2023-08-01T23:51:05Z"
+          "updated_at": "2023-08-16T13:49:22Z"
         },
         "type": "issue"
       }
@@ -7290,6 +7291,58 @@
       "start_side": null,
       "line": null,
       "original_line": 160,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1297862738",
+      "pull_request_review_id": 1583658308,
+      "id": 1297862738,
+      "node_id": "PRRC_kwDOAN28mc5NW9BS",
+      "diff_hunk": "@@ -0,0 +1,750 @@\n+<pre>\n+  BIP: xxxx\n+  Layer: Consensus (soft fork)\n+  Title: OP_VAULT\n+  Author: James O'Beirne <vaults@au92.org>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-xxxx\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2020-02-03\n+  License: BSD-3-Clause\n+  Post-History: 2023-01-09: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-January/021318.html [bitcoin-dev] OP_VAULT announcment\n+</pre>\n+\n+\n+== Introduction ==\n+\n+This BIP proposes new tapscript opcodes, <code>OP_VAULT</code> and\n+<code>OP_UNVAULT</code>, that add consensus support for a specialized covenant. \n+These opcodes allow users to enforce a delay period before designated coins may\n+be spent to an arbitrary destination, with the exception of a prespecified\n+\"recovery\" path. At any time prior to final withdrawal, the coins can be spent to\n+the prespecified path.\n+\n+\n+=== Motivation ===\n+\n+The hazard of custodying Bitcoin is well known. Users of Bitcoin must go to\n+significant effort to secure their private keys, and hope that once provisioned\n+their custody system does not yield to any number of evolving and\n+persistent threats. Users have little means to intervene once compromise is\n+detected. This proposal introduces a mechanism that significantly\n+mitigates the worst-case outcome of key compromise: coin loss.\n+\n+Introducing a way to intervene during unexpected spends allows users to\n+incorporate highly secure key storage methods or unusual fallback strategies\n+that are only exercised in the worst case, and which may otherwise be\n+operationally prohibitive. The goal of this proposal is to make this strategy\n+usable for custodians of any size with minimal complication.\n+\n+==== Example uses ====\n+\n+An individual custodying Bitcoin uses the common \"single signature and\n+passphrase\" configuration with a hardware wallet. They are concerned about the\n+risk associated with relying on a single manufacturer for key management as\n+well as physical access to the hardware, so they generate a new key that is\n+highly secure, but would be impractical for daily use. For example the key\n+could be generated in some analog fashion, or on an old computer (with added\n+entropy) that is then destroyed, with the private key replicated only in paper\n+form. Or the key could be a 2-of-3 multisig using devices from different\n+manufacturers. Perhaps the key is geographically distributed.\n+\n+This individual can use <code>OP_VAULT</code> to make use of the highly secure\n+key as the unlikely recovery path, while using their existing signing procedure\n+as the withdrawal trigger key, with a configured spend delay of 1 day. They can\n+run software on their mobile device that monitors the blockchain for spends of\n+the vault outpoints.\n+\n+If the vaulted coins move in an unexpected way, the user can immediately sweep\n+them to the highly secure recovery path, but spending the coins on a daily\n+basis works in the same way it did prior to vaulting - aside from the spend\n+delay.\n+\n+The recovery key could be any number of things: a 2-of-3 multisig with keys\n+that live on different devices, a 3-of-5 with socially distributed keys, a\n+Taproot construction that incorporates one of these methods along with a\n+time-delayed fallback to an \"easier\" recovery method, in case the highly secure\n+key winds up being ''too'' highly secure.\n+\n+Institutional custodians of Bitcoin would likely use vaults in similar fashion.\n+\n+===== Avoiding the hostage situation =====\n+\n+This proposal uniquely provides a solution to the \"hostage situation;\" by\n+setting the spend delay to, say, a week, and using as the recovery path a\n+script that enforces a longer relative timelock, the owner of the vault can\n+prove that he is unable to access its value immediately. To the author's\n+knowledge, this is the only way to configure this defense without rolling\n+timelocked coins for perpetuity or relying on a trusted third party.\n+\n+== Goals ==\n+\n+[[File:bip-VAULT/vaults-Basic.png|frame|center]]\n+\n+Vaults in Bitcoin have been discussed formally since 2016\n+([http://fc16.ifca.ai/bitcoin/papers/MES16.pdf MES16]) or earlier. The value of\n+having a configurable delay period with recovery capability in light of an\n+unexpected spend has been widely recognized. \n+\n+The only way to implement vaults given the existing consensus rules, aside from\n+[https://github.com/revault emulating vaults with large multisig\n+configurations], is to use presigned transactions created with a one-time-use\n+key. This approach was first demonstrated\n+[https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2020-April/017755.html\n+in 2020].\n+\n+Unfortunately, this approach has a number of practical shortcomings:\n+* generating and securely delete ephemeral keys, which are used to emulate the vault covenant, is required,\n+* amounts and withdrawal patterns must be precommitted to,\n+* there is a necessity to precommit to an address that the funds must pass through on their way to the final withdrawal target, which is likely only known at unvault time,\n+* the particular fee management technique or wallet must be decided upon vault creation,\n+* coin loss follows if a vault address is reused,\n+* the transaction data that represents the \"bearer asset\" of the vault must be stored for perpetuity else value is lost, and\n+* the vault creation ceremony must be performed each time a new balance is to be deposited.\n+\n+The deployment of a \"precomputed\" covenant mechanism like\n+[https://github.com/bitcoin/bips/blob/master/bip-0119.mediawiki OP_CHECKTEMPLATEVERIFY] or\n+[https://github.com/bitcoin/bips/blob/master/bip-0118.mediawiki SIGHASH_ANYPREVOUT] \n+would both remove the necessity to use an ephemeral key, since the\n+covenant is enforced on-chain, and lessen the burden of sensitive data storage,\n+since the necessary transactions can be generated from a set of compact\n+parameters. This approach was demonstrated [https://github.com/jamesob/simple-ctv-vault in\n+2022].\n+\n+However, the limitations of precomputation still apply: amounts,\n+destinations, and fee management are all fixed. Funds must flow through a fixed\n+intermediary to their final destination. Batch operations, which may be vital\n+for successful recovery during fee spikes or short spend delay, are not possible.\n+\n+[[File:bip-VAULT/withdrawal-comparison.drawio.png|frame|center]]\n+\n+Having a \"general\" covenant mechanism that can encode arbitrary transactional\n+state machines would allow us to solve these issues, but at the cost of complex\n+and large scripts that would probably be duplicated many times over in the\n+blockchain. The particular design and deployment timeline of such a general\n+framework is also uncertain. There are no sample vault implementations using\n+these means known to the author.\n+\n+This proposal intends to address the problems outlined above by\n+providing a delay period/recovery path use with minimal transactional and\n+operational overhead using a specialized covenant.\n+\n+The design goals of the proposal are:\n+\n+* '''efficient reuse of an existing vault configuration.'''<ref>'''Why does this support address reuse?''' The proposal doesn't rely on or encourage address reuse, but certain uses are unsafe if address reuse cannot be handled - for example, if a custodian gives its users a vault address to deposit to, it cannot enforce that those users make a single deposit for each address.</ref> A single vault configuration, whether the same literal <code>scriptPubKey</code> or not, should be able to “receive” multiple deposits. \n+\n+* '''batched operations''' for recovery and withdrawal to allow managing multiple vault coins efficiently.\n+\n+* '''unbounded partial withdrawals''', which allows users to withdrawal partial vault balances without having to perform the setup ceremony for a new vault.\n+\n+* '''dynamic unvault targets''', which allow the proposed withdrawal target for a vault to be specified at withdrawal time rather than when the vault is first created. This would remove the need for a prespecified, intermediate wallet that only exists to route unvaulted funds to their desired destination.\n+\n+* '''dynamic fee management''' that, like dynamic targets, defers the specification of fee rates and source to unvault time rather than vault creation time.\n+\n+These goals are accompanied by basic safety considerations (e.g. not being\n+vulnerable to pinning) and a desire for concision, both in terms of the number\n+of outputs created as well as script sizes.\n+\n+This proposal is designed to be compatible with any future sighash modes (e.g. <code>SIGHASH_GROUP</code>) or fee management strategies (e.g. [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2020-September/018168.html transaction sponsors]) that may be introduced. Use of these opcodes will benefit from, but do not strictly rely on, future transaction versions (e.g. [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-September/020937.html v3]) and [https://github.com/instagibbs/bips/blob/ephemeral_anchor/bip-ephemeralanchors.mediawik ephemeral anchors].\n+\n+== Design ==\n+\n+=== State machine ===\n+\n+[[File:bip-VAULT/opvault-flow.drawio.png|frame|center]]\n+\n+The vault has a number of stages, some of them optional:\n+\n+* '''vault transaction''': encumbers some coins with an <code>OP_VAULT</code> script invocation.\n+\n+* '''trigger transaction''': spends one or more <code>OP_VAULT</code> outputs into one compatible <code>OP_UNVAULT</code> output, which broadcasts the intent to withdrawal to some specific set of outputs. This transaction may have an additional output which allocates some of the vault balance into a partial revault, which simply encumbers the revaulted portion of the value into the same <code>scriptPubKey</code> of the originating <code>OP_VAULT</code> output(s).\n+\n+* '''withdrawal transaction''': spends <code>OP_UNVAULT</code> inputs into a compatible set of final withdrawal outputs per the target hash. The only authorization for this spend is the content hash of the withdrawal outputs.\n+\n+* '''recovery transaction''': spends one or more <code>OP_VAULT</code> or <code>OP_UNVAULT</code> inputs, which can be done at any time prior to withdrawal confirmation, to the prespecified recovery path. This transaction can optionally require a witness satisfying a specified ''recovery authorization'' script, an optional scriptPubKey gating the initiation of recovery. The use of recovery authorization has certain trade-offs discussed later.\n+\n+\n+=== Parameters ===\n+\n+<code><recovery-params></code>\n+\n+The recovery parameters dictate both where funds can be swept to during a\n+recovery, and what kind of authorization (if any) is needed to initiate a\n+recovery. It is specified in the form \n+\n+<source>\n+<recovery sPK tagged hash (32 bytes)>[<optional auth. scriptPubKey ...>]\n+</source>\n+\n+The first component commits to the destination that vault funds can be swept to\n+at any point prior to the finalization of a withdrawal.\n+\n+The recovery scriptPubKey would usually correspond to a spending script that is\n+inconvenient to exercise but highly secure.\n+\n+The second component, the recovery authorization scriptPubKey, is optional. It\n+is a raw scriptPubKey that, if specified, must be satisfied to allow the input\n+to be recovered. The benefit of using this parameter will be discussed later.\n+If this component is not given, the de facto \"authorization\" is the reveal of\n+the <code><recovery sPK tagged hash></code> preimage.\n+\n+Vaults which share the same recovery path can always be swept in batch operations,\n+which is an important practical aspect of managing large numbers of vaults.\n+\n+<code><spend-delay></code>\n+\n+The spend delay dictates the duration of blocks or time which must\n+elapse for the trigger <code>OP_UNVAULT</code> output to be claimable into the\n+withdrawal target outputs. Encoded as the least significant 23 bits of a\n+[https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki BIP-0068] style\n+relative locktime.\n+\n+'''Trigger key'''\n+\n+The trigger key, committed to with <code><trigger-sPK-hash></code>, is used to\n+authorize the ''trigger transaction'' - an on-chain declaration to attempt a\n+withdrawal to a certain set of target outputs.\n+\n+This functions as the \"normal\" spending key, but if an attacker obtains access\n+to this key, the outcome is not catastrophic: any withdrawal attempt can be\n+interrupted (within the spend delay) and swept to the recovery path. \n+\n+The trigger key can be an arbitrary scriptPubKey so long as it represents a\n+valid witness program. <code>OP_VAULT</code> outputs which have the same\n+recovery params and spend delay can be spent into the same\n+<code>OP_UNVAULT</code> output for a batched withdrawal process. \n+\n+<code><target-outputs-hash></code>\n+\n+An arbitrary set of target withdrawal outputs that is specified as a parameter to <code>OP_UNVAULT</code> as a 32 byte tagged hash. The preimage is a list of destination output scriptPubKeys and amounts. If the trigger remains uncontested -- if it isn't swept to recovery before the spend delay elapses -- the vaulted funds may be spent into a compatible set of target outputs.\n+\n+\n+=== Fee management ===\n+\n+A primary consideration of this proposal is how fee management is handled.\n+Providing dynamic fee management is critical to the operation of a vault, since \n+\n+* precalculated fees are prone to making transactions unconfirmable by high fee environments, and\n+* a fee wallet that is prespecified might be compromised or lost before use.\n+\n+But dynamic fee management can introduce\n+[https://bitcoinops.org/en/topics/transaction-pinning/ pinning vectors]. Care\n+has been taken to avoid unnecessarily introducing these vectors when using the new \n+content-based spending policies that this proposal introduces.\n+\n+Originally, this proposal had a hard dependency on reformed transaction\n+nVersion=3 policies, including ephemeral anchors, but it has since been revised\n+to simply benefit from these changes in policy as well as other potential fee\n+management mechanisms.\n+\n+\n+== Specification ==\n+\n+The tapscript opcodes <code>OP_SUCCESS187</code> (<code>0xbb</code>) and\n+<code>OP_SUCCESS188</code> (<code>0xbc</code>) are claimed to implement the\n+<code>OP_VAULT</code> and <code>OP_UNVAULT</code> rules, respectively.\n+\n+=== <code>OP_VAULT</code> evaluation ===\n+\n+==== Witness program ====\n+\n+When evaluating <code>OP_VAULT</code> (<code>OP_SUCCESS187</code>,\n+<code>0xbb</code>), the witness program is pushed onto the stack for the\n+following result (stack shown top to bottom):\n+\n+<source>\n+OP_VAULT            (*) being evaluated\n+<trigger-sPK-hash> \n+<spend-delay> \n+<recovery-params> \n+</source>\n+\n+where\n+\n+* <code><trigger-sPK-hash></code> is a 32 byte tagged hash of the scriptPubKey used to authorize the spend of this output into an <code>OP_UNVAULT</code> trigger output \n+** <code>tagged_hash(\"VaultTriggerSPK\", spk)</code>, per BIP-0340.\n+** If this value is not 32 bytes, script execution when spending this output MUST fail and terminate immediately. \n+** Because this parameter's scriptPubKey is committed to using a hash, witness version upgradeability for the trigger key is preserved.\n+\n+* <code><spend-delay></code> is a <code>CScriptNum</code>-encoded number (up to 4 bytes) \n+** It is interpreted as the least significant 23 bits of a [https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki BIP-0068] relative timelock.\n+** If this value does not decode to a valid CScriptNum, script execution when spending this output MUST fail and terminate immediately.\n+\n+* <code><recovery-params></code> is a variable length data push, consisting of two components:\n+*# a 32 byte tagged hash, the ''recovery sPK hash'', committing to the scriptPubKey which coins may be recovered to \n+*#* <code>tagged_hash(\"VaultRecoverySPK\", spk)</code> from the [https://github.com/bitcoin/bips/blob/master/bip-0340/reference.py BIP-0340 reference code].\n+*# 0 or more bytes that optionally specify a scriptPubKey that needs to be satisfied to authorize the recovery transaction. \n+*#* This optional parameter changes the allowable structure of recovery transactions.\n+** If <code><recovery-params></code> is less than 32 bytes, script execution when spending this output MUST fail and terminate immediately.\n+** Because the recovery scriptPubKey is committed to with a hash, witness version upgradeability is preserved.\n+\n+==== Check for recovery ====\n+\n+After the witness program is parsed, it must be determined whether this input\n+is being spent towards a recovery. If an output in the spending transaction is\n+found whose scriptPubKey hashes to the recovery sPK hash (the\n+first component of <code><recovery-params></code>), the interpreter will\n+evaluate for recovery. Otherwise, the interpreter will evaluate assuming a withdrawal\n+is being triggered.\n+\n+In pseudocode:\n+\n+<source lang=\"python\">\n+is_recovery = False\n+recovery_out: Optional[CTxOut] = None\n+\n+for out in spending_tx.vout:\n+    if tagged_hash(\"VaultRecoverySPK\", out.scriptPubKey) == recovery_sPK_hash:\n+        is_recovery = True\n+        recovery_out = out\n+\n+if is_recovery:\n+    eval_for_recovery()\n+else:\n+    eval_for_withdrawal_trigger()\n+</source>\n+\n+==== <code>OP_VAULT</code> evaluation for recovery spend ====\n+\n+* If the recovery output does not have an <code>nValue</code> greater than this input's amount, the script MUST fail and terminate immediately.\n+* (Deferred) if the recovery output does not have an <code>nValue</code> equal to the sum of all <code>OP_VAULT</code>/<code>OP_UNVAULT</code> inputs with a corresponding recovery sPK hash, the transaction validation MUST fail.\n+** Note that in the draft implementation, this is facilitated by a \"deferred check\" which is queued by the script interpreter, but executed after the script interpreter has finished, in other validation code.<ref>'''Why does this proposal require a \"deferred checks\" framework for correct script evaluation?''' The deferred checks framework is an augmentation to execution of the Bitcoin script interpreter. Currently, the validity of each input is checked in an order-indepdendent manner across all inputs in a transaction. Because this proposal allows batching the spend of multiple vault inputs into a single recovery or withdrawal output, we need a mechanism to ensure that all expected values per output can be summed and then checked. This necessitates the introduction of an \"aggregating\" set of checks which can only be executed after each input's script is evaluated. Note that similar functionality would be required for batch input validation or cross-input signature aggregation.</ref>\n+* The script must FAIL (by policy, not consensus) and terminate immediately if neither<ref>'''Why are recovery transactions required to be replaceable?''' In the case of unauthorized recoveries, an attacker may attempt to pin recovery transactions by broadcasting a \"rebundled\" version with a low fee rate. Vault owners must be able to overcome this with replacement. In the case of authorized recovery, if an attacker steals the recovery authorization key, the attacker may try to pin the recovery transaction during theft. Requiring replaceability ensures that the owner can always raise the fee rate of the recovery transaction, even if they are RBF rule #3 griefed in the process.</ref>\n+*# the input is marked as opt-in replaceable by having an nSequence number less than <code>0xffffffff - 1</code>, per [https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki BIP-0125], nor\n+*# the version of the recovery transaction has an nVersion equal to 3.\n+\n+The stack may now have 0 or more elements. Any items on the stack will be used to verify the recovery authorization witness program, if any.\n+\n+* If the ''recovery authorization sPK'' is not null:\n+** If <code>VerifyWitnessProgram(<stack elements>, <recovery-auth-sPK>, ...)</code> fails, the script MUST fail and terminate immediately.\n+** (This validates that the recovery has been authorized.)\n+* else (if the recovery is allowed to be unauthorized):\n+** If the spending transaction has more than two outputs, the script MUST fail and terminate immediately.\n+** If the spending transaction has two outputs, and the output not the recovery output is not an ephemeral anchor, the script MUST fail and terminate immediately.<ref>'''Why can unauthorized recoveries only process a single recovery path?''' Because there is no signature required for unauthorized recoveries, if additional outputs were allowed, someone observing a recovery in the mempool would be able to rebundle and broadcast the recovery with a lower fee rate.</ref>",
+      "path": "bip-vaults.mediawiki",
+      "position": null,
+      "original_position": 323,
+      "commit_id": "e2ff23b3f07215450e75779f7f944d24660a9d47",
+      "original_commit_id": "b30e37c8a26d6b18415406a5664aaef9929a8ac5",
+      "in_reply_to_id": 1105594633,
+      "user": {
+        "login": "Ruffledfeatherz",
+        "id": 122839131,
+        "node_id": "U_kgDOB1JgWw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/122839131?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Ruffledfeatherz",
+        "html_url": "https://github.com/Ruffledfeatherz",
+        "followers_url": "https://api.github.com/users/Ruffledfeatherz/followers",
+        "following_url": "https://api.github.com/users/Ruffledfeatherz/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Ruffledfeatherz/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Ruffledfeatherz/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Ruffledfeatherz/subscriptions",
+        "organizations_url": "https://api.github.com/users/Ruffledfeatherz/orgs",
+        "repos_url": "https://api.github.com/users/Ruffledfeatherz/repos",
+        "events_url": "https://api.github.com/users/Ruffledfeatherz/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Ruffledfeatherz/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "looks like this is it",
+      "created_at": "2023-08-18T00:05:58Z",
+      "updated_at": "2023-08-18T00:05:58Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1421#discussion_r1297862738",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1297862738"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1421"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 323,
       "side": "RIGHT"
     }
   ]
