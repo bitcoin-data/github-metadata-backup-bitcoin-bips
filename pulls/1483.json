@@ -41,10 +41,10 @@
     "body": "Silent payments is a static address protocol for Bitcoin, originally proposed on the mailing list here: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-March/020180.html\r\n\r\nThis document proposes a backwards-compatible second version of the payjoin protocol described in [BIP 78](bip-0078.mediawiki), allowing complete payjoin receiver functionality including payment output substitution without requiring them to host a secure public endpoint. This requirement is replaced with an untrusted third-party relay and streaming clients which communicate using an asynchronous protocol and authenticated, encrypted payloads. It was originally proposed to the mailing list here: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-January/021364.html\r\n\r\nThe protocol has received many rounds of review and an earlier version of this proposal has also been sent to the mailing list: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-August/021868.html\r\n\r\nFeedback from that list post has been incorporated into this draft.\r\n\r\nProposing this as an Standards Track BIP to ensure wallets across the ecosystem can come to rough consensus on a single serverless payjoin standard and correctly implement it.\r\n\r\nA few decisions have yet to reach rough consensus:\r\n\r\n- Which transport protocol should be used? There are many ways to offer an asynchronous serverless payjoin protocol. The document suggests WebTransport to make use of the improvements in mobile environments that candidates to deploy this BIP would benefit from. Nostr has been gaining in popularity, but probably requires a new encrypted note type to provide forward secrecy and some new mechanism to support BIP 78 backwards compatibility.\r\n- Which cryptosystem is best, and should long-lived identities or a contacts mechanism influence that decision or even be in scope?\r\n- How should the receiver pubkeys be encoded in the BIP 21 URI? Both base64uri and [Blockchain Commons UR](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-005-ur.md) have been proposed, with the former having more available libraries and the former better suited for QR encoding.\r\n- How much padding should be used to pad the encreypted messages to prevent correlation by the relay. Max PSBT size? 4MB Transaction size? Account for the parameters too?\r\n\r\nThe bip does contain some reference implementations based on earlier versions of this spec, but they must evolve based on the decisions we come to here.",
     "labels": [],
     "created_at": "2023-08-12T21:10:05Z",
-    "updated_at": "2023-08-14T00:18:13Z",
+    "updated_at": "2023-08-26T23:34:53Z",
     "mergeable": true,
     "mergeable_state": "unstable",
-    "merge_commit_sha": "c86ba5311121936365d506c0ec678e35c273c7b1",
+    "merge_commit_sha": "4f3661d2c0330efa28f88c584e7a6b0771479f42",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -261,12 +261,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5542,
-        "stargazers_count": 8251,
-        "watchers_count": 8251,
-        "size": 13787,
+        "forks_count": 5553,
+        "stargazers_count": 8276,
+        "watchers_count": 8276,
+        "size": 13660,
         "default_branch": "master",
-        "open_issues_count": 113,
+        "open_issues_count": 114,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -277,9 +277,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-12T21:10:05Z",
+        "pushed_at": "2023-08-20T07:59:43Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-13T21:54:23Z"
+        "updated_at": "2023-08-25T22:57:15Z"
       }
     },
     "_links": {
@@ -405,6 +405,142 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2023-08-13T12:40:36Z"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-08-19T21:06:44Z",
+      "updated_at": "2023-08-19T21:06:44Z",
+      "source": {
+        "issue": {
+          "id": 1857874561,
+          "node_id": "PR_kwDOHm_Cb85YTzqU",
+          "url": "https://api.github.com/repos/payjoin/rust-payjoin/issues/101",
+          "repository_url": "https://api.github.com/repos/payjoin/rust-payjoin",
+          "labels_url": "https://api.github.com/repos/payjoin/rust-payjoin/issues/101/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/payjoin/rust-payjoin/issues/101/comments",
+          "events_url": "https://api.github.com/repos/payjoin/rust-payjoin/issues/101/events",
+          "html_url": "https://github.com/payjoin/rust-payjoin/pull/101",
+          "number": 101,
+          "state": "open",
+          "state_reason": null,
+          "title": "Implement Serverless Payjoin BIP",
+          "body": "https://github.com/bitcoin/bips/pull/1483\r\n\r\n- [x] Communicate payjoin asynchronously via WebTransport (single buffer)\r\n- [ ] Multiple Buffers, BIP21 identification & allocation\r\n- [ ] Blockchain Commons UR encoding in BIP21\r\n- [ ] e2ee + authentication\r\n- [ ] Message Padding\r\n- [ ] OHTTP",
+          "user": {
+            "login": "DanGould",
+            "id": 8525467,
+            "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+            "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/DanGould",
+            "html_url": "https://github.com/DanGould",
+            "followers_url": "https://api.github.com/users/DanGould/followers",
+            "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+            "organizations_url": "https://api.github.com/users/DanGould/orgs",
+            "repos_url": "https://api.github.com/users/DanGould/repos",
+            "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/DanGould/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [
+            {
+              "id": 4297805329,
+              "node_id": "LA_kwDOHm_Cb88AAAABACtOEQ",
+              "url": "https://api.github.com/repos/payjoin/rust-payjoin/labels/enhancement",
+              "name": "enhancement",
+              "description": "New feature or request",
+              "color": "a2eeef",
+              "default": true
+            },
+            {
+              "id": 5473028604,
+              "node_id": "LA_kwDOHm_Cb88AAAABRjfJ_A",
+              "url": "https://api.github.com/repos/payjoin/rust-payjoin/labels/payjoin-cli",
+              "name": "payjoin-cli",
+              "description": "",
+              "color": "A60063",
+              "default": false
+            },
+            {
+              "id": 5552889451,
+              "node_id": "LA_kwDOHm_Cb88AAAABSvpeaw",
+              "url": "https://api.github.com/repos/payjoin/rust-payjoin/labels/receive",
+              "name": "receive",
+              "description": "receiving payjoin",
+              "color": "5694DE",
+              "default": false
+            },
+            {
+              "id": 5552890092,
+              "node_id": "LA_kwDOHm_Cb88AAAABSvpg7A",
+              "url": "https://api.github.com/repos/payjoin/rust-payjoin/labels/send",
+              "name": "send",
+              "description": "sending payjoin",
+              "color": "971426",
+              "default": false
+            },
+            {
+              "id": 5552891045,
+              "node_id": "LA_kwDOHm_Cb88AAAABSvpkpQ",
+              "url": "https://api.github.com/repos/payjoin/rust-payjoin/labels/relay",
+              "name": "relay",
+              "description": "payjoin networking over a third-party relay",
+              "color": "9C2FF1",
+              "default": false
+            },
+            {
+              "id": 5706987892,
+              "node_id": "LA_kwDOHm_Cb88AAAABVCm5dA",
+              "url": "https://api.github.com/repos/payjoin/rust-payjoin/labels/api",
+              "name": "api",
+              "description": "",
+              "color": "4CEF5E",
+              "default": false
+            }
+          ],
+          "assignees": [],
+          "author_association": "CONTRIBUTOR",
+          "locked": false,
+          "comments": 0,
+          "pull_request": {
+            "url": "https://api.github.com/repos/payjoin/rust-payjoin/pulls/101",
+            "html_url": "https://github.com/payjoin/rust-payjoin/pull/101",
+            "diff_url": "https://github.com/payjoin/rust-payjoin/pull/101.diff",
+            "patch_url": "https://github.com/payjoin/rust-payjoin/pull/101.patch"
+          },
+          "created_at": "2023-08-19T21:06:44Z",
+          "updated_at": "2023-08-26T23:36:18Z"
+        },
+        "type": "issue"
+      }
     }
   ],
   "comments": []
