@@ -50,10 +50,10 @@
       }
     ],
     "created_at": "2023-06-05T16:16:42Z",
-    "updated_at": "2023-08-09T09:49:23Z",
+    "updated_at": "2023-09-02T07:58:25Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "6d467e33e1384b37f7313c8b45a6cd0a3e8c1c03",
+    "merge_commit_sha": "f9867948f6e5e018f9778d7e7716a35b34593e81",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -153,7 +153,7 @@
         "hooks_url": "https://api.github.com/repos/josibake/bips/hooks",
         "svn_url": "https://github.com/josibake/bips",
         "homepage": "",
-        "forks_count": 2,
+        "forks_count": 3,
         "stargazers_count": 2,
         "watchers_count": 2,
         "size": 13534,
@@ -270,12 +270,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5542,
-        "stargazers_count": 8236,
-        "watchers_count": 8236,
-        "size": 13787,
+        "forks_count": 5554,
+        "stargazers_count": 8289,
+        "watchers_count": 8289,
+        "size": 13660,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 115,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -286,9 +286,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-09T09:49:23Z",
+        "pushed_at": "2023-09-01T14:52:54Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-09T09:52:54Z"
+        "updated_at": "2023-09-01T22:57:18Z"
       }
     },
     "_links": {
@@ -303,7 +303,7 @@
     "changed_files": 6,
     "commits": 1,
     "review_comments": 145,
-    "comments": 14
+    "comments": 15
   },
   "events": [
     {
@@ -522,7 +522,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/27827.patch"
           },
           "created_at": "2023-06-05T12:12:23Z",
-          "updated_at": "2023-08-09T06:19:31Z"
+          "updated_at": "2023-09-01T15:12:23Z"
         },
         "type": "issue"
       }
@@ -2931,7 +2931,7 @@
           "state": "open",
           "state_reason": null,
           "title": "Silent Payments: Implement BIP352",
-          "body": "This PR is a child of https://github.com/bitcoin/bitcoin/pull/27827 and only implements the BIP logic without the wallet code. For the wallet implementations:\r\n* #28201 - implements sending\r\n* #28202 - implements receiving\r\n* #27827 - all three PRs together - this PR is meant for tracking progress and is useful for reviewers who want to compile all three PRs at once for testing\r\n\r\n## BIP352\r\n\r\nThis PR focuses strictly on the BIP logic and attempts to separate it from the wallet and transaction implementation details. This is accomplished by working directly with public and private keys, instead of needing a wallet backend and transactions for testing. Labels for the receiver are optional and thus deferred for a later PR.\r\n\r\nTest vectors from the BIP are included as unit tests.\r\n\r\nBefore reviewing, it is strongly recommended you read https://github.com/bitcoin/bips/pull/1458 and take a look at the reference python implementation on the BIP.\r\n",
+          "body": "UPDATE: Rather than having a special encoder and decoder for silent payments, it makes more sense to have `CTxDestination` include a `V0SilentPaymentDestination` type. Some pre-work to make this easier is done in https://github.com/bitcoin/bitcoin/pull/28361 and https://github.com/bitcoin/bitcoin/pull/28246 , which this PR now depends on. If you want to review this PR, please review these two first.\r\n\r\n<hr/>\r\n\r\nThis PR is a child of https://github.com/bitcoin/bitcoin/pull/27827 and only implements the BIP logic without the wallet code. For the wallet implementations:\r\n* #28201 - implements sending\r\n* #28202 - implements receiving\r\n* #27827 - all three PRs together - this PR is meant for tracking progress and is useful for reviewers who want to compile all three PRs at once for testing\r\n\r\n## BIP352\r\n\r\nThis PR focuses strictly on the BIP logic and attempts to separate it from the wallet and transaction implementation details. This is accomplished by working directly with public and private keys, instead of needing a wallet backend and transactions for testing. Labels for the receiver are optional and thus deferred for a later PR.\r\n\r\nTest vectors from the BIP are included as unit tests.\r\n\r\nBefore reviewing, it is strongly recommended you read https://github.com/bitcoin/bips/pull/1458 and take a look at the reference python implementation on the BIP.\r\n",
           "user": {
             "login": "josibake",
             "id": 7444140,
@@ -2956,7 +2956,7 @@
           "assignees": [],
           "author_association": "CONTRIBUTOR",
           "locked": false,
-          "comments": 5,
+          "comments": 12,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/28122",
             "html_url": "https://github.com/bitcoin/bitcoin/pull/28122",
@@ -2964,7 +2964,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28122.patch"
           },
           "created_at": "2023-07-21T18:36:37Z",
-          "updated_at": "2023-08-09T09:14:27Z"
+          "updated_at": "2023-08-31T15:19:52Z"
         },
         "type": "issue"
       }
@@ -4225,6 +4225,60 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2023-08-09T09:49:23Z"
+    },
+    {
+      "event": "commented",
+      "id": 1703758225,
+      "node_id": "IC_kwDOAN28mc5ljUmR",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1703758225",
+      "actor": {
+        "login": "FeatureSpitter",
+        "id": 39516190,
+        "node_id": "MDQ6VXNlcjM5NTE2MTkw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/39516190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/FeatureSpitter",
+        "html_url": "https://github.com/FeatureSpitter",
+        "followers_url": "https://api.github.com/users/FeatureSpitter/followers",
+        "following_url": "https://api.github.com/users/FeatureSpitter/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/FeatureSpitter/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/FeatureSpitter/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/FeatureSpitter/subscriptions",
+        "organizations_url": "https://api.github.com/users/FeatureSpitter/orgs",
+        "repos_url": "https://api.github.com/users/FeatureSpitter/repos",
+        "events_url": "https://api.github.com/users/FeatureSpitter/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/FeatureSpitter/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-02T07:57:57Z",
+      "updated_at": "2023-09-02T07:58:25Z",
+      "author_association": "NONE",
+      "body": "What do you mean by \"without requiring any interaction or on-chain overhead\"?\r\n\r\nYou still have to record a new transaction in the ledger with this new UTXO targeting the \"silent tweaked address\" (`X' = hash(i*X)*G + X`). Thus I don't understand where don't you have on-chain overhead or what you mean by it.\r\n\r\nThanks",
+      "user": {
+        "login": "FeatureSpitter",
+        "id": 39516190,
+        "node_id": "MDQ6VXNlcjM5NTE2MTkw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/39516190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/FeatureSpitter",
+        "html_url": "https://github.com/FeatureSpitter",
+        "followers_url": "https://api.github.com/users/FeatureSpitter/followers",
+        "following_url": "https://api.github.com/users/FeatureSpitter/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/FeatureSpitter/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/FeatureSpitter/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/FeatureSpitter/subscriptions",
+        "organizations_url": "https://api.github.com/users/FeatureSpitter/orgs",
+        "repos_url": "https://api.github.com/users/FeatureSpitter/repos",
+        "events_url": "https://api.github.com/users/FeatureSpitter/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/FeatureSpitter/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1458#issuecomment-1703758225",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1458"
     }
   ],
   "comments": [
