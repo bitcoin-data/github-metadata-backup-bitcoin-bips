@@ -41,7 +41,7 @@
     "body": "## Overview\r\nThese BIPs describe the Taproot Asset Protocol, a Taproot-native asset\r\noverlay built on top of the base Bitcoin blockchain. Taproot Assets enable\r\nthe representation of arbitrary (normal and collectibles) assets on top of\r\nBitcoin without bloating the base chain. The protocol is designed such that\r\ntransactions interacting with Taproot Assets are indistinguishable from\r\nregular transactions from the PoV of the Bitcoin blockchain. Taproot Assets\r\nextend the base Taproot script tree with a nested ''asset script'' tree (a\r\nmerkle-sum sparse merkle tree, or MS-SMT) that commits to valid witnesses as\r\nstructured metadata that allow for proofs of the movement of assets across\r\nthe transaction graph.  The provenance of transfers of a Taproot Asset can\r\nbe verified using a hermetic proof transmitted as flat file, or using the\r\naide of an externally maintained Universe, which is a MS-SMT that indexes\r\non-chain asset issuance+transfers, which natively supports\r\nproof-of-reserves/supply system.\r\n\r\nTaproot Assets support off-chain single and multi-hop transfers over\r\nLightning channels (based on the BOLT protocol suite), with the latter\r\nmanifested using Taproot Assets' unique embedded asset script system.  Light\r\nclient verification of on-chain Taproot Asset transfers is facilitated by a\r\nseries of on and off-chain merkle proofs, which can be compressed by\r\ndelegating a trust relationship to an active Universe instance. A variant on\r\noff-chain multi-party channels are proposed to support off-chain transfer of\r\nnormal assets.  In addition, a special type of Universe, dubbed a Pocket\r\nUniverse, which is based on an exit-only commit-chain design can be used to\r\naggregate transfers on-chain in a trust-minimized manner.\r\n\r\n## BIP Documents \r\n\r\nWith this PR, we seek to request BIP numbers be assigned for the 7 included documents:\r\n  * `bip-tap-mssmt`: describes the MS-SMT (Merkle-Sum Sparse Merkle Tree) data structure used to store assets and various proofs. \r\n  * `bip-tap`: describes the Taproot Assets Protocol validation and state transition rules. \r\n  * `bip-tap-addr`: describes the address format used to send and receive assets. \r\n  * `bip-tap-vm`: describes the initial version of the off-chain TAP VM used to lock and unlock assets. \r\n  * `bip-tap-vpsbt`: describes a vPSBT (virtual PSBT) which is a series custom types on top of the existing PSBT protocol to facilitate more elaborate asset related transactions. \r\n  * `bip-tap-proof-file`: describes the flat file format which is used to prove and verify the provenance of an asset \r\n  * `bip-tap-universe`: describes the Universe server construct, which is an off-chain index into TAP data on-chain, used for: proof distribution, asset boostraping, and asset transaction archiving. \r\n\r\nFor each BIP, we also include a sub-directory that includes comprehensive test vectors (to be expanded over time). ",
     "labels": [],
     "created_at": "2023-09-06T18:41:17Z",
-    "updated_at": "2023-09-10T15:14:23Z",
+    "updated_at": "2023-09-11T18:54:32Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "ab506ec418d9d93484e5223e596151c080a78816",
@@ -263,8 +263,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5563,
-        "stargazers_count": 8310,
-        "watchers_count": 8310,
+        "stargazers_count": 8311,
+        "watchers_count": 8311,
         "size": 13660,
         "default_branch": "master",
         "open_issues_count": 117,
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2023-09-07T13:58:06Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-09-10T14:24:37Z"
+        "updated_at": "2023-09-10T22:39:43Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 23,
     "commits": 1,
     "review_comments": 2,
-    "comments": 4
+    "comments": 5
   },
   "events": [
     {
@@ -854,6 +854,60 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2023-09-10T15:14:24Z"
+    },
+    {
+      "event": "commented",
+      "id": 1714414894,
+      "node_id": "IC_kwDOAN28mc5mL-Uu",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1714414894",
+      "actor": {
+        "login": "ChrisMartl",
+        "id": 125733092,
+        "node_id": "U_kgDOB36I5A",
+        "avatar_url": "https://avatars.githubusercontent.com/u/125733092?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ChrisMartl",
+        "html_url": "https://github.com/ChrisMartl",
+        "followers_url": "https://api.github.com/users/ChrisMartl/followers",
+        "following_url": "https://api.github.com/users/ChrisMartl/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ChrisMartl/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ChrisMartl/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ChrisMartl/subscriptions",
+        "organizations_url": "https://api.github.com/users/ChrisMartl/orgs",
+        "repos_url": "https://api.github.com/users/ChrisMartl/repos",
+        "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-11T18:54:32Z",
+      "updated_at": "2023-09-11T18:54:32Z",
+      "author_association": "NONE",
+      "body": "If the review process no-acknowledgment/acknowledgment have any relevance here, then, as Symphonic3 stated above:\r\n\r\nNACK; this protocol is one of many that exists or exited before for this purpose and should remain outside of any spec. for Bitcoin.\r\n\r\nApplication layer BIPs should provide a clear motivation resulting in a net benefit for Bitcoin as a system; this protocol does not provide that.\r\n\r\nThese types of applications can exist externally and do not require their specs. to be recognized in this manner, except possibly if one wishes to use an appeal to authority to grant them undue extra credibility or some source of truth.",
+      "user": {
+        "login": "ChrisMartl",
+        "id": 125733092,
+        "node_id": "U_kgDOB36I5A",
+        "avatar_url": "https://avatars.githubusercontent.com/u/125733092?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ChrisMartl",
+        "html_url": "https://github.com/ChrisMartl",
+        "followers_url": "https://api.github.com/users/ChrisMartl/followers",
+        "following_url": "https://api.github.com/users/ChrisMartl/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ChrisMartl/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ChrisMartl/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ChrisMartl/subscriptions",
+        "organizations_url": "https://api.github.com/users/ChrisMartl/orgs",
+        "repos_url": "https://api.github.com/users/ChrisMartl/repos",
+        "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1714414894",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
     }
   ],
   "comments": []
