@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2023-06-05T16:16:42Z",
-    "updated_at": "2023-09-12T15:47:17Z",
+    "updated_at": "2023-09-12T21:12:05Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "f9867948f6e5e018f9778d7e7716a35b34593e81",
@@ -271,8 +271,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5563,
-        "stargazers_count": 8312,
-        "watchers_count": 8312,
+        "stargazers_count": 8315,
+        "watchers_count": 8315,
         "size": 13660,
         "default_branch": "master",
         "open_issues_count": 117,
@@ -288,7 +288,7 @@
         "visibility": "public",
         "pushed_at": "2023-09-12T09:49:15Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-09-12T04:56:28Z"
+        "updated_at": "2023-09-12T21:09:39Z"
       }
     },
     "_links": {
@@ -2952,7 +2952,17 @@
             "type": "User",
             "site_admin": false
           },
-          "labels": [],
+          "labels": [
+            {
+              "id": 5334691551,
+              "node_id": "LA_kwDOABII588AAAABPfju3w",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/CI%20failed",
+              "name": "CI failed",
+              "description": "",
+              "color": "cccccc",
+              "default": false
+            }
+          ],
           "assignees": [],
           "author_association": "CONTRIBUTOR",
           "locked": false,
@@ -2964,7 +2974,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28122.patch"
           },
           "created_at": "2023-07-21T18:36:37Z",
-          "updated_at": "2023-09-12T10:50:39Z"
+          "updated_at": "2023-09-12T21:16:02Z"
         },
         "type": "issue"
       }
@@ -12276,6 +12286,110 @@
       "start_side": null,
       "line": 87,
       "original_line": 87,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1322991684",
+      "pull_request_review_id": 1622172969,
+      "id": 1322991684,
+      "node_id": "PRRC_kwDOAN28mc5O20BE",
+      "diff_hunk": "@@ -0,0 +1,477 @@\n+<pre>\n+  BIP: 352\n+  Layer: Applications\n+  Title: Silent Payments\n+  Author: josibake <josibake@protonmail.com>\n+          Ruben Somsen <rsomsen@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0352\n+  Status: Draft\n+  Type: Informational\n+  Created: 2023-03-09\n+  License: BSD-2-Clause\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document specifies a protocol for static payment addresses in Bitcoin without on-chain linkability of payments or a need for on-chain notifications.\n+\n+=== Copyright ===\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+=== Motivation ===\n+\n+Using a new address for each Bitcoin transaction is a crucial aspect of maintaining privacy. This often requires a secure interaction between sender and receiver so that the receiver can hand out a fresh address, a batch of fresh addresses, or a method for the sender to generate addresses on-demand, such as an xpub.\n+\n+However, interaction is often infeasible and in many cases undesirable. To solve for this, various protocols have been proposed which use a static payment address and notifications sent via the blockchain<ref name=\"out_of_band_notifications\">'''Why not use out-of-band notifications''' Out of band notifications (e.g. using something other than the Bitcoin blockchain) have been proposed as a way of addressing the privacy and cost concerns of using the Bitcoin blockchain as a messaging layer. This, however, simply moves the privacy and cost concerns somewhere else and increases the risk of losing money due to a notification not being reliably delivered, or even censored, and makes this notification data critical for backup to recover funds.</ref>. These protocols eliminate the need for interaction, but at the expense of increased costs for one-time payments and a noticeable footprint in the blockchain, potentially revealing metadata about the sender and receiver. Notification schemes also allow the receiver to link all payments from the same sender, compromising sender privacy.\n+\n+This proposal aims to address the limitations of these current approaches by presenting a solution that eliminates the need for interaction, eliminates the need for notifications, and protects both sender and receiver privacy. These benefits come at the cost of requiring wallets to scan the blockchain in order to detect payments. This added requirement is generally feasible for full nodes but poses a challenge for light clients. While it is possible today to implement a privacy-preserving light client at the cost of increased bandwidth, light client support is considered an area of open research (see [[#appendix-a-light-client-support|Appendix A: Light Client Support]]).\n+\n+== Goals ==\n+\n+We aim to present a protocol which satisifies the following properties:\n+\n+* No increase in the size or cost of transactions\n+* Resulting transactions blend in with other bitcoin transactions and can't be distinguished\n+* Transactions can't be linked to a silent payment address by an outside observer\n+* No sender-receiver interaction required\n+* No linking of multiple payments to the same sender\n+* Each silent payment goes to a unique address, avoiding accidental address reuse\n+* Supports payment labeling\n+* Uses existing seed phrase or descriptor methods for backup and recovery\n+* Separates scanning and spending responsibilities\n+* Compatible with other spending protocols, such as CoinJoin\n+* Light client/SPV wallet support\n+* Protocol is upgradeable\n+\n+== Overview ==\n+\n+We first present an informal overview of the protocol. In what follows, uppercase letters represent public keys, lowercase letters represent private keys, ''||'' refers to byte concatenation, and ''G'' represents the generator point for ''secp256k1''. Each section of the overview is incomplete on its own and is meant to build on the previous section in order to introduce and briefly explain each aspect of the protocol. For the full protocol specification, see [[#specification|Specification]].\n+\n+''' Simple case '''\n+\n+Bob publishes a public key ''B'' as a silent payment address. Alice discovers Bob's silent payment address, selects a UTXO with private key ''a'', public key ''A'' and creates a destination output ''P'' for Bob in the following manner:\n+\n+* Let ''P = B + hash(a·B)·G''\n+* Encode ''P'' as a [https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki BIP341] taproot output\n+\n+Since ''a·B == b·A'' ([https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman Elliptic-curve Diffie–Hellman]), Bob scans with his private key ''b'' by collecting the input public keys for each transaction with at least one unspent taproot output and performing the ECDH calculation until ''P'' is found (i.e. calculating ''P = B + hash(b·A)·G'' and seeing that ''P'' is present in the transaction outputs).\n+\n+''' Creating more than one output '''\n+\n+In order to allow Alice to create more than one output for Bob<ref name=\"why_more_than_one_output\">'''Why allow for more than one output?''' Allowing Alice to break her payment to Bob into multiple amounts opens up a number of privacy improving techniques for Alice, making the transaction look like a CoinJoin or better hiding the change amount by splitting both the payment and change outputs into multiple amounts. It also allows for Alice and Carol to both have their own unique output paying Bob in the event they are in a collaborative transaction and both paying Bob's silent payment address.</ref>, we include an integer in the following manner:\n+\n+* Let ''k = 0''\n+* Let ''P<sub>0</sub> = B + hash(a·B || n)·G''\n+* For additional outputs:\n+** Increment ''k'' by one (''k++'')\n+** Let ''P<sub>i</sub> = B + hash(a·B || n)·G''\n+\n+Bob detects this output the same as before by searching for ''P<sub>0</sub> = B + hash(b·A || 0)·G''. Once he detects the first output, he must:\n+\n+* Check for ''P<sub>1</sub> = B + hash(b·A || 1)·G''\n+* If ''P<sub>1</sub>'' is not found, stop\n+* If ''P<sub>1</sub>'' is found, continue to check for ''P<sub>2</sub>'' and so on until an additional output is not found\n+\n+Since Bob will only perform these subsequent checks after a transaction with at least one output paying him is found, the increase to his overall scanning requirement is negligible.\n+\n+''' Preventing address reuse '''\n+\n+If Alice were to use a different UTXO from the same public key ''A'' for a subsequent payment to Bob, she would end up deriving the same destination ''P''. To prevent this, Alice should include a hash of the outpoint in the following manner:\n+\n+* Let ''outpoint_hash = hash(txid || vout)''\n+* Let ''P<sub>0</sub> = B + hash(outpoint_hash·a·B || 0)·G''\n+\n+Bob must include the same ''outpoint_hash'' when scanning.",
+      "path": "bip-0352.mediawiki",
+      "position": 87,
+      "original_position": 87,
+      "commit_id": "c55f80c53c98642357712c1839cfdc0551d531c4",
+      "original_commit_id": "c55f80c53c98642357712c1839cfdc0551d531c4",
+      "in_reply_to_id": 1313885038,
+      "user": {
+        "login": "RubenSomsen",
+        "id": 9066803,
+        "node_id": "MDQ6VXNlcjkwNjY4MDM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/9066803?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/RubenSomsen",
+        "html_url": "https://github.com/RubenSomsen",
+        "followers_url": "https://api.github.com/users/RubenSomsen/followers",
+        "following_url": "https://api.github.com/users/RubenSomsen/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/RubenSomsen/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/RubenSomsen/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/RubenSomsen/subscriptions",
+        "organizations_url": "https://api.github.com/users/RubenSomsen/orgs",
+        "repos_url": "https://api.github.com/users/RubenSomsen/repos",
+        "events_url": "https://api.github.com/users/RubenSomsen/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/RubenSomsen/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "The multiplication saves bandwidth for the light client use case. Full nodes can serve a single 33 byte value `outpoints_hash*A` as opposed to having to serve `outpoints_hash` and `A` separately (65 bytes). The client can then multiply this value with `b` and calculate `P`.",
+      "created_at": "2023-09-12T12:50:03Z",
+      "updated_at": "2023-09-12T21:12:05Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1458#discussion_r1322991684",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1322991684"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1458"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 87,
+      "original_line": 87,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1323181835",
+      "pull_request_review_id": 1622172969,
+      "id": 1323181835,
+      "node_id": "PRRC_kwDOAN28mc5O3icL",
+      "diff_hunk": "@@ -0,0 +1,477 @@\n+<pre>\n+  BIP: 352\n+  Layer: Applications\n+  Title: Silent Payments\n+  Author: josibake <josibake@protonmail.com>\n+          Ruben Somsen <rsomsen@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0352\n+  Status: Draft\n+  Type: Informational\n+  Created: 2023-03-09\n+  License: BSD-2-Clause\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document specifies a protocol for static payment addresses in Bitcoin without on-chain linkability of payments or a need for on-chain notifications.\n+\n+=== Copyright ===\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+=== Motivation ===\n+\n+Using a new address for each Bitcoin transaction is a crucial aspect of maintaining privacy. This often requires a secure interaction between sender and receiver so that the receiver can hand out a fresh address, a batch of fresh addresses, or a method for the sender to generate addresses on-demand, such as an xpub.\n+\n+However, interaction is often infeasible and in many cases undesirable. To solve for this, various protocols have been proposed which use a static payment address and notifications sent via the blockchain<ref name=\"out_of_band_notifications\">'''Why not use out-of-band notifications''' Out of band notifications (e.g. using something other than the Bitcoin blockchain) have been proposed as a way of addressing the privacy and cost concerns of using the Bitcoin blockchain as a messaging layer. This, however, simply moves the privacy and cost concerns somewhere else and increases the risk of losing money due to a notification not being reliably delivered, or even censored, and makes this notification data critical for backup to recover funds.</ref>. These protocols eliminate the need for interaction, but at the expense of increased costs for one-time payments and a noticeable footprint in the blockchain, potentially revealing metadata about the sender and receiver. Notification schemes also allow the receiver to link all payments from the same sender, compromising sender privacy.\n+\n+This proposal aims to address the limitations of these current approaches by presenting a solution that eliminates the need for interaction, eliminates the need for notifications, and protects both sender and receiver privacy. These benefits come at the cost of requiring wallets to scan the blockchain in order to detect payments. This added requirement is generally feasible for full nodes but poses a challenge for light clients. While it is possible today to implement a privacy-preserving light client at the cost of increased bandwidth, light client support is considered an area of open research (see [[#appendix-a-light-client-support|Appendix A: Light Client Support]]).\n+\n+== Goals ==\n+\n+We aim to present a protocol which satisifies the following properties:\n+\n+* No increase in the size or cost of transactions\n+* Resulting transactions blend in with other bitcoin transactions and can't be distinguished\n+* Transactions can't be linked to a silent payment address by an outside observer\n+* No sender-receiver interaction required\n+* No linking of multiple payments to the same sender\n+* Each silent payment goes to a unique address, avoiding accidental address reuse\n+* Supports payment labeling\n+* Uses existing seed phrase or descriptor methods for backup and recovery\n+* Separates scanning and spending responsibilities\n+* Compatible with other spending protocols, such as CoinJoin\n+* Light client/SPV wallet support\n+* Protocol is upgradeable\n+\n+== Overview ==\n+\n+We first present an informal overview of the protocol. In what follows, uppercase letters represent public keys, lowercase letters represent private keys, ''||'' refers to byte concatenation, and ''G'' represents the generator point for ''secp256k1''. Each section of the overview is incomplete on its own and is meant to build on the previous section in order to introduce and briefly explain each aspect of the protocol. For the full protocol specification, see [[#specification|Specification]].\n+\n+''' Simple case '''\n+\n+Bob publishes a public key ''B'' as a silent payment address. Alice discovers Bob's silent payment address, selects a UTXO with private key ''a'', public key ''A'' and creates a destination output ''P'' for Bob in the following manner:\n+\n+* Let ''P = B + hash(a·B)·G''\n+* Encode ''P'' as a [https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki BIP341] taproot output\n+\n+Since ''a·B == b·A'' ([https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman Elliptic-curve Diffie–Hellman]), Bob scans with his private key ''b'' by collecting the input public keys for each transaction with at least one unspent taproot output and performing the ECDH calculation until ''P'' is found (i.e. calculating ''P = B + hash(b·A)·G'' and seeing that ''P'' is present in the transaction outputs).\n+\n+''' Creating more than one output '''\n+\n+In order to allow Alice to create more than one output for Bob<ref name=\"why_more_than_one_output\">'''Why allow for more than one output?''' Allowing Alice to break her payment to Bob into multiple amounts opens up a number of privacy improving techniques for Alice, making the transaction look like a CoinJoin or better hiding the change amount by splitting both the payment and change outputs into multiple amounts. It also allows for Alice and Carol to both have their own unique output paying Bob in the event they are in a collaborative transaction and both paying Bob's silent payment address.</ref>, we include an integer in the following manner:\n+\n+* Let ''k = 0''\n+* Let ''P<sub>0</sub> = B + hash(a·B || n)·G''\n+* For additional outputs:\n+** Increment ''k'' by one (''k++'')\n+** Let ''P<sub>i</sub> = B + hash(a·B || n)·G''",
+      "path": "bip-0352.mediawiki",
+      "position": 70,
+      "original_position": 70,
+      "commit_id": "c55f80c53c98642357712c1839cfdc0551d531c4",
+      "original_commit_id": "c55f80c53c98642357712c1839cfdc0551d531c4",
+      "in_reply_to_id": 1313884815,
+      "user": {
+        "login": "RubenSomsen",
+        "id": 9066803,
+        "node_id": "MDQ6VXNlcjkwNjY4MDM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/9066803?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/RubenSomsen",
+        "html_url": "https://github.com/RubenSomsen",
+        "followers_url": "https://api.github.com/users/RubenSomsen/followers",
+        "following_url": "https://api.github.com/users/RubenSomsen/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/RubenSomsen/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/RubenSomsen/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/RubenSomsen/subscriptions",
+        "organizations_url": "https://api.github.com/users/RubenSomsen/orgs",
+        "repos_url": "https://api.github.com/users/RubenSomsen/repos",
+        "events_url": "https://api.github.com/users/RubenSomsen/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/RubenSomsen/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Looks like you're right, will fix it.",
+      "created_at": "2023-09-12T15:01:46Z",
+      "updated_at": "2023-09-12T21:12:05Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1458#discussion_r1323181835",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1323181835"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1458"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 70,
+      "original_line": 70,
       "side": "RIGHT"
     }
   ]
