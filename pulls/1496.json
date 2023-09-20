@@ -41,7 +41,7 @@
     "body": "Contains 3 small improvements to BIP324:\r\n* Since (in the V1 protocol) message type strings must be followed by only 0 bytes after the first 0, the first 16 bytes of an incoming V1 connection are predictable (network magic + \"version\\x00\\x00\\x00\\x00\\x00\"). The current BIP text states to only compare the first 12 bytes instead of 16. This is in theory a semantics change, but wouldn't be observable except with negligible probability (v2 nodes that use 12 vs 16 can communicate with each other, and each can communicate with v1). However, there are possible future extensions that could make this observable (specifically, see footnote 19), so it seems worthwhile to still switch to 16.\r\n* Related to the previous point, it is also possible to detect incoming v1 connections of the wrong network: if the network magic does not match, but the version message type string after it does. Without this, an incoming connection from a v1 peer will get sent key + garbage, which in turn will almost certainly cause them to disconnect immediately, and changing this should not make much of a difference, but it allows for faster disconnect in this situation.\r\n* Drop the BIP330 message types from the short encodings list in the BIP. It feels like it shouldn't be BIP324's goal to predict future protocol improvements.",
     "labels": [],
     "created_at": "2023-09-15T13:20:05Z",
-    "updated_at": "2023-09-20T00:22:51Z",
+    "updated_at": "2023-09-20T11:44:56Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "fdf5de51235faf4e66440d25052a0492fa2b0400",
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2023-09-18T00:31:43Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-09-19T19:30:05Z"
+        "updated_at": "2023-09-20T09:54:04Z"
       }
     },
     "_links": {
@@ -294,8 +294,8 @@
     "deletions": 11,
     "changed_files": 1,
     "commits": 3,
-    "review_comments": 0,
-    "comments": 0
+    "review_comments": 1,
+    "comments": 1
   },
   "events": [
     {
@@ -453,6 +453,60 @@
       "submitted_at": "2023-09-20T00:22:51Z",
       "state": "APPROVED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1496"
+    },
+    {
+      "event": "commented",
+      "id": 1727562767,
+      "node_id": "IC_kwDOAN28mc5m-IQP",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1727562767",
+      "actor": {
+        "login": "dhruv",
+        "id": 856960,
+        "node_id": "MDQ6VXNlcjg1Njk2MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/856960?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/dhruv",
+        "html_url": "https://github.com/dhruv",
+        "followers_url": "https://api.github.com/users/dhruv/followers",
+        "following_url": "https://api.github.com/users/dhruv/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/dhruv/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/dhruv/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/dhruv/subscriptions",
+        "organizations_url": "https://api.github.com/users/dhruv/orgs",
+        "repos_url": "https://api.github.com/users/dhruv/repos",
+        "events_url": "https://api.github.com/users/dhruv/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/dhruv/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-20T11:44:55Z",
+      "updated_at": "2023-09-20T11:44:55Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "ACK cdcb6801a1774616ddff6f8fa0d95c3367a66a32",
+      "user": {
+        "login": "dhruv",
+        "id": 856960,
+        "node_id": "MDQ6VXNlcjg1Njk2MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/856960?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/dhruv",
+        "html_url": "https://github.com/dhruv",
+        "followers_url": "https://api.github.com/users/dhruv/followers",
+        "following_url": "https://api.github.com/users/dhruv/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/dhruv/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/dhruv/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/dhruv/subscriptions",
+        "organizations_url": "https://api.github.com/users/dhruv/orgs",
+        "repos_url": "https://api.github.com/users/dhruv/repos",
+        "events_url": "https://api.github.com/users/dhruv/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/dhruv/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1496#issuecomment-1727562767",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1496"
     }
   ],
   "comments": []
