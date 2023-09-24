@@ -41,7 +41,7 @@
     "body": "by merging it with the version packet. Or more accurately, by merging it with the first packet sent after garbage termination, which may be a decoy packet or the version packet.\r\n\r\nThe new protocol simplifies implementations:\r\n - A protocol state machine won't need separate states for garbage authentication and version phases.\r\n - The special case of \"ignoring the ignore bit\" is removed.\r\n - The freedom to choose the contents of the garbage authentication packet is removed. This simplifies testing.\r\n\r\nThe reason for having a separate garbage authentication packet was to materialize the separation of the key exchange phase and version negotiation phase even in the bytestream on the wire. However, this is not necessary, and arguably, these phases are still properly separated: Since the AEAD will ensure that AAD (=garbage) is checked before looking at the contents (=version), the peers won't interpret version data before having authenticated the garbage.",
     "labels": [],
     "created_at": "2023-09-24T13:30:04Z",
-    "updated_at": "2023-09-24T13:31:05Z",
+    "updated_at": "2023-09-24T16:37:38Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "b48e65d8c022c2ec25cd1ec090482448385ef494",
@@ -148,7 +148,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 14080,
+        "size": 14024,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-24T13:27:21Z",
+        "pushed_at": "2023-09-24T16:29:37Z",
         "created_at": "2015-10-30T11:57:39Z",
         "updated_at": "2016-01-11T09:56:19Z"
       }
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 1
+    "comments": 2
   },
   "events": [
     {
@@ -713,6 +713,60 @@
         },
         "type": "issue"
       }
+    },
+    {
+      "event": "commented",
+      "id": 1732615102,
+      "node_id": "IC_kwDOAN28mc5nRZu-",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1732615102",
+      "actor": {
+        "login": "sipa",
+        "id": 548488,
+        "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sipa",
+        "html_url": "https://github.com/sipa",
+        "followers_url": "https://api.github.com/users/sipa/followers",
+        "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+        "organizations_url": "https://api.github.com/users/sipa/orgs",
+        "repos_url": "https://api.github.com/users/sipa/repos",
+        "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sipa/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-24T16:34:30Z",
+      "updated_at": "2023-09-24T16:37:38Z",
+      "author_association": "MEMBER",
+      "body": "ACK, though I want to wait for some more opinions - the BIP is fine as is, and I'm not sure whether this minor improvement is worth the breaking change at this point.\n\nFor a bit of history, this was a conscious decision earlier, to separate the garbage phase from the version negotiation phase. But arguably, the result isn't all that consistent either. The idea was to use the \"packet\" interface for everything after garbage terminator, but this is not done completely (because packets have a decoy bit, and the decoy bit of the garbage authentication is ignored). Looking at both specification and implementation, it seems simpler to merge the auth packet and version packet.\n\nAs for conceptual way of looking at it, I believe this makes sense:\n* We see the packet abstraction as consisting of two layers:\n  * The lower-level length encoding + aead\n  * The higher-level notion of header byte and decoy packets.\n* The change here is moving the garbage auth functionality to the lower-level layer: whenever additional authentication is needed, the first packet (at this layer decoy or not does not matter, so the first whether that's a decoy or not) after it does that authentication. And the higher-level header/decoy functionality remains for version and application level packets, where this feature makes sense.",
+      "user": {
+        "login": "sipa",
+        "id": 548488,
+        "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sipa",
+        "html_url": "https://github.com/sipa",
+        "followers_url": "https://api.github.com/users/sipa/followers",
+        "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+        "organizations_url": "https://api.github.com/users/sipa/orgs",
+        "repos_url": "https://api.github.com/users/sipa/repos",
+        "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sipa/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1732615102",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
     }
   ],
   "comments": []
