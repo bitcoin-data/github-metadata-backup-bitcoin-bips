@@ -41,7 +41,7 @@
     "body": "Contains 3 small improvements to BIP324:\r\n* Since (in the V1 protocol) message type strings must be followed by only 0 bytes after the first 0, the first 16 bytes of an incoming V1 connection are predictable (network magic + \"version\\x00\\x00\\x00\\x00\\x00\"). The current BIP text states to only compare the first 12 bytes instead of 16. This is in theory a semantics change, but wouldn't be observable except with negligible probability (v2 nodes that use 12 vs 16 can communicate with each other, and each can communicate with v1). However, there are possible future extensions that could make this observable (specifically, see footnote 19), so it seems worthwhile to still switch to 16.\r\n* Related to the previous point, it is also possible to detect incoming v1 connections of the wrong network: if the network magic does not match, but the version message type string after it does. Without this, an incoming connection from a v1 peer will get sent key + garbage, which in turn will almost certainly cause them to disconnect immediately, and changing this should not make much of a difference, but it allows for faster disconnect in this situation.\r\n* Drop the BIP330 message types from the short encodings list in the BIP. It feels like it shouldn't be BIP324's goal to predict future protocol improvements.",
     "labels": [],
     "created_at": "2023-09-15T13:20:05Z",
-    "updated_at": "2023-09-21T01:31:25Z",
+    "updated_at": "2023-09-25T18:46:57Z",
     "closed_at": "2023-09-21T01:31:25Z",
     "mergeable_state": "unknown",
     "merged_at": "2023-09-21T01:31:25Z",
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5569,
-        "stargazers_count": 8325,
-        "watchers_count": 8325,
-        "size": 13660,
+        "forks_count": 5573,
+        "stargazers_count": 8336,
+        "watchers_count": 8336,
+        "size": 13657,
         "default_branch": "master",
-        "open_issues_count": 117,
+        "open_issues_count": 118,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-21T01:31:40Z",
+        "pushed_at": "2023-09-25T13:01:25Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-09-20T15:50:42Z"
+        "updated_at": "2023-09-25T18:47:41Z"
       }
     },
     "_links": {
