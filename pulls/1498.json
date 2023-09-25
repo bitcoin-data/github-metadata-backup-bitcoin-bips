@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1498/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1498/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/b6f04a4b9ab96affc2882578dd86821795861a59",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/3d0f725b2287f5bd55a316167045184fa38c09dd",
     "number": 1498,
     "state": "open",
     "locked": false,
@@ -41,10 +41,10 @@
     "body": "by merging it with the version packet. Or more accurately, by merging it with the first packet sent after garbage termination, which may be a decoy packet or the version packet.\r\n\r\nThe new protocol simplifies implementations:\r\n - A protocol state machine won't need separate states for garbage authentication and version phases.\r\n - The special case of \"ignoring the ignore bit\" is removed.\r\n - The freedom to choose the contents of the garbage authentication packet is removed. This simplifies testing.\r\n\r\nThe reason for having a separate garbage authentication packet was to materialize the separation of the key exchange phase and version negotiation phase even in the bytestream on the wire. However, this is not necessary, and arguably, these phases are still properly separated: Since the AEAD will ensure that AAD (=garbage) is checked before looking at the contents (=version), the peers won't interpret version data before having authenticated the garbage.",
     "labels": [],
     "created_at": "2023-09-24T13:30:04Z",
-    "updated_at": "2023-09-25T12:28:15Z",
+    "updated_at": "2023-09-25T13:05:33Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "b48e65d8c022c2ec25cd1ec090482448385ef494",
+    "merge_commit_sha": "1b65b55c135165c652f11751b8bc831c9de58fff",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -52,7 +52,7 @@
     "head": {
       "label": "real-or-random:202309-0324-garbauth",
       "ref": "202309-0324-garbauth",
-      "sha": "b6f04a4b9ab96affc2882578dd86821795861a59",
+      "sha": "3d0f725b2287f5bd55a316167045184fa38c09dd",
       "user": {
         "login": "real-or-random",
         "id": 1071625,
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-24T16:29:37Z",
+        "pushed_at": "2023-09-25T13:01:13Z",
         "created_at": "2015-10-30T11:57:39Z",
         "updated_at": "2016-01-11T09:56:19Z"
       }
@@ -278,7 +278,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-24T13:30:04Z",
+        "pushed_at": "2023-09-25T13:01:25Z",
         "created_at": "2013-11-19T17:18:41Z",
         "updated_at": "2023-09-25T12:02:41Z"
       }
@@ -290,54 +290,14 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": true,
-    "additions": 29,
+    "additions": 31,
     "deletions": 28,
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 3
+    "comments": 5
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGI2ZjA0YTRiOWFiOTZhZmZjMjg4MjU3OGRkODY4MjE3OTU4NjFhNTk",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b6f04a4b9ab96affc2882578dd86821795861a59",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/b6f04a4b9ab96affc2882578dd86821795861a59",
-      "tree": {
-        "sha": "53b090bd156d564ad8dd23b598ae6a1a38af4de0",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/53b090bd156d564ad8dd23b598ae6a1a38af4de0"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/7004ad1a825a0422b78bbf1a96bf748d5e380569",
-          "sha": "7004ad1a825a0422b78bbf1a96bf748d5e380569",
-          "html_url": "https://github.com/bitcoin/bips/commit/7004ad1a825a0422b78bbf1a96bf748d5e380569"
-        }
-      ],
-      "message": "bip324: Remove garbage authentication packet (breaking change)\n\nby merging it with the version packet. Or more accurately, by merging\nit with the first packet sent after garbage termination, which may be\na decoy packet or the version packet.\n\nThe new protocol simplifies implementations:\n - A protocol state machine won't need separate states for garbage\n   authentication and version phases.\n - The special case of \"ignoring the ignore bit\" is removed.\n - The freedom to choose the contents of the garbage authentication\n   packet is removed. This simplifies testing.\n\nThe reason for having a separate garbage authentication packet was\nto materialize the separation of the key exchange phase and version\nnegotiation phase even in the bytestream on the wire. However, this\nis not necessary, and arguably, these phases are still properly\nseparated: Since the AEAD will ensure that AAD (=garbage) is checked\nbefore looking at the contents (=version), the peers won't interpret\nversion data before having authenticated the garbage.",
-      "committer": {
-        "name": "Tim Ruffing",
-        "email": "crypto@timruffing.de",
-        "date": "2023-09-24T13:14:18Z"
-      },
-      "author": {
-        "name": "Tim Ruffing",
-        "email": "crypto@timruffing.de",
-        "date": "2023-09-24T13:00:34Z"
-      },
-      "sha": "b6f04a4b9ab96affc2882578dd86821795861a59"
-    },
     {
       "event": "convert_to_draft",
       "id": 10455240426,
@@ -820,6 +780,183 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1733614153",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDNkMGY3MjViMjI4N2Y1YmQ1NWEzMTYxNjcwNDUxODRmYTM4YzA5ZGQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/3d0f725b2287f5bd55a316167045184fa38c09dd",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/3d0f725b2287f5bd55a316167045184fa38c09dd",
+      "tree": {
+        "sha": "44679abe9dbdde3a76fd8afda43e5f79ffa6b0f5",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/44679abe9dbdde3a76fd8afda43e5f79ffa6b0f5"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/7004ad1a825a0422b78bbf1a96bf748d5e380569",
+          "sha": "7004ad1a825a0422b78bbf1a96bf748d5e380569",
+          "html_url": "https://github.com/bitcoin/bips/commit/7004ad1a825a0422b78bbf1a96bf748d5e380569"
+        }
+      ],
+      "message": "bip324: Remove garbage authentication packet (breaking change)\n\nby merging it with the version packet. Or more accurately, by merging\nit with the first packet sent after garbage termination, which may be\na decoy packet or the version packet.\n\nThe new protocol simplifies implementations:\n - A protocol state machine won't need separate states for garbage\n   authentication and version phases.\n - The special case of \"ignoring the ignore bit\" is removed.\n - The freedom to choose the contents of the garbage authentication\n   packet is removed. This simplifies testing.\n\nThe reason for having a separate garbage authentication packet was\nto materialize the separation of the key exchange phase and version\nnegotiation phase even in the bytestream on the wire. However, this\nis not necessary, and arguably, these phases are still properly\nseparated: Since the AEAD will ensure that AAD (=garbage) is checked\nbefore looking at the contents (=version), the peers won't interpret\nversion data before having authenticated the garbage.",
+      "committer": {
+        "name": "Tim Ruffing",
+        "email": "crypto@timruffing.de",
+        "date": "2023-09-25T13:00:49Z"
+      },
+      "author": {
+        "name": "Tim Ruffing",
+        "email": "crypto@timruffing.de",
+        "date": "2023-09-24T13:00:34Z"
+      },
+      "sha": "3d0f725b2287f5bd55a316167045184fa38c09dd"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 10462410742,
+      "node_id": "HRFPE_lADOAN28mc5x29_4zwAAAAJvm7f2",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/10462410742",
+      "actor": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-25T13:01:24Z"
+    },
+    {
+      "event": "commented",
+      "id": 1733671734,
+      "node_id": "IC_kwDOAN28mc5nVbs2",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1733671734",
+      "actor": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-25T13:04:17Z",
+      "updated_at": "2023-09-25T13:04:17Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "\r\n> > Either peer may send such decoy packets at any point after this.\r\n> \r\n> Should be clearer saying that a `garbage authentication package` could be a decoy package (answering \"after which point exactly?\").\r\n\r\nRephrased and restructured this to improve clarity.\r\n\r\n> > So the first two phases together, jointly called the handshake, comprise just 1.5 roundtrips:\r\n> \r\n> Kinda confusing now that `garbage authentication` is not there.\r\n\r\nHappy to improve here, but I can't follow. It's still 3 phases altogether, and the first two are 1.5 roundtrips. What do you find confusing?",
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1733671734",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
+    },
+    {
+      "event": "commented",
+      "id": 1733673874,
+      "node_id": "IC_kwDOAN28mc5nVcOS",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1733673874",
+      "actor": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-25T13:05:33Z",
+      "updated_at": "2023-09-25T13:05:33Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> ACK\r\n> I reviewed changes to the BIP and changes to the codebase (bitcoin#28525)\r\n\r\nWant to leave a review or (Concept) ACK also in https://github.com/bitcoin/bitcoin/pull/28525 then? :)",
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1733673874",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
     }
   ],
