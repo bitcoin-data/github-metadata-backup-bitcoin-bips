@@ -41,7 +41,7 @@
     "body": "by merging it with the version packet. Or more accurately, by merging it with the first packet sent after garbage termination, which may be a decoy packet or the version packet.\r\n\r\nThe new protocol simplifies implementations:\r\n - A protocol state machine won't need separate states for garbage authentication and version phases.\r\n - The special case of \"ignoring the ignore bit\" is removed.\r\n - The freedom to choose the contents of the garbage authentication packet is removed. This simplifies testing.\r\n\r\nThe reason for having a separate garbage authentication packet was to materialize the separation of the key exchange phase and version negotiation phase even in the bytestream on the wire. However, this is not necessary, and arguably, these phases are still properly separated: Since the AEAD will ensure that AAD (=garbage) is checked before looking at the contents (=version), the peers won't interpret version data before having authenticated the garbage.",
     "labels": [],
     "created_at": "2023-09-24T13:30:04Z",
-    "updated_at": "2023-09-25T13:05:33Z",
+    "updated_at": "2023-09-26T08:33:22Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "1b65b55c135165c652f11751b8bc831c9de58fff",
@@ -148,7 +148,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 14024,
+        "size": 14025,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -262,9 +262,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5573,
-        "stargazers_count": 8334,
-        "watchers_count": 8334,
+        "forks_count": 5574,
+        "stargazers_count": 8338,
+        "watchers_count": 8338,
         "size": 13657,
         "default_branch": "master",
         "open_issues_count": 118,
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2023-09-25T13:01:25Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-09-25T12:02:41Z"
+        "updated_at": "2023-09-26T04:31:56Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 5
+    "comments": 6
   },
   "events": [
     {
@@ -669,7 +669,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28525.patch"
           },
           "created_at": "2023-09-24T13:46:50Z",
-          "updated_at": "2023-09-24T13:46:55Z"
+          "updated_at": "2023-09-26T08:48:35Z"
         },
         "type": "issue"
       }
@@ -957,6 +957,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1733673874",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
+    },
+    {
+      "event": "commented",
+      "id": 1735078030,
+      "node_id": "IC_kwDOAN28mc5nazCO",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1735078030",
+      "actor": {
+        "login": "naumenkogs",
+        "id": 7975071,
+        "node_id": "MDQ6VXNlcjc5NzUwNzE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7975071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/naumenkogs",
+        "html_url": "https://github.com/naumenkogs",
+        "followers_url": "https://api.github.com/users/naumenkogs/followers",
+        "following_url": "https://api.github.com/users/naumenkogs/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/naumenkogs/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/naumenkogs/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/naumenkogs/subscriptions",
+        "organizations_url": "https://api.github.com/users/naumenkogs/orgs",
+        "repos_url": "https://api.github.com/users/naumenkogs/repos",
+        "events_url": "https://api.github.com/users/naumenkogs/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/naumenkogs/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-26T08:33:22Z",
+      "updated_at": "2023-09-26T08:33:22Z",
+      "author_association": "MEMBER",
+      "body": ">Happy to improve here, but I can't follow. It's still 3 phases altogether, and the first two are 1.5 roundtrips. What do you find confusing?\r\n\r\nIt was not immediately clear why garbage authentication is not in the list following `comprise just 1.5 roundtrips`. Now I agree that it doesn't add much value in that description.",
+      "user": {
+        "login": "naumenkogs",
+        "id": 7975071,
+        "node_id": "MDQ6VXNlcjc5NzUwNzE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7975071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/naumenkogs",
+        "html_url": "https://github.com/naumenkogs",
+        "followers_url": "https://api.github.com/users/naumenkogs/followers",
+        "following_url": "https://api.github.com/users/naumenkogs/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/naumenkogs/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/naumenkogs/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/naumenkogs/subscriptions",
+        "organizations_url": "https://api.github.com/users/naumenkogs/orgs",
+        "repos_url": "https://api.github.com/users/naumenkogs/repos",
+        "events_url": "https://api.github.com/users/naumenkogs/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/naumenkogs/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1735078030",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
     }
   ],
