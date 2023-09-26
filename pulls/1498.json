@@ -41,7 +41,7 @@
     "body": "by merging it with the version packet. Or more accurately, by merging it with the first packet sent after garbage termination, which may be a decoy packet or the version packet.\r\n\r\nThe new protocol simplifies implementations:\r\n - A protocol state machine won't need separate states for garbage authentication and version phases.\r\n - The special case of \"ignoring the ignore bit\" is removed.\r\n - The freedom to choose the contents of the garbage authentication packet is removed. This simplifies testing.\r\n\r\nThe reason for having a separate garbage authentication packet was to materialize the separation of the key exchange phase and version negotiation phase even in the bytestream on the wire. However, this is not necessary, and arguably, these phases are still properly separated: Since the AEAD will ensure that AAD (=garbage) is checked before looking at the contents (=version), the peers won't interpret version data before having authenticated the garbage.",
     "labels": [],
     "created_at": "2023-09-24T13:30:04Z",
-    "updated_at": "2023-09-26T08:33:22Z",
+    "updated_at": "2023-09-26T09:00:18Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "1b65b55c135165c652f11751b8bc831c9de58fff",
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 6
+    "comments": 7
   },
   "events": [
     {
@@ -661,7 +661,7 @@
           "assignees": [],
           "author_association": "CONTRIBUTOR",
           "locked": false,
-          "comments": 1,
+          "comments": 2,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/28525",
             "html_url": "https://github.com/bitcoin/bitcoin/pull/28525",
@@ -669,7 +669,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28525.patch"
           },
           "created_at": "2023-09-24T13:46:50Z",
-          "updated_at": "2023-09-26T08:48:35Z"
+          "updated_at": "2023-09-26T09:05:00Z"
         },
         "type": "issue"
       }
@@ -1011,6 +1011,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1735078030",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
+    },
+    {
+      "event": "commented",
+      "id": 1735122192,
+      "node_id": "IC_kwDOAN28mc5na90Q",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1735122192",
+      "actor": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-26T09:00:18Z",
+      "updated_at": "2023-09-26T09:00:18Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Concept ACK -- fewer states seems like a win, and it seems like the simpler this is, the more easily it could be used for other applications\r\n\r\nThe 1.5 round trip handshake could arguably be more obscure if described/implemented as:\r\n\r\n * the initiator sends public key + garbage-part-1\r\n * the responder sends public key + garbage + garbage terminator + version packet + decoy packet\r\n * the initiator sends garbage-part-2 + garbage terminator + version packet + decoy packet\r\n\r\n(otherwise the \"garbage-terminator + version packet\" may be identifiable as a fixed size response?)\r\n\r\nDoes it make sense to have a decoy packet before the version packet rather than after it? The version packet tells you how to interpret the header, so it seems slightly odd to be parsing headers before you've actually figured out what the header format is.\r\n\r\nPerhaps it would it be simpler but still workable to just have the first packet after the garbage terminator always be the version packet, and have its entire contents (with no header) be interpreted as the version negotiation? In that case, an initial \"empty\" version message could literally be empty, with no header and no content. In that case after the first version message, you'd pass every message's content to a version-specific decoder that splits out the header, and routes the body to the appropriate application handler.\r\n\r\n(In order for the responder to be able to append decoy packets before receiving the initiator's version packet, you'd still need to guarantee that packets with the high-bit of the first byte are ignored no matter what version ends up being negotiated)\r\n\r\nIt might be slightly clearer to make the pseudocode more stateful as far as the aad info goes, ie drop it as a parameter to `v2_enc_packet` and `v2_receive_packet` and instead initialize it based on `peer.sent_garbage` and `peer.recv_garbage`, and clear them after first use?",
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1735122192",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
     }
   ],
