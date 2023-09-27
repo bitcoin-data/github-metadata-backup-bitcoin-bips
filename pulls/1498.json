@@ -41,7 +41,7 @@
     "body": "by merging it with the version packet. Or more accurately, by merging it with the first packet sent after garbage termination, which may be a decoy packet or the version packet.\r\n\r\nThe new protocol simplifies implementations:\r\n - A protocol state machine won't need separate states for garbage authentication and version phases.\r\n - The special case of \"ignoring the ignore bit\" is removed.\r\n - The freedom to choose the contents of the garbage authentication packet is removed. This simplifies testing.\r\n\r\nThe reason for having a separate garbage authentication packet was to materialize the separation of the key exchange phase and version negotiation phase even in the bytestream on the wire. However, this is not necessary, and arguably, these phases are still properly separated: Since the AEAD will ensure that AAD (=garbage) is checked before looking at the contents (=version), the peers won't interpret version data before having authenticated the garbage.",
     "labels": [],
     "created_at": "2023-09-24T13:30:04Z",
-    "updated_at": "2023-09-27T09:33:32Z",
+    "updated_at": "2023-09-27T11:55:36Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "ead735f871c93ac94cc4aaa0bda119e65dfc4210",
@@ -262,9 +262,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5574,
-        "stargazers_count": 8342,
-        "watchers_count": 8342,
+        "forks_count": 5575,
+        "stargazers_count": 8343,
+        "watchers_count": 8343,
         "size": 13657,
         "default_branch": "master",
         "open_issues_count": 118,
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2023-09-27T09:33:33Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-09-27T01:46:02Z"
+        "updated_at": "2023-09-27T11:44:53Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 4,
-    "comments": 12
+    "comments": 13
   },
   "events": [
     {
@@ -661,7 +661,7 @@
           "assignees": [],
           "author_association": "CONTRIBUTOR",
           "locked": false,
-          "comments": 2,
+          "comments": 3,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/28525",
             "html_url": "https://github.com/bitcoin/bitcoin/pull/28525",
@@ -669,7 +669,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28525.patch"
           },
           "created_at": "2023-09-24T13:46:50Z",
-          "updated_at": "2023-09-27T07:22:13Z"
+          "updated_at": "2023-09-27T11:41:21Z"
         },
         "type": "issue"
       }
@@ -1691,6 +1691,118 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2023-09-27T09:33:32Z"
+    },
+    {
+      "event": "referenced",
+      "id": 10485519364,
+      "node_id": "REFE_lADOAN28mc5x29_4zwAAAAJw_FQE",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/10485519364",
+      "actor": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": "a90bde593c32f088c42ce7b978a12e59583d9c7b",
+      "commit_url": "https://api.github.com/repos/real-or-random/bitcoin/commits/a90bde593c32f088c42ce7b978a12e59583d9c7b",
+      "created_at": "2023-09-27T10:17:17Z"
+    },
+    {
+      "event": "referenced",
+      "id": 10485549521,
+      "node_id": "REFE_lADOAN28mc5x29_4zwAAAAJw_MnR",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/10485549521",
+      "actor": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": "b0f5175c044df956c0f07f540706d457c4912856",
+      "commit_url": "https://api.github.com/repos/real-or-random/bitcoin/commits/b0f5175c044df956c0f07f540706d457c4912856",
+      "created_at": "2023-09-27T10:20:16Z"
+    },
+    {
+      "event": "commented",
+      "id": 1737247845,
+      "node_id": "IC_kwDOAN28mc5njExl",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1737247845",
+      "actor": {
+        "login": "sipa",
+        "id": 548488,
+        "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sipa",
+        "html_url": "https://github.com/sipa",
+        "followers_url": "https://api.github.com/users/sipa/followers",
+        "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+        "organizations_url": "https://api.github.com/users/sipa/orgs",
+        "repos_url": "https://api.github.com/users/sipa/repos",
+        "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sipa/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-27T11:55:36Z",
+      "updated_at": "2023-09-27T11:55:36Z",
+      "author_association": "MEMBER",
+      "body": "LGTM",
+      "user": {
+        "login": "sipa",
+        "id": 548488,
+        "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sipa",
+        "html_url": "https://github.com/sipa",
+        "followers_url": "https://api.github.com/users/sipa/followers",
+        "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+        "organizations_url": "https://api.github.com/users/sipa/orgs",
+        "repos_url": "https://api.github.com/users/sipa/repos",
+        "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sipa/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1737247845",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
     }
   ],
   "comments": [
