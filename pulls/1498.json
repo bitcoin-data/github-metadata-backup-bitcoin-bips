@@ -41,7 +41,7 @@
     "body": "by merging it with the version packet. Or more accurately, by merging it with the first packet sent after garbage termination, which may be a decoy packet or the version packet.\r\n\r\nThe new protocol simplifies implementations:\r\n - A protocol state machine won't need separate states for garbage authentication and version phases.\r\n - The special case of \"ignoring the ignore bit\" is removed.\r\n - The freedom to choose the contents of the garbage authentication packet is removed. This simplifies testing.\r\n\r\nThe reason for having a separate garbage authentication packet was to materialize the separation of the key exchange phase and version negotiation phase even in the bytestream on the wire. However, this is not necessary, and arguably, these phases are still properly separated: Since the AEAD will ensure that AAD (=garbage) is checked before looking at the contents (=version), the peers won't interpret version data before having authenticated the garbage.",
     "labels": [],
     "created_at": "2023-09-24T13:30:04Z",
-    "updated_at": "2023-09-28T08:21:20Z",
+    "updated_at": "2023-09-28T10:41:31Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "5f02787bc88ec9f8b958615ba4c95f9aa774eca1",
@@ -263,8 +263,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5580,
-        "stargazers_count": 8345,
-        "watchers_count": 8345,
+        "stargazers_count": 8347,
+        "watchers_count": 8347,
         "size": 13657,
         "default_branch": "master",
         "open_issues_count": 118,
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2023-09-28T08:20:18Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-09-28T07:10:23Z"
+        "updated_at": "2023-09-28T10:23:18Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 28,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 6,
+    "review_comments": 10,
     "comments": 17
   },
   "events": [
@@ -669,7 +669,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28525.patch"
           },
           "created_at": "2023-09-24T13:46:50Z",
-          "updated_at": "2023-09-28T08:33:47Z"
+          "updated_at": "2023-09-28T10:33:52Z"
         },
         "type": "issue"
       }
@@ -2083,6 +2083,42 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1738694706",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
+    },
+    {
+      "event": "reviewed",
+      "id": 1648346345,
+      "node_id": "PRR_kwDOAN28mc5iP8Tp",
+      "url": null,
+      "actor": null,
+      "commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "MEMBER",
+      "body": "utACK 75dc363d201072579289cc6d20d40ef7a67db291 modulo some example code suggestions",
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#pullrequestreview-1648346345",
+      "submitted_at": "2023-09-28T10:00:59Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1498"
     }
   ],
   "comments": [
@@ -2396,6 +2432,214 @@
       "start_side": null,
       "line": 127,
       "original_line": 127,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1339839820",
+      "pull_request_review_id": 1648346345,
+      "id": 1339839820,
+      "node_id": "PRRC_kwDOAN28mc5P3FVM",
+      "diff_hunk": "@@ -370,18 +369,22 @@ def complete_handshake(peer, initiating):\n     ecdh_secret = v2_ecdh(peer.privkey_ours, ellswift_theirs, peer.ellswift_ours,\n                           initiating=initiating)\n     initialize_v2_transport(peer, ecdh_secret, initiating=True)\n-    # Send garbage terminator + garbage authentication packet + version packet.\n-    send(peer, peer.send_garbage_terminator +\n-               v2_enc_packet(peer, b'', aad=peer.sent_garbage) +\n-               v2_enc_packet(peer, TRANSPORT_VERSION))\n+    # Send garbage terminator\n+    send(peer, peer.send_garbage_terminator)\n+    # Optionally send decoy packets after garbage terminator.\n+    aad = peer.sent_garbage\n+    for decoy_content_len in decoy_content_lengths:\n+        send(v2_enc_packet(peer, decoy_content_len * b'\\x00', aad=aad))\n+        aad = b''\n+    # Send version packet.\n+    send(v2_enc_packet(peer, TRANSPORT_VERSION, aad=aad))",
+      "path": "bip-0324.mediawiki",
+      "position": 95,
+      "original_position": 95,
+      "commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "original_commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Nit:\r\n```py\r\naad = b''\r\n```\r\n\r\nMaybe also rename to `send_aad`.",
+      "created_at": "2023-09-28T09:45:46Z",
+      "updated_at": "2023-09-28T10:01:00Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#discussion_r1339839820",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1339839820"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1498"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 380,
+      "original_line": 380,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1339858276",
+      "pull_request_review_id": 1648346345,
+      "id": 1339858276,
+      "node_id": "PRRC_kwDOAN28mc5P3J1k",
+      "diff_hunk": "@@ -370,18 +369,22 @@ def complete_handshake(peer, initiating):\n     ecdh_secret = v2_ecdh(peer.privkey_ours, ellswift_theirs, peer.ellswift_ours,\n                           initiating=initiating)\n     initialize_v2_transport(peer, ecdh_secret, initiating=True)\n-    # Send garbage terminator + garbage authentication packet + version packet.\n-    send(peer, peer.send_garbage_terminator +\n-               v2_enc_packet(peer, b'', aad=peer.sent_garbage) +\n-               v2_enc_packet(peer, TRANSPORT_VERSION))\n+    # Send garbage terminator\n+    send(peer, peer.send_garbage_terminator)\n+    # Optionally send decoy packets after garbage terminator.\n+    aad = peer.sent_garbage\n+    for decoy_content_len in decoy_content_lengths:\n+        send(v2_enc_packet(peer, decoy_content_len * b'\\x00', aad=aad))\n+        aad = b''\n+    # Send version packet.\n+    send(v2_enc_packet(peer, TRANSPORT_VERSION, aad=aad))\n     # Skip garbage, until encountering garbage terminator.\n     received_garbage = recv(peer, 16)\n     for i in range(4096):\n         if received_garbage[-16:] == peer.recv_garbage_terminator:\n-            # Receive, decode, and ignore garbage authentication packet (decoy or not)\n-            v2_receive_packet(peer, aad=received_garbage, skip_decoy=False)\n-            # Receive, decode, and ignore version packet, skipping decoys\n-            v2_receive_packet(peer)\n+            # Receive, decode, and ignore version packet.\n+            # This includes skipping decoys and authenticating the received garbage.\n+            v2_receive_packet(peer, aad=received_garbage)",
+      "path": "bip-0324.mediawiki",
+      "position": 106,
+      "original_position": 106,
+      "commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "original_commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Mmm, the `v2_receive_packet` helper now includes assumptions that only make sense in the handshake.\r\n\r\nMaybe instead it can return a type and content? And also not do `aad = b''`.\r\n\r\nSo then this code becomes something like:\r\n\r\n```python\r\n# Receive, decode, and ignore version packet.\r\n# This includes skipping decoys and authenticating the received garbage.\r\naad = received_garbage\r\nwhile true:\r\n  (type, content) = v2_receive_packet(peer, aad=aad)\r\n  aad = b''\r\n  break if type == VERSION\r\n  throw if type != IGNORE\r\n```",
+      "created_at": "2023-09-28T09:59:32Z",
+      "updated_at": "2023-09-28T10:01:00Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#discussion_r1339858276",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1339858276"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1498"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 387,
+      "original_line": 387,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1339890646",
+      "pull_request_review_id": 1648415442,
+      "id": 1339890646,
+      "node_id": "PRRC_kwDOAN28mc5P3RvW",
+      "diff_hunk": "@@ -370,18 +369,22 @@ def complete_handshake(peer, initiating):\n     ecdh_secret = v2_ecdh(peer.privkey_ours, ellswift_theirs, peer.ellswift_ours,\n                           initiating=initiating)\n     initialize_v2_transport(peer, ecdh_secret, initiating=True)\n-    # Send garbage terminator + garbage authentication packet + version packet.\n-    send(peer, peer.send_garbage_terminator +\n-               v2_enc_packet(peer, b'', aad=peer.sent_garbage) +\n-               v2_enc_packet(peer, TRANSPORT_VERSION))\n+    # Send garbage terminator\n+    send(peer, peer.send_garbage_terminator)\n+    # Optionally send decoy packets after garbage terminator.\n+    aad = peer.sent_garbage\n+    for decoy_content_len in decoy_content_lengths:\n+        send(v2_enc_packet(peer, decoy_content_len * b'\\x00', aad=aad))\n+        aad = b''\n+    # Send version packet.\n+    send(v2_enc_packet(peer, TRANSPORT_VERSION, aad=aad))\n     # Skip garbage, until encountering garbage terminator.\n     received_garbage = recv(peer, 16)\n     for i in range(4096):\n         if received_garbage[-16:] == peer.recv_garbage_terminator:\n-            # Receive, decode, and ignore garbage authentication packet (decoy or not)\n-            v2_receive_packet(peer, aad=received_garbage, skip_decoy=False)\n-            # Receive, decode, and ignore version packet, skipping decoys\n-            v2_receive_packet(peer)\n+            # Receive, decode, and ignore version packet.\n+            # This includes skipping decoys and authenticating the received garbage.\n+            v2_receive_packet(peer, aad=received_garbage)",
+      "path": "bip-0324.mediawiki",
+      "position": 106,
+      "original_position": 106,
+      "commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "original_commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "in_reply_to_id": 1339858276,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "> Mmm, the `v2_receive_packet` helper now includes assumptions that only make sense in the handshake.\r\n\r\nDoes it? Can you spell them out explicitly?\r\n\r\nIf you're referring to \"Only the first packet is expected to have non-empty AAD.\", then I think this will also be the case if we ever use AAD for anything else than garbage. Even in that case, you'd always want to skip decoy packets and it's reasonable to include the AAD in the first packet. This assumes that the AAD will always be determined by the received (non-decoy) packets or the outer header (see my response in the Core PR: https://github.com/bitcoin/bitcoin/pull/28525#discussion_r1339889801).",
+      "created_at": "2023-09-28T10:25:11Z",
+      "updated_at": "2023-09-28T10:25:12Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#discussion_r1339890646",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1339890646"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1498"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 387,
+      "original_line": 387,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1339911521",
+      "pull_request_review_id": 1648444472,
+      "id": 1339911521,
+      "node_id": "PRRC_kwDOAN28mc5P3W1h",
+      "diff_hunk": "@@ -370,18 +369,22 @@ def complete_handshake(peer, initiating):\n     ecdh_secret = v2_ecdh(peer.privkey_ours, ellswift_theirs, peer.ellswift_ours,\n                           initiating=initiating)\n     initialize_v2_transport(peer, ecdh_secret, initiating=True)\n-    # Send garbage terminator + garbage authentication packet + version packet.\n-    send(peer, peer.send_garbage_terminator +\n-               v2_enc_packet(peer, b'', aad=peer.sent_garbage) +\n-               v2_enc_packet(peer, TRANSPORT_VERSION))\n+    # Send garbage terminator\n+    send(peer, peer.send_garbage_terminator)\n+    # Optionally send decoy packets after garbage terminator.\n+    aad = peer.sent_garbage\n+    for decoy_content_len in decoy_content_lengths:\n+        send(v2_enc_packet(peer, decoy_content_len * b'\\x00', aad=aad))\n+        aad = b''\n+    # Send version packet.\n+    send(v2_enc_packet(peer, TRANSPORT_VERSION, aad=aad))\n     # Skip garbage, until encountering garbage terminator.\n     received_garbage = recv(peer, 16)\n     for i in range(4096):\n         if received_garbage[-16:] == peer.recv_garbage_terminator:\n-            # Receive, decode, and ignore garbage authentication packet (decoy or not)\n-            v2_receive_packet(peer, aad=received_garbage, skip_decoy=False)\n-            # Receive, decode, and ignore version packet, skipping decoys\n-            v2_receive_packet(peer)\n+            # Receive, decode, and ignore version packet.\n+            # This includes skipping decoys and authenticating the received garbage.\n+            v2_receive_packet(peer, aad=received_garbage)",
+      "path": "bip-0324.mediawiki",
+      "position": 106,
+      "original_position": 106,
+      "commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "original_commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "in_reply_to_id": 1339858276,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "It depends on how the AAD is used, which you elaborated on here: https://github.com/bitcoin/bitcoin/pull/28525#discussion_r1339889801\r\n\r\nIf the AAD is set at the level of traffic shaping then it might be different for decoy and real messages. If it's only used at the application level then I agree it's probably fine to set it in the first (decoy) message.\r\n\r\nIf we believe the latter is much more likely, then I suppose a simple comment in the helper function would suffice:\r\n\r\n```python\r\n# This includes skipping decoys and authenticating the received garbage.\r\n# We assume that for future AAD uses, beyond the handshake, its contents\r\n# is determined before a package is received and is checked in the first\r\n# message, even if that's a decoy.\r\n```",
+      "created_at": "2023-09-28T10:41:31Z",
+      "updated_at": "2023-09-28T10:42:21Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#discussion_r1339911521",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1339911521"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1498"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 387,
+      "original_line": 387,
       "side": "RIGHT"
     }
   ]
