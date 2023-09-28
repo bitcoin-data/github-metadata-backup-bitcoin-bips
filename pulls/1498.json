@@ -41,7 +41,7 @@
     "body": "by merging it with the version packet. Or more accurately, by merging it with the first packet sent after garbage termination, which may be a decoy packet or the version packet.\r\n\r\nThe new protocol simplifies implementations:\r\n - A protocol state machine won't need separate states for garbage authentication and version phases.\r\n - The special case of \"ignoring the ignore bit\" is removed.\r\n - The freedom to choose the contents of the garbage authentication packet is removed. This simplifies testing.\r\n\r\nThe reason for having a separate garbage authentication packet was to materialize the separation of the key exchange phase and version negotiation phase even in the bytestream on the wire. However, this is not necessary, and arguably, these phases are still properly separated: Since the AEAD will ensure that AAD (=garbage) is checked before looking at the contents (=version), the peers won't interpret version data before having authenticated the garbage.",
     "labels": [],
     "created_at": "2023-09-24T13:30:04Z",
-    "updated_at": "2023-09-28T10:41:31Z",
+    "updated_at": "2023-09-28T15:54:56Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "5f02787bc88ec9f8b958615ba4c95f9aa774eca1",
@@ -262,9 +262,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5580,
-        "stargazers_count": 8347,
-        "watchers_count": 8347,
+        "forks_count": 5579,
+        "stargazers_count": 8348,
+        "watchers_count": 8348,
         "size": 13657,
         "default_branch": "master",
         "open_issues_count": 118,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-28T08:20:18Z",
+        "pushed_at": "2023-09-28T15:36:34Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-09-28T10:23:18Z"
+        "updated_at": "2023-09-28T13:37:34Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 28,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 10,
+    "review_comments": 11,
     "comments": 17
   },
   "events": [
@@ -669,7 +669,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28525.patch"
           },
           "created_at": "2023-09-24T13:46:50Z",
-          "updated_at": "2023-09-28T10:33:52Z"
+          "updated_at": "2023-09-28T14:55:51Z"
         },
         "type": "issue"
       }
@@ -2630,6 +2630,58 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1339911521"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1498"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 387,
+      "original_line": 387,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1340366913",
+      "pull_request_review_id": 1649206372,
+      "id": 1340366913,
+      "node_id": "PRRC_kwDOAN28mc5P5GBB",
+      "diff_hunk": "@@ -370,18 +369,22 @@ def complete_handshake(peer, initiating):\n     ecdh_secret = v2_ecdh(peer.privkey_ours, ellswift_theirs, peer.ellswift_ours,\n                           initiating=initiating)\n     initialize_v2_transport(peer, ecdh_secret, initiating=True)\n-    # Send garbage terminator + garbage authentication packet + version packet.\n-    send(peer, peer.send_garbage_terminator +\n-               v2_enc_packet(peer, b'', aad=peer.sent_garbage) +\n-               v2_enc_packet(peer, TRANSPORT_VERSION))\n+    # Send garbage terminator\n+    send(peer, peer.send_garbage_terminator)\n+    # Optionally send decoy packets after garbage terminator.\n+    aad = peer.sent_garbage\n+    for decoy_content_len in decoy_content_lengths:\n+        send(v2_enc_packet(peer, decoy_content_len * b'\\x00', aad=aad))\n+        aad = b''\n+    # Send version packet.\n+    send(v2_enc_packet(peer, TRANSPORT_VERSION, aad=aad))\n     # Skip garbage, until encountering garbage terminator.\n     received_garbage = recv(peer, 16)\n     for i in range(4096):\n         if received_garbage[-16:] == peer.recv_garbage_terminator:\n-            # Receive, decode, and ignore garbage authentication packet (decoy or not)\n-            v2_receive_packet(peer, aad=received_garbage, skip_decoy=False)\n-            # Receive, decode, and ignore version packet, skipping decoys\n-            v2_receive_packet(peer)\n+            # Receive, decode, and ignore version packet.\n+            # This includes skipping decoys and authenticating the received garbage.\n+            v2_receive_packet(peer, aad=received_garbage)",
+      "path": "bip-0324.mediawiki",
+      "position": 106,
+      "original_position": 106,
+      "commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "original_commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "in_reply_to_id": 1339858276,
+      "user": {
+        "login": "sipa",
+        "id": 548488,
+        "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sipa",
+        "html_url": "https://github.com/sipa",
+        "followers_url": "https://api.github.com/users/sipa/followers",
+        "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+        "organizations_url": "https://api.github.com/users/sipa/orgs",
+        "repos_url": "https://api.github.com/users/sipa/repos",
+        "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sipa/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Truth is, we have no idea how the AAD would be used in future extensions, or even whether it'll ever get used for anything but garbage authentication.\r\n\r\nIn light of that, it feels unnecessary to impose a particular \"grand design\" for future extensions or their interaction with AAD and explain it in the specification. We simply pick a particular design because it's concise and can be rationalized, but I don't think we need to specify future behavior - that feels like an analogue of premature optimization (premature specification?).\r\n\r\n\"Set the expected AAD when processing garbage + terminator, verify the expected AAD whenever any packet is received, and reset the expected AAD to nothing after verifying a packet\" is one concise and simple description, and I can imagine that it remains usable for hypothetical extensions that appropriate AAD for other purposes. And if not, those extensions can just change the specification.",
+      "created_at": "2023-09-28T15:54:56Z",
+      "updated_at": "2023-09-28T15:58:37Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#discussion_r1340366913",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1340366913"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1498"
