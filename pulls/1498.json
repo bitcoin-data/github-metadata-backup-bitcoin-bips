@@ -14,9 +14,9 @@
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1498/comments",
     "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/75dc363d201072579289cc6d20d40ef7a67db291",
     "number": 1498,
-    "state": "open",
+    "state": "closed",
     "locked": false,
-    "maintainer_can_modify": true,
+    "maintainer_can_modify": false,
     "title": "bip324: Remove garbage authentication packet (breaking change)",
     "user": {
       "login": "real-or-random",
@@ -41,14 +41,14 @@
     "body": "by merging it with the version packet. Or more accurately, by merging it with the first packet sent after garbage termination, which may be a decoy packet or the version packet.\r\n\r\nThe new protocol simplifies implementations:\r\n - A protocol state machine won't need separate states for garbage authentication and version phases.\r\n - The special case of \"ignoring the ignore bit\" is removed.\r\n - The freedom to choose the contents of the garbage authentication packet is removed. This simplifies testing.\r\n\r\nThe reason for having a separate garbage authentication packet was to materialize the separation of the key exchange phase and version negotiation phase even in the bytestream on the wire. However, this is not necessary, and arguably, these phases are still properly separated: Since the AEAD will ensure that AAD (=garbage) is checked before looking at the contents (=version), the peers won't interpret version data before having authenticated the garbage.",
     "labels": [],
     "created_at": "2023-09-24T13:30:04Z",
-    "updated_at": "2023-09-29T06:23:55Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
-    "merge_commit_sha": "5f02787bc88ec9f8b958615ba4c95f9aa774eca1",
+    "updated_at": "2023-09-29T07:19:24Z",
+    "closed_at": "2023-09-29T07:19:24Z",
+    "mergeable_state": "unknown",
+    "merged_at": "2023-09-29T07:19:24Z",
+    "merge_commit_sha": "e918b50731397872ad2922a1b08a5a4cd1d6d546",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
     "head": {
       "label": "real-or-random:202309-0324-garbauth",
       "ref": "202309-0324-garbauth",
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-28T08:20:07Z",
+        "pushed_at": "2023-09-29T07:25:32Z",
         "created_at": "2015-10-30T11:57:39Z",
         "updated_at": "2016-01-11T09:56:19Z"
       }
@@ -267,7 +267,7 @@
         "watchers_count": 8350,
         "size": 13657,
         "default_branch": "master",
-        "open_issues_count": 118,
+        "open_issues_count": 117,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,7 +278,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-28T15:36:34Z",
+        "pushed_at": "2023-09-29T07:19:38Z",
         "created_at": "2013-11-19T17:18:41Z",
         "updated_at": "2023-09-28T17:37:48Z"
       }
@@ -661,7 +661,7 @@
           "assignees": [],
           "author_association": "CONTRIBUTOR",
           "locked": false,
-          "comments": 10,
+          "comments": 11,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/28525",
             "html_url": "https://github.com/bitcoin/bitcoin/pull/28525",
@@ -669,7 +669,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28525.patch"
           },
           "created_at": "2023-09-24T13:46:50Z",
-          "updated_at": "2023-09-29T06:36:13Z"
+          "updated_at": "2023-09-29T07:42:23Z"
         },
         "type": "issue"
       }
@@ -2372,6 +2372,93 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1498#issuecomment-1740370098",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1498"
+    },
+    {
+      "event": "merged",
+      "id": 10507759913,
+      "node_id": "ME_lADOAN28mc5x29_4zwAAAAJyT7Ep",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/10507759913",
+      "actor": {
+        "login": "kallewoof",
+        "id": 250224,
+        "node_id": "MDQ6VXNlcjI1MDIyNA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/250224?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/kallewoof",
+        "html_url": "https://github.com/kallewoof",
+        "followers_url": "https://api.github.com/users/kallewoof/followers",
+        "following_url": "https://api.github.com/users/kallewoof/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/kallewoof/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/kallewoof/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/kallewoof/subscriptions",
+        "organizations_url": "https://api.github.com/users/kallewoof/orgs",
+        "repos_url": "https://api.github.com/users/kallewoof/repos",
+        "events_url": "https://api.github.com/users/kallewoof/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/kallewoof/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": "e918b50731397872ad2922a1b08a5a4cd1d6d546",
+      "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/e918b50731397872ad2922a1b08a5a4cd1d6d546",
+      "created_at": "2023-09-29T07:19:24Z"
+    },
+    {
+      "event": "closed",
+      "id": 10507759932,
+      "node_id": "CE_lADOAN28mc5x29_4zwAAAAJyT7E8",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/10507759932",
+      "actor": {
+        "login": "kallewoof",
+        "id": 250224,
+        "node_id": "MDQ6VXNlcjI1MDIyNA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/250224?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/kallewoof",
+        "html_url": "https://github.com/kallewoof",
+        "followers_url": "https://api.github.com/users/kallewoof/followers",
+        "following_url": "https://api.github.com/users/kallewoof/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/kallewoof/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/kallewoof/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/kallewoof/subscriptions",
+        "organizations_url": "https://api.github.com/users/kallewoof/orgs",
+        "repos_url": "https://api.github.com/users/kallewoof/repos",
+        "events_url": "https://api.github.com/users/kallewoof/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/kallewoof/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-29T07:19:24Z"
+    },
+    {
+      "event": "referenced",
+      "id": 10507814099,
+      "node_id": "REFE_lADOAN28mc5x29_4zwAAAAJyUITT",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/10507814099",
+      "actor": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": "5479e6904987f84bf67b0b94b3c070364877ebb4",
+      "commit_url": "https://api.github.com/repos/real-or-random/bips/commits/5479e6904987f84bf67b0b94b3c070364877ebb4",
+      "created_at": "2023-09-29T07:25:34Z"
     }
   ],
   "comments": [
