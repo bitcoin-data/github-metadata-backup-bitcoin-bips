@@ -41,7 +41,7 @@
     "body": "by merging it with the version packet. Or more accurately, by merging it with the first packet sent after garbage termination, which may be a decoy packet or the version packet.\r\n\r\nThe new protocol simplifies implementations:\r\n - A protocol state machine won't need separate states for garbage authentication and version phases.\r\n - The special case of \"ignoring the ignore bit\" is removed.\r\n - The freedom to choose the contents of the garbage authentication packet is removed. This simplifies testing.\r\n\r\nThe reason for having a separate garbage authentication packet was to materialize the separation of the key exchange phase and version negotiation phase even in the bytestream on the wire. However, this is not necessary, and arguably, these phases are still properly separated: Since the AEAD will ensure that AAD (=garbage) is checked before looking at the contents (=version), the peers won't interpret version data before having authenticated the garbage.",
     "labels": [],
     "created_at": "2023-09-24T13:30:04Z",
-    "updated_at": "2023-10-06T14:20:03Z",
+    "updated_at": "2023-10-07T13:19:39Z",
     "closed_at": "2023-09-29T07:19:24Z",
     "mergeable_state": "unknown",
     "merged_at": "2023-09-29T07:19:24Z",
@@ -262,9 +262,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5589,
-        "stargazers_count": 8358,
-        "watchers_count": 8358,
+        "forks_count": 5588,
+        "stargazers_count": 8360,
+        "watchers_count": 8360,
         "size": 13659,
         "default_branch": "master",
         "open_issues_count": 118,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-30T11:44:01Z",
+        "pushed_at": "2023-10-06T17:18:11Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-10-06T14:00:02Z"
+        "updated_at": "2023-10-07T12:57:20Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 28,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 15,
+    "review_comments": 16,
     "comments": 19
   },
   "events": [
@@ -3353,6 +3353,58 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1348787404"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1498"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 360,
+      "original_line": 360,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1349520588",
+      "pull_request_review_id": 1663054795,
+      "id": 1349520588,
+      "node_id": "PRRC_kwDOAN28mc5QcAzM",
+      "diff_hunk": "@@ -358,10 +357,10 @@ def respond_v2_handshake(peer, garbage_len):\n     use_v1_protocol()\n </pre>\n \n-Upon receiving the encoded responder public key, the initiator derives the shared ECDH secret and instantiates the encrypted transport. It then sends the derived 16-byte <code>initiator_garbage_terminator</code> followed by an authenticated, encrypted packet with empty contents<ref name=\"send_empty_garbauth\">'''Does the content of the garbage authentication packet need to be empty?''' The receiver ignores the content of the garbage authentication packet, so its content can be anything, and it can in principle be used as a shaping mechanism too. There is however no need for that, as immediately afterward the initiator can start using decoy packets as (a much more flexible) shaping mechanism instead.</ref> to authenticate the garbage, and its own version packet. It then receives the responder's garbage and garbage authentication packet (delimited by the garbage terminator), and checks if the garbage is authenticated correctly. The responder performs very similar steps but includes the earlier received prefix bytes in the public key. As mentioned before, the encrypted packets for the '''version negotiation phase''' can be piggybacked with the garbage authentication packet to minimize roundtrips.\n+Upon receiving the encoded responder public key, the initiator derives the shared ECDH secret and instantiates the encrypted transport. It then sends the derived 16-byte <code>initiator_garbage_terminator</code>, optionally followed by an arbitrary number of decoy packets. Afterwards, it receives the responder's garbage (delimited by the garbage terminator). The responder performs very similar steps but includes the earlier received prefix bytes in the public key. Both the initiator and the responder set the AAD of the first encrypted packet they send after the garbage terminator (i.e., either an optional decoy packet or the version packet) to the garbage they have just sent, not including the garbage terminator.",
+      "path": "bip-0324.mediawiki",
+      "position": 71,
+      "original_position": 71,
+      "commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "original_commit_id": "75dc363d201072579289cc6d20d40ef7a67db291",
+      "in_reply_to_id": 1348781729,
+      "user": {
+        "login": "stratospher",
+        "id": 44024636,
+        "node_id": "MDQ6VXNlcjQ0MDI0NjM2",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44024636?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/stratospher",
+        "html_url": "https://github.com/stratospher",
+        "followers_url": "https://api.github.com/users/stratospher/followers",
+        "following_url": "https://api.github.com/users/stratospher/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/stratospher/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/stratospher/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/stratospher/subscriptions",
+        "organizations_url": "https://api.github.com/users/stratospher/orgs",
+        "repos_url": "https://api.github.com/users/stratospher/repos",
+        "events_url": "https://api.github.com/users/stratospher/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/stratospher/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "thanks! makes sense.",
+      "created_at": "2023-10-07T13:19:39Z",
+      "updated_at": "2023-10-07T13:19:39Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1498#discussion_r1349520588",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1349520588"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1498"
