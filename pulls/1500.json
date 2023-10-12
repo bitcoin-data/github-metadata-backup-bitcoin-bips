@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1500/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1500/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/28fcd5c4365eb42a3a515bd124a65eda634e03e3",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/ec98a85061eb9d5bf853470a469ab841f3da7916",
     "number": 1500,
     "state": "open",
     "locked": false,
@@ -41,10 +41,10 @@
     "body": "Citing from my e-mail to the mailing list, there are some open questions\r\n\r\n- [ ] Does the proposal sufficiently address concerns around resource usage and quadratic hashing?\r\n\r\n- [ ] Miraculously, once we came up with all possible fields that we might consider interesting, we filled exactly 16 spots. There is however one thing that I would have liked to be optionally available and I am unsure of which side to take in the proposal. This is including the TxFieldSelector as part of the hash. Doing so no longer makes the hash only represent the value being hashed, but also the field selector that was used; this would no longer make it possible to proof equality of fields. If a txhash as specified here would ever be used as a signature hash, it would definitely have to be included, but this could be done after the fact if OP_CAT was available. For signature hashes, the hash should ideally be somehow tagged, so we might need OP_CAT, or OP_CATSHA256 or something anyway.\r\n\r\n  - A solution could be to take an additional bit from each of the two \"in/output selector\" bytes, and assign to this bit \"commit to total number of in/outputs\" (instead of having 2 bits for this in the first byte).\r\n    - This would free up 2 bits in the first byte, one of which could be used for including the TxFieldSelector in the hash and the other one could be left free (OP_SUCCESS) to potentially revisit later-on.\r\n    -  This would limit the number of selectable leading in/outputs to 8,191 and the number of individually selectable in/outputs to 32, both of which seem reasonable or maybe even more desirable from a resource usage perspective.\r\n\r\n- [ ] General feedback of how people feel towards a proposal like this, which could either be implemented in a softfork as is, like BIP-119 or be combined in a single softfork with OP_CHECKSIGFROMSTACK and perhaps OP_CAT, OP_TWEAKADD and/or a hypothetical OP_TX.",
     "labels": [],
     "created_at": "2023-09-30T11:40:55Z",
-    "updated_at": "2023-10-06T17:18:10Z",
+    "updated_at": "2023-10-12T13:18:58Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "4222bcf08b28ada113d8ba03c8c4ec5f0aaa462c",
+    "merge_commit_sha": "954e497b25603c2d8a55a87205f7aa57c7c56faa",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -52,7 +52,7 @@
     "head": {
       "label": "stevenroose:txhash",
       "ref": "txhash",
-      "sha": "28fcd5c4365eb42a3a515bd124a65eda634e03e3",
+      "sha": "ec98a85061eb9d5bf853470a469ab841f3da7916",
       "user": {
         "login": "stevenroose",
         "id": 853468,
@@ -147,7 +147,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 13657,
+        "size": 13668,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -160,7 +160,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-10-06T17:17:59Z",
+        "pushed_at": "2023-10-12T13:18:56Z",
         "created_at": "2013-12-09T01:50:33Z",
         "updated_at": "2016-01-11T09:56:15Z"
       }
@@ -261,12 +261,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5589,
-        "stargazers_count": 8358,
-        "watchers_count": 8358,
+        "forks_count": 5587,
+        "stargazers_count": 8364,
+        "watchers_count": 8364,
         "size": 13659,
         "default_branch": "master",
-        "open_issues_count": 118,
+        "open_issues_count": 119,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -277,9 +277,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-10-06T17:18:11Z",
+        "pushed_at": "2023-10-12T13:18:59Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-10-06T14:00:02Z"
+        "updated_at": "2023-10-11T17:05:13Z"
       }
     },
     "_links": {
@@ -289,10 +289,10 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": true,
-    "additions": 602,
+    "additions": 659,
     "deletions": 0,
     "changed_files": 1,
-    "commits": 2,
+    "commits": 3,
     "review_comments": 0,
     "comments": 0
   },
@@ -405,6 +405,46 @@
         "date": "2023-10-06T17:15:27Z"
       },
       "sha": "28fcd5c4365eb42a3a515bd124a65eda634e03e3"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGVjOThhODUwNjFlYjlkNWJmODUzNDcwYTQ2OWFiODQxZjNkYTc5MTY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ec98a85061eb9d5bf853470a469ab841f3da7916",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/ec98a85061eb9d5bf853470a469ab841f3da7916",
+      "tree": {
+        "sha": "8e85d26f81e8c80b899741fdd59e3ecee4e43d25",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/8e85d26f81e8c80b899741fdd59e3ecee4e43d25"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 8e85d26f81e8c80b899741fdd59e3ecee4e43d25\nparent 28fcd5c4365eb42a3a515bd124a65eda634e03e3\nauthor Steven Roose <steven@stevenroose.org> 1696960477 +0100\ncommitter Steven Roose <steven@stevenroose.org> 1697116722 +0100\n\ntxhash: Move #in/out to in/out byte and add control bit\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEE3hDoJimoytVbcAuXLyqI1/jWjocFAmUn8jMACgkQLyqI1/jW\njoe8EA/+JXPLznpAOtL9AtUsIUMYqCMulb49tFD6N8Fgb7ehdGEif252DG4Hn0yy\ncXTJYBN3Ttxo6iM+xfevielno9Ym4NZSRFP+xc7M3DRxf9nnjbhABEo/CpKFTAPz\nTZBPG/abNZJtCiwaeqI9c/0ugCf9bqUUuHAJnYY1Ho33Eon7bJ46+appkkXfdtA5\n3m+LJ24z0AURDGNOQVQk/+TkGG6syGWkH2WYJN6GVh4GjgssVmtIlFovr48pl4hp\nTSlMnbM1b3/39cpJ04tEWIhBYBg25mMk8YMlodFMRRW71urueu6C6UoXpHAUmXgw\nr/xdmBrMQ76GLI5tBh10Qv3I7HNxeTCCvH/Ve74r2mefXuhSmZJ4pYmivXrPOE9t\nQUr+oydmh3zOh0VjhHuZw/cv10wbhS4o6O+6o4SMQPRfj5boynaIv+gruuHvKWWh\nVOxdls7gGAgEsMdB5jMwcZnj/+sLwHziNduejv++dNEHavY9alLGBoRWIFhN/eZG\nRJeHW0JrgmILsaxqZnd8ZA4ZfY7MlSQBaxKO60Cf0g3ymkUFxLF4yergd6BmqQnv\nRoECiqcTHRaB6N5CvkJidyZCS3YGZpzl5rnHj23EpXyq47ww1ATJUl3Bfno7pZsk\nu+RsYZJETS9Omu40G4DZy3FkxdMvs0ebH7l5InGF8L4k4d/7ddY=\n=VHaQ\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/28fcd5c4365eb42a3a515bd124a65eda634e03e3",
+          "sha": "28fcd5c4365eb42a3a515bd124a65eda634e03e3",
+          "html_url": "https://github.com/bitcoin/bips/commit/28fcd5c4365eb42a3a515bd124a65eda634e03e3"
+        }
+      ],
+      "message": "txhash: Move #in/out to in/out byte and add control bit",
+      "committer": {
+        "name": "Steven Roose",
+        "email": "steven@stevenroose.org",
+        "date": "2023-10-12T13:18:42Z"
+      },
+      "author": {
+        "name": "Steven Roose",
+        "email": "steven@stevenroose.org",
+        "date": "2023-10-10T17:54:37Z"
+      },
+      "sha": "ec98a85061eb9d5bf853470a469ab841f3da7916"
     }
   ],
   "comments": []
