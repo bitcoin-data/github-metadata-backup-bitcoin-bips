@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1489/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1489/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/666d60e87f74b6e9966236769383ef1f1b10a2cc",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18",
     "number": 1489,
     "state": "open",
     "locked": false,
@@ -41,10 +41,10 @@
     "body": "## Overview\r\nThese BIPs describe the Taproot Asset Protocol, a Taproot-native asset\r\noverlay built on top of the base Bitcoin blockchain. Taproot Assets enable\r\nthe representation of arbitrary (normal and collectibles) assets on top of\r\nBitcoin without bloating the base chain. The protocol is designed such that\r\ntransactions interacting with Taproot Assets are indistinguishable from\r\nregular transactions from the PoV of the Bitcoin blockchain. Taproot Assets\r\nextend the base Taproot script tree with a nested ''asset script'' tree (a\r\nmerkle-sum sparse merkle tree, or MS-SMT) that commits to valid witnesses as\r\nstructured metadata that allow for proofs of the movement of assets across\r\nthe transaction graph.  The provenance of transfers of a Taproot Asset can\r\nbe verified using a hermetic proof transmitted as flat file, or using the\r\naide of an externally maintained Universe, which is a MS-SMT that indexes\r\non-chain asset issuance+transfers, which natively supports\r\nproof-of-reserves/supply system.\r\n\r\nTaproot Assets support off-chain single and multi-hop transfers over\r\nLightning channels (based on the BOLT protocol suite), with the latter\r\nmanifested using Taproot Assets' unique embedded asset script system.  Light\r\nclient verification of on-chain Taproot Asset transfers is facilitated by a\r\nseries of on and off-chain merkle proofs, which can be compressed by\r\ndelegating a trust relationship to an active Universe instance. A variant on\r\noff-chain multi-party channels are proposed to support off-chain transfer of\r\nnormal assets.  In addition, a special type of Universe, dubbed a Pocket\r\nUniverse, which is based on an exit-only commit-chain design can be used to\r\naggregate transfers on-chain in a trust-minimized manner.\r\n\r\n## BIP Documents \r\n\r\nWith this PR, we seek to request BIP numbers be assigned for the 7 included documents:\r\n  * `bip-tap-mssmt`: describes the MS-SMT (Merkle-Sum Sparse Merkle Tree) data structure used to store assets and various proofs. \r\n  * `bip-tap`: describes the Taproot Assets Protocol validation and state transition rules. \r\n  * `bip-tap-addr`: describes the address format used to send and receive assets. \r\n  * `bip-tap-vm`: describes the initial version of the off-chain TAP VM used to lock and unlock assets. \r\n  * `bip-tap-vpsbt`: describes a vPSBT (virtual PSBT) which is a series custom types on top of the existing PSBT protocol to facilitate more elaborate asset related transactions. \r\n  * `bip-tap-proof-file`: describes the flat file format which is used to prove and verify the provenance of an asset \r\n  * `bip-tap-universe`: describes the Universe server construct, which is an off-chain index into TAP data on-chain, used for: proof distribution, asset boostraping, and asset transaction archiving. \r\n\r\nFor each BIP, we also include a sub-directory that includes comprehensive test vectors (to be expanded over time). ",
     "labels": [],
     "created_at": "2023-09-06T18:41:17Z",
-    "updated_at": "2023-10-10T00:11:18Z",
+    "updated_at": "2023-10-17T01:15:13Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "e9a399b1281b5206b8119cd4b249f29b2a3404b9",
+    "merge_commit_sha": "a2109afe18f928dda429d4434497136b646361ac",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -52,7 +52,7 @@
     "head": {
       "label": "Roasbeef:bip-tap-pr",
       "ref": "bip-tap-pr",
-      "sha": "666d60e87f74b6e9966236769383ef1f1b10a2cc",
+      "sha": "cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18",
       "user": {
         "login": "Roasbeef",
         "id": 998190,
@@ -148,9 +148,9 @@
         "forks_count": 24,
         "stargazers_count": 59,
         "watchers_count": 59,
-        "size": 16788,
+        "size": 16844,
         "default_branch": "master",
-        "open_issues_count": 3,
+        "open_issues_count": 4,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-10-10T00:11:15Z",
+        "pushed_at": "2023-10-17T01:48:30Z",
         "created_at": "2016-02-05T19:45:12Z",
         "updated_at": "2023-09-30T02:07:50Z"
       }
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5588,
-        "stargazers_count": 8360,
-        "watchers_count": 8360,
+        "forks_count": 5593,
+        "stargazers_count": 8368,
+        "watchers_count": 8368,
         "size": 13659,
         "default_branch": "master",
-        "open_issues_count": 118,
+        "open_issues_count": 120,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-10-10T00:11:19Z",
+        "pushed_at": "2023-10-17T01:15:13Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-10-09T05:54:31Z"
+        "updated_at": "2023-10-16T20:06:00Z"
       }
     },
     "_links": {
@@ -290,10 +290,10 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 94855,
+    "additions": 94879,
     "deletions": 0,
     "changed_files": 23,
-    "commits": 8,
+    "commits": 14,
     "review_comments": 2,
     "comments": 10
   },
@@ -1772,6 +1772,246 @@
         "date": "2023-10-10T00:11:15Z"
       },
       "sha": "666d60e87f74b6e9966236769383ef1f1b10a2cc"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGY0YzczMjQxZTQ5MWY4YzZmMzc5MDhmMjYyZTBhNWE4MzI1N2JkMGU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f4c73241e491f8c6f37908f262e0a5a83257bd0e",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/f4c73241e491f8c6f37908f262e0a5a83257bd0e",
+      "tree": {
+        "sha": "641c8b745f087aa1f16da0b045f10cebb02964a1",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/641c8b745f087aa1f16da0b045f10cebb02964a1"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/666d60e87f74b6e9966236769383ef1f1b10a2cc",
+          "sha": "666d60e87f74b6e9966236769383ef1f1b10a2cc",
+          "html_url": "https://github.com/bitcoin/bips/commit/666d60e87f74b6e9966236769383ef1f1b10a2cc"
+        }
+      ],
+      "message": "bip-tap: clarify prev_asset_id and prev_asset_script_key\n\nTo avoid confusing it with the \"next\" asset_script_key and asset_id, we\nrename the fields slightly.",
+      "committer": {
+        "name": "Olaoluwa Osuntokun",
+        "email": "laolu32@gmail.com",
+        "date": "2023-10-17T01:11:33Z"
+      },
+      "author": {
+        "name": "Johan T. Halseth",
+        "email": "johanth@gmail.com",
+        "date": "2023-05-30T12:22:54Z"
+      },
+      "sha": "f4c73241e491f8c6f37908f262e0a5a83257bd0e"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDM3MzU1MWQ3ZDk2NDg5M2JkNDljOGRhYTFhNTllOGFiY2E4OTUxY2I",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/373551d7d964893bd49c8daa1a59e8abca8951cb",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/373551d7d964893bd49c8daa1a59e8abca8951cb",
+      "tree": {
+        "sha": "21ad55e180f766f0fc8fa1c927072cddd6cec163",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/21ad55e180f766f0fc8fa1c927072cddd6cec163"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f4c73241e491f8c6f37908f262e0a5a83257bd0e",
+          "sha": "f4c73241e491f8c6f37908f262e0a5a83257bd0e",
+          "html_url": "https://github.com/bitcoin/bips/commit/f4c73241e491f8c6f37908f262e0a5a83257bd0e"
+        }
+      ],
+      "message": "bip tap: move asset_id reveal to proof file",
+      "committer": {
+        "name": "Olaoluwa Osuntokun",
+        "email": "laolu32@gmail.com",
+        "date": "2023-10-17T01:13:04Z"
+      },
+      "author": {
+        "name": "Johan T. Halseth",
+        "email": "johanth@gmail.com",
+        "date": "2023-05-30T10:56:46Z"
+      },
+      "sha": "373551d7d964893bd49c8daa1a59e8abca8951cb"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDY3MzY2ZWI4YWY2OWNlY2JlNzY3NTNhM2FlNWMxMjRiMTVmYTA4Mjc",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/67366eb8af69cecbe76753a3ae5c124b15fa0827",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/67366eb8af69cecbe76753a3ae5c124b15fa0827",
+      "tree": {
+        "sha": "6f153de8284612e6e057b285442709bf6fb887dd",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/6f153de8284612e6e057b285442709bf6fb887dd"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/373551d7d964893bd49c8daa1a59e8abca8951cb",
+          "sha": "373551d7d964893bd49c8daa1a59e8abca8951cb",
+          "html_url": "https://github.com/bitcoin/bips/commit/373551d7d964893bd49c8daa1a59e8abca8951cb"
+        }
+      ],
+      "message": "bip-tap: make minting witness encode asset internal key\n\nThis let the verifier check that the `asset_group_key` is derived\ncorrectly from the internal key, and that the signature is valid.",
+      "committer": {
+        "name": "Olaoluwa Osuntokun",
+        "email": "laolu32@gmail.com",
+        "date": "2023-10-17T01:13:27Z"
+      },
+      "author": {
+        "name": "Johan T. Halseth",
+        "email": "johanth@gmail.com",
+        "date": "2022-12-21T12:29:17Z"
+      },
+      "sha": "67366eb8af69cecbe76753a3ae5c124b15fa0827"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGEyNWVmOTVlY2YxZjM0Zjc1OWRlMDUyNTExNGJmYzAyOTI5ODBhZTQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a25ef95ecf1f34f759de0525114bfc0292980ae4",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/a25ef95ecf1f34f759de0525114bfc0292980ae4",
+      "tree": {
+        "sha": "ccf227fbd9d7da3a0e4bedaf816164c522784033",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/ccf227fbd9d7da3a0e4bedaf816164c522784033"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/67366eb8af69cecbe76753a3ae5c124b15fa0827",
+          "sha": "67366eb8af69cecbe76753a3ae5c124b15fa0827",
+          "html_url": "https://github.com/bitcoin/bips/commit/67366eb8af69cecbe76753a3ae5c124b15fa0827"
+        }
+      ],
+      "message": "bip-tap proof: reveal asset_group_key at genesis proof",
+      "committer": {
+        "name": "Olaoluwa Osuntokun",
+        "email": "laolu32@gmail.com",
+        "date": "2023-10-17T01:13:36Z"
+      },
+      "author": {
+        "name": "Johan T. Halseth",
+        "email": "johanth@gmail.com",
+        "date": "2023-05-30T11:53:54Z"
+      },
+      "sha": "a25ef95ecf1f34f759de0525114bfc0292980ae4"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDFiNjg1MTBiOThiYTk2N2UxZmJiNjNhZTliMTNlNWRiNTExMWJjNjg",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1b68510b98ba967e1fbb63ae9b13e5db5111bc68",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/1b68510b98ba967e1fbb63ae9b13e5db5111bc68",
+      "tree": {
+        "sha": "79f277aac9362b31cfd3923838fafd295a77df6a",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/79f277aac9362b31cfd3923838fafd295a77df6a"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a25ef95ecf1f34f759de0525114bfc0292980ae4",
+          "sha": "a25ef95ecf1f34f759de0525114bfc0292980ae4",
+          "html_url": "https://github.com/bitcoin/bips/commit/a25ef95ecf1f34f759de0525114bfc0292980ae4"
+        }
+      ],
+      "message": "bip-tap proof file: also first transition now requires witness validation",
+      "committer": {
+        "name": "Olaoluwa Osuntokun",
+        "email": "laolu32@gmail.com",
+        "date": "2023-10-17T01:13:43Z"
+      },
+      "author": {
+        "name": "Johan T. Halseth",
+        "email": "johanth@gmail.com",
+        "date": "2023-04-12T08:18:53Z"
+      },
+      "sha": "1b68510b98ba967e1fbb63ae9b13e5db5111bc68"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGNjM2UxY2VlYTUzZjYxODFjMmY4ODUzY2VkMmQxYjZhOWY5MWJjMTg",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18",
+      "tree": {
+        "sha": "64ce4ba02d38d89e24812d305e5adf409cc2d02b",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/64ce4ba02d38d89e24812d305e5adf409cc2d02b"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1b68510b98ba967e1fbb63ae9b13e5db5111bc68",
+          "sha": "1b68510b98ba967e1fbb63ae9b13e5db5111bc68",
+          "html_url": "https://github.com/bitcoin/bips/commit/1b68510b98ba967e1fbb63ae9b13e5db5111bc68"
+        }
+      ],
+      "message": "bip-tap vm: specify that minting transition witnesses must be verified",
+      "committer": {
+        "name": "Olaoluwa Osuntokun",
+        "email": "laolu32@gmail.com",
+        "date": "2023-10-17T01:13:49Z"
+      },
+      "author": {
+        "name": "Johan T. Halseth",
+        "email": "johanth@gmail.com",
+        "date": "2023-04-12T09:20:16Z"
+      },
+      "sha": "cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18"
     }
   ],
   "comments": []
