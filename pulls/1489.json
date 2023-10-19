@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1489/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1489/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/6dd3458ddc84eee552e209718e333e24af72cbeb",
     "number": 1489,
     "state": "open",
     "locked": false,
@@ -41,10 +41,10 @@
     "body": "## Overview\r\nThese BIPs describe the Taproot Asset Protocol, a Taproot-native asset\r\noverlay built on top of the base Bitcoin blockchain. Taproot Assets enable\r\nthe representation of arbitrary (normal and collectibles) assets on top of\r\nBitcoin without bloating the base chain. The protocol is designed such that\r\ntransactions interacting with Taproot Assets are indistinguishable from\r\nregular transactions from the PoV of the Bitcoin blockchain. Taproot Assets\r\nextend the base Taproot script tree with a nested ''asset script'' tree (a\r\nmerkle-sum sparse merkle tree, or MS-SMT) that commits to valid witnesses as\r\nstructured metadata that allow for proofs of the movement of assets across\r\nthe transaction graph.  The provenance of transfers of a Taproot Asset can\r\nbe verified using a hermetic proof transmitted as flat file, or using the\r\naide of an externally maintained Universe, which is a MS-SMT that indexes\r\non-chain asset issuance+transfers, which natively supports\r\nproof-of-reserves/supply system.\r\n\r\nTaproot Assets support off-chain single and multi-hop transfers over\r\nLightning channels (based on the BOLT protocol suite), with the latter\r\nmanifested using Taproot Assets' unique embedded asset script system.  Light\r\nclient verification of on-chain Taproot Asset transfers is facilitated by a\r\nseries of on and off-chain merkle proofs, which can be compressed by\r\ndelegating a trust relationship to an active Universe instance. A variant on\r\noff-chain multi-party channels are proposed to support off-chain transfer of\r\nnormal assets.  In addition, a special type of Universe, dubbed a Pocket\r\nUniverse, which is based on an exit-only commit-chain design can be used to\r\naggregate transfers on-chain in a trust-minimized manner.\r\n\r\n## BIP Documents \r\n\r\nWith this PR, we seek to request BIP numbers be assigned for the 7 included documents:\r\n  * `bip-tap-mssmt`: describes the MS-SMT (Merkle-Sum Sparse Merkle Tree) data structure used to store assets and various proofs. \r\n  * `bip-tap`: describes the Taproot Assets Protocol validation and state transition rules. \r\n  * `bip-tap-addr`: describes the address format used to send and receive assets. \r\n  * `bip-tap-vm`: describes the initial version of the off-chain TAP VM used to lock and unlock assets. \r\n  * `bip-tap-vpsbt`: describes a vPSBT (virtual PSBT) which is a series custom types on top of the existing PSBT protocol to facilitate more elaborate asset related transactions. \r\n  * `bip-tap-proof-file`: describes the flat file format which is used to prove and verify the provenance of an asset \r\n  * `bip-tap-universe`: describes the Universe server construct, which is an off-chain index into TAP data on-chain, used for: proof distribution, asset boostraping, and asset transaction archiving. \r\n\r\nFor each BIP, we also include a sub-directory that includes comprehensive test vectors (to be expanded over time). ",
     "labels": [],
     "created_at": "2023-09-06T18:41:17Z",
-    "updated_at": "2023-10-17T01:15:13Z",
+    "updated_at": "2023-10-18T23:18:19Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "a2109afe18f928dda429d4434497136b646361ac",
+    "merge_commit_sha": "c190c29e11628f4ea7c982da76a8847285c581ea",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -52,7 +52,7 @@
     "head": {
       "label": "Roasbeef:bip-tap-pr",
       "ref": "bip-tap-pr",
-      "sha": "cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18",
+      "sha": "6dd3458ddc84eee552e209718e333e24af72cbeb",
       "user": {
         "login": "Roasbeef",
         "id": 998190,
@@ -150,7 +150,7 @@
         "watchers_count": 59,
         "size": 16844,
         "default_branch": "master",
-        "open_issues_count": 4,
+        "open_issues_count": 3,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-10-17T01:48:30Z",
+        "pushed_at": "2023-10-18T23:18:16Z",
         "created_at": "2016-02-05T19:45:12Z",
         "updated_at": "2023-09-30T02:07:50Z"
       }
@@ -262,9 +262,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5593,
-        "stargazers_count": 8368,
-        "watchers_count": 8368,
+        "forks_count": 5596,
+        "stargazers_count": 8371,
+        "watchers_count": 8371,
         "size": 13659,
         "default_branch": "master",
         "open_issues_count": 120,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-10-17T01:15:13Z",
+        "pushed_at": "2023-10-18T23:18:20Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-10-16T20:06:00Z"
+        "updated_at": "2023-10-18T18:12:55Z"
       }
     },
     "_links": {
@@ -290,10 +290,10 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 94879,
+    "additions": 94914,
     "deletions": 0,
     "changed_files": 23,
-    "commits": 14,
+    "commits": 16,
     "review_comments": 2,
     "comments": 10
   },
@@ -2012,6 +2012,91 @@
         "date": "2023-04-12T09:20:16Z"
       },
       "sha": "cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGFlYjllNDdkYWQyNjA0M2M4NDQzN2I2OWE0ZTJhMzFjYTlhMWZlN2Y",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/aeb9e47dad26043c84437b69a4e2a31ca9a1fe7f",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/aeb9e47dad26043c84437b69a4e2a31ca9a1fe7f",
+      "tree": {
+        "sha": "559aa04526113ed5edfd1c906ca91238a013a40c",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/559aa04526113ed5edfd1c906ca91238a013a40c"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 559aa04526113ed5edfd1c906ca91238a013a40c\nparent cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1697507184 -0700\ncommitter Olaoluwa Osuntokun <laolu32@gmail.com> 1697670991 -0700\n\nbip-tap-universe: split universe trees, use new sum values\n\nIn this commit, we split the Universe trees into transfer vs issuance.\nThe leaf sum value for issuance is the number of units, while for\ntransfer just `1` (accumulator).\n\nFor Multiverse trees, we make a similar distinction. The sum value for\nan issuance multiverse is just 1, so it tracks the total amount of\nassets committed to. For transfer multiverses, the value here is the\nsame as the root of a transfer universe, this ends up summing to the\ntotal number of transfer committed to.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEYKH6faW/8Ivcu+eQO71Z6ZsoAwYFAmUwZ1AACgkQO71Z6Zso\nAwZq6Q/7BWntQxwqu/LTNlKj1LzccyvGG0a0OvkjwDIsqGnJDxtkVXqamkTDmeUz\nZkQQRiMsKr95pLDI9PosWLOGxm6cef0WnZdEL0pA2zyRYZqTn5BXMWthJBW6xwtd\nm3t/CGuzSLENXBsEUgUG1pZzmM6br1UPutLWOTP9Zpfao6fgX9ywh+TpVS3DVY7k\nDGvn/kMPHBidjZV3ET9CxvtQ6LtY2EsNt/fJ5sKTwiHKJstYWO+J+RslV9aK77Cb\neVNKroCeJ8bVCPu+llm4AUBRH/RaNQ/+9TU9BizUGs9p9ed/dqlH5vTV7pYTZtYQ\nCBhEH67/pLlHL8+vQtY9q2CHyy8+tCgV9EzmSy3CE/2M8xYdEcuk6mtwiecB1NQ4\naKgLRI9DemUFm7C0iVcMMNhf6KjvZDw35jQ5Px4duEk6n9aANI9x46WNYlPMl3sF\neF8uY/1srOMtXmn1GotKyIuvZW77PXl8udewrJO9bDJ0TjVmgz6fY+hhUmRuLVp0\n+pKuBc7ppt52Zk2Y+EQMNi4RNzCsFTwxQkOXfOwCXBIOv9nMhIccrLMvLC5G4yS1\nYTeQQZBkgD3Jyd4w1EWCOWeJyZbWWynfMYVu7XPNg0aGksmZgQU+3KoXT5fj1+BY\n2xQ5caq4d9UDvjxxzGTBLKbVYldv0eMi+mnYLGqwy3xOFGd+Wjw=\n=Bchk\n-----END PGP SIGNATURE-----\n-----BEGIN OPENTIMESTAMPS GIT TIMESTAMP-----\n\nAQHwIFGi0kSYblNgUmgAbS4IhmrOZVLkx2z0LApJlxL7s/cXCP/wEBR+IrdnvfcT\nafAuVS93+vMI8SDmxHcEMSbgtj6WRsuo49ksx34DjKFe+icWkRJjCxGA5QjxBGUw\nZ2HwCMj4SvekQ7LYAIPf4w0u+QyOLCtodHRwczovL2JvYi5idGMuY2FsZW5kYXIu\nb3BlbnRpbWVzdGFtcHMub3Jn//AQ2nBKwFRH+Al01yfyiDrzwAjxBGUwZ2HwCOmR\nKFkCmNeBAIPf4w0u+QyOIyJodHRwczovL2J0Yy5jYWxlbmRhci5jYXRhbGxheHku\nY29t//AQ+S7HfvDGejTJrRBZ3Jdf4AjxIPZTemHyQK79oPrOsOVE35sVV/iPCNf4\nXMDBTeFG6JtvCPEEZTBnYfAIyD87OT3Xtj8Ag9/jDS75DI4pKGh0dHBzOi8vZmlu\nbmV5LmNhbGVuZGFyLmV0ZXJuaXR5d2FsbC5jb23wEP8/suuqMqObWWPFVJFGbHEI\n8SAf/DaV86ceo5kOli5xIbkZxZsVDydVfy4bnms5Vli9bAjxIG4NiyRTLh6FGeUx\nvvV3mFi6XkVMiFsT7W8LlOxXE8R0CPEEZTBnYPAIS5u9CaMHfV0Ag9/jDS75DI4u\nLWh0dHBzOi8vYWxpY2UuYnRjLmNhbGVuZGFyLm9wZW50aW1lc3RhbXBzLm9yZw==\n-----END OPENTIMESTAMPS GIT TIMESTAMP-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18",
+          "sha": "cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18",
+          "html_url": "https://github.com/bitcoin/bips/commit/cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18"
+        }
+      ],
+      "message": "bip-tap-universe: split universe trees, use new sum values\n\nIn this commit, we split the Universe trees into transfer vs issuance.\nThe leaf sum value for issuance is the number of units, while for\ntransfer just `1` (accumulator).\n\nFor Multiverse trees, we make a similar distinction. The sum value for\nan issuance multiverse is just 1, so it tracks the total amount of\nassets committed to. For transfer multiverses, the value here is the\nsame as the root of a transfer universe, this ends up summing to the\ntotal number of transfer committed to.",
+      "committer": {
+        "name": "Olaoluwa Osuntokun",
+        "email": "laolu32@gmail.com",
+        "date": "2023-10-18T23:16:31Z"
+      },
+      "author": {
+        "name": "Olaoluwa Osuntokun",
+        "email": "laolu32@gmail.com",
+        "date": "2023-10-17T01:46:24Z"
+      },
+      "sha": "aeb9e47dad26043c84437b69a4e2a31ca9a1fe7f"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDZkZDM0NThkZGM4NGVlZTU1MmUyMDk3MThlMzMzZTI0YWY3MmNiZWI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6dd3458ddc84eee552e209718e333e24af72cbeb",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/6dd3458ddc84eee552e209718e333e24af72cbeb",
+      "tree": {
+        "sha": "559aa04526113ed5edfd1c906ca91238a013a40c",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/559aa04526113ed5edfd1c906ca91238a013a40c"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 559aa04526113ed5edfd1c906ca91238a013a40c\nparent cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18\nparent aeb9e47dad26043c84437b69a4e2a31ca9a1fe7f\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1697671096 -0700\ncommitter GitHub <noreply@github.com> 1697671096 -0700\n\nMerge pull request #45 from Roasbeef/split-universe-trees\n\nbip-tap-universe: split universe trees, use new sum values",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJlMGe4CRBK7hj4Ov3rIwAAlIsIAKzGxgcZdo36+LZp0lvbmDb/\n/7iQKqnL4FvNDlo3tiJvfeo8h3JwgmBwHf1FoXGShVs31PRscjBqXz60pOUP92FO\nmW4N2Hznb466HOY3+cvjSLTg1mYR32EtuYf5t1/M/wEg71+ZVwMHZVUGQC770So2\nSZDY1K+f8YozrrahNVQl3M1qemgbNKV8C7MB9Y5nQc1yMs79HzCY+YVQcy6r7s/X\nsd8VX7NOQtHgt08P3/AjVuvghBSToYY+stR9cTRzVue5+YlArP/XEaQjf6/5EihA\nu2xd4zA66WmnZzdo9RjY7XP5V5mms9xP50Htx8bTDxtzDVtUrPOzRRu+e4jfGgk=\n=x/UI\n-----END PGP SIGNATURE-----\n"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18",
+          "sha": "cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18",
+          "html_url": "https://github.com/bitcoin/bips/commit/cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18"
+        },
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/aeb9e47dad26043c84437b69a4e2a31ca9a1fe7f",
+          "sha": "aeb9e47dad26043c84437b69a4e2a31ca9a1fe7f",
+          "html_url": "https://github.com/bitcoin/bips/commit/aeb9e47dad26043c84437b69a4e2a31ca9a1fe7f"
+        }
+      ],
+      "message": "Merge pull request #45 from Roasbeef/split-universe-trees\n\nbip-tap-universe: split universe trees, use new sum values",
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2023-10-18T23:18:16Z"
+      },
+      "author": {
+        "name": "Olaoluwa Osuntokun",
+        "email": "laolu32@gmail.com",
+        "date": "2023-10-18T23:18:16Z"
+      },
+      "sha": "6dd3458ddc84eee552e209718e333e24af72cbeb"
     }
   ],
   "comments": []
