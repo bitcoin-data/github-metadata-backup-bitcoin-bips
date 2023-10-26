@@ -41,7 +41,7 @@
     "body": "Pairs with the draft implementation in https://github.com/bitcoin-inquisition/bitcoin/pull/21.",
     "labels": [],
     "created_at": "2023-02-13T20:55:10Z",
-    "updated_at": "2023-10-14T04:30:31Z",
+    "updated_at": "2023-10-26T16:39:53Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "3f15aa7b20725b9aa791c9ac1a085823a9cf3739",
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5589,
-        "stargazers_count": 8364,
-        "watchers_count": 8364,
+        "forks_count": 5617,
+        "stargazers_count": 8391,
+        "watchers_count": 8391,
         "size": 13659,
         "default_branch": "master",
-        "open_issues_count": 120,
+        "open_issues_count": 122,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-10-13T01:06:32Z",
+        "pushed_at": "2023-10-25T20:29:40Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-10-11T17:05:13Z"
+        "updated_at": "2023-10-26T03:17:20Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 27,
-    "review_comments": 100,
+    "review_comments": 101,
     "comments": 32
   },
   "events": [
@@ -5236,8 +5236,8 @@
           "events_url": "https://api.github.com/repos/Merkleize/bitcoin/issues/2/events",
           "html_url": "https://github.com/Merkleize/bitcoin/issues/2",
           "number": 2,
-          "state": "open",
-          "state_reason": null,
+          "state": "closed",
+          "state_reason": "completed",
           "title": "Implement `CTV_FLAG_DEDUCT_OUTPUT_AMOUNT`",
           "body": "Idea: add a new flag to the [current specs](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-July/021827.html) for `OP_CHECKCONTRACTVERIFY` used with outputs (so without `CCV_FLAG_CHECK_INPUT`):\r\n\r\nCurrently, there are only two possible behaviors defined for CCV for an output (that is, the when `CCV_FLAG_CHECK_INPUT` is not in the `flags`):\r\n\r\n- `CCV_FLAG_IGNORE_OUTPUT_AMOUNT`: no check on the amount\r\n- _default_: the output must account for the amount of the input; if multiple inputs have a CCV towards the same output (and without `CCV_FLAG_IGNORE_OUTPUT_AMOUNT`), the output' s amount must be at least equal to their sum\r\n\r\nWe can make the opcode more flexible by adding an additional flag: `CCV_DEDUCT_OUTPUT_AMOUNT = 4` (incompatible with `CCV_FLAG_IGNORE_OUTPUT_AMOUNT`).\r\n\r\nIf present, then:\r\n- the amount of the output must be no less than the amount of the input.\r\n- the amount is subtracted from the input amount, and the difference is used for deferred checks if future calls to `OP_CHECKCONTRACTVERIFY` are performed in the same script.\r\n\r\nTo be defined: should the deducted amount persist across inputs, or only stored during the current input's evaluation? It does not seem to matter for the use cases I have in mind (vaults and CoinPools unilateral exits), so it might suffice to keep the semantics simpler and per-input.\r\n\r\n## Vaults\r\n\r\n[OP_VAULT](https://github.com/bitcoin/bips/pull/1421) allows to instantly \"revault\" part of the input amounts, so that it is available for spending without waiting for the timelock. \r\n\r\nThe current vault implementation [here](https://github.com/bigspider/pymatt/blob/master/vault_contracts.py) does not support this feature.\r\n`CCV_DEDUCT_OUTPUT_AMOUNT` allows to implement this missing feature, allowing CCV-based vaults that are a drop-in replacement for OP_VAULT.\r\n\r\n```\r\n<0: skip data tweak>\r\n<revault_output_index>\r\n<-1: current internal key>\r\n<-1: current taptree>\r\n<CCV_DEDUCT_OUTPUT_AMOUNT> OP_CHECKCONTRACTVERIFY\r\n\r\n<ctv_hash (coming from the witness)>\r\n<unvaulting_output_index>\r\n<unvaulting_output_pubkey (or NUMS)>\r\n<unvaulting_output_taptree>\r\n<0: default flags> OP_CHECKCONTRACTVERIFY\r\n```\r\n\r\n## CoinPools\r\nIn protocols like [CoinPools](https://coinpool.dev/), it is necessary that a party is able to unilaterally withdraw from the pool, by subtracting their balance from the UTXO. `CCV_DEDUCT_OUTPUT_AMOUNT` would allow to support this use cases without worrying about 64-bit arithmetics in Script.",
           "user": {
@@ -5264,9 +5264,10 @@
           "assignees": [],
           "author_association": "NONE",
           "locked": false,
-          "comments": 0,
+          "comments": 1,
+          "closed_at": "2023-10-16T10:48:28Z",
           "created_at": "2023-10-01T20:38:47Z",
-          "updated_at": "2023-10-01T20:38:47Z"
+          "updated_at": "2023-10-16T10:48:29Z"
         },
         "type": "issue"
       }
@@ -5413,12 +5414,30 @@
               "name": "Consensus",
               "color": "009800",
               "default": false
+            },
+            {
+              "id": 955867938,
+              "node_id": "MDU6TGFiZWw5NTU4Njc5Mzg=",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/Needs%20rebase",
+              "name": "Needs rebase",
+              "description": "",
+              "color": "cccccc",
+              "default": false
+            },
+            {
+              "id": 5334691551,
+              "node_id": "LA_kwDOABII588AAAABPfju3w",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/CI%20failed",
+              "name": "CI failed",
+              "description": "",
+              "color": "cccccc",
+              "default": false
             }
           ],
           "assignees": [],
           "author_association": "MEMBER",
           "locked": false,
-          "comments": 7,
+          "comments": 9,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/28550",
             "html_url": "https://github.com/bitcoin/bitcoin/pull/28550",
@@ -5426,7 +5445,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28550.patch"
           },
           "created_at": "2023-09-28T18:42:45Z",
-          "updated_at": "2023-10-12T20:27:20Z"
+          "updated_at": "2023-10-26T16:42:24Z"
         },
         "type": "issue"
       }
@@ -5568,6 +5587,41 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1421#pullrequestreview-1675762428",
       "submitted_at": "2023-10-13T06:27:58Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1421"
+    },
+    {
+      "event": "reviewed",
+      "id": 1700084752,
+      "node_id": "PRR_kwDOAN28mc5lVTwQ",
+      "url": null,
+      "actor": null,
+      "commit_id": "eb3fb727c31dd348a63992d22a35558e031174f9",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1421#pullrequestreview-1700084752",
+      "submitted_at": "2023-10-26T16:39:53Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1421"
     }
@@ -10303,6 +10357,58 @@
       "start_side": null,
       "line": 227,
       "original_line": 227,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1373455526",
+      "pull_request_review_id": 1700084752,
+      "id": 1373455526,
+      "node_id": "PRRC_kwDOAN28mc5R3USm",
+      "diff_hunk": "@@ -0,0 +1,1113 @@\n+<mxfile host=\"app.diagrams.net\" modified=\"2023-03-23T20:50:16.927Z\" agent=\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36\" etag=\"MVPrlQq-FqlMbts0SwvB\" version=\"21.1.0\" type=\"device\" pages=\"8\">\n+  <diagram id=\"qHG0FeF2aWp-aiau7VVg\" name=\"Basic flow\">\n+    <mxGraphModel dx=\"2162\" dy=\"1316\" grid=\"1\" gridSize=\"10\" guides=\"1\" tooltips=\"1\" connect=\"1\" arrows=\"1\" fold=\"1\" page=\"1\" pageScale=\"1\" pageWidth=\"850\" pageHeight=\"1100\" math=\"0\" shadow=\"0\">\n+      <root>\n+        <mxCell id=\"0\" />\n+        <mxCell id=\"1\" parent=\"0\" />\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-5\" value=\"\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\" parent=\"1\" source=\"b8DSxFJpJzC5LI19bmsF-1\" target=\"b8DSxFJpJzC5LI19bmsF-3\" edge=\"1\">\n+          <mxGeometry relative=\"1\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-8\" value=\"&lt;div&gt;Sign with trigger key&lt;/div&gt;\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];\" parent=\"b8DSxFJpJzC5LI19bmsF-5\" vertex=\"1\" connectable=\"0\">\n+          <mxGeometry x=\"-0.3102\" y=\"-1\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"1\" y=\"6\" as=\"offset\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-6\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeColor=default;dashed=1;\" parent=\"1\" source=\"b8DSxFJpJzC5LI19bmsF-1\" target=\"b8DSxFJpJzC5LI19bmsF-2\" edge=\"1\">\n+          <mxGeometry relative=\"1\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-7\" value=\"Reveal recovery &lt;br&gt;scriptPubKey&lt;br&gt;and (if applicable)&lt;br&gt;satisfy recovery &lt;br&gt;auth. script\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];\" parent=\"b8DSxFJpJzC5LI19bmsF-6\" vertex=\"1\" connectable=\"0\">\n+          <mxGeometry x=\"-0.17\" y=\"2\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"52\" y=\"57\" as=\"offset\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-1\" value=\"&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;b&gt;Vault transaction&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;i style=&quot;background-color: initial;&quot;&gt;&amp;lt;recovery-params&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&lt;i&gt;spend-delay&lt;/i&gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&lt;i&gt;trigger-sPK-hash&lt;/i&gt;&amp;gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;OP_VAULT&lt;/b&gt;&lt;br&gt;&lt;/div&gt;\" style=\"rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=middle;align=center;verticalAlign=middle;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"190\" y=\"250\" width=\"140\" height=\"100\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-2\" value=\"&lt;b&gt;Recovery transaction&lt;br&gt;&lt;/b&gt;&lt;br&gt;[outputs controlled &lt;br&gt;by recovery keys]\" style=\"rounded=1;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"443\" y=\"420\" width=\"130\" height=\"70\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-9\" style=\"edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;strokeColor=default;endArrow=none;endFill=0;rounded=1;\" parent=\"1\" source=\"b8DSxFJpJzC5LI19bmsF-3\" edge=\"1\">\n+          <mxGeometry relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"400\" y=\"300\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"iAfIXZV-x1gRYHwice2W-8\" value=\"Recover from trigger,&lt;br style=&quot;font-size: 11px;&quot;&gt;before withdrawal&lt;br style=&quot;font-size: 11px;&quot;&gt;confirms\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;\" parent=\"b8DSxFJpJzC5LI19bmsF-9\" vertex=\"1\" connectable=\"0\">\n+          <mxGeometry x=\"0.4001\" y=\"-1\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"-13\" y=\"19\" as=\"offset\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-11\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;\" parent=\"1\" source=\"b8DSxFJpJzC5LI19bmsF-3\" target=\"b8DSxFJpJzC5LI19bmsF-10\" edge=\"1\">\n+          <mxGeometry relative=\"1\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-12\" value=\"&lt;div&gt;Wait &lt;i&gt;spend-delay&lt;/i&gt; blocks &lt;b&gt;&amp;amp;&amp;amp;&lt;/b&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;outputs match target hash&lt;br&gt;&lt;/div&gt;\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];\" parent=\"b8DSxFJpJzC5LI19bmsF-11\" vertex=\"1\" connectable=\"0\">\n+          <mxGeometry x=\"-0.302\" y=\"2\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"1\" y=\"4\" as=\"offset\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"oT6HpDHtKCBb9ui_6_kA-1\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.001;exitY=0.406;exitDx=0;exitDy=0;entryX=0.001;entryY=0.595;entryDx=0;entryDy=0;dashed=1;endArrow=classic;endFill=1;entryPerimeter=0;exitPerimeter=0;\" parent=\"1\" source=\"b8DSxFJpJzC5LI19bmsF-3\" target=\"b8DSxFJpJzC5LI19bmsF-1\" edge=\"1\">\n+          <mxGeometry relative=\"1\" as=\"geometry\">\n+            <Array as=\"points\">\n+              <mxPoint x=\"90\" y=\"441\" />\n+              <mxPoint x=\"90\" y=\"310\" />\n+            </Array>\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"oT6HpDHtKCBb9ui_6_kA-2\" value=\"Optional &lt;br&gt;partial-balance&lt;br&gt;revault\" style=\"edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];\" parent=\"oT6HpDHtKCBb9ui_6_kA-1\" vertex=\"1\" connectable=\"0\">\n+          <mxGeometry x=\"0.1091\" y=\"1\" relative=\"1\" as=\"geometry\">\n+            <mxPoint y=\"13\" as=\"offset\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-3\" value=\"&lt;div&gt;&lt;b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Trigger transaction&lt;/span&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;i style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;i style=&quot;background-color: initial;&quot;&gt;&amp;lt;recovery-params&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&lt;i&gt;spend-delay&lt;/i&gt;&amp;gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&lt;i&gt;target-outputs-hash&lt;/i&gt;&amp;gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;OP_UNVAULT&lt;/b&gt;&lt;br&gt;&lt;/div&gt;\" style=\"rounded=1;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"190\" y=\"400\" width=\"140\" height=\"100\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-10\" value=\"&lt;b&gt;Withdrawal transaction&lt;br&gt;&lt;/b&gt;&lt;br&gt;[dynamically chosen target outputs]\" style=\"rounded=1;whiteSpace=wrap;html=1;align=center;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"190\" y=\"567\" width=\"140\" height=\"73\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-14\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=default;\" parent=\"1\" source=\"b8DSxFJpJzC5LI19bmsF-13\" target=\"b8DSxFJpJzC5LI19bmsF-1\" edge=\"1\">\n+          <mxGeometry relative=\"1\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"b8DSxFJpJzC5LI19bmsF-13\" value=\"\" style=\"points=[[0.145,0.145,0],[0.5,0,0],[0.855,0.145,0],[1,0.5,0],[0.855,0.855,0],[0.5,1,0],[0.145,0.855,0],[0,0.5,0]];shape=mxgraph.bpmn.event;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;align=center;perimeter=ellipsePerimeter;outlineConnect=0;aspect=fixed;outline=standard;symbol=general;rounded=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"245\" y=\"200\" width=\"30\" height=\"30\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"BqwL7Yf8YW1r5e_O7xE0-1\" value=\"\" style=\"shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#4495D1;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;shape=mxgraph.veeam.time;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"158\" y=\"512\" width=\"30\" height=\"30\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"BqwL7Yf8YW1r5e_O7xE0-2\" value=\"\" style=\"sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"183\" y=\"358\" width=\"15\" height=\"33\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"oT6HpDHtKCBb9ui_6_kA-7\" value=\"\" style=\"endArrow=none;html=1;rounded=1;entryX=1;entryY=0.25;entryDx=0;entryDy=0;exitX=0;exitY=0.25;exitDx=0;exitDy=0;\" parent=\"1\" source=\"b8DSxFJpJzC5LI19bmsF-1\" target=\"b8DSxFJpJzC5LI19bmsF-1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"190\" y=\"280\" as=\"sourcePoint\" />\n+            <mxPoint x=\"240\" y=\"230\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"oT6HpDHtKCBb9ui_6_kA-8\" value=\"\" style=\"endArrow=none;html=1;rounded=1;entryX=1;entryY=0.25;entryDx=0;entryDy=0;exitX=0;exitY=0.25;exitDx=0;exitDy=0;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"190\" y=\"427\" as=\"sourcePoint\" />\n+            <mxPoint x=\"330\" y=\"427\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"oT6HpDHtKCBb9ui_6_kA-9\" value=\"\" style=\"endArrow=none;html=1;rounded=1;entryX=1;entryY=0.25;entryDx=0;entryDy=0;exitX=0;exitY=0.25;exitDx=0;exitDy=0;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"190\" y=\"596\" as=\"sourcePoint\" />\n+            <mxPoint x=\"330\" y=\"596\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"oT6HpDHtKCBb9ui_6_kA-10\" value=\"\" style=\"endArrow=none;html=1;rounded=1;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"443\" y=\"446\" as=\"sourcePoint\" />\n+            <mxPoint x=\"573\" y=\"446\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"LweIh1WkpCqs_c0vHIex-1\" value=\"\" style=\"endArrow=none;html=1;rounded=1;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"393\" y=\"236\" as=\"sourcePoint\" />\n+            <mxPoint x=\"413\" y=\"236\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"LweIh1WkpCqs_c0vHIex-2\" value=\"Withdrawal path\" style=\"text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"415\" y=\"221\" width=\"90\" height=\"30\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"LweIh1WkpCqs_c0vHIex-3\" value=\"\" style=\"endArrow=none;html=1;rounded=1;dashed=1;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"393\" y=\"252\" as=\"sourcePoint\" />\n+            <mxPoint x=\"413\" y=\"252\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"LweIh1WkpCqs_c0vHIex-4\" value=\"Optional path\" style=\"text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"416\" y=\"237\" width=\"90\" height=\"30\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"iAfIXZV-x1gRYHwice2W-2\" value=\"\" style=\"endArrow=classic;html=1;rounded=0;strokeColor=default;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"359\" y=\"449.76\" as=\"sourcePoint\" />\n+            <mxPoint x=\"369\" y=\"449.76\" as=\"targetPoint\" />\n+            <Array as=\"points\">\n+              <mxPoint x=\"359\" y=\"449.76\" />\n+            </Array>\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"iAfIXZV-x1gRYHwice2W-4\" value=\"\" style=\"endArrow=classic;html=1;rounded=0;strokeColor=default;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"399\" y=\"299.76\" as=\"sourcePoint\" />\n+            <mxPoint x=\"409\" y=\"299.76\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"iAfIXZV-x1gRYHwice2W-5\" value=\"\" style=\"endArrow=classic;html=1;rounded=0;strokeColor=default;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"150\" y=\"440\" as=\"sourcePoint\" />\n+            <mxPoint x=\"140\" y=\"440\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+      </root>\n+    </mxGraphModel>\n+  </diagram>\n+  <diagram id=\"hQFg2SRqlWPJF2oUK6n1\" name=\"Batch sweep\">\n+    <mxGraphModel dx=\"1430\" dy=\"1768\" grid=\"1\" gridSize=\"10\" guides=\"1\" tooltips=\"1\" connect=\"1\" arrows=\"1\" fold=\"1\" page=\"1\" pageScale=\"1\" pageWidth=\"850\" pageHeight=\"1100\" math=\"0\" shadow=\"0\">\n+      <root>\n+        <mxCell id=\"0\" />\n+        <mxCell id=\"1\" parent=\"0\" />\n+        <mxCell id=\"DGUraX8pYsX29eg1CZX8-1\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"636\" y=\"415\" width=\"138\" height=\"160\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"DGUraX8pYsX29eg1CZX8-2\" value=\"\" style=\"endArrow=none;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;\" parent=\"1\" source=\"DGUraX8pYsX29eg1CZX8-1\" target=\"DGUraX8pYsX29eg1CZX8-1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"660\" y=\"519.5\" as=\"sourcePoint\" />\n+            <mxPoint x=\"710\" y=\"469.5\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"DGUraX8pYsX29eg1CZX8-3\" value=\"&lt;b style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/b&gt;\" style=\"rounded=1;whiteSpace=wrap;html=1;align=left;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"722\" y=\"440\" width=\"100\" height=\"80\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-11\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"380\" y=\"300\" width=\"138\" height=\"122\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-12\" value=\"\" style=\"endArrow=none;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;\" parent=\"1\" source=\"IMLKYxiTQTyD-2dyPs5i-11\" target=\"IMLKYxiTQTyD-2dyPs5i-11\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"398\" y=\"352\" as=\"sourcePoint\" />\n+            <mxPoint x=\"448\" y=\"302\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-13\" value=\"&lt;b style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/b&gt;\" style=\"rounded=1;whiteSpace=wrap;html=1;align=left;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"460\" y=\"313\" width=\"100\" height=\"83\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-16\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"400\" y=\"499\" width=\"115\" height=\"138\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-17\" value=\"\" style=\"endArrow=none;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"435\" y=\"637\" as=\"sourcePoint\" />\n+            <mxPoint x=\"435\" y=\"499\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-18\" value=\"&lt;b style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/b&gt;\" style=\"rounded=1;whiteSpace=wrap;html=1;align=left;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"457\" y=\"516\" width=\"100\" height=\"101\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-27\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"165\" y=\"420\" width=\"138\" height=\"140\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-28\" value=\"\" style=\"endArrow=none;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"201\" y=\"560\" as=\"sourcePoint\" />\n+            <mxPoint x=\"201\" y=\"420\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-29\" value=\"&lt;b style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/b&gt;\" style=\"rounded=1;whiteSpace=wrap;html=1;align=left;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"230\" y=\"437\" width=\"100\" height=\"101\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-30\" value=\"&lt;p style=&quot;line-height: 40%;&quot;&gt;&lt;b&gt;scriptPubKey&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); line-height: 4.8px;&quot;&gt;&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;&lt;font style=&quot;border-color: var(--border-color);&quot; color=&quot;#0066cc&quot;&gt;recov-hash&amp;nbsp;&lt;/font&gt;&lt;font style=&quot;border-color: var(--border-color);&quot; color=&quot;#00060d&quot;&gt;...&lt;/font&gt;&lt;/b&gt;&amp;nbsp;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); line-height: 4.8px;&quot;&gt;&amp;nbsp; OP_VAULT&lt;/p&gt;&lt;p style=&quot;line-height: 40%;&quot;&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;amount&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;line-height: 40%;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;a3&lt;/span&gt;&lt;/p&gt;\" style=\"text;html=1;resizable=0;autosize=1;align=left;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;dashed=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"461\" y=\"513.5\" width=\"100\" height=\"110\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-31\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"134\" y=\"270\" width=\"88\" height=\"122\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-32\" value=\"\" style=\"endArrow=none;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;\" parent=\"1\" edge=\"1\">\n+          <mxGeometry width=\"50\" height=\"50\" relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"157\" y=\"392\" as=\"sourcePoint\" />\n+            <mxPoint x=\"157\" y=\"270\" as=\"targetPoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-33\" value=\"&lt;b style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/b&gt;\" style=\"rounded=1;whiteSpace=wrap;html=1;align=left;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"180\" y=\"282\" width=\"100\" height=\"101\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-34\" value=\"&lt;p style=&quot;line-height: 40%;&quot;&gt;&lt;b&gt;scriptPubKey&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;line-height: 40%;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;i&gt;&lt;b style=&quot;&quot;&gt;&lt;font color=&quot;#0066cc&quot;&gt;recov-hash &lt;/font&gt;&lt;font color=&quot;#00060d&quot;&gt;...&lt;/font&gt;&lt;/b&gt;&amp;nbsp;&lt;/i&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;line-height: 40%;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp; OP_VAULT&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;line-height: 120%;&quot;&gt;&lt;b&gt;amount&lt;/b&gt;&lt;br&gt;a1&lt;/p&gt;\" style=\"text;html=1;resizable=0;autosize=1;align=left;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;dashed=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"183\" y=\"271\" width=\"100\" height=\"120\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-52\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;\" parent=\"1\" source=\"IMLKYxiTQTyD-2dyPs5i-38\" edge=\"1\">\n+          <mxGeometry relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"280\" y=\"333\" as=\"targetPoint\" />\n+            <Array as=\"points\">\n+              <mxPoint x=\"340\" y=\"333\" />\n+            </Array>\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-38\" value=\"\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"340\" y=\"319\" width=\"90\" height=\"60\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-39\" value=\"&lt;p style=&quot;line-height: 40%;&quot;&gt;&lt;b&gt;witness&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;line-height: 40%;&quot;&gt;[&lt;i&gt;trigger-key&amp;nbsp;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;line-height: 40%;&quot;&gt;&amp;nbsp; signature]&lt;/p&gt;\" style=\"text;html=1;resizable=0;autosize=1;align=left;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;dashed=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"353\" y=\"310\" width=\"90\" height=\"80\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMagvj_H5wSyhYbexlPS-2\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" target=\"IMLKYxiTQTyD-2dyPs5i-18\" edge=\"1\">\n+          <mxGeometry relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"600\" y=\"538\" as=\"sourcePoint\" />\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-54\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" target=\"IMLKYxiTQTyD-2dyPs5i-13\" edge=\"1\">\n+          <mxGeometry relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"600\" y=\"448.5\" as=\"sourcePoint\" />\n+            <Array as=\"points\">\n+              <mxPoint x=\"580\" y=\"449\" />\n+              <mxPoint x=\"580\" y=\"355\" />\n+            </Array>\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"IMagvj_H5wSyhYbexlPS-1\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.367;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitPerimeter=0;\" parent=\"1\" source=\"IMLKYxiTQTyD-2dyPs5i-43\" edge=\"1\">\n+          <mxGeometry relative=\"1\" as=\"geometry\">\n+            <mxPoint x=\"600\" y=\"491.5\" as=\"sourcePoint\" />\n+            <mxPoint x=\"330\" y=\"486.5\" as=\"targetPoint\" />\n+            <Array as=\"points\">\n+              <mxPoint x=\"600\" y=\"487\" />\n+              <mxPoint x=\"465\" y=\"487\" />\n+            </Array>\n+          </mxGeometry>\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-43\" value=\"Script-path reveal\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"600\" y=\"473\" width=\"90\" height=\"35\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-20\" value=\"&lt;p style=&quot;line-height: 40%;&quot;&gt;&lt;b&gt;scriptPubKey&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); line-height: 4.8px;&quot;&gt;&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;&lt;font style=&quot;border-color: var(--border-color);&quot; color=&quot;#0066cc&quot;&gt;recov-hash&amp;nbsp;&lt;/font&gt;&lt;font style=&quot;border-color: var(--border-color);&quot; color=&quot;#00060d&quot;&gt;...&lt;/font&gt;&lt;/b&gt;&amp;nbsp;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); line-height: 4.8px;&quot;&gt;&lt;span style=&quot;border-color: var(--border-color); background-color: initial;&quot;&gt;&amp;nbsp; OP_VAULT&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;line-height: 120%;&quot;&gt;&lt;b&gt;amount&lt;/b&gt;&lt;br&gt;a2&lt;/p&gt;\" style=\"text;html=1;resizable=0;autosize=1;align=left;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;dashed=1;\" parent=\"1\" vertex=\"1\">\n+          <mxGeometry x=\"233\" y=\"430\" width=\"100\" height=\"120\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-53\" value=\"\" style=\"group\" parent=\"1\" vertex=\"1\" connectable=\"0\">\n+          <mxGeometry x=\"465\" y=\"307.5\" width=\"120\" height=\"95\" as=\"geometry\" />\n+        </mxCell>\n+        <mxCell id=\"IMLKYxiTQTyD-2dyPs5i-15\" value=\"&lt;p style=&quot;line-height: 10%;&quot;&gt;&lt;b&gt;scriptPubKey&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); line-height: 4.8px;&quot;&gt;&lt;i style=&quot;border-color: var(--border-color);&quot;&gt;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;&lt;font style=&quot;border-color: var(--border-color);&quot; color=&quot;#0066cc&quot;&gt;recov-hash&amp;nbsp;&lt;/font&gt;&lt;font style=&quot;border-color: var(--border-color);&quot; color=&quot;#00060d&quot;&gt;...&lt;/font&gt;&lt;/b&gt;&amp;nbsp;&lt;/i&gt;&lt;/p&gt;&lt;p style=&quot;border-color: var(--border-color); line-height: 4.8px;&quot;&gt;&lt;span style=&quot;border-color: var(--border-color); background-color: initial;&quot;&gt;&amp;nbsp; OP_UNVAULT&lt;/span&gt;&lt;/p&gt;\" style=\"text;html=1;resizable=0;autosize=1;align=left;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;dashed=1;\" parent=\"IMLKYxiTQTyD-2dyPs5i-53\" vertex=\"1\">",
+      "path": "bip-0345/vaults.drawio",
+      "position": 262,
+      "original_position": 262,
+      "commit_id": "eb3fb727c31dd348a63992d22a35558e031174f9",
+      "original_commit_id": "eb3fb727c31dd348a63992d22a35558e031174f9",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "OP_UNVAULT doesn't exist anymore, and batch-sweep doesn't seem to be included anywhere; perhaps this should be dropped from the source file?",
+      "created_at": "2023-10-26T16:39:52Z",
+      "updated_at": "2023-10-26T16:40:06Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1421#discussion_r1373455526",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1373455526"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1421"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 262,
+      "original_line": 262,
       "side": "RIGHT"
     }
   ]
