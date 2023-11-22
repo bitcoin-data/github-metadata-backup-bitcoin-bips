@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1389/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1389/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
     "number": 1389,
     "state": "open",
     "locked": false,
@@ -50,10 +50,10 @@
       }
     ],
     "created_at": "2022-11-16T15:34:23Z",
-    "updated_at": "2023-09-25T20:17:11Z",
+    "updated_at": "2023-11-21T11:04:42Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "93ce4a254298e9f25089861e50a81c6f1a330c9d",
+    "merge_commit_sha": "2abdaeafb6e49144388d596acec52197877d64cb",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -61,7 +61,7 @@
     "head": {
       "label": "bigspider:bip-wallet-policies",
       "ref": "bip-wallet-policies",
-      "sha": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "sha": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "user": {
         "login": "bigspider",
         "id": 6681844,
@@ -157,7 +157,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 13517,
+        "size": 13502,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -170,7 +170,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-12T09:49:04Z",
+        "pushed_at": "2023-11-21T11:04:39Z",
         "created_at": "2021-10-12T09:08:05Z",
         "updated_at": "2022-09-01T08:36:44Z"
       }
@@ -178,7 +178,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "de6b3ffeb807e3cb6868dee6a6ec18dd6b565858",
+      "sha": "e918b50731397872ad2922a1b08a5a4cd1d6d546",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -271,12 +271,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5573,
-        "stargazers_count": 8336,
-        "watchers_count": 8336,
-        "size": 13657,
+        "forks_count": 5646,
+        "stargazers_count": 8473,
+        "watchers_count": 8473,
+        "size": 13659,
         "default_branch": "master",
-        "open_issues_count": 118,
+        "open_issues_count": 125,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -287,9 +287,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-25T13:01:25Z",
+        "pushed_at": "2023-11-21T11:04:43Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-09-25T18:47:41Z"
+        "updated_at": "2023-11-21T15:04:53Z"
       }
     },
     "_links": {
@@ -299,12 +299,12 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 540,
+    "additions": 543,
     "deletions": 0,
     "changed_files": 2,
-    "commits": 13,
+    "commits": 17,
     "review_comments": 48,
-    "comments": 12
+    "comments": 15
   },
   "events": [
     {
@@ -1788,8 +1788,8 @@
           "events_url": "https://api.github.com/repos/digitalbitbox/bitbox02-firmware/issues/911/events",
           "html_url": "https://github.com/digitalbitbox/bitbox02-firmware/issues/911",
           "number": 911,
-          "state": "open",
-          "state_reason": null,
+          "state": "closed",
+          "state_reason": "completed",
           "title": "Output Script Descriptor (with Miniscript) support",
           "body": "[Output Script Descriptor](https://github.com/bitcoin/bips/blob/master/bip-0380.mediawiki#motivation) are a sane standard for wallet backups. They express all the information necessary to locate owned (or partially owned) outputs in an engineer-readable format, avoiding the pitfalls of previously used implicit hacks to recover only from a mnemonic.\r\n\r\n[Miniscript](https://bitcoin.sipa.be/miniscript/) is an extension to Output Script Descriptors, which defines a language to reason about a subset of Script. Miniscript allows to:\r\n1. Safely write more complicated contracts than the basic well-known templates\r\n2. Produce a valid witness for any Script that is a valid Miniscript, given the necessary material (signature, etc)\r\n3. Statically analyse the properties of any Script that is a valid Miniscript: determine the semantics of the contract, whether it is non-malleable, whether some spending paths may exceed standardness or consensus limits --in short, whether it's safe to participate in such a Script.\r\n\r\nMiniscript also guarantees consensus soundness (unless the conditions of the Miniscript are met, no witness can be created for the Script) and standardness completeness (for any Miniscript that was analysed as sane, a witness can be constructed in the bounds of the consensus and standardness rules).\r\n\r\nOutput Script Descriptors along with Miniscript are particularly appealing to signing devices, as it permits the user of this device to safely take part in more complex contracts. It also gives a framework to add support for new Scripts, instead of relying on hard-coded Script templates and footgun-y backup solutions.\r\n\r\nOutput descriptors have been in Bitcoin Core for a while now, and [Miniscript was merged into Bitcoin Core](https://github.com/bitcoin/bitcoin/pull/24147) mainline this year. The [Specter](https://github.com/cryptoadvance/specter-diy) signing device added support for Output descriptors and Miniscript more than a year ago. [Ledger added support](https://blog.ledger.com/bitcoin-2/) for (a subset of) output descriptors last year and is [currently working toward Miniscript](https://blog.ledger.com/miniscript-is-coming/) support.\r\nIs there any plan to implement to implement Output Script Descriptors (with Miniscript) for the Bitbox2?",
           "user": {
@@ -1857,9 +1857,10 @@
           ],
           "author_association": "NONE",
           "locked": false,
-          "comments": 3,
+          "comments": 4,
+          "closed_at": "2023-10-10T11:45:44Z",
           "created_at": "2022-05-06T09:30:42Z",
-          "updated_at": "2023-07-11T13:06:28Z"
+          "updated_at": "2023-10-10T11:46:30Z"
         },
         "type": "issue"
       }
@@ -3436,7 +3437,7 @@
           "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/27255/events",
           "html_url": "https://github.com/bitcoin/bitcoin/pull/27255",
           "number": 27255,
-          "state": "open",
+          "state": "closed",
           "state_reason": null,
           "title": "MiniTapscript: port Miniscript to Tapscript",
           "body": "Miniscript was targeting P2WSH, and as such can currently only be used in `wsh()` descriptors. This pull request introduces support for Tapscript in Miniscript and makes Miniscript available inside `tr()` descriptors. It adds support for both watching *and* signing TapMiniscript descriptors.\r\n\r\nThe main changes to Miniscript for Tapscript are the following:\r\n- A new `multi_a` fragment is introduced with the same semantics as `multi`. Like in other descriptors `multi` and `multi_a` can exclusively be used in respectively P2WSH and Tapscript.\r\n- The `d:` fragment has the `u` property under Tapscript, since the `MINIMALIF` rule is now consensus. See also https://github.com/bitcoin/bitcoin/pull/24906.\r\n- Keys are now serialized as 32 bytes. (Note this affects the key hashes.)\r\n- The resource consumption checks and calculation changed. Some limits were lifted in Tapscript, and signatures are now 64 bytes long.\r\n\r\nThe largest amount of complexity probably lies in the last item. Scripts under Taproot can now run into the maximum stack size while executing a fragment. For instance if you've got a stack size of `999` due to the initial witness plus some execution that happened before and try to execute a `hash256` it would `DUP` (increasing the stack size `1000`), `HASH160` and then push the hash on the stack making the script fail.\r\nTo make sure this does not happen on any of the spending paths of a sane Miniscript, we introduce a tracking of the maximum stack size during execution of a fragment. See the commits messages for details. Those commits were separated from the resource consumption change, and the fuzz target was tweaked to sometimes pad the witness so the script runs on the brink of the stack size limit to make sure the stack size was not underestimated.\r\n\r\nExisting Miniscript unit, functional and fuzz tests are extended with Tapscript logic and test cases. Care was taken for seed stability in the fuzz targets where we cared more about them.\r\n\r\nThe design of Miniscript for Tapscript is the result of discussions between various people over the past year(s). To the extent of my knowledge at least Pieter Wuille, Sanket Kanjalkar, Andrew Poelstra and Andrew Chow contributed thoughts and ideas.",
@@ -3463,16 +3464,52 @@
           "labels": [],
           "assignees": [],
           "author_association": "MEMBER",
+          "milestone": {
+            "url": "https://api.github.com/repos/bitcoin/bitcoin/milestones/60",
+            "html_url": "https://github.com/bitcoin/bitcoin/milestone/60",
+            "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/milestones/60/labels",
+            "id": 9286970,
+            "node_id": "MI_kwDOABII584AjbU6",
+            "number": 60,
+            "state": "open",
+            "title": "26.0",
+            "description": "",
+            "creator": {
+              "login": "fanquake",
+              "id": 863730,
+              "node_id": "MDQ6VXNlcjg2MzczMA==",
+              "avatar_url": "https://avatars.githubusercontent.com/u/863730?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/fanquake",
+              "html_url": "https://github.com/fanquake",
+              "followers_url": "https://api.github.com/users/fanquake/followers",
+              "following_url": "https://api.github.com/users/fanquake/following%7B/other_user%7D",
+              "gists_url": "https://api.github.com/users/fanquake/gists%7B/gist_id%7D",
+              "starred_url": "https://api.github.com/users/fanquake/starred%7B/owner%7D%7B/repo%7D",
+              "subscriptions_url": "https://api.github.com/users/fanquake/subscriptions",
+              "organizations_url": "https://api.github.com/users/fanquake/orgs",
+              "repos_url": "https://api.github.com/users/fanquake/repos",
+              "events_url": "https://api.github.com/users/fanquake/events%7B/privacy%7D",
+              "received_events_url": "https://api.github.com/users/fanquake/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "open_issues": 4,
+            "closed_issues": 111,
+            "created_at": "2023-04-15T11:36:05Z",
+            "updated_at": "2023-11-22T11:31:03Z"
+          },
           "locked": false,
-          "comments": 20,
+          "comments": 33,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/27255",
             "html_url": "https://github.com/bitcoin/bitcoin/pull/27255",
             "diff_url": "https://github.com/bitcoin/bitcoin/pull/27255.diff",
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/27255.patch"
           },
+          "closed_at": "2023-10-08T16:10:32Z",
           "created_at": "2023-03-14T12:24:34Z",
-          "updated_at": "2023-09-25T07:40:51Z"
+          "updated_at": "2023-10-26T18:07:12Z"
         },
         "type": "issue"
       }
@@ -3530,6 +3567,681 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1389#issuecomment-1734400528",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1389"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-09-26T19:02:29Z",
+      "updated_at": "2023-09-26T19:02:29Z",
+      "source": {
+        "issue": {
+          "id": 1913061774,
+          "node_id": "I_kwDOF72rbM5yBwGO",
+          "url": "https://api.github.com/repos/LedgerHQ/app-bitcoin-new/issues/197",
+          "repository_url": "https://api.github.com/repos/LedgerHQ/app-bitcoin-new",
+          "labels_url": "https://api.github.com/repos/LedgerHQ/app-bitcoin-new/issues/197/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/LedgerHQ/app-bitcoin-new/issues/197/comments",
+          "events_url": "https://api.github.com/repos/LedgerHQ/app-bitcoin-new/issues/197/events",
+          "html_url": "https://github.com/LedgerHQ/app-bitcoin-new/issues/197",
+          "number": 197,
+          "state": "open",
+          "state_reason": null,
+          "title": "Allow use external public keys in walletPolicy",
+          "body": "Hi, i want to register a wallet polixy with 2 xpub keys (from Ledgers) and 1 external public key (i can't get an extended public key for third key). From docs i understand that ability is not implemented yet. When this will be implemented or maybe there is another way to use such signing strategy with Ledger?",
+          "user": {
+            "login": "generalAO",
+            "id": 2953020,
+            "node_id": "MDQ6VXNlcjI5NTMwMjA=",
+            "avatar_url": "https://avatars.githubusercontent.com/u/2953020?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/generalAO",
+            "html_url": "https://github.com/generalAO",
+            "followers_url": "https://api.github.com/users/generalAO/followers",
+            "following_url": "https://api.github.com/users/generalAO/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/generalAO/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/generalAO/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/generalAO/subscriptions",
+            "organizations_url": "https://api.github.com/users/generalAO/orgs",
+            "repos_url": "https://api.github.com/users/generalAO/repos",
+            "events_url": "https://api.github.com/users/generalAO/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/generalAO/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [],
+          "assignees": [],
+          "author_association": "NONE",
+          "locked": false,
+          "comments": 5,
+          "created_at": "2023-09-26T09:12:21Z",
+          "updated_at": "2023-11-17T12:46:13Z"
+        },
+        "type": "issue"
+      }
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-20T08:52:15Z",
+      "updated_at": "2023-11-20T08:52:15Z",
+      "source": {
+        "issue": {
+          "id": 2000518366,
+          "node_id": "I_kwDOF72rbM53PXze",
+          "url": "https://api.github.com/repos/LedgerHQ/app-bitcoin-new/issues/205",
+          "repository_url": "https://api.github.com/repos/LedgerHQ/app-bitcoin-new",
+          "labels_url": "https://api.github.com/repos/LedgerHQ/app-bitcoin-new/issues/205/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/LedgerHQ/app-bitcoin-new/issues/205/comments",
+          "events_url": "https://api.github.com/repos/LedgerHQ/app-bitcoin-new/issues/205/events",
+          "html_url": "https://github.com/LedgerHQ/app-bitcoin-new/issues/205",
+          "number": 205,
+          "state": "open",
+          "state_reason": null,
+          "title": "simpleSignTxn() new method proposal",
+          "body": "I suggest introducing a new method for generating signatures, which eliminates the need for a policy or information about other signers. This approach involves reading a Partially Signed Bitcoin Transaction (PSBT), utilizing the sighash type, UTXO type (determining if it's SegWit through the presence of a witness), transaction ID, value, vout, and output information. From these elements, it constructs a preimage, which is then displayed on a Ledger device. This allows the user to verify the amounts being spent and the recipients' addresses before signing and returning the signature.\r\n\r\nCrucially, this method does not require knowledge of co-signers' extended public keys (xpubs) or any similar keys. It solely ensures that the user is aware of the transaction's details they are signing. The user's software then uses this signature to reconstruct the final transaction, adding other necessary signatures for broadcasting.\r\n\r\nThis approach enables Ledger devices to sign any redeem/witness scripts without the need to support specific types (standard multi-sig or complex... it is indifferent) or requiring users to gather information from other signers that adds complexity to the user experience. The user only needs their own keys and derivation paths, enabling the wallet to sign the preimage that is the same for any kind of redeem/witness script.\r\n\r\nDo you think such a method is feasible and can be implemented?",
+          "user": {
+            "login": "pcfun19",
+            "id": 6763346,
+            "node_id": "MDQ6VXNlcjY3NjMzNDY=",
+            "avatar_url": "https://avatars.githubusercontent.com/u/6763346?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/pcfun19",
+            "html_url": "https://github.com/pcfun19",
+            "followers_url": "https://api.github.com/users/pcfun19/followers",
+            "following_url": "https://api.github.com/users/pcfun19/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/pcfun19/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/pcfun19/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/pcfun19/subscriptions",
+            "organizations_url": "https://api.github.com/users/pcfun19/orgs",
+            "repos_url": "https://api.github.com/users/pcfun19/repos",
+            "events_url": "https://api.github.com/users/pcfun19/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/pcfun19/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [],
+          "assignees": [],
+          "author_association": "NONE",
+          "locked": false,
+          "comments": 1,
+          "created_at": "2023-11-18T17:56:31Z",
+          "updated_at": "2023-11-20T08:52:50Z"
+        },
+        "type": "issue"
+      }
+    },
+    {
+      "event": "commented",
+      "id": 1818792106,
+      "node_id": "IC_kwDOAN28mc5saJCq",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1818792106",
+      "actor": {
+        "login": "jgriffiths",
+        "id": 406223,
+        "node_id": "MDQ6VXNlcjQwNjIyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/406223?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jgriffiths",
+        "html_url": "https://github.com/jgriffiths",
+        "followers_url": "https://api.github.com/users/jgriffiths/followers",
+        "following_url": "https://api.github.com/users/jgriffiths/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jgriffiths/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jgriffiths/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jgriffiths/subscriptions",
+        "organizations_url": "https://api.github.com/users/jgriffiths/orgs",
+        "repos_url": "https://api.github.com/users/jgriffiths/repos",
+        "events_url": "https://api.github.com/users/jgriffiths/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jgriffiths/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-20T10:37:58Z",
+      "updated_at": "2023-11-20T10:37:58Z",
+      "author_association": "NONE",
+      "body": "@bigspider Policy support for the Jade HWW is now released as of firmware version 1.0.24 (https://github.com/Blockstream/Jade/releases/tag/1.0.24), if you'd like to update the `Reference Implementation` section.\r\n\r\nJade support is implemented via libwally-core (C/C++/Python/Java/JS) v1.0.0 (https://github.com/ElementsProject/libwally-core/releases/tag/release_1.0.0) if you want to link a general purpose implementation. Both Jade and wally implement the single-path derivation `/*` extension for non-bip44 wallets.\r\n\r\nFrom my POV review is otherwise complete, ACK for this to receive a BIP number and be merged.",
+      "user": {
+        "login": "jgriffiths",
+        "id": 406223,
+        "node_id": "MDQ6VXNlcjQwNjIyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/406223?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jgriffiths",
+        "html_url": "https://github.com/jgriffiths",
+        "followers_url": "https://api.github.com/users/jgriffiths/followers",
+        "following_url": "https://api.github.com/users/jgriffiths/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jgriffiths/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jgriffiths/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jgriffiths/subscriptions",
+        "organizations_url": "https://api.github.com/users/jgriffiths/orgs",
+        "repos_url": "https://api.github.com/users/jgriffiths/repos",
+        "events_url": "https://api.github.com/users/jgriffiths/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jgriffiths/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1389#issuecomment-1818792106",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1389"
+    },
+    {
+      "event": "mentioned",
+      "id": 11010003917,
+      "node_id": "MEE_lADOAN28mc5WiQDdzwAAAAKQP1PN",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/11010003917",
+      "actor": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-20T10:37:58Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 11010003939,
+      "node_id": "SE_lADOAN28mc5WiQDdzwAAAAKQP1Pj",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/11010003939",
+      "actor": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-20T10:37:58Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDNjOTc4ODU3Mjc3MDc1MzFiYTllMWUzODFiMDVkNGQ5NjM0M2ViNmU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/3c97885727707531ba9e1e381b05d4d96343eb6e",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/3c97885727707531ba9e1e381b05d4d96343eb6e",
+      "tree": {
+        "sha": "7fb559255d878a50e929206faba305169bca392c",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/7fb559255d878a50e929206faba305169bca392c"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 7fb559255d878a50e929206faba305169bca392c\nparent 6f98026a2fd27069446fdfcabdfbaad6450b3e23\nauthor Salvatore Ingala <6681844+bigspider@users.noreply.github.com> 1700562444 +0000\ncommitter Salvatore Ingala <6681844+bigspider@users.noreply.github.com> 1700562444 +0000\n\nAdd mention of Jade and libwally support\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQGzBAABCgAdFiEEn0ARRHpjklTOSGV2dAYP+Bsz5PgFAmVchgwACgkQdAYP+Bsz\n5PifKQv9HA3i8oW3h2l/9Yb4vHgIMSYBI4YF2i2eGTdz9KGyupPqiSBLl447XMdD\nwqVwQMKpIUT6y5SW+Dk3hDZ7tSmrsyKp8gu+ivl7hhJsOMoLkCHxQkVCQ5+FOr4E\nmwpbdmDf6khaaWuq1SYN24LkMvWnrXdWfMkSwZbFV4l0KfqMGQxVAaYLVFiw4PQ1\nv/LioojYh7JAqUwK3DuX6YME33hDRtMLnePkeKP/rDNHEPJXugyGpAfDwLHzv78A\nYTMy3MO5l7uwOwr9J88YqfP2UqIob9PwVWqhuVnG0Q5Kr+Z79ZJz4SHb/U5PHbY7\nF7BQTmAm6ox/2mmDtC+GWCnJGxmUV0mqJU39/+DhCNjn3JAyMpa6MBpwfvZHSDJM\nck4QXDp1KyXshtH/LA0plh9licRVNjTtoqWA+kjU8EiSAb9/gULK2bdLmMmhtAHi\n9apZkIhgtNL+j0J3TY+mvRjyOURoeFVm5ZDAJfRFse3z1bZvLuIu6qzxDdkR+UaL\nmB+5sTBb\n=fxjS\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+          "sha": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+          "html_url": "https://github.com/bitcoin/bips/commit/6f98026a2fd27069446fdfcabdfbaad6450b3e23"
+        }
+      ],
+      "message": "Add mention of Jade and libwally support",
+      "committer": {
+        "name": "Salvatore Ingala",
+        "email": "6681844+bigspider@users.noreply.github.com",
+        "date": "2023-11-21T10:27:24Z"
+      },
+      "author": {
+        "name": "Salvatore Ingala",
+        "email": "6681844+bigspider@users.noreply.github.com",
+        "date": "2023-11-21T10:27:24Z"
+      },
+      "sha": "3c97885727707531ba9e1e381b05d4d96343eb6e"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGFlOWZiOWZkNDNiOWNhMzg4ZDVhOGQ5NjRhOGFjYjQzNzMzNjI5MWE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ae9fb9fd43b9ca388d5a8d964a8acb437336291a",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/ae9fb9fd43b9ca388d5a8d964a8acb437336291a",
+      "tree": {
+        "sha": "7a036d571b2dadc369f05f597c10549be5c995f9",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/7a036d571b2dadc369f05f597c10549be5c995f9"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 7a036d571b2dadc369f05f597c10549be5c995f9\nparent 3c97885727707531ba9e1e381b05d4d96343eb6e\nauthor Salvatore Ingala <6681844+bigspider@users.noreply.github.com> 1700562578 +0000\ncommitter Salvatore Ingala <6681844+bigspider@users.noreply.github.com> 1700563451 +0000\n\nUpdate musig2() key expression to musig(), as per BIP draft\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQGzBAABCgAdFiEEn0ARRHpjklTOSGV2dAYP+Bsz5PgFAmVcif0ACgkQdAYP+Bsz\n5PjSRAv/VeSfsydsonGRwDufhP9Tw1Xy7QB/NioRWxSREyJ7OxW6UC8oJhsQ+hit\n7Amoc622Yx4z8dUWxZmT+mcm20aHaFoNoSQVBqu7JkLPwDXRbYMBSbOvSHtZq1Iz\n+Ra4BB84DnZEIKljen0EgziJDCozodRpORJwXWC6GaaOa6DxSTMqQS1/8uZQjcOM\nwo1NBvu+35llLr7Ovkp/JM3gjEJAMntO4a2yiqaGMCCYAg2zG8aUVgQYvD2w3dOS\nzAwg4tcZGbqjmF5XPA5d/gb4iHcwrCSDY0hSKuLIWr5JmUOkEA7tmpznNLdm7Kfz\nmeCCiRExPk5+a1kBT2wh6ljaiKdys3aQePcrlr7qXIHSeMk29YVqNhaGUXFA8b2/\nmdsw+A62hgbO11OWteyeuMmCrNwH6D5X/oOAeLXEZH9yoaNlZkCp62jDpIeQHecs\nWF178uqzIT/ZOXI31e29zqDiL6WC1uQNoosFsCm2L4736SbfoHPWvr7xUPVl448W\n3xX9qBl4\n=7Kwq\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/3c97885727707531ba9e1e381b05d4d96343eb6e",
+          "sha": "3c97885727707531ba9e1e381b05d4d96343eb6e",
+          "html_url": "https://github.com/bitcoin/bips/commit/3c97885727707531ba9e1e381b05d4d96343eb6e"
+        }
+      ],
+      "message": "Update musig2() key expression to musig(), as per BIP draft",
+      "committer": {
+        "name": "Salvatore Ingala",
+        "email": "6681844+bigspider@users.noreply.github.com",
+        "date": "2023-11-21T10:44:11Z"
+      },
+      "author": {
+        "name": "Salvatore Ingala",
+        "email": "6681844+bigspider@users.noreply.github.com",
+        "date": "2023-11-21T10:29:38Z"
+      },
+      "sha": "ae9fb9fd43b9ca388d5a8d964a8acb437336291a"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDllYjNiOWNiMDFhZGFjN2RhZmI4ZjFjZGM3MjBmMjMzMTMxNzFkNTk",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9eb3b9cb01adac7dafb8f1cdc720f23313171d59",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/9eb3b9cb01adac7dafb8f1cdc720f23313171d59",
+      "tree": {
+        "sha": "13ceb1ddba4cd811f92bd18add382708ad85712f",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/13ceb1ddba4cd811f92bd18add382708ad85712f"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 13ceb1ddba4cd811f92bd18add382708ad85712f\nparent ae9fb9fd43b9ca388d5a8d964a8acb437336291a\nauthor Salvatore Ingala <6681844+bigspider@users.noreply.github.com> 1700563270 +0000\ncommitter Salvatore Ingala <6681844+bigspider@users.noreply.github.com> 1700563453 +0000\n\nReplace raw pubkey with xpubs in python examples\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQGzBAABCgAdFiEEn0ARRHpjklTOSGV2dAYP+Bsz5PgFAmVcif0ACgkQdAYP+Bsz\n5PjNNgv+NKhoJJnUBb5/QxhjuNXBtZsoWFXXVPxOC5hifHUHogmMjXpwf+auLKzx\nRp3fKNJ3xJahHZX7NaaF8ZSDhPkqj9p6mDYOvi34ejunSK2s4Bc5+XbpgVu1XId9\nBXWrIxxqrQtC6sO2lPhSBB1xCLUlUi6pMBpzIBxEtVyE82xFraNBSsNYsQ0+gcrP\nmkPpeoyy2Z9/DzT8JP+Fc3Sj9pA/lifOLeOGv4vfB72Lne+nRDvvsb90e9xMGbRj\nd2fsuJKg64zdatywScZmb5Px345HsbwkGMRDxTwZI083/nVno1+PrTyuMwtJQ7bp\nFq7sW28PrdG9JQl6r8GTb+VWEhYfixSsahk3L+4Yv+FdXKP6k4XKXKwtWJDey+Kg\nAsFgF42jxNieAGkq2RK/OX8t2inxVuaB/2lanv/uDP1kxJbJG70yfgjns8+rBoVw\nQPbrLqLMw754RiknXAlgq6dSJ8myJZZM/Y6o+BXE/JYyUuVFJTR7JNh29lZvEBqN\n0d60Deb4\n=+Vz9\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ae9fb9fd43b9ca388d5a8d964a8acb437336291a",
+          "sha": "ae9fb9fd43b9ca388d5a8d964a8acb437336291a",
+          "html_url": "https://github.com/bitcoin/bips/commit/ae9fb9fd43b9ca388d5a8d964a8acb437336291a"
+        }
+      ],
+      "message": "Replace raw pubkey with xpubs in python examples",
+      "committer": {
+        "name": "Salvatore Ingala",
+        "email": "6681844+bigspider@users.noreply.github.com",
+        "date": "2023-11-21T10:44:13Z"
+      },
+      "author": {
+        "name": "Salvatore Ingala",
+        "email": "6681844+bigspider@users.noreply.github.com",
+        "date": "2023-11-21T10:41:10Z"
+      },
+      "sha": "9eb3b9cb01adac7dafb8f1cdc720f23313171d59"
+    },
+    {
+      "event": "commented",
+      "id": 1820680728,
+      "node_id": "IC_kwDOAN28mc5shWIY",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1820680728",
+      "actor": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-21T10:51:49Z",
+      "updated_at": "2023-11-21T10:51:49Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Thanks for the update, @jgriffiths! I added Jade/libwally support in 3c97885, and did a couple of small improvements to the python demo.",
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1389#issuecomment-1820680728",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1389"
+    },
+    {
+      "event": "mentioned",
+      "id": 11022703640,
+      "node_id": "MEE_lADOAN28mc5WiQDdzwAAAAKRARwY",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/11022703640",
+      "actor": {
+        "login": "jgriffiths",
+        "id": 406223,
+        "node_id": "MDQ6VXNlcjQwNjIyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/406223?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jgriffiths",
+        "html_url": "https://github.com/jgriffiths",
+        "followers_url": "https://api.github.com/users/jgriffiths/followers",
+        "following_url": "https://api.github.com/users/jgriffiths/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jgriffiths/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jgriffiths/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jgriffiths/subscriptions",
+        "organizations_url": "https://api.github.com/users/jgriffiths/orgs",
+        "repos_url": "https://api.github.com/users/jgriffiths/repos",
+        "events_url": "https://api.github.com/users/jgriffiths/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jgriffiths/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-21T10:51:49Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 11022703661,
+      "node_id": "SE_lADOAN28mc5WiQDdzwAAAAKRARwt",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/11022703661",
+      "actor": {
+        "login": "jgriffiths",
+        "id": 406223,
+        "node_id": "MDQ6VXNlcjQwNjIyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/406223?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jgriffiths",
+        "html_url": "https://github.com/jgriffiths",
+        "followers_url": "https://api.github.com/users/jgriffiths/followers",
+        "following_url": "https://api.github.com/users/jgriffiths/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jgriffiths/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jgriffiths/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jgriffiths/subscriptions",
+        "organizations_url": "https://api.github.com/users/jgriffiths/orgs",
+        "repos_url": "https://api.github.com/users/jgriffiths/repos",
+        "events_url": "https://api.github.com/users/jgriffiths/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jgriffiths/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-21T10:51:49Z"
+    },
+    {
+      "event": "commented",
+      "id": 1820691997,
+      "node_id": "IC_kwDOAN28mc5shY4d",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1820691997",
+      "actor": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-21T10:58:49Z",
+      "updated_at": "2023-11-21T10:58:49Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "@luke-jr, please let me know if this can be assigned a BIP number, or if something is missing.\r\n\r\nThere are now three hardware signers already using these specs in production.",
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1389#issuecomment-1820691997",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1389"
+    },
+    {
+      "event": "mentioned",
+      "id": 11022782668,
+      "node_id": "MEE_lADOAN28mc5WiQDdzwAAAAKRAlDM",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/11022782668",
+      "actor": {
+        "login": "luke-jr",
+        "id": 1095675,
+        "node_id": "MDQ6VXNlcjEwOTU2NzU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1095675?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/luke-jr",
+        "html_url": "https://github.com/luke-jr",
+        "followers_url": "https://api.github.com/users/luke-jr/followers",
+        "following_url": "https://api.github.com/users/luke-jr/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/luke-jr/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/luke-jr/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/luke-jr/subscriptions",
+        "organizations_url": "https://api.github.com/users/luke-jr/orgs",
+        "repos_url": "https://api.github.com/users/luke-jr/repos",
+        "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/luke-jr/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-21T10:58:50Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 11022782694,
+      "node_id": "SE_lADOAN28mc5WiQDdzwAAAAKRAlDm",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/11022782694",
+      "actor": {
+        "login": "luke-jr",
+        "id": 1095675,
+        "node_id": "MDQ6VXNlcjEwOTU2NzU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1095675?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/luke-jr",
+        "html_url": "https://github.com/luke-jr",
+        "followers_url": "https://api.github.com/users/luke-jr/followers",
+        "following_url": "https://api.github.com/users/luke-jr/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/luke-jr/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/luke-jr/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/luke-jr/subscriptions",
+        "organizations_url": "https://api.github.com/users/luke-jr/orgs",
+        "repos_url": "https://api.github.com/users/luke-jr/repos",
+        "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/luke-jr/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-21T10:58:50Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDdlZjY4MDNjOTllNGMyYzQ0ZmI2ZmFkZGMyODEyNDQ4ODdkN2I2YWM",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
+      "tree": {
+        "sha": "9f7c407824ead1a56f63c6acde6aea0fa91dc76a",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/9f7c407824ead1a56f63c6acde6aea0fa91dc76a"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 9f7c407824ead1a56f63c6acde6aea0fa91dc76a\nparent 9eb3b9cb01adac7dafb8f1cdc720f23313171d59\nauthor Salvatore Ingala <6681844+bigspider@users.noreply.github.com> 1700564611 +0000\ncommitter Salvatore Ingala <6681844+bigspider@users.noreply.github.com> 1700564664 +0000\n\nFix typo\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQGzBAABCgAdFiEEn0ARRHpjklTOSGV2dAYP+Bsz5PgFAmVcjrgACgkQdAYP+Bsz\n5PgpAAwAgCcb5q21V9oZ6B+iu1MvIBH1AtppbIqp5DXBh1wVu9IEiIcCbwom0Kpi\nk1NsvZEeDx/yn94Abgknnm4U63YOrHNY+lE9oprGWJVAAB3ASe4ziguS6QGPTezT\n9kUHD9ZHIXAyTaRJ7cQHvjsOZAx6sDjnv9+q2gBEe6yVONBKxFr15ju33Vag+ItZ\nq8UHxUqx2TwEcQlbgPQSPrJpj0g0hpVfkRHx1Lx/O6xfL/tINFMIEYnM1DRaSwkD\nkN6geMgyys9dR8nDgBgkuyW+DWZsZPtKbsultBaHrAZN0eySZTACcKxPIwa5C9MD\nUTy3RtDJEQagW7YCPQ1W0hK3+usso8W0jrrHS+AUrs9DM+5+xIfWqVHHcRkwg8IO\ntg0bhcU/peWHvMgfOb1+44WOrw7sCWcJPcGeDO+Q+PuM7qehrML0KGqPDLlNeqBd\n58j6RStaeWSFzi648KaPzV0bTn9B6kLBZXz381vKSGKZyIHpWeyHshv1Rp8sdgmA\nk4hkjm3L\n=Fdfw\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9eb3b9cb01adac7dafb8f1cdc720f23313171d59",
+          "sha": "9eb3b9cb01adac7dafb8f1cdc720f23313171d59",
+          "html_url": "https://github.com/bitcoin/bips/commit/9eb3b9cb01adac7dafb8f1cdc720f23313171d59"
+        }
+      ],
+      "message": "Fix typo",
+      "committer": {
+        "name": "Salvatore Ingala",
+        "email": "6681844+bigspider@users.noreply.github.com",
+        "date": "2023-11-21T11:04:24Z"
+      },
+      "author": {
+        "name": "Salvatore Ingala",
+        "email": "6681844+bigspider@users.noreply.github.com",
+        "date": "2023-11-21T11:03:31Z"
+      },
+      "sha": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 11022847855,
+      "node_id": "HRFPE_lADOAN28mc5WiQDdzwAAAAKRA09v",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/11022847855",
+      "actor": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-11-21T11:04:42Z"
     }
   ],
   "comments": [
@@ -3542,7 +4254,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 30,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "fd3b84da83f5b22953ab8c8cc7c2f1239026692a",
       "in_reply_to_id": null,
       "user": {
@@ -3594,7 +4306,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 42,
       "original_position": 42,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "fd3b84da83f5b22953ab8c8cc7c2f1239026692a",
       "in_reply_to_id": null,
       "user": {
@@ -3646,7 +4358,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 42,
       "original_position": 42,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "fd3b84da83f5b22953ab8c8cc7c2f1239026692a",
       "in_reply_to_id": 1035758113,
       "user": {
@@ -3698,7 +4410,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 30,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "fd3b84da83f5b22953ab8c8cc7c2f1239026692a",
       "in_reply_to_id": 1035755474,
       "user": {
@@ -3750,7 +4462,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 232,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": null,
       "user": {
@@ -3802,7 +4514,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 245,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": null,
       "user": {
@@ -3854,7 +4566,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 298,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": null,
       "user": {
@@ -3906,7 +4618,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 181,
       "original_position": 182,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": null,
       "user": {
@@ -3958,7 +4670,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 226,
       "original_position": 222,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": null,
       "user": {
@@ -4010,7 +4722,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 242,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": null,
       "user": {
@@ -4062,7 +4774,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 242,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1107853609,
       "user": {
@@ -4114,7 +4826,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 232,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104341047,
       "user": {
@@ -4166,7 +4878,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 245,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104341904,
       "user": {
@@ -4218,7 +4930,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 298,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104344236,
       "user": {
@@ -4270,7 +4982,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 181,
       "original_position": 182,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104355353,
       "user": {
@@ -4322,7 +5034,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 226,
       "original_position": 222,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104362160,
       "user": {
@@ -4374,7 +5086,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 242,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1107853609,
       "user": {
@@ -4426,7 +5138,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 226,
       "original_position": 222,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104362160,
       "user": {
@@ -4478,7 +5190,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 181,
       "original_position": 182,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104355353,
       "user": {
@@ -4530,7 +5242,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 42,
       "original_position": 42,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "fd3b84da83f5b22953ab8c8cc7c2f1239026692a",
       "in_reply_to_id": 1035758113,
       "user": {
@@ -4582,7 +5294,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 181,
       "original_position": 182,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104355353,
       "user": {
@@ -4634,7 +5346,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 226,
       "original_position": 222,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104362160,
       "user": {
@@ -4686,7 +5398,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 181,
       "original_position": 182,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104355353,
       "user": {
@@ -4738,7 +5450,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 226,
       "original_position": 222,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "162c675415ef717a599cc899fc4a0b7617710a3e",
       "in_reply_to_id": 1104362160,
       "user": {
@@ -4790,7 +5502,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 42,
       "original_position": 42,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "fd3b84da83f5b22953ab8c8cc7c2f1239026692a",
       "in_reply_to_id": 1035758113,
       "user": {
@@ -4842,7 +5554,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 216,
       "original_position": 214,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": null,
       "user": {
@@ -4894,7 +5606,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 198,
       "original_position": 198,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": null,
       "user": {
@@ -4946,7 +5658,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": 216,
       "original_position": 214,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1182668361,
       "user": {
@@ -4998,7 +5710,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": null,
       "user": {
@@ -5050,7 +5762,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5102,7 +5814,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5154,7 +5866,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5206,7 +5918,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5258,7 +5970,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5310,7 +6022,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5362,7 +6074,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5414,7 +6126,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5466,7 +6178,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5518,7 +6230,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5570,7 +6282,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5622,7 +6334,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5674,7 +6386,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5726,7 +6438,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 65,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "4b1f826217ab8f99c9484fbd6f1b1f88fa0c3bc0",
       "in_reply_to_id": null,
       "user": {
@@ -5778,7 +6490,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 65,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "4b1f826217ab8f99c9484fbd6f1b1f88fa0c3bc0",
       "in_reply_to_id": 1322758217,
       "user": {
@@ -5830,7 +6542,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
@@ -5882,7 +6594,7 @@
       "path": "bip-wallet-policies.mediawiki",
       "position": null,
       "original_position": 254,
-      "commit_id": "6f98026a2fd27069446fdfcabdfbaad6450b3e23",
+      "commit_id": "7ef6803c99e4c2c44fb6faddc281244887d7b6ac",
       "original_commit_id": "bb98f8017a883262e03127ab718514abf4a5e5f9",
       "in_reply_to_id": 1227768530,
       "user": {
