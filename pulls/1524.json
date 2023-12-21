@@ -41,7 +41,7 @@
     "body": "Opening to allow discussion on the text separately from the Bitcoin Core implementation here https://github.com/bitcoin/bitcoin/pull/29001\r\n\r\nExample usage:\r\nhttps://github.com/instagibbs/bolts/commits/zero_fee_commitment\r\nhttps://github.com/instagibbs/lightning/commits/commit_zero_fees",
     "labels": [],
     "created_at": "2023-12-10T19:56:50Z",
-    "updated_at": "2023-12-18T17:46:40Z",
+    "updated_at": "2023-12-21T00:54:04Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "777f6662bccf9240c92a6804bc1a811f04fa4d5a",
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5676,
-        "stargazers_count": 8530,
-        "watchers_count": 8530,
+        "forks_count": 5678,
+        "stargazers_count": 8538,
+        "watchers_count": 8538,
         "size": 13718,
         "default_branch": "master",
-        "open_issues_count": 129,
+        "open_issues_count": 130,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-12-18T06:14:15Z",
+        "pushed_at": "2023-12-19T13:16:21Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-12-18T14:23:26Z"
+        "updated_at": "2023-12-20T18:27:31Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 1
+    "comments": 3
   },
   "events": [
     {
@@ -496,7 +496,7 @@
           "assignees": [],
           "author_association": "MEMBER",
           "locked": false,
-          "comments": 5,
+          "comments": 6,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/29001",
             "html_url": "https://github.com/bitcoin/bitcoin/pull/29001",
@@ -504,7 +504,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/29001.patch"
           },
           "created_at": "2023-12-05T16:30:46Z",
-          "updated_at": "2023-12-18T15:40:17Z"
+          "updated_at": "2023-12-21T00:44:57Z"
         },
         "type": "issue"
       }
@@ -577,6 +577,114 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2023-12-11T15:24:28Z"
+    },
+    {
+      "event": "commented",
+      "id": 1865322320,
+      "node_id": "IC_kwDOAN28mc5vLo9Q",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1865322320",
+      "actor": {
+        "login": "ariard",
+        "id": 23310655,
+        "node_id": "MDQ6VXNlcjIzMzEwNjU1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/23310655?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ariard",
+        "html_url": "https://github.com/ariard",
+        "followers_url": "https://api.github.com/users/ariard/followers",
+        "following_url": "https://api.github.com/users/ariard/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ariard/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ariard/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ariard/subscriptions",
+        "organizations_url": "https://api.github.com/users/ariard/orgs",
+        "repos_url": "https://api.github.com/users/ariard/repos",
+        "events_url": "https://api.github.com/users/ariard/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ariard/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-12-21T00:43:59Z",
+      "updated_at": "2023-12-21T00:43:59Z",
+      "author_association": "MEMBER",
+      "body": "> TLDR: trimmed value can go into the anchor itself, and is simply spent to fees by the spender.\r\n\r\nI believe this is broken - Let’s say you have Alice and Bob sharing a Lightning channel, with `max_accepted_htlcs` (483) on both sides. Alice is a routing hop allowing HTLC forward going through Alice-Bob link. Bob circularly routes 483 offered HTLCs  of value 330 satoshis (total amount 159390 satoshis). Those HTLCs are symmetrically committed on both Alice and Bob states. Assuming Bob can broadcast privately to a [transaction accelerator](https://www.viabtc.com/tools/txaccelerator/) with a child pocketing the anchor itself, Bob can mine the commitment transaction and steals 159390 satoshis from Alice’s balance.\r\n\r\nThanks to correct me if my understanding of `option_commit_zero_fee` is incorrect.\r\n\r\nAs of today, Bob could do the same attack by routing the HTLCs, however as the trimmed HTLCs are committed as miner fees, if Bob does not have low-hashrate capabilities, he cannot steal from Alice. Moving trimmed HTLC amounts from miners fees to a anyone-can-spend amount changes notably the threat model, in my opinion.\r\n\r\n> In the BIP I can mention that it allows any party to spend, therefore any party can attempt a cycling attack. We're not going > to agree on the severity of the attack, so it's up to implementer to do their own research.\r\n\r\nWhile I agree that we won’t agree on the severity of a replacement cycling attack, I disagree on the deference to put on implementers the responsibility to do their own research on the security of such proposal. Not only this is unfavorable practice for Internet protocol standardization works (all IETF RFCs must have mandatory security sections - RFC 3552), beyond for the given proposal it modifies the attacker incentives model as _anyone_ on the peer-to-peer transaction-relay network can enter into replacement cycling attacks against your time-sensitive packages or massive transaction batch.\r\n\r\nAllowing anyone to tamper with packages is not only an issue for the safety of your use-case funds, it does open the door to adversaries tamper with the global transaction traffic, with potential way to realize gains. In the past, [miners-harvesting attacks](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-November/019615.html) have been considered, and here it’s opening one. If you know that the transaction issuer of this transaction pattern will automatically fee-bump its package after X blocks without confirmation, anyone-can-spend ephemeral anchor allows you to substitute a “honest” CPFP at 20 sat/vbytes with a “malicious\" CPFP at 30 sat/vbytes and then evicts this CPFP to trigger an eviction of the 0-fee parent itself from network mempools.\r\n\r\nFor this last reason, I think that anyone-can-spend ephemeral anchor should be reconsidered and locking the ephemeral anchor under a counterparty pubkey should be introduced, as we’re doing with anchor outputs on lightning commitment transactions today. I understand the efficiency reasons to use an `OP_TRUE` though I’m unsure it’s worth the newly introduced safety weaknesses. ",
+      "user": {
+        "login": "ariard",
+        "id": 23310655,
+        "node_id": "MDQ6VXNlcjIzMzEwNjU1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/23310655?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ariard",
+        "html_url": "https://github.com/ariard",
+        "followers_url": "https://api.github.com/users/ariard/followers",
+        "following_url": "https://api.github.com/users/ariard/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ariard/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ariard/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ariard/subscriptions",
+        "organizations_url": "https://api.github.com/users/ariard/orgs",
+        "repos_url": "https://api.github.com/users/ariard/repos",
+        "events_url": "https://api.github.com/users/ariard/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ariard/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1524#issuecomment-1865322320",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1524"
+    },
+    {
+      "event": "commented",
+      "id": 1865328774,
+      "node_id": "IC_kwDOAN28mc5vLqiG",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1865328774",
+      "actor": {
+        "login": "ProphetZX",
+        "id": 138210332,
+        "node_id": "U_kgDOCDzsHA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/138210332?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ProphetZX",
+        "html_url": "https://github.com/ProphetZX",
+        "followers_url": "https://api.github.com/users/ProphetZX/followers",
+        "following_url": "https://api.github.com/users/ProphetZX/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ProphetZX/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ProphetZX/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ProphetZX/subscriptions",
+        "organizations_url": "https://api.github.com/users/ProphetZX/orgs",
+        "repos_url": "https://api.github.com/users/ProphetZX/repos",
+        "events_url": "https://api.github.com/users/ProphetZX/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ProphetZX/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2023-12-21T00:54:03Z",
+      "updated_at": "2023-12-21T00:54:03Z",
+      "author_association": "NONE",
+      "body": "Bip rejected, spam.\r\n\r\n\r\n\r\n\r\nMatthieu Rüttimann\r\nResearch Assistant, Chair of Banking - Prof. Martin Brown\r\n\r\nSchool of Finance\r\nUniversity of St.Gallen (HSG) | Unterer Graben 21 | CH-9000 St. Gallen\r\nOffice address 52-5256<https://goo.gl/maps/teUb7qJE1K8ypFjc7>\r\n\r\nTel. +41 71 224 70 40<tel:+41%2071%20224%2070%2040> | ***@***.******@***.***> | Campusplan<https://www.google.com/maps/d/viewer?mid=1Ho1UowYuZmaVQxoZ2vArYOznQQ2CLQlR&ll=47.430683987572536%2C9.373388650000038&z=15>\r\n\r\nAm 21.12.2023 um 01:45 schrieb Antoine Riard ***@***.***>:\r\n\r\n﻿\r\n\r\nTLDR: trimmed value can go into the anchor itself, and is simply spent to fees by the spender.\r\n\r\nI believe this is broken - Let’s say you have Alice and Bob sharing a Lightning channel, with max_accepted_htlcs (483) on both sides. Alice is a routing hop allowing HTLC forward going through Alice-Bob link. Bob circularly routes 483 offered HTLCs of value 330 satoshis (total amount 159390 satoshis). Those HTLCs are symmetrically committed on both Alice and Bob states. Assuming Bob can broadcast privately to a transaction accelerator<https://www.viabtc.com/tools/txaccelerator/> with a child pocketing the anchor itself, Bob can mine the commitment transaction and steals 159390 satoshis from Alice’s balance.\r\n\r\nThanks to correct me if my understanding of option_commit_zero_fee is incorrect.\r\n\r\nAs of today, Bob could do the same attack by routing the HTLCs, however as the trimmed HTLCs are committed as miner fees, if Bob does not have low-hashrate capabilities, he cannot steal from Alice. Moving trimmed HTLC amounts from miners fees to a anyone-can-spend amount changes notably the threat model, in my opinion.\r\n\r\nIn the BIP I can mention that it allows any party to spend, therefore any party can attempt a cycling attack. We're not going > to agree on the severity of the attack, so it's up to implementer to do their own research.\r\n\r\nWhile I agree that we won’t agree on the severity of a replacement cycling attack, I disagree on the deference to put on implementers the responsibility to do their own research on the security of such proposal. Not only this is unfavorable practice for Internet protocol standardization works (all IETF RFCs must have mandatory security sections - RFC 3552), beyond for the given proposal it modifies the attacker incentives model as anyone on the peer-to-peer transaction-relay network can enter into replacement cycling attacks against your time-sensitive packages or massive transaction batch.\r\n\r\nAllowing anyone to tamper with packages is not only an issue for the safety of your use-case funds, it does open the door to adversaries tamper with the global transaction traffic, with potential way to realize gains. In the past, miners-harvesting attacks<https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-November/019615.html> have been considered, and here it’s opening one. If you know that the transaction issuer of this transaction pattern will automatically fee-bump its package after X blocks without confirmation, anyone-can-spend ephemeral anchor allows you to substitute a “honest” CPFP at 20 sat/vbytes with a “malicious\" CPFP at 30 sat/vbytes and then evicts this CPFP to trigger an eviction of the 0-fee parent itself from network mempools.\r\n\r\nFor this last reason, I think that anyone-can-spend ephemeral anchor should be reconsidered and locking the ephemeral anchor under a counterparty pubkey should be introduced, as we’re doing with anchor outputs on lightning commitment transactions today. I understand the efficiency reasons to use an OP_TRUE though I’m unsure it’s worth the newly introduced safety weaknesses.\r\n\r\n—\r\nReply to this email directly, view it on GitHub<https://github.com/bitcoin/bips/pull/1524#issuecomment-1865322320>, or unsubscribe<https://github.com/notifications/unsubscribe-auth/BA6OYHHSVKQTJT7AAST5QZ3YKOBCTAVCNFSM6AAAAABAOZJ6L6VHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMYTQNRVGMZDEMZSGA>.\r\nYou are receiving this because you are subscribed to this thread.Message ID: ***@***.***>\r\n",
+      "user": {
+        "login": "ProphetZX",
+        "id": 138210332,
+        "node_id": "U_kgDOCDzsHA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/138210332?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ProphetZX",
+        "html_url": "https://github.com/ProphetZX",
+        "followers_url": "https://api.github.com/users/ProphetZX/followers",
+        "following_url": "https://api.github.com/users/ProphetZX/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ProphetZX/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ProphetZX/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ProphetZX/subscriptions",
+        "organizations_url": "https://api.github.com/users/ProphetZX/orgs",
+        "repos_url": "https://api.github.com/users/ProphetZX/repos",
+        "events_url": "https://api.github.com/users/ProphetZX/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ProphetZX/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1524#issuecomment-1865328774",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1524"
     }
   ],
   "comments": []
