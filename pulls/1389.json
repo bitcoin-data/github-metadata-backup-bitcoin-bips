@@ -50,10 +50,10 @@
       }
     ],
     "created_at": "2022-11-16T15:34:23Z",
-    "updated_at": "2023-12-11T15:24:21Z",
+    "updated_at": "2023-12-26T18:55:23Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "69596f5afb8557deb7f07d89b3dbe867a609fc54",
+    "merge_commit_sha": "9c973fd0f356bdb6e7ef61b2355410fa54a04302",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -157,7 +157,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 13502,
+        "size": 13517,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -271,12 +271,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5671,
-        "stargazers_count": 8519,
-        "watchers_count": 8519,
-        "size": 13659,
+        "forks_count": 5683,
+        "stargazers_count": 8556,
+        "watchers_count": 8556,
+        "size": 13718,
         "default_branch": "master",
-        "open_issues_count": 128,
+        "open_issues_count": 130,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -287,9 +287,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-12-11T15:24:29Z",
+        "pushed_at": "2023-12-19T13:16:21Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-12-10T22:22:03Z"
+        "updated_at": "2023-12-26T14:20:47Z"
       }
     },
     "_links": {
@@ -303,7 +303,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 18,
-    "review_comments": 48,
+    "review_comments": 49,
     "comments": 15
   },
   "events": [
@@ -4290,7 +4290,7 @@
           "state": "open",
           "state_reason": null,
           "title": "Sign transactions not fitting the wallet policy approach",
-          "body": "A number of issues were opened to request signing in cases that don't fit the wallet policy model:\r\n\r\n- #153\r\n- #197\r\n- #205\r\n\r\nThis issue tries to generalize the problem. How do we safely sign transactions outside of the model of wallet policies?\r\n\r\n## Wallet policies\r\n\r\n[Wallet policies](https://github.com/bitcoin/bips/pull/1389) build on top of [Output Script Descriptors](https://github.com/bitcoin/bips/blob/master/bip-0380.mediawiki) to model in a sound way what software wallets typically call an _account_.\r\n\r\nWhether single-sig, multisig, musig, miniscript, etc, for most software wallets, an account is exactly: a list of receiving addresses, plus a list of change addresses.\r\n\r\n### Wallet policies in hardware signers\r\n\r\nWallet policies are a first class citizen in the Ledger bitcoin app (and similar specs have now been implemented in the [BitBox02](https://github.com/digitalbitbox/bitbox02-firmware/pull/1095), and in Blockstream Jade via the [Wally](https://github.com/ElementsProject/libwally-core/pull/369) library).\r\n\r\nThe signing API is currently similar to `sign(psbt, wallet_policy)` (plus the `wallet_policy_hmac`, not relevant for this discussion), which means that the \"wallet policy\" is additional information on top of just the transaction being signed, represented in the psbt. (in principle, the wallet policy itself could be added to the psbt; however, there is no standard for it).\r\n\r\nHaving precise knowledge of \"what account\" you are receiving to, or spending from, allows to strengthen the security model quite substantially, as malware in the in the software wallet can't tamper with that information. In practice, the expectation is that people will have multiple accounts, and many of them will involve multiple keys (other co-signers). Wallet policies allow you to know exactly from which account you're spending. That's important: if you have a 2-of-2 with your wife, and another 2-of-2 with your colleague at work, it's not enough to know that you're \"spending 0.1 btc and sending it to bc1pxxx..\", you want to know that you're \"spending 0.1 from your work account and sending it to bc1pxxx\". Without that, if your co-worker gets access to your computer, it's trivial for them to install malware to trick you to spend your wife's money when you think you're using the company account. Of course, this inherently requires full knowledge of the script on the hardware signer's end, including all of the cosigner's xpuOne would also have to think abs.\r\nWith wallet policies, the device can inform you that you're spending from the account named `Cold storage` (for example):\r\n\r\n![spend-wallet-policy](https://github.com/LedgerHQ/app-bitcoin-new/assets/6681844/f33ec348-3bc6-4bf4-ab3d-787dbc909334)\r\n\r\nThe hardware signer can use the information in the psbt, plus the knowledge of the wallet policy, to:\r\n- make sure that the change output is going to the right place [*];\r\n- inform what account you're receving to / spending from;\r\n- possibly, simplify the UX for known outputs. For example, if you know that you're sending to another of your accounts (or even some known external account), its descriptive name could be shown along – or instead – of the output address); this is not currently implemented.\r\n\r\nIn other words: wallet policies allow **strict account segregation**: the hardware device can _guarantee_ that you're not touching any other account (as long as you take care to register different policies under different names, of course).\r\n\r\n<sub>\r\n[*] In principle, before taproot, this doesn't strictly require wallet policies, as the descriptor could be \"decompiled\" from the witnessScript; this is no longer true in taproot trees, however, as the [PSBT](https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki) does not contain enough information (knowledge of how to generate the entire taptree, for any address index, is necessary).\r\n</sub>\r\n\r\n## Safe signing outside of wallet policies\r\n\r\nWhile wallet policies themselves could possibly be generalized to cover _some_ use cases that are not currently represented by the BIP proposal, it's clear that there are other situations that just don't fit in this model of _signing for an account_: not all UTXOs are meaningfully part of an account as it can be represented in wallet policies.\r\n\r\n### UX considerations\r\nAllowing signing behaviors that go outside the model of wallet policies would likely break the strong account segregation guarantee above.\r\n\r\nThat might be fine, as long as it doesn't happen _seamlessly_: the user must know that they are stepping somewhat outside of the safe zone. Possible options:\r\n\r\n- a prominent warning with explicit user confirmation required\r\n- signing for such transaction must be explicitly enabled in the settings of the app (1 time action where the user can properly be warned).\r\n\r\nAnother option that could be worth investigating is to attach the \"unsafe signing behavior\" to specific keys. That is, one could [register](https://github.com/LedgerHQ/app-bitcoin-new/blob/develop/doc/wallet.md#policy-registration-and-usage) a special kind of \"wallet policy\" (to be defined) that means \"for these internal xpubs, allow unsafe signing\". That would allow to keep the strong account segregation guarantees for any other xpubs, as long as the user is diligent in not reusing xpubs for different purposes. The downside is, of course, that software walltes would need to be aware and explicitly opt-in to this approach, which makes integrations somewhat harder.\r\n\r\n### What's safe to sign, if you don't have wallet policies?\r\n\r\nThis is to be defined, and knowing the desired use cases would help. (Note that this is about finding general approached to signing that work for many use cases; nothing works for _all_ use cases, and for specific applications, a separated customized app would be a better approach)\r\n\r\nFor transactions signed with SIGHASH_ALL, one case that would generally be safe (apart from not having the strong account segregation property mentioned above) is if:\r\n- there is no change output (all outputs are shown to and verified by the user)\r\n- all inputs are assumed to be internal.\r\n",
+          "body": "A number of issues were opened to request signing in cases that don't fit the wallet policy model:\r\n\r\n- #153\r\n- #197\r\n- #205\r\n\r\nThis issue tries to generalize the problem. How do we safely sign transactions outside of the model of wallet policies?\r\n\r\n## Wallet policies\r\n\r\n[Wallet policies](https://github.com/bitcoin/bips/pull/1389) build on top of [Output Script Descriptors](https://github.com/bitcoin/bips/blob/master/bip-0380.mediawiki) to model in a sound way what software wallets typically call an _account_.\r\n\r\nWhether single-sig, multisig, musig, miniscript, etc, for most software wallets, an account is exactly: a list of receiving addresses, plus a list of change addresses.\r\n\r\n### Wallet policies in hardware signers\r\n\r\nWallet policies are a first class citizen in the Ledger bitcoin app (and similar specs have now been implemented in the [BitBox02](https://github.com/digitalbitbox/bitbox02-firmware/pull/1095), and in Blockstream Jade via the [Wally](https://github.com/ElementsProject/libwally-core/pull/369) library).\r\n\r\nThe signing API is currently similar to `sign(psbt, wallet_policy)` (plus the `wallet_policy_hmac`, not relevant for this discussion), which means that the \"wallet policy\" is additional information on top of just the transaction being signed, represented in the psbt. (in principle, the wallet policy itself could be added to the psbt; however, there is no standard for it).\r\n\r\nHaving precise knowledge of \"what account\" you are receiving to, or spending from, allows to strengthen the security model quite substantially, as malware in the in the software wallet can't tamper with that information. In practice, the expectation is that people will have multiple accounts, and many of them will involve multiple keys (other co-signers). Wallet policies allow you to know exactly from which account you're spending. That's important: if you have a 2-of-2 with your wife, and another 2-of-2 with your colleague at work, it's not enough to know that you're \"spending 0.1 btc and sending it to bc1pxxx..\", you want to know that you're \"spending 0.1 from your work account and sending it to bc1pxxx\". Without that, if your co-worker gets access to your computer, it's trivial for them to install malware to trick you to spend your wife's money when you think you're using the company account. Of course, this inherently requires full knowledge of the script on the hardware signer's end, including all of the cosigner's xpuOne would also have to think abs.\r\nWith wallet policies, the device can inform you that you're spending from the account named `Cold storage` (for example):\r\n\r\n![spend-wallet-policy](https://github.com/LedgerHQ/app-bitcoin-new/assets/6681844/f33ec348-3bc6-4bf4-ab3d-787dbc909334)\r\n\r\nThe hardware signer can use the information in the psbt, plus the knowledge of the wallet policy, to:\r\n- make sure that the change output is going to the right place [*];\r\n- inform what account you're receving to / spending from;\r\n- possibly, simplify the UX for known outputs. For example, if you know that you're sending to another of your accounts (or even some known external account), its descriptive name could be shown along – or instead – of the output address); this is not currently implemented.\r\n\r\nIn other words: wallet policies allow **strict account segregation**: the hardware device can _guarantee_ that you're not touching any other account (as long as you take care to register different policies under different names, of course).\r\n\r\n<sub>\r\n[*] In principle, before taproot, this doesn't strictly require wallet policies, as the descriptor could be \"decompiled\" from the witnessScript; this is no longer true in taproot trees, however, as the [PSBT](https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki) does not contain enough information (knowledge of how to generate the entire taptree, for any address index, is necessary).\r\n</sub>\r\n\r\n## Safe signing outside of wallet policies\r\n\r\nWhile wallet policies themselves could possibly be generalized to cover _some_ use cases that are not currently represented by the BIP proposal, it's clear that there are other situations that just don't fit in this model of _signing for an account_: not all UTXOs are meaningfully part of an account as it can be represented in wallet policies.\r\n\r\n### UX considerations\r\nAllowing signing behaviors that go outside the model of wallet policies would likely break the strong account segregation guarantee above.\r\n\r\nThat might be fine, as long as it doesn't happen _seamlessly_: the user must know that they are stepping somewhat outside of the safe zone. Possible options:\r\n\r\n- a prominent warning with explicit user confirmation required\r\n- signing for such transaction must be explicitly enabled in the settings of the app (1 time action where the user can properly be warned).\r\n\r\nAnother option that could be worth investigating is to attach the \"unsafe signing behavior\" to specific keys. That is, one could [register](https://github.com/LedgerHQ/app-bitcoin-new/blob/develop/doc/wallet.md#policy-registration-and-usage) a special kind of \"wallet policy\" (to be defined) that means \"for these internal xpubs, allow unsafe signing\". That would allow to keep the strong account segregation guarantees for any other xpubs, as long as the user is diligent in not reusing xpubs for different purposes. The downside is, of course, that software walltes would need to be aware and explicitly opt-in to this approach, which makes integrations somewhat harder.\r\n\r\n### What's safe to sign, if you don't have wallet policies?\r\n\r\nThis is to be defined, and knowing the desired use cases would help. (Note that this is about finding general approaches to signing that work for many use cases; nothing works for _all_ use cases, and for specific applications, a separated customized app would be a better approach)\r\n\r\nFor transactions signed with SIGHASH_ALL, one case that would generally be safe (apart from not having the strong account segregation property mentioned above) is if:\r\n- there is no change output (all outputs are shown to and verified by the user)\r\n- all inputs are assumed to be internal.\r\n",
           "user": {
             "login": "bigspider",
             "id": 6681844,
@@ -4325,9 +4325,9 @@
           "assignees": [],
           "author_association": "COLLABORATOR",
           "locked": false,
-          "comments": 8,
+          "comments": 10,
           "created_at": "2023-11-27T11:14:03Z",
-          "updated_at": "2023-12-11T13:25:01Z"
+          "updated_at": "2023-12-12T10:37:02Z"
         },
         "type": "issue"
       }
@@ -4446,6 +4446,42 @@
         "date": "2023-12-11T15:24:09Z"
       },
       "sha": "07f0fcf5f4f2f857b03ab77fbc99a33ba1a34325"
+    },
+    {
+      "event": "reviewed",
+      "id": 1796535592,
+      "node_id": "PRR_kwDOAN28mc5rFPUo",
+      "url": null,
+      "actor": null,
+      "commit_id": "07f0fcf5f4f2f857b03ab77fbc99a33ba1a34325",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "MEMBER",
+      "body": "Assigned BIP 388",
+      "user": {
+        "login": "luke-jr",
+        "id": 1095675,
+        "node_id": "MDQ6VXNlcjEwOTU2NzU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1095675?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/luke-jr",
+        "html_url": "https://github.com/luke-jr",
+        "followers_url": "https://api.github.com/users/luke-jr/followers",
+        "following_url": "https://api.github.com/users/luke-jr/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/luke-jr/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/luke-jr/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/luke-jr/subscriptions",
+        "organizations_url": "https://api.github.com/users/luke-jr/orgs",
+        "repos_url": "https://api.github.com/users/luke-jr/repos",
+        "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/luke-jr/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1389#pullrequestreview-1796535592",
+      "submitted_at": "2023-12-26T18:55:23Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1389"
     }
   ],
   "comments": [
@@ -6839,6 +6875,58 @@
       "start_side": null,
       "line": null,
       "original_line": 254,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1436574890",
+      "pull_request_review_id": 1796535592,
+      "id": 1436574890,
+      "node_id": "PRRC_kwDOAN28mc5VoGSq",
+      "diff_hunk": "@@ -0,0 +1,343 @@\n+<pre>\n+  BIP: wallet-policies\n+  Layer: Applications\n+  Title: Wallet Policies for Descriptor Wallets\n+  Author: Salvatore Ingala <salvatoshi@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-wallet-policies\n+  Status: Draft\n+  Type: Informational",
+      "path": "bip-wallet-policies.mediawiki",
+      "position": 9,
+      "original_position": 9,
+      "commit_id": "07f0fcf5f4f2f857b03ab77fbc99a33ba1a34325",
+      "original_commit_id": "07f0fcf5f4f2f857b03ab77fbc99a33ba1a34325",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "luke-jr",
+        "id": 1095675,
+        "node_id": "MDQ6VXNlcjEwOTU2NzU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1095675?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/luke-jr",
+        "html_url": "https://github.com/luke-jr",
+        "followers_url": "https://api.github.com/users/luke-jr/followers",
+        "following_url": "https://api.github.com/users/luke-jr/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/luke-jr/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/luke-jr/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/luke-jr/subscriptions",
+        "organizations_url": "https://api.github.com/users/luke-jr/orgs",
+        "repos_url": "https://api.github.com/users/luke-jr/repos",
+        "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/luke-jr/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "I think this is supposed to be Standards Track.",
+      "created_at": "2023-12-26T18:50:22Z",
+      "updated_at": "2023-12-26T18:55:23Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1389#discussion_r1436574890",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1436574890"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1389"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 9,
+      "original_line": 9,
       "side": "RIGHT"
     }
   ]
