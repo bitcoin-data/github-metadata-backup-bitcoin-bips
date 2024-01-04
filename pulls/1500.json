@@ -41,7 +41,7 @@
     "body": "\r\n\r\n\r\n## Semantic changes\r\n\r\nI thought it might be valuable to keep track of actual semantic changes being made since the initial out-of-draft version.\r\n\r\n* 2023-12-19: Added relative indices for individual mode.\r\n\r\n\r\n\r\n## Implementations \r\n\r\n* A proposed implementation for Bitcoin Core is available here:\r\n  https://github.com/bitcoin/bitcoin/pull/29050\r\n* A proposed implementation for rust-bitcoin is available here:\r\n  https://github.com/rust-bitcoin/rust-bitcoin/pull/2275\r\n",
     "labels": [],
     "created_at": "2023-09-30T11:40:55Z",
-    "updated_at": "2024-01-03T23:57:42Z",
+    "updated_at": "2024-01-04T12:36:27Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "6ea9a9d3818a737a0c4e4ce6fe007be7febca91b",
@@ -261,9 +261,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5688,
-        "stargazers_count": 8564,
-        "watchers_count": 8564,
+        "forks_count": 5689,
+        "stargazers_count": 8567,
+        "watchers_count": 8567,
         "size": 13739,
         "default_branch": "master",
         "open_issues_count": 127,
@@ -277,9 +277,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-01-03T21:12:12Z",
+        "pushed_at": "2024-01-04T09:38:50Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-01-03T19:08:20Z"
+        "updated_at": "2024-01-04T12:54:39Z"
       }
     },
     "_links": {
@@ -293,7 +293,7 @@
     "deletions": 0,
     "changed_files": 4,
     "commits": 1,
-    "review_comments": 25,
+    "review_comments": 29,
     "comments": 2
   },
   "events": [
@@ -1292,7 +1292,7 @@
             "patch_url": "https://github.com/btcsuite/btcd/pull/2078.patch"
           },
           "created_at": "2023-12-24T12:07:53Z",
-          "updated_at": "2023-12-26T14:09:23Z"
+          "updated_at": "2024-01-04T12:41:25Z"
         },
         "type": "issue"
       }
@@ -1366,6 +1366,42 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1500#pullrequestreview-1799874836",
       "submitted_at": "2024-01-01T23:31:00Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+    },
+    {
+      "event": "reviewed",
+      "id": 1804049526,
+      "node_id": "PRR_kwDOAN28mc5rh5x2",
+      "url": null,
+      "actor": null,
+      "commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "NONE",
+      "body": "",
+      "user": {
+        "login": "halseth",
+        "id": 3765732,
+        "node_id": "MDQ6VXNlcjM3NjU3MzI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3765732?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/halseth",
+        "html_url": "https://github.com/halseth",
+        "followers_url": "https://api.github.com/users/halseth/followers",
+        "following_url": "https://api.github.com/users/halseth/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/halseth/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/halseth/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/halseth/subscriptions",
+        "organizations_url": "https://api.github.com/users/halseth/orgs",
+        "repos_url": "https://api.github.com/users/halseth/repos",
+        "events_url": "https://api.github.com/users/halseth/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/halseth/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#pullrequestreview-1804049526",
+      "submitted_at": "2024-01-04T12:36:27Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
     }
@@ -2669,6 +2705,214 @@
       "start_side": null,
       "line": 31,
       "original_line": 31,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1441682243",
+      "pull_request_review_id": 1804049526,
+      "id": 1441682243,
+      "node_id": "PRRC_kwDOAN28mc5V7lND",
+      "diff_hunk": "@@ -0,0 +1,269 @@\n+```\n+  BIP: tbd\n+  Layer: Consensus (soft fork)\n+  Title: OP_TXHASH and OP_CHECKTXHASHVERIFY\n+  Author: Steven Roose <steven@roose.io>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-tbd\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-09-03\n+  License: BSD-3-Clause\n+```\n+\n+# Abstract\n+\n+This BIP proposes two new opcodes, `OP_CHECKTXHASHVERIFY`, to be activated\n+as a change to the semantics of `OP_NOP4` in legacy script, segwit and tapscript;\n+and OP_TXHASH, to be activated as a change to the semantics of `OP_SUCCESS189`\n+in tapscript only.\n+\n+These opcodes provide a generalized method for introspecting certain details of\n+the spending transaction, which enables non-interactive enforcement of certain\n+properties of the transaction spending a certain UTXO.\n+\n+The constructions specified in this BIP also open up the way for other\n+potential updates; see Motivation section for more details.\n+\n+\n+# Summary\n+\n+## OP_CHECKTXHASHVERIFY\n+\n+The first new opcode, `OP_CHECKTXHASHVERIFY`, redefines the `OP_NOP4` opcode (`0xb3`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element on the stack is at least 32 bytes long, fail otherwise.\n+* The first 32 bytes are interpreted as the TxHash and the remaining suffix bytes specify the TxFieldSelector.\n+* If the TxFieldSelector is invalid, fail.\n+* The actual TxHash of the transaction at the current input index, calculated",
+      "path": "bip-txhash.md",
+      "position": 40,
+      "original_position": 40,
+      "commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "original_commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "halseth",
+        "id": 3765732,
+        "node_id": "MDQ6VXNlcjM3NjU3MzI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3765732?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/halseth",
+        "html_url": "https://github.com/halseth",
+        "followers_url": "https://api.github.com/users/halseth/followers",
+        "following_url": "https://api.github.com/users/halseth/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/halseth/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/halseth/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/halseth/subscriptions",
+        "organizations_url": "https://api.github.com/users/halseth/orgs",
+        "repos_url": "https://api.github.com/users/halseth/repos",
+        "events_url": "https://api.github.com/users/halseth/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/halseth/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Should maybe specify that the element is not popped off the stack, or is that implicit?",
+      "created_at": "2024-01-04T12:17:44Z",
+      "updated_at": "2024-01-04T12:36:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#discussion_r1441682243",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1441682243"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 40,
+      "original_line": 40,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1441691926",
+      "pull_request_review_id": 1804049526,
+      "id": 1441691926,
+      "node_id": "PRRC_kwDOAN28mc5V7nkW",
+      "diff_hunk": "@@ -0,0 +1,269 @@\n+```\n+  BIP: tbd\n+  Layer: Consensus (soft fork)\n+  Title: OP_TXHASH and OP_CHECKTXHASHVERIFY\n+  Author: Steven Roose <steven@roose.io>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-tbd\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-09-03\n+  License: BSD-3-Clause\n+```\n+\n+# Abstract\n+\n+This BIP proposes two new opcodes, `OP_CHECKTXHASHVERIFY`, to be activated\n+as a change to the semantics of `OP_NOP4` in legacy script, segwit and tapscript;\n+and OP_TXHASH, to be activated as a change to the semantics of `OP_SUCCESS189`\n+in tapscript only.\n+\n+These opcodes provide a generalized method for introspecting certain details of\n+the spending transaction, which enables non-interactive enforcement of certain\n+properties of the transaction spending a certain UTXO.\n+\n+The constructions specified in this BIP also open up the way for other\n+potential updates; see Motivation section for more details.\n+\n+\n+# Summary\n+\n+## OP_CHECKTXHASHVERIFY\n+\n+The first new opcode, `OP_CHECKTXHASHVERIFY`, redefines the `OP_NOP4` opcode (`0xb3`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element on the stack is at least 32 bytes long, fail otherwise.\n+* The first 32 bytes are interpreted as the TxHash and the remaining suffix bytes specify the TxFieldSelector.\n+* If the TxFieldSelector is invalid, fail.\n+* The actual TxHash of the transaction at the current input index, calculated\n+  using the given TxFieldSelector must be equal to the first 32 bytes of the\n+  element on the stack, fail otherwise.\n+\n+\n+## OP_TXHASH\n+\n+The second new opcode, `OP_TXHASH`, redefines the `OP_SUCCESS189` tapscript opcode (`0xbd`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element is interpreted as the TxFieldSelector and is popped off the stack.\n+* If the TxFieldSelector is invalid, fail.\n+* The 32-byte TxHash of the transaction at the current input index, calculated\n+  using the given TxFieldSelector is pushed onto the stack.\n+\n+## TxFieldSelector\n+\n+The TxFieldSelector has the following semantics. We will give a brief conceptual\n+summary, followed by a reference implementation of the CalculateTxHash function.\n+\n+* There are two special cases for the TxFieldSelector:\n+  * the empty value, zero bytes long: it is set equal to `TXFS_SPECIAL_TEMPLATE`,\n+    the de-facto default value which means everything except the prevouts and the prevout\n+    scriptPubkeys.<br>Special case `TXFS_SPECIAL_TEMPLATE` is 4 bytes long, as follows:\n+    * &nbsp;1. `TXFS_ALL`\n+    * &nbsp;2. `TXFS_INPUTS_TEMPLATE | TXFS_OUTPUTS_ALL`\n+    * &nbsp;3. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+    * &nbsp;4. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+  * the `0x00` byte: it is set equal to `TXFS_SPECIAL_ALL`, which means \"ALL\" and is primarily\n+    useful to emulate `SIGHASH_ALL` when `OP_TXHASH` is used in combination\n+    with `OP_CHECKSIGFROMSTACK`.<br>Special case `TXFS_SPECIAL_TEMPLATE` is 4",
+      "path": "bip-txhash.md",
+      "position": 72,
+      "original_position": 72,
+      "commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "original_commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "halseth",
+        "id": 3765732,
+        "node_id": "MDQ6VXNlcjM3NjU3MzI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3765732?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/halseth",
+        "html_url": "https://github.com/halseth",
+        "followers_url": "https://api.github.com/users/halseth/followers",
+        "following_url": "https://api.github.com/users/halseth/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/halseth/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/halseth/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/halseth/subscriptions",
+        "organizations_url": "https://api.github.com/users/halseth/orgs",
+        "repos_url": "https://api.github.com/users/halseth/repos",
+        "events_url": "https://api.github.com/users/halseth/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/halseth/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "This should be `TXFS_SPECIAL_ALL`? Maybe same as Rusty is saying.",
+      "created_at": "2024-01-04T12:27:15Z",
+      "updated_at": "2024-01-04T12:36:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#discussion_r1441691926",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1441691926"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 72,
+      "original_line": 72,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1441693630",
+      "pull_request_review_id": 1804049526,
+      "id": 1441693630,
+      "node_id": "PRRC_kwDOAN28mc5V7n--",
+      "diff_hunk": "@@ -0,0 +1,269 @@\n+```\n+  BIP: tbd\n+  Layer: Consensus (soft fork)\n+  Title: OP_TXHASH and OP_CHECKTXHASHVERIFY\n+  Author: Steven Roose <steven@roose.io>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-tbd\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-09-03\n+  License: BSD-3-Clause\n+```\n+\n+# Abstract\n+\n+This BIP proposes two new opcodes, `OP_CHECKTXHASHVERIFY`, to be activated\n+as a change to the semantics of `OP_NOP4` in legacy script, segwit and tapscript;\n+and OP_TXHASH, to be activated as a change to the semantics of `OP_SUCCESS189`\n+in tapscript only.\n+\n+These opcodes provide a generalized method for introspecting certain details of\n+the spending transaction, which enables non-interactive enforcement of certain\n+properties of the transaction spending a certain UTXO.\n+\n+The constructions specified in this BIP also open up the way for other\n+potential updates; see Motivation section for more details.\n+\n+\n+# Summary\n+\n+## OP_CHECKTXHASHVERIFY\n+\n+The first new opcode, `OP_CHECKTXHASHVERIFY`, redefines the `OP_NOP4` opcode (`0xb3`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element on the stack is at least 32 bytes long, fail otherwise.\n+* The first 32 bytes are interpreted as the TxHash and the remaining suffix bytes specify the TxFieldSelector.\n+* If the TxFieldSelector is invalid, fail.\n+* The actual TxHash of the transaction at the current input index, calculated\n+  using the given TxFieldSelector must be equal to the first 32 bytes of the\n+  element on the stack, fail otherwise.\n+\n+\n+## OP_TXHASH\n+\n+The second new opcode, `OP_TXHASH`, redefines the `OP_SUCCESS189` tapscript opcode (`0xbd`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element is interpreted as the TxFieldSelector and is popped off the stack.\n+* If the TxFieldSelector is invalid, fail.\n+* The 32-byte TxHash of the transaction at the current input index, calculated\n+  using the given TxFieldSelector is pushed onto the stack.\n+\n+## TxFieldSelector\n+\n+The TxFieldSelector has the following semantics. We will give a brief conceptual\n+summary, followed by a reference implementation of the CalculateTxHash function.\n+\n+* There are two special cases for the TxFieldSelector:\n+  * the empty value, zero bytes long: it is set equal to `TXFS_SPECIAL_TEMPLATE`,",
+      "path": "bip-txhash.md",
+      "position": 63,
+      "original_position": 63,
+      "commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "original_commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "halseth",
+        "id": 3765732,
+        "node_id": "MDQ6VXNlcjM3NjU3MzI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3765732?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/halseth",
+        "html_url": "https://github.com/halseth",
+        "followers_url": "https://api.github.com/users/halseth/followers",
+        "following_url": "https://api.github.com/users/halseth/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/halseth/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/halseth/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/halseth/subscriptions",
+        "organizations_url": "https://api.github.com/users/halseth/orgs",
+        "repos_url": "https://api.github.com/users/halseth/repos",
+        "events_url": "https://api.github.com/users/halseth/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/halseth/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "\"what\" is set equal to `TXFS_SPECIAL_TEMPLATE`? Maybe define what the bytes of the field selector means before the special cases.",
+      "created_at": "2024-01-04T12:28:53Z",
+      "updated_at": "2024-01-04T12:36:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#discussion_r1441693630",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1441693630"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 63,
+      "original_line": 63,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1441699724",
+      "pull_request_review_id": 1804049526,
+      "id": 1441699724,
+      "node_id": "PRRC_kwDOAN28mc5V7peM",
+      "diff_hunk": "@@ -0,0 +1,269 @@\n+```\n+  BIP: tbd\n+  Layer: Consensus (soft fork)\n+  Title: OP_TXHASH and OP_CHECKTXHASHVERIFY\n+  Author: Steven Roose <steven@roose.io>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-tbd\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-09-03\n+  License: BSD-3-Clause\n+```\n+\n+# Abstract\n+\n+This BIP proposes two new opcodes, `OP_CHECKTXHASHVERIFY`, to be activated\n+as a change to the semantics of `OP_NOP4` in legacy script, segwit and tapscript;\n+and OP_TXHASH, to be activated as a change to the semantics of `OP_SUCCESS189`\n+in tapscript only.\n+\n+These opcodes provide a generalized method for introspecting certain details of\n+the spending transaction, which enables non-interactive enforcement of certain\n+properties of the transaction spending a certain UTXO.\n+\n+The constructions specified in this BIP also open up the way for other\n+potential updates; see Motivation section for more details.\n+\n+\n+# Summary\n+\n+## OP_CHECKTXHASHVERIFY\n+\n+The first new opcode, `OP_CHECKTXHASHVERIFY`, redefines the `OP_NOP4` opcode (`0xb3`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element on the stack is at least 32 bytes long, fail otherwise.\n+* The first 32 bytes are interpreted as the TxHash and the remaining suffix bytes specify the TxFieldSelector.\n+* If the TxFieldSelector is invalid, fail.\n+* The actual TxHash of the transaction at the current input index, calculated\n+  using the given TxFieldSelector must be equal to the first 32 bytes of the\n+  element on the stack, fail otherwise.\n+\n+\n+## OP_TXHASH\n+\n+The second new opcode, `OP_TXHASH`, redefines the `OP_SUCCESS189` tapscript opcode (`0xbd`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element is interpreted as the TxFieldSelector and is popped off the stack.\n+* If the TxFieldSelector is invalid, fail.\n+* The 32-byte TxHash of the transaction at the current input index, calculated\n+  using the given TxFieldSelector is pushed onto the stack.\n+\n+## TxFieldSelector\n+\n+The TxFieldSelector has the following semantics. We will give a brief conceptual\n+summary, followed by a reference implementation of the CalculateTxHash function.\n+\n+* There are two special cases for the TxFieldSelector:\n+  * the empty value, zero bytes long: it is set equal to `TXFS_SPECIAL_TEMPLATE`,\n+    the de-facto default value which means everything except the prevouts and the prevout\n+    scriptPubkeys.<br>Special case `TXFS_SPECIAL_TEMPLATE` is 4 bytes long, as follows:\n+    * &nbsp;1. `TXFS_ALL`\n+    * &nbsp;2. `TXFS_INPUTS_TEMPLATE | TXFS_OUTPUTS_ALL`\n+    * &nbsp;3. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+    * &nbsp;4. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+  * the `0x00` byte: it is set equal to `TXFS_SPECIAL_ALL`, which means \"ALL\" and is primarily\n+    useful to emulate `SIGHASH_ALL` when `OP_TXHASH` is used in combination\n+    with `OP_CHECKSIGFROMSTACK`.<br>Special case `TXFS_SPECIAL_TEMPLATE` is 4\n+    bytes long, as follows:\n+    * &nbsp;1. `TXFS_ALL`\n+    * &nbsp;2. `TXFS_INPUTS_ALL | TXFS_OUTPUTS_ALL`\n+    * &nbsp;3. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+    * &nbsp;4. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+\n+* The first byte of the TxFieldSelector has its 8 bits assigned as follows, from lowest to highest:",
+      "path": "bip-txhash.md",
+      "position": 79,
+      "original_position": 79,
+      "commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "original_commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "halseth",
+        "id": 3765732,
+        "node_id": "MDQ6VXNlcjM3NjU3MzI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3765732?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/halseth",
+        "html_url": "https://github.com/halseth",
+        "followers_url": "https://api.github.com/users/halseth/followers",
+        "following_url": "https://api.github.com/users/halseth/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/halseth/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/halseth/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/halseth/subscriptions",
+        "organizations_url": "https://api.github.com/users/halseth/orgs",
+        "repos_url": "https://api.github.com/users/halseth/repos",
+        "events_url": "https://api.github.com/users/halseth/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/halseth/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Found this section very hard to follow. Would it be an idea to more gently introduce an example field selector to show how it looks like (bit representation)?",
+      "created_at": "2024-01-04T12:36:16Z",
+      "updated_at": "2024-01-04T12:36:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#discussion_r1441699724",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1441699724"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 79,
+      "original_line": 79,
       "side": "RIGHT"
     }
   ]
