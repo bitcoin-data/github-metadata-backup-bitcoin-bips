@@ -41,7 +41,7 @@
     "body": "\r\n\r\n\r\n## Semantic changes\r\n\r\nI thought it might be valuable to keep track of actual semantic changes being made since the initial out-of-draft version.\r\n\r\n* 2023-12-19: Added relative indices for individual mode.\r\n\r\n\r\n\r\n## Implementations \r\n\r\n* A proposed implementation for Bitcoin Core is available here:\r\n  https://github.com/bitcoin/bitcoin/pull/29050\r\n* A proposed implementation for rust-bitcoin is available here:\r\n  https://github.com/rust-bitcoin/rust-bitcoin/pull/2275\r\n",
     "labels": [],
     "created_at": "2023-09-30T11:40:55Z",
-    "updated_at": "2024-01-02T15:33:14Z",
+    "updated_at": "2024-01-03T23:57:42Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "6ea9a9d3818a737a0c4e4ce6fe007be7febca91b",
@@ -261,9 +261,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5689,
-        "stargazers_count": 8563,
-        "watchers_count": 8563,
+        "forks_count": 5688,
+        "stargazers_count": 8564,
+        "watchers_count": 8564,
         "size": 13739,
         "default_branch": "master",
         "open_issues_count": 127,
@@ -277,9 +277,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-12-29T23:29:02Z",
+        "pushed_at": "2024-01-03T21:12:12Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-01-02T14:57:31Z"
+        "updated_at": "2024-01-03T19:08:20Z"
       }
     },
     "_links": {
@@ -293,7 +293,7 @@
     "deletions": 0,
     "changed_files": 4,
     "commits": 1,
-    "review_comments": 24,
+    "review_comments": 25,
     "comments": 2
   },
   "events": [
@@ -881,7 +881,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/29050.patch"
           },
           "created_at": "2023-12-11T09:00:40Z",
-          "updated_at": "2024-01-02T14:34:42Z"
+          "updated_at": "2024-01-02T18:34:15Z"
         },
         "type": "issue"
       }
@@ -2617,6 +2617,58 @@
       "start_side": null,
       "line": 245,
       "original_line": 245,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1441121096",
+      "pull_request_review_id": 1803255418,
+      "id": 1441121096,
+      "node_id": "PRRC_kwDOAN28mc5V5cNI",
+      "diff_hunk": "@@ -0,0 +1,269 @@\n+```\n+  BIP: tbd\n+  Layer: Consensus (soft fork)\n+  Title: OP_TXHASH and OP_CHECKTXHASHVERIFY\n+  Author: Steven Roose <steven@roose.io>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-tbd\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-09-03\n+  License: BSD-3-Clause\n+```\n+\n+# Abstract\n+\n+This BIP proposes two new opcodes, `OP_CHECKTXHASHVERIFY`, to be activated\n+as a change to the semantics of `OP_NOP4` in legacy script, segwit and tapscript;\n+and OP_TXHASH, to be activated as a change to the semantics of `OP_SUCCESS189`\n+in tapscript only.\n+\n+These opcodes provide a generalized method for introspecting certain details of\n+the spending transaction, which enables non-interactive enforcement of certain\n+properties of the transaction spending a certain UTXO.\n+\n+The constructions specified in this BIP also open up the way for other\n+potential updates; see Motivation section for more details.\n+\n+\n+# Summary\n+\n+## OP_CHECKTXHASHVERIFY\n+",
+      "path": "bip-txhash.md",
+      "position": 31,
+      "original_position": 31,
+      "commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "original_commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "in_reply_to_id": 1439093730,
+      "user": {
+        "login": "rustyrussell",
+        "id": 775844,
+        "node_id": "MDQ6VXNlcjc3NTg0NA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/775844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/rustyrussell",
+        "html_url": "https://github.com/rustyrussell",
+        "followers_url": "https://api.github.com/users/rustyrussell/followers",
+        "following_url": "https://api.github.com/users/rustyrussell/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/rustyrussell/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/rustyrussell/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/rustyrussell/subscriptions",
+        "organizations_url": "https://api.github.com/users/rustyrussell/orgs",
+        "repos_url": "https://api.github.com/users/rustyrussell/repos",
+        "events_url": "https://api.github.com/users/rustyrussell/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/rustyrussell/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Ah, I forgot that OP_SUCCESSx was only a taproot thing, not a segwit thing.  Yuck!",
+      "created_at": "2024-01-03T23:57:42Z",
+      "updated_at": "2024-01-03T23:57:42Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#discussion_r1441121096",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1441121096"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 31,
+      "original_line": 31,
       "side": "RIGHT"
     }
   ]
