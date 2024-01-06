@@ -41,7 +41,7 @@
     "body": "\r\n\r\n\r\n## Semantic changes\r\n\r\nI thought it might be valuable to keep track of actual semantic changes being made since the initial out-of-draft version.\r\n\r\n* 2023-12-19: Added relative indices for individual mode.\r\n\r\n\r\n\r\n## Implementations \r\n\r\n* A proposed implementation for Bitcoin Core is available here:\r\n  https://github.com/bitcoin/bitcoin/pull/29050\r\n* A proposed implementation for rust-bitcoin is available here:\r\n  https://github.com/rust-bitcoin/rust-bitcoin/pull/2275\r\n",
     "labels": [],
     "created_at": "2023-09-30T11:40:55Z",
-    "updated_at": "2024-01-05T18:37:03Z",
+    "updated_at": "2024-01-06T01:55:55Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "6ea9a9d3818a737a0c4e4ce6fe007be7febca91b",
@@ -261,9 +261,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5689,
-        "stargazers_count": 8571,
-        "watchers_count": 8571,
+        "forks_count": 5690,
+        "stargazers_count": 8572,
+        "watchers_count": 8572,
         "size": 13739,
         "default_branch": "master",
         "open_issues_count": 127,
@@ -277,9 +277,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-01-05T18:00:18Z",
+        "pushed_at": "2024-01-05T19:24:08Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-01-05T15:04:50Z"
+        "updated_at": "2024-01-05T21:13:10Z"
       }
     },
     "_links": {
@@ -293,7 +293,7 @@
     "deletions": 0,
     "changed_files": 4,
     "commits": 1,
-    "review_comments": 30,
+    "review_comments": 32,
     "comments": 2
   },
   "events": [
@@ -2965,6 +2965,110 @@
       "start_side": null,
       "line": 121,
       "original_line": 121,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1443559013",
+      "pull_request_review_id": 1807143567,
+      "id": 1443559013,
+      "node_id": "PRRC_kwDOAN28mc5WCvZl",
+      "diff_hunk": "@@ -0,0 +1,269 @@\n+```\n+  BIP: tbd\n+  Layer: Consensus (soft fork)\n+  Title: OP_TXHASH and OP_CHECKTXHASHVERIFY\n+  Author: Steven Roose <steven@roose.io>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-tbd\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-09-03\n+  License: BSD-3-Clause\n+```\n+\n+# Abstract\n+\n+This BIP proposes two new opcodes, `OP_CHECKTXHASHVERIFY`, to be activated\n+as a change to the semantics of `OP_NOP4` in legacy script, segwit and tapscript;\n+and OP_TXHASH, to be activated as a change to the semantics of `OP_SUCCESS189`\n+in tapscript only.\n+\n+These opcodes provide a generalized method for introspecting certain details of\n+the spending transaction, which enables non-interactive enforcement of certain\n+properties of the transaction spending a certain UTXO.\n+\n+The constructions specified in this BIP also open up the way for other\n+potential updates; see Motivation section for more details.\n+\n+\n+# Summary\n+\n+## OP_CHECKTXHASHVERIFY\n+\n+The first new opcode, `OP_CHECKTXHASHVERIFY`, redefines the `OP_NOP4` opcode (`0xb3`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element on the stack is at least 32 bytes long, fail otherwise.\n+* The first 32 bytes are interpreted as the TxHash and the remaining suffix bytes specify the TxFieldSelector.\n+* If the TxFieldSelector is invalid, fail.\n+* The actual TxHash of the transaction at the current input index, calculated\n+  using the given TxFieldSelector must be equal to the first 32 bytes of the\n+  element on the stack, fail otherwise.\n+\n+\n+## OP_TXHASH\n+\n+The second new opcode, `OP_TXHASH`, redefines the `OP_SUCCESS189` tapscript opcode (`0xbd`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element is interpreted as the TxFieldSelector and is popped off the stack.\n+* If the TxFieldSelector is invalid, fail.\n+* The 32-byte TxHash of the transaction at the current input index, calculated\n+  using the given TxFieldSelector is pushed onto the stack.\n+\n+## TxFieldSelector\n+\n+The TxFieldSelector has the following semantics. We will give a brief conceptual\n+summary, followed by a reference implementation of the CalculateTxHash function.\n+\n+* There are two special cases for the TxFieldSelector:\n+  * the empty value, zero bytes long: it is set equal to `TXFS_SPECIAL_TEMPLATE`,\n+    the de-facto default value which means everything except the prevouts and the prevout\n+    scriptPubkeys.<br>Special case `TXFS_SPECIAL_TEMPLATE` is 4 bytes long, as follows:\n+    * &nbsp;1. `TXFS_ALL`\n+    * &nbsp;2. `TXFS_INPUTS_TEMPLATE | TXFS_OUTPUTS_ALL`\n+    * &nbsp;3. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+    * &nbsp;4. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+  * the `0x00` byte: it is set equal to `TXFS_SPECIAL_ALL`, which means \"ALL\" and is primarily\n+    useful to emulate `SIGHASH_ALL` when `OP_TXHASH` is used in combination\n+    with `OP_CHECKSIGFROMSTACK`.<br>Special case `TXFS_SPECIAL_TEMPLATE` is 4\n+    bytes long, as follows:\n+    * &nbsp;1. `TXFS_ALL`\n+    * &nbsp;2. `TXFS_INPUTS_ALL | TXFS_OUTPUTS_ALL`\n+    * &nbsp;3. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+    * &nbsp;4. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+\n+* The first byte of the TxFieldSelector has its 8 bits assigned as follows, from lowest to highest:\n+  * &nbsp;1. version (`TXFS_VERSION`)\n+  * &nbsp;2. locktime (`TXFS_LOCKTIME`)\n+  * &nbsp;3. current input index (`TXFS_CURRENT_INPUT_IDX`)\n+  * &nbsp;4. current input control block (or empty) (`TXFS_CURRENT_INPUT_CONTROL_BLOCK`)\n+  * &nbsp;5. current script last `OP_CODESEPARATOR` position (or 0xffffffff)\n+    (`TXFS_CURRENT_INPUT_LAST_CODESEPARATOR_POS`)\n+  * &nbsp;6. inputs (`TXFS_INPUTS`)\n+  * &nbsp;7. outputs (`TXFS_OUTPUTS`)\n+\n+* The last (highest) bit of the first byte (`TXFS_CONTROL`), we will call the\n+  \"control bit\", and it can be used to control the behavior of the opcode. For\n+  `OP_TXHASH` and `OP_CHECKTXHASHVERIFY`, the control bit is used to determine\n+  whether the TxFieldSelector itself has to be included in the resulting hash.\n+  (For potential other uses of the TxFieldSelector (like a hypothetical\n+  `OP_TX`), this bit can be repurposed.)\n+\n+* If either \"inputs\" or \"outputs\" is set to 1, expect another byte with its 8\n+  bits assigning the following variables, from lowest to highest:\n+  * Specifying which fields of the inputs will be selected:\n+    * &nbsp;1. prevouts (`TXFS_INPUTS_PREVOUTS`)\n+    * &nbsp;2. sequences (`TXFS_INPUTS_SEQUENCES`)\n+    * &nbsp;3. scriptSigs (`TXFS_INPUTS_SCRIPTSIGS`)\n+    * &nbsp;4. prevout scriptPubkeys (`TXFS_INPUTS_PREV_SCRIPTPUBKEYS`)\n+    * &nbsp;5. prevout values (`TXFS_INPUTS_PREV_VALUED`)\n+    * &nbsp;6. taproot annexes (`TXFS_INPUTS_TAPROOT_ANNEXES`)\n+\n+  * Specifying which fields of the outputs will be selected:\n+    * &nbsp;7. scriptPubkeys (`TXFS_OUTPUTS_SCRIPTPUBKEYS`)\n+    * &nbsp;8. values (`TXFS_OUTPUTS_VALUES`)\n+\n+* We define as follows:\n+  * `TXFS_ALL = TXFS_VERSION | TXFS_LOCKTIME | TXFS_CURRENT_INPUT_IDX | TXFS_CURRENT_INPUT_CONTROL_BLOCK | TXFS_CURRENT_INPUT_LAST_CODESEPARATOR_POS | TXFS_INPUTS | TXFS_OUTPUTS | TXFS_CONTROL`\n+  * `TXFS_INPUTS_ALL = TXFS_INPUTS_PREVOUTS | TXFS_INPUTS_SEQUENCES | TXFS_INPUTS_SCRIPTSIGS | TXFS_INPUTS_PREV_SCRIPTPUBKEYS | TXFS_INPUTS_PREV_VALUES | TXFS_INPUTS_TAPROOT_ANNEXES`\n+  * `TXFS_INPUTS_TEMPLATE = TXFS_INPUTS_SEQUENCES | TXFS_INPUTS_SCRIPTSIGS | TXFS_INPUTS_PREV_VALUES | TXFS_INPUTS_TAPROOT_ANNEXES`\n+  * `TXFS_OUTPUTS_ALL = TXFS_OUTPUTS_SCRIPTPUBKEYS | TXFS_OUTPUTS_VALUES`\n+\n+For both inputs and then outputs, do the following:\n+\n+* If the \"in/outputs\" field is set to 1, another additional byte is expected:\n+  * The highest bit (`TXFS_INOUT_NUMBER`) indicates whether the \"number of in-/outputs\"\n+    should be committed to.\n+  * For the remaining bits, there are three exceptional values:\n+    * 0x00 (`TXFS_INOUT_SELECTION_NONE`) means \"no in/outputs\"\n+      (hence only the number of them as `0x80` (`TXFS_INOUT_NUMBER`)).\n+    * `0x40` (`TXFS_INOUT_SELECTION_CURRENT`) means \"select only the in/output of the current input index\"\n+      (it is invalid when current index exceeds number of outputs).\n+    * `0x3f` (`TXFS_INOUT_SELECTION_ALL`) means \"select all in/outputs\".\n+\n+  * The second highest bit (`TXFS_INOUT_SELECTION_MODE`) is the \"specification mode\":\n+    * Set to 0 it means \"leading mode\".\n+    * Set to 1 it means \"individual mode\".\n+  * In \"leading mode\", the third highest bit (`TXFS_INOUT_SELECTION_SIZE`) is\n+    used to indicate the \"count size\", i.e. the number of bytes will be used to\n+    represent the number of in/output.\n+    * With \"index size\" set to 0, the remaining lowest 5 bits of the first byte will\n+      be interpreted as the number of leading in/outputs to select.\n+    * With \"index size\" set to 1, the remaining lowest 5 bits of the first byte together with the\n+      8 bits of the next byte will be interpreted as the number of leading in/outputs to select.\n+  * In \"individual mode\", the remaining lowest 6 bits of the first byte will be\n+    interpreted as `n`, the number of individual in/outputs to select. For each\n+    individual input, (at least) one byte is expected, of this byte. The\n+    highest bit is used to indicate \"absolute or relative\" indices.\n+    * If the highest bit is set to 0, it is an absolute index. The second\n+      highest bit is used to indicate the amount of bytes are used to represent\n+      the index.\n+      * If the second-highest bit is 0, the remaining 6 bits represent the index to be selected.\n+      * If the second-highest bit is 1, the remaining 6 bits, together with the 8 bits of the next\n+        byte, represent the index to be selected.\n+    * If the highest bit is set to 1, it is a relative index. The second highest bit is used to\n+      indicate the sign of the index.\n+      * If the second-highest bit is set to 0, the remaining 6 bits represent the positive relative\n+        index to be selected.\n+      * If the second-highest bit is set to 1, the remaining 6 bits represent the negative relative\n+        index to be selected.\n+\n+Effectively, this allows a user to select\n+* all in/outputs\n+* the current input index\n+* the leading in/outputs up to 8192\n+* up to 64 individually selected in/outputs\n+** using absolute indices up to 16384\n+** using indices relative to the current input index from -64 to +64.",
+      "path": "bip-txhash.md",
+      "position": 161,
+      "original_position": 161,
+      "commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "original_commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "in_reply_to_id": 1439098009,
+      "user": {
+        "login": "rustyrussell",
+        "id": 775844,
+        "node_id": "MDQ6VXNlcjc3NTg0NA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/775844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/rustyrussell",
+        "html_url": "https://github.com/rustyrussell",
+        "followers_url": "https://api.github.com/users/rustyrussell/followers",
+        "following_url": "https://api.github.com/users/rustyrussell/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/rustyrussell/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/rustyrussell/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/rustyrussell/subscriptions",
+        "organizations_url": "https://api.github.com/users/rustyrussell/orgs",
+        "repos_url": "https://api.github.com/users/rustyrussell/repos",
+        "events_url": "https://api.github.com/users/rustyrussell/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/rustyrussell/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "This leaves some protocols vulnerable to the partial signature attacks.  Say the covenant requires your outputs go half to pubkeyA and half to pubkeyB.  Now I have two identical 1BTC covenant UTXO inputs, but re-use the same outputs to satisfy both, and steal the other 1BTC.\r\n\r\nThe same problem applies to \"tell me the outputs in the witness data\".",
+      "created_at": "2024-01-06T01:54:06Z",
+      "updated_at": "2024-01-06T01:54:07Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#discussion_r1443559013",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1443559013"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 161,
+      "original_line": 161,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1443559334",
+      "pull_request_review_id": 1807143787,
+      "id": 1443559334,
+      "node_id": "PRRC_kwDOAN28mc5WCvem",
+      "diff_hunk": "@@ -0,0 +1,269 @@\n+```\n+  BIP: tbd\n+  Layer: Consensus (soft fork)\n+  Title: OP_TXHASH and OP_CHECKTXHASHVERIFY\n+  Author: Steven Roose <steven@roose.io>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-tbd\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-09-03\n+  License: BSD-3-Clause\n+```\n+\n+# Abstract\n+\n+This BIP proposes two new opcodes, `OP_CHECKTXHASHVERIFY`, to be activated\n+as a change to the semantics of `OP_NOP4` in legacy script, segwit and tapscript;\n+and OP_TXHASH, to be activated as a change to the semantics of `OP_SUCCESS189`\n+in tapscript only.\n+\n+These opcodes provide a generalized method for introspecting certain details of\n+the spending transaction, which enables non-interactive enforcement of certain\n+properties of the transaction spending a certain UTXO.\n+\n+The constructions specified in this BIP also open up the way for other\n+potential updates; see Motivation section for more details.\n+\n+\n+# Summary\n+\n+## OP_CHECKTXHASHVERIFY\n+\n+The first new opcode, `OP_CHECKTXHASHVERIFY`, redefines the `OP_NOP4` opcode (`0xb3`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element on the stack is at least 32 bytes long, fail otherwise.\n+* The first 32 bytes are interpreted as the TxHash and the remaining suffix bytes specify the TxFieldSelector.\n+* If the TxFieldSelector is invalid, fail.\n+* The actual TxHash of the transaction at the current input index, calculated\n+  using the given TxFieldSelector must be equal to the first 32 bytes of the\n+  element on the stack, fail otherwise.\n+\n+\n+## OP_TXHASH\n+\n+The second new opcode, `OP_TXHASH`, redefines the `OP_SUCCESS189` tapscript opcode (`0xbd`) as a soft fork upgrade.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element is interpreted as the TxFieldSelector and is popped off the stack.\n+* If the TxFieldSelector is invalid, fail.\n+* The 32-byte TxHash of the transaction at the current input index, calculated\n+  using the given TxFieldSelector is pushed onto the stack.\n+\n+## TxFieldSelector\n+\n+The TxFieldSelector has the following semantics. We will give a brief conceptual\n+summary, followed by a reference implementation of the CalculateTxHash function.\n+\n+* There are two special cases for the TxFieldSelector:\n+  * the empty value, zero bytes long: it is set equal to `TXFS_SPECIAL_TEMPLATE`,\n+    the de-facto default value which means everything except the prevouts and the prevout\n+    scriptPubkeys.<br>Special case `TXFS_SPECIAL_TEMPLATE` is 4 bytes long, as follows:\n+    * &nbsp;1. `TXFS_ALL`\n+    * &nbsp;2. `TXFS_INPUTS_TEMPLATE | TXFS_OUTPUTS_ALL`\n+    * &nbsp;3. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+    * &nbsp;4. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+  * the `0x00` byte: it is set equal to `TXFS_SPECIAL_ALL`, which means \"ALL\" and is primarily\n+    useful to emulate `SIGHASH_ALL` when `OP_TXHASH` is used in combination\n+    with `OP_CHECKSIGFROMSTACK`.<br>Special case `TXFS_SPECIAL_TEMPLATE` is 4\n+    bytes long, as follows:\n+    * &nbsp;1. `TXFS_ALL`\n+    * &nbsp;2. `TXFS_INPUTS_ALL | TXFS_OUTPUTS_ALL`\n+    * &nbsp;3. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+    * &nbsp;4. `TXFS_INOUT_NUMBER | TXFS_INOUT_SELECTION_ALL`\n+\n+* The first byte of the TxFieldSelector has its 8 bits assigned as follows, from lowest to highest:\n+  * &nbsp;1. version (`TXFS_VERSION`)\n+  * &nbsp;2. locktime (`TXFS_LOCKTIME`)\n+  * &nbsp;3. current input index (`TXFS_CURRENT_INPUT_IDX`)\n+  * &nbsp;4. current input control block (or empty) (`TXFS_CURRENT_INPUT_CONTROL_BLOCK`)\n+  * &nbsp;5. current script last `OP_CODESEPARATOR` position (or 0xffffffff)\n+    (`TXFS_CURRENT_INPUT_LAST_CODESEPARATOR_POS`)\n+  * &nbsp;6. inputs (`TXFS_INPUTS`)\n+  * &nbsp;7. outputs (`TXFS_OUTPUTS`)\n+\n+* The last (highest) bit of the first byte (`TXFS_CONTROL`), we will call the\n+  \"control bit\", and it can be used to control the behavior of the opcode. For\n+  `OP_TXHASH` and `OP_CHECKTXHASHVERIFY`, the control bit is used to determine\n+  whether the TxFieldSelector itself has to be included in the resulting hash.\n+  (For potential other uses of the TxFieldSelector (like a hypothetical\n+  `OP_TX`), this bit can be repurposed.)\n+\n+* If either \"inputs\" or \"outputs\" is set to 1, expect another byte with its 8\n+  bits assigning the following variables, from lowest to highest:\n+  * Specifying which fields of the inputs will be selected:\n+    * &nbsp;1. prevouts (`TXFS_INPUTS_PREVOUTS`)\n+    * &nbsp;2. sequences (`TXFS_INPUTS_SEQUENCES`)\n+    * &nbsp;3. scriptSigs (`TXFS_INPUTS_SCRIPTSIGS`)\n+    * &nbsp;4. prevout scriptPubkeys (`TXFS_INPUTS_PREV_SCRIPTPUBKEYS`)\n+    * &nbsp;5. prevout values (`TXFS_INPUTS_PREV_VALUED`)\n+    * &nbsp;6. taproot annexes (`TXFS_INPUTS_TAPROOT_ANNEXES`)\n+\n+  * Specifying which fields of the outputs will be selected:\n+    * &nbsp;7. scriptPubkeys (`TXFS_OUTPUTS_SCRIPTPUBKEYS`)\n+    * &nbsp;8. values (`TXFS_OUTPUTS_VALUES`)\n+\n+* We define as follows:\n+  * `TXFS_ALL = TXFS_VERSION | TXFS_LOCKTIME | TXFS_CURRENT_INPUT_IDX | TXFS_CURRENT_INPUT_CONTROL_BLOCK | TXFS_CURRENT_INPUT_LAST_CODESEPARATOR_POS | TXFS_INPUTS | TXFS_OUTPUTS | TXFS_CONTROL`\n+  * `TXFS_INPUTS_ALL = TXFS_INPUTS_PREVOUTS | TXFS_INPUTS_SEQUENCES | TXFS_INPUTS_SCRIPTSIGS | TXFS_INPUTS_PREV_SCRIPTPUBKEYS | TXFS_INPUTS_PREV_VALUES | TXFS_INPUTS_TAPROOT_ANNEXES`\n+  * `TXFS_INPUTS_TEMPLATE = TXFS_INPUTS_SEQUENCES | TXFS_INPUTS_SCRIPTSIGS | TXFS_INPUTS_PREV_VALUES | TXFS_INPUTS_TAPROOT_ANNEXES`\n+  * `TXFS_OUTPUTS_ALL = TXFS_OUTPUTS_SCRIPTPUBKEYS | TXFS_OUTPUTS_VALUES`\n+\n+For both inputs and then outputs, do the following:\n+\n+* If the \"in/outputs\" field is set to 1, another additional byte is expected:\n+  * The highest bit (`TXFS_INOUT_NUMBER`) indicates whether the \"number of in-/outputs\"\n+    should be committed to.\n+  * For the remaining bits, there are three exceptional values:\n+    * 0x00 (`TXFS_INOUT_SELECTION_NONE`) means \"no in/outputs\"\n+      (hence only the number of them as `0x80` (`TXFS_INOUT_NUMBER`)).\n+    * `0x40` (`TXFS_INOUT_SELECTION_CURRENT`) means \"select only the in/output of the current input index\"\n+      (it is invalid when current index exceeds number of outputs).\n+    * `0x3f` (`TXFS_INOUT_SELECTION_ALL`) means \"select all in/outputs\".\n+\n+  * The second highest bit (`TXFS_INOUT_SELECTION_MODE`) is the \"specification mode\":\n+    * Set to 0 it means \"leading mode\".\n+    * Set to 1 it means \"individual mode\".\n+  * In \"leading mode\", the third highest bit (`TXFS_INOUT_SELECTION_SIZE`) is\n+    used to indicate the \"count size\", i.e. the number of bytes will be used to\n+    represent the number of in/output.\n+    * With \"index size\" set to 0, the remaining lowest 5 bits of the first byte will\n+      be interpreted as the number of leading in/outputs to select.\n+    * With \"index size\" set to 1, the remaining lowest 5 bits of the first byte together with the\n+      8 bits of the next byte will be interpreted as the number of leading in/outputs to select.\n+  * In \"individual mode\", the remaining lowest 6 bits of the first byte will be\n+    interpreted as `n`, the number of individual in/outputs to select. For each\n+    individual input, (at least) one byte is expected, of this byte. The\n+    highest bit is used to indicate \"absolute or relative\" indices.\n+    * If the highest bit is set to 0, it is an absolute index. The second\n+      highest bit is used to indicate the amount of bytes are used to represent\n+      the index.\n+      * If the second-highest bit is 0, the remaining 6 bits represent the index to be selected.\n+      * If the second-highest bit is 1, the remaining 6 bits, together with the 8 bits of the next\n+        byte, represent the index to be selected.\n+    * If the highest bit is set to 1, it is a relative index. The second highest bit is used to\n+      indicate the sign of the index.\n+      * If the second-highest bit is set to 0, the remaining 6 bits represent the positive relative\n+        index to be selected.\n+      * If the second-highest bit is set to 1, the remaining 6 bits represent the negative relative\n+        index to be selected.\n+\n+Effectively, this allows a user to select\n+* all in/outputs\n+* the current input index\n+* the leading in/outputs up to 8192\n+* up to 64 individually selected in/outputs\n+** using absolute indices up to 16384\n+** using indices relative to the current input index from -64 to +64.\n+\n+The TxFieldSelector is invalid when\n+* a byte is expected but missing\n+* additional unexpected bytes are present\n+* index size is set to 1 while not being necessary\n+* a leading number of individual index is selected out of bounds of the in/outputs\n+* individual indices are duplicated or not in increasing order\n+\n+These limitations are to avoid potential TxFieldSelector malleability. It is\n+however allowed to use leading mode where it could be \"all\". This\n+is important to allow for optional addition of extra inputs or outputs.\n+\n+//TODO(stevenroose) should we disallow individual that could be leading?\n+\n+\n+## Resource limits\n+\n+* For legacy scripts and segwit, we don't add any extra resource limitations,\n+  with the argumentation that `OP_CHECKTXHASHVERIFY` already requires the user\n+  to provide at least 32 bytes of extra transaction size, either in the input\n+  scriptSig, or the witness. Additional more complex hashes require additional\n+  witness bytes. Given that `OP_CAT` is not available in this context, if a\n+  malicious user tries to increase the number of TransactionHashes being\n+  calculated by using opcodes like `OP_DUP`, the TxFieldSelector for all these\n+  calculations is identical, so the calculation can be cached within the same\n+  transaction.\n+\n+* For tapscript, primarily motivated by the cheaper opcode `OP_TXHASH` (it\n+  doesn't require an additional 32 witness bytes be provided) and the potential\n+  future addition of byte manipulation opcodes like `OP_CAT`, an additional\n+  cost is specified per TransactionHash execution. Using the same validation\n+  budget (\"sigops budget\") introduced in BIP-0342, each TransactionHash\n+  decreases the validation budget by 10. If this brings the budget below zero,",
+      "path": "bip-txhash.md",
+      "position": 194,
+      "original_position": 194,
+      "commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "original_commit_id": "245c0b96463620a69a73a402f92987e8a52d8eed",
+      "in_reply_to_id": 1439098416,
+      "user": {
+        "login": "rustyrussell",
+        "id": 775844,
+        "node_id": "MDQ6VXNlcjc3NTg0NA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/775844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/rustyrussell",
+        "html_url": "https://github.com/rustyrussell",
+        "followers_url": "https://api.github.com/users/rustyrussell/followers",
+        "following_url": "https://api.github.com/users/rustyrussell/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/rustyrussell/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/rustyrussell/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/rustyrussell/subscriptions",
+        "organizations_url": "https://api.github.com/users/rustyrussell/orgs",
+        "repos_url": "https://api.github.com/users/rustyrussell/repos",
+        "events_url": "https://api.github.com/users/rustyrussell/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/rustyrussell/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "This is not a signature budget, it's a hashing budget.  Perhaps we should make this a first-class citizen then?\r\n\r\nSee https://rusty.ozlabs.org/2023/12/22/script-limits-opcat.html#my-proposal-a-dynamic-limit-for-hashing",
+      "created_at": "2024-01-06T01:55:54Z",
+      "updated_at": "2024-01-06T01:55:55Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#discussion_r1443559334",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1443559334"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 194,
+      "original_line": 194,
       "side": "RIGHT"
     }
   ]
