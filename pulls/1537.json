@@ -40,7 +40,7 @@
     },
     "labels": [],
     "created_at": "2024-01-08T18:10:46Z",
-    "updated_at": "2024-01-08T18:33:22Z",
+    "updated_at": "2024-01-14T05:29:16Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "ec969de9907bc1663e95916d06a621a5963627d7",
@@ -147,7 +147,7 @@
         "forks_count": 44,
         "stargazers_count": 140,
         "watchers_count": 140,
-        "size": 13758,
+        "size": 13726,
         "default_branch": "bip-taproot",
         "open_issues_count": 9,
         "is_template": false,
@@ -261,12 +261,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5695,
-        "stargazers_count": 8582,
-        "watchers_count": 8582,
+        "forks_count": 5702,
+        "stargazers_count": 8596,
+        "watchers_count": 8596,
         "size": 13739,
         "default_branch": "master",
-        "open_issues_count": 129,
+        "open_issues_count": 130,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -277,9 +277,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-01-08T18:10:47Z",
+        "pushed_at": "2024-01-13T17:18:59Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-01-08T13:12:27Z"
+        "updated_at": "2024-01-13T21:18:27Z"
       }
     },
     "_links": {
@@ -293,7 +293,7 @@
     "deletions": 3,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 1
   },
   "events": [
@@ -390,7 +390,96 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1537#issuecomment-1881619111",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1537"
+    },
+    {
+      "event": "reviewed",
+      "id": 1820153964,
+      "node_id": "PRR_kwDOAN28mc5sfVhs",
+      "url": null,
+      "actor": null,
+      "commit_id": "ff9feab538e7f814a694ad92f4487f998649b920",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "",
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1537#pullrequestreview-1820153964",
+      "submitted_at": "2024-01-14T05:29:16Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1537"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1451660302",
+      "pull_request_review_id": 1820153964,
+      "id": 1451660302,
+      "node_id": "PRRC_kwDOAN28mc5WhpQO",
+      "diff_hunk": "@@ -83,19 +83,23 @@ If all transactions in a block do not have witness data, the commitment is optio\n \n === Witness program ===\n \n-A <code>scriptPubKey</code> (or <code>redeemScript</code> as defined in BIP16/P2SH) that consists of a 1-byte push opcode (for 0 to 16) followed by a data push between 2 and 40 bytes gets a new special meaning. The value of the first push is called the \"version byte\". The following byte vector pushed is called the \"witness program\".\n+A <code>scriptPubKey</code> (or <code>redeemScript</code> as defined in BIP16/P2SH) that consists of a 1-byte push opcode (<code>OP_0</code> through <code>OP_16</code>) followed by a direct data push between 2 and 40 bytes gets a new special meaning. The value of the first push is called the \"version byte\". The following byte vector pushed is called the \"witness program\".\n+In more detail, this means a <code>scriptPubKey</code> or <code>redeemScript</code> which consists of (in order):\n+* First, byte 0x00 (<code>OP_0</code>) or any byte between 0x51 (<code>OP_1</code>) and 0x60 (<code>OP_16</code>) inclusive (the version byte).\n+* Then, a byte ''L'' between 0x02 (push of 2 bytes) and 0x18 (push of 40 bytes) inclusive.",
+      "path": "bip-0141.mediawiki",
+      "position": 8,
+      "original_position": 8,
+      "commit_id": "ff9feab538e7f814a694ad92f4487f998649b920",
+      "original_commit_id": "ff9feab538e7f814a694ad92f4487f998649b920",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "`0x18` should be `0x28` presumably",
+      "created_at": "2024-01-14T05:28:42Z",
+      "updated_at": "2024-01-14T05:29:16Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1537#discussion_r1451660302",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1451660302"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1537"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 89,
+      "original_line": 89,
+      "side": "RIGHT"
+    }
+  ]
 }
