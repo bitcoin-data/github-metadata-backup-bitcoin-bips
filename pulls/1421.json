@@ -41,7 +41,7 @@
     "body": "Pairs with the draft implementation in https://github.com/bitcoin-inquisition/bitcoin/pull/21.",
     "labels": [],
     "created_at": "2023-02-13T20:55:10Z",
-    "updated_at": "2024-01-05T16:45:24Z",
+    "updated_at": "2024-01-16T20:38:32Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "e7e77b5e51c20a203995dbe1900db72a028d6ca7",
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5689,
-        "stargazers_count": 8571,
-        "watchers_count": 8571,
+        "forks_count": 5705,
+        "stargazers_count": 8604,
+        "watchers_count": 8604,
         "size": 13739,
         "default_branch": "master",
-        "open_issues_count": 127,
+        "open_issues_count": 131,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-01-05T11:50:08Z",
+        "pushed_at": "2024-01-16T17:24:53Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-01-05T15:04:50Z"
+        "updated_at": "2024-01-16T19:23:45Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 5,
     "commits": 30,
     "review_comments": 116,
-    "comments": 32
+    "comments": 33
   },
   "events": [
     {
@@ -890,7 +890,7 @@
             "updated_at": "2023-12-20T15:55:10Z"
           },
           "locked": false,
-          "comments": 7,
+          "comments": 8,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin-inquisition/bitcoin/pulls/21",
             "html_url": "https://github.com/bitcoin-inquisition/bitcoin/pull/21",
@@ -899,7 +899,7 @@
           },
           "closed_at": "2023-12-20T15:55:09Z",
           "created_at": "2023-02-16T16:20:13Z",
-          "updated_at": "2023-12-20T15:55:10Z"
+          "updated_at": "2024-01-09T09:19:43Z"
         },
         "type": "issue"
       }
@@ -5436,7 +5436,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/28550.patch"
           },
           "created_at": "2023-09-28T18:42:45Z",
-          "updated_at": "2024-01-05T16:13:20Z"
+          "updated_at": "2024-01-15T05:15:50Z"
         },
         "type": "issue"
       }
@@ -5738,8 +5738,8 @@
           "events_url": "https://api.github.com/repos/dgpv/bsst/issues/14/events",
           "html_url": "https://github.com/dgpv/bsst/issues/14",
           "number": 14,
-          "state": "open",
-          "state_reason": null,
+          "state": "closed",
+          "state_reason": "completed",
           "title": "Add ability to analyze dynamic arguments for opcodes like ROLL",
           "body": "Currently, if an opcode uses one of its arguments as an index on the stack, we require this argument to be static.\r\n\r\nThere are possible practical scripts that can use dynamic stack indexes, so having ability to analyze these seem to be valuable.\r\n\r\nHere's the link to relevant discussion on delvingbitcoin: https://delvingbitcoin.org/t/bsst-plugins-for-covenant-opcodes/137/2\r\n\r\nFor convenience, I copy here parts of conversation from there:\r\n\r\ndgpv:\r\n> Each value of <n> for ROLL will require its own execution path. bsst could put some upper limit on <n>, generate that many execution paths, analyze them one by one, and then show them in the report as ‘branches’ with conditions like <n> = 1, <n> = 2, etc.\r\n> \r\n> But if <n> could happen to be above this limit, the analysis will be incomplete. The report can show a warning, something like “argument for PICK can be above the limit, analysis is incomplete”. This warning will be shown in each execution path generated for each value of <n>.\r\n> \r\n> If there are more than one such place in the script with non-static arg for PICK or ROLL, you will get a lot of execution paths in the report :-). I guess there needs to be an upper limit for the number of exec paths, too.\r\n\r\najtowns:\r\n\r\n> I was looking at [OP_VAULT](https://github.com/bitcoin/bips/pull/1421) which pops n+5 elements off the stack, one of which is n. (In particular: I wanted to DUP one of the items deepest in the stack, and do so automatically by DUP’ing n first)\r\n> \r\n> ...\r\n> \r\n> Being able to specify $n in [1,2,3,4,5] as a constraint in the file (ie pretending there was DUP 3 NUMEQUALVERIFY just prior to the ROLL or PICK for each value in the range) and just rerunning the analysis multiple times would work fine (and put the burden of the combinatorial explosion onto the user). I ended up just reframing my question to avoid the problem though, and that worked fine too.\r\n",
           "user": {
@@ -5805,15 +5805,16 @@
               "type": "User",
               "site_admin": false
             },
-            "open_issues": 1,
-            "closed_issues": 4,
+            "open_issues": 0,
+            "closed_issues": 5,
             "created_at": "2023-11-14T12:55:56Z",
-            "updated_at": "2023-11-27T14:21:35Z"
+            "updated_at": "2024-01-14T11:52:00Z"
           },
           "locked": false,
-          "comments": 1,
+          "comments": 4,
+          "closed_at": "2024-01-14T11:51:59Z",
           "created_at": "2023-10-14T05:36:54Z",
-          "updated_at": "2023-11-14T12:57:25Z"
+          "updated_at": "2024-01-14T11:52:00Z"
         },
         "type": "issue"
       }
@@ -6009,6 +6010,60 @@
       "submitted_at": "2024-01-05T02:33:31Z",
       "state": "APPROVED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1421"
+    },
+    {
+      "event": "commented",
+      "id": 1894476516,
+      "node_id": "IC_kwDOAN28mc5w62rk",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1894476516",
+      "actor": {
+        "login": "jamesob",
+        "id": 73197,
+        "node_id": "MDQ6VXNlcjczMTk3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73197?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jamesob",
+        "html_url": "https://github.com/jamesob",
+        "followers_url": "https://api.github.com/users/jamesob/followers",
+        "following_url": "https://api.github.com/users/jamesob/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jamesob/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jamesob/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jamesob/subscriptions",
+        "organizations_url": "https://api.github.com/users/jamesob/orgs",
+        "repos_url": "https://api.github.com/users/jamesob/repos",
+        "events_url": "https://api.github.com/users/jamesob/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jamesob/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-01-16T20:38:31Z",
+      "updated_at": "2024-01-16T20:38:31Z",
+      "author_association": "MEMBER",
+      "body": "Is there anything else required for merge here?",
+      "user": {
+        "login": "jamesob",
+        "id": 73197,
+        "node_id": "MDQ6VXNlcjczMTk3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73197?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jamesob",
+        "html_url": "https://github.com/jamesob",
+        "followers_url": "https://api.github.com/users/jamesob/followers",
+        "following_url": "https://api.github.com/users/jamesob/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jamesob/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jamesob/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jamesob/subscriptions",
+        "organizations_url": "https://api.github.com/users/jamesob/orgs",
+        "repos_url": "https://api.github.com/users/jamesob/repos",
+        "events_url": "https://api.github.com/users/jamesob/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jamesob/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1421#issuecomment-1894476516",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1421"
     }
   ],
   "comments": [
