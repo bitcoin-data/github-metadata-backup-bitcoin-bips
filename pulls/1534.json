@@ -41,7 +41,7 @@
     "body": "OP_INTERNALKEY is a new BIP342 tapscript only opcode (upgraded using OP_SUCCESS semantics) that takes bytes 1-32 (0-index, inclusive) from the BIP341 taproot control block and places them on the stack. This BIP describes that behavior.",
     "labels": [],
     "created_at": "2024-01-07T18:30:14Z",
-    "updated_at": "2024-01-19T19:35:43Z",
+    "updated_at": "2024-01-19T22:06:23Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "06fd6253c476885e771a956e211c28889f22797e",
@@ -263,8 +263,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5710,
-        "stargazers_count": 8610,
-        "watchers_count": 8610,
+        "stargazers_count": 8609,
+        "watchers_count": 8609,
         "size": 13739,
         "default_branch": "master",
         "open_issues_count": 132,
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2024-01-18T20:30:40Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-01-19T16:42:03Z"
+        "updated_at": "2024-01-19T22:32:41Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 2,
+    "review_comments": 4,
     "comments": 0
   },
   "events": [
@@ -808,6 +808,110 @@
       "start_side": "RIGHT",
       "line": 39,
       "original_line": 39,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1459861314",
+      "pull_request_review_id": 1833819508,
+      "id": 1459861314,
+      "node_id": "PRRC_kwDOAN28mc5XA7dC",
+      "diff_hunk": "@@ -0,0 +1,70 @@\n+<pre>\n+  BIP: TBD\n+  Layer: Consensus (soft fork)\n+  Title: INTERNALKEY\n+  Author: Brandon Black <freedom@reardencode.com>\n+  Comments-Summary: No comments yet.\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-12-22\n+  License: PD\n+</pre>\n+\n+==Abstract==\n+\n+This BIP describes a new tapscript opcode (<code>OP_INTERNALKEY</code>) which\n+pushes the taproot internal key to the stack.\n+\n+==Specification==\n+\n+When verifying taproot script spends having leaf version 0xc0 (as defined in\n+BIP342), <code>OP_INTERNALKEY</code> replaces <code>OP_SUCCESS203</code>\n+(0xcb). <code>OP_INTERNALKEY</code> pushes the taproot internal key, as defined\n+in BIP341, to the stack.\n+\n+==Motivation==\n+\n+===Key spend with additional conditions===\n+\n+When building taproot outputs, especially those secured by an aggregate key\n+representing more than 1 signer; the parties may wish to collaborate on signing\n+with the taproot internal key, but only with additional script restrictions. In\n+this case, <code>OP_INTERNALKEY</code> saves 32 bytes of witness space.\n+\n+===Mitigated control block overhead for scripts using hash locks===\n+\n+In cases where script path spending is not desired, the internal key may be set\n+to a NUMS point whose bytes would otherwise be required in a tapscript. This\n+could be used with any hash locked transaction, for example, to save 32 witness\n+bytes.",
+      "path": "bip-internalkey.mediawiki",
+      "position": 39,
+      "original_position": 39,
+      "commit_id": "a24aca432c2d286f619bb6528af52e1748f1ec5a",
+      "original_commit_id": "a24aca432c2d286f619bb6528af52e1748f1ec5a",
+      "in_reply_to_id": 1459626475,
+      "user": {
+        "login": "reardencode",
+        "id": 730881,
+        "node_id": "MDQ6VXNlcjczMDg4MQ==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/730881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/reardencode",
+        "html_url": "https://github.com/reardencode",
+        "followers_url": "https://api.github.com/users/reardencode/followers",
+        "following_url": "https://api.github.com/users/reardencode/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/reardencode/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/reardencode/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/reardencode/subscriptions",
+        "organizations_url": "https://api.github.com/users/reardencode/orgs",
+        "repos_url": "https://api.github.com/users/reardencode/repos",
+        "events_url": "https://api.github.com/users/reardencode/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/reardencode/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Yeah, I need to tighten up this language. In a typical case it will take about 2 tries to find a hash that is on the curve. For hash locks, a next preimage can be derived if the first does not hash to an X on the curve; for CTV locks, the template transaction can be modified in some slight protocol-compatible way to get a hash that is also an X on the curve.\r\n",
+      "created_at": "2024-01-19T22:05:13Z",
+      "updated_at": "2024-01-19T22:05:13Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1534#discussion_r1459861314",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1459861314"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1534"
+        }
+      },
+      "start_line": 36,
+      "original_start_line": 36,
+      "start_side": "RIGHT",
+      "line": 39,
+      "original_line": 39,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1459863763",
+      "pull_request_review_id": 1833821884,
+      "id": 1459863763,
+      "node_id": "PRRC_kwDOAN28mc5XA8DT",
+      "diff_hunk": "@@ -0,0 +1,70 @@\n+<pre>\n+  BIP: TBD\n+  Layer: Consensus (soft fork)\n+  Title: INTERNALKEY\n+  Author: Brandon Black <freedom@reardencode.com>\n+  Comments-Summary: No comments yet.\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-12-22\n+  License: PD\n+</pre>\n+\n+==Abstract==\n+\n+This BIP describes a new tapscript opcode (<code>OP_INTERNALKEY</code>) which\n+pushes the taproot internal key to the stack.\n+\n+==Specification==\n+\n+When verifying taproot script spends having leaf version 0xc0 (as defined in\n+BIP342), <code>OP_INTERNALKEY</code> replaces <code>OP_SUCCESS203</code>\n+(0xcb). <code>OP_INTERNALKEY</code> pushes the taproot internal key, as defined\n+in BIP341, to the stack.\n+\n+==Motivation==\n+\n+===Key spend with additional conditions===\n+\n+When building taproot outputs, especially those secured by an aggregate key\n+representing more than 1 signer; the parties may wish to collaborate on signing\n+with the taproot internal key, but only with additional script restrictions. In",
+      "path": "bip-internalkey.mediawiki",
+      "position": 31,
+      "original_position": 31,
+      "commit_id": "a24aca432c2d286f619bb6528af52e1748f1ec5a",
+      "original_commit_id": "a24aca432c2d286f619bb6528af52e1748f1ec5a",
+      "in_reply_to_id": 1454335878,
+      "user": {
+        "login": "reardencode",
+        "id": 730881,
+        "node_id": "MDQ6VXNlcjczMDg4MQ==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/730881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/reardencode",
+        "html_url": "https://github.com/reardencode",
+        "followers_url": "https://api.github.com/users/reardencode/followers",
+        "following_url": "https://api.github.com/users/reardencode/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/reardencode/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/reardencode/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/reardencode/subscriptions",
+        "organizations_url": "https://api.github.com/users/reardencode/orgs",
+        "repos_url": "https://api.github.com/users/reardencode/repos",
+        "events_url": "https://api.github.com/users/reardencode/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/reardencode/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "The most obvious case would be lightning symmetry where the parties want to pre-sign with CTV+CSFS to create a rebindable update transaction.",
+      "created_at": "2024-01-19T22:06:23Z",
+      "updated_at": "2024-01-19T22:06:24Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1534#discussion_r1459863763",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1459863763"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1534"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 31,
+      "original_line": 31,
       "side": "RIGHT"
     }
   ]
