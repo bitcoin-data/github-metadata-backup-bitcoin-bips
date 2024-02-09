@@ -41,7 +41,7 @@
     "body": "A BIP 174 PSBT may contain an extended key for deriving input and output\r\naddresses. This document proposes an additional field for PSBTs to represent\r\narbitrary BIP 380 output script descriptors.\r\n\r\nTo support transfer of output descriptors outside signing flows, the proposal\r\nmakes the unsigned transaction optional.",
     "labels": [],
     "created_at": "2024-01-31T14:30:51Z",
-    "updated_at": "2024-01-31T18:49:31Z",
+    "updated_at": "2024-02-09T10:13:58Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "bab5be639a42d9a0667b7139a57db115c5acc1a9",
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5744,
-        "stargazers_count": 8650,
-        "watchers_count": 8650,
+        "forks_count": 5758,
+        "stargazers_count": 8668,
+        "watchers_count": 8668,
         "size": 13739,
         "default_branch": "master",
-        "open_issues_count": 139,
+        "open_issues_count": 140,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-01-31T14:30:51Z",
+        "pushed_at": "2024-02-04T14:52:48Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-01-31T03:34:44Z"
+        "updated_at": "2024-02-09T09:00:14Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 1
+    "comments": 2
   },
   "events": [
     {
@@ -390,6 +390,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1548#issuecomment-1919720453",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1548"
+    },
+    {
+      "event": "commented",
+      "id": 1935656392,
+      "node_id": "IC_kwDOAN28mc5zX8XI",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1935656392",
+      "actor": {
+        "login": "seedhammer",
+        "id": 93251679,
+        "node_id": "U_kgDOBY7oXw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/93251679?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/seedhammer",
+        "html_url": "https://github.com/seedhammer",
+        "followers_url": "https://api.github.com/users/seedhammer/followers",
+        "following_url": "https://api.github.com/users/seedhammer/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/seedhammer/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/seedhammer/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/seedhammer/subscriptions",
+        "organizations_url": "https://api.github.com/users/seedhammer/orgs",
+        "repos_url": "https://api.github.com/users/seedhammer/repos",
+        "events_url": "https://api.github.com/users/seedhammer/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/seedhammer/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-02-09T10:13:57Z",
+      "updated_at": "2024-02-09T10:13:57Z",
+      "author_association": "NONE",
+      "body": "> I don't think PSBT is the right way to be doing this. Descriptors are not necessary in PSBT, and relaxing the invariant that a PSBT represents a transaction (by allowing a PSBT to include no transaction data) would break many parsers and also just is antithetical to PSBT. It's not a general purpose format for sending data around - you could use protobuf if you wanted that.\r\n> \r\n> If the goal is to have a machine parsable representation of descriptors, then by all means, do that. But it doesn't need to (nor do I think it should) interact with PSBT, other than having a different header that identifies it.\r\n> \r\n\r\nFWIW, the first draft was indeed PSBT with a different header: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-November/022184.html. https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-November/022186.html suggested we add descriptors to PSBT proper, which seemed like a good idea.\r\n\r\nWould you support an alternative BIP that changed the header to make it intentionally different from PSBT files?\r\n\r\n> It's also unnecessary to have a descriptor in a PSBT. A PSBT can contain all of the data to derive it from the scriptPubKey at a later time. If an updater has the descriptor in order to put it in the PSBT, then it can also put the rest of the data in the PSBT so that the descriptor can be inferred.\r\n\r\nHow can the `scriptPubKey` infer a descriptor that contains, say, a key expression that ends in '/*'?\r\n\r\n> I just don't see how this proposal is at all useful.\r\n> \r\n\r\nThe point of the BIP is to transfer descriptors between devices, in particular between a coordinator and (resource constrained) signing devices. It can be viewed as a codec for [wallet policies](https://github.com/bitcoin/bips/pull/1389). \r\n\r\nToday, there exists a plethora of formats for exchanging descriptors, all with downsides:\r\n\r\n- Raw xpubs are underspecified (missing script type)\r\n- The BlueWallet textual format is inefficient (base58 xpubs) and doesn't support arbitrary descriptors.\r\n- Raw [BIP-380](https://github.com/bitcoin/bips/blob/master/bip-0380.mediawiki) descriptors are also inefficient and lack metadata.\r\n- [BCR-2023-010](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2023-010-output-descriptor.md) are efficient but rely on the more complex (d)CBOR encoding.\r\n- JSON encoded textual descriptors are also inefficient and require a JSON implementation.\r\n\r\nThis proposal addresses them all:\r\n\r\n- Based on PSBT, signing devices need not spend additional code space on a separate codec.\r\n- Efficient encoding of extended keys.\r\n- Metadata (title, birth block) supported.\r\n- Every current or future bip-380 descriptor can be represented.\r\n\r\n> Also, descriptors are a textual format, and encoding text in binary is just not very efficient. There are better ways to do that if you really wanted to.\r\n\r\nWe believe it's hopeless to keep a binary representation of output descriptors up to date with the moving target that is textual bip-380 descriptors ([BCR-2020-010](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-010-output-desc.md) attempted but failed). This BIP (along with wallet policies) address the worst offender by encoding extended keys efficiently.",
+      "user": {
+        "login": "seedhammer",
+        "id": 93251679,
+        "node_id": "U_kgDOBY7oXw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/93251679?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/seedhammer",
+        "html_url": "https://github.com/seedhammer",
+        "followers_url": "https://api.github.com/users/seedhammer/followers",
+        "following_url": "https://api.github.com/users/seedhammer/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/seedhammer/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/seedhammer/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/seedhammer/subscriptions",
+        "organizations_url": "https://api.github.com/users/seedhammer/orgs",
+        "repos_url": "https://api.github.com/users/seedhammer/repos",
+        "events_url": "https://api.github.com/users/seedhammer/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/seedhammer/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1548#issuecomment-1935656392",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1548"
     }
   ],
