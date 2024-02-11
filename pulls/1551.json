@@ -41,7 +41,7 @@
     "body": "User behavior has clearly indicated a strong demand for the resolution of human-readable names into payment instructions. This BIP defines a protocol to do so using only the DNS, providing for the ability to query such resolutions privately, while utilizing DNSSEC to provide compact and simple to verify proofs of mappings.\r\n\r\nI'd like to hereby request a BIP number assignment. What is the current approach to do so - since the mailing list has died, is a post on delving bitcoin the appropriate place to publish BIP drafts?",
     "labels": [],
     "created_at": "2024-02-10T22:49:54Z",
-    "updated_at": "2024-02-11T19:24:28Z",
+    "updated_at": "2024-02-11T20:52:14Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "b44a20e455b974a7cfe331ce2ec60439d9afdd5a",
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 3,
     "review_comments": 13,
-    "comments": 29
+    "comments": 30
   },
   "events": [
     {
@@ -1440,9 +1440,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-02-11T09:03:40Z",
-      "updated_at": "2024-02-11T09:03:40Z",
+      "updated_at": "2024-02-11T20:29:28Z",
       "author_association": "NONE",
-      "body": "From a logical stand point  DNS should be preferable, it was invented for this after all, however there are some reasons for which  i believe .well-known in reality is a much superior choice:\r\n\r\n- **DNS cannot be queried from webapps or extensions**: this would force webapps to proxy resolutions to a server\r\n- **DNS doesn't give you the absolute control on record caching**: you can hint a TTL, but it is not guaranteed to be respected (the infamous up to 24 hours for propagation...)\r\n- **HTTPS is supported by virtually every device** that needs to connect to the internet, encrypted DNS is not or not always enabled by default. If encrypted DNS is not enabled, your resolver can know your payment intentions, contrary to only the ip hosting the .well-known path.\r\n\r\nIf this needs to be a standard that is future proof and flexible, the .well-known approach can be integrated in all existing environments in a secure and decentralized manner and it can update in realtime.",
+      "body": "From a logical stand point  DNS should be preferable, it was invented for this after all, however there are some reasons for which  i believe .well-known in reality is a much superior choice:\r\n\r\n- **DNS cannot be queried from webapps or extensions**: this would force webapps to proxy resolutions to a server\r\n- **DNS doesn't give you the absolute control on record caching**: you can hint a TTL, but it is not guaranteed to be respected (the infamous up to 24 hours for propagation...)\r\n- **HTTPS is supported by virtually every device** that needs to connect to the internet, encrypted DNS is not or not always enabled by default. If encrypted DNS is not enabled, your isp can know your payment intentions, contrary to only the ip hosting the .well-known path.\r\n\r\nIf this needs to be a standard that is future proof and flexible, the .well-known approach can be integrated in all existing environments in a secure and decentralized manner and it can update in realtime.",
       "user": {
         "login": "riccardobl",
         "id": 4943530,
@@ -2290,6 +2290,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1551#issuecomment-1937845251",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1551"
+    },
+    {
+      "event": "commented",
+      "id": 1937866280,
+      "node_id": "IC_kwDOAN28mc5zgX4o",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1937866280",
+      "actor": {
+        "login": "corviato1",
+        "id": 44780076,
+        "node_id": "MDQ6VXNlcjQ0NzgwMDc2",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44780076?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/corviato1",
+        "html_url": "https://github.com/corviato1",
+        "followers_url": "https://api.github.com/users/corviato1/followers",
+        "following_url": "https://api.github.com/users/corviato1/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/corviato1/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/corviato1/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/corviato1/subscriptions",
+        "organizations_url": "https://api.github.com/users/corviato1/orgs",
+        "repos_url": "https://api.github.com/users/corviato1/repos",
+        "events_url": "https://api.github.com/users/corviato1/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/corviato1/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-02-11T20:52:13Z",
+      "updated_at": "2024-02-11T20:52:13Z",
+      "author_association": "NONE",
+      "body": "Maybe look into Namecoin and Raven for code inspiration, then close this pull request, then make a new pull request with code examples from the before mentioned platforms that can be migrated to Bitcoin?\n\nFrom there, devs can review and help turn what you want into a reality.  \n\nThat being said, implementation would probably be best done at a layer two due to security and efficiency concerns.  ",
+      "user": {
+        "login": "corviato1",
+        "id": 44780076,
+        "node_id": "MDQ6VXNlcjQ0NzgwMDc2",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44780076?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/corviato1",
+        "html_url": "https://github.com/corviato1",
+        "followers_url": "https://api.github.com/users/corviato1/followers",
+        "following_url": "https://api.github.com/users/corviato1/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/corviato1/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/corviato1/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/corviato1/subscriptions",
+        "organizations_url": "https://api.github.com/users/corviato1/orgs",
+        "repos_url": "https://api.github.com/users/corviato1/repos",
+        "events_url": "https://api.github.com/users/corviato1/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/corviato1/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1551#issuecomment-1937866280",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1551"
     }
   ],
