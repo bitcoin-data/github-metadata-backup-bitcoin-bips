@@ -41,7 +41,7 @@
     "body": "A specification is useful for coordination between node impls that want to implement the same policy and applications that want to use it. For those that are not interested in the details of v3 policy, this also serves as a writeup of the specific pinning problems we aim to address. There has been discussion of using this in other protocol design and multiple requests for its documentation to exist in the BIPs repository, so I'm opening a PR here.\r\n\r\nImplementation:\r\n- https://github.com/bitcoin/bitcoin/pull/28948\r\n\r\nExample usage and things built on top:\r\n- Package RBF\r\n  - https://github.com/bitcoin/bitcoin/pull/28984\r\n- Ephemeral Anchors\r\n  - https://github.com/bitcoin/bitcoin/pull/29001\r\n  - https://github.com/bitcoin/bips/pull/1524\r\n- LN commitment transactions\r\n  - https://delvingbitcoin.org/t/lightning-transactions-with-v3-and-ephemeral-anchors/418\r\n  - https://github.com/instagibbs/bolts/commits/zero_fee_commitment\r\n- LN-Symmetry\r\n  - https://delvingbitcoin.org/t/ln-symmetry-project-recap/359\r\n  - https://github.com/instagibbs/lightning/tree/eltoo_support\r\n\r\nDiscussion and history:\r\n- https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-January/019817.html\r\n- https://gist.github.com/glozow/25d9662c52453bd08b4b4b1d3783b9ff\r\n- https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-September/020937.html\r\n- https://delvingbitcoin.org/t/v3-transaction-policy-for-anti-pinning/340\r\n- https://github.com/bitcoin/bitcoin/pull/25038",
     "labels": [],
     "created_at": "2024-01-18T14:01:13Z",
-    "updated_at": "2024-02-19T16:12:12Z",
+    "updated_at": "2024-02-19T23:56:39Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "569929448957a4e54863704c388a89202b9ad5e5",
@@ -262,9 +262,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5768,
-        "stargazers_count": 8693,
-        "watchers_count": 8693,
+        "forks_count": 5769,
+        "stargazers_count": 8694,
+        "watchers_count": 8694,
         "size": 13739,
         "default_branch": "master",
         "open_issues_count": 141,
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2024-02-19T14:46:32Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-02-19T11:16:39Z"
+        "updated_at": "2024-02-19T17:36:50Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 11,
-    "comments": 3
+    "comments": 4
   },
   "events": [
     {
@@ -1012,6 +1012,60 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-02-19T16:12:12Z"
+    },
+    {
+      "event": "commented",
+      "id": 1953290125,
+      "node_id": "IC_kwDOAN28mc50bNeN",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1953290125",
+      "actor": {
+        "login": "ariard",
+        "id": 23310655,
+        "node_id": "MDQ6VXNlcjIzMzEwNjU1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/23310655?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ariard",
+        "html_url": "https://github.com/ariard",
+        "followers_url": "https://api.github.com/users/ariard/followers",
+        "following_url": "https://api.github.com/users/ariard/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ariard/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ariard/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ariard/subscriptions",
+        "organizations_url": "https://api.github.com/users/ariard/orgs",
+        "repos_url": "https://api.github.com/users/ariard/repos",
+        "events_url": "https://api.github.com/users/ariard/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ariard/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-02-19T23:56:37Z",
+      "updated_at": "2024-02-19T23:56:37Z",
+      "author_association": "MEMBER",
+      "body": "I think this should document that 1000 vb child limit is experimental and it cannot be relied on by downstream projects.\r\nThis opt-in policy is not robust towards NTA pinning (cf. “The Good, The Bad, The Ugly” 2020 mail) and “loophole” pinning exposed in Core’s #28948. This can note that additional opt-in policy might be applied on top of nversion=3 see Core’s #29454.",
+      "user": {
+        "login": "ariard",
+        "id": 23310655,
+        "node_id": "MDQ6VXNlcjIzMzEwNjU1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/23310655?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ariard",
+        "html_url": "https://github.com/ariard",
+        "followers_url": "https://api.github.com/users/ariard/followers",
+        "following_url": "https://api.github.com/users/ariard/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ariard/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ariard/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ariard/subscriptions",
+        "organizations_url": "https://api.github.com/users/ariard/orgs",
+        "repos_url": "https://api.github.com/users/ariard/repos",
+        "events_url": "https://api.github.com/users/ariard/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ariard/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1541#issuecomment-1953290125",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1541"
     }
   ],
   "comments": [
