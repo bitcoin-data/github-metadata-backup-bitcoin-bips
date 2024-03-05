@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2023-12-11T23:16:22Z",
-    "updated_at": "2024-03-02T06:17:22Z",
+    "updated_at": "2024-03-05T17:37:33Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "a23ef012f8492929f09e05debda25695fe375f40",
@@ -312,12 +312,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5173,
-        "stargazers_count": 8759,
-        "watchers_count": 8759,
+        "forks_count": 5179,
+        "stargazers_count": 8766,
+        "watchers_count": 8766,
         "size": 14123,
         "default_branch": "master",
-        "open_issues_count": 141,
+        "open_issues_count": 142,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -328,9 +328,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-03-01T17:10:36Z",
+        "pushed_at": "2024-03-05T17:53:48Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-03-02T02:07:26Z"
+        "updated_at": "2024-03-05T07:17:48Z"
       }
     },
     "_links": {
@@ -345,7 +345,7 @@
     "changed_files": 1,
     "commits": 34,
     "review_comments": 51,
-    "comments": 8
+    "comments": 9
   },
   "events": [
     {
@@ -1767,7 +1767,7 @@
             "updated_at": "2024-02-21T11:37:22Z"
           },
           "locked": false,
-          "comments": 17,
+          "comments": 19,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin-inquisition/bitcoin/pulls/39",
             "html_url": "https://github.com/bitcoin-inquisition/bitcoin/pull/39",
@@ -1775,7 +1775,7 @@
             "patch_url": "https://github.com/bitcoin-inquisition/bitcoin/pull/39.patch"
           },
           "created_at": "2023-10-24T12:03:49Z",
-          "updated_at": "2024-03-01T22:58:09Z"
+          "updated_at": "2024-03-05T17:39:02Z"
         },
         "type": "issue"
       }
@@ -3441,6 +3441,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1525#issuecomment-1974211475",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1525"
+    },
+    {
+      "event": "commented",
+      "id": 1979297869,
+      "node_id": "IC_kwDOAN28mc51-bBN",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1979297869",
+      "actor": {
+        "login": "stevenroose",
+        "id": 853468,
+        "node_id": "MDQ6VXNlcjg1MzQ2OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/853468?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/stevenroose",
+        "html_url": "https://github.com/stevenroose",
+        "followers_url": "https://api.github.com/users/stevenroose/followers",
+        "following_url": "https://api.github.com/users/stevenroose/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/stevenroose/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/stevenroose/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/stevenroose/subscriptions",
+        "organizations_url": "https://api.github.com/users/stevenroose/orgs",
+        "repos_url": "https://api.github.com/users/stevenroose/repos",
+        "events_url": "https://api.github.com/users/stevenroose/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/stevenroose/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-03-05T17:37:32Z",
+      "updated_at": "2024-03-05T17:37:32Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "I would like to propose to replace the per-item size limit with a total stack size limit that is equivalent and can be introduced as a softfork as well. Since we currently allow 1000 items of 520 bytes, I would propose a 520kB (520,000 bytes) size limit for the entire stack + altstack.\r\n\r\nThis can be implemented as such:\r\n```diff\r\ndiff --git a/src/script/interpreter.cpp b/src/script/interpreter.cpp\r\nindex 1583b5fadd3..cbe1695bab2 100644\r\n--- a/src/script/interpreter.cpp\r\n+++ b/src/script/interpreter.cpp\r\n@@ -545,8 +545,6 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript&\r\n                         return set_error(serror, SCRIPT_ERR_INVALID_STACK_OPERATION);\r\n                     valtype& vch1 = stacktop(-2);\r\n                     valtype& vch2 = stacktop(-1);\r\n-                    if (vch1.size() + vch2.size() > MAX_SCRIPT_ELEMENT_SIZE)\r\n-                        return set_error(serror, SCRIPT_ERR_INVALID_STACK_OPERATION);\r\n                     vch1.insert(vch1.end(), vch2.begin(), vch2.end());\r\n                     stack.pop_back();\r\n                 }\r\n@@ -1287,8 +1285,17 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript&\r\n             }\r\n\r\n             // Size limits\r\n+            // limit number of elements in stacks\r\n             if (stack.size() + altstack.size() > MAX_STACK_SIZE)\r\n                 return set_error(serror, SCRIPT_ERR_STACK_SIZE);\r\n+            // limit total number of bytes in stacks\r\n+            unsigned int total_bytes = 0;\r\n+            for (size_t i = 0; i < stack.size() ; i++)\r\n+                total_bytes += stack[i].size();\r\n+            for (size_t i = 0; i < altstack.size() ; i++)\r\n+                total_bytes += altstack[i].size();\r\n+            if (total_bytes > MAX_STACK_BYTES)\r\n+                return set_error(serror, SCRIPT_ERR_STACK_SIZE);\r\n         }\r\n     }\r\n     catch (...)\r\ndiff --git a/src/script/script.h b/src/script/script.h\r\nindex 305919f5ba4..ef40c3672ee 100644\r\n--- a/src/script/script.h\r\n+++ b/src/script/script.h\r\n@@ -38,6 +38,9 @@ static const int MAX_SCRIPT_SIZE = 10000;\r\n // Maximum number of values on script interpreter stack\r\n static const int MAX_STACK_SIZE = 1000;\r\n\r\n+// Maximum number of total bytes on script interpreter stack\r\n+static const int MAX_STACK_BYTES = 520000; // 520 * 1000\r\n+\r\n // Threshold for nLockTime: below this value it is interpreted as block number,\r\n // otherwise as UNIX timestamp.\r\n static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC\r\n```",
+      "user": {
+        "login": "stevenroose",
+        "id": 853468,
+        "node_id": "MDQ6VXNlcjg1MzQ2OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/853468?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/stevenroose",
+        "html_url": "https://github.com/stevenroose",
+        "followers_url": "https://api.github.com/users/stevenroose/followers",
+        "following_url": "https://api.github.com/users/stevenroose/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/stevenroose/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/stevenroose/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/stevenroose/subscriptions",
+        "organizations_url": "https://api.github.com/users/stevenroose/orgs",
+        "repos_url": "https://api.github.com/users/stevenroose/repos",
+        "events_url": "https://api.github.com/users/stevenroose/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/stevenroose/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1525#issuecomment-1979297869",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1525"
     }
   ],
