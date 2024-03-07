@@ -41,7 +41,7 @@
     "body": "As Bitcoin has grown, the introduction of new address formats describing new forms of payment instructions has become increasingly fraught with compatibility issues. Not only does there exist traditional on-chain addresses, but some recipients wish to receive Lightning (when the sender supports it) or newer formats such as Silent Payments.\r\n\r\nThis has led to increasing use of the BIP 21 query parameters to encode further optional payment instructions.\r\n\r\nLooking forward, as new payment instructions get adopted, it makes much more sense to include them in query parameters rather than replace the existing address field, ensuring compatibility with senders and recipients who may or may not be upgraded to support all the latest payment instructions.\r\n\r\nThis updates BIP 21 to suggest that future address formats do this.\r\n\r\nFurther, it updates BIP 21 to allow an empty bitcoin address in cases where new payment instructions have moved to becoming mandatory. This isn't a backwards-incompatible change any more than switching to a new address format is, so doesn't impact existing BIP 21 implementations in a new way, however provides a nice conclusion to the query-parameter-based upgrade path - once a form of payment instructions has broad adoption, senders can simply drop the existing address field, keeping their existing query parameter encoding, rather than replace the existing address field. It also addresses the question of what to do if a wallet no longer wishes to receive some legacy on-chain address, but has multiple payment instruction formats that they wish to include - deciding which one to place in the address field would be a difficult task.",
     "labels": [],
     "created_at": "2024-03-01T17:10:35Z",
-    "updated_at": "2024-03-04T12:06:10Z",
+    "updated_at": "2024-03-07T15:08:56Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "bb097cbe02f47fbad81630d4d0eabe0d699bc514",
@@ -148,9 +148,9 @@
         "forks_count": 9,
         "stargazers_count": 43,
         "watchers_count": 43,
-        "size": 13773,
+        "size": 13777,
         "default_branch": "master",
-        "open_issues_count": 3,
+        "open_issues_count": 2,
         "is_template": false,
         "topics": [],
         "has_issues": true,
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-03-04T04:11:38Z",
+        "pushed_at": "2024-03-06T15:24:32Z",
         "created_at": "2016-05-03T00:30:51Z",
         "updated_at": "2024-02-27T21:15:16Z"
       }
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5178,
-        "stargazers_count": 8765,
-        "watchers_count": 8765,
+        "forks_count": 5182,
+        "stargazers_count": 8775,
+        "watchers_count": 8775,
         "size": 14123,
         "default_branch": "master",
-        "open_issues_count": 141,
+        "open_issues_count": 143,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-03-01T17:10:36Z",
+        "pushed_at": "2024-03-07T15:46:35Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-03-04T11:11:29Z"
+        "updated_at": "2024-03-07T06:12:25Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 1
+    "comments": 2
   },
   "events": [
     {
@@ -423,7 +423,7 @@
             "patch_url": "https://github.com/bitcoin/bips/pull/1458.patch"
           },
           "created_at": "2023-06-05T16:16:42Z",
-          "updated_at": "2024-03-01T17:11:18Z"
+          "updated_at": "2024-03-05T02:18:07Z"
         },
         "type": "issue"
       }
@@ -480,6 +480,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-1976433562",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
+    },
+    {
+      "event": "commented",
+      "id": 1983715849,
+      "node_id": "IC_kwDOAN28mc52PRoJ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1983715849",
+      "actor": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-03-07T15:08:54Z",
+      "updated_at": "2024-03-07T15:08:54Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> Better taproot support: using HRPs directly would allow us to construct backwards compatible taproot URIs of the form bitcoin:bc1q...?bc1p...=o / bitcoin:bc1q...?bc1p...\r\n\r\nI think this ship has sailed, but K/V-vs-no-K has no impact on this. We could do bitcoin:bc1q...?taproot=bc1p. or whatever just fine. Ultimately its probably too late to update how any taproot anything appears in QR codes/URIs.\r\n\r\n> Support for future payment instructions\r\n\r\nThis is similarly untrue, the only difference is it reduces the characters used for future instructions, but whether it supports future instructions or not, both do.\r\n\r\n> Existing unified QR codes can be made smaller: following an upgrade period to allow clients to update, we would be able to create URIs bitcoin:bc1q...?lnbc1...=o (instead of ?lightning=lnbc1...) and fully static URIs bitcoin:sp1q...?lno1...=o\r\n\r\nIndeed, we can save a few characters here or there. I think the ship has similarly sailed for BOLT 11, but of course we can do something different for BOLT 12.\r\n\r\nUltimately I think the only difference between the two proposals are:\r\n\r\n * Skipping the key has slightly less bytes in the QR code, which helps very slightly on the margin.\r\n * Skipping the key means parsing is a bit trickier if/when we have some new payment instructions that don't use bech32m - do clients need to check the bech32m checksum for unknown payment instruction types? What do they do if its wrong? What happens when someone (without thinking) defines some payment instructions that match a bech32m HRP spuriously (but I guess probably the checksum would be wrong?). These should all be written out and considered if we want to go this path.\r\n\r\nI think the right approach here is the simpler one, but there's not a really strong reason to prefer either over the other, honestly.",
+      "user": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-1983715849",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
     }
   ],
