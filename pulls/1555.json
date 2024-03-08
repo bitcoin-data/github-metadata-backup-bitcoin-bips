@@ -41,7 +41,7 @@
     "body": "As Bitcoin has grown, the introduction of new address formats describing new forms of payment instructions has become increasingly fraught with compatibility issues. Not only does there exist traditional on-chain addresses, but some recipients wish to receive Lightning (when the sender supports it) or newer formats such as Silent Payments.\r\n\r\nThis has led to increasing use of the BIP 21 query parameters to encode further optional payment instructions.\r\n\r\nLooking forward, as new payment instructions get adopted, it makes much more sense to include them in query parameters rather than replace the existing address field, ensuring compatibility with senders and recipients who may or may not be upgraded to support all the latest payment instructions.\r\n\r\nThis updates BIP 21 to suggest that future address formats do this.\r\n\r\nFurther, it updates BIP 21 to allow an empty bitcoin address in cases where new payment instructions have moved to becoming mandatory. This isn't a backwards-incompatible change any more than switching to a new address format is, so doesn't impact existing BIP 21 implementations in a new way, however provides a nice conclusion to the query-parameter-based upgrade path - once a form of payment instructions has broad adoption, senders can simply drop the existing address field, keeping their existing query parameter encoding, rather than replace the existing address field. It also addresses the question of what to do if a wallet no longer wishes to receive some legacy on-chain address, but has multiple payment instruction formats that they wish to include - deciding which one to place in the address field would be a difficult task.",
     "labels": [],
     "created_at": "2024-03-01T17:10:35Z",
-    "updated_at": "2024-03-08T09:24:57Z",
+    "updated_at": "2024-03-08T16:29:33Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "bb097cbe02f47fbad81630d4d0eabe0d699bc514",
@@ -262,9 +262,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5181,
-        "stargazers_count": 8776,
-        "watchers_count": 8776,
+        "forks_count": 5182,
+        "stargazers_count": 8777,
+        "watchers_count": 8777,
         "size": 14123,
         "default_branch": "master",
         "open_issues_count": 143,
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2024-03-07T20:52:35Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-03-07T23:37:34Z"
+        "updated_at": "2024-03-08T13:04:28Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 7
+    "comments": 8
   },
   "events": [
     {
@@ -804,6 +804,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-1985343916",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
+    },
+    {
+      "event": "commented",
+      "id": 1986006392,
+      "node_id": "IC_kwDOAN28mc52YA14",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1986006392",
+      "actor": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-03-08T16:29:31Z",
+      "updated_at": "2024-03-08T16:29:31Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> Effectively, this is what you get with my proposal:\r\n\r\nThis is unrelated to the K/V/no-K/V discussion. We can get it either way.\r\n\r\n> The only distinction is newer bech32m address types can also be placed in the root.\r\n\r\nI don't think we should allow this. It would be nice to only have one place to look for a given address type.",
+      "user": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-1986006392",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
     }
   ],
