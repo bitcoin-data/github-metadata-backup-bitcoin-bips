@@ -41,7 +41,7 @@
     "body": "As Bitcoin has grown, the introduction of new address formats describing new forms of payment instructions has become increasingly fraught with compatibility issues. Not only does there exist traditional on-chain addresses, but some recipients wish to receive Lightning (when the sender supports it) or newer formats such as Silent Payments.\r\n\r\nThis has led to increasing use of the BIP 21 query parameters to encode further optional payment instructions.\r\n\r\nLooking forward, as new payment instructions get adopted, it makes much more sense to include them in query parameters rather than replace the existing address field, ensuring compatibility with senders and recipients who may or may not be upgraded to support all the latest payment instructions.\r\n\r\nThis updates BIP 21 to suggest that future address formats do this.\r\n\r\nFurther, it updates BIP 21 to allow an empty bitcoin address in cases where new payment instructions have moved to becoming mandatory. This isn't a backwards-incompatible change any more than switching to a new address format is, so doesn't impact existing BIP 21 implementations in a new way, however provides a nice conclusion to the query-parameter-based upgrade path - once a form of payment instructions has broad adoption, senders can simply drop the existing address field, keeping their existing query parameter encoding, rather than replace the existing address field. It also addresses the question of what to do if a wallet no longer wishes to receive some legacy on-chain address, but has multiple payment instruction formats that they wish to include - deciding which one to place in the address field would be a difficult task.",
     "labels": [],
     "created_at": "2024-03-01T17:10:35Z",
-    "updated_at": "2024-03-07T18:51:06Z",
+    "updated_at": "2024-03-08T09:24:57Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "bb097cbe02f47fbad81630d4d0eabe0d699bc514",
@@ -262,7 +262,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5182,
+        "forks_count": 5181,
         "stargazers_count": 8776,
         "watchers_count": 8776,
         "size": 14123,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-03-07T17:28:53Z",
+        "pushed_at": "2024-03-07T20:52:35Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-03-07T18:09:10Z"
+        "updated_at": "2024-03-07T23:37:34Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 6
+    "comments": 7
   },
   "events": [
     {
@@ -750,6 +750,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-1984212469",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
+    },
+    {
+      "event": "commented",
+      "id": 1985343916,
+      "node_id": "IC_kwDOAN28mc52VfGs",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/1985343916",
+      "actor": {
+        "login": "josibake",
+        "id": 7444140,
+        "node_id": "MDQ6VXNlcjc0NDQxNDA=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7444140?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/josibake",
+        "html_url": "https://github.com/josibake",
+        "followers_url": "https://api.github.com/users/josibake/followers",
+        "following_url": "https://api.github.com/users/josibake/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/josibake/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/josibake/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/josibake/subscriptions",
+        "organizations_url": "https://api.github.com/users/josibake/orgs",
+        "repos_url": "https://api.github.com/users/josibake/repos",
+        "events_url": "https://api.github.com/users/josibake/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/josibake/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-03-08T09:24:56Z",
+      "updated_at": "2024-03-08T09:24:56Z",
+      "author_association": "MEMBER",
+      "body": "> To be clear, I think we should \"whitelist the set of addresses that are allowed in the root\" either way.\r\n\r\nEffectively, this is what you get with my proposal:\r\n\r\n> The bitcoinaddress body MUST be either a legacy base58 address (P2PKH, P2SH), or a bech32(m) encoded address. Future address formats that do not use bech32m encoding MUST instead be placed in query keys. Query keys SHOULD be defined by the respective BIP for the new address format.\r\n\r\nThe only distinction is newer bech32m address types can also be placed in the root. If you're planning to allow `bitcoin:?hrp=hrpxxx...&anotherhrp=anotherhrpxxx&amount=<>`, that's exactly the same as `bitcoin:hrpxxx...?anotherhrpxxx&amount=<>`, just more compact.\r\n",
+      "user": {
+        "login": "josibake",
+        "id": 7444140,
+        "node_id": "MDQ6VXNlcjc0NDQxNDA=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7444140?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/josibake",
+        "html_url": "https://github.com/josibake",
+        "followers_url": "https://api.github.com/users/josibake/followers",
+        "following_url": "https://api.github.com/users/josibake/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/josibake/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/josibake/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/josibake/subscriptions",
+        "organizations_url": "https://api.github.com/users/josibake/orgs",
+        "repos_url": "https://api.github.com/users/josibake/repos",
+        "events_url": "https://api.github.com/users/josibake/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/josibake/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-1985343916",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
     }
   ],
