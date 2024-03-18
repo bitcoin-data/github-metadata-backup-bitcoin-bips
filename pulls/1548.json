@@ -41,7 +41,7 @@
     "body": "A BIP 174 PSBT may contain an extended key for deriving input and output\r\naddresses. This document proposes an additional field for PSBTs to represent\r\narbitrary BIP 380 output script descriptors.\r\n\r\nTo support transfer of output descriptors outside signing flows, the proposal\r\nmakes the unsigned transaction optional.",
     "labels": [],
     "created_at": "2024-01-31T14:30:51Z",
-    "updated_at": "2024-03-16T18:34:21Z",
+    "updated_at": "2024-03-18T10:45:15Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "e059a9e1ae7a307707337f19814150b123530a23",
@@ -263,8 +263,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5192,
-        "stargazers_count": 8812,
-        "watchers_count": 8812,
+        "stargazers_count": 8816,
+        "watchers_count": 8816,
         "size": 14123,
         "default_branch": "master",
         "open_issues_count": 143,
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2024-03-14T10:22:44Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-03-16T16:49:42Z"
+        "updated_at": "2024-03-18T06:54:04Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 6
+    "comments": 7
   },
   "events": [
     {
@@ -888,6 +888,60 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-03-16T18:34:21Z"
+    },
+    {
+      "event": "commented",
+      "id": 2003568487,
+      "node_id": "IC_kwDOAN28mc53bAdn",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2003568487",
+      "actor": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-03-18T10:45:14Z",
+      "updated_at": "2024-03-18T10:45:14Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Hardware signing devices need knowledge of the full descriptor/wallet policy in order to:\r\n- recognize change addresses\r\n- recognize from which of your different _accounts_ (sometimes called _wallets_) the inputs are spending from.\r\n\r\n(The second could perhaps be considered a strengthening of the traditional guarantees of hardware signers, not sure if it was ever formalized before wallet policies; I think it's essential in practice for anything that is not single-user)\r\n\r\nWhile it's true that PSBTs today have enough info to _sign_, they do not have enough info to _do it securely_ - the descriptor is also needed. Therefore, I agree that it would be a great improvement to be able to pass this info via PSBTs; currently, the Ledger app's signing flow is `sign(PSBT, wallet_policy)`, and quite some work in the app goes into figuring out `change`/`address_index` for each input and change output based on the derivations in the PSBT.\r\n\r\nHowever, I think that's a separate discussion, and it's unclear that recycling PSBTs for a purpose other than representing transactions brings any benefit over than directly designing a space-efficient encoding specifically for descriptors or wallet policies – if the <30% space saving that can be obtained with a re-encoding is deemed important in practice.",
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1548#issuecomment-2003568487",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1548"
     }
   ],
   "comments": []
