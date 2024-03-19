@@ -41,10 +41,10 @@
     "body": "This PR contains 3 proposed BIPs, the main contents of which were sent to the bitcoin-dev mailing list in October. There have been a few changes, notably the addition of a new BIP for the derivation methodology which was split from the descriptors BIP.\r\n\r\nI've also changed the PSBT BIP to use 33 byte plain aggregate pubkeys rather than xonly.",
     "labels": [],
     "created_at": "2024-01-15T20:14:59Z",
-    "updated_at": "2024-01-17T20:12:59Z",
+    "updated_at": "2024-03-19T14:23:04Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "cc14834a5d3405c80c1536ffaf5b5b1f982e75a0",
+    "merge_commit_sha": "b9f5ac2048ebe6e2156746dadb5c225ce72346cb",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-01-17T18:00:30Z",
+        "pushed_at": "2024-01-19T06:04:30Z",
         "created_at": "2015-10-27T00:37:26Z",
         "updated_at": "2022-01-19T00:36:27Z"
       }
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5706,
-        "stargazers_count": 8606,
-        "watchers_count": 8606,
-        "size": 13739,
+        "forks_count": 5191,
+        "stargazers_count": 8821,
+        "watchers_count": 8821,
+        "size": 14123,
         "default_branch": "master",
-        "open_issues_count": 131,
+        "open_issues_count": 144,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-01-17T18:00:32Z",
+        "pushed_at": "2024-03-19T10:14:51Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-01-17T12:27:50Z"
+        "updated_at": "2024-03-19T10:54:21Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 3,
-    "review_comments": 0,
+    "review_comments": 5,
     "comments": 2
   },
   "events": [
@@ -612,7 +612,403 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1540#issuecomment-1896322829",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1540"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-03-18T22:32:38Z",
+      "updated_at": "2024-03-18T22:32:38Z",
+      "source": {
+        "issue": {
+          "id": 2193536131,
+          "node_id": "PR_kwDOABII585qA2aJ",
+          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/29675",
+          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
+          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/29675/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/29675/comments",
+          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/29675/events",
+          "html_url": "https://github.com/bitcoin/bitcoin/pull/29675",
+          "number": 29675,
+          "state": "open",
+          "state_reason": null,
+          "title": "wallet: Be able to receive and spend inputs involving MuSig2 aggregate keys",
+          "body": "This PR implements the [proposed](https://github.com/bitcoin/bips/pull/1540) MuSig2 descriptors, derivation, and PSBT fields so that the wallet can receive and spend from taproot addresses that have keys involving a MuSig2 aggregate key.\r\n\r\nThis pulls in (an older version of) the musig module in libsecp (https://github.com/bitcoin-core/secp256k1/pull/1479) in order to do all of the necessary MuSig2 computation.\r\n\r\nAn open question is whether the approach for handling the secnonces is ideal and safe. Since nonces must not be reused, this PR holds them exclusively in memory, so a restart of the software will require a restart of the MuSig2 signing process. Additionally, the current MuSig API in libsecp basically involves us holding onto and passing around an opaque libsecp object. There may be some additional work there to make the code more ergonomic.",
+          "user": {
+            "login": "achow101",
+            "id": 3782274,
+            "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+            "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/achow101",
+            "html_url": "https://github.com/achow101",
+            "followers_url": "https://api.github.com/users/achow101/followers",
+            "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+            "organizations_url": "https://api.github.com/users/achow101/orgs",
+            "repos_url": "https://api.github.com/users/achow101/repos",
+            "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/achow101/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [
+            {
+              "id": 149424,
+              "node_id": "MDU6TGFiZWwxNDk0MjQ=",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/Wallet",
+              "name": "Wallet",
+              "color": "08a781",
+              "default": false
+            },
+            {
+              "id": 5334691551,
+              "node_id": "LA_kwDOABII588AAAABPfju3w",
+              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/CI%20failed",
+              "name": "CI failed",
+              "description": "",
+              "color": "cccccc",
+              "default": false
+            }
+          ],
+          "assignees": [],
+          "author_association": "MEMBER",
+          "locked": false,
+          "comments": 3,
+          "pull_request": {
+            "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/29675",
+            "html_url": "https://github.com/bitcoin/bitcoin/pull/29675",
+            "diff_url": "https://github.com/bitcoin/bitcoin/pull/29675.diff",
+            "patch_url": "https://github.com/bitcoin/bitcoin/pull/29675.patch"
+          },
+          "created_at": "2024-03-18T22:32:37Z",
+          "updated_at": "2024-03-19T14:36:43Z"
+        },
+        "type": "issue"
+      }
+    },
+    {
+      "event": "reviewed",
+      "id": 1946120388,
+      "node_id": "PRR_kwDOAN28mc5z_3DE",
+      "url": null,
+      "actor": null,
+      "commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "MEMBER",
+      "body": "",
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#pullrequestreview-1946120388",
+      "submitted_at": "2024-03-19T14:23:04Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1530305478",
+      "pull_request_review_id": 1946120388,
+      "id": 1530305478,
+      "node_id": "PRRC_kwDOAN28mc5bNpvG",
+      "diff_hunk": "@@ -483,6 +483,49 @@ The currently defined per-input types are defined as follows:\n | 0, 2\n | [[bip-0371.mediawiki|371]]\n |-\n+| MuSig2 Participant Public Keys\n+| <tt>PSBT_IN_MUSIG2_PARTICPANT_PUBKEYS = 0x19</tt>\n+| <32 byte xonlypubkey>\n+| The MuSig2 aggregate X only public key from the <tt>KeyAgg</tt> algorithm. This key may or may not\n+be in the script directly. It may instead be a parent public key from which the public keys in the\n+script were derived.\n+| <tt><33 byte compressed pubkey>*</tt>\n+| A list of the compressed public keys of the particpants in the MuSig2 aggregate key in the correct order. \n+|\n+|\n+| 0, 2\n+| [[bip-musig2-psbt.mediawiki|musig2]]\n+|-\n+| MuSig2 Public Nonce\n+| <tt>PSBT_IN_MUSIG2_PUB_NONCE = 0x1a</tt>\n+| <33 byte compressed pubkey> <32 byte xonlypubkey> <32 byte hash>\n+| The compressed public key of the particpant providing this nonce, followed by the X only public\n+key the participant is providing the nonce for, followed by the hash of the Taproot leaf script that\n+will be signed. Note that the second public key must be the key found in the script and not the",
+      "path": "bip-0174.mediawiki",
+      "position": 22,
+      "original_position": 22,
+      "commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "original_commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Why can't this be omitted like with with the partial signature?",
+      "created_at": "2024-03-19T12:51:19Z",
+      "updated_at": "2024-03-19T14:23:04Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1530305478",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1530305478"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 504,
+      "original_line": 504,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1530306170",
+      "pull_request_review_id": 1946120388,
+      "id": 1530306170,
+      "node_id": "PRRC_kwDOAN28mc5bNp56",
+      "diff_hunk": "@@ -483,6 +483,49 @@ The currently defined per-input types are defined as follows:\n | 0, 2\n | [[bip-0371.mediawiki|371]]\n |-\n+| MuSig2 Participant Public Keys\n+| <tt>PSBT_IN_MUSIG2_PARTICPANT_PUBKEYS = 0x19</tt>\n+| <32 byte xonlypubkey>\n+| The MuSig2 aggregate X only public key from the <tt>KeyAgg</tt> algorithm. This key may or may not\n+be in the script directly. It may instead be a parent public key from which the public keys in the\n+script were derived.\n+| <tt><33 byte compressed pubkey>*</tt>\n+| A list of the compressed public keys of the particpants in the MuSig2 aggregate key in the correct order. ",
+      "path": "bip-0174.mediawiki",
+      "position": 11,
+      "original_position": 11,
+      "commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "original_commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "typo: participants ",
+      "created_at": "2024-03-19T12:51:47Z",
+      "updated_at": "2024-03-19T14:23:04Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1530306170",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1530306170"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 493,
+      "original_line": 493,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1530307046",
+      "pull_request_review_id": 1946120388,
+      "id": 1530307046,
+      "node_id": "PRRC_kwDOAN28mc5bNqHm",
+      "diff_hunk": "@@ -599,6 +642,19 @@ determine which outputs are change outputs and verify that the change is returni\n | 0, 2\n | [[bip-0371.mediawiki|371]]\n |-\n+| MuSig2 Participant Public Keys\n+| <tt>PSBT_IN_MUSIG2_PARTICPANT_PUBKEYS = 0x08</tt>\n+| <33 byte compressed pubkey>\n+| The MuSig2 aggregate plain public key from the <tt>KeyAgg</tt> algorithm. This key may or may not be in\n+the script directly. It may instead be a parent public key from which the public keys in the script\n+were derived.\n+| <tt><33 byte compressed pubkey>*</tt>\n+| A list of the compressed public keys of the particpants in the MuSig2 aggregate key in the correct order. ",
+      "path": "bip-0174.mediawiki",
+      "position": 61,
+      "original_position": 61,
+      "commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "original_commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "typo: participants",
+      "created_at": "2024-03-19T12:52:24Z",
+      "updated_at": "2024-03-19T14:23:04Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1530307046",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1530307046"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 652,
+      "original_line": 652,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1530310110",
+      "pull_request_review_id": 1946120388,
+      "id": 1530310110,
+      "node_id": "PRRC_kwDOAN28mc5bNq3e",
+      "diff_hunk": "@@ -0,0 +1,67 @@\n+<pre>\n+  BIP: musig2-descriptors\n+  Layer: Applications\n+  Title: musig() Descriptor Key Expression\n+  Author: Ava Chow <me@achow101.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-musig2-descriptor\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-01-15\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies a <tt>musig()</tt> key expression for output script descriptors.",
+      "path": "bip-musig2-descriptors.mediawiki",
+      "position": 16,
+      "original_position": 16,
+      "commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "original_commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Any reason why we don't call it `musig2`? I would be very confusing in the future if we get `musig3()` and now we have to explain that `musig()` means `musig2`.",
+      "created_at": "2024-03-19T12:54:20Z",
+      "updated_at": "2024-03-19T14:23:04Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1530310110",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1530310110"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 16,
+      "original_line": 16,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1530322665",
+      "pull_request_review_id": 1946120388,
+      "id": 1530322665,
+      "node_id": "PRRC_kwDOAN28mc5bNt7p",
+      "diff_hunk": "@@ -0,0 +1,79 @@\n+<pre>\n+  BIP: musig2-derivation\n+  Layer: Applications\n+  Title: Derivation Scheme for MuSig2 Aggregate Public Keys\n+  Author: Ava Chow <me@achow101.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-musig2-derivation\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-01-15\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies how BIP 32 extended public keys can be constructed from a BIP 327 MuSig2\n+aggregate public key and how such keys should be used for key derivation.\n+\n+==Copyright==\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+==Motivation==\n+\n+MuSig2 allows for multiple signers to create a single aggregate public key that is indistinguishable\n+from a random public key. However, as the best practice is to use a new address for every payment,\n+it is necessary for the cosigners of a single aggregate pubkey to have a way to produce additional\n+aggregate pubkeys.\n+\n+The obvious method is for the cosigners to generate multiple public keys and produce a\n+new aggregate pubkey every time one is needed. This is similar to how multisig using Bitcoin script\n+works where all of the cosigners share their extended public keys and do derivation to produce\n+the multisig script. The same could be done with MuSig2 and instead of producing a multisig script,\n+the result would be a MuSig2 aggregate pubkey.\n+\n+However, it is much simpler to be able to derive from a single extended public key instead of having\n+to derive from many extended public keys and aggregate them. As MuSig2 produces a normal looking\n+public key, the aggregate public can be used in this way. This reduces the storage and computation\n+requirements for generating new aggregate pubkeys.",
+      "path": "bip-musig2-derivation.mediawiki",
+      "position": 39,
+      "original_position": 39,
+      "commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "original_commit_id": "6b482ea3212db720d6c49ac68a9680c31feae4dc",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "An additional benefit is that such wallets can be watched by a musig2-unaware wallet, or a tapleaf co-signer who does not need to know about the individual keys, by casting the `tr(musig())` descriptor to `tr()`. Similarly it's compatible with the privacy-preserving `rawtr` descriptor (needs a BIP).",
+      "created_at": "2024-03-19T13:01:12Z",
+      "updated_at": "2024-03-19T14:23:04Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1530322665",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1530322665"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 39,
+      "original_line": 39,
+      "side": "RIGHT"
+    }
+  ]
 }
