@@ -41,7 +41,7 @@
     "body": "This is a BIP for Topologically Restricted Until Confirmation (TRUC) Transactions. It's also called \"v3 transaction policy\" since the marker is `nVersion=3`.\r\n\r\nA specification is useful for coordination between node impls that want to implement the same policy and applications that want to use it. For those that are not interested in the details of v3 policy, this also serves as a writeup of the specific pinning problems we aim to address. There has been discussion of using this in other protocol design and multiple requests for its documentation to exist in the BIPs repository, so I'm opening a PR here.\r\n\r\nImplementation:\r\n- https://github.com/bitcoin/bitcoin/pull/28948\r\n\r\nExample usage and things built on top:\r\n- Package RBF\r\n  - https://github.com/bitcoin/bitcoin/pull/28984\r\n- Ephemeral Anchors\r\n  - https://github.com/bitcoin/bitcoin/pull/29001\r\n  - https://github.com/bitcoin/bips/pull/1524\r\n- LN commitment transactions\r\n  - https://delvingbitcoin.org/t/lightning-transactions-with-v3-and-ephemeral-anchors/418\r\n  - https://github.com/instagibbs/bolts/commits/zero_fee_commitment\r\n- LN-Symmetry\r\n  - https://delvingbitcoin.org/t/ln-symmetry-project-recap/359\r\n  - https://github.com/instagibbs/lightning/tree/eltoo_support\r\n\r\nDiscussion and history:\r\n- https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-January/019817.html\r\n- https://gist.github.com/glozow/25d9662c52453bd08b4b4b1d3783b9ff\r\n- https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-September/020937.html\r\n- https://delvingbitcoin.org/t/v3-transaction-policy-for-anti-pinning/340\r\n- https://github.com/bitcoin/bitcoin/pull/25038",
     "labels": [],
     "created_at": "2024-01-18T14:01:13Z",
-    "updated_at": "2024-03-22T13:54:24Z",
+    "updated_at": "2024-03-22T18:32:47Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "2b139c90d06fdba225150ac20a08da67a00d627c",
@@ -148,7 +148,7 @@
         "forks_count": 1,
         "stargazers_count": 2,
         "watchers_count": 2,
-        "size": 15168,
+        "size": 15141,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -262,7 +262,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5205,
+        "forks_count": 5203,
         "stargazers_count": 8829,
         "watchers_count": 8829,
         "size": 14123,
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 11,
+    "review_comments": 16,
     "comments": 4
   },
   "events": [
@@ -1128,6 +1128,42 @@
         "from": "Opt-In Policy For More Robust Fee-bumping",
         "to": "Opt In Topologically Restricted Until Confirmation Transactions For More Robust Fee-bumping"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 1955315690,
+      "node_id": "PRR_kwDOAN28mc50i7_q",
+      "url": null,
+      "actor": null,
+      "commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "NONE",
+      "body": "ACK 63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1541#pullrequestreview-1955315690",
+      "submitted_at": "2024-03-22T18:32:47Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
     }
   ],
   "comments": [
@@ -1701,6 +1737,266 @@
       "start_side": null,
       "line": null,
       "original_line": 133,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1535901739",
+      "pull_request_review_id": 1955315690,
+      "id": 1535901739,
+      "node_id": "PRRC_kwDOAN28mc5bjAAr",
+      "diff_hunk": "@@ -0,0 +1,271 @@\n+<pre>\n+  BIP: ???\n+  Layer: Applications\n+  Title: Topologically Restricted Until Confirmation Transactions\n+  Author: Gloria Zhao <gloriajzhao@gmail.com>\n+  Comments-URI:\n+  Status: Draft\n+  Type: ???\n+  Created: 2024-01-10\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+Users can set <code>nVersion=3</code> on a transaction to opt in to restrictions on spending unconfirmed outputs (making them Topologically Restricted Until Confirmation or TRUC transactions) in exchange for improved fee-bumping reliability. Nodes apply a different set of mempool policies to these transactions. Namely, topological restrictions that make it easier to assess the incentive compatibility of accepting or replacing them.",
+      "path": "bip-truc.mediawiki",
+      "position": 15,
+      "original_position": 15,
+      "commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "How about:\r\n\r\n```suggestion\r\nSenders can set <code>nVersion=3</code> on a transaction to opt in to restrictions on spending unconfirmed outputs (making them Topologically Restricted Until Confirmation (TRUC) transactions) to achieve improved fee-bumping reliability. Nodes apply stricter mempool policies to these transactions. The resulting topological restrictions make it easier to assess the incentive compatibility of accepting or replacing them.\r\n```\r\n\r\nOr maybe:\r\n\r\n```suggestion\r\nUsers can set <code>nVersion=3</code> to voluntarily declare a transaction _Topologically Restricted Until Confirmation (TRUC)_. Nodes apply stricter mempool policies to TRUC transactions in form of limits on spending of their unconfirmed outputs. These restrictions improve fee-bumping reliability by simplifying assessing the incentive compatibility of accepting or replacing TRUC transactions.\r\n```\r\n",
+      "created_at": "2024-03-22T16:58:24Z",
+      "updated_at": "2024-03-22T18:32:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1541#discussion_r1535901739",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1535901739"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 15,
+      "original_line": 15,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1535969360",
+      "pull_request_review_id": 1955315690,
+      "id": 1535969360,
+      "node_id": "PRRC_kwDOAN28mc5bjQhQ",
+      "diff_hunk": "@@ -0,0 +1,271 @@\n+<pre>\n+  BIP: ???\n+  Layer: Applications\n+  Title: Topologically Restricted Until Confirmation Transactions\n+  Author: Gloria Zhao <gloriajzhao@gmail.com>\n+  Comments-URI:\n+  Status: Draft\n+  Type: ???\n+  Created: 2024-01-10\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+Users can set <code>nVersion=3</code> on a transaction to opt in to restrictions on spending unconfirmed outputs (making them Topologically Restricted Until Confirmation or TRUC transactions) in exchange for improved fee-bumping reliability. Nodes apply a different set of mempool policies to these transactions. Namely, topological restrictions that make it easier to assess the incentive compatibility of accepting or replacing them.\n+\n+==Motivation==\n+\n+Mempools typically accept and relay transactions that spend outputs from other unconfirmed transactions, but restrict package sizes through ancestor and descendant limits\n+<ref>https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-limits.md</ref>\n+to limit the computational complexity of mempool operations and mitigate Denial of Service attacks.\n+\n+Users may also create unconfirmed transactions that conflict with -- or are \"double spends\" of -- each other by spending the same input(s) in both.\n+Instead of always keeping the first transaction, many mempools also have some kind of Replace by Fee (RBF) policy",
+      "path": "bip-truc.mediawiki",
+      "position": 24,
+      "original_position": 24,
+      "commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "```suggestion\r\nInstead of always keeping the first-seen transaction, many mempools also have some kind of Replace by Fee (RBF) policy\r\n```",
+      "created_at": "2024-03-22T17:44:02Z",
+      "updated_at": "2024-03-22T18:32:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1541#discussion_r1535969360",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1535969360"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 24,
+      "original_line": 24,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1535974533",
+      "pull_request_review_id": 1955315690,
+      "id": 1535974533,
+      "node_id": "PRRC_kwDOAN28mc5bjRyF",
+      "diff_hunk": "@@ -0,0 +1,271 @@\n+<pre>\n+  BIP: ???\n+  Layer: Applications\n+  Title: Topologically Restricted Until Confirmation Transactions\n+  Author: Gloria Zhao <gloriajzhao@gmail.com>\n+  Comments-URI:\n+  Status: Draft\n+  Type: ???\n+  Created: 2024-01-10\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+Users can set <code>nVersion=3</code> on a transaction to opt in to restrictions on spending unconfirmed outputs (making them Topologically Restricted Until Confirmation or TRUC transactions) in exchange for improved fee-bumping reliability. Nodes apply a different set of mempool policies to these transactions. Namely, topological restrictions that make it easier to assess the incentive compatibility of accepting or replacing them.\n+\n+==Motivation==\n+\n+Mempools typically accept and relay transactions that spend outputs from other unconfirmed transactions, but restrict package sizes through ancestor and descendant limits\n+<ref>https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-limits.md</ref>\n+to limit the computational complexity of mempool operations and mitigate Denial of Service attacks.\n+\n+Users may also create unconfirmed transactions that conflict with -- or are \"double spends\" of -- each other by spending the same input(s) in both.\n+Instead of always keeping the first transaction, many mempools also have some kind of Replace by Fee (RBF) policy\n+<ref>\n+[https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-replacements.md Bitcoin Core's RBF policy] at the time of writing. It is slightly different from what is described in BIP 125.\n+</ref>\n+to keep the more incentive compatible transaction, i.e. one that would earn a miner more fees. As such, creating higher feerate double-spends (replacements) is often employed by users as a fee-bumping mechanism.",
+      "path": "bip-truc.mediawiki",
+      "position": 28,
+      "original_position": 28,
+      "commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Maybe:\r\n\r\n```suggestion\r\nto keep the more incentive compatible transaction, i.e. one that would earn a miner more fees. Users utilize these rules when they create higher feerate double-spends (replacements) to expedite confirmation of their payments.\r\n```",
+      "created_at": "2024-03-22T17:48:32Z",
+      "updated_at": "2024-03-22T18:32:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1541#discussion_r1535974533",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1535974533"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 28,
+      "original_line": 28,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1535986988",
+      "pull_request_review_id": 1955315690,
+      "id": 1535986988,
+      "node_id": "PRRC_kwDOAN28mc5bjU0s",
+      "diff_hunk": "@@ -0,0 +1,271 @@\n+<pre>\n+  BIP: ???\n+  Layer: Applications\n+  Title: Topologically Restricted Until Confirmation Transactions\n+  Author: Gloria Zhao <gloriajzhao@gmail.com>\n+  Comments-URI:\n+  Status: Draft\n+  Type: ???\n+  Created: 2024-01-10\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+Users can set <code>nVersion=3</code> on a transaction to opt in to restrictions on spending unconfirmed outputs (making them Topologically Restricted Until Confirmation or TRUC transactions) in exchange for improved fee-bumping reliability. Nodes apply a different set of mempool policies to these transactions. Namely, topological restrictions that make it easier to assess the incentive compatibility of accepting or replacing them.\n+\n+==Motivation==\n+\n+Mempools typically accept and relay transactions that spend outputs from other unconfirmed transactions, but restrict package sizes through ancestor and descendant limits\n+<ref>https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-limits.md</ref>\n+to limit the computational complexity of mempool operations and mitigate Denial of Service attacks.\n+\n+Users may also create unconfirmed transactions that conflict with -- or are \"double spends\" of -- each other by spending the same input(s) in both.\n+Instead of always keeping the first transaction, many mempools also have some kind of Replace by Fee (RBF) policy\n+<ref>\n+[https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-replacements.md Bitcoin Core's RBF policy] at the time of writing. It is slightly different from what is described in BIP 125.\n+</ref>\n+to keep the more incentive compatible transaction, i.e. one that would earn a miner more fees. As such, creating higher feerate double-spends (replacements) is often employed by users as a fee-bumping mechanism.\n+\n+However, these policies make imperfect trade-offs between incentive compatibility and DoS-resistance. For example, malicious actors may sometimes exploit limitations to prevent incentive-compatible transactions from being accepted or fee-bumped (''pinning'').\n+\n+Pinning is very relevant to contracting protocols in which untrusted parties construct and sign time-sensitive transactions to be broadcast on-chain later",
+      "path": "bip-truc.mediawiki",
+      "position": 32,
+      "original_position": 32,
+      "commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "```suggestion\r\nPinning is consequential to contracting protocols in which untrusted parties construct and sign time-sensitive transactions to be broadcast on-chain later\r\n```",
+      "created_at": "2024-03-22T17:56:24Z",
+      "updated_at": "2024-03-22T18:32:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1541#discussion_r1535986988",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1535986988"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 32,
+      "original_line": 32,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1535989159",
+      "pull_request_review_id": 1955315690,
+      "id": 1535989159,
+      "node_id": "PRRC_kwDOAN28mc5bjVWn",
+      "diff_hunk": "@@ -0,0 +1,271 @@\n+<pre>\n+  BIP: ???\n+  Layer: Applications\n+  Title: Topologically Restricted Until Confirmation Transactions\n+  Author: Gloria Zhao <gloriajzhao@gmail.com>\n+  Comments-URI:\n+  Status: Draft\n+  Type: ???\n+  Created: 2024-01-10\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+Users can set <code>nVersion=3</code> on a transaction to opt in to restrictions on spending unconfirmed outputs (making them Topologically Restricted Until Confirmation or TRUC transactions) in exchange for improved fee-bumping reliability. Nodes apply a different set of mempool policies to these transactions. Namely, topological restrictions that make it easier to assess the incentive compatibility of accepting or replacing them.\n+\n+==Motivation==\n+\n+Mempools typically accept and relay transactions that spend outputs from other unconfirmed transactions, but restrict package sizes through ancestor and descendant limits\n+<ref>https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-limits.md</ref>\n+to limit the computational complexity of mempool operations and mitigate Denial of Service attacks.\n+\n+Users may also create unconfirmed transactions that conflict with -- or are \"double spends\" of -- each other by spending the same input(s) in both.\n+Instead of always keeping the first transaction, many mempools also have some kind of Replace by Fee (RBF) policy\n+<ref>\n+[https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-replacements.md Bitcoin Core's RBF policy] at the time of writing. It is slightly different from what is described in BIP 125.\n+</ref>\n+to keep the more incentive compatible transaction, i.e. one that would earn a miner more fees. As such, creating higher feerate double-spends (replacements) is often employed by users as a fee-bumping mechanism.\n+\n+However, these policies make imperfect trade-offs between incentive compatibility and DoS-resistance. For example, malicious actors may sometimes exploit limitations to prevent incentive-compatible transactions from being accepted or fee-bumped (''pinning'').\n+\n+Pinning is very relevant to contracting protocols in which untrusted parties construct and sign time-sensitive transactions to be broadcast on-chain later\n+<ref>Posts about pinning in LN and LN-Symmetry:\n+* [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-May/020458.html \"Bringing a nuke to a knife fight: Transaction introspection to stop RBF pinning\"]\n+* [https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-April/002639.html \"RBF Pinning with Counterparties and Competing Interest\"]\n+* [https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-June/002758.html \"Pinning : The Good, The Bad, The Ugly\"]\n+* [https://github.com/t-bast/lightning-docs/blob/master/pinning-attacks.md \"Pinning Attacks\"]\n+* [https://gist.github.com/instagibbs/60264606e181451e977e439a49f69fe1 \"Eltoo Pinning\"]\n+</ref>.\n+When the funds available to be redeemed by each party depend on a transaction confirming within a specific time window, a malicious party may be able to steal money if the honest party cannot get their transaction confirmed. As such, the ability to fee-bump a transaction to entice miners to include it in their blocks is important to security.",
+      "path": "bip-truc.mediawiki",
+      "position": 40,
+      "original_position": 40,
+      "commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "```suggestion\r\nWhen the funds available to be redeemed by each party depend on a transaction confirming within a specific time window, a malicious party may be able to steal money if the honest party cannot get their transaction confirmed. As such, the ability to fee-bump a transaction to entice miners to include it in their blocks is crucial to the security of the protocol.\r\n```",
+      "created_at": "2024-03-22T17:58:32Z",
+      "updated_at": "2024-03-22T18:32:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1541#discussion_r1535989159",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1535989159"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 40,
+      "original_line": 40,
       "side": "RIGHT"
     }
   ]
