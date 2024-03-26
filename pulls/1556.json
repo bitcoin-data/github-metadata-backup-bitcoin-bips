@@ -41,7 +41,7 @@
     "body": "This document proposes a new primitive CCompressedTransaction and its required sub-classes. The CCompressedTransaction can reach a serialized size of less than 50% of the original serialized transaction. Compression of the transaction outpoints can be lossy and is therefore optional. When the outpoints are left uncompressed, the serialized size is still less than 70% of the original size.\r\n\r\nThanks-\r\nTom.",
     "labels": [],
     "created_at": "2024-03-05T17:53:47Z",
-    "updated_at": "2024-03-19T15:02:00Z",
+    "updated_at": "2024-03-26T18:07:14Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "98a0fac08daafc92b63dea348489a79e76e5ebfa",
@@ -261,9 +261,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5191,
-        "stargazers_count": 8821,
-        "watchers_count": 8821,
+        "forks_count": 5210,
+        "stargazers_count": 8835,
+        "watchers_count": 8835,
         "size": 14123,
         "default_branch": "master",
         "open_issues_count": 144,
@@ -277,9 +277,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-03-19T10:14:51Z",
+        "pushed_at": "2024-03-26T09:37:25Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-03-19T10:54:21Z"
+        "updated_at": "2024-03-26T03:17:44Z"
       }
     },
     "_links": {
@@ -293,7 +293,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 9,
+    "review_comments": 10,
     "comments": 1
   },
   "events": [
@@ -1174,6 +1174,58 @@
       "start_side": null,
       "line": 268,
       "original_line": 268,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1539850570",
+      "pull_request_review_id": 1961327811,
+      "id": 1539850570,
+      "node_id": "PRRC_kwDOAN28mc5byEFK",
+      "diff_hunk": "@@ -0,0 +1,268 @@\n+<pre>\n+  BIP: ?\n+  Layer: API/RPC\n+  Title: Compressed Transactions RPC\n+  Author: Tom Briar <tombriar11@protonmail.com>\n+  Comments-URI: https://github.com/bitcoin/bitcoin/pull/29134\n+                https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-August/021924.html\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-02-01\n+  License: BSD-3-Clause\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+This document proposes a new primitive CCompressedTransaction and its required sub-classes. The CCompressedTransaction can reach a serialized size of less than 50% of the original serialized transaction. Compression of the transaction outpoints can be lossy and is therefore optional. When the outpoints are left uncompressed, the serialized size is still less than 70% of the original size.\n+\n+=== Specification ===\n+\n+==== Primitives ====\n+\n+{| class=\"wikitable\" style=\"margin:auto\"\n+|-\n+! Name !! Width !! Description\n+|-\n+| CompactSize || 1-5 bytes || For 0-253, encode the value directly in one byte. For 254-65535, encode 254 followed by 2 little-endian bytes. For 65536-(2^32-1), encode 255 followed by 4 little-endian bytes\n+|-\n+| CompactSize Flag || 2 Bits || 1, 2 or 3 indicate literal values. 0 indicates that the value will be encoded in a later CompactInt\n+|-\n+| VarInt || 1+ Bytes || 7-bit little-endian encoding, with each 7-bit word encoded in a byte. The highest bit of each byte is 1 if more bytes follow, and 0 for the last byte\n+|-\n+| VLP-Bytestream || 2+ Bytes || A VarInt Length Prefixed Bytestream. Has a VarInt prefixed to determine the length.\n+|}\n+\n+==== General Schema ====\n+\n+{| class=\"wikitable\" style=\"margin:auto\"\n+|-\n+! Name !! Width !! Description\n+|-\n+| Transaction metadata || 1 bytes || Information on the structure of the transaction. See [[#transaction-metadata|Transaction Metadata]]\n+|-\n+| Version || 0-5 Bytes || An optional CompactSize containing the transactions version.\n+|-\n+| Input Count || 0-5 Bytes || An optional CompactSize containing he transactions input count.\n+|-\n+| Output Count || 0-5 Bytes || An optional CompactSize containing he transactions output count.\n+|-\n+| LockTime || 0-5 Bytes || An optional CompactSize containing he transactions LockTime if its non zero.\n+|-\n+| Minimum Blockheight || 1-5 Bytes || A VarInt containg the Minimum Blockheight of the transaction locktime and input blockheights are given as offsets.\n+|-\n+| Input Metadata+Output Metadata || 1+ Bytes || A Encoding containing metadata on all the inputs and then all the outputs of the transaction. For each input see [[#input-metadata|Input Metadata]], for each output see [[#output-metadata|Output Metadata]].\n+|-\n+| Input Data || 66+ Bytes || See [[#input-data|Input Data]].\n+|-\n+| Output Data || 3+ Bytes || See [[#output-data|Output Data]].\n+|}\n+\n+<span id=\"transaction-metadata\"></span>\n+==== Transaction Metadata ====\n+\n+{| class=\"wikitable\" style=\"margin:auto\"\n+|-\n+! Name !! Width !! Description\n+|-\n+| Version || 2 Bits || A CompactSize flag for the transaction version.\n+|-\n+| Input Count || 2 Bits || A CompactSize flag for the transaction input count.\n+|-\n+| Output Count || 2 Bits || A CompactSize flag for the transaction output count.\n+|-\n+| LockTime || 2 bit || A Boolean to indicate if the transaction has a LockTime.\n+|}\n+\n+<span id=\"input-metadata\"></span>\n+==== Input Metadata ====\n+\n+{| class=\"wikitable\" style=\"margin:auto\"\n+|-\n+! Name !! Width !! Description\n+|-\n+| Compressed Signature || 1 Bit || Signature compression flag. For P2TR: 1 for keyspend, 0 for scriptspend; For P2SH: 0 for p2sh, 1 for p2sh-wpkh.",
+      "path": "bip-tombriar-compressed-transactions.mediawiki",
+      "position": 84,
+      "original_position": 84,
+      "commit_id": "517ba8414c06633d7bc2436aa874093287954f3f",
+      "original_commit_id": "517ba8414c06633d7bc2436aa874093287954f3f",
+      "in_reply_to_id": 1530544025,
+      "user": {
+        "login": "TomBriar",
+        "id": 90657314,
+        "node_id": "MDQ6VXNlcjkwNjU3MzE0",
+        "avatar_url": "https://avatars.githubusercontent.com/u/90657314?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TomBriar",
+        "html_url": "https://github.com/TomBriar",
+        "followers_url": "https://api.github.com/users/TomBriar/followers",
+        "following_url": "https://api.github.com/users/TomBriar/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TomBriar/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TomBriar/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TomBriar/subscriptions",
+        "organizations_url": "https://api.github.com/users/TomBriar/orgs",
+        "repos_url": "https://api.github.com/users/TomBriar/repos",
+        "events_url": "https://api.github.com/users/TomBriar/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TomBriar/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "It's used for all script types but has special implications for P2TR and P2SH-WPKH. I reworded for clarity.",
+      "created_at": "2024-03-26T18:07:14Z",
+      "updated_at": "2024-03-26T18:07:14Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1556#discussion_r1539850570",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1539850570"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1556"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 84,
+      "original_line": 84,
       "side": "RIGHT"
     }
   ]
