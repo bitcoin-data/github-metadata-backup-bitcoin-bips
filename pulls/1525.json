@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2023-12-11T23:16:22Z",
-    "updated_at": "2024-04-03T19:21:35Z",
+    "updated_at": "2024-04-04T04:55:08Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "65009e1d215205d219a2c68b1dc8861a2aa89f29",
@@ -312,7 +312,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5213,
+        "forks_count": 5215,
         "stargazers_count": 8856,
         "watchers_count": 8856,
         "size": 14123,
@@ -328,7 +328,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-03T15:02:18Z",
+        "pushed_at": "2024-04-03T20:00:48Z",
         "created_at": "2013-11-19T17:18:41Z",
         "updated_at": "2024-04-03T17:41:19Z"
       }
@@ -345,7 +345,7 @@
     "changed_files": 1,
     "commits": 38,
     "review_comments": 51,
-    "comments": 13
+    "comments": 14
   },
   "events": [
     {
@@ -3963,6 +3963,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1525#issuecomment-2035406050",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1525"
+    },
+    {
+      "event": "commented",
+      "id": 2036189611,
+      "node_id": "IC_kwDOAN28mc55Xcmr",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2036189611",
+      "actor": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-04-04T04:54:51Z",
+      "updated_at": "2024-04-04T04:55:08Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> I would like to propose to replace the per-item size limit with a total stack size limit that is equivalent and can be introduced as a softfork as well. Since we currently allow 1000 items of 520 bytes, I would propose a 520kB (520,000 bytes) size limit for the entire stack + altstack.\r\n\r\nConsider the following script:\r\n\r\n```\r\n\"1234567\" DUP CAT 8 CAT\r\nDUP CAT DUP CAT DUP CAT DUP CAT DUP CAT DUP CAT DUP CAT\r\nDUP CAT DUP CAT DUP CAT DUP CAT DUP CAT DUP CAT DUP CAT\r\n\r\n1 SHA256 OVER CAT SHA256\r\n[ OVER CAT SHA256 ] * 130000\r\nCAT SHA256\r\n```\r\n\r\nIt constructs a ~246kB string on the stack consisting of lots of repeats of \"123456712345678\", then repeatedly concatenates that string to a sha256 hash, using the hash of the result as the new sha256 hash. Doing this 130k times means you're hashing about 32GB of data despite never having more than about 492kB on the stack in total, while still fitting in a standard tx with less than 400k weight units. For comparsion, constraining each stack element to being 520 bytes limits the total amount hashed to under 208MB for any standard transaction.",
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1525#issuecomment-2036189611",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1525"
     }
   ],
