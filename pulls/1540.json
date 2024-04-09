@@ -41,7 +41,7 @@
     "body": "This PR contains 3 proposed BIPs, the main contents of which were sent to the bitcoin-dev mailing list in October. There have been a few changes, notably the addition of a new BIP for the derivation methodology which was split from the descriptors BIP.\r\n\r\nI've also changed the PSBT BIP to use 33 byte plain aggregate pubkeys rather than xonly.",
     "labels": [],
     "created_at": "2024-01-15T20:14:59Z",
-    "updated_at": "2024-04-09T07:59:54Z",
+    "updated_at": "2024-04-09T08:22:57Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "9cbcb7dc8ab9be4168d5032dbf5a7130057eb9a1",
@@ -263,8 +263,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5216,
-        "stargazers_count": 8874,
-        "watchers_count": 8874,
+        "stargazers_count": 8875,
+        "watchers_count": 8875,
         "size": 14123,
         "default_branch": "master",
         "open_issues_count": 145,
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2024-04-06T14:27:03Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-04-09T07:05:53Z"
+        "updated_at": "2024-04-09T08:27:10Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 3,
-    "review_comments": 12,
+    "review_comments": 13,
     "comments": 2
   },
   "events": [
@@ -888,6 +888,41 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1540#pullrequestreview-1988380344",
       "submitted_at": "2024-04-09T07:59:54Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+    },
+    {
+      "event": "reviewed",
+      "id": 1988425368,
+      "node_id": "PRR_kwDOAN28mc52hPaY",
+      "url": null,
+      "actor": null,
+      "commit_id": "cd6a7eeb731fe052a26ccf42ae118646ae08287f",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#pullrequestreview-1988425368",
+      "submitted_at": "2024-04-09T08:22:57Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
     }
@@ -1497,9 +1532,9 @@
         "type": "User",
         "site_admin": false
       },
-      "body": "Should be `<33 byte compressed pubkey>` per the latest specs, I think",
+      "body": "Should be `<33 byte compressed pubkey>` per the latest specs in bip-musig2-psbt, I think",
       "created_at": "2024-04-09T07:59:54Z",
-      "updated_at": "2024-04-09T07:59:55Z",
+      "updated_at": "2024-04-09T08:00:38Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1557157436",
       "author_association": "CONTRIBUTOR",
       "_links": {
@@ -1515,6 +1550,58 @@
       "start_side": null,
       "line": 488,
       "original_line": 488,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1557195440",
+      "pull_request_review_id": 1988425368,
+      "id": 1557195440,
+      "node_id": "PRRC_kwDOAN28mc5c0Oqw",
+      "diff_hunk": "@@ -0,0 +1,79 @@\n+<pre>\n+  BIP: musig2-derivation\n+  Layer: Applications\n+  Title: Derivation Scheme for MuSig2 Aggregate Public Keys\n+  Author: Ava Chow <me@achow101.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-musig2-derivation\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-01-15\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies how BIP 32 extended public keys can be constructed from a BIP 327 MuSig2\n+aggregate public key and how such keys should be used for key derivation.\n+\n+==Copyright==\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+==Motivation==\n+\n+MuSig2 allows for multiple signers to create a single aggregate public key that is indistinguishable\n+from a random public key. However, as the best practice is to use a new address for every payment,\n+it is necessary for the cosigners of a single aggregate pubkey to have a way to produce additional\n+aggregate pubkeys.\n+\n+The obvious method is for the cosigners to generate multiple public keys and produce a\n+new aggregate pubkey every time one is needed. This is similar to how multisig using Bitcoin script\n+works where all of the cosigners share their extended public keys and do derivation to produce\n+the multisig script. The same could be done with MuSig2 and instead of producing a multisig script,\n+the result would be a MuSig2 aggregate pubkey.\n+\n+However, it is much simpler to be able to derive from a single extended public key instead of having\n+to derive from many extended public keys and aggregate them. As MuSig2 produces a normal looking\n+public key, the aggregate public can be used in this way. This reduces the storage and computation\n+requirements for generating new aggregate pubkeys.\n+\n+==Specification==\n+\n+A synthetic xpub can be created from a BIP 327 MuSig2 plain aggregate public key by setting\n+the depth to 0, the child number to 0, and attaching a chaincode with the byte string\n+<tt>868087ca02a6f974c4598924c36b57762d32cb45717167e300622c7167e38965</tt><ref>'''Where does this\n+constant chaincode come from?''' It is the SHA256 of the text <tt>MuSig2MuSig2MuSig2</tt></ref>.\n+This fixed chaincode should be used by all such synthetic xpubs following this specification.\n+Unhardend child public keys can be derived from the synthetic xpub as with any other xpub.",
+      "path": "bip-musig2-derivation.mediawiki",
+      "position": 48,
+      "original_position": 48,
+      "commit_id": "cd6a7eeb731fe052a26ccf42ae118646ae08287f",
+      "original_commit_id": "cd6a7eeb731fe052a26ccf42ae118646ae08287f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Typo: Unhardened",
+      "created_at": "2024-04-09T08:22:57Z",
+      "updated_at": "2024-04-09T08:22:57Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1557195440",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1557195440"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 48,
+      "original_line": 48,
       "side": "RIGHT"
     }
   ]
