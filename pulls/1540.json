@@ -41,7 +41,7 @@
     "body": "This PR contains 3 proposed BIPs, the main contents of which were sent to the bitcoin-dev mailing list in October. There have been a few changes, notably the addition of a new BIP for the derivation methodology which was split from the descriptors BIP.\r\n\r\nI've also changed the PSBT BIP to use 33 byte plain aggregate pubkeys rather than xonly.",
     "labels": [],
     "created_at": "2024-01-15T20:14:59Z",
-    "updated_at": "2024-04-18T14:10:31Z",
+    "updated_at": "2024-04-18T15:52:59Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "deb965b5bf1155db9474e1ba414a6bea33fd4521",
@@ -263,8 +263,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5224,
-        "stargazers_count": 8903,
-        "watchers_count": 8903,
+        "stargazers_count": 8904,
+        "watchers_count": 8904,
         "size": 14123,
         "default_branch": "master",
         "open_issues_count": 148,
@@ -280,7 +280,7 @@
         "visibility": "public",
         "pushed_at": "2024-04-18T13:53:43Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-04-18T14:33:54Z"
+        "updated_at": "2024-04-18T15:51:04Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 3,
-    "review_comments": 22,
+    "review_comments": 23,
     "comments": 7
   },
   "events": [
@@ -2746,6 +2746,58 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1570846000"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 494,
+      "original_line": 494,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1571012806",
+      "pull_request_review_id": 2009295343,
+      "id": 1571012806,
+      "node_id": "PRRC_kwDOAN28mc5do8DG",
+      "diff_hunk": "@@ -483,6 +483,51 @@ The currently defined per-input types are defined as follows:\n | 0, 2\n | [[bip-0371.mediawiki|371]]\n |-\n+| MuSig2 Participant Public Keys\n+| <tt>PSBT_IN_MUSIG2_PARTICIPANT_PUBKEYS = 0x19</tt>\n+| <33 byte plain aggregate pubkey>\n+| The MuSig2 aggregate plain public key from the <tt>KeyAgg</tt> algorithm. This key may or may not\n+be in the script directly (as x-only). It may instead be a parent public key from which the public keys in the\n+script were derived.\n+| <tt><33 byte compressed pubkey>*</tt>\n+| A list of the compressed public keys of the participants in the MuSig2 aggregate key in the order\n+required for aggregation. If sorting was done, then the keys must be in the sorted order.",
+      "path": "bip-0174.mediawiki",
+      "position": 12,
+      "original_position": 12,
+      "commit_id": "31643d4684a0905304da9fc0cb094fa3433e8191",
+      "original_commit_id": "31643d4684a0905304da9fc0cb094fa3433e8191",
+      "in_reply_to_id": 1570763515,
+      "user": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "> What's wrong with taking the ordering from the descriptor directly? That seems simpler and more flexible (Not that I can imagine a specific reason why a user would want a particular order).\r\n\r\nThere's no descriptor in psbts.",
+      "created_at": "2024-04-18T15:52:58Z",
+      "updated_at": "2024-04-18T15:52:59Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1571012806",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1571012806"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
