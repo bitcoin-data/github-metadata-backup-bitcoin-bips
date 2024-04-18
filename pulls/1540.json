@@ -41,7 +41,7 @@
     "body": "This PR contains 3 proposed BIPs, the main contents of which were sent to the bitcoin-dev mailing list in October. There have been a few changes, notably the addition of a new BIP for the derivation methodology which was split from the descriptors BIP.\r\n\r\nI've also changed the PSBT BIP to use 33 byte plain aggregate pubkeys rather than xonly.",
     "labels": [],
     "created_at": "2024-01-15T20:14:59Z",
-    "updated_at": "2024-04-18T15:52:59Z",
+    "updated_at": "2024-04-18T17:58:37Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "deb965b5bf1155db9474e1ba414a6bea33fd4521",
@@ -262,7 +262,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5224,
+        "forks_count": 5225,
         "stargazers_count": 8904,
         "watchers_count": 8904,
         "size": 14123,
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 3,
-    "review_comments": 23,
+    "review_comments": 25,
     "comments": 7
   },
   "events": [
@@ -1611,6 +1611,70 @@
       "submitted_at": "2024-04-18T13:32:31Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+    },
+    {
+      "event": "reviewed",
+      "id": 2009548170,
+      "node_id": "PRR_kwDOAN28mc53x0WK",
+      "url": null,
+      "actor": null,
+      "commit_id": "758ea36557e186e8aacf6da15447eb57af1429bc",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "NONE",
+      "user": {
+        "login": "Ademan",
+        "id": 18740,
+        "node_id": "MDQ6VXNlcjE4NzQw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/18740?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Ademan",
+        "html_url": "https://github.com/Ademan",
+        "followers_url": "https://api.github.com/users/Ademan/followers",
+        "following_url": "https://api.github.com/users/Ademan/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Ademan/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Ademan/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Ademan/subscriptions",
+        "organizations_url": "https://api.github.com/users/Ademan/orgs",
+        "repos_url": "https://api.github.com/users/Ademan/repos",
+        "events_url": "https://api.github.com/users/Ademan/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Ademan/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#pullrequestreview-2009548170",
+      "submitted_at": "2024-04-18T17:58:37Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+    },
+    {
+      "event": "referenced",
+      "id": 12527131082,
+      "node_id": "REFE_lADOAN28mc58IlvJzwAAAALqrNnK",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12527131082",
+      "actor": {
+        "login": "Roockeeeet",
+        "id": 166537837,
+        "node_id": "U_kgDOCe0qbQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/166537837?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roockeeeet",
+        "html_url": "https://github.com/Roockeeeet",
+        "followers_url": "https://api.github.com/users/Roockeeeet/followers",
+        "following_url": "https://api.github.com/users/Roockeeeet/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roockeeeet/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roockeeeet/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roockeeeet/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roockeeeet/orgs",
+        "repos_url": "https://api.github.com/users/Roockeeeet/repos",
+        "events_url": "https://api.github.com/users/Roockeeeet/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roockeeeet/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": "c05ea1334ecd0a09f0065b132b5826150c25d0b8",
+      "commit_url": "https://api.github.com/repos/Roockeeeet/bips/commits/c05ea1334ecd0a09f0065b132b5826150c25d0b8",
+      "created_at": "2024-04-18T17:59:59Z"
     }
   ],
   "comments": [
@@ -2808,6 +2872,110 @@
       "start_side": null,
       "line": 494,
       "original_line": 494,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1571158986",
+      "pull_request_review_id": 2009541496,
+      "id": 1571158986,
+      "node_id": "PRRC_kwDOAN28mc5dpfvK",
+      "diff_hunk": "@@ -483,6 +483,51 @@ The currently defined per-input types are defined as follows:\n | 0, 2\n | [[bip-0371.mediawiki|371]]\n |-\n+| MuSig2 Participant Public Keys\n+| <tt>PSBT_IN_MUSIG2_PARTICIPANT_PUBKEYS = 0x19</tt>\n+| <33 byte plain aggregate pubkey>\n+| The MuSig2 aggregate plain public key from the <tt>KeyAgg</tt> algorithm. This key may or may not\n+be in the script directly (as x-only). It may instead be a parent public key from which the public keys in the\n+script were derived.\n+| <tt><33 byte compressed pubkey>*</tt>\n+| A list of the compressed public keys of the participants in the MuSig2 aggregate key in the order\n+required for aggregation. If sorting was done, then the keys must be in the sorted order.",
+      "path": "bip-0174.mediawiki",
+      "position": 12,
+      "original_position": 12,
+      "commit_id": "31643d4684a0905304da9fc0cb094fa3433e8191",
+      "original_commit_id": "31643d4684a0905304da9fc0cb094fa3433e8191",
+      "in_reply_to_id": 1570763515,
+      "user": {
+        "login": "Ademan",
+        "id": 18740,
+        "node_id": "MDQ6VXNlcjE4NzQw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/18740?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Ademan",
+        "html_url": "https://github.com/Ademan",
+        "followers_url": "https://api.github.com/users/Ademan/followers",
+        "following_url": "https://api.github.com/users/Ademan/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Ademan/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Ademan/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Ademan/subscriptions",
+        "organizations_url": "https://api.github.com/users/Ademan/orgs",
+        "repos_url": "https://api.github.com/users/Ademan/repos",
+        "events_url": "https://api.github.com/users/Ademan/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Ademan/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Right I was commenting on KeySort-ing the participant keys in the descriptor. Seemed on-topic for this thread but I'll put the comment where it belongs.",
+      "created_at": "2024-04-18T17:54:44Z",
+      "updated_at": "2024-04-18T17:54:44Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1571158986",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1571158986"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 494,
+      "original_line": 494,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1571163339",
+      "pull_request_review_id": 2009548170,
+      "id": 1571163339,
+      "node_id": "PRRC_kwDOAN28mc5dpgzL",
+      "diff_hunk": "@@ -0,0 +1,69 @@\n+<pre>\n+  BIP: musig2-descriptors\n+  Layer: Applications\n+  Title: musig() Descriptor Key Expression\n+  Author: Ava Chow <me@achow101.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-musig2-descriptor\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-01-15\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies a <tt>musig()</tt> key expression for output script descriptors.\n+<tt>musig()</tt> expressions take multiple keys and produce an aggregate public key using BIP 327.\n+\n+==Copyright==\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+==Motivation==\n+\n+BIP 327 introduces the MuSig2 Multi-Signature scheme. It is useful to have a way for keys to be used\n+in a MuSig2 aggregate key to be expressed in descriptors so that wallets can more easily use MuSig2.\n+\n+==Specification==\n+\n+A new key expression is defined: <tt>musig()</tt>.\n+\n+===<tt>musig()</tt>===\n+\n+The <tt>musig(KEY, KEY, ..., KEY)</tt> expression can only be used inside of a <tt>tr()</tt>\n+expression as a key expression. The aggregate public key is produced by using the <tt>KeyAgg</tt>\n+algorithm on all KEYs specified in the expression after performing all specified derivation. As with\n+script expressions, KEY can contain child derivation specified by <tt>/*</tt>. A new aggregate\n+public key will be computed for each child index. Keys must be sorted with the <tt>KeySort</tt>",
+      "path": "bip-musig2-descriptors.mediawiki",
+      "position": 38,
+      "original_position": 38,
+      "commit_id": "31643d4684a0905304da9fc0cb094fa3433e8191",
+      "original_commit_id": "758ea36557e186e8aacf6da15447eb57af1429bc",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Ademan",
+        "id": 18740,
+        "node_id": "MDQ6VXNlcjE4NzQw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/18740?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Ademan",
+        "html_url": "https://github.com/Ademan",
+        "followers_url": "https://api.github.com/users/Ademan/followers",
+        "following_url": "https://api.github.com/users/Ademan/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Ademan/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Ademan/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Ademan/subscriptions",
+        "organizations_url": "https://api.github.com/users/Ademan/orgs",
+        "repos_url": "https://api.github.com/users/Ademan/repos",
+        "events_url": "https://api.github.com/users/Ademan/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Ademan/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Why KeySort when we already have a explicit ordering from the descriptor? It seems like an unnecessary complication.",
+      "created_at": "2024-04-18T17:58:37Z",
+      "updated_at": "2024-04-18T17:58:38Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1571163339",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1571163339"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 38,
+      "original_line": 38,
       "side": "RIGHT"
     }
   ]
