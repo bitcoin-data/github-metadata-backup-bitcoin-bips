@@ -41,10 +41,10 @@
     "body": "This PR contains 3 proposed BIPs, the main contents of which were sent to the bitcoin-dev mailing list in October. There have been a few changes, notably the addition of a new BIP for the derivation methodology which was split from the descriptors BIP.\r\n\r\nI've also changed the PSBT BIP to use 33 byte plain aggregate pubkeys rather than xonly.",
     "labels": [],
     "created_at": "2024-01-15T20:14:59Z",
-    "updated_at": "2024-04-18T17:58:37Z",
+    "updated_at": "2024-04-22T21:33:26Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "deb965b5bf1155db9474e1ba414a6bea33fd4521",
+    "merge_commit_sha": "fcf2a37549b9c9be5f81a42d76a2e057accedc20",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-18T13:53:41Z",
+        "pushed_at": "2024-04-22T21:30:01Z",
         "created_at": "2015-10-27T00:37:26Z",
         "updated_at": "2022-01-19T00:36:27Z"
       }
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5225,
-        "stargazers_count": 8904,
-        "watchers_count": 8904,
-        "size": 14123,
+        "forks_count": 5233,
+        "stargazers_count": 8917,
+        "watchers_count": 8917,
+        "size": 14401,
         "default_branch": "master",
-        "open_issues_count": 148,
+        "open_issues_count": 138,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-18T13:53:43Z",
+        "pushed_at": "2024-04-22T21:48:56Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-04-18T15:51:04Z"
+        "updated_at": "2024-04-22T21:40:52Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 3,
-    "review_comments": 25,
+    "review_comments": 26,
     "comments": 7
   },
   "events": [
@@ -2966,6 +2966,58 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1571163339"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 38,
+      "original_line": 38,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1575381788",
+      "pull_request_review_id": 2015841010,
+      "id": 1575381788,
+      "node_id": "PRRC_kwDOAN28mc5d5msc",
+      "diff_hunk": "@@ -0,0 +1,69 @@\n+<pre>\n+  BIP: musig2-descriptors\n+  Layer: Applications\n+  Title: musig() Descriptor Key Expression\n+  Author: Ava Chow <me@achow101.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-musig2-descriptor\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-01-15\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies a <tt>musig()</tt> key expression for output script descriptors.\n+<tt>musig()</tt> expressions take multiple keys and produce an aggregate public key using BIP 327.\n+\n+==Copyright==\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+==Motivation==\n+\n+BIP 327 introduces the MuSig2 Multi-Signature scheme. It is useful to have a way for keys to be used\n+in a MuSig2 aggregate key to be expressed in descriptors so that wallets can more easily use MuSig2.\n+\n+==Specification==\n+\n+A new key expression is defined: <tt>musig()</tt>.\n+\n+===<tt>musig()</tt>===\n+\n+The <tt>musig(KEY, KEY, ..., KEY)</tt> expression can only be used inside of a <tt>tr()</tt>\n+expression as a key expression. The aggregate public key is produced by using the <tt>KeyAgg</tt>\n+algorithm on all KEYs specified in the expression after performing all specified derivation. As with\n+script expressions, KEY can contain child derivation specified by <tt>/*</tt>. A new aggregate\n+public key will be computed for each child index. Keys must be sorted with the <tt>KeySort</tt>",
+      "path": "bip-musig2-descriptors.mediawiki",
+      "position": 38,
+      "original_position": 38,
+      "commit_id": "31643d4684a0905304da9fc0cb094fa3433e8191",
+      "original_commit_id": "758ea36557e186e8aacf6da15447eb57af1429bc",
+      "in_reply_to_id": 1571163339,
+      "user": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "As I mentioned in https://github.com/bitcoin/bips/pull/1540#issuecomment-2061452468, there was a discussion about this and that was the conclusion. But I'm also having a hard time remembering the exact reason, maybe @jonasnick and/or @sipa can help me out here.",
+      "created_at": "2024-04-22T21:33:26Z",
+      "updated_at": "2024-04-22T21:33:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1575381788",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1575381788"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
