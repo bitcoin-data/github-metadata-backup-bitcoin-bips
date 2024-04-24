@@ -50,10 +50,10 @@
       }
     ],
     "created_at": "2024-01-07T18:32:39Z",
-    "updated_at": "2024-04-23T03:37:30Z",
+    "updated_at": "2024-04-24T02:08:50Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "a9419aa852a22c8a3816388e80ddf484feb43694",
+    "merge_commit_sha": "3bb4a7cf2e99e23f99a22481a4d62e4f461d0bc5",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -271,12 +271,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5235,
-        "stargazers_count": 8921,
-        "watchers_count": 8921,
-        "size": 14367,
+        "forks_count": 5234,
+        "stargazers_count": 8928,
+        "watchers_count": 8928,
+        "size": 14447,
         "default_branch": "master",
-        "open_issues_count": 137,
+        "open_issues_count": 114,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -287,9 +287,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-23T00:54:22Z",
+        "pushed_at": "2024-04-23T21:44:07Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-04-23T02:29:52Z"
+        "updated_at": "2024-04-23T21:42:06Z"
       }
     },
     "_links": {
@@ -303,7 +303,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 6,
+    "review_comments": 7,
     "comments": 0
   },
   "events": [
@@ -876,6 +876,41 @@
         "name": "New BIP",
         "color": "5319e7"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 2018670045,
+      "node_id": "PRR_kwDOAN28mc54UnXd",
+      "url": null,
+      "actor": null,
+      "commit_id": "5df867cb879ae80cf3f9a7c3dfb6289892760a8a",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "Roasbeef",
+        "id": 998190,
+        "node_id": "MDQ6VXNlcjk5ODE5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roasbeef",
+        "html_url": "https://github.com/Roasbeef",
+        "followers_url": "https://api.github.com/users/Roasbeef/followers",
+        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
+        "repos_url": "https://api.github.com/users/Roasbeef/repos",
+        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1535#pullrequestreview-2018670045",
+      "submitted_at": "2024-04-24T02:08:50Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1535"
     }
   ],
   "comments": [
@@ -1189,6 +1224,58 @@
       "start_side": null,
       "line": 51,
       "original_line": 51,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1577142355",
+      "pull_request_review_id": 2018670045,
+      "id": 1577142355,
+      "node_id": "PRRC_kwDOAN28mc5eAUhT",
+      "diff_hunk": "@@ -0,0 +1,124 @@\n+<pre>\n+  BIP: TBD\n+  Layer: Consensus (soft fork)\n+  Title: CHECKSIGFROMSTACK\n+  Author: Brandon Black <freedom@reardencode.com>\n+  Comments-Summary: No comments yet.\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-12-22\n+  License: PD\n+</pre>\n+\n+==Abstract==\n+\n+This BIP describes two new opcode for the purpose of checking cryptographic\n+signatures in bitcoin scripts against data other than bitcoin transactions.\n+\n+==Summary==\n+\n+We propose replacing OP_NOP5 (0xb4) in bitcoin script with\n+<code>OP_CHECKSIGFROMSTACKVERIFY</code>. When verifying taproot script spends having\n+leaf version 0xc0 (as defined in BIP342), we propose <code>OP_CHECKSIGFROMSTACK</code>\n+to replace <code>OP_SUCCESS204</code> (0xcc).\n+\n+<code>OP_CHECKSIGFROMSTACK</code> and <code>OP_CHECKSIGFROMSTACKVERIFY</code>\n+have semantics similar to <code>OP_CHECKSIG</code> and\n+<code>OP_CHECKSIGVERIFY</code> respectively, as specified below.\n+\n+For legacy and segwit v0 scripts, 32-byte and 33-byte keys are supported for\n+BIP340 signature verification and ECDSA signature verification respectively.\n+\n+==Specification==\n+\n+* If fewer than 3 elements are on the stack, the script MUST fail and terminate immediately.\n+* The public key (top element), message (second to top element), and signature (third from top element) are read from the stack.\n+* For <code>OP_CHECKSIGFROMSTACK</code> the top three elements are popped from the stack.\n+* If the public key size is zero, the script MUST fail and terminate immediately.\n+* If the public key size is 32 bytes, it is considered to be a public key as described in BIP340:\n+** If the signature is not the empty vector, the signature is validated against the public key and message according to BIP340. Validation failure in this case immediately terminates script execution with failure.\n+* For legacy and segwit v0 scripts, if the public key size is 33 bytes and its first byte is 0x02 or 0x03, it is considered a compressed public key as described in BIP137:\n+** If the signature is not the empty vector, the signature is validated against the public key and message using ECDSA. Validation failure in this case immediately terminates script execution with failure.\n+* If the public key size is not zero, and it is not a BIP340 public key, nor a BIP137 compressed public key; the public key is of an unknown public key type, and no actual signature verification is applied. During script execution of signature opcodes they behave exactly as known public key types except that signature validation is considered to be successful.\n+* If the script did not fail and terminate before this step, regardless of the public key type:\n+** If the signature is the empty vector:\n+*** For <code>OP_CHECKSIGFROMSTACKVERIFY</code>, the script MUST fail and terminate immediately.\n+*** For <code>OP_CHECKSIGFROMSTACK</code>, an empty vector is pushed onto the stack, and execution continues with the next opcode.\n+** If the signature is not the empty vector:\n+*** For tapscript 0xc0, the opcode is counted towards the sigops budget as described in BIP341.\n+*** For legacy and segwit v0, the opcode is counted towards the sigops limit, as described in BIP141\n+*** For <code>OP_CHECKSIGFROMSTACKVERIFY</code>, execution continues without any further changes to the stack.\n+*** For <code>OP_CHECKSIGFROMSTACK</code>, a 1-byte value 0x01 is pushed onto the stack.\n+\n+==Design Considerations==\n+\n+# Message hashing: ECDSA requires the message to be securely hashed to 32-bytes before being used in the signing protocol, so a SHA256 hash is taken before the message is passed for ECDSA signing. BIP340 is compatible with any size of message and does not require it to be a securely hashed input, so the message is not hashed prior to BIP340 signing.\n+# Verify NOP upgrade: To bring both ECDSA and BIP340 signing to bitcoin script, a NOP upgrade path was chosen for <code>OP_CHECKSIGFROMSTACKVERIFY</code>. This necessarily means leaving the 3 arguments on the stack when executing <code>OP_CHECKSIGFROMSTACKVERIFY</code>. Scripts will need to drop or otherwise manage these stack elements.\n+# Add/multisig: No concession is made to <code>OP_CHECKMULTISIG</code> or <code>OP_CHECKSIGADD</code> semantics with <code>OP_CHECKSIGFROMSTACK(VERIFY)</code>. In Tapscript, add semantics can be implemented with 1 additional vByte per key (<code>OP_TOALTSTACK OP_CHECKSIGFROMSTACK OP_FROMALTSTACK OP_ADD OP_TOALTSTACK</code>).\n+# Splitting R/S on the stack: Implementing split/separate signatures is left as an exercise for future bitcoin upgrades, such as <code>OP_CAT</code>.\n+# BIP118-style Taproot internal key: Rather than introducing an additional key type in this change, we suggest implementing OP_INTERNALKEY or separately introducing that key type for all Tapscript signature checking operations in a separate change.\n+# Unknown key lengths: The semantics of other signature checking opcodes in their respective script types (legacy, segwit-v0, tapscript-c0) are applied.\n+\n+==Resource Limits==\n+\n+These opcodes are treated identically to other signature checking opcodes and\n+count against the various sigops limits and budgets in their respective script\n+types.\n+\n+==Motivation==\n+\n+===LN Symmetry===\n+\n+When combined with <code>OP_CHECKTEMPLATEVERIFY</code> (BIP119/CTV),\n+<code>OP_CHECKSIGFROMSTACK</code> (CSFS) can be used in Lightning Symmetry channels.\n+The construction <code>OP_CHECKTEMPLATEVERIFY <pubkey> OP_CHECKSIGFROMSTACK</code> is\n+logically equivalent to <code><bip118_pubkey> OP_CHECKSIG</code> and a signature over\n+<code>SIGHASH_ALL|SIGHASH_ANYPREVOUTANYSCRIPT</code>. The <code>OP_CHECKSIGFROMSTACK</code>\n+construction is 8 vBytes larger.\n+\n+===Delegation===\n+\n+Using a script like:\n+<code>OP_DUP <pubkey> OP_CHECKSIGFROMSTACK OP_DROP OP_CHECKSIG</code>\n+A script can delegate signing to another key.\n+\n+==Reference Implementation==\n+\n+A reference implementation is provided in provided here:\n+\n+https://github.com/brandonblack/bitcoin/commit/5aae0503ceab93101c459748347a111e4a4852c4\n+\n+==Backward Compatibility==\n+\n+By constraining the behavior of an OP_SUCCESS opcode and an OP_NOP opcode,\n+deployment of the BIP can be done in a backwards compatible, soft-fork manner.\n+If anyone were to rely on the OP_SUCCESS behavior of\n+<code>OP_SUCCESS204</code>, <code>OP_CHECKSIGFROMSTACK</code> would invalidate\n+their spend.\n+\n+==Deployment==\n+\n+TBD\n+\n+==Credits==\n+\n+Reference implementation was made with reference to the implementation in",
+      "path": "bip-csfs.mediawiki",
+      "position": 105,
+      "original_position": 105,
+      "commit_id": "5df867cb879ae80cf3f9a7c3dfb6289892760a8a",
+      "original_commit_id": "5df867cb879ae80cf3f9a7c3dfb6289892760a8a",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Roasbeef",
+        "id": 998190,
+        "node_id": "MDQ6VXNlcjk5ODE5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roasbeef",
+        "html_url": "https://github.com/Roasbeef",
+        "followers_url": "https://api.github.com/users/Roasbeef/followers",
+        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
+        "repos_url": "https://api.github.com/users/Roasbeef/repos",
+        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Perhaps this should also credit Jeremy (as he made a mailing list post soliciting feedback for a design in 2021), and also the authors of the proposal he directly references in the ML? ",
+      "created_at": "2024-04-24T02:08:50Z",
+      "updated_at": "2024-04-24T02:08:50Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1535#discussion_r1577142355",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1577142355"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1535"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 105,
+      "original_line": 105,
       "side": "RIGHT"
     }
   ]
