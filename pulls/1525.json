@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2023-12-11T23:16:22Z",
-    "updated_at": "2024-04-24T23:00:17Z",
+    "updated_at": "2024-04-25T01:13:03Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "dd9a626bd2dc22a939d10c72387ea0a27ee945c3",
@@ -313,9 +313,9 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5236,
-        "stargazers_count": 8926,
-        "watchers_count": 8926,
-        "size": 14892,
+        "stargazers_count": 8927,
+        "watchers_count": 8927,
+        "size": 14789,
         "default_branch": "master",
         "open_issues_count": 103,
         "is_template": false,
@@ -330,7 +330,7 @@
         "visibility": "public",
         "pushed_at": "2024-04-24T23:23:30Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-04-24T23:21:09Z"
+        "updated_at": "2024-04-25T01:38:50Z"
       }
     },
     "_links": {
@@ -345,7 +345,7 @@
     "changed_files": 1,
     "commits": 39,
     "review_comments": 54,
-    "comments": 19
+    "comments": 20
   },
   "events": [
     {
@@ -1775,7 +1775,7 @@
             "patch_url": "https://github.com/bitcoin-inquisition/bitcoin/pull/39.patch"
           },
           "created_at": "2023-10-24T12:03:49Z",
-          "updated_at": "2024-04-24T16:32:05Z"
+          "updated_at": "2024-04-25T00:44:39Z"
         },
         "type": "issue"
       }
@@ -4537,6 +4537,176 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-04-24T23:00:17Z"
+    },
+    {
+      "event": "commented",
+      "id": 2076127071,
+      "node_id": "IC_kwDOAN28mc57vy9f",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2076127071",
+      "actor": {
+        "login": "weikengchen",
+        "id": 14937807,
+        "node_id": "MDQ6VXNlcjE0OTM3ODA3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14937807?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/weikengchen",
+        "html_url": "https://github.com/weikengchen",
+        "followers_url": "https://api.github.com/users/weikengchen/followers",
+        "following_url": "https://api.github.com/users/weikengchen/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/weikengchen/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/weikengchen/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/weikengchen/subscriptions",
+        "organizations_url": "https://api.github.com/users/weikengchen/orgs",
+        "repos_url": "https://api.github.com/users/weikengchen/repos",
+        "events_url": "https://api.github.com/users/weikengchen/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/weikengchen/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-04-25T01:11:21Z",
+      "updated_at": "2024-04-25T01:13:03Z",
+      "author_association": "NONE",
+      "body": "@delbonis @JeremyRubin Re: OP_LEFT/RIGHT/SUBSTR \r\n\r\nThere are still values in OP_LEFT/RIGHT/SUBSTR. To emulate them with OP_CAT, one needs to provide a hint, and this takes space in the witness stack / input stack. This is inconvenient because the witness stack can have at most 1000 elements. \r\n\r\nIn our practice with Merkle trees for STARK proof verifier that uses OP_CAT, for each layer, we need to provide a sibling element. A standard transaction only prefers binary Merkle tree. And therefore, there are log_{2} n elements that we need to push in the witness stack. (nonstandard transaction is an easier situation, which allows log_{16} n) OP_LEFT/RIGHT/SUBSTR, if together with a nonstandard transaction, can allow one to pack elements compactly to save stack space.\r\n\r\nHere is the related codebase: https://github.com/Bitcoin-Wildlife-Sanctuary/bitcoin-circle-stark?tab=readme-ov-file#performance\r\n\r\nBut I think people can agree that bringing back OP_SUBSTR is enough. This allows us to save other successful opcodes for other purposes.\r\n\r\nThat said, this is not related to the OP_CAT BIP discussion, and may be better discussed in other venues. ",
+      "user": {
+        "login": "weikengchen",
+        "id": 14937807,
+        "node_id": "MDQ6VXNlcjE0OTM3ODA3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14937807?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/weikengchen",
+        "html_url": "https://github.com/weikengchen",
+        "followers_url": "https://api.github.com/users/weikengchen/followers",
+        "following_url": "https://api.github.com/users/weikengchen/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/weikengchen/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/weikengchen/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/weikengchen/subscriptions",
+        "organizations_url": "https://api.github.com/users/weikengchen/orgs",
+        "repos_url": "https://api.github.com/users/weikengchen/repos",
+        "events_url": "https://api.github.com/users/weikengchen/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/weikengchen/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1525#issuecomment-2076127071",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1525"
+    },
+    {
+      "event": "mentioned",
+      "id": 12599788999,
+      "node_id": "MEE_lADOAN28mc55ZYRfzwAAAALvAYXH",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12599788999",
+      "actor": {
+        "login": "JeremyRubin",
+        "id": 886523,
+        "node_id": "MDQ6VXNlcjg4NjUyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/886523?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/JeremyRubin",
+        "html_url": "https://github.com/JeremyRubin",
+        "followers_url": "https://api.github.com/users/JeremyRubin/followers",
+        "following_url": "https://api.github.com/users/JeremyRubin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/JeremyRubin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/JeremyRubin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/JeremyRubin/subscriptions",
+        "organizations_url": "https://api.github.com/users/JeremyRubin/orgs",
+        "repos_url": "https://api.github.com/users/JeremyRubin/repos",
+        "events_url": "https://api.github.com/users/JeremyRubin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/JeremyRubin/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-04-25T01:11:22Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 12599789003,
+      "node_id": "SE_lADOAN28mc55ZYRfzwAAAALvAYXL",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12599789003",
+      "actor": {
+        "login": "JeremyRubin",
+        "id": 886523,
+        "node_id": "MDQ6VXNlcjg4NjUyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/886523?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/JeremyRubin",
+        "html_url": "https://github.com/JeremyRubin",
+        "followers_url": "https://api.github.com/users/JeremyRubin/followers",
+        "following_url": "https://api.github.com/users/JeremyRubin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/JeremyRubin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/JeremyRubin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/JeremyRubin/subscriptions",
+        "organizations_url": "https://api.github.com/users/JeremyRubin/orgs",
+        "repos_url": "https://api.github.com/users/JeremyRubin/repos",
+        "events_url": "https://api.github.com/users/JeremyRubin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/JeremyRubin/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-04-25T01:11:22Z"
+    },
+    {
+      "event": "mentioned",
+      "id": 12599789011,
+      "node_id": "MEE_lADOAN28mc55ZYRfzwAAAALvAYXT",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12599789011",
+      "actor": {
+        "login": "delbonis",
+        "id": 40217761,
+        "node_id": "MDQ6VXNlcjQwMjE3NzYx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/40217761?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/delbonis",
+        "html_url": "https://github.com/delbonis",
+        "followers_url": "https://api.github.com/users/delbonis/followers",
+        "following_url": "https://api.github.com/users/delbonis/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/delbonis/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/delbonis/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/delbonis/subscriptions",
+        "organizations_url": "https://api.github.com/users/delbonis/orgs",
+        "repos_url": "https://api.github.com/users/delbonis/repos",
+        "events_url": "https://api.github.com/users/delbonis/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/delbonis/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-04-25T01:11:22Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 12599789018,
+      "node_id": "SE_lADOAN28mc55ZYRfzwAAAALvAYXa",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12599789018",
+      "actor": {
+        "login": "delbonis",
+        "id": 40217761,
+        "node_id": "MDQ6VXNlcjQwMjE3NzYx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/40217761?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/delbonis",
+        "html_url": "https://github.com/delbonis",
+        "followers_url": "https://api.github.com/users/delbonis/followers",
+        "following_url": "https://api.github.com/users/delbonis/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/delbonis/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/delbonis/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/delbonis/subscriptions",
+        "organizations_url": "https://api.github.com/users/delbonis/orgs",
+        "repos_url": "https://api.github.com/users/delbonis/repos",
+        "events_url": "https://api.github.com/users/delbonis/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/delbonis/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-04-25T01:11:22Z"
     }
   ],
   "comments": [
