@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2023-12-11T23:16:22Z",
-    "updated_at": "2024-04-26T18:43:05Z",
+    "updated_at": "2024-04-26T19:04:05Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "5e192bc8dbc9bd57f59515c62728a8a73f93b37b",
@@ -312,12 +312,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5238,
-        "stargazers_count": 8933,
-        "watchers_count": 8933,
+        "forks_count": 5237,
+        "stargazers_count": 8934,
+        "watchers_count": 8934,
         "size": 14820,
         "default_branch": "master",
-        "open_issues_count": 97,
+        "open_issues_count": 96,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -330,7 +330,7 @@
         "visibility": "public",
         "pushed_at": "2024-04-26T18:02:14Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-04-26T16:58:10Z"
+        "updated_at": "2024-04-26T19:20:38Z"
       }
     },
     "_links": {
@@ -344,7 +344,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 46,
-    "review_comments": 67,
+    "review_comments": 69,
     "comments": 22
   },
   "events": [
@@ -8629,6 +8629,110 @@
       "start_side": null,
       "line": 4,
       "original_line": 4,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1581427395",
+      "pull_request_review_id": 2025695023,
+      "id": 1581427395,
+      "node_id": "PRRC_kwDOAN28mc5eQqrD",
+      "diff_hunk": "@@ -0,0 +1,106 @@\n+<pre>\n+  BIP: 347\n+  Layer: Consensus (soft fork)\n+  Title: OP_CAT\n+  Author: Ethan Heilman <ethan.r.heilman@gmail.com>\n+          Armin Sabouri <arminsdev@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0347\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-10-21\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This BIP introduces OP_CAT as a tapscript opcode which allows the concatenation of two values on the stack. OP_CAT would be activated via a soft fork by redefining the opcode OP_SUCCESS126 (126 in decimal and 0x7e in hexadecimal). This is the same opcode value used by the original OP_CAT.\n+\n+== Copyright ==\n+This document is licensed under the 3-clause BSD license.\n+\n+==Specification==\n+\n+When evaluated the OP_CAT instruction:\n+# Pops the top two values off the stack,\n+# concatenates the popped values together in stack order,\n+# and then pushes the concatenated value on the top of the stack.\n+\n+Given the stack ''<nowiki>[x1, x2]</nowiki>'', where ''x2'' is at the top of the stack, OP_CAT will push ''x1 || x2'' onto the stack. By ''||'' we denote concatenation. OP_CAT fails if there are fewer than two values on the stack or if a concatenated value would have a combined size greater than the maximum script element size of 520 bytes.\n+\n+This opcode would be activated via a soft fork by redefining the tapscript opcode OP_SUCCESS126 (126 in decimal and 0x7e in hexadecimal) to OP_CAT.\n+\n+==Motivation==\n+Bitcoin tapscript lacks a general purpose way of combining objects on the stack restricting the expressiveness and power of tapscript. This prevents among many other things the ability to construct and evaluate merkle trees and other hashed data structures in tapscript. OP_CAT by adding a general purpose way to concatenate stack values would overcome this limitation and greatly increase the functionality of tapscript.\n+\n+OP_CAT aims to expand the toolbox of the tapscript developer with a simple, modular, and useful opcode in the spirit of Unix <ref>R. Pike and B. Kernighan, \"Program design in the UNIX environment\", 1983, https://harmful.cat-v.org/cat-v/unix_prog_design.pdf</ref>. To demonstrate the usefulness of OP_CAT below we provide a non-exhaustive list of some usecases that OP_CAT would enable:\n+\n+* Bitstream, a protocol for the atomic swap (fair exchange) of bitcoins for decryption keys, that enables decentralized file hosting systems paid in Bitcoin. While such swaps are currently possible on Bitcoin without OP_CAT they require the use of complex and computationally expensive Verifiable Computation cryptographic techniques. OP_CAT would remove this requirement on Verifiable Computation, making such protocols far more practical to build in Bitcoin. <ref>R. Linus, \"BitStream: Decentralized File Hosting Incentivised via Bitcoin Payments\", 2023, https://robinlinus.com/bitstream.pdf</ref>\n+* Tree signatures provide a multisignature script whose size can be logarithmic in the number of public keys and can encode spend conditions beyond n-of-m. For instance a transaction less than 1KB in size could support tree signatures with up to 4,294,967,296 public keys. This also enables generalized logical spend conditions. <ref> P. Wuille, \"Multisig on steroids using tree signatures\", 2015, https://blog.blockstream.com/en-treesignatures/</ref>\n+* Post-Quantum Lamport signatures in Bitcoin transactions. Lamport signatures merely require the ability to hash and concatenate values on the stack. <ref>J. Rubin, \"[bitcoin-dev] OP_CAT Makes Bitcoin Quantum Secure [was CheckSigFromStack for Arithmetic Values]\", 2021, https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-July/019233.html</ref> It is an open question if a tapscript commitment would preserve the quantum resistance of Lamport signatures. Beyond this question, the use of Lamport Signatures in taproot outputs is unlikely to be quantum resistant even if the script spend-path is made quantum resistant. This is because taproot outputs can also be spent with a key. An attacker with a sufficiently powerful quantum computer could bypass the taproot script spend-path by finding the discrete log of the taproot output and thus spending the output using the key spend-path. The use of \"Nothing Up My Sleeve\" (NUMS) points as described in [[bip-0341.mediawiki|BIP341]] to disable the key spend-path does not disable the key spend-path against a quantum attacker as NUMS relies on the hardness of finding discrete logs. We are not aware of any mechanism which could disable the key spend-path in a taproot output without a softfork change to taproot.",
+      "path": "bip-0347.mediawiki",
+      "position": 41,
+      "original_position": 39,
+      "commit_id": "dbc612edfa137ce1f1cbcb9d40f58773758315ae",
+      "original_commit_id": "852502b9cf0568dc4c75d93aaaaee3d102002ec7",
+      "in_reply_to_id": 1581197066,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "I see thanks for the explanation. Perhaps another sentence to provide the context of the scenario you are alluding to would help to clarify:\r\n\r\nPerhaps:\r\n```suggestion\r\n* Post-Quantum Lamport signatures in Bitcoin transactions. Lamport signatures merely require the ability to hash and concatenate values on the stack. <ref>J. Rubin, \"[bitcoin-dev] OP_CAT Makes Bitcoin Quantum Secure [was CheckSigFromStack for Arithmetic Values]\", 2021, https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-July/019233.html</ref> It has been proposed that if ECDSA is broken or a powerful computer was on the horizon, there might be an effort to protect ownership of bitcoins by allowing people to mark their taproot outputs as \"script-path only\" and then move their coins into such outputs with a leaf in the script tree requiring a Lamport signature. It is an open question if a tapscript commitment would preserve the quantum resistance of Lamport signatures. Beyond this question, the use of Lamport Signatures in taproot outputs is unlikely to be quantum resistant even if the script spend-path is made quantum resistant. This is because taproot outputs can also be spent with a key. An attacker with a sufficiently powerful quantum computer could bypass the taproot script spend-path by finding the discrete log of the taproot output and thus spending the output using the key spend-path. The use of \"Nothing Up My Sleeve\" (NUMS) points as described in [[bip-0341.mediawiki|BIP341]] to disable the key spend-path does not disable the key spend-path against a quantum attacker as NUMS relies on the hardness of finding discrete logs. We are not aware of any mechanism which could disable the key spend-path in a taproot output without a softfork change to taproot.\r\n```",
+      "created_at": "2024-04-26T19:03:42Z",
+      "updated_at": "2024-04-26T19:03:42Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1525#discussion_r1581427395",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1581427395"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1525"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 41,
+      "original_line": 39,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1581427709",
+      "pull_request_review_id": 2025695523,
+      "id": 1581427709,
+      "node_id": "PRRC_kwDOAN28mc5eQqv9",
+      "diff_hunk": "@@ -0,0 +1,106 @@\n+<pre>\n+  BIP: 347\n+  Layer: Consensus (soft fork)\n+  Title: OP_CAT\n+  Author: Ethan Heilman <ethan.r.heilman@gmail.com>\n+          Armin Sabouri <arminsdev@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0347\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-10-21\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This BIP introduces OP_CAT as a tapscript opcode which allows the concatenation of two values on the stack. OP_CAT would be activated via a soft fork by redefining the opcode OP_SUCCESS126 (126 in decimal and 0x7e in hexadecimal). This is the same opcode value used by the original OP_CAT.\n+\n+== Copyright ==\n+This document is licensed under the 3-clause BSD license.\n+\n+==Specification==\n+\n+When evaluated the OP_CAT instruction:\n+# Pops the top two values off the stack,\n+# concatenates the popped values together in stack order,\n+# and then pushes the concatenated value on the top of the stack.\n+\n+Given the stack ''<nowiki>[x1, x2]</nowiki>'', where ''x2'' is at the top of the stack, OP_CAT will push ''x1 || x2'' onto the stack. By ''||'' we denote concatenation. OP_CAT fails if there are fewer than two values on the stack or if a concatenated value would have a combined size greater than the maximum script element size of 520 bytes.\n+\n+This opcode would be activated via a soft fork by redefining the tapscript opcode OP_SUCCESS126 (126 in decimal and 0x7e in hexadecimal) to OP_CAT.\n+\n+==Motivation==\n+Bitcoin tapscript lacks a general purpose way of combining objects on the stack restricting the expressiveness and power of tapscript. This prevents among many other things the ability to construct and evaluate merkle trees and other hashed data structures in tapscript. OP_CAT by adding a general purpose way to concatenate stack values would overcome this limitation and greatly increase the functionality of tapscript.\n+\n+OP_CAT aims to expand the toolbox of the tapscript developer with a simple, modular, and useful opcode in the spirit of Unix <ref>R. Pike and B. Kernighan, \"Program design in the UNIX environment\", 1983, https://harmful.cat-v.org/cat-v/unix_prog_design.pdf</ref>. To demonstrate the usefulness of OP_CAT below we provide a non-exhaustive list of some usecases that OP_CAT would enable:\n+\n+* Bitstream, a protocol for the atomic swap (fair exchange) of bitcoins for decryption keys, that enables decentralized file hosting systems paid in Bitcoin. While such swaps are currently possible on Bitcoin without OP_CAT they require the use of complex and computationally expensive Verifiable Computation cryptographic techniques. OP_CAT would remove this requirement on Verifiable Computation, making such protocols far more practical to build in Bitcoin. <ref>R. Linus, \"BitStream: Decentralized File Hosting Incentivised via Bitcoin Payments\", 2023, https://robinlinus.com/bitstream.pdf</ref>\n+* Tree signatures provide a multisignature script whose size can be logarithmic in the number of public keys and can encode spend conditions beyond n-of-m. For instance a transaction less than 1KB in size could support tree signatures with up to 4,294,967,296 public keys. This also enables generalized logical spend conditions. <ref> P. Wuille, \"Multisig on steroids using tree signatures\", 2015, https://blog.blockstream.com/en-treesignatures/</ref>\n+* Post-Quantum Lamport signatures in Bitcoin transactions. Lamport signatures merely require the ability to hash and concatenate values on the stack. <ref>J. Rubin, \"[bitcoin-dev] OP_CAT Makes Bitcoin Quantum Secure [was CheckSigFromStack for Arithmetic Values]\", 2021, https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-July/019233.html</ref> It is an open question if a tapscript commitment would preserve the quantum resistance of Lamport signatures. Beyond this question, the use of Lamport Signatures in taproot outputs is unlikely to be quantum resistant even if the script spend-path is made quantum resistant. This is because taproot outputs can also be spent with a key. An attacker with a sufficiently powerful quantum computer could bypass the taproot script spend-path by finding the discrete log of the taproot output and thus spending the output using the key spend-path. The use of \"Nothing Up My Sleeve\" (NUMS) points as described in [[bip-0341.mediawiki|BIP341]] to disable the key spend-path does not disable the key spend-path against a quantum attacker as NUMS relies on the hardness of finding discrete logs. We are not aware of any mechanism which could disable the key spend-path in a taproot output without a softfork change to taproot.",
+      "path": "bip-0347.mediawiki",
+      "position": 41,
+      "original_position": 39,
+      "commit_id": "dbc612edfa137ce1f1cbcb9d40f58773758315ae",
+      "original_commit_id": "852502b9cf0568dc4c75d93aaaaee3d102002ec7",
+      "in_reply_to_id": 1581197066,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Also, if your lines were shorter, it might be easier to see what I added. ;)",
+      "created_at": "2024-04-26T19:04:04Z",
+      "updated_at": "2024-04-26T19:04:05Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1525#discussion_r1581427709",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1581427709"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1525"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 41,
+      "original_line": 39,
       "side": "RIGHT"
     }
   ]
