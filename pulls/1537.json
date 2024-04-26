@@ -40,7 +40,7 @@
     },
     "labels": [],
     "created_at": "2024-01-08T18:10:46Z",
-    "updated_at": "2024-04-26T12:54:14Z",
+    "updated_at": "2024-04-26T13:44:30Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "d3ee31925c65ffd9d4cb48574e1c6c923840cf37",
@@ -147,7 +147,7 @@
         "forks_count": 45,
         "stargazers_count": 141,
         "watchers_count": 141,
-        "size": 13726,
+        "size": 14889,
         "default_branch": "bip-taproot",
         "open_issues_count": 9,
         "is_template": false,
@@ -293,7 +293,7 @@
     "deletions": 3,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 4,
+    "review_comments": 5,
     "comments": 2
   },
   "events": [
@@ -735,14 +735,66 @@
         "type": "User",
         "site_admin": false
       },
-      "body": "These are the terms as I use them. Bitcoin script knows 3 types of pushes:\r\n* The OP_n opcodes (0x4f through 0x60, inclusive)\r\n* The direct pushes (0x01 through 0x4b)\r\n* The OP_PUSHDATA opcodes (0x4c through 0x4e)\r\n\r\nBy \"minimal push\" I understand \"whichever of those 3 types that is applicable and minimal in encoded size\". It happens to be the case that in this context (for pushes of 2 to 40 bytes) the direct push is always the minimal one, that seems like a very indirect way of describing it.",
+      "body": "These are the terms as I use them. Bitcoin script knows 3 types of pushes:\r\n* The OP_n opcodes (0x4f through 0x60, inclusive)\r\n* The direct pushes (0x01 through 0x4b)\r\n* The OP_PUSHDATA opcodes (0x4c through 0x4e)\r\n\r\nBy \"minimal push\" I understand \"whichever of those 3 types that is applicable and minimal in encoded size\". It happens to be the case that in this context (for pushes of 2 to 40 bytes) the direct push is always the minimal one, but that seems like a very indirect way of describing it.\r\n\r\nIt's true that there isn't any well-established terminology for what I call direct pushes here, but given that it's clarified explicitly immediately after, is that an issue?",
       "created_at": "2024-04-26T12:54:14Z",
-      "updated_at": "2024-04-26T12:55:00Z",
+      "updated_at": "2024-04-26T13:08:59Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1537#discussion_r1580996378",
       "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1580996378"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1537"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 86,
+      "original_line": 86,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1581060413",
+      "pull_request_review_id": 2025092519,
+      "id": 1581060413,
+      "node_id": "PRRC_kwDOAN28mc5ePRE9",
+      "diff_hunk": "@@ -83,19 +83,23 @@ If all transactions in a block do not have witness data, the commitment is optio\n \n === Witness program ===\n \n-A <code>scriptPubKey</code> (or <code>redeemScript</code> as defined in BIP16/P2SH) that consists of a select subset of opcodes (<code>OP_0,OP_1,OP_2,...,OP_16</code>) followed by a data push between 2 and 40 bytes gets a new special meaning. The value of the first push is called the \"version byte\". The following byte vector pushed is called the \"witness program\".\n+A <code>scriptPubKey</code> (or <code>redeemScript</code> as defined in BIP16/P2SH) that consists of a 1-byte push opcode (one of <code>OP_0,OP_1,OP_2,...,OP_16</code>) followed by a direct data push between 2 and 40 bytes gets a new special meaning. The value of the first push is called the \"version byte\". The following byte vector pushed is called the \"witness program\".",
+      "path": "bip-0141.mediawiki",
+      "position": 5,
+      "original_position": 5,
+      "commit_id": "50e750a882f525cc9a297b75ca35682f3deb1f95",
+      "original_commit_id": "50e750a882f525cc9a297b75ca35682f3deb1f95",
+      "in_reply_to_id": 1580966969,
+      "user": {
+        "login": "vostrnad",
+        "id": 43024885,
+        "node_id": "MDQ6VXNlcjQzMDI0ODg1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/43024885?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/vostrnad",
+        "html_url": "https://github.com/vostrnad",
+        "followers_url": "https://api.github.com/users/vostrnad/followers",
+        "following_url": "https://api.github.com/users/vostrnad/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/vostrnad/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/vostrnad/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/vostrnad/subscriptions",
+        "organizations_url": "https://api.github.com/users/vostrnad/orgs",
+        "repos_url": "https://api.github.com/users/vostrnad/repos",
+        "events_url": "https://api.github.com/users/vostrnad/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/vostrnad/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Thank you for the clarification, the word \"direct\" makes complete sense now.",
+      "created_at": "2024-04-26T13:44:30Z",
+      "updated_at": "2024-04-26T13:44:30Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1537#discussion_r1581060413",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1581060413"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1537"
