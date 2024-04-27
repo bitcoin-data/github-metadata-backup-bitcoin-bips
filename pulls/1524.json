@@ -41,10 +41,10 @@
     "body": "Opening to allow discussion on the text separately from the Bitcoin Core implementation here https://github.com/bitcoin/bitcoin/pull/29001\r\n\r\nExample usage:\r\nhttps://github.com/instagibbs/bolts/commits/zero_fee_commitment\r\nhttps://github.com/instagibbs/lightning/commits/commit_zero_fees",
     "labels": [],
     "created_at": "2023-12-10T19:56:50Z",
-    "updated_at": "2024-04-26T22:18:11Z",
+    "updated_at": "2024-04-27T01:15:26Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "32377ea70d76993407848795677dc865ecade6e9",
+    "merge_commit_sha": "1d14c24a550e7a404070ea330c0a24eb29198098",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -267,7 +267,7 @@
         "watchers_count": 8935,
         "size": 14899,
         "default_branch": "master",
-        "open_issues_count": 86,
+        "open_issues_count": 84,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-26T22:09:06Z",
+        "pushed_at": "2024-04-27T01:26:52Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-04-26T22:09:06Z"
+        "updated_at": "2024-04-27T01:26:58Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 3,
-    "review_comments": 6,
+    "review_comments": 7,
     "comments": 11
   },
   "events": [
@@ -1802,6 +1802,41 @@
       "submitted_at": "2024-04-26T22:18:11Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1524"
+    },
+    {
+      "event": "reviewed",
+      "id": 2026110328,
+      "node_id": "PRR_kwDOAN28mc54w_14",
+      "url": null,
+      "actor": null,
+      "commit_id": "527b007dbf5b9a89895017030183370e05468ae6",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1524#pullrequestreview-2026110328",
+      "submitted_at": "2024-04-27T01:15:26Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1524"
     }
   ],
   "comments": [
@@ -2115,6 +2150,58 @@
       "start_side": null,
       "line": 3,
       "original_line": 3,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1581692363",
+      "pull_request_review_id": 2026110328,
+      "id": 1581692363,
+      "node_id": "PRRC_kwDOAN28mc5eRrXL",
+      "diff_hunk": "@@ -0,0 +1,160 @@\n+<pre>\n+  BIP: ?\n+  Layer: Mempool Policy\n+  Title: Ephemeral Anchors\n+  Author: Gregory Sanders <gsanders87@gmail.com>\n+  Status: Draft\n+  License: BSD-3-Clause\n+  Type: Standards Track\n+  Created: 2023-01-11\n+</pre>\n+\n+==Introduction==\n+\n+===Abstract===\n+\n+Ephemeral Anchors are a mempool policy carve-out that allows any value utxos,\n+even 0-value dust, to be created, provided it is also consumed within the same\n+mempool package. This ephemeral anchor is a \"mutex lock\" for the transaction,\n+allowing for robust fee bumping by wallets, not requiring any special key material\n+to do so, and avoiding all known transaction pinning vectors.\n+\n+===Motivation===\n+\n+One definition of transaction pinning is the intentional or unintentional blocking\n+of a getting a transaction mined that would otherwise be rational for the miner\n+to include in the next block without the attacker paying anything in many cases.\n+This can result in wallets simply not supporting fee bumping due to complexity,\n+or in certain smart contract cases such as Hash Time Locked Contracts, outright theft.\n+\n+[https://github.com/bitcoin/bitcoin/pull/28948 V3] transactions, which this proposal is built on, greatly mitigates [https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki BIP125]\n+pinning vectors, where an adversary can vastly increase the required fees to replace a\n+transaction that will not be mined quickly, or disallow replacement altogether.\n+Depending on certain factors, this economic value can reach over 500 times increase\n+in required fees to replace the attacker's transaction. V3 transactions end\n+up reducing this attack surface by 100 times, resulting in 5 times increase in fees\n+using the same running example. This policy can be thought of as a \"RBF carve-out\".\n+\n+The major pinning vector left is \"package limit pinning\", where a counterparty\n+either maliciously or accidentally pins a transaction by exhausting the maximum\n+descendant limit of a transaction package using their own outputs, and is unwilling\n+or unable to get the package mined. This leaves the honest user unable to spend their\n+own outputs in the transaction package, as there is no RBF rule in place for evicting\n+\"sibling\" output spends from the same parent transaction.\n+\n+One existing mitigation for this issue is the [https://github.com/bitcoin/bitcoin/pull/15681 CPFP carve out], which allows\n+a \"one more\" policy these limits, given some restrictions. This carve-out only works for\n+transactions with up to two immediately-spendable outputs. This leaves a lot to be\n+desired:\n+\n+* It does not solve many-party contract pinning, such as a three-party payment channel\n+* It does not solve batched payments pinning if the service is unable to double-spend its own inputs. For example, an exchange may require strict separation between client funds and fee funds for security reasons.\n+* In two-party smart contracts, all but two outputs must be relative-timelocked, which interferes with tooling such as [https://bitcoin.sipa.be/miniscript/ Miniscript] and smart contract composition such as making an output that is directly deposited into another smart contract or any wallet with standard address types.\n+* Perhaps most importantly, it is incompatible with future improvements to the mempool, particularly [https://github.com/bitcoin/bitcoin/issues/27677 Cluster Mempools].\n+\n+This proposal gives a standard way to create a 0-fee \"parent\" transaction\n+which can be fee-bumped by any wallet by introducing a special 0-value anchor output\n+which MUST be spent within the same relay package.\n+\n+===Implications===\n+\n+In conjunction with V3 rules of a transaction having up to one child,\n+if a \"parent\" transaction has an ephemeral anchor, any spend of that parent transaction's\n+outputs must also include the ephemeral anchor spend in the same transaction, meaning it can\n+be double-spent by any other party via existing RBF rules. This \"mutex lock\" supersedes\n+the LN-focused CPFP carve-out, neatly solving the remaining issues with multiparty constructs and Miniscript\n+compatibility.\n+\n+===Expected Use Cases===\n+\n+* Batched payments with segregated fee pools: Batched payments that can be fee bumped without access to customer deposit related key material\n+* Simplified watchtowers: No requirement for watchtowers to be registered with privileged key material\n+* Payment accelerators: Users can submit transactions to transaction accelerators, who can fee bump using their own infrastructure\n+* Multiparty smart contracts: LN BOLTs can be revamped to remove `1 CSV` and value-sapping anchors.\n+* [https://bitcoin.stackexchange.com/questions/100537/what-is-spacechain Spacechains]\n+\n+===Unsolved Pinning Scenarios===\n+\n+One major class of pinning vectors yet unsolved is when the pre-signed transaction uses\n+SIGHASH_ANYONECANPAY. This mode should be avoided as a pinning DoS is trivial.\n+\n+Second is any other transaction type such as coinjoins, where the wallet user doesn't\n+have \"veto\" power over all inputs in the transaction. A counterparty can double-spend\n+their inputs, and this can still result in a variety of pinning vectors, albeit\n+perhaps reduced in severity or chance of success.\n+\n+===Related Work===\n+\n+[https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-January/021334.html SIGHASH_GROUP] style proposals are an alternative method of bringing funds to a transaction without involving CPFP by enacting a softfork. Making these pin-resistant may require follow-on policy work, or [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-May/020458.html more general covenants] to directly stop pins we want to avoid. The drawbacks of these are the necessity of a softfork and all that entails.\n+\n+[https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2020-September/018168.html Transaction Sponsors] is a softfork proposal to allow transactions to\n+indirectly sponsor transactions with no explicit relationship in the classical utxo\n+model. Ephemeral Anchors can be viewed as a type of opt-in transaction sponsors implemented\n+purely in policy.\n+\n+Using a 0-value CPFP anchor is not a new idea, see:\n+\n+* [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2018-May/015931.html LN-dev discussion on 0-value anchors]\n+\n+The discussion lacked a solution to the issue of the dust entering into the utxo set\n+causing negative externalities, and also was more weakly motivated by not solving package limit pinning.\n+Repackaging the idea within the context of ancestor package relay and in light of the latest transaction pinning\n+research, we can mitigate the negative externalities while solving substantial problems.\n+\n+==Definitions==\n+\n+Ephemeral anchor: An output with the scriptPubKey of exactly <code>OP_1 <0x4e73></code>, which is a non-taproot witness v1 script.\n+\n+Ephemeral anchor transaction: A transaction that has an ephemeral anchor\n+\n+==Specification==\n+\n+A new output script type is made policy standard to spend, known as an ephemeral anchor.\n+\n+Ephemeral anchors of any satoshi value are standard for relay.\n+\n+When received by a peer for inclusion to the mempool an ephemeral anchors transaction MUST:\n+\n+* Be an otherwise valid V3 transaction\n+* Be 0-fee\n+* Have only one ephemeral anchor\n+* Have the ephemeral anchor spent in the same ancestor relay package\n+\n+or will be rejected by policy. All other policy checks are left in place.\n+If included in an otherwise valid block, these additional constraints do not apply\n+as this is a policy-only change.\n+\n+It is recommended that miners should not mine ephemeral anchor transactions\n+without also mining the spend in the same block. This means miners should not\n+prioritise transactions that create ephemeral anchors but instead should just prioritise the spend;\n+mining software is encouraged to enforce that limitation.\n+\n+No witness data for ephemeral anchors spends should be allowed, to preclude witness\n+stuffing.\n+\n+== Backward compatibility ==\n+\n+Ephemeral anchor spends were previously non-standard, so there are no known conflicts\n+with previous usage.\n+\n+==Implementation==\n+\n+https://github.com/bitcoin/bitcoin/pull/29001\n+\n+==Acknowledgements==\n+\n+Thank you to all those listed for foundational work\n+and insightful feedback(in last name order):\n+\n+* Richard Meyers",
+      "path": "bip-ephemeralanchors.mediawiki",
+      "position": 149,
+      "original_position": 149,
+      "commit_id": "527b007dbf5b9a89895017030183370e05468ae6",
+      "original_commit_id": "527b007dbf5b9a89895017030183370e05468ae6",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "(if this refers to `https://twitter.com/remyers_`)\r\n\r\n```suggestion\r\n* Richard Myers\r\n```\r\n",
+      "created_at": "2024-04-27T01:15:26Z",
+      "updated_at": "2024-04-27T01:17:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1524#discussion_r1581692363",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1581692363"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1524"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 149,
+      "original_line": 149,
       "side": "RIGHT"
     }
   ]
