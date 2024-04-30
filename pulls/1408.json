@@ -41,10 +41,10 @@
     "body": "Ordinal numbers are serial numbers for sats, assigned when mined and preserved across transactions.\r\n\r\nI originally posted an earlier draft of the BIP to [bitcoin-dev](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-February/019975.html) in February of last year.\r\n\r\nWe've implemented a wallet and block explorer, with public instances on [mainnet](http://ordinals.com/), [signet](http://signet.ordinals.com/), and [testnet](https://testnet.ordinals.com), and a [wallet](https://github.com/casey/ord) that uses sat control to ensure specific sats are transferred to specific outputs. Constructing such transactions is tricky, especially given the dust limit and doing proper fee estimation, but once you get the details right it works well, and the fact that such transactions are otherwise normal Bitcoin transactions means that existing bitcoin infrastructure can be leveraged.\r\n\r\nSince we've been using ordinal numbers in production and getting some users of the software it seemed appropriate to request a BIP number.\r\n\r\nI've never applied for a BIP number before, so definitely let me know if anything should be changed or can be improved!",
     "labels": [],
     "created_at": "2023-01-20T23:46:13Z",
-    "updated_at": "2024-04-25T08:45:01Z",
+    "updated_at": "2024-04-30T22:41:35Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "77a94bbba52b2317d9959e3c4feb845635a50453",
+    "merge_commit_sha": "5e96feee025ab206720e09742f60f59a2bd26c79",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -263,11 +263,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5236,
-        "stargazers_count": 8929,
-        "watchers_count": 8929,
-        "size": 14789,
+        "stargazers_count": 8943,
+        "watchers_count": 8943,
+        "size": 14950,
         "default_branch": "master",
-        "open_issues_count": 103,
+        "open_issues_count": 75,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-25T05:17:45Z",
+        "pushed_at": "2024-04-30T21:56:15Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-04-25T03:46:17Z"
+        "updated_at": "2024-04-30T21:15:03Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 9,
-    "review_comments": 46,
+    "review_comments": 47,
     "comments": 112
   },
   "events": [
@@ -10970,6 +10970,42 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1408#issuecomment-2076677966",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1408"
+    },
+    {
+      "event": "reviewed",
+      "id": 2032673111,
+      "node_id": "PRR_kwDOAN28mc55KCFX",
+      "url": null,
+      "actor": null,
+      "commit_id": "bda5cc7c6f65bb4c74de0a3e7e660cbe61cea8a8",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "My current understanding of the BIP editor role is to dispassionately apply the rules and process, leaving aside personal opinion with respect to the proposals. \r\n\r\nAccording to BIP2:\r\n\r\n*We intend BIPs to be the primary mechanisms for proposing new features, for collecting community input on an issue, and for documenting the design decisions that have gone into Bitcoin. The BIP author is responsible for building consensus within the community.*\r\n\r\nMy initial read is that I'm unsure if this proposal fits the above (I could be wrong). As for \"building consensus within the community,\" it seems controversial.",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1408#pullrequestreview-2032673111",
+      "submitted_at": "2024-04-30T22:33:05Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1408"
     }
   ],
   "comments": [
@@ -12998,6 +13034,58 @@
       "start_side": "RIGHT",
       "line": 273,
       "original_line": 273,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1585606683",
+      "pull_request_review_id": 2032673111,
+      "id": 1585606683,
+      "node_id": "PRRC_kwDOAN28mc5egnAb",
+      "diff_hunk": "@@ -0,0 +1,289 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Ordinal Numbers\n+  Author: Casey Rodarmor <casey@rodarmor.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/ordinals/ord/discussions/126\n+  Status: Draft\n+  Type: Informational",
+      "path": "bip-0000.mediawiki",
+      "position": 9,
+      "original_position": 9,
+      "commit_id": "bda5cc7c6f65bb4c74de0a3e7e660cbe61cea8a8",
+      "original_commit_id": "bda5cc7c6f65bb4c74de0a3e7e660cbe61cea8a8",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "It's not clear to me which BIP type this draft would correspond to WRT BIP2. An Informational BIP does not propose a new feature. Nor does this seem to fit the criteria for a Standards Track BIP or a Process BIP.",
+      "created_at": "2024-04-30T22:21:31Z",
+      "updated_at": "2024-04-30T22:33:05Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1408#discussion_r1585606683",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1585606683"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1408"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 9,
+      "original_line": 9,
       "side": "RIGHT"
     }
   ]
