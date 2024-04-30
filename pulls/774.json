@@ -50,12 +50,14 @@
       }
     ],
     "created_at": "2019-03-28T16:20:30Z",
-    "updated_at": "2023-05-08T08:18:32Z",
-    "mergeable_state": "unknown",
-    "merge_commit_sha": "8f6f92e15eabe175620ac133a9efded92d9a76b2",
+    "updated_at": "2024-04-30T19:51:57Z",
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "merge_commit_sha": "d77b9261d39214cc43fdd2884e1e6b2285edb36b",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
+    "rebaseable": false,
     "head": {
       "label": "simondev1:master",
       "ref": "master",
@@ -269,12 +271,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5236,
+        "stargazers_count": 8943,
+        "watchers_count": 8943,
+        "size": 14882,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 80,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -285,9 +287,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2024-04-30T18:51:45Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2024-04-30T18:51:45Z"
       }
     },
     "_links": {
@@ -301,7 +303,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 43,
-    "review_comments": 3,
+    "review_comments": 7,
     "comments": 16
   },
   "events": [
@@ -2989,6 +2991,42 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/774#issuecomment-1422877713",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/774"
+    },
+    {
+      "event": "reviewed",
+      "id": 2032321312,
+      "node_id": "PRR_kwDOAN28mc55IsMg",
+      "url": null,
+      "actor": null,
+      "commit_id": "4ae17d530e71a37622f15e964e006ca137a1ff07",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "Hello Simon,\r\n\r\nat this time your draft does not meet the requirements for a BIP. In my review I noticed that the document does not fulfill the standards described in BIP2, e.g. some headers in the preamble and relevant sections are missing, and the content falls short of fully communicating the solution and addressed issue.\r\n\r\nIf you are still working on this, I would recommend substantially expanding the explanation of your idea. Possibly a more comprehensive description to the mailing list could garner interest of potential collaborators.\r\n\r\nIf this submission is no longer being worked on, or substantial improvements are not to be expected, I would recommending closing this PR, as I do not anticipate the proposal being issued a number or merged in its current state.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/774#pullrequestreview-2032321312",
+      "submitted_at": "2024-04-30T19:51:57Z",
+      "state": "CHANGES_REQUESTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/774"
     }
   ],
   "comments": [
@@ -3094,6 +3132,214 @@
       "start_side": null,
       "line": 423,
       "original_line": 419,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1585398880",
+      "pull_request_review_id": 2032321312,
+      "id": 1585398880,
+      "node_id": "PRRC_kwDOAN28mc5ef0Rg",
+      "diff_hunk": "@@ -0,0 +1,449 @@\n+<pre>\n+  BIP: ???\n+  Layer: Consensus (soft / hard fork)\n+  Title: Logarithm of transaction fee limits block size. Game theoretic scaling on chain.\n+  Author: Simon Cavegn <random@gmx.ch>\n+  Comments-Summary: None\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2019-03-28\n+</pre>\n+\n+==Abstract==\n+\n+Logarithm of transaction fee limits block size.\n+\n+If a sender is willing to pay a large fee, then a transaction may be allowed in a block even if blocksize for lower fee-transactions is full. Yet the blocksize is limited harshly by a formula.",
+      "path": "bip-XXXX.mediawiki",
+      "position": 17,
+      "original_position": 17,
+      "commit_id": "4ae17d530e71a37622f15e964e006ca137a1ff07",
+      "original_commit_id": "4ae17d530e71a37622f15e964e006ca137a1ff07",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "The abstract is concise, but does not sufficiently describe either the solution or the technical issue being addressed.",
+      "created_at": "2024-04-30T19:19:47Z",
+      "updated_at": "2024-04-30T19:51:57Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/774#discussion_r1585398880",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1585398880"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/774"
+        }
+      },
+      "start_line": 15,
+      "original_start_line": 15,
+      "start_side": "RIGHT",
+      "line": 17,
+      "original_line": 17,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1585402657",
+      "pull_request_review_id": 2032321312,
+      "id": 1585402657,
+      "node_id": "PRRC_kwDOAN28mc5ef1Mh",
+      "diff_hunk": "@@ -0,0 +1,449 @@\n+<pre>\n+  BIP: ???\n+  Layer: Consensus (soft / hard fork)\n+  Title: Logarithm of transaction fee limits block size. Game theoretic scaling on chain.\n+  Author: Simon Cavegn <random@gmx.ch>\n+  Comments-Summary: None\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2019-03-28\n+</pre>\n+\n+==Abstract==\n+\n+Logarithm of transaction fee limits block size.\n+\n+If a sender is willing to pay a large fee, then a transaction may be allowed in a block even if blocksize for lower fee-transactions is full. Yet the blocksize is limited harshly by a formula.\n+\n+==Motivation==\n+\n+# Keep block space small.\n+# Waste less with spam transactions.\n+# Auto balance Fees: Increase very low fees, Descrease very high fees.\n+# Allow larger size when sender pays a lot.\n+# Allow wallets to calculate/display how much average free block space there is for each fee price bucket.\n+# Allow senders to have more control about how the fee/priority of their transaction will behave, especially in the case of increased adoption in the future.",
+      "path": "bip-XXXX.mediawiki",
+      "position": 26,
+      "original_position": 26,
+      "commit_id": "4ae17d530e71a37622f15e964e006ca137a1ff07",
+      "original_commit_id": "4ae17d530e71a37622f15e964e006ca137a1ff07",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "The motivation falls short in describing what inadequacies of the existing protocol are being addressed by this BIP.",
+      "created_at": "2024-04-30T19:21:06Z",
+      "updated_at": "2024-04-30T19:51:57Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/774#discussion_r1585402657",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1585402657"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/774"
+        }
+      },
+      "start_line": 21,
+      "original_start_line": 21,
+      "start_side": "RIGHT",
+      "line": 26,
+      "original_line": 26,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1585407849",
+      "pull_request_review_id": 2032321312,
+      "id": 1585407849,
+      "node_id": "PRRC_kwDOAN28mc5ef2dp",
+      "diff_hunk": "@@ -0,0 +1,449 @@\n+<pre>\n+  BIP: ???\n+  Layer: Consensus (soft / hard fork)\n+  Title: Logarithm of transaction fee limits block size. Game theoretic scaling on chain.\n+  Author: Simon Cavegn <random@gmx.ch>\n+  Comments-Summary: None\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2019-03-28\n+</pre>\n+\n+==Abstract==\n+\n+Logarithm of transaction fee limits block size.\n+\n+If a sender is willing to pay a large fee, then a transaction may be allowed in a block even if blocksize for lower fee-transactions is full. Yet the blocksize is limited harshly by a formula.\n+\n+==Motivation==\n+\n+# Keep block space small.\n+# Waste less with spam transactions.\n+# Auto balance Fees: Increase very low fees, Descrease very high fees.\n+# Allow larger size when sender pays a lot.\n+# Allow wallets to calculate/display how much average free block space there is for each fee price bucket.\n+# Allow senders to have more control about how the fee/priority of their transaction will behave, especially in the case of increased adoption in the future.\n+\n+==Specification==\n+\n+Every transaction has to fit into the following block space:",
+      "path": "bip-XXXX.mediawiki",
+      "position": 30,
+      "original_position": 30,
+      "commit_id": "4ae17d530e71a37622f15e964e006ca137a1ff07",
+      "original_commit_id": "4ae17d530e71a37622f15e964e006ca137a1ff07",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Please describe in detail the syntax and semantics of your proposal.",
+      "created_at": "2024-04-30T19:22:42Z",
+      "updated_at": "2024-04-30T19:51:57Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/774#discussion_r1585407849",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1585407849"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/774"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 30,
+      "original_line": 30,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1585413241",
+      "pull_request_review_id": 2032321312,
+      "id": 1585413241,
+      "node_id": "PRRC_kwDOAN28mc5ef3x5",
+      "diff_hunk": "@@ -0,0 +1,449 @@\n+<pre>\n+  BIP: ???\n+  Layer: Consensus (soft / hard fork)\n+  Title: Logarithm of transaction fee limits block size. Game theoretic scaling on chain.\n+  Author: Simon Cavegn <random@gmx.ch>\n+  Comments-Summary: None\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2019-03-28\n+</pre>\n+\n+==Abstract==\n+\n+Logarithm of transaction fee limits block size.\n+\n+If a sender is willing to pay a large fee, then a transaction may be allowed in a block even if blocksize for lower fee-transactions is full. Yet the blocksize is limited harshly by a formula.\n+\n+==Motivation==\n+\n+# Keep block space small.\n+# Waste less with spam transactions.\n+# Auto balance Fees: Increase very low fees, Descrease very high fees.\n+# Allow larger size when sender pays a lot.\n+# Allow wallets to calculate/display how much average free block space there is for each fee price bucket.\n+# Allow senders to have more control about how the fee/priority of their transaction will behave, especially in the case of increased adoption in the future.\n+\n+==Specification==\n+\n+Every transaction has to fit into the following block space:\n+    Input variable 'transactionFee':\n+      type: integer\n+      unit: Satoshi\n+    Input variable 'transactionSize':\n+      type: integer\n+      unit: bytes",
+      "path": "bip-XXXX.mediawiki",
+      "position": 36,
+      "original_position": 36,
+      "commit_id": "4ae17d530e71a37622f15e964e006ca137a1ff07",
+      "original_commit_id": "4ae17d530e71a37622f15e964e006ca137a1ff07",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Transaction size was retired as a limit to blocks with the activation of segwit. Transactions today are limited by weight. Please update your proposal to clarify which properties of transactions are relevant to your proposal.",
+      "created_at": "2024-04-30T19:24:29Z",
+      "updated_at": "2024-04-30T19:51:57Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/774#discussion_r1585413241",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1585413241"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/774"
+        }
+      },
+      "start_line": 34,
+      "original_start_line": 34,
+      "start_side": "RIGHT",
+      "line": 36,
+      "original_line": 36,
       "side": "RIGHT"
     }
   ]
