@@ -50,10 +50,10 @@
       }
     ],
     "created_at": "2023-08-12T21:10:05Z",
-    "updated_at": "2024-03-27T03:45:55Z",
+    "updated_at": "2024-05-01T18:50:10Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "a1906eee57f98bf5a9b13131aa2cce30aa546ed0",
+    "merge_commit_sha": "63fa02b885f750866f91265fe4312b7dc148d367",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -156,7 +156,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 14152,
+        "size": 14146,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -270,12 +270,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5210,
-        "stargazers_count": 8835,
-        "watchers_count": 8835,
-        "size": 14123,
+        "forks_count": 5237,
+        "stargazers_count": 8944,
+        "watchers_count": 8944,
+        "size": 14955,
         "default_branch": "master",
-        "open_issues_count": 144,
+        "open_issues_count": 71,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -286,9 +286,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-03-27T03:45:55Z",
+        "pushed_at": "2024-05-01T15:21:19Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-03-26T03:17:44Z"
+        "updated_at": "2024-05-01T17:02:20Z"
       }
     },
     "_links": {
@@ -303,7 +303,7 @@
     "changed_files": 1,
     "commits": 12,
     "review_comments": 0,
-    "comments": 1
+    "comments": 2
   },
   "events": [
     {
@@ -908,7 +908,7 @@
           "number": 445,
           "state": "open",
           "state_reason": null,
-          "title": "Add Payjoin Server",
+          "title": "feat: receive payjoin",
           "body": "This is my hacking around trying to copy `admin` mod into a `payjoin` server that could trigger payouts when it senses a payjoin incoming. It does not build yet.\r\n\r\nI'm going to have to link Bria & Payjoin services because payjoin needs utxos and access to a wallet. I think it makes sense for `bria` to be a dependency of the `payjoin` service that hosts the endpoint rather than vice-versa and I'll be digging into it to find out.\r\n\r\nTotally possible I'm going down the wrong path, but I figure I've got to start somewhere to get a server running based on our conversation in #266",
           "user": {
             "login": "DanGould",
@@ -942,7 +942,7 @@
             "patch_url": "https://github.com/GaloyMoney/bria/pull/445.patch"
           },
           "created_at": "2024-01-07T18:18:59Z",
-          "updated_at": "2024-02-28T16:11:12Z"
+          "updated_at": "2024-04-03T00:23:12Z"
         },
         "type": "issue"
       }
@@ -1148,8 +1148,8 @@
           "number": 257,
           "state": "open",
           "state_reason": null,
-          "title": "WIP Payjoin integration",
-          "body": "The main goal of this pull request is to allow users to create channel with funds outside the node.\r\n\r\nFlow that should be covered:\r\n1) Alice run Node A enabling \"payjoin\" and acting as a \"payjoin receiver\"\r\n2) Alice generates payjoin uri\r\n3) Alice receives a request for payjoin payment from Charlie\r\n4) Alice want to use the funds from the payjoin payment to open a channel with a single transaction.\r\n5) Alice negotiates channel opening with Bob(using the psbt it received in step 3)\r\n6) Alice get `FundingSigned` from Bob\r\n7) Alice send the finalized psbt to Charlie\r\n8) Charlie broadcast the tx\r\n\r\n** This PR should cover Alice part **\r\n\r\nThere are few tricky points, mainly around 6 and 7. Currently transactions are immediately  broadcasted after `FundingSigned`, that wont work with payjoin because the transaction wont be valid.\r\n\r\nThe channel opened is Outbound channel from Alice -> Bob but it will be broadcasted by Charlie, so we need to add some functionality to let Alice node know that its an Outbound channel. \r\n\r\nsome reference for payjoin integration with lnd \r\nhttps://github.com/payjoin/nolooking",
+          "title": "Payjoin integration",
+          "body": "**April 18 Update:**\r\n\r\n This pull request adds two new features:\r\n 1) Allowing the node to accept payjoin transactions to its bitcoin wallet.\r\n 2) Allowing the node to open a channel from funds received in a  payjoin transaction, saving the user an additional on-chain transaction.\r\n\r\n* The first 3 commits are about adding the new `lightning_payjoin` crate and will be moved to a different repo once the code is approved. \r\n\r\n* Added new crate `lightning_payjoin` responsible for gluing together  `ldk-node` and `rust-payjoin` . The library exports a `Receiver` trait and a `LightningPayjoin` struct which gives the ability to handle payjoin transactions.\r\nThe main code is basically living in this crate including the code for accepting normal payjoin transactions, handling lightning channel opening from payjoin transaction, validating transactions and other http stuff.\r\n\r\n* The current flow for opening a channel with payjoin transaction:\r\n  1. Node runner calls `open_payjoin_channel` function\r\n     `open_payjoin_channel` will:\r\n     1.1 Add new channel to scheduler\r\n     1.2 The channel manager will open a new channel and stop after `ChannelAccepted` msg because its part of the    `ChannelScheduler`\r\n     1.3 Function will return BIP21 for the user to pay\r\n   2. Node runner  scan BIP21 with a wallet supporting payjoin\r\n   3. Node will accept the payment on the `payjoin_server_port` its listening on\r\n   4. Look for scheduled channel from `ChannelScheduler` and change the `output_script` to the funding tx multisig\r\n   5. Call `channel_manager.funding_generation_ready`\r\n   6. Return response to payjoin sender after `FundingSigned` received from counterparty node\r\n\r\n  We could change the order so when the user calls `open_payjoin_channel` its only adding a new channel to the `ChannelScheduler` and when the payments comes in we could start the channel opening and finalize it before we return a response. It would require exposing a bit more functionality to the `PayjoinHandler` like `PeerManager` and probably the `Logger`.  there will be some duplicate code if we change it as the channel opening defined in `lib` would also be in `payjoin_handler`. I dont have a strong feeling about either.\r\n\r\n* The current implementation is following Payjoin V1 which requires the receiver to run an http server where in Payjoin V2 its possible to only have an http client. IMO its worth first supporting v1 as thats whats currently widely used by wallets and using v2 now could limit the usage of this feature. as all of the http code is setting in `lightning-payjoin` I think its a good choice for now to go with v1.\r\n\r\n-----\r\nOriginal\r\n\r\nThe main goal of this pull request is to allow users to create channel with funds outside the node.\r\n\r\nFlow that should be covered:\r\n1) Alice run Node A enabling \"payjoin\" and acting as a \"payjoin receiver\"\r\n2) Alice generates payjoin uri\r\n3) Alice receives a request for payjoin payment from Charlie\r\n4) Alice want to use the funds from the payjoin payment to open a channel with a single transaction.\r\n5) Alice negotiates channel opening with Bob(using the psbt it received in step 3)\r\n6) Alice get `FundingSigned` from Bob\r\n7) Alice send the finalized psbt to Charlie\r\n8) Charlie broadcast the tx\r\n\r\n** This PR should cover Alice part **\r\n\r\nThere are few tricky points, mainly around 6 and 7. Currently transactions are immediately  broadcasted after `FundingSigned`, that wont work with payjoin because the transaction wont be valid.\r\n\r\nThe channel opened is Outbound channel from Alice -> Bob but it will be broadcasted by Charlie, so we need to add some functionality to let Alice node know that its an Outbound channel. \r\n\r\nsome reference for payjoin integration with lnd \r\nhttps://github.com/payjoin/nolooking",
           "user": {
             "login": "jbesraa",
             "id": 21229375,
@@ -1182,7 +1182,7 @@
             "patch_url": "https://github.com/lightningdevkit/ldk-node/pull/257.patch"
           },
           "created_at": "2024-02-21T17:46:39Z",
-          "updated_at": "2024-03-04T19:46:54Z"
+          "updated_at": "2024-04-22T14:21:32Z"
         },
         "type": "issue"
       }
@@ -1699,7 +1699,7 @@
           "state": "open",
           "state_reason": null,
           "title": "Stabilize Payjoin V2 Implementation for `payjoin-cli` Beta",
-          "body": "Payjoin v2 [BIP 77 spec](https://github.com/bitcoin/bips/pull/1483) employs [RFC 9180 Hybrid Public Key Encryption](https://www.rfc-editor.org/rfc/rfc9180.html) (HPKE) for both Oblivious HTTP and end-to-end authenticated encryption between senders and receivers.\r\n\r\nThe BIP specified cryptographic dependencies are [secp256k1-based DHKEM for HPKE](https://www.ietf.org/archive/id/draft-wahby-cfrg-hpke-kem-secp256k1-01.html), [RFC 8439 ChaCha20Poly1305 AEAD](https://www.rfc-editor.org/rfc/rfc8439], and HKDF-SHA256 since their cryptographic dependencies are already utilized by bitcoin software.\r\n\r\nThe existing [`hpke` crate](https://crates.io/crates/hpke) used for OHTTP uses other cryptographic primitives. The payjoin v2 implementation in this crate uses a secp256k1 hpke implementation defined here rather than the `hpke` crate for sender-receiver AEAD.\r\n\r\nThat's because the [`ohttp`](https://github.com/martinthomson/ohttp) crate does not yet support secp256k1 DHKEM. Since payjoin is designed for bitcoin settings, using secp256k1 and especially the common [`libsecp256k1`](https://docs.rs/libsecp256k1/latest/libsecp256k1/) crate would allow us to reduce dependency burden downstream.\r\n\r\nStabilizing the protocol implementation will require 3 steps\r\n\r\n## 1. Enable Secp256k1 DHKEM and ChaCha20Poly1305 AEAD in the `hpke` crate for `ohttp`\r\n\r\nThis is being tracked by https://github.com/payjoin/rust-payjoin/issues/126\r\n\r\nThe underlying `hpke` change is https://github.com/rozbb/rust-hpke/pull/52\r\n\r\n## 2. Replace our HPKE implementation with the more standard `hpke` crate's.\r\n\r\nDeploying a standard HPKE protocol will allow the crate and implementation to be interoperable with other implementations which may crop up even if the underlying implementations of cryptographic primitives change.\r\n\r\nAnother option would be to write many tests showing that our protocol conforms with HPKE standards, but it would make more sense to combine our efforts with the better-reviewed-for-that-specific-purpose `hpke` crate.\r\n\r\n#125 Can take place in parallel to #126. \r\n\r\n## 3. Replace RustCrypto dependencies with those shared in the rust-bitcoin ecosystem, like the [`secp256k1`](https://crates.io/crates/secp256k1) libsecp256k1 bindings crate.\r\n\r\nVirtually all downstream bitcoin software uses libsecp256k1 library. It makes sense for us to try to either have that supported in the `hpke` crate or create a fork that relies on libsecp256k1. It may also make sense to use the same chacha20poly1305 rust implementation from `rust-bitcoin` or allow for a crypto provider since some operating systems now support it. Sha256 could come from [`bitcoin-hashes`](https://crates.io/crates/bitcoin_hashes). Using common dependencies allows downstream software to reduce the size  of their dependency tree for both for faster and smaller binary delivery and compile times as well as a reduced attack surface.\r\n\r\n@jbesraa",
+          "body": "Payjoin v2 [BIP 77 spec](https://github.com/bitcoin/bips/pull/1483) employs [RFC 9180 Hybrid Public Key Encryption](https://www.rfc-editor.org/rfc/rfc9180.html) (HPKE) for both Oblivious HTTP and end-to-end authenticated encryption between senders and receivers.\r\n\r\nThe BIP specified cryptographic dependencies are [secp256k1-based DHKEM for HPKE](https://www.ietf.org/archive/id/draft-wahby-cfrg-hpke-kem-secp256k1-01.html), [RFC 8439 ChaCha20Poly1305 AEAD](https://www.rfc-editor.org/rfc/rfc8439], and HKDF-SHA256 since their cryptographic dependencies are already utilized by bitcoin software.\r\n\r\nThe existing [`hpke` crate](https://crates.io/crates/hpke) used for OHTTP uses other cryptographic primitives. The payjoin v2 implementation in this crate uses a secp256k1 hpke implementation defined here rather than the `hpke` crate for sender-receiver AEAD.\r\n\r\nThat's because the [`ohttp`](https://github.com/martinthomson/ohttp) crate does not yet support secp256k1 DHKEM. Since payjoin is designed for bitcoin settings, using secp256k1 and especially the common [`libsecp256k1`](https://docs.rs/libsecp256k1/latest/libsecp256k1/) crate would allow us to reduce dependency burden downstream.\r\n\r\nStabilizing the protocol implementation will require 3 steps\r\n\r\n## 1. Enable Secp256k1 DHKEM and ChaCha20Poly1305 AEAD in the `hpke` crate for `ohttp`\r\n\r\nThis is being tracked by https://github.com/payjoin/rust-payjoin/issues/126\r\n\r\nThe underlying `hpke` change is https://github.com/rozbb/rust-hpke/pull/52\r\n\r\n## 2. Replace our HPKE implementation with the more standard `hpke` crate's.\r\n\r\nDeploying a standard HPKE protocol will allow the crate and implementation to be interoperable with other implementations which may crop up even if the underlying implementations of cryptographic primitives change.\r\n\r\nAnother option would be to write many tests showing that our protocol conforms with HPKE standards, but it would make more sense to combine our efforts with the better-reviewed-for-that-specific-purpose `hpke` crate.\r\n\r\n#125 Can take place in parallel to #126. \r\n\r\n## 3. Replace RustCrypto dependencies with those shared in the rust-bitcoin ecosystem, like the [`secp256k1`](https://crates.io/crates/secp256k1) libsecp256k1 bindings crate.\r\n\r\nVirtually all downstream bitcoin software uses libsecp256k1 library. It makes sense for us to try to either have that supported in the `hpke` crate or create a fork that relies on libsecp256k1. It may also make sense to use the same chacha20poly1305 rust implementation from `rust-bitcoin` or allow for a crypto provider since some operating systems now support it. Sha256 could come from [`bitcoin-hashes`](https://crates.io/crates/bitcoin_hashes). Using common dependencies allows downstream software to reduce the size  of their dependency tree for both for faster and smaller binary delivery and compile times as well as a reduced attack surface.\r\n\r\n## 4. Decide on a URI encoding for payjoin params `pj` subdirectory and `ohttp`\r\n\r\nBase64Uri encoding, which we use as of now for these parameters, uses both upper and lowercase letters. Because of this it doubles the density of QR codes representing them. We could use another encoding like UR, since both are already properly serialized secp256k1 pubkey and OhttpKey configuration data blobs. Lightning invoices use bech32, but we don't have multiple fields to serialize in that format. In any case we need to finalize the encoding. It would also be wise to confirm that the way we're issuing subdirectories at the payjoin-directory server will not result in collisions.\r\n\r\n@jbesraa",
           "user": {
             "login": "DanGould",
             "id": 8525467,
@@ -1726,7 +1726,7 @@
           "locked": false,
           "comments": 0,
           "created_at": "2024-03-19T17:21:27Z",
-          "updated_at": "2024-03-19T17:22:49Z"
+          "updated_at": "2024-03-27T16:07:52Z"
         },
         "type": "issue"
       }
@@ -1771,10 +1771,10 @@
           "events_url": "https://api.github.com/repos/payjoin/rust-payjoin/issues/220/events",
           "html_url": "https://github.com/payjoin/rust-payjoin/pull/220",
           "number": 220,
-          "state": "open",
+          "state": "closed",
           "state_reason": null,
           "title": "Start `payjoin-io`",
-          "body": null,
+          "body": "#211 ",
           "user": {
             "login": "jbesraa",
             "id": 21229375,
@@ -1799,15 +1799,16 @@
           "assignees": [],
           "author_association": "COLLABORATOR",
           "locked": false,
-          "comments": 12,
+          "comments": 14,
           "pull_request": {
             "url": "https://api.github.com/repos/payjoin/rust-payjoin/pulls/220",
             "html_url": "https://github.com/payjoin/rust-payjoin/pull/220",
             "diff_url": "https://github.com/payjoin/rust-payjoin/pull/220.diff",
             "patch_url": "https://github.com/payjoin/rust-payjoin/pull/220.patch"
           },
+          "closed_at": "2024-04-11T23:37:33Z",
           "created_at": "2024-03-20T15:40:07Z",
-          "updated_at": "2024-03-26T17:03:13Z"
+          "updated_at": "2024-04-11T23:37:33Z"
         },
         "type": "issue"
       }
@@ -1851,6 +1852,316 @@
         "date": "2024-03-27T03:45:48Z"
       },
       "sha": "37f74d82266981bc71540cf8876d0162c2345219"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-03-27T04:53:17Z",
+      "updated_at": "2024-03-27T04:53:17Z",
+      "source": {
+        "issue": {
+          "id": 2209845466,
+          "node_id": "PR_kwDOHm_Cb85q4JgC",
+          "url": "https://api.github.com/repos/payjoin/rust-payjoin/issues/226",
+          "repository_url": "https://api.github.com/repos/payjoin/rust-payjoin",
+          "labels_url": "https://api.github.com/repos/payjoin/rust-payjoin/issues/226/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/payjoin/rust-payjoin/issues/226/comments",
+          "events_url": "https://api.github.com/repos/payjoin/rust-payjoin/issues/226/events",
+          "html_url": "https://github.com/payjoin/rust-payjoin/pull/226",
+          "number": 226,
+          "state": "closed",
+          "state_reason": null,
+          "title": "Encode payjoin 2 subdirectory pubkey and `ohttp=` param in ur::bytewords",
+          "body": "base64Url encoding's character set require upper lowercasing characters, doubling the density of QRs which display their data. The only reason it was used was because it was readily available in the bitcoin crate and produced a String.\r\n\r\n@ChristopherA [suggested to use the UR encoding instead](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-August/021882.html) when a BIP for payjoin v2 was initially proposed. Neither the subdirectory public key identifier nore the ohttp param are themselves URIs, but they can still take advantage of the [ur::bytewords](https://docs.rs/ur/latest/ur/bytewords/index.html) encoding [scheme](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-012-bytewords.md) in minimal style for QR compression benefits. Now that [BIP 77](https://github.com/bitcoin/bips/pull/1483) is finalizing we should seriously consider which encoding is best for the long haul.\r\n\r\nUR's bytewords should result in smaller QR codes. I'll want to do some tests with actual QR codes but the idea is simple enough to implement thanks to @dspicher's library",
+          "user": {
+            "login": "DanGould",
+            "id": 8525467,
+            "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+            "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/DanGould",
+            "html_url": "https://github.com/DanGould",
+            "followers_url": "https://api.github.com/users/DanGould/followers",
+            "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+            "organizations_url": "https://api.github.com/users/DanGould/orgs",
+            "repos_url": "https://api.github.com/users/DanGould/repos",
+            "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/DanGould/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [],
+          "assignees": [],
+          "author_association": "CONTRIBUTOR",
+          "locked": false,
+          "comments": 1,
+          "pull_request": {
+            "url": "https://api.github.com/repos/payjoin/rust-payjoin/pulls/226",
+            "html_url": "https://github.com/payjoin/rust-payjoin/pull/226",
+            "diff_url": "https://github.com/payjoin/rust-payjoin/pull/226.diff",
+            "patch_url": "https://github.com/payjoin/rust-payjoin/pull/226.patch"
+          },
+          "closed_at": "2024-03-28T23:24:10Z",
+          "created_at": "2024-03-27T04:46:56Z",
+          "updated_at": "2024-03-28T23:24:17Z"
+        },
+        "type": "issue"
+      }
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-04-10T12:57:35Z",
+      "updated_at": "2024-04-10T12:57:35Z",
+      "source": {
+        "issue": {
+          "id": 1681662218,
+          "node_id": "I_kwDOBwBYl85kPCEK",
+          "url": "https://api.github.com/repos/BlueWallet/BlueWallet/issues/5483",
+          "repository_url": "https://api.github.com/repos/BlueWallet/BlueWallet",
+          "labels_url": "https://api.github.com/repos/BlueWallet/BlueWallet/issues/5483/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/BlueWallet/BlueWallet/issues/5483/comments",
+          "events_url": "https://api.github.com/repos/BlueWallet/BlueWallet/issues/5483/events",
+          "html_url": "https://github.com/BlueWallet/BlueWallet/issues/5483",
+          "number": 5483,
+          "state": "open",
+          "state_reason": null,
+          "title": "Scan payjoin bip21 from Wallets overview gives no option to payjoin",
+          "body": "## Reporting a Bug in BlueWallet\r\n\r\n-  ver 6.4.1 (build 1682197699 master)\r\n-  iOS 16.4.1 (device redacted)\r\n- self test passes\r\n- Unique ID: userId:45DF301F-004D-4648-840C-8FFEFF9B7BDF\r\n\r\nWhile scanning the bip21 URI detects payjoin from within an HD SegWit wallet, if I just hit Scan from the Wallets page with the below bip21 encoded, I get no toggle to payjoin.\r\n\r\nBIP 21 URI: `bitcoin:BC1QYLH3U67J673H6Y6ALV70M0PL2YZ53TZHVXGG7U?amount=0.00001&label=sbddesign%3A%20For%20lunch%20Tuesday&message=For%20lunch%20Tuesday&lightning=LNBC10U1P3PJ257PP5YZTKWJCZ5FTL5LAXKAV23ZMZEKAW37ZK6KMV80PK4XAEV5QHTZ7QDPDWD3XGER9WD5KWM36YPRX7U3QD36KUCMGYP282ETNV3SHJCQZPGXQYZ5VQSP5USYC4LK9CHSFP53KVCNVQ456GANH60D89REYKDNGSMTJ6YW3NHVQ9QYYSSQJCEWM5CJWZ4A6RFJX77C490YCED6PEMK0UPKXHY89CMM7SCT66K8GNEANWYKZGDRWRFJE69H9U5U0W57RRCSYSAS7GADWMZXC8C6T0SPJAZUP6&pj=https://do.payjoin.org`\r\n\r\nTo reproduce, from logged in Wallets page hit Scan, scan the following QR encoded URI, select HD SegWit wallet, hit Next, and see that no payjoin toggle is available. If you try the same thing from within the HD SegWit wallet page, there will be a toggle available.\r\n\r\n![canvas](https://user-images.githubusercontent.com/8525467/234060669-84683398-1f66-4f83-9fb5-0240b4ee7336.png)\r\n",
+          "user": {
+            "login": "DanGould",
+            "id": 8525467,
+            "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+            "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/DanGould",
+            "html_url": "https://github.com/DanGould",
+            "followers_url": "https://api.github.com/users/DanGould/followers",
+            "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+            "organizations_url": "https://api.github.com/users/DanGould/orgs",
+            "repos_url": "https://api.github.com/users/DanGould/repos",
+            "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/DanGould/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [],
+          "assignee": {
+            "login": "limpbrains",
+            "id": 155891,
+            "node_id": "MDQ6VXNlcjE1NTg5MQ==",
+            "avatar_url": "https://avatars.githubusercontent.com/u/155891?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/limpbrains",
+            "html_url": "https://github.com/limpbrains",
+            "followers_url": "https://api.github.com/users/limpbrains/followers",
+            "following_url": "https://api.github.com/users/limpbrains/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/limpbrains/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/limpbrains/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/limpbrains/subscriptions",
+            "organizations_url": "https://api.github.com/users/limpbrains/orgs",
+            "repos_url": "https://api.github.com/users/limpbrains/repos",
+            "events_url": "https://api.github.com/users/limpbrains/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/limpbrains/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "assignees": [
+            {
+              "login": "limpbrains",
+              "id": 155891,
+              "node_id": "MDQ6VXNlcjE1NTg5MQ==",
+              "avatar_url": "https://avatars.githubusercontent.com/u/155891?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/limpbrains",
+              "html_url": "https://github.com/limpbrains",
+              "followers_url": "https://api.github.com/users/limpbrains/followers",
+              "following_url": "https://api.github.com/users/limpbrains/following%7B/other_user%7D",
+              "gists_url": "https://api.github.com/users/limpbrains/gists%7B/gist_id%7D",
+              "starred_url": "https://api.github.com/users/limpbrains/starred%7B/owner%7D%7B/repo%7D",
+              "subscriptions_url": "https://api.github.com/users/limpbrains/subscriptions",
+              "organizations_url": "https://api.github.com/users/limpbrains/orgs",
+              "repos_url": "https://api.github.com/users/limpbrains/repos",
+              "events_url": "https://api.github.com/users/limpbrains/events%7B/privacy%7D",
+              "received_events_url": "https://api.github.com/users/limpbrains/received_events",
+              "type": "User",
+              "site_admin": false
+            }
+          ],
+          "author_association": "CONTRIBUTOR",
+          "locked": false,
+          "comments": 5,
+          "created_at": "2023-04-24T16:40:42Z",
+          "updated_at": "2024-04-10T13:10:56Z"
+        },
+        "type": "issue"
+      }
+    },
+    {
+      "event": "commented",
+      "id": 2088916537,
+      "node_id": "IC_kwDOAN28mc58glY5",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2088916537",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-01T18:50:09Z",
+      "updated_at": "2024-05-01T18:50:09Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Hi @DanGould, the first comment on this PR seems to indicate that this proposal is still WIP. Is that an accurate understanding? If this PR is not yet ready to be merged, perhaps it should be changed to \"Draft\". If I misunderstood the status of this PR, please respond below so someone may review to assess whether this is ready for merge.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1483#issuecomment-2088916537",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1483"
+    },
+    {
+      "event": "mentioned",
+      "id": 12673599205,
+      "node_id": "MEE_lADOAN28mc5uKfAvzwAAAALzZ8bl",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12673599205",
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-01T18:50:10Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 12673599217,
+      "node_id": "SE_lADOAN28mc5uKfAvzwAAAALzZ8bx",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12673599217",
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-01T18:50:10Z"
     }
   ],
   "comments": []

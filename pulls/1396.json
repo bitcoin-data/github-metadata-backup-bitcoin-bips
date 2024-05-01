@@ -41,10 +41,10 @@
     "body": "According to the psbt Input Finalizer spec \"All other data except the UTXO and unknown fields in the input key-value map should be cleared from the PSBT. The UTXO should be kept to allow Transaction Extractors to verify the final network serialized transaction.\" In Bip78, the receiver clears this data after it finalizes its inputs, even if the utxo belongs to the sender which will need that data.\r\n\r\nI ran into a problem where LND's FinalizePsbt gRPC fails when this utxo data is missing. I see no good reason to remove this utxo information from the PSBT. I think LND's RPC should also succeed regardless of this data being present because it can look it up with the unsigned_tx's input outpoint (that's what bitcoind's finalizePsbt rpc does). Still I think LND's RPC is technically BIP-0174 spec-compliant while BIP-0078 seems not to be.\r\n\r\nhttps://github.com/lightningnetwork/lnd/blob/cf9a9864cf253dbbcac5904d360bbbde763e1ebe/lnwallet/rpcwallet/rpcwallet.go#L270-L286\r\nAccording to the psbt Input Finalizer spec \"All other data *except the UTXO and unknown fields* in the input key-value map should be cleared from the PSBT. The UTXO should be kept to allow Transaction Extractors to verify the final network serialized transaction.\"\r\n\r\nI ran into a problem where an LND acting as sender FinalizePsbt gRPC fails when sender utxo information is missing. I see no good reason to remove utxo information from the PSBT.\r\n\r\n---\r\n\r\n[tagging this issue in the rust-payjoin library](https://github.com/Kixunil/payjoin/issues/39)\r\n\r\n@nickfarrow @kixunil @nicolasdorier",
     "labels": [],
     "created_at": "2022-12-20T18:04:50Z",
-    "updated_at": "2022-12-20T18:04:50Z",
+    "updated_at": "2024-05-01T18:10:54Z",
     "mergeable": true,
-    "mergeable_state": "unstable",
-    "merge_commit_sha": "6c5d4e7cfec339931e8126295959afc6fe02a7d0",
+    "mergeable_state": "clean",
+    "merge_commit_sha": "0610e53b831967229152f301d5a37097ab2836ce",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -147,7 +147,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 13431,
+        "size": 14146,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -160,7 +160,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2022-12-20T18:00:13Z",
+        "pushed_at": "2024-03-27T03:45:53Z",
         "created_at": "2022-04-04T03:35:06Z",
         "updated_at": "2022-04-03T20:34:01Z"
       }
@@ -261,12 +261,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5237,
+        "stargazers_count": 8944,
+        "watchers_count": 8944,
+        "size": 14955,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 71,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -277,9 +277,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2024-05-01T15:21:19Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2024-05-01T17:02:20Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 0
+    "comments": 1
   },
   "events": [
     {
@@ -645,7 +645,7 @@
           "events_url": "https://api.github.com/repos/rust-bitcoin/rust-bitcoin/issues/1606/events",
           "html_url": "https://github.com/rust-bitcoin/rust-bitcoin/pull/1606",
           "number": 1606,
-          "state": "open",
+          "state": "closed",
           "state_reason": null,
           "title": "WIP: Split `ecdsa` types up",
           "body": "Make another attempt at splitting the `ecdsa` types (sighash type and signatures) up into `legacy` and `native` (I posted #1762, and from @apoelstra comment probably need to change \"native\" back to \"segwit_v0\" here, will leave as is for now because its a minor thing to change).\r\n    \r\nThis is a bit curly because of PSBT's classifying things as either taproot or non-taproot - and we currently use `ecdsa` types for that - as such this PR _duplicates_ the ecdsa stuff without removing it.\r\n    \r\n\r\n",
@@ -671,17 +671,18 @@
           },
           "labels": [],
           "assignees": [],
-          "author_association": "COLLABORATOR",
+          "author_association": "MEMBER",
           "locked": false,
-          "comments": 11,
+          "comments": 12,
           "pull_request": {
             "url": "https://api.github.com/repos/rust-bitcoin/rust-bitcoin/pulls/1606",
             "html_url": "https://github.com/rust-bitcoin/rust-bitcoin/pull/1606",
             "diff_url": "https://github.com/rust-bitcoin/rust-bitcoin/pull/1606.diff",
             "patch_url": "https://github.com/rust-bitcoin/rust-bitcoin/pull/1606.patch"
           },
+          "closed_at": "2023-08-21T05:45:00Z",
           "created_at": "2023-02-01T06:54:28Z",
-          "updated_at": "2023-04-01T18:58:40Z"
+          "updated_at": "2023-08-21T05:45:00Z"
         },
         "type": "issue"
       }
@@ -795,7 +796,7 @@
           ],
           "author_association": "NONE",
           "locked": false,
-          "comments": 1,
+          "comments": 5,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoindevkit/bdk-cli/pulls/156",
             "html_url": "https://github.com/bitcoindevkit/bdk-cli/pull/156",
@@ -803,10 +804,122 @@
             "patch_url": "https://github.com/bitcoindevkit/bdk-cli/pull/156.patch"
           },
           "created_at": "2023-06-15T20:02:20Z",
-          "updated_at": "2023-08-02T00:34:18Z"
+          "updated_at": "2024-01-04T05:03:53Z"
         },
         "type": "issue"
       }
+    },
+    {
+      "event": "commented",
+      "id": 2088864656,
+      "node_id": "IC_kwDOAN28mc58gYuQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2088864656",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-01T18:10:52Z",
+      "updated_at": "2024-05-01T18:10:52Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Seems reasonable, but needs an endorsement from the original BIP author, @NicolasDorier.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1396#issuecomment-2088864656",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1396"
+    },
+    {
+      "event": "mentioned",
+      "id": 12673266738,
+      "node_id": "MEE_lADOAN28mc5ZtRTXzwAAAALzYrQy",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12673266738",
+      "actor": {
+        "login": "NicolasDorier",
+        "id": 3020646,
+        "node_id": "MDQ6VXNlcjMwMjA2NDY=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3020646?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/NicolasDorier",
+        "html_url": "https://github.com/NicolasDorier",
+        "followers_url": "https://api.github.com/users/NicolasDorier/followers",
+        "following_url": "https://api.github.com/users/NicolasDorier/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/NicolasDorier/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/NicolasDorier/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/NicolasDorier/subscriptions",
+        "organizations_url": "https://api.github.com/users/NicolasDorier/orgs",
+        "repos_url": "https://api.github.com/users/NicolasDorier/repos",
+        "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-01T18:10:54Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 12673266754,
+      "node_id": "SE_lADOAN28mc5ZtRTXzwAAAALzYrRC",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12673266754",
+      "actor": {
+        "login": "NicolasDorier",
+        "id": 3020646,
+        "node_id": "MDQ6VXNlcjMwMjA2NDY=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3020646?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/NicolasDorier",
+        "html_url": "https://github.com/NicolasDorier",
+        "followers_url": "https://api.github.com/users/NicolasDorier/followers",
+        "following_url": "https://api.github.com/users/NicolasDorier/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/NicolasDorier/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/NicolasDorier/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/NicolasDorier/subscriptions",
+        "organizations_url": "https://api.github.com/users/NicolasDorier/orgs",
+        "repos_url": "https://api.github.com/users/NicolasDorier/repos",
+        "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-01T18:10:54Z"
     }
   ],
   "comments": []
