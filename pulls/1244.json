@@ -50,14 +50,12 @@
       }
     ],
     "created_at": "2021-12-02T17:48:18Z",
-    "updated_at": "2024-05-01T21:54:44Z",
-    "mergeable": false,
-    "mergeable_state": "dirty",
+    "updated_at": "2024-05-01T22:50:33Z",
+    "mergeable_state": "unknown",
     "merge_commit_sha": "6f25b4723b90b0a7f5d9c4dbcd5473cffe002588",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": false,
     "head": {
       "label": "Kixunil:bip78-allow-mixed-inputs",
       "ref": "bip78-allow-mixed-inputs",
@@ -271,11 +269,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5237,
-        "stargazers_count": 8948,
-        "watchers_count": 8948,
-        "size": 14955,
+        "stargazers_count": 8952,
+        "watchers_count": 8952,
+        "size": 14967,
         "default_branch": "master",
-        "open_issues_count": 69,
+        "open_issues_count": 68,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -286,9 +284,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-01T21:45:13Z",
+        "pushed_at": "2024-05-01T22:56:29Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-01T21:55:09Z"
+        "updated_at": "2024-05-01T22:56:29Z"
       }
     },
     "_links": {
@@ -1793,6 +1791,42 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-04-30T10:04:24Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 2034490099,
+      "node_id": "PRR_kwDOAN28mc55Q9rz",
+      "url": null,
+      "actor": null,
+      "commit_id": "d4e69ca02d5b743b1997d3b3ffd5513a973f28ff",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "NONE",
+      "body": "@NicolasDorier I've DMd you on BTCPay's mattermost as requested.\r\n\r\nThe `additionalfeecontribution` seems to be intended to incentivize privacy-preserving behavior. If a payjoin spent the `additionalfeecontribution` without contributing at least one additional input, it would be fair for the sender to be unwilling to sign. Rather than calculate the marginal cost of each additional input and output, a notoriously complex feat, just calculate the fee of the Payjoin and subtract the fee of the Original transaction plus `additionalfeecontribution` if the receiver contributed an input. Ensure that Payjoin maintains the sender's specified `minfeerate`, otherwise the min relay fee. If there's no receiver input, check that the receiver did not spend spend the `additionalfeecontribution`.\r\n\r\nThe original spec `actualContribution` calculation seems to ignore the complexity of having a receiver pay for fees on additional *outputs* if they had substituted the original payment with multiple outputs. The fee calculation outlined above covers this case as well.\r\n\r\nPerhaps multiple-output substitution was intended to be prohibited for the sake of simplicity, or otherwise overlooked, but the sender checklist is somewhat ambiguous as to allowing it or not. Yes, the spec says singular '\"the\" payment output', but sender implementations I've come across (BlueWallet, Sparrow, Payjoin-CLI from memory) allow multiple-output substitution.\r\n\r\nOne could argue everyone has privacy to gain and be preserved from multi-input transactions, and the receiver already has incentive to add them via lower marginal input cost for consolidation or multi-output transaction cut-through *without* additional contribution, but additionalfeecontribution is already part of the spec and this mixed input clarification is not meant to have that discussion. It's just to allow mixed input because that's prevents a privacy-breaking fingerprint.",
+      "user": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1244#pullrequestreview-2034490099",
+      "submitted_at": "2024-05-01T22:50:33Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1244"
     }
   ],
   "comments": [
@@ -2262,6 +2296,58 @@
       "start_side": null,
       "line": 573,
       "original_line": 573,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1586849517",
+      "pull_request_review_id": 2034490099,
+      "id": 1586849517,
+      "node_id": "PRRC_kwDOAN28mc5elWbt",
+      "diff_hunk": "@@ -520,9 +528,7 @@ public async Task<PSBT> RequestPayjoin(\n             if (proposedPSBTInput.NonWitnessUtxo == null && proposedPSBTInput.WitnessUtxo == null)\n                 throw new PayjoinSenderException(\"The receiver did not specify non_witness_utxo or witness_utxo for one of their inputs\");\n             sequences.Add(proposedTxIn.Sequence);\n-            // Verify that the payjoin proposal did not introduced mixed inputs' type.\n-            if (inputScriptType != proposedPSBTInput.GetInputScriptPubKeyType())\n-                throw new PayjoinSenderException(\"Mixed input type detected in the proposal\");\n+            additionalSize = GetVirtualSize(proposedPSBTInput.GetInputScriptPubKeyType())",
+      "path": "bip-0078.mediawiki",
+      "position": 83,
+      "original_position": 83,
+      "commit_id": "d4e69ca02d5b743b1997d3b3ffd5513a973f28ff",
+      "original_commit_id": "d4e69ca02d5b743b1997d3b3ffd5513a973f28ff",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "I agree with @NicolasDorier's that this calculation is incorrect. The `additionalSize` should be the sum of all inputs added to the Original PSBT, not just the last one that gets checked.\r\n\r\n```suggestion\r\n            additionalSize += GetVirtualSize(proposedPSBTInput.GetInputScriptPubKeyType())\r\n```",
+      "created_at": "2024-05-01T21:28:37Z",
+      "updated_at": "2024-05-01T22:50:33Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1244#discussion_r1586849517",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1586849517"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1244"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 531,
+      "original_line": 531,
       "side": "RIGHT"
     }
   ]

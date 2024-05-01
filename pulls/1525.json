@@ -50,10 +50,9 @@
       }
     ],
     "created_at": "2023-12-11T23:16:22Z",
-    "updated_at": "2024-05-01T20:32:29Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
-    "merge_commit_sha": "ead29eb83261adf54607adb5280e034e4487887e",
+    "updated_at": "2024-05-01T22:30:23Z",
+    "mergeable_state": "unknown",
+    "merge_commit_sha": "51210e9c6f18a92513170f304704206074911aea",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -98,7 +97,6 @@
       }
     ],
     "requested_teams": [],
-    "rebaseable": false,
     "head": {
       "label": "EthanHeilman:cat",
       "ref": "cat",
@@ -198,7 +196,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 13976,
+        "size": 13997,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -313,11 +311,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5237,
-        "stargazers_count": 8947,
-        "watchers_count": 8947,
-        "size": 14955,
+        "stargazers_count": 8952,
+        "watchers_count": 8952,
+        "size": 14967,
         "default_branch": "master",
-        "open_issues_count": 71,
+        "open_issues_count": 68,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -328,9 +326,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-01T20:32:30Z",
+        "pushed_at": "2024-05-01T22:56:29Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-01T20:45:41Z"
+        "updated_at": "2024-05-01T22:56:29Z"
       }
     },
     "_links": {
@@ -344,7 +342,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 53,
-    "review_comments": 76,
+    "review_comments": 77,
     "comments": 24
   },
   "events": [
@@ -5831,6 +5829,42 @@
         "date": "2024-05-01T20:32:28Z"
       },
       "sha": "6815c39f93a7f26f509fb4e3dedf4c0d654ae857"
+    },
+    {
+      "event": "reviewed",
+      "id": 2034524792,
+      "node_id": "PRR_kwDOAN28mc55RGJ4",
+      "url": null,
+      "actor": null,
+      "commit_id": "6815c39f93a7f26f509fb4e3dedf4c0d654ae857",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "ACK, mod non-working url and squash commits",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1525#pullrequestreview-2034524792",
+      "submitted_at": "2024-05-01T22:29:49Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1525"
     }
   ],
   "comments": [
@@ -9680,6 +9714,58 @@
       "start_side": null,
       "line": null,
       "original_line": 40,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1586878250",
+      "pull_request_review_id": 2034524792,
+      "id": 1586878250,
+      "node_id": "PRRC_kwDOAN28mc5eldcq",
+      "diff_hunk": "@@ -0,0 +1,109 @@\n+<pre>\n+  BIP: 347\n+  Layer: Consensus (soft fork)\n+  Title: OP_CAT in Tapscript\n+  Author: Ethan Heilman <ethan.r.heilman@gmail.com>\n+          Armin Sabouri <arminsdev@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0347\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-12-11\n+  License: BSD-3-Clause\n+  Post-History: 2023-10-21: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-October/022049.html [bitcoin-dev] Proposed BIP for OP_CAT\n+</pre>\n+\n+==Abstract==\n+\n+This BIP introduces OP_CAT as a tapscript opcode which allows the concatenation of two values on the stack. OP_CAT would be activated via a soft fork by redefining the opcode OP_SUCCESS126 (126 in decimal and 0x7e in hexadecimal). This is the same opcode value used by the original OP_CAT.\n+\n+== Copyright ==\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+==Specification==\n+\n+When evaluated, the OP_CAT instruction:\n+# Pops the top two values off the stack,\n+# concatenates the popped values together in stack order,\n+# and then pushes the concatenated value on the top of the stack.\n+\n+Given the stack ''<nowiki>[x1, x2]</nowiki>'', where ''x2'' is at the top of the stack, OP_CAT will push ''x1 || x2'' onto the stack. By ''||'' we denote concatenation. OP_CAT fails if there are fewer than two values on the stack or if a concatenated value would have a combined size greater than the maximum script element size of 520 bytes.\n+\n+This opcode would be activated via a soft fork by redefining the tapscript opcode OP_SUCCESS126 (126 in decimal and 0x7e in hexadecimal) to OP_CAT.\n+\n+==Motivation==\n+\n+Bitcoin Tapscript lacks a general purpose way of combining objects on the stack, restricting the expressiveness and power of Tapscript. This prevents, among many other things, the ability to construct and evaluate merkle trees and other hashed data structures in Tapscript. OP_CAT, by adding a general purpose way to concatenate stack values, would overcome this limitation and greatly increase the functionality of Tapscript.\n+\n+OP_CAT aims to expand the toolbox of the tapscript developer with a simple, modular, and useful opcode in the spirit of Unix <ref>R. Pike and B. Kernighan, \"Program design in the UNIX environment\", 1983, https://harmful.cat-v.org/cat-v/unix_prog_design.pdf</ref>. To demonstrate the usefulness of OP_CAT below we provide a non-exhaustive list of some usecases that OP_CAT would enable:\n+\n+* Bitstream, a protocol for the atomic swap (fair exchange) of bitcoins for decryption keys, that enables decentralized file hosting systems paid in Bitcoin. While such swaps are currently possible on Bitcoin without OP_CAT, they require the use of complex and computationally expensive Verifiable Computation cryptographic techniques. OP_CAT would remove this requirement on Verifiable Computation, making such protocols far more practical to build in Bitcoin. <ref>R. Linus, \"BitStream: Decentralized File Hosting Incentivised via Bitcoin Payments\", 2023, https://robinlinus.com/bitstream.pdf</ref>\n+* Tree signatures provide a multisignature script whose size can be logarithmic in the number of public keys and can encode spend conditions beyond n-of-m. For instance a transaction less than 1KB in size could support tree signatures with up to 4,294,967,296 public keys. This also enables generalized logical spend conditions. <ref> P. Wuille, \"Multisig on steroids using tree signatures\", 2015, https://blog.blockstream.com/en-treesignatures/</ref>\n+* Post-Quantum Lamport signatures in Bitcoin transactions. Lamport signatures merely require the ability to hash and concatenate values on the stack. <ref>J. Rubin, \"[bitcoin-dev] OP_CAT Makes Bitcoin Quantum Secure [was CheckSigFromStack for Arithmetic Values]\", 2021, https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-July/019233.html</ref> It has been proposed that if ECDSA is broken or a powerful computer was on the horizon, there might be an effort to protect ownership of bitcoins by allowing people to mark their taproot outputs as \"script-path only\" and then move their coins into such outputs with a leaf in the script tree requiring a Lamport signature. It is an open question if a tapscript commitment would preserve the quantum resistance of Lamport signatures. Beyond this question, the use of Lamport Signatures in taproot outputs is unlikely to be quantum resistant even if the script spend-path is made quantum resistant. This is because taproot outputs can also be spent with a key. An attacker with a sufficiently powerful quantum computer could bypass the taproot script spend-path by finding the discrete log of the taproot output and thus spending the output using the key spend-path. The use of \"Nothing Up My Sleeve\" (NUMS) points as described in [[bip-0341.mediawiki|BIP341]] to disable the key spend-path does not disable the key spend-path against a quantum attacker as NUMS relies on the hardness of finding discrete logs. We are not aware of any mechanism which could disable the key spend-path in a taproot output without a softfork change to taproot.\n+* Non-equivocation contracts <ref>T. Ruffing, A. Kate, D. Schröder, \"Liar, Liar, Coins on Fire: Penalizing Equivocation by Loss of Bitcoins\", 2015, https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.727.6262&rep=rep1&type=pdf</ref> in tapscript provide a mechanism to punish equivocation/double spending in Bitcoin payment channels. OP_CAT enables this by enforcing rules on the spending transaction's nonce. The capability is a useful building block for payment channels and other Bitcoin protocols.",
+      "path": "bip-0347.mediawiki",
+      "position": 43,
+      "original_position": 43,
+      "commit_id": "6815c39f93a7f26f509fb4e3dedf4c0d654ae857",
+      "original_commit_id": "6815c39f93a7f26f509fb4e3dedf4c0d654ae857",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "`https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.727.6262&rep=rep1&type=pdf` doesn't seem to be the correct link for me",
+      "created_at": "2024-05-01T22:11:25Z",
+      "updated_at": "2024-05-01T22:29:49Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1525#discussion_r1586878250",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1586878250"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1525"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 43,
+      "original_line": 43,
       "side": "RIGHT"
     }
   ]
