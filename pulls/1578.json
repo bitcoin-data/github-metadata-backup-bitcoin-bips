@@ -41,10 +41,10 @@
     "body": "Currently the Diff Checks CI task silently fails. This PR fixes that so it both works and the task will actually fail if the script is failing.\r\n\r\nThe failure was caused by 2 issues:\r\n1. A missing run of `buildtable.pl` on the current commit\r\n2. The github actions checkout default only has the current commit, making it impossible to checkout the previous commit to build the table for it\r\n\r\nAdditionally, `actions/checkout@v3` is deprecated in favor of `actions/checkout@v4` so this PR bumps that too.\r\n\r\nLastly, since diff checks will fail for PRs that do not have numbers yet, I've clarified that this is expected in the CI task's name.",
     "labels": [],
     "created_at": "2024-04-24T23:23:29Z",
-    "updated_at": "2024-04-24T23:23:29Z",
+    "updated_at": "2024-05-01T20:55:05Z",
     "mergeable": true,
     "mergeable_state": "blocked",
-    "merge_commit_sha": "9599e77fb4b30728d587850602af0480883ca40c",
+    "merge_commit_sha": "3d1b428dac7c406de2998a2955b644a365e78e09",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -148,7 +148,7 @@
         "forks_count": 1,
         "stargazers_count": 4,
         "watchers_count": 4,
-        "size": 14846,
+        "size": 14856,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -161,7 +161,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-24T23:50:19Z",
+        "pushed_at": "2024-04-25T14:25:27Z",
         "created_at": "2015-10-27T00:37:26Z",
         "updated_at": "2022-01-19T00:36:27Z"
       }
@@ -262,12 +262,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5236,
-        "stargazers_count": 8926,
-        "watchers_count": 8926,
-        "size": 14892,
+        "forks_count": 5237,
+        "stargazers_count": 8947,
+        "watchers_count": 8947,
+        "size": 14955,
         "default_branch": "master",
-        "open_issues_count": 103,
+        "open_issues_count": 71,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-24T23:23:30Z",
+        "pushed_at": "2024-05-01T20:32:30Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-04-24T23:21:09Z"
+        "updated_at": "2024-05-01T20:45:41Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 3,
     "changed_files": 2,
     "commits": 5,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 0
   },
   "events": [
@@ -497,7 +497,96 @@
         "date": "2024-04-24T23:16:30Z"
       },
       "sha": "ea2f0fae9146629977140cc5824ef47addde61d4"
+    },
+    {
+      "event": "reviewed",
+      "id": 2034440943,
+      "node_id": "PRR_kwDOAN28mc55Qxrv",
+      "url": null,
+      "actor": null,
+      "commit_id": "ea2f0fae9146629977140cc5824ef47addde61d4",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "I think this looks good. One nit",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1578#pullrequestreview-2034440943",
+      "submitted_at": "2024-05-01T20:55:05Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1578"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1586814809",
+      "pull_request_review_id": 2034440943,
+      "id": 1586814809,
+      "node_id": "PRRC_kwDOAN28mc5elN9Z",
+      "diff_hunk": "@@ -9,6 +9,8 @@ if git checkout HEAD^ && scripts/buildtable.pl >/tmp/table.mediawiki 2>/dev/null\n         echo \"$newdiff\"\n         exit 1\n     fi\n+    echo \"No extraneous changes detected\"",
+      "path": "scripts/diffcheck.sh",
+      "position": 11,
+      "original_position": 4,
+      "commit_id": "ea2f0fae9146629977140cc5824ef47addde61d4",
+      "original_commit_id": "9591f59ef52744b96d7b847053422c6441f879ae",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "How about:\r\n```suggestion\r\n    echo \"README table matches expected table from BIP files\"\r\n```",
+      "created_at": "2024-05-01T20:54:47Z",
+      "updated_at": "2024-05-01T20:55:05Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1578#discussion_r1586814809",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1586814809"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1578"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 12,
+      "original_line": 12,
+      "side": "RIGHT"
+    }
+  ]
 }
