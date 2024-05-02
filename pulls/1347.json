@@ -50,9 +50,10 @@
       }
     ],
     "created_at": "2022-07-25T22:14:02Z",
-    "updated_at": "2024-04-26T20:33:31Z",
-    "mergeable_state": "unknown",
-    "merge_commit_sha": "111c2286726805f4b2d0ac4325012144d189b987",
+    "updated_at": "2024-05-02T14:50:49Z",
+    "mergeable": false,
+    "mergeable_state": "dirty",
+    "merge_commit_sha": "82e9bce1265d5581cb5697a5d7303115848eac39",
     "assignee": {
       "login": "kallewoof",
       "id": 250224,
@@ -97,6 +98,7 @@
     ],
     "requested_reviewers": [],
     "requested_teams": [],
+    "rebaseable": false,
     "head": {
       "label": "luke-jr:GSMF-20220725",
       "ref": "GSMF-20220725",
@@ -310,12 +312,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5237,
-        "stargazers_count": 8934,
-        "watchers_count": 8934,
-        "size": 14820,
+        "forks_count": 5238,
+        "stargazers_count": 8954,
+        "watchers_count": 8954,
+        "size": 14970,
         "default_branch": "master",
-        "open_issues_count": 94,
+        "open_issues_count": 68,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -326,9 +328,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-26T20:42:58Z",
+        "pushed_at": "2024-05-02T09:02:07Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-04-26T20:42:58Z"
+        "updated_at": "2024-05-02T13:37:24Z"
       }
     },
     "_links": {
@@ -343,7 +345,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 32,
-    "comments": 11
+    "comments": 12
   },
   "events": [
     {
@@ -1050,7 +1052,7 @@
       "commit_url": null,
       "created_at": "2022-08-09T12:40:38Z",
       "updated_at": "2022-08-09T12:40:38Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "In the `Simple` section:\r\n\r\n> A ''simple'' signature consists of a witness stack, consensus encoded as a vector of vectors of bytes, and base64-encoded.\r\n\r\nI think it should be made more clear exactly what data is going to be placed in the witness stack.\r\n\r\nI know that it's the solution to some BIP325 challenge, but as I, and perhaps a lot of other people, am not really sure how that works, it should be made more explicit what needs to be placed on the witness stack to constitute a valid proof.",
       "user": {
         "login": "ZenulAbidin",
@@ -1266,7 +1268,7 @@
       "commit_url": null,
       "created_at": "2022-08-12T04:16:42Z",
       "updated_at": "2022-08-12T04:19:50Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "It's actually not even necessary to change the behavior of OP_CHECKSIG in this context. It will already hash all inputs, outputs etc. so these can be used in message signatures as-is meaning no revision is necessary except for some new sentences in the BIP that say:\r\n\r\n```\r\n<in Rationale>\r\nBecause `to_sign` is created using the transaction ID that is hashed from `to_spend`, the message signature is cryptographically unique and an additional verification beyond reconstructing `to_spend` and validating all fields is not required.\r\n\r\n<in Specification>\r\nThe message signature must not be placed on the witness stack. Only data for the solution of the scriptPubKey should be placed on the witness stack.\r\n```\r\n\r\n---\r\n\r\nRegarding satisfying UTXO scripts: Why don't we just add the relevant UTXO as a `vin` in `to_sign`? Then it's bundled with the proof that the address is under the signing party's control, to indicate the UTXO is also under their control as well.",
       "user": {
         "login": "ZenulAbidin",
@@ -1344,6 +1346,176 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1347#issuecomment-2080081412",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1347"
+    },
+    {
+      "event": "commented",
+      "id": 2090701376,
+      "node_id": "IC_kwDOAN28mc58nZJA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2090701376",
+      "actor": {
+        "login": "ProfEduStream",
+        "id": 111052574,
+        "node_id": "U_kgDOBp6HHg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/111052574?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ProfEduStream",
+        "html_url": "https://github.com/ProfEduStream",
+        "followers_url": "https://api.github.com/users/ProfEduStream/followers",
+        "following_url": "https://api.github.com/users/ProfEduStream/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ProfEduStream/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ProfEduStream/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ProfEduStream/subscriptions",
+        "organizations_url": "https://api.github.com/users/ProfEduStream/orgs",
+        "repos_url": "https://api.github.com/users/ProfEduStream/repos",
+        "events_url": "https://api.github.com/users/ProfEduStream/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ProfEduStream/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-02T14:47:49Z",
+      "updated_at": "2024-05-02T14:50:49Z",
+      "author_association": "NONE",
+      "body": "Hey,\r\n\r\nAs a Bitcoin association, we're currently facing an issue because we're unable to sign an address with our multi-sig wallet.\r\nAfter conducting some research, I came across BIP322 in this thread: [https://bitcointalk.org/index.php?topic=5408898.msg63891940#msg63891940](https://bitcointalk.org/index.php?topic=5408898.msg63891940#msg63891940).\r\n\r\nExplanation:\r\n\r\nAs a Bitcoin association, we offer membership to everyone for a few thousand sats per year. To facilitate this process, we utilize \"Swiss Bitcoin Pay\". It's an application that allows us to easily manage our accounting. Additionally, we onboard merchants with this app because of its user-friendly interface and self-custodial capabilities, making it very convenient. The accounting features are also highly beneficial.\r\n\r\nTo utilize this application in a self-custodial manner, users need to paste a Bitcoin address on the \"Swiss Bitcoin Pay\" dashboard and then sign a message with this address. This serves as a \"Proof-of-Ownership\" and is a legal requirement in some regulated countries. \"Swiss Bitcoin Pay\" is not the only application that requires signing a message as a \"Proof-of-Ownership\". Peach, a non-KYC P2P Bitcoin application, is another example.\r\n\r\nGiven our goal to decentralize our treasury, we naturally opt for a multi-sig wallet, similar to many companies. However, as you know, it's currently impossible to sign a message with a multi-sig wallet.\r\n\r\nConclusion:\r\n\r\nI'm unsure why BIP322 hasn't been pushed or addressed in the past few months/years, but I want to highlight its necessity.\r\nAdditionally, I hope that this comment sheds light on a deficiency in our Bitcoin ecosystem, and I trust that further improvements will be made to enable people to sign a message with a multi-sig wallet.\r\n\r\nI'm available to assist if needed @kallewoof.\r\n@ProfEduStream",
+      "user": {
+        "login": "ProfEduStream",
+        "id": 111052574,
+        "node_id": "U_kgDOBp6HHg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/111052574?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ProfEduStream",
+        "html_url": "https://github.com/ProfEduStream",
+        "followers_url": "https://api.github.com/users/ProfEduStream/followers",
+        "following_url": "https://api.github.com/users/ProfEduStream/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ProfEduStream/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ProfEduStream/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ProfEduStream/subscriptions",
+        "organizations_url": "https://api.github.com/users/ProfEduStream/orgs",
+        "repos_url": "https://api.github.com/users/ProfEduStream/repos",
+        "events_url": "https://api.github.com/users/ProfEduStream/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ProfEduStream/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1347#issuecomment-2090701376",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1347"
+    },
+    {
+      "event": "mentioned",
+      "id": 12684552721,
+      "node_id": "MEE_lADOAN28mc5OhnJAzwAAAAL0DuoR",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12684552721",
+      "actor": {
+        "login": "ProfEduStream",
+        "id": 111052574,
+        "node_id": "U_kgDOBp6HHg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/111052574?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ProfEduStream",
+        "html_url": "https://github.com/ProfEduStream",
+        "followers_url": "https://api.github.com/users/ProfEduStream/followers",
+        "following_url": "https://api.github.com/users/ProfEduStream/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ProfEduStream/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ProfEduStream/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ProfEduStream/subscriptions",
+        "organizations_url": "https://api.github.com/users/ProfEduStream/orgs",
+        "repos_url": "https://api.github.com/users/ProfEduStream/repos",
+        "events_url": "https://api.github.com/users/ProfEduStream/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ProfEduStream/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-02T14:47:50Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 12684552763,
+      "node_id": "SE_lADOAN28mc5OhnJAzwAAAAL0Duo7",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12684552763",
+      "actor": {
+        "login": "ProfEduStream",
+        "id": 111052574,
+        "node_id": "U_kgDOBp6HHg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/111052574?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ProfEduStream",
+        "html_url": "https://github.com/ProfEduStream",
+        "followers_url": "https://api.github.com/users/ProfEduStream/followers",
+        "following_url": "https://api.github.com/users/ProfEduStream/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ProfEduStream/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ProfEduStream/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ProfEduStream/subscriptions",
+        "organizations_url": "https://api.github.com/users/ProfEduStream/orgs",
+        "repos_url": "https://api.github.com/users/ProfEduStream/repos",
+        "events_url": "https://api.github.com/users/ProfEduStream/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ProfEduStream/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-02T14:47:50Z"
+    },
+    {
+      "event": "mentioned",
+      "id": 12684596796,
+      "node_id": "MEE_lADOAN28mc5OhnJAzwAAAAL0D5Y8",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12684596796",
+      "actor": {
+        "login": "kallewoof",
+        "id": 250224,
+        "node_id": "MDQ6VXNlcjI1MDIyNA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/250224?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/kallewoof",
+        "html_url": "https://github.com/kallewoof",
+        "followers_url": "https://api.github.com/users/kallewoof/followers",
+        "following_url": "https://api.github.com/users/kallewoof/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/kallewoof/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/kallewoof/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/kallewoof/subscriptions",
+        "organizations_url": "https://api.github.com/users/kallewoof/orgs",
+        "repos_url": "https://api.github.com/users/kallewoof/repos",
+        "events_url": "https://api.github.com/users/kallewoof/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/kallewoof/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-02T14:50:50Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 12684596819,
+      "node_id": "SE_lADOAN28mc5OhnJAzwAAAAL0D5ZT",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12684596819",
+      "actor": {
+        "login": "kallewoof",
+        "id": 250224,
+        "node_id": "MDQ6VXNlcjI1MDIyNA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/250224?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/kallewoof",
+        "html_url": "https://github.com/kallewoof",
+        "followers_url": "https://api.github.com/users/kallewoof/followers",
+        "following_url": "https://api.github.com/users/kallewoof/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/kallewoof/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/kallewoof/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/kallewoof/subscriptions",
+        "organizations_url": "https://api.github.com/users/kallewoof/orgs",
+        "repos_url": "https://api.github.com/users/kallewoof/repos",
+        "events_url": "https://api.github.com/users/kallewoof/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/kallewoof/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-02T14:50:50Z"
     }
   ],
   "comments": [
@@ -2215,7 +2387,7 @@
       "created_at": "2022-08-09T03:46:30Z",
       "updated_at": "2022-08-09T03:49:38Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1347#discussion_r940865491",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/940865491"
@@ -2839,7 +3011,7 @@
       "created_at": "2022-08-11T05:46:18Z",
       "updated_at": "2022-08-11T05:46:18Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1347#discussion_r943112127",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/943112127"
