@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2024-04-30T09:46:45Z",
-    "updated_at": "2024-05-02T21:54:36Z",
+    "updated_at": "2024-05-03T07:39:02Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "45d99ea366fb1fd45826b5c276cfb4754ab01def",
@@ -287,7 +287,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-02T09:02:07Z",
+        "pushed_at": "2024-05-03T03:13:18Z",
         "created_at": "2013-11-19T17:18:41Z",
         "updated_at": "2024-05-02T21:00:33Z"
       }
@@ -303,7 +303,7 @@
     "deletions": 5,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 1
   },
   "events": [
@@ -683,7 +683,96 @@
       "submitted_at": "2024-05-02T21:54:36Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1583"
+    },
+    {
+      "event": "reviewed",
+      "id": 2037570514,
+      "node_id": "PRR_kwDOAN28mc55ctvS",
+      "url": null,
+      "actor": null,
+      "commit_id": "2c017b0c0b1259a6a7f5716439b9a58dbe26f0ee",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "I think it makes sense to pragmatically try to reduce the confusion the document causes to today's readers. I think the main improvement of this PR, which I am happy to concept ACK is replacing\r\n\r\n>    However, the practicality of the existing schemes is limited: most schemes in the literature have been proven secure only for the case ''k-1 < n/2'', are not secure when used concurrently in multiple sessions, or require a reliable broadcast mechanism to be secure. Further research is necessary to improve this situation.\r\n\r\nwith a reference to FROST.\r\n\r\n",
+      "user": {
+        "login": "jonasnick",
+        "id": 2582071,
+        "node_id": "MDQ6VXNlcjI1ODIwNzE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2582071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonasnick",
+        "html_url": "https://github.com/jonasnick",
+        "followers_url": "https://api.github.com/users/jonasnick/followers",
+        "following_url": "https://api.github.com/users/jonasnick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonasnick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonasnick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonasnick/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonasnick/orgs",
+        "repos_url": "https://api.github.com/users/jonasnick/repos",
+        "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonasnick/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1583#pullrequestreview-2037570514",
+      "submitted_at": "2024-05-03T07:39:02Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1583"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1588842422",
+      "pull_request_review_id": 2037570514,
+      "id": 1588842422,
+      "node_id": "PRRC_kwDOAN28mc5es8-2",
+      "diff_hunk": "@@ -62,7 +62,7 @@ Since we would like to avoid the fragility that comes with short hashes, the ''e\n \n '''Key prefixing''' Using the verification rule above directly makes Schnorr signatures vulnerable to \"related-key attacks\" in which a third party can convert a signature ''(R, s)'' for public key ''P'' into a signature ''(R, s + a⋅hash(R || m))'' for public key ''P + a⋅G'' and the same message ''m'', for any given additive tweak ''a'' to the signing key. This would render signatures insecure when keys are generated using [[bip-0032.mediawiki#public-parent-key--public-child-key|BIP32's unhardened derivation]] and other methods that rely on additive tweaks to existing keys such as Taproot.\n \n-To protect against these attacks, we choose ''key prefixed''<ref>A limitation of committing to the public key (rather than to a short hash of it, or not at all) is that it removes the ability for public key recovery or verifying signatures against a short public key hash. These constructions are generally incompatible with batch verification.</ref> Schnorr signatures which means that the public key is prefixed to the message in the challenge hash input. This changes the equation to ''s⋅G = R + hash(R || P || m)⋅P''. [https://eprint.iacr.org/2015/1135.pdf It can be shown] that key prefixing protects against related-key attacks with additive tweaks. In general, key prefixing increases robustness in multi-user settings, e.g., it seems to be a requirement for proving the MuSig multisignature scheme secure (see Applications below).\n+To protect against these attacks, we choose ''key prefixed''<ref>A limitation of committing to the public key (rather than to a short hash of it, or not at all) is that it removes the ability for public key recovery or verifying signatures against a short public key hash. These constructions are generally incompatible with batch verification.</ref> Schnorr signatures which means that the public key is prefixed to the message in the challenge hash input. This changes the equation to ''s⋅G = R + hash(R || P || m)⋅P''. [https://eprint.iacr.org/2015/1135.pdf It can be shown] that key prefixing protects against related-key attacks with additive tweaks. In general, key prefixing increases robustness in multi-user settings, e.g., it seems to be a requirement for proving the MuSig2 multisignature scheme secure (see Applications below).",
+      "path": "bip-0340.mediawiki",
+      "position": 5,
+      "original_position": 5,
+      "commit_id": "2c017b0c0b1259a6a7f5716439b9a58dbe26f0ee",
+      "original_commit_id": "2c017b0c0b1259a6a7f5716439b9a58dbe26f0ee",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonasnick",
+        "id": 2582071,
+        "node_id": "MDQ6VXNlcjI1ODIwNzE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2582071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonasnick",
+        "html_url": "https://github.com/jonasnick",
+        "followers_url": "https://api.github.com/users/jonasnick/followers",
+        "following_url": "https://api.github.com/users/jonasnick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonasnick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonasnick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonasnick/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonasnick/orgs",
+        "repos_url": "https://api.github.com/users/jonasnick/repos",
+        "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonasnick/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "I think this makes the case for using key prefixing weaker because a possible interpretation of the sentence now is that it is possible to use MuSig(1) without key prefix instead. Maybe give MuSig, MuSig2 and FROST as examples?\r\n\r\nI'm just mentioning this because the question why pubkey prefixing is required by BIP 340 (and therefore does not support recovering a public key from a signature) comes up regularly.",
+      "created_at": "2024-05-03T07:35:27Z",
+      "updated_at": "2024-05-03T07:39:02Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1583#discussion_r1588842422",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1588842422"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1583"
+        }
+      },
+      "start_line": 65,
+      "original_start_line": 65,
+      "start_side": "LEFT",
+      "line": 65,
+      "original_line": 65,
+      "side": "RIGHT"
+    }
+  ]
 }
