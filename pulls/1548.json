@@ -41,7 +41,7 @@
     "body": "A BIP 174 PSBT may contain an extended key for deriving input and output\r\naddresses. This document proposes an additional field for PSBTs to represent\r\narbitrary BIP 380 output script descriptors.\r\n\r\nTo support transfer of output descriptors outside signing flows, the proposal\r\nmakes the unsigned transaction optional.",
     "labels": [],
     "created_at": "2024-01-31T14:30:51Z",
-    "updated_at": "2024-05-02T09:17:59Z",
+    "updated_at": "2024-05-03T06:17:01Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "6ecbba0f4fec5ca2da2550d341d396ebcdc3b16e",
@@ -263,8 +263,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5238,
-        "stargazers_count": 8953,
-        "watchers_count": 8953,
+        "stargazers_count": 8961,
+        "watchers_count": 8961,
         "size": 14970,
         "default_branch": "master",
         "open_issues_count": 68,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-02T09:02:07Z",
+        "pushed_at": "2024-05-03T03:13:18Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-02T03:42:04Z"
+        "updated_at": "2024-05-02T21:00:33Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 7,
-    "review_comments": 28,
+    "review_comments": 29,
     "comments": 19
   },
   "events": [
@@ -4429,6 +4429,58 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1587303596"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1548"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 45,
+      "original_line": 45,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1588781668",
+      "pull_request_review_id": 2037458302,
+      "id": 1588781668,
+      "node_id": "PRRC_kwDOAN28mc5esuJk",
+      "diff_hunk": "@@ -0,0 +1,190 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Binary Output Descriptors\n+  Author: SeedHammer <team@seedhammer.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-seedhammer-binary-output-descriptors\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-01-31\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Introduction==\n+\n+===Abstract===\n+\n+This document proposes an efficient encoding format for output descriptors as\n+defined by [[bip-0380.mediawiki|BIP 380]] and its extensions. Based on\n+key-value maps as defined by [[bip-0174.mediawiki|BIP 174]], the encoding\n+supports descriptor and key metadata.\n+\n+===Copyright===\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+===Motivation===\n+\n+A BIP 380 output descriptor is a textual representation of a set of output\n+scripts, such that Bitcoin wallets may agree on the scripts and addresses\n+to provide the user. However, a descriptor string by itself is not ideal for\n+transferring between wallets: it lacks a machine recognizable header, cannot\n+represent metadata such as name and birth block, and its use of base58 for\n+extended keys is inefficient.\n+\n+BIP 174 gives us a self-describing file format, metadata as well as a compact,\n+binary representation of keys. Assuming most wallets already implements the PSBT\n+format, the implementation overhead of this BIP is expected to be low\n+<ref> '''Why not extend BIP 174?'''\n+The PSBT format is not a general purpose container format, and descriptors\n+are useful outside of signing flows (backup, initializing wallet\n+software).</ref>\n+<ref> '''Why not use the older Blockchain Commons BCR-2020-010 format?'''\n+The format was [[https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-010-output-desc.md#deprecated-superseded-by-version-3-output-descriptors|recently deprecated]],\n+because its use of reserved CBOR tags.</ref>\n+<ref>'''Why not use the new Blockchain Commons BCR-2023-010 format?'''",
+      "path": "bip-bod-descriptors.mediawiki",
+      "position": 45,
+      "original_position": 45,
+      "commit_id": "36403bec0124addaca245c50f7d8dd44fae21319",
+      "original_commit_id": "710fe837a6d6d702e196cb33c1e1b56f854ce73d",
+      "in_reply_to_id": 1586802952,
+      "user": {
+        "login": "fslmultiservice22",
+        "id": 115563701,
+        "node_id": "U_kgDOBuNctQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/115563701?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fslmultiservice22",
+        "html_url": "https://github.com/fslmultiservice22",
+        "followers_url": "https://api.github.com/users/fslmultiservice22/followers",
+        "following_url": "https://api.github.com/users/fslmultiservice22/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fslmultiservice22/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fslmultiservice22/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fslmultiservice22/subscriptions",
+        "organizations_url": "https://api.github.com/users/fslmultiservice22/orgs",
+        "repos_url": "https://api.github.com/users/fslmultiservice22/repos",
+        "events_url": "https://api.github.com/users/fslmultiservice22/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fslmultiservice22/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Grazie.\r\n",
+      "created_at": "2024-05-03T06:17:00Z",
+      "updated_at": "2024-05-03T06:17:01Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1548#discussion_r1588781668",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1588781668"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1548"
