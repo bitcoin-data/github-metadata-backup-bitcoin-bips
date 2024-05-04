@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2024-04-30T09:46:45Z",
-    "updated_at": "2024-05-03T13:05:24Z",
+    "updated_at": "2024-05-04T10:23:31Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "02ef0d45575eee5aad40a157c2a9cdc898c8b5bb",
@@ -272,11 +272,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5238,
-        "stargazers_count": 8966,
-        "watchers_count": 8966,
+        "stargazers_count": 8971,
+        "watchers_count": 8971,
         "size": 14970,
         "default_branch": "master",
-        "open_issues_count": 68,
+        "open_issues_count": 66,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -289,7 +289,7 @@
         "visibility": "public",
         "pushed_at": "2024-05-03T08:32:48Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-03T13:54:14Z"
+        "updated_at": "2024-05-04T06:28:46Z"
       }
     },
     "_links": {
@@ -303,7 +303,7 @@
     "deletions": 5,
     "changed_files": 1,
     "commits": 4,
-    "review_comments": 2,
+    "review_comments": 4,
     "comments": 3
   },
   "events": [
@@ -907,6 +907,42 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1583#issuecomment-2092980375",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1583"
+    },
+    {
+      "event": "reviewed",
+      "id": 2039320015,
+      "node_id": "PRR_kwDOAN28mc55jY3P",
+      "url": null,
+      "actor": null,
+      "commit_id": "4dcdadee675db63e241cda71cdfca9ebe96ce0bf",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "",
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1583#pullrequestreview-2039320015",
+      "submitted_at": "2024-05-04T10:23:31Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1583"
     }
   ],
   "comments": [
@@ -1011,6 +1047,110 @@
       "original_start_line": 65,
       "start_side": "LEFT",
       "line": null,
+      "original_line": 65,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1589954466",
+      "pull_request_review_id": 2039320015,
+      "id": 1589954466,
+      "node_id": "PRRC_kwDOAN28mc5exMei",
+      "diff_hunk": "@@ -264,9 +264,9 @@ While recent academic papers claim that they are also possible with ECDSA, conse\n \n === Multisignatures and Threshold Signatures ===\n \n-By means of an interactive scheme such as [https://eprint.iacr.org/2018/068 MuSig], participants can aggregate their public keys into a single public key which they can jointly sign for. This allows ''n''-of-''n'' multisignatures which, from a verifier's perspective, are no different from ordinary signatures, giving improved privacy and efficiency versus ''CHECKMULTISIG'' or other means.\n+By means of an interactive scheme such as [https://eprint.iacr.org/2020/1261.pdf MuSig2] ([[bip-0327.mediawiki|BIP327]]), participants can aggregate their public keys into a single public key which they can jointly sign for. This allows ''n''-of-''n'' multisignatures which, from a verifier's perspective, are no different from ordinary signatures, giving improved privacy and efficiency versus ''CHECKMULTISIG'' or other means.\n \n-Moreover, Schnorr signatures are compatible with [https://web.archive.org/web/20031003232851/http://www.research.ibm.com/security/dkg.ps distributed key generation], which enables interactive threshold signatures schemes, e.g., the schemes described by [http://cacr.uwaterloo.ca/techreports/2001/corr2001-13.ps Stinson and Strobl (2001)] or [https://web.archive.org/web/20060911151529/http://theory.lcs.mit.edu/~stasio/Papers/gjkr03.pdf Gennaro, Jarecki and Krawczyk (2003)]. These protocols make it possible to realize ''k''-of-''n'' threshold signatures, which ensure that any subset of size ''k'' of the set of ''n'' signers can sign but no subset of size less than ''k'' can produce a valid Schnorr signature. However, the practicality of the existing schemes is limited: most schemes in the literature have been proven secure only for the case ''k-1 < n/2'', are not secure when used concurrently in multiple sessions, or require a reliable broadcast mechanism to be secure. Further research is necessary to improve this situation.\n+Moreover, Schnorr signatures are compatible with [https://en.wikipedia.org/wiki/Distributed_key_generation distributed key generation], which enables interactive threshold signatures schemes, e.g., the schemes described by [http://cacr.uwaterloo.ca/techreports/2001/corr2001-13.ps Stinson and Strobl (2001)], [https://link.springer.com/content/pdf/10.1007/s00145-006-0347-3.pdf Gennaro, Jarecki, Krawczyk, and Rabin (2007)], [https://eprint.iacr.org/2020/852.pdf Komlo and Goldberg (2020)], or [https://eprint.iacr.org/2023/899.pdf Chu, Gerhart, Ruffing, and Schröder (2023)]. These protocols make it possible to realize ''k''-of-''n'' threshold signatures, which ensure that any subset of size ''k'' of the set of ''n'' signers can sign but no subset of size less than ''k'' can produce a valid Schnorr signature.",
+      "path": "bip-0340.mediawiki",
+      "position": 26,
+      "original_position": 26,
+      "commit_id": "4dcdadee675db63e241cda71cdfca9ebe96ce0bf",
+      "original_commit_id": "4dcdadee675db63e241cda71cdfca9ebe96ce0bf",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "```suggestion\r\nMoreover, Schnorr signatures are compatible with [https://en.wikipedia.org/wiki/Distributed_key_generation distributed key generation], which enables interactive threshold signatures schemes, e.g., the schemes by [http://cacr.uwaterloo.ca/techreports/2001/corr2001-13.ps Stinson and Strobl (2001)], by [https://link.springer.com/content/pdf/10.1007/s00145-006-0347-3.pdf Gennaro, Jarecki, Krawczyk, and Rabin (2007)], or the [https://eprint.iacr.org/2020/852.pdf FROST] scheme including its variants such as [https://eprint.iacr.org/2023/899.pdf FROST3]. These protocols make it possible to realize ''k''-of-''n'' threshold signatures, which ensure that any subset of size ''k'' of the set of ''n'' signers can sign but no subset of size less than ''k'' can produce a valid Schnorr signature.\r\n```\r\n\r\nI think spelling out the name FROST is a good idea, and it's also more consistent with the rest of the doc. (I think we used author names only due to the lack of more common names.)   ",
+      "created_at": "2024-05-04T10:23:16Z",
+      "updated_at": "2024-05-04T10:23:31Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1583#discussion_r1589954466",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1589954466"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1583"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 269,
+      "original_line": 269,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1589954486",
+      "pull_request_review_id": 2039320015,
+      "id": 1589954486,
+      "node_id": "PRRC_kwDOAN28mc5exMe2",
+      "diff_hunk": "@@ -62,7 +62,7 @@ Since we would like to avoid the fragility that comes with short hashes, the ''e\n \n '''Key prefixing''' Using the verification rule above directly makes Schnorr signatures vulnerable to \"related-key attacks\" in which a third party can convert a signature ''(R, s)'' for public key ''P'' into a signature ''(R, s + a⋅hash(R || m))'' for public key ''P + a⋅G'' and the same message ''m'', for any given additive tweak ''a'' to the signing key. This would render signatures insecure when keys are generated using [[bip-0032.mediawiki#public-parent-key--public-child-key|BIP32's unhardened derivation]] and other methods that rely on additive tweaks to existing keys such as Taproot.\n \n-To protect against these attacks, we choose ''key prefixed''<ref>A limitation of committing to the public key (rather than to a short hash of it, or not at all) is that it removes the ability for public key recovery or verifying signatures against a short public key hash. These constructions are generally incompatible with batch verification.</ref> Schnorr signatures which means that the public key is prefixed to the message in the challenge hash input. This changes the equation to ''s⋅G = R + hash(R || P || m)⋅P''. [https://eprint.iacr.org/2015/1135.pdf It can be shown] that key prefixing protects against related-key attacks with additive tweaks. In general, key prefixing increases robustness in multi-user settings, e.g., it seems to be a requirement for proving the MuSig multisignature scheme secure (see Applications below).\n+To protect against these attacks, we choose ''key prefixed''<ref>A limitation of committing to the public key (rather than to a short hash of it, or not at all) is that it removes the ability for public key recovery or verifying signatures against a short public key hash. These constructions are generally incompatible with batch verification.</ref> Schnorr signatures which means that the public key is prefixed to the message in the challenge hash input. This changes the equation to ''s⋅G = R + hash(R || P || m)⋅P''. [https://eprint.iacr.org/2015/1135.pdf It can be shown] that key prefixing protects against related-key attacks with additive tweaks. In general, key prefixing increases robustness in multi-user settings, e.g., it seems to be a requirement for proving multiparty signature protocols (such as MuSig, MuSig2, and FROST) secure (see Applications below).",
+      "path": "bip-0340.mediawiki",
+      "position": 5,
+      "original_position": 5,
+      "commit_id": "4dcdadee675db63e241cda71cdfca9ebe96ce0bf",
+      "original_commit_id": "4dcdadee675db63e241cda71cdfca9ebe96ce0bf",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "perhaps a bit more precise:\r\n```suggestion\r\nTo protect against these attacks, we choose ''key prefixed''<ref>A limitation of committing to the public key (rather than to a short hash of it, or not at all) is that it removes the ability for public key recovery or verifying signatures against a short public key hash. These constructions are generally incompatible with batch verification.</ref> Schnorr signatures which means that the public key is prefixed to the message in the challenge hash input. This changes the equation to ''s⋅G = R + hash(R || P || m)⋅P''. [https://eprint.iacr.org/2015/1135.pdf It can be shown] that key prefixing protects against related-key attacks with additive tweaks. In general, key prefixing increases robustness in multi-user settings, e.g., it seems to be a requirement for proving multiparty signing protocols (such as MuSig, MuSig2, and FROST) secure (see Applications below).\r\n```",
+      "created_at": "2024-05-04T10:23:28Z",
+      "updated_at": "2024-05-04T10:23:31Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1583#discussion_r1589954486",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1589954486"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1583"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 65,
       "original_line": 65,
       "side": "RIGHT"
     }
