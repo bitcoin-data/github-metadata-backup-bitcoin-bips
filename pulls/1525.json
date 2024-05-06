@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2023-12-11T23:16:22Z",
-    "updated_at": "2024-05-06T10:44:56Z",
+    "updated_at": "2024-05-06T15:48:50Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "a05828f0877981116c7fd43ab2e80133bfdad6e5",
@@ -312,12 +312,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5240,
+        "forks_count": 5239,
         "stargazers_count": 8972,
         "watchers_count": 8972,
         "size": 14970,
         "default_branch": "master",
-        "open_issues_count": 67,
+        "open_issues_count": 68,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -328,7 +328,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-06T09:40:03Z",
+        "pushed_at": "2024-05-06T14:30:54Z",
         "created_at": "2013-11-19T17:18:41Z",
         "updated_at": "2024-05-06T00:41:41Z"
       }
@@ -344,7 +344,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 57,
-    "review_comments": 80,
+    "review_comments": 81,
     "comments": 27
   },
   "events": [
@@ -6229,6 +6229,41 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1525#issuecomment-2095713772",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1525"
+    },
+    {
+      "event": "reviewed",
+      "id": 2041118183,
+      "node_id": "PRR_kwDOAN28mc55qP3n",
+      "url": null,
+      "actor": null,
+      "commit_id": "cda34eef1c2543ece1205240f27e8d1cfffb336d",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1525#pullrequestreview-2041118183",
+      "submitted_at": "2024-05-06T15:48:50Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1525"
     }
   ],
   "comments": [
@@ -10286,6 +10321,58 @@
       "start_side": null,
       "line": null,
       "original_line": 43,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1591202037",
+      "pull_request_review_id": 2041118183,
+      "id": 1591202037,
+      "node_id": "PRRC_kwDOAN28mc5e19D1",
+      "diff_hunk": "@@ -44,8 +44,12 @@ OP_CAT aims to expand the toolbox of the tapscript developer with a simple, modu\n * Vaults <ref>M. Moser, I. Eyal, and E. G. Sirer, Bitcoin Covenants, http://fc16.ifca.ai/bitcoin/papers/MES16.pdf</ref> which are a specialized covenant that allows a user to block a malicious party who has compromised the user's secret key from stealing the funds in that output. As shown in <ref>A. Poelstra, \"CAT and Schnorr Tricks II\", 2021, https://www.wpsoftware.net/andrew/blog/cat-and-schnorr-tricks-ii.html</ref> OP_CAT is sufficient to build vaults in Bitcoin.\n * Replicating CheckSigFromStack <ref>A. Poelstra, \"CAT and Schnorr Tricks I\", 2021, https://medium.com/blockstream/cat-and-schnorr-tricks-i-faf1b59bd298</ref> which would allow the creation of simple covenants and other advanced contracts without having to presign spending transactions, possibly reducing complexity and the amount of data that needs to be stored. Originally shown to work with Schnorr signatures, this result has been extended to ECDSA signatures <ref>R. Linus, \"Covenants with CAT and ECDSA\", 2023, https://gist.github.com/RobinLinus/9a69f5552be94d13170ec79bf34d5e85#file-covenants_cat_ecdsa-md</ref>.\n \n-The opcode OP_CAT was available in early versions of Bitcoin. However, OP_CAT was removed because it enabled the construction of a script whose evaluation could have memory usage exponential in the size of the script.\n-For example, a script that pushed a 1-byte value on the stack and then repeated the opcodes OP_DUP, OP_CAT 40 times would result in a stack value whose size was greater than 1 terabyte. This is no longer an issue because tapscript enforces a maximum stack element size of 520 bytes.\n+OP_CAT was available in early versions of Bitcoin. \n+In 2010, a single commit disabled OP_CAT, along with another 15 opcodes.\n+Folklore states that OP_CAT was removed in this commit because it enabled the construction of a script whose evaluation could have memory usage exponential in the size of the script.\n+For example, a script that pushed a 1-byte value on the stack and then repeated the opcodes OP_DUP, OP_CAT 40 times would result in a stack element whose size was greater than 1 terabyte assuming no maximum stack element size. As Bitcoin at that time had a maximum stack element size of 5000 bytes, the effect of this expansion was limited to 5000 bytes.",
+      "path": "bip-0347.mediawiki",
+      "position": 9,
+      "original_position": 9,
+      "commit_id": "cda34eef1c2543ece1205240f27e8d1cfffb336d",
+      "original_commit_id": "cda34eef1c2543ece1205240f27e8d1cfffb336d",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "In the new commit cda34eef1c2543ece1205240f27e8d1cfffb336d \"As Bitcoin at that time had a maximum stack element size of 5000 bytes\"\r\n\r\nI'm probably confused, but even in this commit `git show 0a61b0df1224a5470bcddab302bc199ca5a9e356` from 2010 it looks like the maximum stack element size of 520 bytes was present, i.e. `src/script.cpp#L343` - `if (vchPushValue.size() > 520)`.\r\n\r\n",
+      "created_at": "2024-05-06T15:48:50Z",
+      "updated_at": "2024-05-06T15:50:02Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1525#discussion_r1591202037",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1591202037"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1525"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 50,
+      "original_line": 50,
       "side": "RIGHT"
     }
   ]
