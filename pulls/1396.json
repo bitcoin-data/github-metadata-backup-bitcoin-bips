@@ -39,12 +39,30 @@
       "site_admin": false
     },
     "body": "According to the psbt Input Finalizer spec \"All other data except the UTXO and unknown fields in the input key-value map should be cleared from the PSBT. The UTXO should be kept to allow Transaction Extractors to verify the final network serialized transaction.\" In Bip78, the receiver clears this data after it finalizes its inputs, even if the utxo belongs to the sender which will need that data.\r\n\r\nI ran into a problem where LND's FinalizePsbt gRPC fails when this utxo data is missing. I see no good reason to remove this utxo information from the PSBT. I think LND's RPC should also succeed regardless of this data being present because it can look it up with the unsigned_tx's input outpoint (that's what bitcoind's finalizePsbt rpc does). Still I think LND's RPC is technically BIP-0174 spec-compliant while BIP-0078 seems not to be.\r\n\r\nhttps://github.com/lightningnetwork/lnd/blob/cf9a9864cf253dbbcac5904d360bbbde763e1ebe/lnwallet/rpcwallet/rpcwallet.go#L270-L286\r\nAccording to the psbt Input Finalizer spec \"All other data *except the UTXO and unknown fields* in the input key-value map should be cleared from the PSBT. The UTXO should be kept to allow Transaction Extractors to verify the final network serialized transaction.\"\r\n\r\nI ran into a problem where an LND acting as sender FinalizePsbt gRPC fails when sender utxo information is missing. I see no good reason to remove utxo information from the PSBT.\r\n\r\n---\r\n\r\n[tagging this issue in the rust-payjoin library](https://github.com/Kixunil/payjoin/issues/39)\r\n\r\n@nickfarrow @kixunil @nicolasdorier",
-    "labels": [],
+    "labels": [
+      {
+        "id": 275846070,
+        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
+        "name": "Proposed BIP modification",
+        "color": "5319e7",
+        "default": false
+      },
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
+      }
+    ],
     "created_at": "2022-12-20T18:04:50Z",
-    "updated_at": "2024-05-01T18:10:54Z",
+    "updated_at": "2024-05-08T13:59:22Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "0610e53b831967229152f301d5a37097ab2836ce",
+    "merge_commit_sha": "6e1f0cccf4581ad61bfd85d28543400b7b9cc083",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -147,7 +165,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 14146,
+        "size": 14707,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -160,7 +178,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-03-27T03:45:53Z",
+        "pushed_at": "2024-05-07T20:28:17Z",
         "created_at": "2022-04-04T03:35:06Z",
         "updated_at": "2022-04-03T20:34:01Z"
       }
@@ -261,12 +279,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5237,
-        "stargazers_count": 8944,
-        "watchers_count": 8944,
-        "size": 14955,
+        "forks_count": 5242,
+        "stargazers_count": 9005,
+        "watchers_count": 9005,
+        "size": 14771,
         "default_branch": "master",
-        "open_issues_count": 71,
+        "open_issues_count": 61,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -277,9 +295,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-01T15:21:19Z",
+        "pushed_at": "2024-05-08T12:54:48Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-01T17:02:20Z"
+        "updated_at": "2024-05-08T12:54:48Z"
       }
     },
     "_links": {
@@ -920,6 +938,72 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-05-01T18:10:54Z"
+    },
+    {
+      "event": "labeled",
+      "id": 12744411675,
+      "node_id": "LE_lADOAN28mc5ZtRTXzwAAAAL3oEob",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12744411675",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-08T13:59:15Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 12744413129,
+      "node_id": "LE_lADOAN28mc5ZtRTXzwAAAAL3oE_J",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12744413129",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-08T13:59:22Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
     }
   ],
   "comments": []
