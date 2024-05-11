@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1591/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1591/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/0c6aff69d9cf635ae258b50091b84fe67d28aa65",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/921536b5acae659ecfa0254fb53c5018e679d091",
     "number": 1591,
     "state": "open",
     "locked": false,
@@ -39,20 +39,51 @@
       "site_admin": false
     },
     "body": "Two vectors of the `sign_verify` test use different partial signatures even though their signer set, message, and nonces are the same. These are those two vectors:\r\n\r\n**Vector 1 (in `valid_test_ cases`):**\r\n\r\n```json\r\n\"key_indices\": [0, 1, 2],\r\n\"nonce_indices\": [0, 1, 2],\r\n\"aggnonce_index\": 0,\r\n\"msg_index\": 0,\r\n\"signer_index\": 0,\r\n\"expected\": \"012ABBCB52B3016AC03AD82395A1A415C48B93DEF78718E62A7A90052FE224FB\"\r\n```\r\n\r\n**Vector 2 (in `verify_fail_test_cases`):**\r\n\r\n```json\r\n\"sig\": \"68537CC5234E505BD14061F8DA9E90C220A181855FD8BDB7F127BB12403B4D3B\",\r\n\"key_indices\": [0, 1, 2],\r\n\"nonce_indices\": [0, 1, 2],\r\n\"msg_index\": 0,\r\n\"signer_index\": 1,\r\n\"comment\": \"Wrong signer\"\r\n```\r\n\r\nIn Vector 2, if we change the `signer_index` to 0 (the correct index), `partial_sig_verify` will still fail. Therefore, it has the incorrect partial signature. As a result, creating another vector by negating this paritalsig is also incorrect.\r\n\r\nThis PR fixes Vector 2 and the one created by negating Vector 2’s partial signature.\r\n\r\ncc @jonasnick @real-or-random ",
-    "labels": [],
+    "labels": [
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
+      }
+    ],
     "created_at": "2024-05-11T13:14:51Z",
-    "updated_at": "2024-05-11T13:17:18Z",
+    "updated_at": "2024-05-11T14:58:21Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "a0a76e3d5fa0973593d8a4c3cec6eeb3c88f1f05",
+    "merge_commit_sha": "d5ae03d48934209c48988e796dc90443b5430e6e",
     "assignees": [],
-    "requested_reviewers": [],
+    "requested_reviewers": [
+      {
+        "login": "jonasnick",
+        "id": 2582071,
+        "node_id": "MDQ6VXNlcjI1ODIwNzE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2582071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonasnick",
+        "html_url": "https://github.com/jonasnick",
+        "followers_url": "https://api.github.com/users/jonasnick/followers",
+        "following_url": "https://api.github.com/users/jonasnick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonasnick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonasnick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonasnick/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonasnick/orgs",
+        "repos_url": "https://api.github.com/users/jonasnick/repos",
+        "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonasnick/received_events",
+        "type": "User",
+        "site_admin": false
+      }
+    ],
     "requested_teams": [],
     "rebaseable": true,
     "head": {
       "label": "siv2r:bip327-fix-verify-fail-vector",
       "ref": "bip327-fix-verify-fail-vector",
-      "sha": "0c6aff69d9cf635ae258b50091b84fe67d28aa65",
+      "sha": "921536b5acae659ecfa0254fb53c5018e679d091",
       "user": {
         "login": "siv2r",
         "id": 56887198,
@@ -161,7 +192,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-11T12:23:19Z",
+        "pushed_at": "2024-05-11T14:18:35Z",
         "created_at": "2021-12-01T00:28:09Z",
         "updated_at": "2024-02-01T05:30:09Z"
       }
@@ -262,7 +293,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5240,
+        "forks_count": 5241,
         "stargazers_count": 9006,
         "watchers_count": 9006,
         "size": 14930,
@@ -278,7 +309,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-11T13:14:51Z",
+        "pushed_at": "2024-05-11T14:18:36Z",
         "created_at": "2013-11-19T17:18:41Z",
         "updated_at": "2024-05-11T13:49:04Z"
       }
@@ -290,54 +321,14 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 2,
-    "deletions": 2,
-    "changed_files": 1,
+    "additions": 6,
+    "deletions": 4,
+    "changed_files": 2,
     "commits": 1,
     "review_comments": 0,
-    "comments": 0
+    "comments": 1
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDBjNmFmZjY5ZDljZjYzNWFlMjU4YjUwMDkxYjg0ZmU2N2QyOGFhNjU",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/0c6aff69d9cf635ae258b50091b84fe67d28aa65",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/0c6aff69d9cf635ae258b50091b84fe67d28aa65",
-      "tree": {
-        "sha": "416cfa6dd6237454a9964df15841d464d4984853",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/416cfa6dd6237454a9964df15841d464d4984853"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/deae64bfd31f6938253c05392aa355bf6d7e7605",
-          "sha": "deae64bfd31f6938253c05392aa355bf6d7e7605",
-          "html_url": "https://github.com/bitcoin/bips/commit/deae64bfd31f6938253c05392aa355bf6d7e7605"
-        }
-      ],
-      "message": "Fix the first two test vectors of verify fail test",
-      "committer": {
-        "name": "siv2r",
-        "email": "siv2ram@gmail.com",
-        "date": "2024-05-11T11:25:52Z"
-      },
-      "author": {
-        "name": "siv2r",
-        "email": "siv2ram@gmail.com",
-        "date": "2024-05-11T11:25:52Z"
-      },
-      "sha": "0c6aff69d9cf635ae258b50091b84fe67d28aa65"
-    },
     {
       "event": "mentioned",
       "id": 12776456578,
@@ -453,6 +444,267 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-05-11T13:14:51Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 2051210631,
+      "node_id": "PRR_kwDOAN28mc56Qv2H",
+      "url": null,
+      "actor": null,
+      "commit_id": "0c6aff69d9cf635ae258b50091b84fe67d28aa65",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "Concept ACK, thanks @siv2r \r\n\r\nCan confirm that the comments of vector 1 and 2 of \"verify_fail_test_cases\" are incorrect and that the suggested vector fixes this. Check existing and suggested vector 1 with this script:\r\n\r\n```python\r\ndef parse_hex(x):\r\n    return int.from_bytes(bytes.fromhex(x), byteorder=\"big\")\r\n\r\nwrong_s = parse_hex(\"68537CC5234E505BD14061F8DA9E90C220A181855FD8BDB7F127BB12403B4D3B\")\r\nassert((n - wrong_s) == parse_hex(\"97AC833ADCB1AFA42EBF9E0725616F3C9A0D5B614F6FE283CEAAA37A8FFAF406\"))\r\n\r\ncorr_s = parse_hex(\"012ABBCB52B3016AC03AD82395A1A415C48B93DEF78718E62A7A90052FE224FB\")\r\nassert((n - corr_s) == parse_hex(\"FED54434AD4CFE953FC527DC6A5E5BE8F6234907B7C187559557CE87A0541C46\"))\r\n```\r\n\r\nI doubt it's worth incrementing the patch version of the spec but it would be nice if we could somehow reflect this in the change log, for example by adding a line to the top like\r\n```\r\n* 1.0.0 (2024-05-11):\r\n    * Fix minor issue in two test vectors.\r\n```",
+      "user": {
+        "login": "jonasnick",
+        "id": 2582071,
+        "node_id": "MDQ6VXNlcjI1ODIwNzE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2582071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonasnick",
+        "html_url": "https://github.com/jonasnick",
+        "followers_url": "https://api.github.com/users/jonasnick/followers",
+        "following_url": "https://api.github.com/users/jonasnick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonasnick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonasnick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonasnick/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonasnick/orgs",
+        "repos_url": "https://api.github.com/users/jonasnick/repos",
+        "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonasnick/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1591#pullrequestreview-2051210631",
+      "submitted_at": "2024-05-11T14:00:55Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1591"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDkyMTUzNmI1YWNhZTY1OWVjZmEwMjU0ZmI1M2M1MDE4ZTY3OWQwOTE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/921536b5acae659ecfa0254fb53c5018e679d091",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/921536b5acae659ecfa0254fb53c5018e679d091",
+      "tree": {
+        "sha": "dbe996dcc8f129bf748c28d63a19217ce5b1c392",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/dbe996dcc8f129bf748c28d63a19217ce5b1c392"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/deae64bfd31f6938253c05392aa355bf6d7e7605",
+          "sha": "deae64bfd31f6938253c05392aa355bf6d7e7605",
+          "html_url": "https://github.com/bitcoin/bips/commit/deae64bfd31f6938253c05392aa355bf6d7e7605"
+        }
+      ],
+      "message": "Fix the four test vectors\n\n- first two vectors of verify_fail_test\n- first two vectors of verify_error_test",
+      "committer": {
+        "name": "siv2r",
+        "email": "siv2ram@gmail.com",
+        "date": "2024-05-11T14:15:25Z"
+      },
+      "author": {
+        "name": "siv2r",
+        "email": "siv2ram@gmail.com",
+        "date": "2024-05-11T11:25:52Z"
+      },
+      "sha": "921536b5acae659ecfa0254fb53c5018e679d091"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 12776572116,
+      "node_id": "HRFPE_lADOAN28mc6IjEa0zwAAAAL5iwTU",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12776572116",
+      "actor": {
+        "login": "siv2r",
+        "id": 56887198,
+        "node_id": "MDQ6VXNlcjU2ODg3MTk4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/56887198?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/siv2r",
+        "html_url": "https://github.com/siv2r",
+        "followers_url": "https://api.github.com/users/siv2r/followers",
+        "following_url": "https://api.github.com/users/siv2r/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/siv2r/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/siv2r/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/siv2r/subscriptions",
+        "organizations_url": "https://api.github.com/users/siv2r/orgs",
+        "repos_url": "https://api.github.com/users/siv2r/repos",
+        "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/siv2r/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-11T14:18:35Z"
+    },
+    {
+      "event": "commented",
+      "id": 2105852742,
+      "node_id": "IC_kwDOAN28mc59hMNG",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2105852742",
+      "actor": {
+        "login": "siv2r",
+        "id": 56887198,
+        "node_id": "MDQ6VXNlcjU2ODg3MTk4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/56887198?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/siv2r",
+        "html_url": "https://github.com/siv2r",
+        "followers_url": "https://api.github.com/users/siv2r/followers",
+        "following_url": "https://api.github.com/users/siv2r/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/siv2r/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/siv2r/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/siv2r/subscriptions",
+        "organizations_url": "https://api.github.com/users/siv2r/orgs",
+        "repos_url": "https://api.github.com/users/siv2r/repos",
+        "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/siv2r/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-11T14:22:10Z",
+      "updated_at": "2024-05-11T14:22:10Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "I updated the change log as suggested. Also, the `verify_error_test` also used the same wrong sig, so updated those too.",
+      "user": {
+        "login": "siv2r",
+        "id": 56887198,
+        "node_id": "MDQ6VXNlcjU2ODg3MTk4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/56887198?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/siv2r",
+        "html_url": "https://github.com/siv2r",
+        "followers_url": "https://api.github.com/users/siv2r/followers",
+        "following_url": "https://api.github.com/users/siv2r/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/siv2r/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/siv2r/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/siv2r/subscriptions",
+        "organizations_url": "https://api.github.com/users/siv2r/orgs",
+        "repos_url": "https://api.github.com/users/siv2r/repos",
+        "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/siv2r/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1591#issuecomment-2105852742",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1591"
+    },
+    {
+      "event": "labeled",
+      "id": 12776640814,
+      "node_id": "LE_lADOAN28mc6IjEa0zwAAAAL5jBEu",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12776640814",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-11T14:55:35Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
+    },
+    {
+      "event": "review_requested",
+      "id": 12776645291,
+      "node_id": "RRE_lADOAN28mc6IjEa0zwAAAAL5jCKr",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12776645291",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-11T14:58:21Z",
+      "requested_reviewer": {
+        "login": "jonasnick",
+        "id": 2582071,
+        "node_id": "MDQ6VXNlcjI1ODIwNzE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2582071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonasnick",
+        "html_url": "https://github.com/jonasnick",
+        "followers_url": "https://api.github.com/users/jonasnick/followers",
+        "following_url": "https://api.github.com/users/jonasnick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonasnick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonasnick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonasnick/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonasnick/orgs",
+        "repos_url": "https://api.github.com/users/jonasnick/repos",
+        "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonasnick/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "review_requester": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      }
     }
   ],
   "comments": []
