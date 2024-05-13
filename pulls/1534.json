@@ -67,7 +67,7 @@
       }
     ],
     "created_at": "2024-01-07T18:30:14Z",
-    "updated_at": "2024-05-08T15:14:06Z",
+    "updated_at": "2024-05-13T08:27:13Z",
     "mergeable": false,
     "mergeable_state": "dirty",
     "merge_commit_sha": "276bd1d29e1b6d43a446ff6a09e94cb8c562958a",
@@ -174,7 +174,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 14905,
+        "size": 14631,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -187,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-25T05:17:44Z",
+        "pushed_at": "2024-05-09T04:21:50Z",
         "created_at": "2022-01-09T14:22:40Z",
         "updated_at": "2022-01-11T15:47:49Z"
       }
@@ -288,12 +288,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5242,
-        "stargazers_count": 9007,
-        "watchers_count": 9007,
-        "size": 14771,
+        "forks_count": 5245,
+        "stargazers_count": 9008,
+        "watchers_count": 9008,
+        "size": 14869,
         "default_branch": "master",
-        "open_issues_count": 61,
+        "open_issues_count": 57,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -304,9 +304,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-08T15:36:49Z",
+        "pushed_at": "2024-05-13T02:26:33Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-08T15:17:26Z"
+        "updated_at": "2024-05-13T02:32:11Z"
       }
     },
     "_links": {
@@ -320,7 +320,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 5,
+    "review_comments": 6,
     "comments": 1
   },
   "events": [
@@ -1149,6 +1149,41 @@
         "name": "PR Author action required",
         "color": "e99695"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 2052027515,
+      "node_id": "PRR_kwDOAN28mc56T3R7",
+      "url": null,
+      "actor": null,
+      "commit_id": "efd4bd9ebd8482e026767c45d62f689db2981b28",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "NONE",
+      "user": {
+        "login": "halseth",
+        "id": 3765732,
+        "node_id": "MDQ6VXNlcjM3NjU3MzI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3765732?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/halseth",
+        "html_url": "https://github.com/halseth",
+        "followers_url": "https://api.github.com/users/halseth/followers",
+        "following_url": "https://api.github.com/users/halseth/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/halseth/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/halseth/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/halseth/subscriptions",
+        "organizations_url": "https://api.github.com/users/halseth/orgs",
+        "repos_url": "https://api.github.com/users/halseth/repos",
+        "events_url": "https://api.github.com/users/halseth/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/halseth/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1534#pullrequestreview-2052027515",
+      "submitted_at": "2024-05-13T08:27:13Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1534"
     }
   ],
   "comments": [
@@ -1410,6 +1445,58 @@
       "start_side": "RIGHT",
       "line": 9,
       "original_line": 9,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1598074285",
+      "pull_request_review_id": 2052027515,
+      "id": 1598074285,
+      "node_id": "PRRC_kwDOAN28mc5fQK2t",
+      "diff_hunk": "@@ -0,0 +1,68 @@\n+| BIP-XXXX   | `OP_INTERNALKEY`\n+| :--------- | :---------------\n+| Layer      | Consensus (soft fork)\n+| Author     | Brandon Black `<freedom@reardencode.com>`, Jeremy Rubin `<j@rubin.io>`\n+| Discussion | https://delvingbitcoin.org/t/lnhance-bips-and-implementation/376/9\n+| Status     | Draft\n+| Type       | Standards Track\n+| Created    | 2023-12-22\n+| License    | BSD-3-Clause\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode (`OP_INTERNALKEY`) which\n+pushes the taproot internal key to the stack.\n+\n+## Specification\n+\n+When verifying taproot script spends having leaf version `0xc0` (as defined in\n+[BIP 342]), `OP_INTERNALKEY` replaces `OP_SUCCESS203` (0xcb). `OP_INTERNALKEY`\n+pushes the taproot internal key, as defined in [BIP 341], to the stack.\n+\n+## Motivation",
+      "path": "bip-internalkey.md",
+      "position": 22,
+      "original_position": 22,
+      "commit_id": "efd4bd9ebd8482e026767c45d62f689db2981b28",
+      "original_commit_id": "efd4bd9ebd8482e026767c45d62f689db2981b28",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "halseth",
+        "id": 3765732,
+        "node_id": "MDQ6VXNlcjM3NjU3MzI=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3765732?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/halseth",
+        "html_url": "https://github.com/halseth",
+        "followers_url": "https://api.github.com/users/halseth/followers",
+        "following_url": "https://api.github.com/users/halseth/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/halseth/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/halseth/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/halseth/subscriptions",
+        "organizations_url": "https://api.github.com/users/halseth/orgs",
+        "repos_url": "https://api.github.com/users/halseth/repos",
+        "events_url": "https://api.github.com/users/halseth/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/halseth/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Additional useful feature: ability to inspect the tweak to a key (in combination with some OP_TWEAKVERIFY).",
+      "created_at": "2024-05-13T08:27:13Z",
+      "updated_at": "2024-05-13T08:27:13Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1534#discussion_r1598074285",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1598074285"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1534"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 22,
+      "original_line": 22,
       "side": "RIGHT"
     }
   ]
