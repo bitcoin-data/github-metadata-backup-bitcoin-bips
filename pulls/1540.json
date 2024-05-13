@@ -59,12 +59,14 @@
       }
     ],
     "created_at": "2024-01-15T20:14:59Z",
-    "updated_at": "2024-05-13T16:23:24Z",
-    "mergeable_state": "unknown",
-    "merge_commit_sha": "d5bc18737eac4170761a7b2e0574fc075a8ec9d9",
+    "updated_at": "2024-05-13T18:03:35Z",
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "merge_commit_sha": "ed7e689db6df13ecfa5a5286262221cf1fdc455e",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
+    "rebaseable": true,
     "head": {
       "label": "achow101:musig2",
       "ref": "musig2",
@@ -279,11 +281,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5245,
-        "stargazers_count": 9009,
-        "watchers_count": 9009,
-        "size": 14869,
+        "stargazers_count": 9010,
+        "watchers_count": 9010,
+        "size": 14913,
         "default_branch": "master",
-        "open_issues_count": 54,
+        "open_issues_count": 53,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -294,9 +296,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-13T16:57:55Z",
+        "pushed_at": "2024-05-13T17:03:55Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-13T16:57:55Z"
+        "updated_at": "2024-05-13T17:06:44Z"
       }
     },
     "_links": {
@@ -310,7 +312,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 3,
-    "review_comments": 28,
+    "review_comments": 29,
     "comments": 9
   },
   "events": [
@@ -3400,6 +3402,58 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1598740156"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 50,
+      "original_line": 50,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1598854593",
+      "pull_request_review_id": 2053374059,
+      "id": 1598854593,
+      "node_id": "PRRC_kwDOAN28mc5fTJXB",
+      "diff_hunk": "@@ -0,0 +1,69 @@\n+<pre>\n+  BIP: musig2-descriptors\n+  Layer: Applications\n+  Title: musig() Descriptor Key Expression\n+  Author: Ava Chow <me@achow101.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-musig2-descriptor\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-01-15\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies a <tt>musig()</tt> key expression for output script descriptors.\n+<tt>musig()</tt> expressions take multiple keys and produce an aggregate public key using BIP 327.\n+\n+==Copyright==\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+==Motivation==\n+\n+BIP 327 introduces the MuSig2 Multi-Signature scheme. It is useful to have a way for keys to be used\n+in a MuSig2 aggregate key to be expressed in descriptors so that wallets can more easily use MuSig2.\n+\n+==Specification==\n+\n+A new key expression is defined: <tt>musig()</tt>.\n+\n+===<tt>musig()</tt>===\n+\n+The <tt>musig(KEY, KEY, ..., KEY)</tt> expression can only be used inside of a <tt>tr()</tt>\n+expression as a key expression. The aggregate public key is produced by using the <tt>KeyAgg</tt>\n+algorithm on all KEYs specified in the expression after performing all specified derivation. As with\n+script expressions, KEY can contain child derivation specified by <tt>/*</tt>. A new aggregate\n+public key will be computed for each child index. Keys must be sorted with the <tt>KeySort</tt>\n+algorithm after all derivation and prior to aggregation.\n+\n+<tt>musig(KEY, KEY, ..., KEY)/NUM/.../*</tt> expressions are also allowed. The aggregate public key\n+is first computed as described above, with the keys also being sorted after all derivation and prior\n+to aggreation, then further BIP 32 derivation will be performed on it as described in\n+[[bip-musig2-derivation.mediawiki|BIP-musig2-derivation]]. As there is no aggregate private key,\n+only unhardened derivation from the aggregate public key is allowed, and thus the derivation steps\n+following the <tt>musig()</tt> expression cannot contain\n+<tt>/NUMh</tt> or <tt>/NUM'</tt> derivation steps nor <tt>/*h</tt>, or <tt>/*'</tt> child derivation.\n+For these <tt>musig()</tt> expressions, the KEY expressions contained within must be xpubs or derived from\n+xpubs, and cannot contain child derivation as specified by a <tt>/*</tt>, <tt>/*'</tt>, or <tt>/*h</tt>.\n+",
+      "path": "bip-musig2-descriptors.mediawiki",
+      "position": 50,
+      "original_position": 50,
+      "commit_id": "31643d4684a0905304da9fc0cb094fa3433e8191",
+      "original_commit_id": "31643d4684a0905304da9fc0cb094fa3433e8191",
+      "in_reply_to_id": 1598419207,
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Since you can put `musig()` inside any fragment inside `tr()`, I think it's very easy to miss the fact that `musig()` itself is not a fragment, despite using a visually identical syntax. Especially since nesting `musig()` inside `musig()` is a natural thing that some people will surely want to do.",
+      "created_at": "2024-05-13T18:03:35Z",
+      "updated_at": "2024-05-13T18:03:35Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1598854593",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1598854593"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
