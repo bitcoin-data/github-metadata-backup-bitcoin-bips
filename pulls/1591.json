@@ -14,9 +14,9 @@
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1591/comments",
     "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/508e3a6a40a6e73c73cbfa8a33aa18a2bc7b9d91",
     "number": 1591,
-    "state": "open",
+    "state": "closed",
     "locked": false,
-    "maintainer_can_modify": true,
+    "maintainer_can_modify": false,
     "title": "Fix the first two test vectors of verify fail test",
     "user": {
       "login": "siv2r",
@@ -39,26 +39,16 @@
       "site_admin": false
     },
     "body": "Two vectors of the `sign_verify` test use different partial signatures even though their signer set, message, and nonces are the same. These are those two vectors:\r\n\r\n**Vector 1 (in `valid_test_ cases`):**\r\n\r\n```json\r\n\"key_indices\": [0, 1, 2],\r\n\"nonce_indices\": [0, 1, 2],\r\n\"aggnonce_index\": 0,\r\n\"msg_index\": 0,\r\n\"signer_index\": 0,\r\n\"expected\": \"012ABBCB52B3016AC03AD82395A1A415C48B93DEF78718E62A7A90052FE224FB\"\r\n```\r\n\r\n**Vector 2 (in `verify_fail_test_cases`):**\r\n\r\n```json\r\n\"sig\": \"68537CC5234E505BD14061F8DA9E90C220A181855FD8BDB7F127BB12403B4D3B\",\r\n\"key_indices\": [0, 1, 2],\r\n\"nonce_indices\": [0, 1, 2],\r\n\"msg_index\": 0,\r\n\"signer_index\": 1,\r\n\"comment\": \"Wrong signer\"\r\n```\r\n\r\nIn Vector 2, if we change the `signer_index` to 0 (the correct index), `partial_sig_verify` will still fail. Therefore, it has the incorrect partial signature. As a result, creating another vector by negating this paritalsig is also incorrect.\r\n\r\nThis PR fixes Vector 2 and the one created by negating Vector 2’s partial signature.\r\n\r\ncc @jonasnick @real-or-random ",
-    "labels": [
-      {
-        "id": 6924377447,
-        "node_id": "LA_kwDOAN28mc8AAAABnLmdZw",
-        "url": "https://api.github.com/repos/bitcoin/bips/labels/PR%20Author%20action%20required",
-        "name": "PR Author action required",
-        "description": "Needs updates, has unaddressed review comments, or is otherwise waiting for PR author",
-        "color": "e99695",
-        "default": false
-      }
-    ],
+    "labels": [],
     "created_at": "2024-05-11T13:14:51Z",
-    "updated_at": "2024-05-14T07:37:57Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
-    "merge_commit_sha": "497e544d74aadfea6280a54becff055c0af39cb6",
+    "updated_at": "2024-05-14T08:59:40Z",
+    "closed_at": "2024-05-14T08:59:40Z",
+    "mergeable_state": "unknown",
+    "merged_at": "2024-05-14T08:59:40Z",
+    "merge_commit_sha": "96161aeaf5cef975974c04f9aaf98444f99a2515",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
     "head": {
       "label": "siv2r:bip327-fix-verify-fail-vector",
       "ref": "bip327-fix-verify-fail-vector",
@@ -277,7 +267,7 @@
         "watchers_count": 9011,
         "size": 14913,
         "default_branch": "master",
-        "open_issues_count": 53,
+        "open_issues_count": 52,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -288,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-14T02:11:42Z",
+        "pushed_at": "2024-05-14T08:59:45Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-13T21:39:31Z"
+        "updated_at": "2024-05-14T08:59:50Z"
       }
     },
     "_links": {
@@ -1005,6 +995,97 @@
       "submitted_at": "2024-05-14T07:37:57Z",
       "state": "APPROVED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1591"
+    },
+    {
+      "event": "unlabeled",
+      "id": 12798596585,
+      "node_id": "UNLE_lADOAN28mc6IjEa0zwAAAAL62xXp",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12798596585",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-14T08:59:19Z",
+      "label": {
+        "name": "PR Author action required",
+        "color": "e99695"
+      }
+    },
+    {
+      "event": "merged",
+      "id": 12798602382,
+      "node_id": "ME_lADOAN28mc6IjEa0zwAAAAL62yyO",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12798602382",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": "96161aeaf5cef975974c04f9aaf98444f99a2515",
+      "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/96161aeaf5cef975974c04f9aaf98444f99a2515",
+      "created_at": "2024-05-14T08:59:40Z"
+    },
+    {
+      "event": "closed",
+      "id": 12798602418,
+      "node_id": "CE_lADOAN28mc6IjEa0zwAAAAL62yyy",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12798602418",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-14T08:59:40Z"
     }
   ],
   "comments": [
