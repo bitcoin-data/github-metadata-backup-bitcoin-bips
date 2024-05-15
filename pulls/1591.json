@@ -41,7 +41,7 @@
     "body": "Two vectors of the `sign_verify` test use different partial signatures even though their signer set, message, and nonces are the same. These are those two vectors:\r\n\r\n**Vector 1 (in `valid_test_ cases`):**\r\n\r\n```json\r\n\"key_indices\": [0, 1, 2],\r\n\"nonce_indices\": [0, 1, 2],\r\n\"aggnonce_index\": 0,\r\n\"msg_index\": 0,\r\n\"signer_index\": 0,\r\n\"expected\": \"012ABBCB52B3016AC03AD82395A1A415C48B93DEF78718E62A7A90052FE224FB\"\r\n```\r\n\r\n**Vector 2 (in `verify_fail_test_cases`):**\r\n\r\n```json\r\n\"sig\": \"68537CC5234E505BD14061F8DA9E90C220A181855FD8BDB7F127BB12403B4D3B\",\r\n\"key_indices\": [0, 1, 2],\r\n\"nonce_indices\": [0, 1, 2],\r\n\"msg_index\": 0,\r\n\"signer_index\": 1,\r\n\"comment\": \"Wrong signer\"\r\n```\r\n\r\nIn Vector 2, if we change the `signer_index` to 0 (the correct index), `partial_sig_verify` will still fail. Therefore, it has the incorrect partial signature. As a result, creating another vector by negating this paritalsig is also incorrect.\r\n\r\nThis PR fixes Vector 2 and the one created by negating Vector 2’s partial signature.\r\n\r\ncc @jonasnick @real-or-random ",
     "labels": [],
     "created_at": "2024-05-11T13:14:51Z",
-    "updated_at": "2024-05-14T12:51:33Z",
+    "updated_at": "2024-05-15T08:19:43Z",
     "closed_at": "2024-05-14T08:59:40Z",
     "mergeable_state": "unknown",
     "merged_at": "2024-05-14T08:59:40Z",
@@ -262,9 +262,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5246,
-        "stargazers_count": 9011,
-        "watchers_count": 9011,
+        "forks_count": 5248,
+        "stargazers_count": 9017,
+        "watchers_count": 9017,
         "size": 14945,
         "default_branch": "master",
         "open_issues_count": 52,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-14T08:59:45Z",
+        "pushed_at": "2024-05-15T06:58:12Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-14T08:59:50Z"
+        "updated_at": "2024-05-15T03:52:46Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 2,
     "commits": 1,
     "review_comments": 4,
-    "comments": 2
+    "comments": 3
   },
   "events": [
     {
@@ -1086,6 +1086,60 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-05-14T08:59:40Z"
+    },
+    {
+      "event": "commented",
+      "id": 2111871127,
+      "node_id": "IC_kwDOAN28mc594JiX",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2111871127",
+      "actor": {
+        "login": "jonasnick",
+        "id": 2582071,
+        "node_id": "MDQ6VXNlcjI1ODIwNzE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2582071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonasnick",
+        "html_url": "https://github.com/jonasnick",
+        "followers_url": "https://api.github.com/users/jonasnick/followers",
+        "following_url": "https://api.github.com/users/jonasnick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonasnick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonasnick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonasnick/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonasnick/orgs",
+        "repos_url": "https://api.github.com/users/jonasnick/repos",
+        "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonasnick/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-15T08:19:42Z",
+      "updated_at": "2024-05-15T08:19:42Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> Yeah, it's better to set it to the commit date, but two days more or less don't make that big of a difference in the end\r\n\r\nI think the purpose of the date is to make it easier for people to look up the changes in the commit history. However, the date is wrong now anyway because github UI does not show the correct date of the commit :shrug:.",
+      "user": {
+        "login": "jonasnick",
+        "id": 2582071,
+        "node_id": "MDQ6VXNlcjI1ODIwNzE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2582071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonasnick",
+        "html_url": "https://github.com/jonasnick",
+        "followers_url": "https://api.github.com/users/jonasnick/followers",
+        "following_url": "https://api.github.com/users/jonasnick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonasnick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonasnick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonasnick/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonasnick/orgs",
+        "repos_url": "https://api.github.com/users/jonasnick/repos",
+        "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonasnick/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1591#issuecomment-2111871127",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1591"
     }
   ],
   "comments": [
