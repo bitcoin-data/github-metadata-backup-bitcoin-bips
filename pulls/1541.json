@@ -59,10 +59,10 @@
       }
     ],
     "created_at": "2024-01-18T14:01:13Z",
-    "updated_at": "2024-05-15T01:26:04Z",
+    "updated_at": "2024-05-21T22:57:19Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "ae83aa69beaa7d5782d125b36d85ac2089750018",
+    "merge_commit_sha": "1293feaf9f99c43aedae8e7e963e647e43a45bbc",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -301,12 +301,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5247,
-        "stargazers_count": 9015,
-        "watchers_count": 9015,
-        "size": 14945,
+        "forks_count": 5254,
+        "stargazers_count": 9027,
+        "watchers_count": 9027,
+        "size": 14960,
         "default_branch": "master",
-        "open_issues_count": 51,
+        "open_issues_count": 48,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -317,9 +317,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-14T21:44:19Z",
+        "pushed_at": "2024-05-21T19:16:06Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-15T01:11:09Z"
+        "updated_at": "2024-05-21T12:17:03Z"
       }
     },
     "_links": {
@@ -333,7 +333,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 26,
+    "review_comments": 32,
     "comments": 13
   },
   "events": [
@@ -1379,8 +1379,8 @@
           "number": 29873,
           "state": "open",
           "state_reason": null,
-          "title": "policy: restrict all TRUC (v3) transactions to 25KvB",
-          "body": "Opening for discussion / conceptual review.\r\n\r\nWe like the idea of a smaller maximum transaction size because:\r\n- It lowers potential replacement cost (i.e. harder to do Rule 3 pinning via gigantic transaction)\r\n- They are easier to bin-pack in block template production\r\n- They equate to a tighter memory limit in data structures that are bounded by a number of transactions (e.g. orphanage and vExtraTxnForCompact). For example, the current memory bounds for orphanage is 100KvB * 100 = 40MB, and guaranteeing 1 tx per peer would require reserving a pretty large space.\r\n\r\nLowering `MAX_STANDARD_TX_WEIGHT` for all txns is not being proposed, as there are existing apps/protocols that rely on large transactions. However, it's been brought up that we should consider this for TRUCs (which is especially designed to avoid Rule 3 pinning).\r\n\r\nThis reduction to 25k should be ok because v3 isn't standard yet, so this wouldn't break somebody's existing use case. If we find that this is too small, we can always increase it later. Decreasing would be much more difficult.\r\n~[Expected size of a commitment transaction](https://github.com/lightning/bolts/blob/master/03-transactions.md#expected-weight-of-the-commitment-transaction) is within (900 + 172 * 483 + 224) / 4 = 21050vB~ EDIT: this is incorrect, but perhaps not something that should affect how we choose this number.\r\n\r\nQuestions we'd want to consider\r\n- Would this make things {broken, inconvenient} for potential users of TRUCs, e.g. by requiring swapping between v3 and v2?\r\n- Is this useful for pinning, given that there are already tighter limits on commitment tx size through `max_accepted_htlcs`?",
+          "title": "policy: restrict all TRUC (v3) transactions to 10kvB",
+          "body": "Opening for discussion / conceptual review.\r\n\r\nWe like the idea of a smaller maximum transaction size because:\r\n- It lowers potential replacement cost (i.e. harder to do Rule 3 pinning via gigantic transaction)\r\n- They are easier to bin-pack in block template production\r\n- They equate to a tighter memory limit in data structures that are bounded by a number of transactions (e.g. orphanage and vExtraTxnForCompact). For example, the current memory bounds for orphanage is 100KvB * 100 = 40MB, and guaranteeing 1 tx per peer would require reserving a pretty large space.\r\n\r\nHistory for `MAX_STANDARD_TX_WEIGHT=100KvB` (copied from https://github.com/bitcoin/bitcoin/pull/29873#issuecomment-2115459510):\r\n- 2010-09-13 In https://github.com/bitcoin/bitcoin/commit/3df62878c3cece15a8921fbbdee7859ee9368768 satoshi added a 100kB (MAX_BLOCK_SIZE_GEN/5 with MBS_GEN = MAX_BLOCK_SIZE/2) limit on new transactions in CreateTransaction()\r\n- 2013-02-04 https://github.com/bitcoin/bitcoin/pull/2273 In gavin gave that constant a name, and made it apply to transaction relay as well\r\n\r\nLowering `MAX_STANDARD_TX_WEIGHT` for all txns is not being proposed, as there are existing apps/protocols that rely on large transactions. However, it's been brought up that we should consider this for TRUCs (which is especially designed to avoid Rule 3 pinning).\r\n\r\nThis reduction should be ok because using nVersion=3 isn't standard yet, so this wouldn't break somebody's existing use case. If we find that this is too small, we can always increase it later. Decreasing would be much more difficult.\r\n~[Expected size of a commitment transaction](https://github.com/lightning/bolts/blob/master/03-transactions.md#expected-weight-of-the-commitment-transaction) is within (900 + 172 * 483 + 224) / 4 = 21050vB~ EDIT: this is incorrect, but perhaps not something that should affect how we choose this number.",
           "user": {
             "login": "glozow",
             "id": 25183001,
@@ -1422,7 +1422,7 @@
           "assignees": [],
           "author_association": "MEMBER",
           "locked": false,
-          "comments": 10,
+          "comments": 17,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/29873",
             "html_url": "https://github.com/bitcoin/bitcoin/pull/29873",
@@ -1430,7 +1430,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/29873.patch"
           },
           "created_at": "2024-04-15T11:19:24Z",
-          "updated_at": "2024-05-09T05:03:05Z"
+          "updated_at": "2024-05-21T14:08:13Z"
         },
         "type": "issue"
       }
