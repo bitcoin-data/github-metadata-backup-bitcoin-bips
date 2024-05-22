@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-05-06T14:30:54Z",
-    "updated_at": "2024-05-22T19:56:25Z",
+    "updated_at": "2024-05-22T20:08:41Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "71b0412f99b6e186c068729eba35bd1984d3b9f0",
@@ -304,7 +304,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 1,
+    "review_comments": 2,
     "comments": 4
   },
   "events": [
@@ -957,6 +957,58 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1610570204"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1587"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 40,
+      "original_line": 40,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1610583493",
+      "pull_request_review_id": 2072257906,
+      "id": 1610583493,
+      "node_id": "PRRC_kwDOAN28mc5f_43F",
+      "diff_hunk": "@@ -0,0 +1,184 @@\n+<pre>\n+  BIP: 119.2 (Pending Assignment)\n+  Layer: Consensus (soft fork)\n+  Title: CHECKTEMPLATEVERIFY V2\n+  Author: Jeremy Rubin <j@rubin.io>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0119\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-05-06\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This BIP proposes extensions to OP_CHECKTEMPLATEVERIFY BIP-119 as enhancements\n+for LN Symmetry based constructions which use CTV and CSFS.\n+\n+\n+==Summary==\n+\n+Adds a 20-byte CTV hash using HASH160 digest to save 12 bytes per script.  Adds\n+a 1-byte flag (with no bits set) that allows for arbitrary data to be committed\n+to inside the CTV hash.\n+\n+==Motivation==\n+\n+LN Symmetry prefers scripts as small as possible. Allowing the use of HASH160\n+can allow users to reduce fees in exchange for minor loss of security.\n+\n+LN Symmetry also sometimes requires additional committed data for data\n+availability purposes. When using BIP-118 APO, this extra data can be\n+(although, according to BIP-341/342 should not be) placed in the Annex. As CTV\n+does not commit to the annex, additional data can be committed to in an\n+OP_RETURN.  However, OP_RETURNs are inefficient as they require 8 bytes of\n+value plus a few VarInts to encode sizes, and use non discounted blockspace.\n+Instead, committing to with CTV extra values on the stack can avoid these\n+overheads.\n+\n+\n+==Detailed Specification==",
+      "path": "bip-0119.2.mediawiki",
+      "position": 40,
+      "original_position": 40,
+      "commit_id": "144d6179d6c2ff7145c9719c2e5db5f7a385a4dd",
+      "original_commit_id": "144d6179d6c2ff7145c9719c2e5db5f7a385a4dd",
+      "in_reply_to_id": 1610570204,
+      "user": {
+        "login": "JeremyRubin",
+        "id": 886523,
+        "node_id": "MDQ6VXNlcjg4NjUyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/886523?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/JeremyRubin",
+        "html_url": "https://github.com/JeremyRubin",
+        "followers_url": "https://api.github.com/users/JeremyRubin/followers",
+        "following_url": "https://api.github.com/users/JeremyRubin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/JeremyRubin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/JeremyRubin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/JeremyRubin/subscriptions",
+        "organizations_url": "https://api.github.com/users/JeremyRubin/orgs",
+        "repos_url": "https://api.github.com/users/JeremyRubin/repos",
+        "events_url": "https://api.github.com/users/JeremyRubin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/JeremyRubin/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "this equation might help:\r\n\r\nSha256(CTVHASH(TX) || sha256(stack[-2])) == stack[-1][0:32]\r\n\r\nmore or less, check that the 32 bytes on the back of the stack match if you took the CTV hash and hashed it with some extra data.\r\n\r\nThe point is to enable signing stack[-1][0:32] with CSFS, which then also covers the extra data, allowing you to stuff arbitrary extra data into the witness.",
+      "created_at": "2024-05-22T20:08:41Z",
+      "updated_at": "2024-05-22T20:08:42Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1587#discussion_r1610583493",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1610583493"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1587"
