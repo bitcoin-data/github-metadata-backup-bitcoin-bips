@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1541/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1541/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/c0fb4172f3c40718a102897d34ce4c12562f6f68",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
     "number": 1541,
     "state": "open",
     "locked": false,
@@ -50,10 +50,10 @@
       }
     ],
     "created_at": "2024-01-18T14:01:13Z",
-    "updated_at": "2024-05-23T14:28:12Z",
+    "updated_at": "2024-05-23T15:34:03Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "e08b838ce8d5be612c7e8056381e879eee39f285",
+    "merge_commit_sha": "30f69ab6dd87934b711cac14d91f2c26de27c441",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -61,7 +61,7 @@
     "head": {
       "label": "glozow:2024-01-v3-prio",
       "ref": "2024-01-v3-prio",
-      "sha": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "sha": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "user": {
         "login": "glozow",
         "id": 25183001,
@@ -170,7 +170,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-23T14:27:50Z",
+        "pushed_at": "2024-05-23T15:33:22Z",
         "created_at": "2022-04-14T12:52:36Z",
         "updated_at": "2023-06-12T10:57:22Z"
       }
@@ -287,7 +287,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-23T14:27:53Z",
+        "pushed_at": "2024-05-23T15:33:24Z",
         "created_at": "2013-11-19T17:18:41Z",
         "updated_at": "2024-05-23T02:16:00Z"
       }
@@ -303,7 +303,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 59,
+    "review_comments": 61,
     "comments": 16
   },
   "events": [
@@ -1237,7 +1237,7 @@
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/29496.patch"
           },
           "created_at": "2024-02-27T22:19:48Z",
-          "updated_at": "2024-05-23T13:55:24Z"
+          "updated_at": "2024-05-23T15:19:11Z"
         },
         "type": "issue"
       }
@@ -1347,7 +1347,7 @@
           "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/29873/events",
           "html_url": "https://github.com/bitcoin/bitcoin/pull/29873",
           "number": 29873,
-          "state": "open",
+          "state": "closed",
           "state_reason": null,
           "title": "policy: restrict all TRUC (v3) transactions to 10kvB",
           "body": "Opening for discussion / conceptual review.\r\n\r\nWe like the idea of a smaller maximum transaction size because:\r\n- It lowers potential replacement cost (i.e. harder to do Rule 3 pinning via gigantic transaction)\r\n- They are easier to bin-pack in block template production\r\n- They equate to a tighter memory limit in data structures that are bounded by a number of transactions (e.g. orphanage and vExtraTxnForCompact). For example, the current memory bounds for orphanage is 100KvB * 100 = 40MB, and guaranteeing 1 tx per peer would require reserving a pretty large space.\r\n\r\nHistory for `MAX_STANDARD_TX_WEIGHT=100KvB` (copied from https://github.com/bitcoin/bitcoin/pull/29873#issuecomment-2115459510):\r\n- 2010-09-13 In https://github.com/bitcoin/bitcoin/commit/3df62878c3cece15a8921fbbdee7859ee9368768 satoshi added a 100kB (MAX_BLOCK_SIZE_GEN/5 with MBS_GEN = MAX_BLOCK_SIZE/2) limit on new transactions in CreateTransaction()\r\n- 2013-02-04 https://github.com/bitcoin/bitcoin/pull/2273 In gavin gave that constant a name, and made it apply to transaction relay as well\r\n\r\nLowering `MAX_STANDARD_TX_WEIGHT` for all txns is not being proposed, as there are existing apps/protocols that rely on large transactions. However, it's been brought up that we should consider this for TRUCs (which is especially designed to avoid Rule 3 pinning).\r\n\r\nThis reduction should be ok because using nVersion=3 isn't standard yet, so this wouldn't break somebody's existing use case. If we find that this is too small, we can always increase it later. Decreasing would be much more difficult.\r\n~[Expected size of a commitment transaction](https://github.com/lightning/bolts/blob/master/03-transactions.md#expected-weight-of-the-commitment-transaction) is within (900 + 172 * 483 + 224) / 4 = 21050vB~ EDIT: this is incorrect, but perhaps not something that should affect how we choose this number.",
@@ -1384,15 +1384,16 @@
           "assignees": [],
           "author_association": "MEMBER",
           "locked": false,
-          "comments": 19,
+          "comments": 20,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/29873",
             "html_url": "https://github.com/bitcoin/bitcoin/pull/29873",
             "diff_url": "https://github.com/bitcoin/bitcoin/pull/29873.diff",
             "patch_url": "https://github.com/bitcoin/bitcoin/pull/29873.patch"
           },
+          "closed_at": "2024-05-23T15:54:42Z",
           "created_at": "2024-04-15T11:19:24Z",
-          "updated_at": "2024-05-23T14:33:17Z"
+          "updated_at": "2024-05-23T15:54:42Z"
         },
         "type": "issue"
       }
@@ -3155,46 +3156,6 @@
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGMwZmI0MTcyZjNjNDA3MThhMTAyODk3ZDM0Y2U0YzEyNTYyZjZmNjg",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c0fb4172f3c40718a102897d34ce4c12562f6f68",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/c0fb4172f3c40718a102897d34ce4c12562f6f68",
-      "tree": {
-        "sha": "941901e6d59475cb5e504a45a8fe9fa5d6b3ba6e",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/941901e6d59475cb5e504a45a8fe9fa5d6b3ba6e"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/156e8aabe24c1253b38d61459791a939550a4b60",
-          "sha": "156e8aabe24c1253b38d61459791a939550a4b60",
-          "html_url": "https://github.com/bitcoin/bips/commit/156e8aabe24c1253b38d61459791a939550a4b60"
-        }
-      ],
-      "message": "Define BIP431: TRUCs",
-      "committer": {
-        "name": "glozow",
-        "email": "gloriajzhao@gmail.com",
-        "date": "2024-05-23T14:27:47Z"
-      },
-      "author": {
-        "name": "glozow",
-        "email": "gloriajzhao@gmail.com",
-        "date": "2024-01-15T16:26:55Z"
-      },
-      "sha": "c0fb4172f3c40718a102897d34ce4c12562f6f68"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 12910461213,
       "node_id": "HRFPE_lADOAN28mc58eb5UzwAAAAMBhgEd",
@@ -3258,6 +3219,110 @@
       "submitted_at": "2024-05-23T14:28:12Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
+    },
+    {
+      "event": "reviewed",
+      "id": 2074255824,
+      "node_id": "PRR_kwDOAN28mc57oqHQ",
+      "url": null,
+      "actor": null,
+      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "MEMBER",
+      "user": {
+        "login": "sdaftuar",
+        "id": 7463573,
+        "node_id": "MDQ6VXNlcjc0NjM1NzM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7463573?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sdaftuar",
+        "html_url": "https://github.com/sdaftuar",
+        "followers_url": "https://api.github.com/users/sdaftuar/followers",
+        "following_url": "https://api.github.com/users/sdaftuar/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sdaftuar/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sdaftuar/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sdaftuar/subscriptions",
+        "organizations_url": "https://api.github.com/users/sdaftuar/orgs",
+        "repos_url": "https://api.github.com/users/sdaftuar/repos",
+        "events_url": "https://api.github.com/users/sdaftuar/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sdaftuar/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1541#pullrequestreview-2074255824",
+      "submitted_at": "2024-05-23T15:02:41Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDA0ZDNhMDYwOWI1NDg4MDVmYTJlYmFmNWQzYTQ5NWYxYjgxYTAwM2M",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
+      "tree": {
+        "sha": "7fd44122cb17711f084b415197dba2e882e8b9d7",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/7fd44122cb17711f084b415197dba2e882e8b9d7"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/156e8aabe24c1253b38d61459791a939550a4b60",
+          "sha": "156e8aabe24c1253b38d61459791a939550a4b60",
+          "html_url": "https://github.com/bitcoin/bips/commit/156e8aabe24c1253b38d61459791a939550a4b60"
+        }
+      ],
+      "message": "Define BIP431: TRUCs",
+      "committer": {
+        "name": "glozow",
+        "email": "gloriajzhao@gmail.com",
+        "date": "2024-05-23T15:33:00Z"
+      },
+      "author": {
+        "name": "glozow",
+        "email": "gloriajzhao@gmail.com",
+        "date": "2024-01-15T16:26:55Z"
+      },
+      "sha": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 12911426228,
+      "node_id": "HRFPE_lADOAN28mc58eb5UzwAAAAMBlLq0",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/12911426228",
+      "actor": {
+        "login": "glozow",
+        "id": 25183001,
+        "node_id": "MDQ6VXNlcjI1MTgzMDAx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25183001?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/glozow",
+        "html_url": "https://github.com/glozow",
+        "followers_url": "https://api.github.com/users/glozow/followers",
+        "following_url": "https://api.github.com/users/glozow/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/glozow/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/glozow/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/glozow/subscriptions",
+        "organizations_url": "https://api.github.com/users/glozow/orgs",
+        "repos_url": "https://api.github.com/users/glozow/repos",
+        "events_url": "https://api.github.com/users/glozow/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/glozow/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-23T15:33:23Z"
     }
   ],
   "comments": [
@@ -3270,7 +3335,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 15,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "4bd12d5698404e28c70d4486316f4e1cca356896",
       "in_reply_to_id": null,
       "user": {
@@ -3322,7 +3387,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 41,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "4bd12d5698404e28c70d4486316f4e1cca356896",
       "in_reply_to_id": null,
       "user": {
@@ -3374,7 +3439,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 103,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "4bd12d5698404e28c70d4486316f4e1cca356896",
       "in_reply_to_id": null,
       "user": {
@@ -3426,7 +3491,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 118,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "4bd12d5698404e28c70d4486316f4e1cca356896",
       "in_reply_to_id": null,
       "user": {
@@ -3478,7 +3543,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 171,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "4bd12d5698404e28c70d4486316f4e1cca356896",
       "in_reply_to_id": null,
       "user": {
@@ -3530,7 +3595,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 103,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "4bd12d5698404e28c70d4486316f4e1cca356896",
       "in_reply_to_id": null,
       "user": {
@@ -3582,7 +3647,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 103,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "4bd12d5698404e28c70d4486316f4e1cca356896",
       "in_reply_to_id": 1459469874,
       "user": {
@@ -3634,7 +3699,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 149,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "af8e9038e6142264b55d6bb2d2599fd9f5adbc43",
       "in_reply_to_id": null,
       "user": {
@@ -3686,7 +3751,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 225,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "af8e9038e6142264b55d6bb2d2599fd9f5adbc43",
       "in_reply_to_id": null,
       "user": {
@@ -3738,7 +3803,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 133,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "af8e9038e6142264b55d6bb2d2599fd9f5adbc43",
       "in_reply_to_id": null,
       "user": {
@@ -3790,7 +3855,7 @@
       "path": "bip-v3.mediawiki",
       "position": null,
       "original_position": 133,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "af8e9038e6142264b55d6bb2d2599fd9f5adbc43",
       "in_reply_to_id": 1461702468,
       "user": {
@@ -3842,7 +3907,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 15,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
       "in_reply_to_id": null,
       "user": {
@@ -3894,7 +3959,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 24,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
       "in_reply_to_id": null,
       "user": {
@@ -3946,7 +4011,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 28,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
       "in_reply_to_id": null,
       "user": {
@@ -3998,7 +4063,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 32,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
       "in_reply_to_id": null,
       "user": {
@@ -4050,7 +4115,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 40,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
       "in_reply_to_id": null,
       "user": {
@@ -4102,7 +4167,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 40,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
       "in_reply_to_id": 1535989159,
       "user": {
@@ -4154,7 +4219,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 32,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
       "in_reply_to_id": 1535986988,
       "user": {
@@ -4206,7 +4271,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 28,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
       "in_reply_to_id": 1535974533,
       "user": {
@@ -4258,7 +4323,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 24,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
       "in_reply_to_id": 1535969360,
       "user": {
@@ -4310,7 +4375,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 15,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "63e8a7191f8ab2453e5971e62f709df613ae224c",
       "in_reply_to_id": 1535901739,
       "user": {
@@ -4362,7 +4427,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 4,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "158acdbbbf8ef13f6b345b6281a96e88e20d2cf9",
       "in_reply_to_id": null,
       "user": {
@@ -4414,7 +4479,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 10,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "158acdbbbf8ef13f6b345b6281a96e88e20d2cf9",
       "in_reply_to_id": null,
       "user": {
@@ -4466,7 +4531,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 10,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "158acdbbbf8ef13f6b345b6281a96e88e20d2cf9",
       "in_reply_to_id": 1576321710,
       "user": {
@@ -4518,7 +4583,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 4,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "158acdbbbf8ef13f6b345b6281a96e88e20d2cf9",
       "in_reply_to_id": 1576299745,
       "user": {
@@ -4570,7 +4635,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 95,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": null,
       "user": {
@@ -4622,7 +4687,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 63,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": null,
       "user": {
@@ -4674,7 +4739,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 102,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": null,
       "user": {
@@ -4726,7 +4791,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 117,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": null,
       "user": {
@@ -4778,7 +4843,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 123,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": null,
       "user": {
@@ -4830,7 +4895,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 159,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": null,
       "user": {
@@ -4882,7 +4947,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 243,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": null,
       "user": {
@@ -4934,7 +4999,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 8,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": null,
       "user": {
@@ -4986,7 +5051,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 8,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": 1609057611,
       "user": {
@@ -5038,7 +5103,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 123,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": null,
       "user": {
@@ -5090,7 +5155,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 123,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": 1610541230,
       "user": {
@@ -5142,7 +5207,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 6,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "0fb58b40b9895a7c134628a041b3b8008460e914",
       "in_reply_to_id": null,
       "user": {
@@ -5194,7 +5259,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 6,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "0fb58b40b9895a7c134628a041b3b8008460e914",
       "in_reply_to_id": 1610597240,
       "user": {
@@ -5246,7 +5311,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 123,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": 1610541230,
       "user": {
@@ -5298,7 +5363,7 @@
       "path": "bip-truc.mediawiki",
       "position": null,
       "original_position": 123,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "f2d33b5cf01e04e190a3493a74c220fb64266ee8",
       "in_reply_to_id": 1610541230,
       "user": {
@@ -5350,7 +5415,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 6,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "0fb58b40b9895a7c134628a041b3b8008460e914",
       "in_reply_to_id": 1610597240,
       "user": {
@@ -5402,7 +5467,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 146,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": null,
       "user": {
@@ -5454,7 +5519,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 245,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": null,
       "user": {
@@ -5506,7 +5571,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 247,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": null,
       "user": {
@@ -5558,7 +5623,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 132,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": null,
       "user": {
@@ -5610,7 +5675,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 135,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": null,
       "user": {
@@ -5662,7 +5727,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 130,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": null,
       "user": {
@@ -5714,7 +5779,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 123,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": null,
       "user": {
@@ -5766,7 +5831,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 124,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": null,
       "user": {
@@ -5818,7 +5883,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 127,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": null,
       "user": {
@@ -5870,7 +5935,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 123,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": 1611751893,
       "user": {
@@ -5922,7 +5987,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 124,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": 1611752156,
       "user": {
@@ -5974,7 +6039,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 127,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": 1611752408,
       "user": {
@@ -6026,7 +6091,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 130,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": 1611751250,
       "user": {
@@ -6078,7 +6143,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 132,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": 1611677645,
       "user": {
@@ -6130,7 +6195,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 135,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": 1611695537,
       "user": {
@@ -6182,7 +6247,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 146,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": 1611672327,
       "user": {
@@ -6234,7 +6299,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 245,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": 1611676401,
       "user": {
@@ -6286,7 +6351,7 @@
       "path": "bip-0431.mediawiki",
       "position": null,
       "original_position": 247,
-      "commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
       "original_commit_id": "32e4e44a5afded6d5c64859b63b1392c4c62b202",
       "in_reply_to_id": 1611677147,
       "user": {
@@ -6327,6 +6392,110 @@
       "start_side": null,
       "line": null,
       "original_line": 247,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1611865667",
+      "pull_request_review_id": 2074255824,
+      "id": 1611865667,
+      "node_id": "PRRC_kwDOAN28mc5gEx5D",
+      "diff_hunk": "@@ -0,0 +1,291 @@\n+<pre>\n+  BIP: 431\n+  Layer: Applications\n+  Title: Topology Restrictions for Pinning\n+  Author: Gloria Zhao <gloriajzhao@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0431\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-01-10\n+  License: BSD-3-Clause\n+  Post-History: 2022-01-27: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-January/019817.html [bitcoin-dev] discussion\n+                2022-01-27: https://gist.github.com/glozow/25d9662c52453bd08b4b4b1d3783b9ff gist discussion\n+                2022-09-23: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-September/020937.html [bitcoin-dev] proposal\n+                2024-01-02: https://delvingbitcoin.org/t/v3-transaction-policy-for-anti-pinning/340 Delving Bitcoin post\n+                2024-01-16: https://delvingbitcoin.org/t/lightning-transactions-with-v3-and-ephemeral-anchors/418 Delving Bitcoin post\n+</pre>\n+\n+==Abstract==\n+\n+This document describes pinning problems that can arise from limitations in mempool policy.\n+\n+It also describes a type of policy with adjusted topology limits which, combined with other policy rules, helps minimize the potential pinning problems.  These restrictions simplify the assessment of incentive compatibility of accepting or replacing such transactions, thus helping ensure any replacements are more profitable for the node. Within the context of nodes that implement this policy, fee-bumping is more reliable for users.\n+\n+==Motivation==\n+\n+Mempools typically accept and relay transactions that spend outputs from other unconfirmed transactions, but restrict package sizes through ancestor and descendant limits\n+<ref>https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-limits.md</ref>\n+to limit the computational complexity of mempool operations and mitigate Denial of Service attacks.\n+\n+Users may also create unconfirmed transactions that conflict with -- or are \"double spends\" of -- each other by spending the same input(s) in both.\n+Instead of always keeping the first-seen transaction, many mempools also have some kind of Replace by Fee (RBF) policy\n+<ref>\n+[https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-replacements.md Bitcoin Core's RBF policy] at the time of writing. It is slightly different from what is described in BIP 125.\n+</ref>\n+to keep the more incentive compatible transaction, i.e. one that would earn a miner more fees. Users utilize these rules when they create higher feerate double-spends (replacements) to expedite confirmation of their transactions.\n+\n+However, these policies make imperfect trade-offs between incentive compatibility and DoS-resistance. For example, malicious actors may sometimes exploit limitations to prevent incentive-compatible transactions from being accepted or fee-bumped (''pinning'').\n+\n+Pinning is consequential to contracting protocols in which untrusted parties construct and sign time-sensitive transactions to be broadcast on-chain later\n+<ref>Posts about pinning in LN and LN-Symmetry:\n+* [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-May/020458.html \"Bringing a nuke to a knife fight: Transaction introspection to stop RBF pinning\"]\n+* [https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-April/002639.html \"RBF Pinning with Counterparties and Competing Interest\"]\n+* [https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-June/002758.html \"Pinning : The Good, The Bad, The Ugly\"]\n+* [https://github.com/t-bast/lightning-docs/blob/master/pinning-attacks.md \"Pinning Attacks\"]\n+* [https://gist.github.com/instagibbs/60264606e181451e977e439a49f69fe1 \"Eltoo Pinning\"]\n+</ref>.\n+When the funds available to be redeemed by each party depend on a transaction confirming within a specific time window, a malicious party may be able to steal money if the honest party cannot get their transaction confirmed. As such, the ability to fee-bump a transaction to entice miners to include it in their blocks is crucial to the security of the protocol.\n+\n+===RBF pinning through Rule 3===",
+      "path": "bip-0431.mediawiki",
+      "position": null,
+      "original_position": 49,
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
+      "original_commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "sdaftuar",
+        "id": 7463573,
+        "node_id": "MDQ6VXNlcjc0NjM1NzM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/7463573?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sdaftuar",
+        "html_url": "https://github.com/sdaftuar",
+        "followers_url": "https://api.github.com/users/sdaftuar/followers",
+        "following_url": "https://api.github.com/users/sdaftuar/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sdaftuar/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sdaftuar/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sdaftuar/subscriptions",
+        "organizations_url": "https://api.github.com/users/sdaftuar/orgs",
+        "repos_url": "https://api.github.com/users/sdaftuar/repos",
+        "events_url": "https://api.github.com/users/sdaftuar/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sdaftuar/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "The reference to \"Rule 3\" (and \"Rule 5\" and \"Rule 6\" below) might be confusing to readers who haven't read BIP 125 -- perhaps add a link or explanation? \r\n\r\nEDIT: Actually I guess there is a link to Bitcoin Core's replacement policy, and you have some explanation as well -- I just found the heading to be confusing!",
+      "created_at": "2024-05-23T15:02:41Z",
+      "updated_at": "2024-05-23T15:04:10Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1541#discussion_r1611865667",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1611865667"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 49,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1611918641",
+      "pull_request_review_id": 2074347871,
+      "id": 1611918641,
+      "node_id": "PRRC_kwDOAN28mc5gE-0x",
+      "diff_hunk": "@@ -0,0 +1,291 @@\n+<pre>\n+  BIP: 431\n+  Layer: Applications\n+  Title: Topology Restrictions for Pinning\n+  Author: Gloria Zhao <gloriajzhao@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0431\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-01-10\n+  License: BSD-3-Clause\n+  Post-History: 2022-01-27: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-January/019817.html [bitcoin-dev] discussion\n+                2022-01-27: https://gist.github.com/glozow/25d9662c52453bd08b4b4b1d3783b9ff gist discussion\n+                2022-09-23: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-September/020937.html [bitcoin-dev] proposal\n+                2024-01-02: https://delvingbitcoin.org/t/v3-transaction-policy-for-anti-pinning/340 Delving Bitcoin post\n+                2024-01-16: https://delvingbitcoin.org/t/lightning-transactions-with-v3-and-ephemeral-anchors/418 Delving Bitcoin post\n+</pre>\n+\n+==Abstract==\n+\n+This document describes pinning problems that can arise from limitations in mempool policy.\n+\n+It also describes a type of policy with adjusted topology limits which, combined with other policy rules, helps minimize the potential pinning problems.  These restrictions simplify the assessment of incentive compatibility of accepting or replacing such transactions, thus helping ensure any replacements are more profitable for the node. Within the context of nodes that implement this policy, fee-bumping is more reliable for users.\n+\n+==Motivation==\n+\n+Mempools typically accept and relay transactions that spend outputs from other unconfirmed transactions, but restrict package sizes through ancestor and descendant limits\n+<ref>https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-limits.md</ref>\n+to limit the computational complexity of mempool operations and mitigate Denial of Service attacks.\n+\n+Users may also create unconfirmed transactions that conflict with -- or are \"double spends\" of -- each other by spending the same input(s) in both.\n+Instead of always keeping the first-seen transaction, many mempools also have some kind of Replace by Fee (RBF) policy\n+<ref>\n+[https://github.com/bitcoin/bitcoin/blob/632a2bb731804dffe52bd4cbd90bfee352d25ede/doc/policy/mempool-replacements.md Bitcoin Core's RBF policy] at the time of writing. It is slightly different from what is described in BIP 125.\n+</ref>\n+to keep the more incentive compatible transaction, i.e. one that would earn a miner more fees. Users utilize these rules when they create higher feerate double-spends (replacements) to expedite confirmation of their transactions.\n+\n+However, these policies make imperfect trade-offs between incentive compatibility and DoS-resistance. For example, malicious actors may sometimes exploit limitations to prevent incentive-compatible transactions from being accepted or fee-bumped (''pinning'').\n+\n+Pinning is consequential to contracting protocols in which untrusted parties construct and sign time-sensitive transactions to be broadcast on-chain later\n+<ref>Posts about pinning in LN and LN-Symmetry:\n+* [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-May/020458.html \"Bringing a nuke to a knife fight: Transaction introspection to stop RBF pinning\"]\n+* [https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-April/002639.html \"RBF Pinning with Counterparties and Competing Interest\"]\n+* [https://lists.linuxfoundation.org/pipermail/lightning-dev/2020-June/002758.html \"Pinning : The Good, The Bad, The Ugly\"]\n+* [https://github.com/t-bast/lightning-docs/blob/master/pinning-attacks.md \"Pinning Attacks\"]\n+* [https://gist.github.com/instagibbs/60264606e181451e977e439a49f69fe1 \"Eltoo Pinning\"]\n+</ref>.\n+When the funds available to be redeemed by each party depend on a transaction confirming within a specific time window, a malicious party may be able to steal money if the honest party cannot get their transaction confirmed. As such, the ability to fee-bump a transaction to entice miners to include it in their blocks is crucial to the security of the protocol.\n+\n+===RBF pinning through Rule 3===",
+      "path": "bip-0431.mediawiki",
+      "position": null,
+      "original_position": 49,
+      "commit_id": "04d3a0609b548805fa2ebaf5d3a495f1b81a003c",
+      "original_commit_id": "c0fb4172f3c40718a102897d34ce4c12562f6f68",
+      "in_reply_to_id": 1611865667,
+      "user": {
+        "login": "glozow",
+        "id": 25183001,
+        "node_id": "MDQ6VXNlcjI1MTgzMDAx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25183001?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/glozow",
+        "html_url": "https://github.com/glozow",
+        "followers_url": "https://api.github.com/users/glozow/followers",
+        "following_url": "https://api.github.com/users/glozow/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/glozow/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/glozow/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/glozow/subscriptions",
+        "organizations_url": "https://api.github.com/users/glozow/orgs",
+        "repos_url": "https://api.github.com/users/glozow/repos",
+        "events_url": "https://api.github.com/users/glozow/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/glozow/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "I've renamed the headings to be more descriptive, and added links and clarifications where \"Rule n\" is mentioned throughout the document",
+      "created_at": "2024-05-23T15:34:03Z",
+      "updated_at": "2024-05-23T15:34:03Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1541#discussion_r1611918641",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1611918641"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1541"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 49,
       "side": "RIGHT"
     }
   ]
