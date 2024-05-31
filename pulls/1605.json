@@ -41,14 +41,12 @@
     "body": "This is a follow up to https://github.com/bitcoin/bips/pull/1244/ that\r\n\r\n- separates concerns into individual commits\r\n- corrects fee verification for a proposal having mixed script inputs while ensuring additional fee indeed paid for input\r\n\r\nI know @kixunil is extremely busy to update these days, so I took the liberty to organize the changes we've discussed according to your wants here. @NicolasDorier I hope these changes satisfy your desire for them to be small and problem-focused while maintaining the spirit of the original.\r\n\r\n---\r\n\r\nDisallowing mixed inputs was based on incorrect assumption that no\r\nwallet supports mixed inputs and thus mixed inputs imply PayJoin.\r\nHowever there are at least three wallets supporting mixed inputs.\r\n(Confirmed: Bitcoin Core, LND, Coinomi) Thus it makes sense to enable\r\nmixed inputs to avoid a payjoin-specific fingerptint. To avoid\r\ncompatibility issues a grace period is suggested.",
     "labels": [],
     "created_at": "2024-05-31T15:59:01Z",
-    "updated_at": "2024-05-31T16:19:30Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
+    "updated_at": "2024-05-31T17:33:26Z",
+    "mergeable_state": "unknown",
     "merge_commit_sha": "b20d25c77a873870cce573b7d43865ef884ae993",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
     "head": {
       "label": "DanGould:bip78-mixed-inputs-ok",
       "ref": "bip78-mixed-inputs-ok",
@@ -266,7 +264,7 @@
         "watchers_count": 9052,
         "size": 15062,
         "default_branch": "master",
-        "open_issues_count": 47,
+        "open_issues_count": 46,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -277,9 +275,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-31T16:19:30Z",
+        "pushed_at": "2024-05-31T17:47:36Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-31T11:22:15Z"
+        "updated_at": "2024-05-31T17:47:35Z"
       }
     },
     "_links": {
@@ -294,7 +292,7 @@
     "changed_files": 1,
     "commits": 3,
     "review_comments": 0,
-    "comments": 0
+    "comments": 1
   },
   "events": [
     {
@@ -677,6 +675,60 @@
         "date": "2024-05-31T15:45:36Z"
       },
       "sha": "a682fe6b0ec868f152e40be0f1cc5d33f5819c05"
+    },
+    {
+      "event": "commented",
+      "id": 2142700030,
+      "node_id": "IC_kwDOAN28mc5_twH-",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2142700030",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-31T17:33:25Z",
+      "updated_at": "2024-05-31T17:33:25Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "It seems to me that you are proposing a number of changes to BIP 78 and the biggest point of friction seems to be to get sign-off from that BIP’s champion. Have you considered alternatively proposing your own variant of BIP 78 with the changes you would like to see and building BIP 77 on top of that?",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1605#issuecomment-2142700030",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1605"
     }
   ],
   "comments": []
