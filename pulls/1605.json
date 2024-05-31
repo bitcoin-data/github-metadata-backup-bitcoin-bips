@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1605/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1605/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/ec08c24604bc861bba4995608e65b12017e30166",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/a682fe6b0ec868f152e40be0f1cc5d33f5819c05",
     "number": 1605,
     "state": "open",
     "locked": false,
@@ -41,10 +41,10 @@
     "body": "This is a follow up to https://github.com/bitcoin/bips/pull/1244/ that\r\n\r\n- separates concerns into individual commits\r\n- corrects fee verification for a proposal having mixed script inputs while ensuring additional fee indeed paid for input\r\n\r\nI know @kixunil is extremely busy to update these days, so I took the liberty to organize the changes we've discussed according to your wants here. @NicolasDorier I hope these changes satisfy your desire for them to be small and problem-focused while maintaining the spirit of the original.\r\n\r\n---\r\n\r\nDisallowing mixed inputs was based on incorrect assumption that no\r\nwallet supports mixed inputs and thus mixed inputs imply PayJoin.\r\nHowever there are at least three wallets supporting mixed inputs.\r\n(Confirmed: Bitcoin Core, LND, Coinomi) Thus it makes sense to enable\r\nmixed inputs to avoid a payjoin-specific fingerptint. To avoid\r\ncompatibility issues a grace period is suggested.",
     "labels": [],
     "created_at": "2024-05-31T15:59:01Z",
-    "updated_at": "2024-05-31T15:59:01Z",
+    "updated_at": "2024-05-31T16:19:30Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "de4e1f03f31aa863e4d86783f5f4ab1d18a13474",
+    "merge_commit_sha": "b20d25c77a873870cce573b7d43865ef884ae993",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -52,7 +52,7 @@
     "head": {
       "label": "DanGould:bip78-mixed-inputs-ok",
       "ref": "bip78-mixed-inputs-ok",
-      "sha": "ec08c24604bc861bba4995608e65b12017e30166",
+      "sha": "a682fe6b0ec868f152e40be0f1cc5d33f5819c05",
       "user": {
         "login": "DanGould",
         "id": 8525467,
@@ -147,7 +147,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 14709,
+        "size": 14721,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -160,7 +160,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-31T15:57:38Z",
+        "pushed_at": "2024-05-31T16:19:28Z",
         "created_at": "2022-04-04T03:35:06Z",
         "updated_at": "2022-04-03T20:34:01Z"
       }
@@ -277,7 +277,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-31T15:59:02Z",
+        "pushed_at": "2024-05-31T16:19:30Z",
         "created_at": "2013-11-19T17:18:41Z",
         "updated_at": "2024-05-31T11:22:15Z"
       }
@@ -289,134 +289,14 @@
     },
     "author_association": "NONE",
     "draft": false,
-    "additions": 13,
-    "deletions": 7,
+    "additions": 12,
+    "deletions": 10,
     "changed_files": 1,
     "commits": 3,
     "review_comments": 0,
     "comments": 0
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGNlNDBiNjQyM2Q4NzFkNDhmOTMyYTNhNzM4MWM3YmY2ZGUyOGFlNGY",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ce40b6423d871d48f932a3a7381c7bf6de28ae4f",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/ce40b6423d871d48f932a3a7381c7bf6de28ae4f",
-      "tree": {
-        "sha": "8bfd0b92791c68782f7e3cfc78aa6829ffeb1645",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/8bfd0b92791c68782f7e3cfc78aa6829ffeb1645"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 8bfd0b92791c68782f7e3cfc78aa6829ffeb1645\nparent 24a15a6ae37b20d5d9c6fed9dc41d3a63d007ad2\nauthor DanGould <d@ngould.dev> 1717169964 -0400\ncommitter DanGould <d@ngould.dev> 1717171011 -0400\n\nBIP78: Allow mixed inputs\n\nDisallowing mixed inputs was based on incorrect assumption that no\nwallet supports mixed inputs and thus mixed inputs imply PayJoin.\nHowever there are at least three wallets supporting mixed inputs.\n(Confirmed: Bitcoin Core, LND, Coinomi) Thus it makes sense to enable\nmixed inputs to avoid a payjoin-specific fingerptint. To avoid\ncompatibility issues a grace period is suggested.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niHUEABYKAB0WIQRpp+ieW7WZEgsu4CQ4cTNWCSIPWQUCZlnzbAAKCRA4cTNWCSIP\nWdnGAP9CWko61I8XlM5AdDNu7LH+moWhvoeohkPhGUfNckZqqwEA5jBgMKJ4xSVg\nRNJFXic7wl+j/3A+k4sl9ThbXA5oCQU=\n=IhaY\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/24a15a6ae37b20d5d9c6fed9dc41d3a63d007ad2",
-          "sha": "24a15a6ae37b20d5d9c6fed9dc41d3a63d007ad2",
-          "html_url": "https://github.com/bitcoin/bips/commit/24a15a6ae37b20d5d9c6fed9dc41d3a63d007ad2"
-        }
-      ],
-      "message": "BIP78: Allow mixed inputs\n\nDisallowing mixed inputs was based on incorrect assumption that no\nwallet supports mixed inputs and thus mixed inputs imply PayJoin.\nHowever there are at least three wallets supporting mixed inputs.\n(Confirmed: Bitcoin Core, LND, Coinomi) Thus it makes sense to enable\nmixed inputs to avoid a payjoin-specific fingerptint. To avoid\ncompatibility issues a grace period is suggested.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>",
-      "committer": {
-        "name": "DanGould",
-        "email": "d@ngould.dev",
-        "date": "2024-05-31T15:56:51Z"
-      },
-      "author": {
-        "name": "DanGould",
-        "email": "d@ngould.dev",
-        "date": "2024-05-31T15:39:24Z"
-      },
-      "sha": "ce40b6423d871d48f932a3a7381c7bf6de28ae4f"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDAzM2VmMjA5NDI4YzIwYmM3ZGY0YTA1MzQ4NDI5MmVjZDhiM2EyMTA",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/033ef209428c20bc7df4a053484292ecd8b3a210",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/033ef209428c20bc7df4a053484292ecd8b3a210",
-      "tree": {
-        "sha": "1a95e7a679cba503a8dd14a306b8281fa0a27e5e",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/1a95e7a679cba503a8dd14a306b8281fa0a27e5e"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 1a95e7a679cba503a8dd14a306b8281fa0a27e5e\nparent ce40b6423d871d48f932a3a7381c7bf6de28ae4f\nauthor DanGould <d@ngould.dev> 1717170238 -0400\ncommitter DanGould <d@ngould.dev> 1717171052 -0400\n\nBIP78: Clarify output substitution\n\nThe original text is ambiguous to allowing transaction cut-through\nor not. Transaction cut-through enables savings by posting multiple\ntransaction intents through a single 2-party payjoin and is used\nin practice in payjoins today. Let's explicitly allow it in the text.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niHUEABYKAB0WIQRpp+ieW7WZEgsu4CQ4cTNWCSIPWQUCZlnzcQAKCRA4cTNWCSIP\nWYpcAP9xDlQpzcnlyARkMFLonykDoHNguCt2yfbIaP7M+toUUQEAsNqXgR6/cmPs\nyxLFpKvFZKsKb14glN7/NrU8MMskMQs=\n=1TT0\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ce40b6423d871d48f932a3a7381c7bf6de28ae4f",
-          "sha": "ce40b6423d871d48f932a3a7381c7bf6de28ae4f",
-          "html_url": "https://github.com/bitcoin/bips/commit/ce40b6423d871d48f932a3a7381c7bf6de28ae4f"
-        }
-      ],
-      "message": "BIP78: Clarify output substitution\n\nThe original text is ambiguous to allowing transaction cut-through\nor not. Transaction cut-through enables savings by posting multiple\ntransaction intents through a single 2-party payjoin and is used\nin practice in payjoins today. Let's explicitly allow it in the text.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>",
-      "committer": {
-        "name": "DanGould",
-        "email": "d@ngould.dev",
-        "date": "2024-05-31T15:57:32Z"
-      },
-      "author": {
-        "name": "DanGould",
-        "email": "d@ngould.dev",
-        "date": "2024-05-31T15:43:58Z"
-      },
-      "sha": "033ef209428c20bc7df4a053484292ecd8b3a210"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGVjMDhjMjQ2MDRiYzg2MWJiYTQ5OTU2MDhlNjViMTIwMTdlMzAxNjY",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ec08c24604bc861bba4995608e65b12017e30166",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/ec08c24604bc861bba4995608e65b12017e30166",
-      "tree": {
-        "sha": "8ba9dc6aec5a7cfcf476384824f493afad2300c8",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/8ba9dc6aec5a7cfcf476384824f493afad2300c8"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 8ba9dc6aec5a7cfcf476384824f493afad2300c8\nparent 033ef209428c20bc7df4a053484292ecd8b3a210\nauthor DanGould <d@ngould.dev> 1717170336 -0400\ncommitter DanGould <d@ngould.dev> 1717171057 -0400\n\nBIP78: Doc `amount` parameter not required\n\nIt's an optional parameter in BIP 21 Bitcoin URIs, but it doesn't hurt\nto make it explicit.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niHUEABYKAB0WIQRpp+ieW7WZEgsu4CQ4cTNWCSIPWQUCZlnzdwAKCRA4cTNWCSIP\nWUdNAQCKn7KV4hE8wfsp3FG7NeQ2TLMMmn0ppBzXGvrLE9/AyQD9F1QYfW7Xh03G\n3lLtCKygRNcIngPqIwuAXUNK39S/OwM=\n=rvgJ\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/033ef209428c20bc7df4a053484292ecd8b3a210",
-          "sha": "033ef209428c20bc7df4a053484292ecd8b3a210",
-          "html_url": "https://github.com/bitcoin/bips/commit/033ef209428c20bc7df4a053484292ecd8b3a210"
-        }
-      ],
-      "message": "BIP78: Doc `amount` parameter not required\n\nIt's an optional parameter in BIP 21 Bitcoin URIs, but it doesn't hurt\nto make it explicit.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>",
-      "committer": {
-        "name": "DanGould",
-        "email": "d@ngould.dev",
-        "date": "2024-05-31T15:57:37Z"
-      },
-      "author": {
-        "name": "DanGould",
-        "email": "d@ngould.dev",
-        "date": "2024-05-31T15:45:36Z"
-      },
-      "sha": "ec08c24604bc861bba4995608e65b12017e30166"
-    },
     {
       "event": "mentioned",
       "id": 13002791649,
@@ -532,6 +412,271 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-05-31T15:59:02Z"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 13002901844,
+      "node_id": "HRFPE_lADOAN28mc6KxLWVzwAAAAMHCIlU",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/13002901844",
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-31T16:07:17Z"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 13002920637,
+      "node_id": "HRFPE_lADOAN28mc6KxLWVzwAAAAMHCNK9",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/13002920637",
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-31T16:08:38Z"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 13002953591,
+      "node_id": "HRFPE_lADOAN28mc6KxLWVzwAAAAMHCVN3",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/13002953591",
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-31T16:11:23Z"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 13003031389,
+      "node_id": "HRFPE_lADOAN28mc6KxLWVzwAAAAMHCoNd",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/13003031389",
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-31T16:18:03Z"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 13003049632,
+      "node_id": "HRFPE_lADOAN28mc6KxLWVzwAAAAMHCsqg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/13003049632",
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-05-31T16:19:30Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDU4MzFlOTIxMzU5NmY5ZmJjOTVmZGRhOWFmMDQ2MGM2NmIwM2U2ZWQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5831e9213596f9fbc95fdda9af0460c66b03e6ed",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/5831e9213596f9fbc95fdda9af0460c66b03e6ed",
+      "tree": {
+        "sha": "ec309c8f4fdf14be7da4124e91a023a1cd1d2ba2",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/ec309c8f4fdf14be7da4124e91a023a1cd1d2ba2"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree ec309c8f4fdf14be7da4124e91a023a1cd1d2ba2\nparent 24a15a6ae37b20d5d9c6fed9dc41d3a63d007ad2\nauthor DanGould <d@ngould.dev> 1717169964 -0400\ncommitter DanGould <d@ngould.dev> 1717172373 -0400\n\nBIP78: Allow mixed inputs\n\nDisallowing mixed inputs was based on incorrect assumption that no\nwallet supports mixed inputs and thus mixed inputs imply PayJoin.\nHowever there are at least three wallets supporting mixed inputs.\n(Confirmed: Bitcoin Core, LND, Coinomi) Thus it makes sense to enable\nmixed inputs to avoid a payjoin-specific fingerptint. To avoid\ncompatibility issues a grace period is suggested.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niHUEABYKAB0WIQRpp+ieW7WZEgsu4CQ4cTNWCSIPWQUCZln4lQAKCRA4cTNWCSIP\nWe6pAP9SnuslKJLySEEHlnIKP841vHKK0SyC9aUzNFDeQxdtXQD+NbqYGx1D5w1U\nYfOXeqV4wHUQYN5dBjSg4ILwblPZsg8=\n=H1xU\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/24a15a6ae37b20d5d9c6fed9dc41d3a63d007ad2",
+          "sha": "24a15a6ae37b20d5d9c6fed9dc41d3a63d007ad2",
+          "html_url": "https://github.com/bitcoin/bips/commit/24a15a6ae37b20d5d9c6fed9dc41d3a63d007ad2"
+        }
+      ],
+      "message": "BIP78: Allow mixed inputs\n\nDisallowing mixed inputs was based on incorrect assumption that no\nwallet supports mixed inputs and thus mixed inputs imply PayJoin.\nHowever there are at least three wallets supporting mixed inputs.\n(Confirmed: Bitcoin Core, LND, Coinomi) Thus it makes sense to enable\nmixed inputs to avoid a payjoin-specific fingerptint. To avoid\ncompatibility issues a grace period is suggested.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>",
+      "committer": {
+        "name": "DanGould",
+        "email": "d@ngould.dev",
+        "date": "2024-05-31T16:19:33Z"
+      },
+      "author": {
+        "name": "DanGould",
+        "email": "d@ngould.dev",
+        "date": "2024-05-31T15:39:24Z"
+      },
+      "sha": "5831e9213596f9fbc95fdda9af0460c66b03e6ed"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDIzYjIyYThiM2QxYjA2OTA1MDY4ZGE2MDNjODBjOWQyMGJmN2E2OWI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/23b22a8b3d1b06905068da603c80c9d20bf7a69b",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/23b22a8b3d1b06905068da603c80c9d20bf7a69b",
+      "tree": {
+        "sha": "13d3eff2b497b837985387b386201368cd817943",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/13d3eff2b497b837985387b386201368cd817943"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 13d3eff2b497b837985387b386201368cd817943\nparent 5831e9213596f9fbc95fdda9af0460c66b03e6ed\nauthor DanGould <d@ngould.dev> 1717170238 -0400\ncommitter DanGould <d@ngould.dev> 1717172373 -0400\n\nBIP78: Clarify output substitution\n\nThe original text is ambiguous to allowing transaction cut-through\nor not. Transaction cut-through enables savings by posting multiple\ntransaction intents through a single 2-party payjoin and is used\nin practice in payjoins today. Let's explicitly allow it in the text.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niHUEABYKAB0WIQRpp+ieW7WZEgsu4CQ4cTNWCSIPWQUCZln4lQAKCRA4cTNWCSIP\nWcBQAP0Tnsu1k11L0N5ww6mda6AVgc6u1Jkd7GaCL8/Q6tmN+gEAiAcMGqWKEM/n\ntJv+YjBnyr+r/U5+SxCDXYmvYZlV4gk=\n=hoER\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5831e9213596f9fbc95fdda9af0460c66b03e6ed",
+          "sha": "5831e9213596f9fbc95fdda9af0460c66b03e6ed",
+          "html_url": "https://github.com/bitcoin/bips/commit/5831e9213596f9fbc95fdda9af0460c66b03e6ed"
+        }
+      ],
+      "message": "BIP78: Clarify output substitution\n\nThe original text is ambiguous to allowing transaction cut-through\nor not. Transaction cut-through enables savings by posting multiple\ntransaction intents through a single 2-party payjoin and is used\nin practice in payjoins today. Let's explicitly allow it in the text.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>",
+      "committer": {
+        "name": "DanGould",
+        "email": "d@ngould.dev",
+        "date": "2024-05-31T16:19:33Z"
+      },
+      "author": {
+        "name": "DanGould",
+        "email": "d@ngould.dev",
+        "date": "2024-05-31T15:43:58Z"
+      },
+      "sha": "23b22a8b3d1b06905068da603c80c9d20bf7a69b"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGE2ODJmZTZiMGVjODY4ZjE1MmU0MGJlMGYxY2M1ZDMzZjU4MTljMDU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a682fe6b0ec868f152e40be0f1cc5d33f5819c05",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/a682fe6b0ec868f152e40be0f1cc5d33f5819c05",
+      "tree": {
+        "sha": "637021b185d8775232acd0bb5c35d25209db1774",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/637021b185d8775232acd0bb5c35d25209db1774"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 637021b185d8775232acd0bb5c35d25209db1774\nparent 23b22a8b3d1b06905068da603c80c9d20bf7a69b\nauthor DanGould <d@ngould.dev> 1717170336 -0400\ncommitter DanGould <d@ngould.dev> 1717172373 -0400\n\nBIP78: Doc `amount` parameter not required\n\nIt's an optional parameter in BIP 21 Bitcoin URIs, but it doesn't hurt\nto make it explicit.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niHUEABYKAB0WIQRpp+ieW7WZEgsu4CQ4cTNWCSIPWQUCZln4lQAKCRA4cTNWCSIP\nWazsAP4mCG+0x/CptSk/sbbWB0JP2QgdWICMZaTPVrJZxWGjKgEAwoydLMxqZE5u\n0wtJ9svdcsa+zsCjDr55zXD8wydL8gQ=\n=f88X\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/23b22a8b3d1b06905068da603c80c9d20bf7a69b",
+          "sha": "23b22a8b3d1b06905068da603c80c9d20bf7a69b",
+          "html_url": "https://github.com/bitcoin/bips/commit/23b22a8b3d1b06905068da603c80c9d20bf7a69b"
+        }
+      ],
+      "message": "BIP78: Doc `amount` parameter not required\n\nIt's an optional parameter in BIP 21 Bitcoin URIs, but it doesn't hurt\nto make it explicit.\n\nCo-authored-by: Martin Habovstiak <martin.habovstiak@gmail.com>",
+      "committer": {
+        "name": "DanGould",
+        "email": "d@ngould.dev",
+        "date": "2024-05-31T16:19:33Z"
+      },
+      "author": {
+        "name": "DanGould",
+        "email": "d@ngould.dev",
+        "date": "2024-05-31T15:45:36Z"
+      },
+      "sha": "a682fe6b0ec868f152e40be0f1cc5d33f5819c05"
     }
   ],
   "comments": []
