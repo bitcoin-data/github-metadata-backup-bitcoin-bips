@@ -38,7 +38,7 @@
       "type": "User",
       "site_admin": false
     },
-    "body": "According to the psbt Input Finalizer spec \"All other data except the UTXO and unknown fields in the input key-value map should be cleared from the PSBT. The UTXO should be kept to allow Transaction Extractors to verify the final network serialized transaction.\" In Bip78, the receiver clears this data after it finalizes its inputs, even if the utxo belongs to the sender which will need that data.\r\n\r\nI ran into a problem where LND's FinalizePsbt gRPC fails when this utxo data is missing. I see no good reason to remove this utxo information from the PSBT. I think LND's RPC should also succeed regardless of this data being present because it can look it up with the unsigned_tx's input outpoint (that's what bitcoind's finalizePsbt rpc does). Still I think LND's RPC is technically BIP-0174 spec-compliant while BIP-0078 seems not to be.\r\n\r\nhttps://github.com/lightningnetwork/lnd/blob/cf9a9864cf253dbbcac5904d360bbbde763e1ebe/lnwallet/rpcwallet/rpcwallet.go#L270-L286\r\nAccording to the psbt Input Finalizer spec \"All other data *except the UTXO and unknown fields* in the input key-value map should be cleared from the PSBT. The UTXO should be kept to allow Transaction Extractors to verify the final network serialized transaction.\"\r\n\r\nI ran into a problem where an LND acting as sender FinalizePsbt gRPC fails when sender utxo information is missing. I see no good reason to remove utxo information from the PSBT.\r\n\r\n---\r\n\r\n[tagging this issue in the rust-payjoin library](https://github.com/Kixunil/payjoin/issues/39)\r\n\r\n@nickfarrow @kixunil @nicolasdorier",
+    "body": "According to the psbt Input Finalizer spec \"All other data except the UTXO and unknown fields in the input key-value map should be cleared from the PSBT. The UTXO should be kept to allow Transaction Extractors to verify the final network serialized transaction.\" In Bip78, the receiver clears this data after it finalizes its inputs, even if the utxo belongs to the sender which will need that data.\r\n\r\nI ran into a problem where LND's FinalizePsbt gRPC fails when this utxo data is missing. I see no good reason to remove this utxo information from the PSBT. I think LND's RPC should also succeed regardless of this data being present because it can look it up with the unsigned_tx's input outpoint (that's what bitcoind's finalizePsbt rpc does). Still I think LND's RPC is technically BIP-0174 spec-compliant while BIP-0078 seems not to be.\r\n\r\nhttps://github.com/lightningnetwork/lnd/blob/cf9a9864cf253dbbcac5904d360bbbde763e1ebe/lnwallet/rpcwallet/rpcwallet.go#L270-L286\r\nAccording to the psbt Input Finalizer spec \"All other data *except the UTXO and unknown fields* in the input key-value map should be cleared from the PSBT. The UTXO should be kept to allow Transaction Extractors to verify the final network serialized transaction.\"\r\n\r\nI ran into a problem where an LND acting as sender FinalizePsbt gRPC fails when sender utxo information is missing. I see no good reason to remove utxo information from the PSBT.\r\n\r\nEdit Jun 2024: This problem also cropped up in sparrow wallet\r\n\r\n---\r\n\r\n[tagging this issue in the rust-payjoin library](https://github.com/Kixunil/payjoin/issues/39)\r\n\r\n@nickfarrow @kixunil @nicolasdorier",
     "labels": [
       {
         "id": 275846070,
@@ -59,10 +59,10 @@
       }
     ],
     "created_at": "2022-12-20T18:04:50Z",
-    "updated_at": "2024-05-31T14:32:36Z",
+    "updated_at": "2024-06-01T16:40:31Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "519f2316d227a2379e64c5dacd5782a0bb3ae6c2",
+    "merge_commit_sha": "f1523ae32bc0dfd6131c6ec497d9a21be8eb7827",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -165,7 +165,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 14709,
+        "size": 14721,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -178,7 +178,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-21T15:23:18Z",
+        "pushed_at": "2024-05-31T16:19:28Z",
         "created_at": "2022-04-04T03:35:06Z",
         "updated_at": "2022-04-03T20:34:01Z"
       }
@@ -279,12 +279,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5268,
-        "stargazers_count": 9052,
-        "watchers_count": 9052,
-        "size": 15062,
+        "forks_count": 5269,
+        "stargazers_count": 9056,
+        "watchers_count": 9056,
+        "size": 15073,
         "default_branch": "master",
-        "open_issues_count": 47,
+        "open_issues_count": 46,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -295,9 +295,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-31T09:11:59Z",
+        "pushed_at": "2024-05-31T17:47:36Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-31T11:22:15Z"
+        "updated_at": "2024-06-01T15:15:15Z"
       }
     },
     "_links": {
@@ -1116,6 +1116,81 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-05-31T14:32:36Z"
+    },
+    {
+      "event": "cross-referenced",
+      "id": null,
+      "node_id": null,
+      "url": null,
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-06-01T14:30:37Z",
+      "updated_at": "2024-06-01T14:30:37Z",
+      "source": {
+        "issue": {
+          "id": 2325984416,
+          "node_id": "I_kwDODtmRFc6Ko7Sg",
+          "url": "https://api.github.com/repos/sparrowwallet/sparrow/issues/1428",
+          "repository_url": "https://api.github.com/repos/sparrowwallet/sparrow",
+          "labels_url": "https://api.github.com/repos/sparrowwallet/sparrow/issues/1428/labels%7B/name%7D",
+          "comments_url": "https://api.github.com/repos/sparrowwallet/sparrow/issues/1428/comments",
+          "events_url": "https://api.github.com/repos/sparrowwallet/sparrow/issues/1428/events",
+          "html_url": "https://github.com/sparrowwallet/sparrow/issues/1428",
+          "number": 1428,
+          "state": "open",
+          "state_reason": null,
+          "title": "Sparrow won't sign a PSBT input by OutPoint if TXO details are missing",
+          "body": "I’m trying to see if a widget can let Sparrow test async payjoin v2 before a full integration is available. This is done through an interface that accepts a constructed PSBT and returns a Payjoin PSBT for signing and broadcast but otherwise handles PSBT checks that don't require wallet input and handles cryptographically secured application transport over Oblivious HTTP.  Craig gave me instructions to extract an original PSBT manually.\r\n\r\nHowever, once that original PSBT Is subsequently modified by a receiver to become a payjoin PSBT, it seems sparrow won’t sign it. It says “No open wallets to sign” even though the first input is indeed from the loaded wallet. Perhaps that’s because the payjoin PSBT is missing sender UTXO details (as spec requires) and sparrow does not check an unsigned PSBT’s input OutPoints to see if it can sign, it checks the UTXO scripts. Does that sound right? I shall open an issue\r\n\r\nv2 URI\r\n```\r\nbitcoin:tb1qqupnc8q082m0uqer634n5skjk69we7cs60c4am?amount=0.001&pj=https://payjo.in/AzzKI8EZJ3WF14dwBZLGyRX5FJ-s84oNwmviJE-T3vj-&pjos=0&ohttp=AQAgbLIT3-hgHP5dAGB574b\r\ndCyTeJvJR4n7hLJ4B8dxgYDMABAABAAM\r\n```\r\n\r\noriginal exported from manually constructed payjoin tx:\r\n```\r\ncHNidP8BAHECAAAAAQtzVUCDTGPS2iZ+aKDguo3QANm232MOzae86EnqYuybAQAAAAD9////AlnXIwAAAAAAFgAUk8HqJYVUtU9Jawl5Xzv5oNKWtB2ghgEAAAAAABYAFAcDPBwPOrb+AyPUazpC0raK7PsQ1gQDAE8BBDWHzwNZXM9jgAAAAKc92f6RjxQdoGoZrSANKGMjtCpi0RFRUzCsTIhDazgwAvaIBuDUI1e5Y2/CGKpFvawO0N4XgoYaZsIjLZfCaDhsEPZthiRUAACAAQAAgAAAAIAAAQBxAQAAAAEDme3nq63kwpiGl86kAEW635PRRQ7stXk0JcyKS4rCNgEAAAAA/////wJh5SYAAAAAABYAFPWJreIBnV5Oxvf0viS8DTMDLgviUGIlAAAAAAAWABRFt9LrgEXn+3DGn2O0TdkTX4mdtAAAAAABAR9QYiUAAAAAABYAFEW30uuARef7cMafY7RN2RNfiZ20IgYDlOzJDaAsGQb0nS+Y93BG4XBX13Ru9tKzzZZK2tRAhwYY9m2GJFQAAIABAACAAAAAgAAAAAAAAAAAAQcAAQhrAkcwRAIgKypDi1YHetc/EZQ1g2PFNtoJGt1ExmnbdRVHSwHtUI0CIFUhDpNNPN27cdXtJ6cOzPmCMWRrzTMEBSF8uXNe33x7ASEDlOzJDaAsGQb0nS+Y93BG4XBX13Ru9tKzzZZK2tRAhwYAIgIDIfz4DXHhOFEubJ96fKDVxA4niX57PrcelQW2sBhMgIIY9m2GJFQAAIABAACAAAAAgAEAAAAAAAAAAAA=\r\n```\r\n\r\nPayjoin PSBT:\r\n```\r\ncHNidP8BAJoCAAAAAgtzVUCDTGPS2iZ+aKDguo3QANm232MOzae86EnqYuybAQAAAAD9////A5nt56ut5MKYhpfOpABFut+T0UUO7LV5NCXMikuKwjYAAAAAAP3///8CFdcjAAAAAAAWABSTweolhVS1T0lrCXlfO/mg0pa0HTDHFgEAAAAAFgAUNKNtPzjgEs4Kj6IojRA87hOkgp/WBAMAAAABAJoCAAAAAjmqirVSBUjKC3nu3hu156qdSydARc6IaaGb1AUkTv5WAQAAAAD9////YNYT/FsUAz7vAAD4We/FuenKuLQIkP0ojUbPLrMBtCEAAAAAAP3///8CkEAVAQAAAAAWABTn2SmRvvff9t3OAaetUJoKVxMxc29KTAAAAAAAFgAUVK9TwbmqGlBJmd1R70WDefZoHb0AAAAAAQEfkEAVAQAAAAAWABTn2SmRvvff9t3OAaetUJoKVxMxcwEIawJHMEQCIFuxVUKAyFAIZnXhre6cR7JlsB1sjoZnX8Z1iJOItFKXAiAqnvfTC8OJk8VSWnW4FjWRt5sQKSSfY46aZRMbIsAm/AEhAiCHLs88VJ9qBVih6ui2778bHJRbBRW1CIbOM/qRoJEpAAAA\r\n```\r\n\r\nSparrow won't sign the Payjoin PSBT even though it controls `9bec62ea49e8bca7cd0e63dfb6d900d08dbae0a0687e26dad2634c834055730b:1`\r\n\r\nIt seems that the [Sparrow payjoin sender implementation fills in these details for signing](https://github.com/sparrowwallet/sparrow/blob/6e4d308c7947d547fa1d74df2c2c73e3c9eb0273/src/main/java/com/sparrowwallet/sparrow/payjoin/Payjoin.java#L170-L172). It would be nice if there were a way for Sparrow to fill in these details for any PSBT even if outside the typical Payjoin PSBT flow.",
+          "user": {
+            "login": "DanGould",
+            "id": 8525467,
+            "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+            "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/DanGould",
+            "html_url": "https://github.com/DanGould",
+            "followers_url": "https://api.github.com/users/DanGould/followers",
+            "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+            "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+            "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+            "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+            "organizations_url": "https://api.github.com/users/DanGould/orgs",
+            "repos_url": "https://api.github.com/users/DanGould/repos",
+            "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+            "received_events_url": "https://api.github.com/users/DanGould/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "labels": [],
+          "assignees": [],
+          "author_association": "NONE",
+          "locked": false,
+          "comments": 3,
+          "created_at": "2024-05-30T15:37:32Z",
+          "updated_at": "2024-06-01T14:30:38Z"
+        },
+        "type": "issue"
+      }
     }
   ],
   "comments": []
