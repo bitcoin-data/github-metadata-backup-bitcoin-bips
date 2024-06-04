@@ -59,14 +59,14 @@
       }
     ],
     "created_at": "2024-01-15T20:14:59Z",
-    "updated_at": "2024-05-27T13:24:49Z",
-    "mergeable": true,
-    "mergeable_state": "unstable",
-    "merge_commit_sha": "8dc2681ed2f8ea495c4ad9ecfcdcf54761796394",
+    "updated_at": "2024-06-04T21:54:45Z",
+    "mergeable": false,
+    "mergeable_state": "dirty",
+    "merge_commit_sha": "bab9258a29eb1d60ce57e2551955d474da9c765a",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
+    "rebaseable": false,
     "head": {
       "label": "achow101:musig2",
       "ref": "musig2",
@@ -280,12 +280,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5264,
-        "stargazers_count": 9041,
-        "watchers_count": 9041,
-        "size": 14911,
+        "forks_count": 5270,
+        "stargazers_count": 9073,
+        "watchers_count": 9073,
+        "size": 15073,
         "default_branch": "master",
-        "open_issues_count": 49,
+        "open_issues_count": 46,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -296,9 +296,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-27T08:34:06Z",
+        "pushed_at": "2024-06-04T20:40:32Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-27T10:56:57Z"
+        "updated_at": "2024-06-04T16:28:38Z"
       }
     },
     "_links": {
@@ -312,7 +312,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 3,
-    "review_comments": 37,
+    "review_comments": 40,
     "comments": 12
   },
   "events": [
@@ -1174,7 +1174,7 @@
           "state": "open",
           "state_reason": null,
           "title": "MuSig2 support",
-          "body": "Extend wallet policies with `musig` support, as tentatively specified [here](https://github.com/achow101/bips/blob/musig2-descriptors/bip-musig2-descriptors.mediawiki).\r\n\r\nFor wallet policies, expressions of the form:\r\n\r\n```\r\nmusig(KEY, ..., KEY)/<M,N>/*\r\nmusig(KEY, ..., KEY)/**\r\n```\r\nwill suffice; `KEY` can be restricted to xpubs (although it's possible to generalize to other key expressions if there are use cases). It is unclear if there is any benefit in supporting things like `musig(KEY/**, ..., KEY/**)`, which seems [inherently inefficient](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-November/022132.html).\r\n\r\nReferences\r\n  - [BIP-0327](https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki)\r\n  - The drafts BIPs for Musig2: https://github.com/bitcoin/bips/compare/master...achow101:bips:musig2.\r\n  - PR for MuSig2 support in libsecp256k1: https://github.com/bitcoin-core/secp256k1/issues/1452\r\n\r\nTasks:\r\n   - Bitcoin app\r\n     - [x] Wallet policy parsing of `musig` descriptors\r\n     - [x] Update specs for PSBT fields (aggregate key is now a plain key and not x-only)\r\n     - [x] Aggregate xpub derivation for `musig` descriptor\r\n     - [x] Address generation for policies with `musig` descriptor.\r\n     - [ ] Update to sorted `musig()` (per [this](https://github.com/bitcoin/bips/pull/1540#issuecomment-2059110591))\r\n     - [ ] Review sanity rules (e.g.: repeated xpubs in wallet policy) in the presence of `musig`\r\n     - [ ] Transaction-level signing session logic\r\n     - [ ] Pubnonce generation\r\n     - [ ] Partial signature in signing logic.\r\n   - Client libraries:\r\n     - [ ] Extend processing of YIELD to understand pubnonces and partial signatures (all clients)\r\n     - [x] Add musig() xpub generation to python client\r\n     - [ ] Update to sorted `musig()` (per [this](https://github.com/bitcoin/bips/pull/1540#issuecomment-2059110591))\r\n     - [ ] Add musig() xpub generation to Rust client\r\n     - [ ] Add musig() xpub generation to JS client\r\n   - Tests:\r\n     - [ ] Address generation\r\n     - [x] Implement cosigner logic and psbt partial signature aggregation in the python test suite\r\n     - [ ] Extensive tests\r\n",
+          "body": "Extend wallet policies with `musig` support, as tentatively specified [here](https://github.com/achow101/bips/blob/musig2-descriptors/bip-musig2-descriptors.mediawiki).\r\n\r\nFor wallet policies, expressions of the form:\r\n\r\n```\r\nmusig(KEY, ..., KEY)/<M,N>/*\r\nmusig(KEY, ..., KEY)/**\r\n```\r\nwill suffice; `KEY` can be restricted to xpubs (although it's possible to generalize to other key expressions if there are use cases). It is unclear if there is any benefit in supporting things like `musig(KEY/**, ..., KEY/**)`, which seems [inherently inefficient](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2023-November/022132.html).\r\n\r\nReferences\r\n  - [BIP-0327](https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki)\r\n  - The drafts BIPs for Musig2: https://github.com/bitcoin/bips/compare/master...achow101:bips:musig2.\r\n  - PR for MuSig2 support in libsecp256k1: https://github.com/bitcoin-core/secp256k1/issues/1452\r\n\r\nTasks:\r\n   - Bitcoin app\r\n     - [x] Wallet policy parsing of `musig` descriptors\r\n     - [x] Update specs for PSBT fields (aggregate key is now a plain key and not x-only)\r\n     - [x] Aggregate xpub derivation for `musig` descriptor\r\n     - [x] Address generation for policies with `musig` descriptor.\r\n     - [x] Update to sorted `musig()` (per [this](https://github.com/bitcoin/bips/pull/1540#issuecomment-2059110591))\r\n     - [ ] Review sanity rules (e.g.: repeated xpubs in wallet policy) in the presence of `musig`\r\n     - [x] Transaction-level signing session logic\r\n     - [x] Pubnonce generation\r\n     - [x] Partial signature in signing logic.\r\n   - Client libraries:\r\n     - [x] Extend processing of YIELD to understand pubnonces and partial signatures (all clients)\r\n     - [x] Add musig() xpub generation to python client\r\n     - [x] Update to sorted `musig()` (per [this](https://github.com/bitcoin/bips/pull/1540#issuecomment-2059110591))\r\n     - [ ] Add musig() xpub generation to Rust client\r\n     - [ ] Add musig() xpub generation to JS client\r\n   - Tests:\r\n     - [x] Address generation\r\n     - [x] Implement cosigner logic and psbt partial signature aggregation in the python test suite\r\n     - [ ] Extensive tests\r\n",
           "user": {
             "login": "bigspider",
             "id": 6681844,
@@ -1245,7 +1245,7 @@
           "locked": false,
           "comments": 1,
           "created_at": "2023-11-20T17:18:46Z",
-          "updated_at": "2024-04-17T15:29:37Z"
+          "updated_at": "2024-05-28T12:18:39Z"
         },
         "type": "issue"
       }
@@ -2372,6 +2372,42 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1540#issuecomment-2133477294",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1540"
+    },
+    {
+      "event": "reviewed",
+      "id": 2097428451,
+      "node_id": "PRR_kwDOAN28mc59BDfj",
+      "url": null,
+      "actor": null,
+      "commit_id": "7f94dcac1d7ab89dc0fa91cdb494e5fd880fea29",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": " Let’s call these:\r\n• BIP 328: Derivation Scheme for MuSig2 Aggregate Keys\r\n• BIP 373: MuSig2 PSBT Fields\r\n• BIP 390: musig() Descriptor Key Expression",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#pullrequestreview-2097428451",
+      "submitted_at": "2024-06-04T21:53:04Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
     }
   ],
   "comments": [
@@ -4297,6 +4333,162 @@
       "start_side": "RIGHT",
       "line": null,
       "original_line": 28,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1626629201",
+      "pull_request_review_id": 2097428451,
+      "id": 1626629201,
+      "node_id": "PRRC_kwDOAN28mc5g9GRR",
+      "diff_hunk": "@@ -0,0 +1,103 @@\n+<pre>\n+  BIP: musig2-descriptors\n+  Layer: Applications\n+  Title: musig() Descriptor Key Expression\n+  Author: Ava Chow <me@achow101.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-musig2-descriptor\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-01-15\n+  License: CC0-1.0\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies a <tt>musig()</tt> key expression for output script descriptors.\n+<tt>musig()</tt> expressions take multiple keys and produce an aggregate public key using BIP 327.\n+\n+==Copyright==\n+\n+This BIP is licensed under the Creative Commons CC0 1.0 Universal license.\n+\n+==Motivation==\n+\n+BIP 327 introduces the MuSig2 Multi-Signature scheme. It is useful to have a way for keys to be used\n+in a MuSig2 aggregate key to be expressed in descriptors so that wallets can more easily use MuSig2.\n+\n+==Specification==\n+\n+A new key expression is defined: <tt>musig()</tt>.\n+\n+===<tt>musig()</tt>===\n+\n+The <tt>musig(KEY, KEY, ..., KEY)</tt> expression can only be used inside of a <tt>tr()</tt>\n+expression as a key expression. It additionally cannot be nested within another <tt>musig()</tt>\n+expression. The aggregate public key is produced by using the <tt>KeyAgg</tt>\n+algorithm on all KEYs specified in the expression after performing all specified derivation. As with\n+script expressions, KEY can contain child derivation specified by <tt>/*</tt>. A new aggregate\n+public key will be computed for each child index. Keys must be sorted with the <tt>KeySort</tt>\n+algorithm after all derivation and prior to aggregation.\n+\n+<tt>musig(KEY, KEY, ..., KEY)/NUM/.../*</tt> expressions are also allowed. The aggregate public key\n+is first computed as described above, with the keys also being sorted after all derivation and prior\n+to aggreation, then further BIP 32 derivation will be performed on it as described in\n+[[bip-musig2-derivation.mediawiki|BIP-musig2-derivation]]. As there is no aggregate private key,\n+only unhardened derivation from the aggregate public key is allowed, and thus the derivation steps\n+following the <tt>musig()</tt> expression cannot contain\n+<tt>/NUMh</tt> or <tt>/NUM'</tt> derivation steps nor <tt>/*h</tt>, or <tt>/*'</tt> child derivation.\n+For these <tt>musig()</tt> expressions, the KEY expressions contained within must be xpubs or derived from\n+xpubs, and cannot contain child derivation as specified by a <tt>/*</tt>, <tt>/*'</tt>, or <tt>/*h</tt>.\n+\n+==Test Vectors==\n+\n+Valid descriptors containing followed by the scripts they produce. Descriptors involving derived child keys\n+will have the 0th, 1st, and 2nd scripts listed.\n+\n+* <tt>rawtr(musig(KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU74sHUHy8S,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66))</tt>\n+** <tt>5120789d937bade6673538f3e28d8368dda4d0512f94da44cf477a505716d26a1575</tt>\n+* <tt>tr(musig(02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66))</tt>\n+** <tt>512079e6c3e628c9bfbce91de6b7fb28e2aec7713d377cf260ab599dcbc40e542312</tt>\n+* <tt>rawtr(musig(xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL,xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y)/0/*)</tt>\n+** <tt>51209508c08832f3bb9d5e8baf8cb5cfa3669902e2f2da19acea63ff47b93faa9bfc</tt>\n+** <tt>51205ca1102663025a83dd9b5dbc214762c5a6309af00d48167d2d6483808525a298</tt>\n+** <tt>51207dbed1b89c338df6a1ae137f133a19cae6e03d481196ee6f1a5c7d1aeb56b166</tt>\n+* <tt>tr(musig(xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL,xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y)/0/*,pk(f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9))</tt>\n+** <tt>51201d377b637b5c73f670f5c8a96a2c0bb0d1a682a1fca6aba91fe673501a189782</tt>\n+** <tt>51208950c83b117a6c208d5205ffefcf75b187b32512eb7f0d8577db8d9102833036</tt>\n+** <tt>5120a49a477c61df73691b77fcd563a80a15ea67bb9c75470310ce5c0f25918db60d</tt>\n+* <tt>tr(f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,pk(musig(xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL,xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y)/0/*))</tt>\n+** <tt>512068983d461174afc90c26f3b2821d8a9ced9534586a756763b68371a404635cc8</tt>\n+** <tt>5120368e2d864115181bdc8bb5dc8684be8d0760d5c33315570d71a21afce4afd43e</tt>\n+** <tt>512097a1e6270b33ad85744677418bae5f59ea9136027223bc6e282c47c167b471d5</tt>\n+\n+Invalid descriptors\n+\n+* <tt>musig()</tt> is not allowed in <tt>pk()</tt>: <tt>pk(musig(02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66))</tt>\n+* <tt>musig()</tt> is not allowed in <tt>pkh()</tt>: <tt>pkh(musig(02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66))</tt>\n+* <tt>musig()</tt> is not allowed in <tt>wpkh()</tt>: <tt>wpkh(musig(02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66))</tt>\n+* <tt>musig()</tt> is not allowed in <tt>combo()</tt>: <tt>combo(musig(02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66))</tt>\n+* <tt>musig()</tt> is not allowed in <tt>sh(wpkh())</tt>: <tt>sh(wpkh(musig(02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66)))</tt>\n+* <tt>musig()</tt> is not allowed in <tt>sh(wsh())</tt>: <tt>sh(wsh(pk(musig(02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66))))</tt>\n+* <tt>musig()</tt> is not allowed in <tt>wsh()</tt>: <tt>wsh(musig(02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66))</tt>\n+* <tt>musig()</tt> is not allowed in <tt>sh()</tt>: <tt>sh(musig(02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66))</tt>\n+* Ranged <tt>musig()</tt> requires all participants to be xpubs: <tt>tr(musig(02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9,03dff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659,023590a94e768f8e1815c2f24b4d80a8e3149316c3518ce7b7ad338368d038ca66)/0/0)</tt>\n+* Cannot have ranged participants if <tt>musig()</tt> is also ranged: <tt>tr(musig(xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL/*,xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y)/0/*)</tt>\n+* <tt>musig()</tt> cannot have hardened derivation steps: <tt>tr(musig(xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL,xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y)/0h/*)</tt>\n+* <tt>musig()</tt> cannot have hardened child derivation: <tt>tr(musig(xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL,xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y)/0/*h)</tt>\n+\n+==Backwards Compatibility==\n+\n+<tt>musig()</tt> expressions use the format and general operation specified in\n+[[bip-0380.mediawiki|380]]. As these are a set of wholly new expressions, they are not compatible",
+      "path": "bip-musig2-descriptors.mediawiki",
+      "position": 92,
+      "original_position": 92,
+      "commit_id": "7f94dcac1d7ab89dc0fa91cdb494e5fd880fea29",
+      "original_commit_id": "db06f926c0c0d7ccff8d4f7b396dd0b50e578c9e",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "```suggestion\r\n[[bip-0380.mediawiki|BIP 380]]. As these are a set of wholly new expressions, they are not compatible\r\n```",
+      "created_at": "2024-06-04T21:36:45Z",
+      "updated_at": "2024-06-04T21:53:04Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1626629201",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1626629201"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 92,
+      "original_line": 92,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1626637647",
+      "pull_request_review_id": 2097428451,
+      "id": 1626637647,
+      "node_id": "PRRC_kwDOAN28mc5g9IVP",
+      "diff_hunk": "@@ -0,0 +1,215 @@\n+<pre>\n+  BIP: musig2-psbt\n+  Layer: Applications\n+  Title: MuSig2 PSBT Fields\n+  Author: Ava Chow <me@achow101.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-musig2-psbt\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-01-15\n+  License: CC0-1.0\n+</pre>\n+\n+==Introduction==\n+\n+===Abstract===\n+\n+This document proposes additional fields for BIP 174 PSBTv0 and BIP 370 PSBTv2 that allow for BIP\n+327 MuSig2 Multi-Signature data to be included in a PSBT of any version. These will be fields for\n+the participants' keys, the public nonces, and the partial signatures produced with MuSig2.\n+\n+===Copyright===\n+\n+This BIP is licensed under the Creative Commons CC0 1.0 Universal license.\n+\n+===Motivation===\n+\n+BIP 327 specifies a way to create BIP 340 compatible public keys and signatures using the MuSig2\n+Multi-Signature scheme. The existing PSBT fields are unable to support MuSig2 as it introduces new\n+concepts and additional rounds of communication. Therefore new fields must be defined to allow PSBTs\n+to carry the information necessary to produce a valid signature with MuSig2.\n+\n+==Specification==\n+\n+The new per-input types are defined as follows:\n+\n+{|\n+! Name\n+! <tt><keytype></tt>\n+! <tt><keydata></tt>\n+! <tt><valuedata></tt>\n+! Versions Requiring Inclusion\n+! Versions Requiring Exclusion\n+! Versions Allowing Inclusion\n+|-\n+| rowspan=\"2\"|MuSig2 Participant Public Keys\n+| rowspan=\"2\"|<tt>PSBT_IN_MUSIG2_PARTICIPANT_PUBKEYS = 0x1a</tt>\n+| <tt><33 byte plain aggregate pubkey></tt>\n+| <tt><33 byte compressed pubkey>*</tt>\n+| rowspan=\"2\"|\n+| rowspan=\"2\"|\n+| rowspan=\"2\"| 0, 2\n+|-\n+| The MuSig2 aggregate plain public key<ref>'''Why the plain aggregate public key instead of x-only?'''\n+BIP 32 requires public keys to include their evenness byte. Aggregate public keys are expected to be\n+derived from, following [[bip-musig2-derivation.mediawiki|BIP-musig2-derivation]], and therefore will\n+need to include the evenness. Furthermore, PSBT_IN_TAP_BIP32_DERIVATION fields include fingerprints\n+to identify master keys, and these fingerprints require full compressed public keys. By including\n+the aggregate key as a full public key, signers that are unaware of the MuSig2 outside of the PSBT\n+will still be able to identify which keys are derived from the aggregate key by computing and then\n+comparing the fingerprints. This is necessary for the signer to apply the correct tweaks to their\n+partial signature.</ref> from the <tt>KeyAgg</tt> algorithm. This key may or may not\n+be in the script directly (as x-only). It may instead be a parent public key from which the public keys in the\n+script were derived.\n+| A list of the compressed public keys of the participants in the MuSig2 aggregate key in the order\n+required for aggregation. If sorting was done, then the keys must be in the sorted order.\n+|-\n+| rowspan=\"2\"|MuSig2 Public Nonce\n+| rowspan=\"2\"|<tt>PSBT_IN_MUSIG2_PUB_NONCE = 0x1b</tt>\n+| <tt><33 byte compressed pubkey> <33 byte plain aggregate pubkey> <32 byte hash or omitted></tt>\n+| <tt><66 byte public nonces</tt>\n+| rowspan=\"2\"|\n+| rowspan=\"2\"|\n+| rowspan=\"2\"| 0, 2\n+|-\n+| The compressed public key of the participant providing this nonce, followed by the plain aggregate public\n+key the participant is providing the nonce for, followed by the hash of the BIP 341 tapleaf hash of\n+the Taproot leaf script that will be signed. If the aggregate key is the taproot internal key or the\n+taproot output key, then the tapleaf hash must be omitted. Note that the second public key must be\n+the key found in the script and not the aggregate public key that it was derived from, if it was\n+derived from an aggregate key.\n+| The public nonces produced by the <tt>NonceGen</tt> algorithm.\n+|-\n+| rowspan=\"2\"|MuSig2 Participant Partial Signature\n+| rowspan=\"2\"|<tt>PSBT_IN_MUSIG2_PARTIAL_SIG = 0x1c</tt>\n+| <tt><33 byte compressed pubkey> <33 byte plain aggregate pubkey> <32 byte hash or omitted></tt>\n+| <tt><32 byte partial signature></tt>\n+| rowspan=\"2\"|\n+| rowspan=\"2\"|\n+| rowspan=\"2\"| 0, 2\n+|-\n+| The compressed public key of the participant providing this partial signature, followed by the plain aggregate public key the participant is providing the signature for, followed by the BIP 341 tapleaf hash\n+of the Taproot leaf script that will be signed. If the aggregate key is the taproot internal key or\n+the taproot output key, then the tapleaf hash must be omitted. Note that the second public key must\n+be the key found in the script and not the aggregate public key that it was derived from, if it was\n+derived from an aggregate key.\n+| The partial signature produced by the <tt>Sign</tt> algorithm.\n+|}\n+\n+The new per-output types are defined as follows:\n+\n+{|\n+! Name\n+! <tt><keytype></tt>\n+! <tt><keydata></tt>\n+! <tt><valuedata></tt>\n+! Versions Requiring Inclusion\n+! Versions Requiring Exclusion\n+! Versions Allowing Inclusion\n+|-\n+| rowspan=\"2\"|MuSig2 Participant Public Keys\n+| rowspan=\"2\"|<tt>PSBT_OUT_MUSIG2_PARTICIPANT_PUBKEYS = 0x08</tt>\n+| <tt><33 byte compressed pubkey></tt>\n+| <tt><33 byte compressed pubkey>*</tt>\n+| rowspan=\"2\"|\n+| rowspan=\"2\"|\n+| rowspan=\"2\"|0, 2\n+|-\n+| The MuSig2 aggregate plain public key from the <tt>KeyAgg</tt> algorithm. This key may or may not\n+be in the script directly. It may instead be a parent public key from which the public keys in the\n+script were derived.\n+| A list of the compressed public keys of the participants in the MuSig2 aggregate key in the order\n+required for aggregation. If sorting was done, then the keys must be in the sorted order.\n+|}\n+\n+==Roles==\n+\n+===Updater===\n+\n+When an updater observes a Taproot output which involves a MuSig2 aggregate public key that it is\n+aware if, it can add a <tt>PSBT_IN_MUSIG2_PARTICIPANT_PUBKEYS</tt> field containing the public keys\n+of the participants. This aggregate public key may be directly in the script, the Taproot internal\n+key, the Taproot output key, or a public key from which the key in the script was derived from.\n+\n+An aggregate public key that appears directly in the script or internal key may be from the result\n+of deriving child pubkeys from participant xpubs. If the updater has this derivation information, it\n+should also add <tt>PSBT_IN_TAP_BIP32_DERIVATION</tt> for each participant public key.\n+\n+If the public key found was derived from an aggregate public key, then all MuSig2 PSBT fields for\n+that public key should contain the aggregate public key rather than the found pubkey itself. The\n+updater should also add <tt>PSBT_IN_TAP_BIP32_DERIVATION</tt> that contains the derivation path used\n+to derive the found pubkey from the aggregate pubkey.\n+Derivation from the aggregate pubkey can be assumed to follow [[bip-musig2-derivation:BIP-musig2-derivation]",
+      "path": "bip-musig2-psbt.mediawiki",
+      "position": 143,
+      "original_position": 143,
+      "commit_id": "7f94dcac1d7ab89dc0fa91cdb494e5fd880fea29",
+      "original_commit_id": "7f94dcac1d7ab89dc0fa91cdb494e5fd880fea29",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "```suggestion\r\nDerivation from the aggregate pubkey can be assumed to follow [[bip-musig2-derivation:BIP-musig2-derivation]]\r\n```",
+      "created_at": "2024-06-04T21:47:26Z",
+      "updated_at": "2024-06-04T21:53:04Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1626637647",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1626637647"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 143,
+      "original_line": 143,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1626640189",
+      "pull_request_review_id": 2097428451,
+      "id": 1626640189,
+      "node_id": "PRRC_kwDOAN28mc5g9I89",
+      "diff_hunk": "@@ -0,0 +1,215 @@\n+<pre>\n+  BIP: musig2-psbt\n+  Layer: Applications\n+  Title: MuSig2 PSBT Fields\n+  Author: Ava Chow <me@achow101.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-musig2-psbt\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-01-15\n+  License: CC0-1.0\n+</pre>\n+\n+==Introduction==\n+\n+===Abstract===\n+\n+This document proposes additional fields for BIP 174 PSBTv0 and BIP 370 PSBTv2 that allow for BIP\n+327 MuSig2 Multi-Signature data to be included in a PSBT of any version. These will be fields for\n+the participants' keys, the public nonces, and the partial signatures produced with MuSig2.\n+\n+===Copyright===\n+\n+This BIP is licensed under the Creative Commons CC0 1.0 Universal license.\n+\n+===Motivation===\n+\n+BIP 327 specifies a way to create BIP 340 compatible public keys and signatures using the MuSig2\n+Multi-Signature scheme. The existing PSBT fields are unable to support MuSig2 as it introduces new\n+concepts and additional rounds of communication. Therefore new fields must be defined to allow PSBTs\n+to carry the information necessary to produce a valid signature with MuSig2.\n+\n+==Specification==\n+\n+The new per-input types are defined as follows:\n+\n+{|\n+! Name\n+! <tt><keytype></tt>\n+! <tt><keydata></tt>\n+! <tt><valuedata></tt>\n+! Versions Requiring Inclusion\n+! Versions Requiring Exclusion\n+! Versions Allowing Inclusion\n+|-\n+| rowspan=\"2\"|MuSig2 Participant Public Keys\n+| rowspan=\"2\"|<tt>PSBT_IN_MUSIG2_PARTICIPANT_PUBKEYS = 0x1a</tt>\n+| <tt><33 byte plain aggregate pubkey></tt>\n+| <tt><33 byte compressed pubkey>*</tt>\n+| rowspan=\"2\"|\n+| rowspan=\"2\"|\n+| rowspan=\"2\"| 0, 2\n+|-\n+| The MuSig2 aggregate plain public key<ref>'''Why the plain aggregate public key instead of x-only?'''\n+BIP 32 requires public keys to include their evenness byte. Aggregate public keys are expected to be\n+derived from, following [[bip-musig2-derivation.mediawiki|BIP-musig2-derivation]], and therefore will\n+need to include the evenness. Furthermore, PSBT_IN_TAP_BIP32_DERIVATION fields include fingerprints\n+to identify master keys, and these fingerprints require full compressed public keys. By including\n+the aggregate key as a full public key, signers that are unaware of the MuSig2 outside of the PSBT\n+will still be able to identify which keys are derived from the aggregate key by computing and then\n+comparing the fingerprints. This is necessary for the signer to apply the correct tweaks to their\n+partial signature.</ref> from the <tt>KeyAgg</tt> algorithm. This key may or may not\n+be in the script directly (as x-only). It may instead be a parent public key from which the public keys in the\n+script were derived.\n+| A list of the compressed public keys of the participants in the MuSig2 aggregate key in the order\n+required for aggregation. If sorting was done, then the keys must be in the sorted order.\n+|-\n+| rowspan=\"2\"|MuSig2 Public Nonce\n+| rowspan=\"2\"|<tt>PSBT_IN_MUSIG2_PUB_NONCE = 0x1b</tt>\n+| <tt><33 byte compressed pubkey> <33 byte plain aggregate pubkey> <32 byte hash or omitted></tt>\n+| <tt><66 byte public nonces</tt>\n+| rowspan=\"2\"|\n+| rowspan=\"2\"|\n+| rowspan=\"2\"| 0, 2\n+|-\n+| The compressed public key of the participant providing this nonce, followed by the plain aggregate public\n+key the participant is providing the nonce for, followed by the hash of the BIP 341 tapleaf hash of\n+the Taproot leaf script that will be signed. If the aggregate key is the taproot internal key or the\n+taproot output key, then the tapleaf hash must be omitted. Note that the second public key must be\n+the key found in the script and not the aggregate public key that it was derived from, if it was\n+derived from an aggregate key.\n+| The public nonces produced by the <tt>NonceGen</tt> algorithm.\n+|-\n+| rowspan=\"2\"|MuSig2 Participant Partial Signature\n+| rowspan=\"2\"|<tt>PSBT_IN_MUSIG2_PARTIAL_SIG = 0x1c</tt>\n+| <tt><33 byte compressed pubkey> <33 byte plain aggregate pubkey> <32 byte hash or omitted></tt>\n+| <tt><32 byte partial signature></tt>\n+| rowspan=\"2\"|\n+| rowspan=\"2\"|\n+| rowspan=\"2\"| 0, 2\n+|-\n+| The compressed public key of the participant providing this partial signature, followed by the plain aggregate public key the participant is providing the signature for, followed by the BIP 341 tapleaf hash\n+of the Taproot leaf script that will be signed. If the aggregate key is the taproot internal key or\n+the taproot output key, then the tapleaf hash must be omitted. Note that the second public key must\n+be the key found in the script and not the aggregate public key that it was derived from, if it was\n+derived from an aggregate key.\n+| The partial signature produced by the <tt>Sign</tt> algorithm.\n+|}\n+\n+The new per-output types are defined as follows:\n+\n+{|\n+! Name\n+! <tt><keytype></tt>\n+! <tt><keydata></tt>\n+! <tt><valuedata></tt>\n+! Versions Requiring Inclusion\n+! Versions Requiring Exclusion\n+! Versions Allowing Inclusion\n+|-\n+| rowspan=\"2\"|MuSig2 Participant Public Keys\n+| rowspan=\"2\"|<tt>PSBT_OUT_MUSIG2_PARTICIPANT_PUBKEYS = 0x08</tt>\n+| <tt><33 byte compressed pubkey></tt>\n+| <tt><33 byte compressed pubkey>*</tt>\n+| rowspan=\"2\"|\n+| rowspan=\"2\"|\n+| rowspan=\"2\"|0, 2\n+|-\n+| The MuSig2 aggregate plain public key from the <tt>KeyAgg</tt> algorithm. This key may or may not\n+be in the script directly. It may instead be a parent public key from which the public keys in the\n+script were derived.\n+| A list of the compressed public keys of the participants in the MuSig2 aggregate key in the order\n+required for aggregation. If sorting was done, then the keys must be in the sorted order.\n+|}\n+\n+==Roles==\n+\n+===Updater===\n+\n+When an updater observes a Taproot output which involves a MuSig2 aggregate public key that it is\n+aware if, it can add a <tt>PSBT_IN_MUSIG2_PARTICIPANT_PUBKEYS</tt> field containing the public keys\n+of the participants. This aggregate public key may be directly in the script, the Taproot internal\n+key, the Taproot output key, or a public key from which the key in the script was derived from.\n+\n+An aggregate public key that appears directly in the script or internal key may be from the result\n+of deriving child pubkeys from participant xpubs. If the updater has this derivation information, it\n+should also add <tt>PSBT_IN_TAP_BIP32_DERIVATION</tt> for each participant public key.\n+\n+If the public key found was derived from an aggregate public key, then all MuSig2 PSBT fields for\n+that public key should contain the aggregate public key rather than the found pubkey itself. The\n+updater should also add <tt>PSBT_IN_TAP_BIP32_DERIVATION</tt> that contains the derivation path used\n+to derive the found pubkey from the aggregate pubkey.\n+Derivation from the aggregate pubkey can be assumed to follow [[bip-musig2-derivation:BIP-musig2-derivation]\n+if there is no <tt>PSBT_IN_GLOBAL_XPUB</tt> that specifies the synthetic xpub for the aggregate\n+public key.\n+\n+Updaters should add <tt>PSBT_OUT_MUSIG2_PARTICIPANT_PUBKEYS</tt> and\n+<tt>PSBT_OUT_TAP_BIP32_DERIVATION</tt> similarly to inputs to aid in change detection.\n+\n+===Signer===\n+\n+To determine whether a signer is a participant in the MuSig2 aggregate key, the signer should first\n+look at all <tt>PSBT_IN_MUSIG2_PARTICIPANT_PUBKEYS</tt> and see if any key which it knows the\n+private key for appears as a participant in any aggregate pubkey. Signers should also check whether\n+any of the keys in <tt>PSBT_IN_TAP_BIP32_DERIVATION</tt> belong to it, and if any of those keys\n+appear in as a participant in <tt>PSBT_IN_MUSIG2_PARTICIPANT_PUBKEYS</tt>.\n+\n+For each aggregate public key that the signer is a participant of that it wants\n+to produce a signature for, if the signer does not find an existing\n+<tt>PSBT_IN_MUSIG2_PUB_NONCE</tt> field for its key, then it should add one use\n+the <tt>NonceGen</tt> algorithm (or one of its variations) to produce a public",
+      "path": "bip-musig2-psbt.mediawiki",
+      "position": 161,
+      "original_position": 161,
+      "commit_id": "7f94dcac1d7ab89dc0fa91cdb494e5fd880fea29",
+      "original_commit_id": "7f94dcac1d7ab89dc0fa91cdb494e5fd880fea29",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "I think there is something wrong here. Did you mean:\r\n\r\n```suggestion\r\n<tt>PSBT_IN_MUSIG2_PUB_NONCE</tt> field for its key, then it should add one using\r\nthe <tt>NonceGen</tt> algorithm (or one of its variations) to produce a public\r\n```",
+      "created_at": "2024-06-04T21:50:40Z",
+      "updated_at": "2024-06-04T21:53:04Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1540#discussion_r1626640189",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1626640189"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1540"
+        }
+      },
+      "start_line": 160,
+      "original_start_line": 160,
+      "start_side": "RIGHT",
+      "line": 161,
+      "original_line": 161,
       "side": "RIGHT"
     }
   ]
