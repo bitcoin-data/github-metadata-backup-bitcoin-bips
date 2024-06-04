@@ -12,12 +12,12 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1600/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1600/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/d18e8b1f1f2e89be24c18e751da30f78fe63b1ed",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/ce0f1b1af185efac82c4d6f7307d90c2d354337b",
     "number": 1600,
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "BIP85: Clarify spec, correct PWD BASE64 test vector entropy",
+    "title": "BIP85: Clarify spec, correct PWD BASE64 test vector, add Portuguese language code",
     "user": {
       "login": "akarve",
       "id": 1322715,
@@ -38,7 +38,7 @@
       "type": "User",
       "site_admin": false
     },
-    "body": "Summary of changes:\r\n* Clarify drng_reader.read is a first-class function (not an evaluation)\r\n* Clarify possibility for TPRV keys\r\n* Add new reference implementation in Python\r\n* Clarify that HD-Seed-WIF uses msbs\r\n* Correct DERIVED ENTROPY for PWD BASE64 test vector.\r\n  See the following relevant test cases:\r\n    * xfail - https://github.com/akarve/bipsea/blob/4305fe8aa1d0684d2a112947da446d759a778d15/tests/test_bip85.py#L54\r\n    * corrected - https://github.com/akarve/bipsea/blob/4305fe8aa1d0684d2a112947da446d759a778d15/tests/test_bip85.py#L41\r\n \r\nUnit tests and complete implementation that led to these suggestions is in [akarve/bipsea](https://github.com/akarve/bipsea).",
+    "body": "Summary of changes:\r\n* Clarify drng_reader.read is a first-class function (not an evaluation)\r\n* Clarify possibility for TPRV keys\r\n* Add new reference implementation in Python\r\n* Clarify that HD-Seed-WIF uses most significant bits\r\n* Add language code for Portuguese under BIP-32 application\r\n* Correct DERIVED ENTROPY for PWD BASE64 test vector.\r\n  See the following relevant test cases:\r\n    * [xfail on bad entropy from spec](https://github.com/akarve/bipsea/blob/5d5524acb0f4bea6af5fbc07bb05e620455d84c0/tests/test_bip85.py#L63)\r\n    * [corrected and passing vector](https://github.com/akarve/bipsea/blob/5d5524acb0f4bea6af5fbc07bb05e620455d84c0/tests/test_bip85.py#L50)\r\n \r\nUnit tests and complete implementation that led to these suggestions is in [akarve/bipsea](https://github.com/akarve/bipsea).",
     "labels": [
       {
         "id": 275846070,
@@ -59,10 +59,10 @@
       }
     ],
     "created_at": "2024-05-26T20:55:20Z",
-    "updated_at": "2024-05-30T16:49:14Z",
+    "updated_at": "2024-06-04T02:46:07Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "5c40cd08dfdeca2fab106c6ed96bfd184b645804",
+    "merge_commit_sha": "d9200401a9534969d114101b3a8047b30f73c625",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -70,7 +70,7 @@
     "head": {
       "label": "akarve:master",
       "ref": "master",
-      "sha": "d18e8b1f1f2e89be24c18e751da30f78fe63b1ed",
+      "sha": "ce0f1b1af185efac82c4d6f7307d90c2d354337b",
       "user": {
         "login": "akarve",
         "id": 1322715,
@@ -179,9 +179,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-27T02:02:47Z",
+        "pushed_at": "2024-06-04T02:24:06Z",
         "created_at": "2024-05-26T18:37:17Z",
-        "updated_at": "2024-05-27T02:02:51Z"
+        "updated_at": "2024-06-04T02:24:10Z"
       }
     },
     "base": {
@@ -280,12 +280,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5266,
-        "stargazers_count": 9047,
-        "watchers_count": 9047,
-        "size": 15060,
+        "forks_count": 5269,
+        "stargazers_count": 9072,
+        "watchers_count": 9072,
+        "size": 15073,
         "default_branch": "master",
-        "open_issues_count": 48,
+        "open_issues_count": 46,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -296,9 +296,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-29T08:23:41Z",
+        "pushed_at": "2024-06-04T02:24:08Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-30T16:27:01Z"
+        "updated_at": "2024-06-03T22:19:48Z"
       }
     },
     "_links": {
@@ -308,12 +308,12 @@
     },
     "author_association": "NONE",
     "draft": false,
-    "additions": 10,
+    "additions": 14,
     "deletions": 4,
     "changed_files": 1,
-    "commits": 6,
-    "review_comments": 0,
-    "comments": 2
+    "commits": 7,
+    "review_comments": 1,
+    "comments": 3
   },
   "events": [
     {
@@ -792,7 +792,280 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-05-30T16:49:14Z"
+    },
+    {
+      "event": "commented",
+      "id": 2146440871,
+      "node_id": "IC_kwDOAN28mc5_8Ban",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2146440871",
+      "actor": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-06-04T02:16:18Z",
+      "updated_at": "2024-06-04T02:16:18Z",
+      "author_association": "NONE",
+      "body": "I will be very happy to hear from @ethankosakovsky but he hasn't been active on GH since 2021. I have no idea if there's a procedure for this, nevertheless I volunteer to become a maintainer of this BIP if the author cannot be reached.",
+      "user": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1600#issuecomment-2146440871",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1600"
+    },
+    {
+      "event": "mentioned",
+      "id": 13029024965,
+      "node_id": "MEE_lADOAN28mc6KKM1zzwAAAAMIlyTF",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/13029024965",
+      "actor": {
+        "login": "ethankosakovsky",
+        "id": 62417540,
+        "node_id": "MDQ6VXNlcjYyNDE3NTQw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/62417540?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethankosakovsky",
+        "html_url": "https://github.com/ethankosakovsky",
+        "followers_url": "https://api.github.com/users/ethankosakovsky/followers",
+        "following_url": "https://api.github.com/users/ethankosakovsky/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethankosakovsky/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethankosakovsky/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethankosakovsky/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethankosakovsky/orgs",
+        "repos_url": "https://api.github.com/users/ethankosakovsky/repos",
+        "events_url": "https://api.github.com/users/ethankosakovsky/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethankosakovsky/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-06-04T02:16:19Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 13029024971,
+      "node_id": "SE_lADOAN28mc6KKM1zzwAAAAMIlyTL",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/13029024971",
+      "actor": {
+        "login": "ethankosakovsky",
+        "id": 62417540,
+        "node_id": "MDQ6VXNlcjYyNDE3NTQw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/62417540?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethankosakovsky",
+        "html_url": "https://github.com/ethankosakovsky",
+        "followers_url": "https://api.github.com/users/ethankosakovsky/followers",
+        "following_url": "https://api.github.com/users/ethankosakovsky/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethankosakovsky/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethankosakovsky/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethankosakovsky/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethankosakovsky/orgs",
+        "repos_url": "https://api.github.com/users/ethankosakovsky/repos",
+        "events_url": "https://api.github.com/users/ethankosakovsky/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethankosakovsky/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-06-04T02:16:19Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGNlMGYxYjFhZjE4NWVmYWM4MmM0ZDZmNzMwN2Q5MGMyZDM1NDMzN2I",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ce0f1b1af185efac82c4d6f7307d90c2d354337b",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/ce0f1b1af185efac82c4d6f7307d90c2d354337b",
+      "tree": {
+        "sha": "c55bbf2d684867142bbae829eb4aa97ba9504c04",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/c55bbf2d684867142bbae829eb4aa97ba9504c04"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d18e8b1f1f2e89be24c18e751da30f78fe63b1ed",
+          "sha": "d18e8b1f1f2e89be24c18e751da30f78fe63b1ed",
+          "html_url": "https://github.com/bitcoin/bips/commit/d18e8b1f1f2e89be24c18e751da30f78fe63b1ed"
+        }
+      ],
+      "message": "add Protuguese to Langage table",
+      "committer": {
+        "name": "Aneesh Karve",
+        "email": "aneesh.karve@gmail.com",
+        "date": "2024-06-04T02:24:00Z"
+      },
+      "author": {
+        "name": "Aneesh Karve",
+        "email": "aneesh.karve@gmail.com",
+        "date": "2024-06-04T02:24:00Z"
+      },
+      "sha": "ce0f1b1af185efac82c4d6f7307d90c2d354337b"
+    },
+    {
+      "event": "renamed",
+      "id": 13029094066,
+      "node_id": "RTE_lADOAN28mc6KKM1zzwAAAAMImDKy",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/13029094066",
+      "actor": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-06-04T02:27:36Z",
+      "rename": {
+        "from": "BIP85: Clarify spec, correct PWD BASE64 test vector entropy",
+        "to": "BIP85: Clarify spec, correct PWD BASE64 test vector, add Portuguese language code"
+      }
+    },
+    {
+      "event": "reviewed",
+      "id": 2095184801,
+      "node_id": "PRR_kwDOAN28mc584fuh",
+      "url": null,
+      "actor": null,
+      "commit_id": "ce0f1b1af185efac82c4d6f7307d90c2d354337b",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "NONE",
+      "user": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1600#pullrequestreview-2095184801",
+      "submitted_at": "2024-06-04T02:46:07Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1600"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1625261417",
+      "pull_request_review_id": 2095184801,
+      "id": 1625261417,
+      "node_id": "PRRC_kwDOAN28mc5g34Vp",
+      "diff_hunk": "@@ -223,9 +228,14 @@ OUTPUT\n Application number: 32'\n \n Taking 64 bytes of the HMAC digest, the first 32 bytes are the chain code, and second 32 bytes[1] are the private key for BIP32 XPRV value. Child number, depth, and parent fingerprint are forced to zero.\n+(Note that this ordering is opposite BIP32, where the chain code is the least significant 32 bytes.)",
+      "path": "bip-0085.mediawiki",
+      "position": 41,
+      "original_position": 41,
+      "commit_id": "ce0f1b1af185efac82c4d6f7307d90c2d354337b",
+      "original_commit_id": "ce0f1b1af185efac82c4d6f7307d90c2d354337b",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "I'm looking for guidance as to whether or not we change the order in this spec and update the corresponding XPRV test vector (that's what I'd recommend) or just make a note?\r\n\r\nYou can verify that BIP-32 is the opposite [here](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki). Under CKDpriv and CKDpub BIP-32 states:\r\n\r\n> \"The returned chain code ci is IR.\"\r\n\r\nR is for right. You will also see \"most significant byte first\" throughout BIP-32 indicating \"big endian\". BIP85 is also big endian, it states \"Truncate trailing (least significant) bytes.\"\r\n\r\nI have all BIP-32 and the (backwards?) BIP-85 vectors passing. Here you can see the tested CKDpriv implementation takes [the first 32 bytes for the chain code](https://github.com/akarve/bipsea/blob/5d5524acb0f4bea6af5fbc07bb05e620455d84c0/src/bipsea/bip32.py#L136) and the also passing BIP-85 implementation takes the [last 32 bytes for the chain code](https://github.com/akarve/bipsea/blob/5d5524acb0f4bea6af5fbc07bb05e620455d84c0/src/bipsea/bip85.py#L108).\r\n\r\nI hope I'm not missing something obvious?",
+      "created_at": "2024-06-04T02:46:07Z",
+      "updated_at": "2024-06-04T02:49:34Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1600#discussion_r1625261417",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1625261417"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1600"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 231,
+      "original_line": 231,
+      "side": "RIGHT"
+    }
+  ]
 }
