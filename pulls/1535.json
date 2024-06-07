@@ -59,7 +59,7 @@
       }
     ],
     "created_at": "2024-01-07T18:32:39Z",
-    "updated_at": "2024-06-05T21:21:42Z",
+    "updated_at": "2024-06-07T18:41:35Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merge_commit_sha": "4b126328eefd6fad2b755a4015a0e622b6a6fdb5",
@@ -280,12 +280,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5272,
-        "stargazers_count": 9082,
-        "watchers_count": 9082,
+        "forks_count": 5274,
+        "stargazers_count": 9088,
+        "watchers_count": 9088,
         "size": 15073,
         "default_branch": "master",
-        "open_issues_count": 46,
+        "open_issues_count": 47,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -296,9 +296,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-06-05T13:29:00Z",
+        "pushed_at": "2024-06-07T15:17:26Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-06-05T17:13:43Z"
+        "updated_at": "2024-06-07T09:55:33Z"
       }
     },
     "_links": {
@@ -312,7 +312,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 15,
+    "review_comments": 18,
     "comments": 3
   },
   "events": [
@@ -2254,14 +2254,170 @@
         "type": "User",
         "site_admin": false
       },
-      "body": "Anything that comes from the input stack should be before things that are provided by the locking script, so `sig` definitely comes first. Depending on particulars `msg` might come from the input stack or the locking script, and `key` always comes from the locking script. Examples:\r\n* `<delegate-sig> <sig> <delegate-key> || DUP TOALT <key> CSFS FROMALT CHECKSIG`\r\n* `<sig> <hash> || CTV <key> CSFS`\r\n* `<sig> || <flags> TXHASH <key> CSFS`\r\n* `<sig> <settlement-hash> <update-hash> || CTV SHA256 CAT <key> CSFS`",
+      "body": "Anything that comes from the input stack should be before things that are provided by the locking script, so `sig` definitely comes first. Depending on particulars `msg` might come from the input stack or the locking script, and `key` always comes from the locking script. Examples:\r\n* `<delegate-sig> <sig> <delegate-key> || DUP TOALT <key> CSFS VERIFY FROMALT CHECKSIG`\r\n* `<sig> <hash> || CTV <key> CSFS`\r\n* `<sig> || <flags> TXHASH <key> CSFS`\r\n* `<sig> <settlement-hash> <update-hash> || CTV SHA256 CAT <key> CSFS`",
       "created_at": "2024-06-05T21:21:42Z",
-      "updated_at": "2024-06-05T21:21:42Z",
+      "updated_at": "2024-06-07T18:11:43Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1535#discussion_r1628457143",
       "author_association": "NONE",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1628457143"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1535"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 35,
+      "original_line": 35,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1631539492",
+      "pull_request_review_id": 2105114206,
+      "id": 1631539492,
+      "node_id": "PRRC_kwDOAN28mc5hP1Ek",
+      "diff_hunk": "@@ -0,0 +1,124 @@\n+```\n+BIP: XXX\n+Layer: Consensus (soft fork)\n+Title: CHECKSIGFROMSTACK\n+Author: Brandon Black <freedom@reardencode.com>, Jeremy Rubin <j@rubin.io>\n+Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+Status: Draft\n+Type: Standards Track\n+Created: 2023-12-22\n+License: BSD-3-CLAUSE\n+```\n+\n+## Abstract\n+\n+This BIP describes two new opcodes for the purpose of checking cryptographic\n+signatures in bitcoin scripts against data other than bitcoin transactions.\n+\n+## Summary\n+\n+We propose replacing `OP_NOP5` (0xb4) in bitcoin script with\n+`OP_CHECKSIGFROMSTACKVERIFY`. When verifying taproot script spends having\n+leaf version 0xc0 (as defined in [BIP 342]), we propose `OP_CHECKSIGFROMSTACK`\n+to replace `OP_SUCCESS204` (0xcc).\n+\n+`OP_CHECKSIGFROMSTACK` and `OP_CHECKSIGFROMSTACKVERIFY`\n+have semantics similar to `OP_CHECKSIG` and\n+`OP_CHECKSIGVERIFY` respectively, as specified below.\n+\n+Only 32-byte keys are constrained. Similar to [BIP 341] unknown key types, for\n+other key lengths no signature verification is performed.\n+\n+## Specification\n+\n+* If fewer than 3 elements are on the stack, the script MUST fail and terminate immediately.\n+* The public key (top element), message (second to top element), and signature (third from top element) are read from the stack.",
+      "path": "bip-csfs.md",
+      "position": 35,
+      "original_position": 35,
+      "commit_id": "a15c86aab2263941f209f60913cd9650e4e12131",
+      "original_commit_id": "a15c86aab2263941f209f60913cd9650e4e12131",
+      "in_reply_to_id": 1610532450,
+      "user": {
+        "login": "ProofOfKeags",
+        "id": 4033651,
+        "node_id": "MDQ6VXNlcjQwMzM2NTE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4033651?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ProofOfKeags",
+        "html_url": "https://github.com/ProofOfKeags",
+        "followers_url": "https://api.github.com/users/ProofOfKeags/followers",
+        "following_url": "https://api.github.com/users/ProofOfKeags/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ProofOfKeags/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ProofOfKeags/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ProofOfKeags/subscriptions",
+        "organizations_url": "https://api.github.com/users/ProofOfKeags/orgs",
+        "repos_url": "https://api.github.com/users/ProofOfKeags/repos",
+        "events_url": "https://api.github.com/users/ProofOfKeags/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ProofOfKeags/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Retracted.\r\n\r\nI understand the general direction of what you're getting at but I have to admit that I'm not following the specific use cases where `<msg>` might come from the witness instead of the script. It makes sense to me why you'd want `<msg>` in the script, what's lest clear is under what conditions it is useful to let the witness define it.",
+      "created_at": "2024-06-07T18:05:38Z",
+      "updated_at": "2024-06-07T18:05:39Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1535#discussion_r1631539492",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1631539492"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1535"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 35,
+      "original_line": 35,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1631544967",
+      "pull_request_review_id": 2105123096,
+      "id": 1631544967,
+      "node_id": "PRRC_kwDOAN28mc5hP2aH",
+      "diff_hunk": "@@ -0,0 +1,124 @@\n+```\n+BIP: XXX\n+Layer: Consensus (soft fork)\n+Title: CHECKSIGFROMSTACK\n+Author: Brandon Black <freedom@reardencode.com>, Jeremy Rubin <j@rubin.io>\n+Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+Status: Draft\n+Type: Standards Track\n+Created: 2023-12-22\n+License: BSD-3-CLAUSE\n+```\n+\n+## Abstract\n+\n+This BIP describes two new opcodes for the purpose of checking cryptographic\n+signatures in bitcoin scripts against data other than bitcoin transactions.\n+\n+## Summary\n+\n+We propose replacing `OP_NOP5` (0xb4) in bitcoin script with\n+`OP_CHECKSIGFROMSTACKVERIFY`. When verifying taproot script spends having\n+leaf version 0xc0 (as defined in [BIP 342]), we propose `OP_CHECKSIGFROMSTACK`\n+to replace `OP_SUCCESS204` (0xcc).\n+\n+`OP_CHECKSIGFROMSTACK` and `OP_CHECKSIGFROMSTACKVERIFY`\n+have semantics similar to `OP_CHECKSIG` and\n+`OP_CHECKSIGVERIFY` respectively, as specified below.\n+\n+Only 32-byte keys are constrained. Similar to [BIP 341] unknown key types, for\n+other key lengths no signature verification is performed.\n+\n+## Specification\n+\n+* If fewer than 3 elements are on the stack, the script MUST fail and terminate immediately.\n+* The public key (top element), message (second to top element), and signature (third from top element) are read from the stack.",
+      "path": "bip-csfs.md",
+      "position": 35,
+      "original_position": 35,
+      "commit_id": "a15c86aab2263941f209f60913cd9650e4e12131",
+      "original_commit_id": "a15c86aab2263941f209f60913cd9650e4e12131",
+      "in_reply_to_id": 1610532450,
+      "user": {
+        "login": "reardencode",
+        "id": 730881,
+        "node_id": "MDQ6VXNlcjczMDg4MQ==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/730881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/reardencode",
+        "html_url": "https://github.com/reardencode",
+        "followers_url": "https://api.github.com/users/reardencode/followers",
+        "following_url": "https://api.github.com/users/reardencode/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/reardencode/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/reardencode/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/reardencode/subscriptions",
+        "organizations_url": "https://api.github.com/users/reardencode/orgs",
+        "repos_url": "https://api.github.com/users/reardencode/repos",
+        "events_url": "https://api.github.com/users/reardencode/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/reardencode/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "In any kind of delegation (see the first example above) the message is provided by the witness (i.e. the thing you're delegating to by signing). Here's a powerful example:\r\n\r\n`<delegate_sig> <sig> <delegate_pubkey> <locktime> || CLTV SHA256 CAT <pubkey> CSFS VERIFY CHECKSIG`\r\n\r\nDelegate to a key but only after `<locktime>`, with different locktimes per delegate key.",
+      "created_at": "2024-06-07T18:11:45Z",
+      "updated_at": "2024-06-07T18:11:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1535#discussion_r1631544967",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1631544967"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1535"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 35,
+      "original_line": 35,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1631573434",
+      "pull_request_review_id": 2105174559,
+      "id": 1631573434,
+      "node_id": "PRRC_kwDOAN28mc5hP9W6",
+      "diff_hunk": "@@ -0,0 +1,124 @@\n+```\n+BIP: XXX\n+Layer: Consensus (soft fork)\n+Title: CHECKSIGFROMSTACK\n+Author: Brandon Black <freedom@reardencode.com>, Jeremy Rubin <j@rubin.io>\n+Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+Status: Draft\n+Type: Standards Track\n+Created: 2023-12-22\n+License: BSD-3-CLAUSE\n+```\n+\n+## Abstract\n+\n+This BIP describes two new opcodes for the purpose of checking cryptographic\n+signatures in bitcoin scripts against data other than bitcoin transactions.\n+\n+## Summary\n+\n+We propose replacing `OP_NOP5` (0xb4) in bitcoin script with\n+`OP_CHECKSIGFROMSTACKVERIFY`. When verifying taproot script spends having\n+leaf version 0xc0 (as defined in [BIP 342]), we propose `OP_CHECKSIGFROMSTACK`\n+to replace `OP_SUCCESS204` (0xcc).\n+\n+`OP_CHECKSIGFROMSTACK` and `OP_CHECKSIGFROMSTACKVERIFY`\n+have semantics similar to `OP_CHECKSIG` and\n+`OP_CHECKSIGVERIFY` respectively, as specified below.\n+\n+Only 32-byte keys are constrained. Similar to [BIP 341] unknown key types, for\n+other key lengths no signature verification is performed.\n+\n+## Specification\n+\n+* If fewer than 3 elements are on the stack, the script MUST fail and terminate immediately.\n+* The public key (top element), message (second to top element), and signature (third from top element) are read from the stack.",
+      "path": "bip-csfs.md",
+      "position": 35,
+      "original_position": 35,
+      "commit_id": "a15c86aab2263941f209f60913cd9650e4e12131",
+      "original_commit_id": "a15c86aab2263941f209f60913cd9650e4e12131",
+      "in_reply_to_id": 1610532450,
+      "user": {
+        "login": "ProofOfKeags",
+        "id": 4033651,
+        "node_id": "MDQ6VXNlcjQwMzM2NTE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4033651?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ProofOfKeags",
+        "html_url": "https://github.com/ProofOfKeags",
+        "followers_url": "https://api.github.com/users/ProofOfKeags/followers",
+        "following_url": "https://api.github.com/users/ProofOfKeags/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ProofOfKeags/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ProofOfKeags/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ProofOfKeags/subscriptions",
+        "organizations_url": "https://api.github.com/users/ProofOfKeags/orgs",
+        "repos_url": "https://api.github.com/users/ProofOfKeags/repos",
+        "events_url": "https://api.github.com/users/ProofOfKeags/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ProofOfKeags/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Forgive me but I have to expand this out because it doesn't make sense to me:\r\n\r\nWitness:\r\n1. delegate signature is pushed onto the stack: `<delegate_sig>`\r\n2. the signature authorizing the delegate is pushed: `<delegate_sig> <authorizing_sig>`\r\n3. the delegate pubkey is pushed: `<delegate_sig> <authorizing_sig> <delegate_pubkey>`\r\n4. locktime is pushed: `<delegate_sig> <authorizing_sig> <delegate_pubkey> <locktime>`\r\n\r\nScript:\r\n5. locktime is checked: `<delegate_sig> <authorizing_sig> <delegate_pubkey> <locktime>`\r\n6. locktime is hashed: `<delegate_sig> <authorizing_sig> <delegate_pubkey> <locktime_hash>`\r\n7. locktime hash combined with delegate pubkey: `<delegate_sig> <authorizing_sig> <delegate_pubkey || locktime_hash>`\r\n8. authorizing pubkey is pushed: `<delegate_sig> <authorizing_sig> <delegate_pubkey || locktime_hash> <authorizing_pubkey>`\r\n9. CSFS(V) operation(s) checks that the delegate pubkey is authorized after the locktime by checking the `key || locktime` message was signed by `authorizing_sig`: `<delegate_sig>`\r\n10. CHECKSIG operation fails because we don't have a key? Maybe you forgot a dup somewhere? Maybe I don't understand script as well as I thought? idk.\r\n\r\nAssuming this is roughly what you meant, then I'd imagine in this case the authorizing signature would be pre-signed and distributed. Then at transaction time the delegate presents the authorizing signature along with their key and assigned locktime.\r\n\r\nAssuming all of this is a fair reading, then I think I get what you mean with `<msg>` having an interesting use case wherein it could be:\r\n1. provided by the script\r\n2. provided by the witness\r\n3. collaboratively derived from witness and script participation.\r\n\r\n... which seems pretty cool. I'd love if you can correct either my understanding or your example for completeness, but otherwise I'm satisfied with this and this thread can be resolved.",
+      "created_at": "2024-06-07T18:41:35Z",
+      "updated_at": "2024-06-07T18:41:36Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1535#discussion_r1631573434",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1631573434"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1535"
