@@ -59,10 +59,10 @@
       }
     ],
     "created_at": "2024-05-31T15:59:01Z",
-    "updated_at": "2024-06-03T17:50:23Z",
+    "updated_at": "2024-06-10T15:22:43Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "252b5a747a4db07d0effe36d9244cf26e9742a24",
+    "merge_commit_sha": "6bd842acd4658ae0a9ef1247e91e7cdada5801eb",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -279,12 +279,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5269,
-        "stargazers_count": 9074,
-        "watchers_count": 9074,
-        "size": 15073,
+        "forks_count": 5279,
+        "stargazers_count": 9088,
+        "watchers_count": 9088,
+        "size": 15053,
         "default_branch": "master",
-        "open_issues_count": 46,
+        "open_issues_count": 48,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -295,9 +295,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-06-03T16:21:05Z",
+        "pushed_at": "2024-06-10T15:04:26Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-06-03T17:15:50Z"
+        "updated_at": "2024-06-10T15:04:32Z"
       }
     },
     "_links": {
@@ -311,7 +311,7 @@
     "deletions": 10,
     "changed_files": 1,
     "commits": 3,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 3
   },
   "events": [
@@ -923,7 +923,96 @@
         "name": "Pending acceptance",
         "color": "fbca04"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 2108101172,
+      "node_id": "PRR_kwDOAN28mc59pxI0",
+      "url": null,
+      "actor": null,
+      "commit_id": "a682fe6b0ec868f152e40be0f1cc5d33f5819c05",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "NONE",
+      "body": "I'm slowly getting some time now but feel free to go ahead with this. I'd still like to cover the edge case I mentioned because it affects some software in the wild but that can be done in a separate PR.\r\n\r\nAnd thanks @DanGould for picking this up!",
+      "user": {
+        "login": "Kixunil",
+        "id": 1178779,
+        "node_id": "MDQ6VXNlcjExNzg3Nzk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1178779?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Kixunil",
+        "html_url": "https://github.com/Kixunil",
+        "followers_url": "https://api.github.com/users/Kixunil/followers",
+        "following_url": "https://api.github.com/users/Kixunil/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Kixunil/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Kixunil/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Kixunil/subscriptions",
+        "organizations_url": "https://api.github.com/users/Kixunil/orgs",
+        "repos_url": "https://api.github.com/users/Kixunil/repos",
+        "events_url": "https://api.github.com/users/Kixunil/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Kixunil/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1605#pullrequestreview-2108101172",
+      "submitted_at": "2024-06-10T15:22:43Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1605"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1633431403",
+      "pull_request_review_id": 2108101172,
+      "id": 1633431403,
+      "node_id": "PRRC_kwDOAN28mc5hXC9r",
+      "diff_hunk": "@@ -106,14 +106,20 @@ The original PSBT MUST:\n The original PSBT MAY:\n * Have outputs unrelated to the payment for batching purpose.\n \n+The original PSBT SHOULD NOT:\n+* Include mixed input types until September 2024. Mixed inputs were previously completely disallowed so this gives some grace period for receivers to update.\n+\n The payjoin proposal MUST:\n * Use all the inputs from the original PSBT.\n * Use all the outputs which do not belongs to the receiver from the original PSBT.\n * Only finalize the inputs added by the receiver. (Referred later as <code>additional inputs</code>)\n * Only fill the <code>witnessUTXO</code> or <code>nonWitnessUTXO</code> for the additional inputs.\n \n The payjoin proposal MAY:\n-* Add, remove or modify the outputs belonging to the receiver.\n+* Add, or replace the outputs belonging to the receiver unless output substitution is disabled.\n+\n+The payjoin proposal SHOULD NOT:\n+* Include mixed input types until May 2024. Mixed inputs were previously completely disallowed so this gives some grace period for senders to update.",
+      "path": "bip-0078.mediawiki",
+      "position": 18,
+      "original_position": 18,
+      "commit_id": "a682fe6b0ec868f152e40be0f1cc5d33f5819c05",
+      "original_commit_id": "a682fe6b0ec868f152e40be0f1cc5d33f5819c05",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Kixunil",
+        "id": 1178779,
+        "node_id": "MDQ6VXNlcjExNzg3Nzk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1178779?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Kixunil",
+        "html_url": "https://github.com/Kixunil",
+        "followers_url": "https://api.github.com/users/Kixunil/followers",
+        "following_url": "https://api.github.com/users/Kixunil/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Kixunil/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Kixunil/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Kixunil/subscriptions",
+        "organizations_url": "https://api.github.com/users/Kixunil/orgs",
+        "repos_url": "https://api.github.com/users/Kixunil/repos",
+        "events_url": "https://api.github.com/users/Kixunil/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Kixunil/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "This says May, the other says September.",
+      "created_at": "2024-06-10T15:17:55Z",
+      "updated_at": "2024-06-10T15:22:43Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1605#discussion_r1633431403",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1633431403"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1605"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 122,
+      "original_line": 122,
+      "side": "RIGHT"
+    }
+  ]
 }
