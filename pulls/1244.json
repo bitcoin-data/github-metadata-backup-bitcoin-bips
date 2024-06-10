@@ -68,7 +68,7 @@
       }
     ],
     "created_at": "2021-12-02T17:48:18Z",
-    "updated_at": "2024-06-04T17:17:15Z",
+    "updated_at": "2024-06-10T16:19:45Z",
     "mergeable": false,
     "mergeable_state": "dirty",
     "merge_commit_sha": "6f25b4723b90b0a7f5d9c4dbcd5473cffe002588",
@@ -288,12 +288,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5270,
-        "stargazers_count": 9073,
-        "watchers_count": 9073,
-        "size": 15073,
+        "forks_count": 5279,
+        "stargazers_count": 9088,
+        "watchers_count": 9088,
+        "size": 15055,
         "default_branch": "master",
-        "open_issues_count": 46,
+        "open_issues_count": 48,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -304,9 +304,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-06-04T13:21:46Z",
+        "pushed_at": "2024-06-10T16:11:52Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-06-04T16:28:38Z"
+        "updated_at": "2024-06-10T15:04:32Z"
       }
     },
     "_links": {
@@ -320,7 +320,7 @@
     "deletions": 9,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 12,
+    "review_comments": 13,
     "comments": 10
   },
   "events": [
@@ -2205,7 +2205,7 @@
           "assignees": [],
           "author_association": "NONE",
           "locked": false,
-          "comments": 3,
+          "comments": 4,
           "pull_request": {
             "url": "https://api.github.com/repos/bitcoin/bips/pulls/1605",
             "html_url": "https://github.com/bitcoin/bips/pull/1605",
@@ -2213,7 +2213,7 @@
             "patch_url": "https://github.com/bitcoin/bips/pull/1605.patch"
           },
           "created_at": "2024-05-31T15:59:01Z",
-          "updated_at": "2024-06-03T17:50:23Z"
+          "updated_at": "2024-06-10T16:20:37Z"
         },
         "type": "issue"
       }
@@ -2826,6 +2826,58 @@
       "start_side": null,
       "line": 573,
       "original_line": 573,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1633516491",
+      "pull_request_review_id": 2108242164,
+      "id": 1633516491,
+      "node_id": "PRRC_kwDOAN28mc5hXXvL",
+      "diff_hunk": "@@ -289,6 +295,7 @@ Note:\n * The sender must allow the receiver to add/remove or modify the receiver's own outputs. (if payment output substitution is disabled, the receiver's outputs must not be removed or decreased in value)\n * The sender should allow the receiver to not add any inputs. This is useful for the receiver to change the paymout output scriptPubKey type.\n * If no input have been added, the sender's wallet implementation should accept the payjoin proposal, but not mark the transaction as an actual payjoin in the user interface.\n+* If no input have been added, the sender's wallet MUST NOT perform changes that would change transaction ID. Such changes would be accepted by the Bitcoin network in this special case but may invalidate smart contracts the receiver participates in. (E.g. Lightning Network channel opening)",
+      "path": "bip-0078.mediawiki",
+      "position": 55,
+      "original_position": 55,
+      "commit_id": "d4e69ca02d5b743b1997d3b3ffd5513a973f28ff",
+      "original_commit_id": "d4e69ca02d5b743b1997d3b3ffd5513a973f28ff",
+      "in_reply_to_id": 1265834888,
+      "user": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "I think I understand. If a receiver chooses not to contribute input, then the sender could change inputs and pay to a substituted output that requires a specific txid. This should be prevented if possible.",
+      "created_at": "2024-06-10T16:19:45Z",
+      "updated_at": "2024-06-10T16:19:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1244#discussion_r1633516491",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1633516491"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1244"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 298,
+      "original_line": 298,
       "side": "RIGHT"
     }
   ]
