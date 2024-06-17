@@ -68,7 +68,7 @@
       }
     ],
     "created_at": "2021-12-02T17:48:18Z",
-    "updated_at": "2024-06-10T16:19:45Z",
+    "updated_at": "2024-06-17T10:11:50Z",
     "mergeable": false,
     "mergeable_state": "dirty",
     "merge_commit_sha": "6f25b4723b90b0a7f5d9c4dbcd5473cffe002588",
@@ -288,12 +288,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5279,
-        "stargazers_count": 9088,
-        "watchers_count": 9088,
-        "size": 15055,
+        "forks_count": 5286,
+        "stargazers_count": 9106,
+        "watchers_count": 9106,
+        "size": 15073,
         "default_branch": "master",
-        "open_issues_count": 48,
+        "open_issues_count": 49,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -304,9 +304,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-06-10T16:11:52Z",
+        "pushed_at": "2024-06-16T19:04:24Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-06-10T15:04:32Z"
+        "updated_at": "2024-06-17T07:57:32Z"
       }
     },
     "_links": {
@@ -320,7 +320,7 @@
     "deletions": 9,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 13,
+    "review_comments": 14,
     "comments": 10
   },
   "events": [
@@ -2868,6 +2868,58 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1633516491"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1244"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 298,
+      "original_line": 298,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1642566953",
+      "pull_request_review_id": 2122498971,
+      "id": 1642566953,
+      "node_id": "PRRC_kwDOAN28mc5h55Up",
+      "diff_hunk": "@@ -289,6 +295,7 @@ Note:\n * The sender must allow the receiver to add/remove or modify the receiver's own outputs. (if payment output substitution is disabled, the receiver's outputs must not be removed or decreased in value)\n * The sender should allow the receiver to not add any inputs. This is useful for the receiver to change the paymout output scriptPubKey type.\n * If no input have been added, the sender's wallet implementation should accept the payjoin proposal, but not mark the transaction as an actual payjoin in the user interface.\n+* If no input have been added, the sender's wallet MUST NOT perform changes that would change transaction ID. Such changes would be accepted by the Bitcoin network in this special case but may invalidate smart contracts the receiver participates in. (E.g. Lightning Network channel opening)",
+      "path": "bip-0078.mediawiki",
+      "position": 55,
+      "original_position": 55,
+      "commit_id": "d4e69ca02d5b743b1997d3b3ffd5513a973f28ff",
+      "original_commit_id": "d4e69ca02d5b743b1997d3b3ffd5513a973f28ff",
+      "in_reply_to_id": 1265834888,
+      "user": {
+        "login": "Kixunil",
+        "id": 1178779,
+        "node_id": "MDQ6VXNlcjExNzg3Nzk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1178779?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Kixunil",
+        "html_url": "https://github.com/Kixunil",
+        "followers_url": "https://api.github.com/users/Kixunil/followers",
+        "following_url": "https://api.github.com/users/Kixunil/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Kixunil/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Kixunil/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Kixunil/subscriptions",
+        "organizations_url": "https://api.github.com/users/Kixunil/orgs",
+        "repos_url": "https://api.github.com/users/Kixunil/repos",
+        "events_url": "https://api.github.com/users/Kixunil/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Kixunil/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Exactly. I wanted to discuss this with Nicolas at BTC Prague but I didn't even manage to say hi to him. :sob: Too much stuff going on.\r\n\r\nNow I've realized that it probably cannot be fully prevented easily. A wallet can remember a transaction was a payjoin but if the data is lost and the wallet is recovered from seed it doesn't know if it's safe to RBF. It could use the RBF flag in transaction to signal that but that creates footprint in the chain. So unless I'm missing something loptos/nolooking is effectively broken and can lead to loss of funds in this edge case. This sucks a lot since being able to initialize an LN node with just one transaction is very helpful.",
+      "created_at": "2024-06-17T10:11:50Z",
+      "updated_at": "2024-06-17T10:11:50Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1244#discussion_r1642566953",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1642566953"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1244"
