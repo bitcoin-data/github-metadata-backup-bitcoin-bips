@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2023-12-10T19:56:50Z",
-    "updated_at": "2024-07-01T20:59:56Z",
+    "updated_at": "2024-07-02T14:51:52Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "a021c28f7d32dc080e1632a4fc718f8c778e47e4",
@@ -271,9 +271,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5298,
-        "stargazers_count": 9091,
-        "watchers_count": 9091,
+        "forks_count": 5299,
+        "stargazers_count": 9093,
+        "watchers_count": 9093,
         "size": 15087,
         "default_branch": "master",
         "open_issues_count": 42,
@@ -287,9 +287,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-07-01T18:52:47Z",
+        "pushed_at": "2024-07-01T23:06:45Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-07-01T18:52:54Z"
+        "updated_at": "2024-07-02T01:51:55Z"
       }
     },
     "_links": {
@@ -304,7 +304,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 61,
-    "comments": 29
+    "comments": 30
   },
   "events": [
     {
@@ -3023,6 +3023,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1524#issuecomment-2201004464",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1524"
+    },
+    {
+      "event": "commented",
+      "id": 2203427223,
+      "node_id": "IC_kwDOAN28mc6DVaGX",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2203427223",
+      "actor": {
+        "login": "glozow",
+        "id": 25183001,
+        "node_id": "MDQ6VXNlcjI1MTgzMDAx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25183001?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/glozow",
+        "html_url": "https://github.com/glozow",
+        "followers_url": "https://api.github.com/users/glozow/followers",
+        "following_url": "https://api.github.com/users/glozow/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/glozow/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/glozow/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/glozow/subscriptions",
+        "organizations_url": "https://api.github.com/users/glozow/orgs",
+        "repos_url": "https://api.github.com/users/glozow/repos",
+        "events_url": "https://api.github.com/users/glozow/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/glozow/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-07-02T14:51:50Z",
+      "updated_at": "2024-07-02T14:51:50Z",
+      "author_association": "MEMBER",
+      "body": "> > What is the rational to limit ephemeral outputs to being spent by transactions adhering to the TRUC standard? The goal of ensuring that dust outputs are immediately spent in the same block has nothing to do with TRUC.\r\n> \r\n> Indeed it's not strictly required as noted in the rationale section. I leveraged the TRUC implementation in Core to have the 0-fee requirement of the parent(pre-cluster mempool non-TRUC tx are restricted to minrelay or higher), and \"only one child\", to incentivize the mining of the spend of the dust.\r\n\r\nTRUCness is just a way of making it feasible to enforce the rules. There's not a reliance on TRUC, but the point is to clearly describe a specific solution that works and why. BIP 431 itself generally describes topological restrictions on which you can build less pinning-prone policies, with 1 section more specifically about a 1-parent-1-child ruleset. One can imagine another ruleset in a different context but with the same design goals.\r\n\r\nSimilarly, you could structure this BIP as:\r\n\r\n- Motivation: 0-value anchors would be nice\r\n- Design Goals: loosen policy to allow ephemeral dust, but easily enforce that it's always spent.\r\n- 1 possible concrete method: 1 child only + 0-fee + TRUC. Link implementation, list rationale.\r\n- Mention that, in the future, you could come up with another way to allow dust + enforce its ephemeralness in a completely different way.\r\n",
+      "user": {
+        "login": "glozow",
+        "id": 25183001,
+        "node_id": "MDQ6VXNlcjI1MTgzMDAx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25183001?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/glozow",
+        "html_url": "https://github.com/glozow",
+        "followers_url": "https://api.github.com/users/glozow/followers",
+        "following_url": "https://api.github.com/users/glozow/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/glozow/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/glozow/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/glozow/subscriptions",
+        "organizations_url": "https://api.github.com/users/glozow/orgs",
+        "repos_url": "https://api.github.com/users/glozow/repos",
+        "events_url": "https://api.github.com/users/glozow/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/glozow/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1524#issuecomment-2203427223",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1524"
     }
   ],
