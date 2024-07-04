@@ -12,12 +12,12 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1600/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1600/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/ce0f1b1af185efac82c4d6f7307d90c2d354337b",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/ec7f91147b64eade02a08fd5c11fcaec2364036d",
     "number": 1600,
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "BIP85: Clarify spec, correct PWD BASE64 test vector, add Portuguese language code",
+    "title": "BIP85: Clarify spec, correct test vectors, add Portuguese language code, add dice application",
     "user": {
       "login": "akarve",
       "id": 1322715,
@@ -38,7 +38,7 @@
       "type": "User",
       "site_admin": false
     },
-    "body": "Summary of changes:\r\n* Clarify drng_reader.read is a first-class function (not an evaluation)\r\n* Clarify possibility for TPRV keys\r\n* Add new reference implementation in Python\r\n* Clarify that HD-Seed-WIF uses most significant bits\r\n* Add language code for Portuguese under BIP-32 application\r\n* Correct DERIVED ENTROPY for PWD BASE64 test vector.\r\n  See the following relevant test cases:\r\n    * [xfail on bad entropy from spec](https://github.com/akarve/bipsea/blob/5d5524acb0f4bea6af5fbc07bb05e620455d84c0/tests/test_bip85.py#L63)\r\n    * [corrected and passing vector](https://github.com/akarve/bipsea/blob/5d5524acb0f4bea6af5fbc07bb05e620455d84c0/tests/test_bip85.py#L50)\r\n \r\nUnit tests and complete implementation that led to these suggestions is in [akarve/bipsea](https://github.com/akarve/bipsea).",
+    "body": "Summary of changes:\r\n* Clarify drng_reader.read is a first-class function (not an evaluation)\r\n* Clarify endianness\r\n* Clarify possibility for TPRV keys\r\n* Add new reference implementation in Python\r\n* Clarify that HD-Seed-WIF uses most significant bits\r\n* Add language code for Portuguese under BIP-32 application\r\n* Correct entropy for BASE64 test vector\r\n* Correct byte order and output for XPRV test vector\r\n* Add new champion\r\n \r\nUnit tests and implementation that led to these suggestions at [akarve/bipsea](https://github.com/akarve/bipsea).",
     "labels": [
       {
         "id": 275846070,
@@ -59,10 +59,10 @@
       }
     ],
     "created_at": "2024-05-26T20:55:20Z",
-    "updated_at": "2024-07-03T14:08:40Z",
+    "updated_at": "2024-07-04T21:56:54Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "a8d673e4f4906ce1fc27aea13cae48007c4e9717",
+    "merge_commit_sha": "18f1477b91ecc8b4e5f3dd6eac52b98e79c9907d",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -70,7 +70,7 @@
     "head": {
       "label": "akarve:master",
       "ref": "master",
-      "sha": "ce0f1b1af185efac82c4d6f7307d90c2d354337b",
+      "sha": "ec7f91147b64eade02a08fd5c11fcaec2364036d",
       "user": {
         "login": "akarve",
         "id": 1322715,
@@ -179,9 +179,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-06-04T02:24:06Z",
+        "pushed_at": "2024-07-04T21:56:52Z",
         "created_at": "2024-05-26T18:37:17Z",
-        "updated_at": "2024-06-04T02:24:10Z"
+        "updated_at": "2024-07-04T21:56:56Z"
       }
     },
     "base": {
@@ -281,11 +281,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5299,
-        "stargazers_count": 9095,
-        "watchers_count": 9095,
-        "size": 15087,
+        "stargazers_count": 9104,
+        "watchers_count": 9104,
+        "size": 15094,
         "default_branch": "master",
-        "open_issues_count": 42,
+        "open_issues_count": 41,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -296,9 +296,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-07-02T15:07:11Z",
+        "pushed_at": "2024-07-04T21:56:54Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-07-03T10:58:11Z"
+        "updated_at": "2024-07-04T19:57:08Z"
       }
     },
     "_links": {
@@ -308,12 +308,12 @@
     },
     "author_association": "NONE",
     "draft": false,
-    "additions": 14,
-    "deletions": 4,
+    "additions": 62,
+    "deletions": 9,
     "changed_files": 1,
-    "commits": 7,
+    "commits": 10,
     "review_comments": 1,
-    "comments": 10
+    "comments": 11
   },
   "events": [
     {
@@ -1680,6 +1680,213 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1600#issuecomment-2206208605",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1600"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGRiMDAyOGIwMDRiYzBlMjQ2ODBiNmRjYzg3Nzc2ZTZiZjdlMjc3ZDM",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/db0028b004bc0e24680b6dcc87776e6bf7e277d3",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/db0028b004bc0e24680b6dcc87776e6bf7e277d3",
+      "tree": {
+        "sha": "5503689c558a967f57ed49b7b4dff83a2c692b56",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/5503689c558a967f57ed49b7b4dff83a2c692b56"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ce0f1b1af185efac82c4d6f7307d90c2d354337b",
+          "sha": "ce0f1b1af185efac82c4d6f7307d90c2d354337b",
+          "html_url": "https://github.com/bitcoin/bips/commit/ce0f1b1af185efac82c4d6f7307d90c2d354337b"
+        }
+      ],
+      "message": "vector and bytes correction(s)",
+      "committer": {
+        "name": "Aneesh Karve",
+        "email": "aneesh.karve@gmail.com",
+        "date": "2024-07-04T21:13:56Z"
+      },
+      "author": {
+        "name": "Aneesh Karve",
+        "email": "aneesh.karve@gmail.com",
+        "date": "2024-07-04T21:13:56Z"
+      },
+      "sha": "db0028b004bc0e24680b6dcc87776e6bf7e277d3"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGI2ZTJmYWY0Y2ZiMGUwZDc3NDA3ZjQ5OGFkYjU5MjcwNDk3OTM1Yzg",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b6e2faf4cfb0e0d77407f498adb59270497935c8",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/b6e2faf4cfb0e0d77407f498adb59270497935c8",
+      "tree": {
+        "sha": "c290ad8df32b84c1f1c631de60df65200e827923",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/c290ad8df32b84c1f1c631de60df65200e827923"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/db0028b004bc0e24680b6dcc87776e6bf7e277d3",
+          "sha": "db0028b004bc0e24680b6dcc87776e6bf7e277d3",
+          "html_url": "https://github.com/bitcoin/bips/commit/db0028b004bc0e24680b6dcc87776e6bf7e277d3"
+        }
+      ],
+      "message": "add dice application",
+      "committer": {
+        "name": "Aneesh Karve",
+        "email": "aneesh.karve@gmail.com",
+        "date": "2024-07-04T21:48:19Z"
+      },
+      "author": {
+        "name": "Aneesh Karve",
+        "email": "aneesh.karve@gmail.com",
+        "date": "2024-07-04T21:48:19Z"
+      },
+      "sha": "b6e2faf4cfb0e0d77407f498adb59270497935c8"
+    },
+    {
+      "event": "renamed",
+      "id": 13398765377,
+      "node_id": "RTE_lADOAN28mc6KKM1zzwAAAAMeoO9B",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/13398765377",
+      "actor": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-07-04T21:49:26Z",
+      "rename": {
+        "from": "BIP85: Clarify spec, correct PWD BASE64 test vector, add Portuguese language code",
+        "to": "BIP85: Clarify spec, correct test vectors, add Portuguese language code, add dice application"
+      }
+    },
+    {
+      "event": "commented",
+      "id": 2209591932,
+      "node_id": "IC_kwDOAN28mc6Ds7J8",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2209591932",
+      "actor": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-07-04T21:52:47Z",
+      "updated_at": "2024-07-04T21:52:47Z",
+      "author_association": "NONE",
+      "body": "> It may be useful to be consistent with bytes or bits in the document.\r\n> Preferably use bits throughout?\r\n\r\nYeah, I've done that wherever possible though there are some cases where say BIP-39 uses bits or where one needs an odd number of bits so I've kept those cases as-is.\r\n\r\nI was more worried about changing the byte order for the XPRV application but went ahead with it in the name of consistency with BIP-32.",
+      "user": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1600#issuecomment-2209591932",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1600"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGVjN2Y5MTE0N2I2NGVhZGUwMmEwOGZkNWMxMWZjYWVjMjM2NDAzNmQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ec7f91147b64eade02a08fd5c11fcaec2364036d",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/ec7f91147b64eade02a08fd5c11fcaec2364036d",
+      "tree": {
+        "sha": "e5136d68aebbf3f9e850231128f5f5d3bf74e201",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/e5136d68aebbf3f9e850231128f5f5d3bf74e201"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b6e2faf4cfb0e0d77407f498adb59270497935c8",
+          "sha": "b6e2faf4cfb0e0d77407f498adb59270497935c8",
+          "html_url": "https://github.com/bitcoin/bips/commit/b6e2faf4cfb0e0d77407f498adb59270497935c8"
+        }
+      ],
+      "message": "grammar",
+      "committer": {
+        "name": "Aneesh Karve",
+        "email": "aneesh.karve@gmail.com",
+        "date": "2024-07-04T21:56:47Z"
+      },
+      "author": {
+        "name": "Aneesh Karve",
+        "email": "aneesh.karve@gmail.com",
+        "date": "2024-07-04T21:56:47Z"
+      },
+      "sha": "ec7f91147b64eade02a08fd5c11fcaec2364036d"
     }
   ],
   "comments": [
@@ -1690,9 +1897,9 @@
       "node_id": "PRRC_kwDOAN28mc5g34Vp",
       "diff_hunk": "@@ -223,9 +228,14 @@ OUTPUT\n Application number: 32'\n \n Taking 64 bytes of the HMAC digest, the first 32 bytes are the chain code, and second 32 bytes[1] are the private key for BIP32 XPRV value. Child number, depth, and parent fingerprint are forced to zero.\n+(Note that this ordering is opposite BIP32, where the chain code is the least significant 32 bytes.)",
       "path": "bip-0085.mediawiki",
-      "position": 41,
+      "position": null,
       "original_position": 41,
-      "commit_id": "ce0f1b1af185efac82c4d6f7307d90c2d354337b",
+      "commit_id": "ec7f91147b64eade02a08fd5c11fcaec2364036d",
       "original_commit_id": "ce0f1b1af185efac82c4d6f7307d90c2d354337b",
       "in_reply_to_id": null,
       "user": {
@@ -1731,7 +1938,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 231,
+      "line": null,
       "original_line": 231,
       "side": "RIGHT"
     }
