@@ -41,7 +41,7 @@
     "body": "Numbers from the appendix were slightly innaccurate and out of date. Update to clarify unspent UTXOs always refers to non-dust UTXOs and update the numbers to reflect current usage of taproot (Jan 2023 to July 2024).\r\n\r\nConsidering the appendix is purely informational and the corrections here are minor, I've opted to not add a changelog entry.",
     "labels": [],
     "created_at": "2024-07-09T15:10:57Z",
-    "updated_at": "2024-07-09T15:10:57Z",
+    "updated_at": "2024-07-09T16:06:34Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "b8c2af76d3442bad694e77ba638f13018c5e8ba3",
@@ -262,7 +262,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5303,
+        "forks_count": 5304,
         "stargazers_count": 9118,
         "watchers_count": 9118,
         "size": 15112,
@@ -337,7 +337,96 @@
         "date": "2024-07-09T15:06:31Z"
       },
       "sha": "d676849cc4d3596ff8d5fb3d538915d2a1219065"
+    },
+    {
+      "event": "reviewed",
+      "id": 2166777021,
+      "node_id": "PRR_kwDOAN28mc6BJmS9",
+      "url": null,
+      "actor": null,
+      "commit_id": "d676849cc4d3596ff8d5fb3d538915d2a1219065",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "Thanks for updating.",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1633#pullrequestreview-2166777021",
+      "submitted_at": "2024-07-09T16:06:34Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1633"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1670783357",
+      "pull_request_review_id": 2166777021,
+      "id": 1670783357,
+      "node_id": "PRRC_kwDOAN28mc5jliF9",
+      "diff_hunk": "@@ -445,11 +445,11 @@ This distinction makes the problem for light clients more clear: light clients n\n \n Recall that a silent payment eligible transaction follows [[#scanning-silent-payment-eligible-transactions|certain conditions]] and should have at least one unspent taproot output. Full nodes (or any index server backed by a full node, such as electrum server) can build an index which collects all of the eligible public keys for a silent payments eligible transaction, sums them up, multiplies the sum by the ''input_hash'', and serves them to clients. This would be 33 bytes per silent payment eligible transaction.\n \n-For a typical bitcoin block of ~3500 txs, lets assume every transaction is a silent payments eligible transaction. This means a client would need to request ''33 bytes * 3500'' of data per block (roughly 100 kB per block). If a client were to request data for every block, this would amount to ~450 MB per month, assuming 100% taproot usage and all outputs remain unspent for > 1 month. As of today, these numbers are closer to 2–10 kB per block (10–50 MB per month)<ref name=\"appendix_data\">''' Data for Appendix A ''' These numbers are based on data from January 2023 until June 2023 (the last 6 months of data at the time of writing). See [https://github.com/josibake/bitcoin-data-analysis/blob/main/notebooks/silent-payments-light-client-data.ipynb Silent payments light client data] for the full analysis.</ref>.\n+For a typical bitcoin block of ~3500 txs, lets assume every transaction is a silent payments eligible transaction. This means a client would need to request ''33 bytes * 3500'' of data per block (roughly 100 kB per block). If a client were to request data for every block, this would amount to ~450 MB per month, assuming 100% taproot usage and all non-dust outputs remain unspent for > 1 month. As of today, these numbers are closer to 2–10 kB per block (30–50 MB per month)<ref name=\"appendix_data\">''' Data for Appendix A ''' These numbers are based on data from January 2023 until July 2024. See [https://github.com/josibake/bitcoin-data-analysis/blob/main/notebooks/silent-payments-light-client-data.ipynb Silent payments light client data] for the full analysis.</ref>.",
+      "path": "bip-0352.mediawiki",
+      "position": 5,
+      "original_position": 5,
+      "commit_id": "d676849cc4d3596ff8d5fb3d538915d2a1219065",
+      "original_commit_id": "d676849cc4d3596ff8d5fb3d538915d2a1219065",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Assuming 4320 blocks/month, would 2-10 kB per block not be roughly more like 9-43 MB per month?\r\n\r\n```suggestion\r\nFor a typical bitcoin block of ~3500 txs, lets assume every transaction is a silent payments eligible transaction. This means a client would need to request ''33 bytes * 3500'' of data per block (roughly 100 kB per block). If a client were to request data for every block, this would amount to ~450 MB per month, assuming 100% taproot usage and all non-dust outputs remain unspent for > 1 month. As of today, these numbers are closer to 2–10 kB per block (9–43 MB per month)<ref name=\"appendix_data\">''' Data for Appendix A ''' These numbers are based on data from January 2023 until July 2024. See [https://github.com/josibake/bitcoin-data-analysis/blob/main/notebooks/silent-payments-light-client-data.ipynb Silent payments light client data] for the full analysis.</ref>.\r\n```",
+      "created_at": "2024-07-09T15:57:55Z",
+      "updated_at": "2024-07-09T16:07:18Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1633#discussion_r1670783357",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1670783357"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1633"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 448,
+      "original_line": 448,
+      "side": "RIGHT"
+    }
+  ]
 }
