@@ -41,7 +41,7 @@
     "body": "I was very confused when reading the ₿-prefix instruction for BIP353. Others have been confused as well:\r\n\r\n* https://github.com/ACINQ/phoenix/issues/588\r\n\r\nThis PR reorders the sentences and slightly rewords them.\r\n\r\nBecause the rationale comes _after_ these instructions, it's important to first point out the main aim: `₿user@example.com` should be the default rendering, it's not just some optional alternative format.\r\n\r\nI moved the bit about external (hardware) wallets down.\r\n\r\nI'm unconvinced the ₿-prefix is a good idea in the first place, but this PR doesn't change it.",
     "labels": [],
     "created_at": "2024-07-11T19:24:45Z",
-    "updated_at": "2024-07-11T19:39:52Z",
+    "updated_at": "2024-07-11T20:06:56Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "32dca592a208beae695edc58f70190f0af0c46a9",
@@ -148,7 +148,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 9601,
+        "size": 15268,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -262,10 +262,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5309,
+        "forks_count": 5310,
         "stargazers_count": 9121,
         "watchers_count": 9121,
-        "size": 15199,
+        "size": 15201,
         "default_branch": "master",
         "open_issues_count": 43,
         "is_template": false,
@@ -278,7 +278,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-07-11T19:24:46Z",
+        "pushed_at": "2024-07-11T20:51:45Z",
         "created_at": "2013-11-19T17:18:41Z",
         "updated_at": "2024-07-11T19:01:07Z"
       }
@@ -294,7 +294,7 @@
     "deletions": 2,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 3,
     "comments": 0
   },
   "events": [
@@ -373,7 +373,200 @@
       "submitted_at": "2024-07-11T19:39:52Z",
       "state": "APPROVED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1645"
+    },
+    {
+      "event": "reviewed",
+      "id": 2172916924,
+      "node_id": "PRR_kwDOAN28mc6BhBS8",
+      "url": null,
+      "actor": null,
+      "commit_id": "286783f161833c102ee8027ead4252602a25f51d",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "Approach ACK",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1645#pullrequestreview-2172916924",
+      "submitted_at": "2024-07-11T20:06:56Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1645"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1674618687",
+      "pull_request_review_id": 2172916924,
+      "id": 1674618687,
+      "node_id": "PRRC_kwDOAN28mc5j0Kc_",
+      "diff_hunk": "@@ -68,9 +68,11 @@ Payment instructions which do contain on-chain addresses which will be re-used S\n \n === Display ===\n \n-Wallets SHOULD parse recipient information in the form `user`@`domain` or ₿`user`@`domain` and resolve such entry into recipient information using the above record. Similarly, wallets accepting payment information from external devices (e.g. hardware wallets) SHOULD accept RFC 9102-formatted proofs (as a series of unsorted `AuthenticationChain` records) and, if they verify, SHOULD display the recipient in the form ₿`user`@`domain`. For the avoidance of doubt, the ₿ is *not* included in the DNS label which is resolved.\n+When displaying a verified human-readable address wallets SHOULD prefix it with ₿, i.e. ₿`user`@`domain`. They SHOULD parse recipient information in both `user`@`domain` and ₿`user`@`domain` forms and resolve such entry into recipient information using the above record. For the avoidance of doubt, the ₿ is *not* included in the DNS label which is resolved.",
+      "path": "bip-0353.mediawiki",
+      "position": 5,
+      "original_position": 5,
+      "commit_id": "286783f161833c102ee8027ead4252602a25f51d",
+      "original_commit_id": "286783f161833c102ee8027ead4252602a25f51d",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "```suggestion\r\nWhen displaying a verified human-readable address, wallets SHOULD prefix it with ₿, i.e. ₿`user`@`domain`. They SHOULD parse recipient information in both `user`@`domain` and ₿`user`@`domain` forms and resolve such entry into recipient information using the above record. For the avoidance of doubt, the ₿ is *not* included in the DNS label which is resolved.\r\n```",
+      "created_at": "2024-07-11T20:00:45Z",
+      "updated_at": "2024-07-11T20:06:56Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1645#discussion_r1674618687",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1674618687"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1645"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 71,
+      "original_line": 71,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1674625055",
+      "pull_request_review_id": 2172916924,
+      "id": 1674625055,
+      "node_id": "PRRC_kwDOAN28mc5j0MAf",
+      "diff_hunk": "@@ -68,9 +68,11 @@ Payment instructions which do contain on-chain addresses which will be re-used S\n \n === Display ===\n \n-Wallets SHOULD parse recipient information in the form `user`@`domain` or ₿`user`@`domain` and resolve such entry into recipient information using the above record. Similarly, wallets accepting payment information from external devices (e.g. hardware wallets) SHOULD accept RFC 9102-formatted proofs (as a series of unsorted `AuthenticationChain` records) and, if they verify, SHOULD display the recipient in the form ₿`user`@`domain`. For the avoidance of doubt, the ₿ is *not* included in the DNS label which is resolved.\n+When displaying a verified human-readable address wallets SHOULD prefix it with ₿, i.e. ₿`user`@`domain`. They SHOULD parse recipient information in both `user`@`domain` and ₿`user`@`domain` forms and resolve such entry into recipient information using the above record. For the avoidance of doubt, the ₿ is *not* included in the DNS label which is resolved.\n \n-Wallets providing users the ability to \"copy\" their address information generally SHOULD copy the underlying URI directly in order to avoid the DNS indirection. However, wallets providing users the ability to copy their human-readable address information MUST include the ₿ prefix (i.e. copy it in the form ₿`user`@`domain`).\n+Wallets providing users the ability to \"copy\" their address information SHOULD copy the underlying URI directly, rather than the human-readable address. This avoids an additional DNS lookup by the application in which it is pasted. Wallets that nevertheless provide users the ability to copy their human-readable address, MUST include the ₿ prefix (i.e. copy it in the form ₿`user`@`domain`).\n+\n+Wallets accepting payment information from external devices (e.g. hardware wallets) SHOULD accept RFC 9102-formatted proofs (as a series of unsorted `AuthenticationChain` records) and, if they verify, SHOULD display the recipient in the form ₿`user`@`domain`.",
+      "path": "bip-0353.mediawiki",
+      "position": 10,
+      "original_position": 10,
+      "commit_id": "286783f161833c102ee8027ead4252602a25f51d",
+      "original_commit_id": "286783f161833c102ee8027ead4252602a25f51d",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "`and, if they verify,\"` -> seems ambiguous, suggest using the specific subject \"they\" refers to here.",
+      "created_at": "2024-07-11T20:03:25Z",
+      "updated_at": "2024-07-11T20:06:56Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1645#discussion_r1674625055",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1674625055"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1645"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 75,
+      "original_line": 75,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1674626661",
+      "pull_request_review_id": 2172916924,
+      "id": 1674626661,
+      "node_id": "PRRC_kwDOAN28mc5j0MZl",
+      "diff_hunk": "@@ -68,9 +68,11 @@ Payment instructions which do contain on-chain addresses which will be re-used S\n \n === Display ===\n \n-Wallets SHOULD parse recipient information in the form `user`@`domain` or ₿`user`@`domain` and resolve such entry into recipient information using the above record. Similarly, wallets accepting payment information from external devices (e.g. hardware wallets) SHOULD accept RFC 9102-formatted proofs (as a series of unsorted `AuthenticationChain` records) and, if they verify, SHOULD display the recipient in the form ₿`user`@`domain`. For the avoidance of doubt, the ₿ is *not* included in the DNS label which is resolved.\n+When displaying a verified human-readable address wallets SHOULD prefix it with ₿, i.e. ₿`user`@`domain`. They SHOULD parse recipient information in both `user`@`domain` and ₿`user`@`domain` forms and resolve such entry into recipient information using the above record. For the avoidance of doubt, the ₿ is *not* included in the DNS label which is resolved.\n \n-Wallets providing users the ability to \"copy\" their address information generally SHOULD copy the underlying URI directly in order to avoid the DNS indirection. However, wallets providing users the ability to copy their human-readable address information MUST include the ₿ prefix (i.e. copy it in the form ₿`user`@`domain`).\n+Wallets providing users the ability to \"copy\" their address information SHOULD copy the underlying URI directly, rather than the human-readable address. This avoids an additional DNS lookup by the application in which it is pasted. Wallets that nevertheless provide users the ability to copy their human-readable address, MUST include the ₿ prefix (i.e. copy it in the form ₿`user`@`domain`).",
+      "path": "bip-0353.mediawiki",
+      "position": 8,
+      "original_position": 8,
+      "commit_id": "286783f161833c102ee8027ead4252602a25f51d",
+      "original_commit_id": "286783f161833c102ee8027ead4252602a25f51d",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "`\"copy\" their address` -> somewhat ambiguous; \"their\" could refer to either \"wallets\" or to \"users\" -> perhaps `s/their/the user's/`",
+      "created_at": "2024-07-11T20:05:05Z",
+      "updated_at": "2024-07-11T20:06:56Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1645#discussion_r1674626661",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1674626661"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1645"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 73,
+      "original_line": 73,
+      "side": "RIGHT"
+    }
+  ]
 }
