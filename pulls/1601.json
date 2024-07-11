@@ -59,10 +59,10 @@
       }
     ],
     "created_at": "2024-05-27T22:12:38Z",
-    "updated_at": "2024-07-09T15:26:23Z",
+    "updated_at": "2024-07-11T08:19:22Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "07b6ba63fbad2e5979a5434b89b9518c0554c5cc",
+    "merge_commit_sha": "52167c5310f4ac7730a44cc40264b39dbb575305",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -166,7 +166,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 14863,
+        "size": 14864,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -280,12 +280,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5303,
-        "stargazers_count": 9118,
-        "watchers_count": 9118,
-        "size": 15112,
+        "forks_count": 5309,
+        "stargazers_count": 9121,
+        "watchers_count": 9121,
+        "size": 15159,
         "default_branch": "master",
-        "open_issues_count": 43,
+        "open_issues_count": 45,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -296,9 +296,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-07-09T15:25:15Z",
+        "pushed_at": "2024-07-11T08:37:20Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-07-09T09:45:48Z"
+        "updated_at": "2024-07-11T05:57:23Z"
       }
     },
     "_links": {
@@ -312,7 +312,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 58,
+    "review_comments": 60,
     "comments": 3
   },
   "events": [
@@ -4169,6 +4169,110 @@
       "start_side": null,
       "line": null,
       "original_line": 101,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1673595971",
+      "pull_request_review_id": 2171217691,
+      "id": 1673595971,
+      "node_id": "PRRC_kwDOAN28mc5jwQxD",
+      "diff_hunk": "@@ -0,0 +1,109 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Testnet 4\n+  Author: Fabian Jahr <fjahr@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-testnet4\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-05-27\n+  License: CC0-1.0\n+  Post-History: https://groups.google.com/g/bitcoindev/c/9bL00vRj7OU/m/9yCPo3uUBwAJ\n+                https://groups.google.com/g/bitcoindev/c/0BYW_diKiVw/m/9ZqIaxb1AQAJ\n+</pre>\n+\n+== Abstract ==\n+\n+A new test network with the goal to replace Testnet 3. This network comes with small but important improvements of the consensus rules, that should make it impractical to attack the network using only CPU mining.\n+\n+== Motivation ==\n+\n+Quoting the original mailing list post from Jameson Lopp:\n+\n+\"Testnet3 has been running for 13 years. It's on block 2.5 million something and the block reward is down to ~0.014 TBTC, so mining is not doing a great job at distributing testnet coins anymore.\n+\n+The reason the block height is insanely high is due to a rather amusing edge case bug that causes the difficulty to regularly get reset to 1, which causes a bit of havoc. If you want a deep dive into the quirk: https://blog.lopp.net/the-block-storms-of-bitcoins-testnet/\n+\n+Testnet3 is being actively used for scammy airdrops; those of us who tend to be generous with our testnet coins are getting hounded by non-developers chasing cheap gains.\n+\n+As a result, TBTC is being actively bought and sold; one could argue that the fundamental principle of testnet coins having no value has been broken.\"\n+\n+Since then the issue with block storms has been further demonstrated on Testnet 3 when three years' worth of blocks were mined in a few weeks while rendering the network practically unusable at the same time.\n+\n+== Specification ==\n+\n+Consensus of Testnet 4 follows the same rules as mainnet with the exception of the three rules detailed below.\n+\n+=== 20-min Exception ===\n+\n+A block with a timestamp that is more than 20 minutes past the timestamp of the previous block is allowed to have a minimum difficulty of 1 (the network's minimum difficulty) instead of whatever the actual difficulty level currently is. This applies to all blocks in a difficulty period except for the first block. The blocks that take advantage of this rule must also change their `nBits` field from the actual difficulty level to the minimum difficulty value `0x1d00ffff`.\n+\n+Please note: This rule was already previously implemented and active in Testnet 3 but there is no BIP specifying its behavior. This rule also led to the block storms which the following rule seeks to fix.\n+\n+=== Block Storm Fix ===\n+\n+When the next work required is calculated for the first block in a new difficulty period, the difficulty of the last block of the previous difficulty period is only used as the base for this calculation if its difficulty is not 1. If its difficulty is 1, all blocks in the previous difficulty period are checked in reverse order if any of them have a different difficulty than 1. When a different difficulty is encountered, it is assumed to be the actual difficulty of the network and used as the base for the calculation of the new difficulty level. Note that the first block in new difficulty period does not allow usage of the 20-min rule (this is prior behavior). This means that in each difficulty period the first block should always have the actual difficulty even if all other blocks were mined with the 20-min rule.\n+\n+For the avoidance of doubt, no matter which block in the previous difficulty period provides the actual difficulty used as the basis for the calculation, the timestamp of the last block is always the one that is used as the end time of the difficulty period.\n+\n+=== Time Warp Fix ===\n+\n+To protect against the time warp attack, the following rule proposed as part of The Great Consensus Cleanup is enforced: \"The nTime field of each block whose height, mod 2016, is 0 must be greater than or equal to the nTime field of the immediately prior block minus 600. For the avoidance of doubt, such blocks must still comply with existing Median-Time-Past nTime restrictions.\"\n+\n+== Rationale ==\n+\n+The applied changes were the result of discussions on the mailing list and the PR. The selected changes try to strike a balance between minimal changes to the network (keeping it as close to mainnet as possible) while making it more robust against attackers that try to disrupt the network. Several alternative designs were considered:\n+\n+* For the block storm fix an alternative fix could have been to prevent the last block in a difficulty period from applying the existing difficulty exception. Both solutions were deemed acceptable and there was no clear preference among reviewers.\n+* Removal of the 20-min difficulty exception was discussed but dismissed since several reviewers insisted that it was a useful feature allowing non-standard transactions to be mined with just a CPU.\n+* Increase of minimum difficulty was discussed but dismissed as it would categorically prevent participation in the network using a CPU miner.\n+* Increase of the delay in the 20 min difficulty exception was suggested but did not receive significant support.\n+* Re-enabling <code>acceptnonstdtxn</code> in bitcoin core by default was dismissed as it had led to confusion among layer-2s that had used testnet for transaction propagation tests and expected it to behave similar to mainnet.",
+      "path": "bip-testnet4.mediawiki",
+      "position": 73,
+      "original_position": 62,
+      "commit_id": "541ad43eaa9ee935de8b9de7b3afcde72e637da9",
+      "original_commit_id": "aad54df7b3c3db49f05e6c354c2066c2e4911ba7",
+      "in_reply_to_id": 1654363761,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Whether `acceptnonstdtxn` is on by default in Bitcoin Core, is not part of the design of testnet4. But it's fine to just leave it here.",
+      "created_at": "2024-07-11T08:11:34Z",
+      "updated_at": "2024-07-11T08:11:34Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1601#discussion_r1673595971",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1673595971"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1601"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 73,
+      "original_line": 73,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1673606349",
+      "pull_request_review_id": 2171234504,
+      "id": 1673606349,
+      "node_id": "PRRC_kwDOAN28mc5jwTTN",
+      "diff_hunk": "@@ -0,0 +1,109 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Testnet 4\n+  Author: Fabian Jahr <fjahr@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-testnet4\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-05-27\n+  License: CC0-1.0\n+  Post-History: https://groups.google.com/g/bitcoindev/c/9bL00vRj7OU/m/9yCPo3uUBwAJ\n+                https://groups.google.com/g/bitcoindev/c/0BYW_diKiVw/m/9ZqIaxb1AQAJ\n+</pre>\n+\n+== Abstract ==\n+\n+A new test network with the goal to replace Testnet 3. This network comes with small but important improvements of the consensus rules, that should make it impractical to attack the network using only CPU mining.\n+\n+== Motivation ==\n+\n+Quoting the original mailing list post from Jameson Lopp:\n+\n+\"Testnet3 has been running for 13 years. It's on block 2.5 million something and the block reward is down to ~0.014 TBTC, so mining is not doing a great job at distributing testnet coins anymore.\n+\n+The reason the block height is insanely high is due to a rather amusing edge case bug that causes the difficulty to regularly get reset to 1, which causes a bit of havoc. If you want a deep dive into the quirk: https://blog.lopp.net/the-block-storms-of-bitcoins-testnet/\n+\n+Testnet3 is being actively used for scammy airdrops; those of us who tend to be generous with our testnet coins are getting hounded by non-developers chasing cheap gains.\n+\n+As a result, TBTC is being actively bought and sold; one could argue that the fundamental principle of testnet coins having no value has been broken.\"\n+\n+Since then the issue with block storms has been further demonstrated on Testnet 3 when three years' worth of blocks were mined in a few weeks while rendering the network practically unusable at the same time.\n+\n+== Specification ==\n+\n+Consensus of Testnet 4 follows the same rules as mainnet with the exception of the three rules detailed below.\n+\n+=== 20-min Exception ===\n+\n+A block with a timestamp that is more than 20 minutes past the timestamp of the previous block is allowed to have a minimum difficulty of 1 (the network's minimum difficulty) instead of whatever the actual difficulty level currently is. This applies to all blocks in a difficulty period except for the first block. The blocks that take advantage of this rule must also change their `nBits` field from the actual difficulty level to the minimum difficulty value `0x1d00ffff`.\n+\n+Please note: This rule was already previously implemented and active in Testnet 3 but there is no BIP specifying its behavior. This rule also led to the block storms which the following rule seeks to fix.\n+\n+=== Block Storm Fix ===\n+\n+When the next work required is calculated for the first block in a new difficulty period, the difficulty of the last block of the previous difficulty period is only used as the base for this calculation if its difficulty is not 1. If its difficulty is 1, all blocks in the previous difficulty period are checked in reverse order if any of them have a different difficulty than 1. When a different difficulty is encountered, it is assumed to be the actual difficulty of the network and used as the base for the calculation of the new difficulty level. Note that the first block in new difficulty period does not allow usage of the 20-min rule (this is prior behavior). This means that in each difficulty period the first block should always have the actual difficulty even if all other blocks were mined with the 20-min rule.\n+\n+For the avoidance of doubt, no matter which block in the previous difficulty period provides the actual difficulty used as the basis for the calculation, the timestamp of the last block is always the one that is used as the end time of the difficulty period.\n+\n+=== Time Warp Fix ===\n+\n+To protect against the time warp attack, the following rule proposed as part of The Great Consensus Cleanup is enforced: \"The nTime field of each block whose height, mod 2016, is 0 must be greater than or equal to the nTime field of the immediately prior block minus 600. For the avoidance of doubt, such blocks must still comply with existing Median-Time-Past nTime restrictions.\"\n+\n+== Rationale ==\n+\n+The applied changes were the result of discussions on the mailing list and the PR. The selected changes try to strike a balance between minimal changes to the network (keeping it as close to mainnet as possible) while making it more robust against attackers that try to disrupt the network. Several alternative designs were considered:\n+\n+* For the block storm fix an alternative fix could have been to prevent the last block in a difficulty period from applying the existing difficulty exception. Both solutions were deemed acceptable and there was no clear preference among reviewers.\n+* Removal of the 20-min difficulty exception was discussed but dismissed since several reviewers insisted that it was a useful feature allowing non-standard transactions to be mined with just a CPU.\n+* Increase of minimum difficulty was discussed but dismissed as it would categorically prevent participation in the network using a CPU miner.\n+* Increase of the delay in the 20 min difficulty exception was suggested but did not receive significant support.\n+* Re-enabling <code>acceptnonstdtxn</code> in bitcoin core by default was dismissed as it had led to confusion among layer-2s that had used testnet for transaction propagation tests and expected it to behave similar to mainnet.\n+* Motivating miners to re-org min difficulty blocks was suggested but this may still be done after Testnet 4 is deployed, so it can be considered out of scope for this BIP.",
+      "path": "bip-testnet4.mediawiki",
+      "position": 74,
+      "original_position": 63,
+      "commit_id": "541ad43eaa9ee935de8b9de7b3afcde72e637da9",
+      "original_commit_id": "aad54df7b3c3db49f05e6c354c2066c2e4911ba7",
+      "in_reply_to_id": 1654364379,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "It's probably fine as-is.",
+      "created_at": "2024-07-11T08:19:21Z",
+      "updated_at": "2024-07-11T08:19:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1601#discussion_r1673606349",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1673606349"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1601"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 74,
+      "original_line": 74,
       "side": "RIGHT"
     }
   ]
