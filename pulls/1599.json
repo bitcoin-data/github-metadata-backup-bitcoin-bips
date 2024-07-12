@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2024-05-23T12:44:31Z",
-    "updated_at": "2024-07-12T13:57:40Z",
+    "updated_at": "2024-07-12T15:17:47Z",
     "closed_at": "2024-07-12T12:15:48Z",
     "mergeable_state": "unknown",
     "merged_at": "2024-07-12T12:15:48Z",
@@ -271,10 +271,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5312,
+        "forks_count": 5311,
         "stargazers_count": 9125,
         "watchers_count": 9125,
-        "size": 15254,
+        "size": 15428,
         "default_branch": "master",
         "open_issues_count": 40,
         "is_template": false,
@@ -304,7 +304,7 @@
     "changed_files": 2,
     "commits": 25,
     "review_comments": 18,
-    "comments": 11
+    "comments": 12
   },
   "events": [
     {
@@ -3502,6 +3502,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1599#issuecomment-2225645302",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1599"
+    },
+    {
+      "event": "commented",
+      "id": 2225807994,
+      "node_id": "IC_kwDOAN28mc6EqyJ6",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2225807994",
+      "actor": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-07-12T15:16:18Z",
+      "updated_at": "2024-07-12T15:17:47Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> This goes against the spec in BIP-43, BIP-44 and BIP-84.\r\n> \r\n> Should have picked its own purpose, i.e. m/46’ and not modify already existing ones.\r\n\r\nVery good point to raise, surprised it was never mentioned before.\r\n\r\nObviously the original author's intention was to \"attach\" these fidelity bonds to a specific wallet (and notably: though we implemented several address types in JM, we never implemented multiple address types in a single wallet), hence a new account within an existing BIP44 structure was chosen. But I do agree that alternative *purpose* makes a lot more sense.\r\n\r\nGiven that as discussed at length above, this document only really currently makes sense as a standardization of *Joinmarket* wallets, I suggest we \"half\"-resolve it by adding something like:\r\n\r\n```\r\nTo derive a public key from the root account, this BIP uses a similar account-structure as defined in BIP [44](https://github.com/theborakompanioni/bips/blob/4f788d69f501d26f6c88db7fe0cf19696b608059/bip-0084.mediawiki) but with change set to 2.\r\n\r\nm / [0/84/49]' / 0' / 0' / 2 / index\r\n\r\nThe purpose field should match the wallet into which the fidelity bond is being placed (e.g. 49' for p2sh-p2wpkh, etc.). A key derived with this derivation path pattern will be referred to as derived_key further in this document...\r\n```\r\n\r\n(side note: I guess you need to replace the BIP44 link there)\r\n\r\nThis isn't too relevant today as non-84 wallets are all but deprecated but any future version of Joinmarket may include taproot, so, probably not irrelevant in that sense.",
+      "user": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1599#issuecomment-2225807994",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1599"
     }
   ],
