@@ -41,7 +41,7 @@
     "body": "I made some minor corrections, which I believe are beneficial. Please let me know if any of them are incorrect or need modification.\r\n\r\nChanges:\r\n1. An error test vector doesn’t specify the `InvalidContributionError` type\r\n2. In *DeterministicSign*, use `GetXonlyPubkey` instead of `GetPubkey` (doesn’t exist)\r\n3. The `key_agg_and_tweak` fn doesn’t specify the return type\r\n4. In `partial_sig_verify_internal`, the pubkey arg type should be `PlainPk` rather than `bytes`\r\n5. Remove unnecessary `enumerate()` calls\r\n    - I suspect this was initially used in debugging to find the failing test vector, and then it was forgotten.\r\n6. In `test_sign_verify`, add an additional `assert` statement that checks if two pubnonces add up to the infinity aggnonce.\r\n\r\ncc @jonasnick @real-or-random ",
     "labels": [],
     "created_at": "2024-07-17T10:08:34Z",
-    "updated_at": "2024-07-18T14:09:53Z",
+    "updated_at": "2024-07-19T11:28:35Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "ef87f9e0ab03c6cd46a07236958999cd6993adff",
@@ -262,9 +262,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5313,
-        "stargazers_count": 9148,
-        "watchers_count": 9148,
+        "forks_count": 5312,
+        "stargazers_count": 9147,
+        "watchers_count": 9147,
         "size": 15425,
         "default_branch": "master",
         "open_issues_count": 41,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-07-18T11:40:23Z",
+        "pushed_at": "2024-07-18T18:29:03Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-07-18T10:50:41Z"
+        "updated_at": "2024-07-19T05:26:39Z"
       }
     },
     "_links": {
@@ -294,7 +294,7 @@
     "deletions": 15,
     "changed_files": 3,
     "commits": 2,
-    "review_comments": 0,
+    "review_comments": 2,
     "comments": 1
   },
   "events": [
@@ -547,7 +547,148 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1647#issuecomment-2236299887",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1647"
+    },
+    {
+      "event": "reviewed",
+      "id": 2187945913,
+      "node_id": "PRR_kwDOAN28mc6CaWe5",
+      "url": null,
+      "actor": null,
+      "commit_id": "2fc3ef4bb2a40e63faaaafb3d1244349afbe7047",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "ACK 2fc3ef4.",
+      "user": {
+        "login": "stratospher",
+        "id": 44024636,
+        "node_id": "MDQ6VXNlcjQ0MDI0NjM2",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44024636?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/stratospher",
+        "html_url": "https://github.com/stratospher",
+        "followers_url": "https://api.github.com/users/stratospher/followers",
+        "following_url": "https://api.github.com/users/stratospher/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/stratospher/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/stratospher/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/stratospher/subscriptions",
+        "organizations_url": "https://api.github.com/users/stratospher/orgs",
+        "repos_url": "https://api.github.com/users/stratospher/repos",
+        "events_url": "https://api.github.com/users/stratospher/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/stratospher/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1647#pullrequestreview-2187945913",
+      "submitted_at": "2024-07-19T11:28:35Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1647"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1684207123",
+      "pull_request_review_id": 2187945913,
+      "id": 1684207123,
+      "node_id": "PRRC_kwDOAN28mc5kYvYT",
+      "diff_hunk": "@@ -143,7 +143,8 @@\n             ],\n             \"error\": {\n                 \"type\": \"invalid_contribution\",\n-                \"signer\": 1\n+                \"signer\": 1,\n+                \"contrib\": \"psig\"",
+      "path": "bip-0327/vectors/sig_agg_vectors.json",
+      "position": 6,
+      "original_position": 6,
+      "commit_id": "2fc3ef4bb2a40e63faaaafb3d1244349afbe7047",
+      "original_commit_id": "2fc3ef4bb2a40e63faaaafb3d1244349afbe7047",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "stratospher",
+        "id": 44024636,
+        "node_id": "MDQ6VXNlcjQ0MDI0NjM2",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44024636?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/stratospher",
+        "html_url": "https://github.com/stratospher",
+        "followers_url": "https://api.github.com/users/stratospher/followers",
+        "following_url": "https://api.github.com/users/stratospher/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/stratospher/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/stratospher/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/stratospher/subscriptions",
+        "organizations_url": "https://api.github.com/users/stratospher/orgs",
+        "repos_url": "https://api.github.com/users/stratospher/repos",
+        "events_url": "https://api.github.com/users/stratospher/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/stratospher/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "b6d7143: you'll also need to make this change in the python file used to generate the json file - `bip-0327/gen_vectors_helper.py`",
+      "created_at": "2024-07-19T10:56:04Z",
+      "updated_at": "2024-07-19T11:28:35Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1647#discussion_r1684207123",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1684207123"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1647"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 147,
+      "original_line": 147,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1684232748",
+      "pull_request_review_id": 2187945913,
+      "id": 1684232748,
+      "node_id": "PRRC_kwDOAN28mc5kY1os",
+      "diff_hunk": "@@ -598,7 +596,9 @@ def test_sign_verify_vectors() -> None:\n \n     aggnonces = fromhex_all(test_data[\"aggnonces\"])\n     # The aggregate of the first three elements of pnonce is at index 0\n-    assert(aggnonces[0] == nonce_agg([pnonce[0], pnonce[1], pnonce[2]]))\n+    assert (aggnonces[0] == nonce_agg([pnonce[0], pnonce[1], pnonce[2]]))\n+    # The aggregate of the first and fourth elements of pnonce is at index 1",
+      "path": "bip-0327/reference.py",
+      "position": 60,
+      "original_position": 60,
+      "commit_id": "2fc3ef4bb2a40e63faaaafb3d1244349afbe7047",
+      "original_commit_id": "2fc3ef4bb2a40e63faaaafb3d1244349afbe7047",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "stratospher",
+        "id": 44024636,
+        "node_id": "MDQ6VXNlcjQ0MDI0NjM2",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44024636?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/stratospher",
+        "html_url": "https://github.com/stratospher",
+        "followers_url": "https://api.github.com/users/stratospher/followers",
+        "following_url": "https://api.github.com/users/stratospher/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/stratospher/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/stratospher/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/stratospher/subscriptions",
+        "organizations_url": "https://api.github.com/users/stratospher/orgs",
+        "repos_url": "https://api.github.com/users/stratospher/repos",
+        "events_url": "https://api.github.com/users/stratospher/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/stratospher/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "b6d7143: nit: maybe mention context about them adding to infinity like in the PR writeup? (it wasn't immediately obvious to me.)",
+      "created_at": "2024-07-19T11:24:56Z",
+      "updated_at": "2024-07-19T11:28:35Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1647#discussion_r1684232748",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1684232748"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1647"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 600,
+      "original_line": 600,
+      "side": "RIGHT"
+    }
+  ]
 }
