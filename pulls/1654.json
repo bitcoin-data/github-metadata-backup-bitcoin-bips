@@ -41,14 +41,14 @@
     "body": "[`typos`](https://github.com/crate-ci/typos)\r\nis a powerful source code spell checker.\r\n\r\n- Adds a CI job that runs on every PR and\r\npush to master (but can also be run manually with\r\n`workflow_dispatch`) that checks for typos.\r\n\r\n- Adds a config file `.typos.toml` that deals with\r\nfalse positives and only checks for top-level/one-level\r\n`.mediawiki` and `.md` files. This config can be extended\r\nquite easily with actual terms or regexes to whitelist\r\n(false-positives)\r\n\r\n- Fixes some typos in several BIPs that were flagged locally by `typos`.",
     "labels": [],
     "created_at": "2024-07-25T19:29:43Z",
-    "updated_at": "2024-07-26T14:39:45Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
+    "updated_at": "2024-07-26T15:36:16Z",
+    "mergeable": false,
+    "mergeable_state": "dirty",
     "merge_commit_sha": "4e30800e382d8d1b5dddcfd46f395b219c90d4c7",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
+    "rebaseable": false,
     "head": {
       "label": "storopoli:master",
       "ref": "master",
@@ -263,9 +263,9 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5315,
-        "stargazers_count": 9164,
-        "watchers_count": 9164,
-        "size": 15422,
+        "stargazers_count": 9165,
+        "watchers_count": 9165,
+        "size": 15707,
         "default_branch": "master",
         "open_issues_count": 42,
         "is_template": false,
@@ -278,9 +278,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-07-26T11:59:35Z",
+        "pushed_at": "2024-07-26T15:56:11Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-07-26T12:02:58Z"
+        "updated_at": "2024-07-26T15:34:03Z"
       }
     },
     "_links": {
@@ -295,7 +295,7 @@
     "changed_files": 7,
     "commits": 6,
     "review_comments": 4,
-    "comments": 1
+    "comments": 2
   },
   "events": [
     {
@@ -682,7 +682,7 @@
       "commit_url": null,
       "created_at": null,
       "author_association": "CONTRIBUTOR",
-      "body": "> (but can also be run manually with workflow_dispatch)\r\n\r\nCan you provide the cross-platform command to run this check manually? (I tried with macOS)",
+      "body": "> (but can also be run manually with workflow_dispatch)\r\n\r\nCan you provide a cross-platform command to run this check manually?",
       "user": {
         "login": "jonatack",
         "id": 2415484,
@@ -760,6 +760,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1654#issuecomment-2252910397",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1654"
+    },
+    {
+      "event": "commented",
+      "id": 2252982319,
+      "node_id": "IC_kwDOAN28mc6GScgv",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2252982319",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-07-26T15:17:43Z",
+      "updated_at": "2024-07-26T15:17:43Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Thanks! Tested.\r\n\r\n\r\n> Install [`typos`](https://github.com/crate-ci/typos) and then run from the root dir:\r\n\r\n> ```bash\r\n> typos ./*.mediawiki ./*.md ./**/*.mediawiki ./**/*.md\r\n> ```\r\n\r\n- Would you please update the PR description with that documentation? (Separate from this PR, it may be a good idea to add a `CONTRIBUTING` file, or a section to the readme, that documents how to run the CI checks manually.)\r\n\r\n- Would it make sense to add this task into `github-action-checks.yml`, and/or make the CI output more like the other tasks:\r\n\r\n```diff\r\n@@ -1,4 +1,4 @@\r\n-name: Check Typos\r\n+name: GitHub Actions Check\r\n on:\r\n   push:\r\n     branches:\r\n@@ -8,6 +8,7 @@ on:\r\n \r\n jobs:\r\n   typos:\r\n+    name: \"Spelling Checks\"\r\n     runs-on: ubuntu-latest\r\n     steps:\r\n     - name: Checkout Actions Repository\r\n```\r\n",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1654#issuecomment-2252982319",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1654"
     }
   ],
