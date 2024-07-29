@@ -41,7 +41,7 @@
     "body": "[`typos`](https://github.com/crate-ci/typos)\r\nis a powerful source code spell checker.\r\n\r\n- Adds a CI job that runs on every PR and\r\npush to master (but can also be run manually with\r\n`workflow_dispatch`) that checks for typos.\r\n\r\n- Adds a config file `.typos.toml` that deals with\r\nfalse positives and only checks for top-level/one-level\r\n`.mediawiki` and `.md` files. This config can be extended\r\nquite easily with actual terms or regexes to whitelist\r\n(false-positives)\r\n\r\n- Fixes some typos in several BIPs that were flagged locally by `typos`.",
     "labels": [],
     "created_at": "2024-07-25T19:29:43Z",
-    "updated_at": "2024-07-28T02:03:44Z",
+    "updated_at": "2024-07-29T18:18:08Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "7de5194154bfa83c575b8d32945f108bb585ed0e",
@@ -283,12 +283,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5317,
-        "stargazers_count": 9165,
-        "watchers_count": 9165,
+        "forks_count": 5316,
+        "stargazers_count": 9169,
+        "watchers_count": 9169,
         "size": 15729,
         "default_branch": "master",
-        "open_issues_count": 41,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -299,9 +299,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-07-28T02:01:00Z",
+        "pushed_at": "2024-07-28T18:35:52Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-07-27T17:01:34Z"
+        "updated_at": "2024-07-29T17:45:42Z"
       }
     },
     "_links": {
@@ -315,7 +315,7 @@
     "deletions": 6,
     "changed_files": 8,
     "commits": 6,
-    "review_comments": 6,
+    "review_comments": 7,
     "comments": 3
   },
   "events": [
@@ -1139,6 +1139,42 @@
         "type": "User",
         "site_admin": false
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 2205669587,
+      "node_id": "PRR_kwDOAN28mc6Dd9jT",
+      "url": null,
+      "actor": null,
+      "commit_id": "657b6f71bb51ad3dd7d9b33e4a23dd404f9d98b2",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "Looks good to me, thank you for proposing this and putting in the work!",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1654#pullrequestreview-2205669587",
+      "submitted_at": "2024-07-29T18:18:08Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1654"
     }
   ],
   "comments": [
@@ -1452,6 +1488,58 @@
       "start_side": null,
       "line": 222,
       "original_line": 222,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1695667572",
+      "pull_request_review_id": 2205669587,
+      "id": 1695667572,
+      "node_id": "PRRC_kwDOAN28mc5lEdV0",
+      "diff_hunk": "@@ -209,7 +209,7 @@ There are several design goals for the Short ID calculation:\n * '''Space''' cmpctblock messages are never optional in this protocol, and contain a short ID for each non-prefilled transaction in the block. Thus, the size of short IDs is directly proportional to the maximum bandwidth savings possible.\n * '''Collision resistance''' It should be hard for network participants to create transactions that cause collisions. If an attacker were able to cause such collisions, filling mempools (and, thus, blocks) with them would cause poor network propagation of new (or non-attacker, in the case of a miner) blocks.\n \n-SipHash is a secure, fast, and simple 64-bit MAC designed for network traffic authentication and collision-resistant hash tables. We truncate the output from SipHash-2-4 to 48 bits (see next section) in order to minimize space. The resulting 48-bit hash is certainly not large enough to avoid intentionally created individual collisons, but by using the block hash as a key to SipHash, an attacker cannot predict what keys will be used once their transactions are actually included in a relayed block. We mix in a per-connection 64-bit nonce to obtain independent short IDs on every connection, so that even block creators cannot control where collisions occur, and random collisions only ever affect a small number of connections at any given time. The mixing is done using SHA256(block_header || nonce), which is slow compared to SipHash, but only done once per block. It also adds the ability for nodes to choose the nonce in a better than random way to minimize collisions, though that is not necessary for correct behaviour. Conversely, nodes can also abuse this ability to increase their ability to introduce collisions in the blocks they relay themselves. However, they can already cause more problems by simply refusing to relay blocks. That is inevitable, and this design only seeks to prevent network-wide misbehavior.\n+SipHash is a secure, fast, and simple 64-bit MAC designed for network traffic authentication and collision-resistant hash tables. We truncate the output from SipHash-2-4 to 48 bits (see next section) in order to minimize space. The resulting 48-bit hash is certainly not large enough to avoid intentionally created individual collisions, but by using the block hash as a key to SipHash, an attacker cannot predict what keys will be used once their transactions are actually included in a relayed block. We mix in a per-connection 64-bit nonce to obtain independent short IDs on every connection, so that even block creators cannot control where collisions occur, and random collisions only ever affect a small number of connections at any given time. The mixing is done using SHA256(block_header || nonce), which is slow compared to SipHash, but only done once per block. It also adds the ability for nodes to choose the nonce in a better than random way to minimize collisions, though that is not necessary for correct behaviour. Conversely, nodes can also abuse this ability to increase their ability to introduce collisions in the blocks they relay themselves. However, they can already cause more problems by simply refusing to relay blocks. That is inevitable, and this design only seeks to prevent network-wide misbehavior.",
+      "path": "bip-0152.mediawiki",
+      "position": 5,
+      "original_position": 5,
+      "commit_id": "657b6f71bb51ad3dd7d9b33e4a23dd404f9d98b2",
+      "original_commit_id": "c46d6b8750f0f6d0f2ec08c1e348d93796fbf826",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "The typo was \"collisons\" ⇒ \"collisions\" in the second sentence.",
+      "created_at": "2024-07-29T18:16:05Z",
+      "updated_at": "2024-07-29T18:18:08Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1654#discussion_r1695667572",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1695667572"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1654"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 212,
+      "original_line": 212,
       "side": "RIGHT"
     }
   ]
