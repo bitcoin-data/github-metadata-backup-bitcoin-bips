@@ -59,10 +59,10 @@
       }
     ],
     "created_at": "2024-03-01T17:10:35Z",
-    "updated_at": "2024-08-01T18:02:49Z",
+    "updated_at": "2024-09-13T14:33:29Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "a4777944bcda912298c11ca42b8678f5d6880d48",
+    "merge_commit_sha": "1ca7b0b4026d301fe6eb68ce5b24f36d3fac6e95",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -166,7 +166,7 @@
         "forks_count": 8,
         "stargazers_count": 44,
         "watchers_count": 44,
-        "size": 15804,
+        "size": 15577,
         "default_branch": "master",
         "open_issues_count": 1,
         "is_template": false,
@@ -179,7 +179,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-07-31T13:45:13Z",
+        "pushed_at": "2024-08-29T19:31:03Z",
         "created_at": "2016-05-03T00:30:51Z",
         "updated_at": "2024-04-03T13:20:07Z"
       }
@@ -280,12 +280,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5316,
-        "stargazers_count": 9171,
-        "watchers_count": 9171,
-        "size": 15729,
+        "forks_count": 5329,
+        "stargazers_count": 9238,
+        "watchers_count": 9238,
+        "size": 15599,
         "default_branch": "master",
-        "open_issues_count": 42,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -296,9 +296,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-07-31T20:43:43Z",
+        "pushed_at": "2024-09-09T00:43:16Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-08-01T12:38:52Z"
+        "updated_at": "2024-09-12T22:04:30Z"
       }
     },
     "_links": {
@@ -313,7 +313,7 @@
     "changed_files": 1,
     "commits": 4,
     "review_comments": 20,
-    "comments": 28
+    "comments": 29
   },
   "events": [
     {
@@ -2925,6 +2925,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-2263655743",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
+    },
+    {
+      "event": "commented",
+      "id": 2349107291,
+      "node_id": "IC_kwDOAN28mc6MBIhb",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2349107291",
+      "actor": {
+        "login": "AndySchroder",
+        "id": 4065710,
+        "node_id": "MDQ6VXNlcjQwNjU3MTA=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4065710?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AndySchroder",
+        "html_url": "https://github.com/AndySchroder",
+        "followers_url": "https://api.github.com/users/AndySchroder/followers",
+        "following_url": "https://api.github.com/users/AndySchroder/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AndySchroder/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AndySchroder/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AndySchroder/subscriptions",
+        "organizations_url": "https://api.github.com/users/AndySchroder/orgs",
+        "repos_url": "https://api.github.com/users/AndySchroder/repos",
+        "events_url": "https://api.github.com/users/AndySchroder/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AndySchroder/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-09-13T14:33:28Z",
+      "updated_at": "2024-09-13T14:33:28Z",
+      "author_association": "NONE",
+      "body": "In addition to a BOLT12 `offer`, I'd also like to see an option for a BOLT12 `invoice_request`. Possibly using the key `lnir` would work? This addresses the following use case from the BOLT12 spec:\r\n\r\n\r\n\r\nhttps://github.com/rustyrussell/lightning-rfc/blob/db73bbb64d2dfc07fbc9c1dc09259d827f703868/12-offer-encoding.md?plain=1#L54\r\n\r\n```\r\nThe merchant-pays-user flow (e.g. ATM or refund):\r\n1. The merchant publishes an *invoice_request* which contains offer fields\r\n   which refer to its attempt to send money, including an amount.\r\n2. The user sends an *invoice* over the lightning network for the amount in the\r\n   *invoice_request*, using a (possibly temporary) *invoice_node_id*.\r\n3. The merchant confirms the *invoice_node_id* to ensure it's about to pay the correct\r\n   person, and makes a payment to the invoice.\r\n```\r\n\r\nwith more explanation later on....\r\n\r\n\r\nhttps://github.com/rustyrussell/lightning-rfc/blob/db73bbb64d2dfc07fbc9c1dc09259d827f703868/12-offer-encoding.md?plain=1#L367\r\n\r\n```\r\nThe second case is publishing an `invoice_request` without an offer,\r\nsuch as via QR code.  It contains neither `offer_issuer_id` nor `offer_paths`, setting the\r\n`invreq_payer_id` (and possibly `invreq_paths`) instead, as it in the one paying: the\r\nother offer fields are filled by the creator of the `invoice_request`,\r\nforming a kind of offer-to-send-money.\r\n```\r\n\r\n\r\n",
+      "user": {
+        "login": "AndySchroder",
+        "id": 4065710,
+        "node_id": "MDQ6VXNlcjQwNjU3MTA=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4065710?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AndySchroder",
+        "html_url": "https://github.com/AndySchroder",
+        "followers_url": "https://api.github.com/users/AndySchroder/followers",
+        "following_url": "https://api.github.com/users/AndySchroder/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AndySchroder/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AndySchroder/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AndySchroder/subscriptions",
+        "organizations_url": "https://api.github.com/users/AndySchroder/orgs",
+        "repos_url": "https://api.github.com/users/AndySchroder/repos",
+        "events_url": "https://api.github.com/users/AndySchroder/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AndySchroder/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-2349107291",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
     }
   ],
