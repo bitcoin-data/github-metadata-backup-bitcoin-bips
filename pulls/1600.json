@@ -59,10 +59,10 @@
       }
     ],
     "created_at": "2024-05-26T20:55:20Z",
-    "updated_at": "2024-09-23T20:00:57Z",
+    "updated_at": "2024-09-23T23:36:31Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "d39c0703fac6e80793087e8d7c097eb3f1aa1de6",
+    "merge_commit_sha": "45dbb05fda9dab1cc0f1a073b77bdc1a240f8a45",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -302,11 +302,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5333,
-        "stargazers_count": 9260,
-        "watchers_count": 9260,
+        "stargazers_count": 9261,
+        "watchers_count": 9261,
         "size": 15599,
         "default_branch": "master",
-        "open_issues_count": 40,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -317,9 +317,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-09-09T00:43:16Z",
+        "pushed_at": "2024-09-23T23:02:35Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-09-23T06:32:53Z"
+        "updated_at": "2024-09-23T23:15:26Z"
       }
     },
     "_links": {
@@ -333,7 +333,7 @@
     "deletions": 16,
     "changed_files": 2,
     "commits": 23,
-    "review_comments": 14,
+    "review_comments": 18,
     "comments": 14
   },
   "events": [
@@ -3747,6 +3747,214 @@
       "start_side": null,
       "line": 20,
       "original_line": 20,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1772334279",
+      "pull_request_review_id": 2323685603,
+      "id": 1772334279,
+      "node_id": "PRRC_kwDOAN28mc5po6zH",
+      "diff_hunk": "@@ -78,7 +85,7 @@ BIP85-DRNG-SHAKE256 is a deterministic random number generator for cryptographic\n RSA key generation is an example of a function that requires orders of magnitude more than 64 bytes of random input. Further, it is not possible to precalculate the amount of random input required until the function has completed.\n \n     drng_reader = BIP85DRNG.new(bip85_entropy)\n-    rsa_key = RSA.generate_key(4096, drng_reader.read())\n+    rsa_key = RSA.generate_key(4096, drng_reader.read)",
+      "path": "bip-0085.mediawiki",
+      "position": 53,
+      "original_position": 53,
+      "commit_id": "41d15a7d5a3210b5eca0aadde1699abc0437f07b",
+      "original_commit_id": "41d15a7d5a3210b5eca0aadde1699abc0437f07b",
+      "in_reply_to_id": 1771952028,
+      "user": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Subtle point but it's a first-class function that you pass in and and not an invocation.",
+      "created_at": "2024-09-23T23:24:31Z",
+      "updated_at": "2024-09-23T23:24:31Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1600#discussion_r1772334279",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1772334279"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1600"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 88,
+      "original_line": 88,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1772335872",
+      "pull_request_review_id": 2323687750,
+      "id": 1772335872,
+      "node_id": "PRRC_kwDOAN28mc5po7MA",
+      "diff_hunk": "@@ -47,10 +51,13 @@ Ultimately, all of the mnemonic/seed schemes start with some \"initial entropy\" t\n \n We assume a single BIP32 master root key. This specification is not concerned with how this was derived (e.g. directly or via a mnemonic scheme such as BIP39).\n \n-For each application that requires its own wallet, a unique private key is derived from the BIP32 master root key using a fully hardened derivation path. The resulting private key (k) is then processed with HMAC-SHA512, where the key is \"bip-entropy-from-k\", and the message payload is the private key k: <code>HMAC-SHA512(key=\"bip-entropy-from-k\", msg=k)</code>. The result produces 512 bits of entropy. Each application SHOULD use up to the required number of bits necessary for their operation truncating the rest.\n+For each application that requires its own wallet, a unique private key is derived from the BIP32 master root key using a fully hardened derivation path. The resulting private key (k) is then processed with HMAC-SHA512, where the key is \"bip-entropy-from-k\", and the message payload is the private key k: <code>HMAC-SHA512(key=\"bip-entropy-from-k\", msg=k)</code>. The result is 512 bits of entropy. Each application SHOULD use up to the required number of bits necessary for their operation truncating the rest.",
+      "path": "bip-0085.mediawiki",
+      "position": 38,
+      "original_position": 38,
+      "commit_id": "41d15a7d5a3210b5eca0aadde1699abc0437f07b",
+      "original_commit_id": "41d15a7d5a3210b5eca0aadde1699abc0437f07b",
+      "in_reply_to_id": 1771961576,
+      "user": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Will revert for simplicity.",
+      "created_at": "2024-09-23T23:27:03Z",
+      "updated_at": "2024-09-23T23:27:04Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1600#discussion_r1772335872",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1772335872"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1600"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 54,
+      "original_line": 54,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1772336290",
+      "pull_request_review_id": 2323688321,
+      "id": 1772336290,
+      "node_id": "PRRC_kwDOAN28mc5po7Si",
+      "diff_hunk": "@@ -93,14 +100,15 @@ OUTPUT\n \n ==Reference Implementation==\n \n-* Python library implementation: [https://github.com/ethankosakovsky/bip85]\n-* JavaScript library implementation: [https://github.com/hoganri/bip85-js]\n+* Python 3.x library implementation: [https://github.com/akarve/bipsea]\n+* Legacy Python library implementation: [https://github.com/ethankosakovsky/bip85]\n+* Legacy JavaScript library implementation: [https://github.com/hoganri/bip85-js]",
+      "path": "bip-0085.mediawiki",
+      "position": 65,
+      "original_position": 65,
+      "commit_id": "41d15a7d5a3210b5eca0aadde1699abc0437f07b",
+      "original_commit_id": "41d15a7d5a3210b5eca0aadde1699abc0437f07b",
+      "in_reply_to_id": 1771983191,
+      "user": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "No. I'll make a note of that and clarify the language (1.0 instead of legacy).",
+      "created_at": "2024-09-23T23:27:42Z",
+      "updated_at": "2024-09-23T23:27:42Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1600#discussion_r1772336290",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1772336290"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1600"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 105,
+      "original_line": 105,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1772340800",
+      "pull_request_review_id": 2323694972,
+      "id": 1772340800,
+      "node_id": "PRRC_kwDOAN28mc5po8ZA",
+      "diff_hunk": "@@ -207,7 +219,12 @@ OUTPUT:\n ===HD-Seed WIF===\n Application number: 2'\n \n-Uses 256 bits[1] of entropy as the secret exponent to derive a private key and encode as a compressed WIF which will be used as the hdseed for Bitcoin Core wallets.\n+Uses the most significant 32 bytes<ref name=\"curve-order\">\n+There is a very small chance that you'll make an invalid\n+key that is zero or bigger than the order of the curve. If this occurs, software\n+should hard fail (forcing users to iterate to the next index).</ref>\n+of entropy as the secret exponent to derive a private key and encode as a compressed\n+WIF which to be used as the hdseed for Bitcoin Core wallets.",
+      "path": "bip-0085.mediawiki",
+      "position": 97,
+      "original_position": 97,
+      "commit_id": "41d15a7d5a3210b5eca0aadde1699abc0437f07b",
+      "original_commit_id": "41d15a7d5a3210b5eca0aadde1699abc0437f07b",
+      "in_reply_to_id": 1771980871,
+      "user": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Good eye, I'll just fall back to the original text (formerly mangled).",
+      "created_at": "2024-09-23T23:36:31Z",
+      "updated_at": "2024-09-23T23:36:32Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1600#discussion_r1772340800",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1772340800"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1600"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 227,
+      "original_line": 227,
       "side": "RIGHT"
     }
   ]
