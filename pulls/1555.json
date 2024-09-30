@@ -59,7 +59,7 @@
       }
     ],
     "created_at": "2024-03-01T17:10:35Z",
-    "updated_at": "2024-09-30T14:58:20Z",
+    "updated_at": "2024-09-30T17:31:17Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "5c1f0fe7fdc85f0ee4e6549decef3cce78c6b222",
@@ -313,7 +313,7 @@
     "changed_files": 1,
     "commits": 4,
     "review_comments": 20,
-    "comments": 35
+    "comments": 36
   },
   "events": [
     {
@@ -3361,6 +3361,60 @@
         "site_admin": false
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-2383446576",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
+    },
+    {
+      "event": "commented",
+      "id": 2383778143,
+      "node_id": "IC_kwDOAN28mc6OFZFf",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2383778143",
+      "actor": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-09-30T17:30:43Z",
+      "updated_at": "2024-09-30T17:31:17Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> [BIP-0353](https://github.com/bitcoin/bips/blob/master/bip-0353.mediawiki) uses this BIP (even though it says it uses BIP-0021). This BIP (and BIP-21) result in long URI. This presents a problem for QR code encoding and just simple writing of them in messages, etc. Wondering if we can have another URI form that will resolve a BIP-0353 address?\r\n\r\nIn generally you should strongly prefer not to do this. BIP 353 even says so explicitly, saying\r\n\r\n> Bitcoin wallets MUST NOT prefer to use DNS-based resolving when methods with explicit public keys or addresses are available. In other words, if a standard Bitcoin address or direct BIP 21 URI is available or would suffice, Bitcoin wallets MUST prefer to use that instead. \r\n\r\nThis is because if at all possible we should *strongly* prefer to avoid trusting the entire DNS+domain infrastructure - if there's a communication channel between the sender and recipient, that should be used to exchange cryptographic keys directly, rather than introducing an entire centralized stack as a trusted third party. Addressing QR code size is something individual protocols should do on their own (eg BOLT 12 in the lightning world has very small \"offers\" by just communicating what's required to fetch further payment instructions.\r\n\r\n> The most important change (probably even only) to BIP21 that we need is to make the address part optional. I see that is already being proposed here. The URIs would then look something like this:\r\n\r\nNice!\r\n\r\n> bitcoin:?ark_aspid=deadbeef&ark_pk=02deadbeef&ark_roundconfs=6&lno=lnbc1sdfa\r\n\r\nIt would be kinda nice to stick with the recommendations here of using bech32 HRPs as the keys in the query parameters. I assume you'll want some kind of bech32 string to communicate ark recipient info anyway (yay checksums), so might as well use it as-is here?\r\n\r\n> Also, could this simply be an amendment to BIP21? Instead of getting a new number assigned?\r\n\r\nHeh, lots of back-and-forth on that...BIP 21 is pretty ancient, so might as well just say we're replacing it and mark it DEPRECATED in bold at the top :man_shrugging: ",
+      "user": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-2383778143",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
     }
   ],

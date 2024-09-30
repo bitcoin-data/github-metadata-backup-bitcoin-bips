@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2024-09-27T16:08:30Z",
-    "updated_at": "2024-09-30T13:29:23Z",
+    "updated_at": "2024-09-30T17:24:37Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "a0353e7bc39729fae78cd9cc22d2303a624d9a91",
@@ -344,7 +344,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 3,
-    "review_comments": 17,
+    "review_comments": 18,
     "comments": 0
   },
   "events": [
@@ -1932,6 +1932,58 @@
       "start_side": null,
       "line": null,
       "original_line": 33,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1781509175",
+      "pull_request_review_id": 2338191441,
+      "id": 1781509175,
+      "node_id": "PRRC_kwDOAN28mc5qL6w3",
+      "diff_hunk": "@@ -0,0 +1,240 @@\n+<pre>\n+  BIP: TBD\n+  Title: QuBit - P2QRH spending rules\n+  Author: Hunter Beast <hunter@surmount.systems>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-TBD\n+  Status: Draft\n+  Type: Standards Track\n+  License: BSD-3-Clause\n+  Created: 2024-06-08\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes a new SegWit output type, with spending rules based initially-- but not solely-- upon FALCON signatures. (For more on why, see the Rationale and Security sections.) A constraint is that no hard fork or increase in block size are necessary. This document is inspired by [https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki BIP-341], which introduced the design of the P2TR (Taproot) address type using Schnorr signatures.\n+\n+\n+=== Copyright ===\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+\n+=== Motivation ===\n+\n+This proposal aims to improve the quantum resistance of bitcoin's signature security should the Discrete Logarithm Problem (DLP) which secures Elliptic Curve Cryptography (ECC) no longer prove to be computationally hard, likely through quantum advantage by Cryptographically-Relevant Quantum Computers (CRQCs). [https://arxiv.org/pdf/quant-ph/0301141 A variant of Shor's algorithm] is believed to be capable of deriving the private key from a public key exponentially faster than classical means. The application of this variant of Shor's algorithm is herein referred to as quantum key decryption. Note that doubling the public key length, such as with a hypothetical secp512k1 curve, would only make deriving the private key twice as hard. The computational complexity of this is investigated further in the paper, [https://pubs.aip.org/avs/aqs/article/4/1/013801/2835275/The-impact-of-hardware-specifications-on-reaching ''The impact of hardware specifications on reaching quantum advantage in the fault tolerant regime''].\n+\n+Mining may one day be vulnerable to disruption by very advanced quantum computers making use of Grover's algorithm. However, Grover's [https://arxiv.org/pdf/1902.02332 scales very poorly] compared to Shor's, requiring 10^40 quantum operations in comparison to 10^8 for running Shor's over ECC. It's for this reason that the primary threat to Bitcoin by quantum computers is to its signature algorithm and not Proof of Work, hence the focus on a new address format.",
+      "path": "bip-p2qrh.mediawiki",
+      "position": null,
+      "original_position": 29,
+      "commit_id": "7f4456de30db2528bcfc1dddbbc3c7533169646a",
+      "original_commit_id": "6f67a3d6860921bf869404e14239581c139ff69d",
+      "in_reply_to_id": 1779190521,
+      "user": {
+        "login": "EthanHeilman",
+        "id": 274814,
+        "node_id": "MDQ6VXNlcjI3NDgxNA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/274814?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/EthanHeilman",
+        "html_url": "https://github.com/EthanHeilman",
+        "followers_url": "https://api.github.com/users/EthanHeilman/followers",
+        "following_url": "https://api.github.com/users/EthanHeilman/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/EthanHeilman/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/EthanHeilman/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/EthanHeilman/subscriptions",
+        "organizations_url": "https://api.github.com/users/EthanHeilman/orgs",
+        "repos_url": "https://api.github.com/users/EthanHeilman/repos",
+        "events_url": "https://api.github.com/users/EthanHeilman/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/EthanHeilman/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "I realize by pointing out the nuances I've accidentally caused this section to grow into two large paragraphs, when really all you are trying to do make is the reasonable point that quantum attacks on ECC signatures should be the most immediate concern.\r\n\r\nHere is my attempt to get the same point across but without having to get into the details:\r\n\r\n\r\n> The primary threat to Bitcoin by CRQCs is [https://en.bitcoin.it/wiki/Quantum_computing_and_Bitcoin#QC_attacks generally considered to be to its uses of ECC (Ecliptic Curve Cryptography) used in Bitcoin's signatures and Taproot commitments]. This is because Shor's algorithm enables a CRQC to break the cryptographic assumptions of ECC in roughly 10^8 ≈ 2^26) quantum operations. While a QRQC could use Grover's algorithm to gain a quadratic speed up on brute force attacks on the hash functions used in Bitcoin, a significantly more power quantum computer is needed for these attacks to meaningfully impact Bitcoin. For instance a preimage attack on HASH160 using Grover's algorithm would require at least 10^24 ≈ 2^80 quantum operations.\r\n\r\n\r\nIt does make sense to discuss Grover's algorithm w.r.t. multi-target preimage attacks against P2SH and P2PKH when discussing the security of address types against a QRQC.",
+      "created_at": "2024-09-30T17:24:37Z",
+      "updated_at": "2024-09-30T17:24:58Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1670#discussion_r1781509175",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1781509175"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1670"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 29,
       "side": "RIGHT"
     }
   ]
