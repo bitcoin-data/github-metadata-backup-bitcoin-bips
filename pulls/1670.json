@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2024-09-27T16:08:30Z",
-    "updated_at": "2024-09-30T17:24:37Z",
+    "updated_at": "2024-09-30T23:02:34Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "a0353e7bc39729fae78cd9cc22d2303a624d9a91",
@@ -73,26 +73,6 @@
         "repos_url": "https://api.github.com/users/EthanHeilman/repos",
         "events_url": "https://api.github.com/users/EthanHeilman/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/EthanHeilman/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      {
-        "login": "jonatack",
-        "id": 2415484,
-        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
-        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/jonatack",
-        "html_url": "https://github.com/jonatack",
-        "followers_url": "https://api.github.com/users/jonatack/followers",
-        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
-        "organizations_url": "https://api.github.com/users/jonatack/orgs",
-        "repos_url": "https://api.github.com/users/jonatack/repos",
-        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false
       }
@@ -344,7 +324,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 3,
-    "review_comments": 18,
+    "review_comments": 19,
     "comments": 0
   },
   "events": [
@@ -1047,6 +1027,41 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-09-30T11:42:50Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 2338756440,
+      "node_id": "PRR_kwDOAN28mc6LZpdY",
+      "url": null,
+      "actor": null,
+      "commit_id": "7f4456de30db2528bcfc1dddbbc3c7533169646a",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "MEMBER",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1670#pullrequestreview-2338756440",
+      "submitted_at": "2024-09-30T23:02:34Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1670"
     }
   ],
   "comments": [
@@ -1984,6 +1999,58 @@
       "start_side": null,
       "line": null,
       "original_line": 29,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1781873035",
+      "pull_request_review_id": 2338756440,
+      "id": 1781873035,
+      "node_id": "PRRC_kwDOAN28mc5qNTmL",
+      "diff_hunk": "@@ -0,0 +1,274 @@\n+<pre>\n+  BIP: TBD\n+  Title: QuBit - P2QRH spending rules\n+  Author: Hunter Beast <hunter@surmount.systems>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-TBD\n+  Status: Draft\n+  Type: Standards Track\n+  License: BSD-3-Clause\n+  Created: 2024-06-08\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes a new SegWit output type, with spending rules based initially-- but not solely-- upon FALCON signatures. (For more on why, see the Rationale and Security sections.) A constraint is that no hard fork or increase in block size are necessary. This document is inspired by [https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki BIP-341], which introduced the design of the P2TR (Taproot) address type using Schnorr signatures.\n+\n+\n+=== Copyright ===\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+\n+=== Motivation ===\n+\n+This proposal aims to improve the quantum resistance of bitcoin's signature security should the Discrete Logarithm Problem (DLP) which secures Elliptic Curve Cryptography (ECC) no longer prove to be computationally hard, likely through quantum advantage by Cryptographically-Relevant Quantum Computers (CRQCs). [https://arxiv.org/pdf/quant-ph/0301141 A variant of Shor's algorithm] is believed to be capable of deriving the private key from a public key exponentially faster than classical means. The application of this variant of Shor's algorithm is herein referred to as quantum key decryption. Note that doubling the public key length, such as with a hypothetical secp512k1 curve, would only make deriving the private key twice as hard. The computational complexity of this is investigated further in the paper, [https://pubs.aip.org/avs/aqs/article/4/1/013801/2835275/The-impact-of-hardware-specifications-on-reaching ''The impact of hardware specifications on reaching quantum advantage in the fault tolerant regime''].\n+\n+Mining may one day be vulnerable to disruption by very advanced quantum computers making use of [https://en.wikipedia.org/wiki/Grover's_algorithm Grover's algorithm]. However, Grover's [https://arxiv.org/pdf/1902.02332 scales very poorly] compared to Shor's. Grover's potentially requires roughly 10^40 quantum operations in comparison to 10^8 for running Shor's over ECC, should no optimization for partial preimages be needed. Partial preimage optimization may lower the difficulty to find a block than the full 256-bit preimage (say, for a number with 75 zero bits in front).<ref>See [https://quantumcomputing.stackexchange.com/a/12847 Sam Jaques on Bitcoin mining].</ref> Regardless of such optimizations, the primary threat to Bitcoin by CRQCs is [https://en.bitcoin.it/wiki/Quantum_computing_and_Bitcoin#QC_attacks generally considered to be to its signature algorithm] and not necessarily Proof of Work, hence the focus on a new address format. Additionally, should quantum mining demonstrate quantum advantage over ASIC miners, miners will transition to operating CRQCs instead.<ref>Grover's algorithm is a quadratic speedup, so instead of 2^256 tries it takes about 2^128 calls to the oracle (which is about 10^38 operations) to get a 256 bit preimage. The number of gates would be some multiple of that number. That's roughly how we get the correct order of magnitude, Mosca did a more finegrained calculation and land ballpark in similar large numbers. The number is so large, it's unclear the exact calculation with all the prefactors so far, contrary to ECC, which is roughly 10^8 operations, including the constant factors. A talk by [https://sam-jaques.appspot.com/papers Sam Jaques] gave some estimate of the size of the machine that would be necessary for Grover to attack hashes and it was a small astronomical body.</ref>\n+\n+It is worth mentioning that any addresses using RIPEMD160 / HASH160 could also be vulnerable to Grover's algorithm.<ref>There is a big difference between the cost of preimages on SHA256 and HASH160 with a quadratic reduction:\n+SHA256 is 2^128 ≈ 10^40 but HASH160 used in P2PKH and P2WPKH is 2^80 ≈ 10^24 quantum operations. This is much larger than ECC, and while it is unlikely a classical or quantum computer that can perform 2^128 within the next 100 years, Bitcoin currently does 2^80 classical operations every 30 minutes. Additionally, with Grover's, [https://bitcoin.stackexchange.com/a/115849/139611 a black box function could sidestep Shor's entirely, and SHA-256, providing the private key itself to a P2PKH or P2SH address.]</ref>\n+\n+The vulnerability of existing bitcoin addresses is investigated in [https://web.archive.org/web/20240715101040/https://www2.deloitte.com/nl/nl/pages/innovatie/artikelen/quantum-computers-and-the-bitcoin-blockchain.html this Deloitte report]. The report estimates that in 2020 approximately 25% of the bitcoin supply is held within addresses vulnerable to quantum attack. As of the time of writing, that number is now closer to 20%.",
+      "path": "bip-p2qrh.mediawiki",
+      "position": 34,
+      "original_position": 34,
+      "commit_id": "7f4456de30db2528bcfc1dddbbc3c7533169646a",
+      "original_commit_id": "7f4456de30db2528bcfc1dddbbc3c7533169646a",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "Another vulnerability estimation in early 2019: 5M-10M bitcoin\r\n\r\nhttps://x.com/pwuille/status/1108097835365339136",
+      "created_at": "2024-09-30T23:02:34Z",
+      "updated_at": "2024-09-30T23:02:34Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1670#discussion_r1781873035",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1781873035"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1670"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 34,
+      "original_line": 34,
       "side": "RIGHT"
     }
   ]
