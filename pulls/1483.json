@@ -59,7 +59,7 @@
       }
     ],
     "created_at": "2023-08-12T21:10:05Z",
-    "updated_at": "2024-10-09T04:46:35Z",
+    "updated_at": "2024-10-09T05:00:24Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "156dbfda99500940a2b87e296062936ba7485f5f",
@@ -280,8 +280,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5346,
-        "stargazers_count": 9298,
-        "watchers_count": 9298,
+        "stargazers_count": 9299,
+        "watchers_count": 9299,
         "size": 15638,
         "default_branch": "master",
         "open_issues_count": 45,
@@ -297,7 +297,7 @@
         "visibility": "public",
         "pushed_at": "2024-10-08T02:46:24Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-10-09T02:36:22Z"
+        "updated_at": "2024-10-09T05:20:14Z"
       }
     },
     "_links": {
@@ -3896,9 +3896,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-10-09T04:14:47Z",
-      "updated_at": "2024-10-09T04:46:35Z",
+      "updated_at": "2024-10-09T05:00:24Z",
       "author_association": "CONTRIBUTOR",
-      "body": "@nothingmuch I'll write up your suggestions to simplify the protocol. It makes the directory implementation simpler, requires fewer protocol message types, and even reduces bandwidth. wowza\r\n\r\n> The sender could first register an additional session subdirectory ... and include the associated public key along with the original PSBT\r\n\r\nHPKE E2EE deployed in this application in Authenticated mode (akin to Noise Framework's IK model) already requires the sender to include their session public key as associated data, so this is an pretty darn easy change to make. The change not only simplifies the protocol messaging, but as you say eliminates a metadata leak. I'm a big fan.\r\n\r\n> A followup suggestion would be removing explicit session initialization\r\n\r\nThis makes sense too. Creating separate subdirectory resources for either sender or receiver on POST then GETting updates to replace the repeated sender POST polling reduces bandwidth too, since the GET request doesn't contain that repeat POST body.\r\n\r\nEven without aggressive client mitigation of the remaining client leaks subject to timing analysis assuming this suggestion is put in place, your new design deletes complexity and improves efficiency.\r\n\r\nI'll update the BIP to the best of my understanding based on your comment and link it to a `rust-payjoin` issue to implement. This spec has already made some breaking changes since the last directory release, so it's a good time for another one since we won't break production implementations other than our own.\r\n\r\nEdit: Is there a potential authorization issue now that the sender POSTs first? In the current design of the protocol, only the receiver might need authorization from the directory in order to initialize a session subdirectory, and having knowledge of a session public key was sufficient for the sender to use an initialized subdirectory. Now, the sender would also need to obtain authorization somehow, since the directory doesn't yet know about the session the receiver has implicitly initiated by communicating directly with the sender, out of band from the directory.",
+      "body": "@nothingmuch I'll write up your suggestions to simplify the protocol. It makes the directory implementation simpler, requires fewer protocol message types, and even reduces bandwidth. wowza\r\n\r\n> The sender could first register an additional session subdirectory ... and include the associated public key along with the original PSBT\r\n\r\nHPKE E2EE deployed in this application in Authenticated mode (akin to Noise Framework's IK model) already requires the sender to include their session public key as associated data, so this is an pretty darn easy change to make. The change not only simplifies the protocol messaging, but as you say eliminates a metadata leak. I'm a big fan.\r\n\r\n> A followup suggestion would be removing explicit session initialization\r\n\r\nThis makes sense too. Creating separate subdirectory resources for either sender or receiver on POST then GETting updates to replace the repeated sender POST polling reduces bandwidth too, since the GET request doesn't contain that repeat POST body.\r\n\r\nEven without aggressive client mitigation of the remaining client leaks subject to timing analysis assuming this suggestion is put in place, your new design deletes complexity and improves efficiency.\r\n\r\nI'll update the BIP to the best of my understanding based on your comment and link it to a `rust-payjoin` issue to implement. This spec has already made some breaking changes since the last directory release, so it's a good time for another one since we won't break production implementations other than our own.\r\n\r\nEdit: Is there a potential authorization issue now that the sender POSTs first? In the current design of the protocol, only the receiver might need authorization from the directory in order to initialize a session subdirectory, and having knowledge of a session public key was sufficient for the sender to use an initialized subdirectory. Now, the sender would also need to obtain authorization somehow, since the directory doesn't yet know about the session the receiver has implicitly initiated by communicating directly with the sender, out of band from the directory. We'll have to work out how this might affect the expiration mechanic as well.",
       "user": {
         "login": "DanGould",
         "id": 8525467,
