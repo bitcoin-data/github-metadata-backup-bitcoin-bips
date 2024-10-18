@@ -50,7 +50,7 @@
       }
     ],
     "created_at": "2024-03-01T17:10:35Z",
-    "updated_at": "2024-10-18T04:35:38Z",
+    "updated_at": "2024-10-18T20:40:17Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "a8f88d8583e9d44a45aa438a8a65d1a986c923a5",
@@ -271,9 +271,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5353,
-        "stargazers_count": 9319,
-        "watchers_count": 9319,
+        "forks_count": 5355,
+        "stargazers_count": 9320,
+        "watchers_count": 9320,
         "size": 15670,
         "default_branch": "master",
         "open_issues_count": 46,
@@ -289,7 +289,7 @@
         "visibility": "public",
         "pushed_at": "2024-10-15T16:45:25Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-10-17T07:28:11Z"
+        "updated_at": "2024-10-18T14:06:35Z"
       }
     },
     "_links": {
@@ -303,7 +303,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 10,
-    "review_comments": 29,
+    "review_comments": 30,
     "comments": 42
   },
   "events": [
@@ -5548,6 +5548,58 @@
       "start_side": null,
       "line": 135,
       "original_line": 135,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1806997159",
+      "pull_request_review_id": 2378934267,
+      "id": 1806997159,
+      "node_id": "PRRC_kwDOAN28mc5rtJan",
+      "diff_hunk": "@@ -0,0 +1,173 @@\n+<pre>\n+  BIP: XXXX\n+  Layer: Applications\n+  Title: URI Scheme\n+  Author: Matt Corallo <bip21@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-07-13\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+This BIP proposes a URI scheme for describing Bitcoin payment receipt information.\n+\n+==Motivation==\n+The purpose of this URI scheme is to enable users to easily make payments by simply clicking links on webpages or scanning QR Codes.\n+\n+This BIP is a modification of [[bip-0021.mediawiki|BIP 0021]] to add information about the modern usage of bitcoin: URIs (including standard query parameters and modern address types) as well as provide forward-looking guidance on how to incorporate new payment instructions. It further adds an optional extension to provide the payment initiator with proof of payment. BIP 21 was based on BIP 20, which was, in turn based off an earlier document by Nils Schneider.\n+\n+==Specification==\n+\n+=== General rules for handling (important!) ===\n+\n+Bitcoin clients MUST NOT act on URIs without getting the user's authorization.\n+They SHOULD require the user to manually approve each payment individually, though in some cases they MAY allow the user to automatically make this decision.\n+\n+=== Operating system integration ===\n+Graphical bitcoin clients SHOULD register themselves as the handler for the \"bitcoin:\" URI scheme by default, if no other handler is already registered. If there is already a registered handler, they MAY prompt the user to change it once when they first run the client.\n+\n+=== General Format ===\n+\n+Bitcoin URIs follow the general format for URIs as set forth in RFC 3986. The path component consists of a bitcoin address, and the query component provides additional payment options.\n+\n+Elements of the query component may contain characters outside the valid range. These must first be encoded according to UTF-8, and then each octet of the corresponding UTF-8 sequence must be percent-encoded as described in RFC 3986.\n+\n+=== ABNF grammar ===\n+\n+ bitcoinurn     = \"bitcoin:\" [ bitcoinaddress ] [ \"?\" bitcoinparams ]\n+ bitcoinaddress = *base58 / *bech32 / *bech32m\n+ bitcoinparams  = bitcoinparam [ \"&\" bitcoinparams ]\n+ bitcoinparam   = [ amountparam / labelparam / messageparam / responseparam / otherparam / reqparam ]\n+ amountparam    = \"amount=\" *digit [ \".\" *digit ]\n+ labelparam     = \"label=\" *qchar\n+ messageparam   = \"message=\" *qchar\n+ responseparam  = [ \"req-\" ] \"pop=\" *qchar\n+ otherparam     = qchar *qchar [ \"=\" *qchar ]\n+ reqparam       = \"req-\" qchar *qchar [ \"=\" *qchar ]\n+\n+Here, \"qchar\" corresponds to valid characters of an RFC 3986 URI query component, excluding the \"=\" and \"&\" characters, which this BIP takes as separators.\n+\n+The scheme component (\"bitcoin:\") is case-insensitive, and implementations must accept any combination of uppercase and lowercase letters. The query parameter keys are also case-insensitive. Query parameter values and bitcoin address fields may be case-sensitive depending on their content.\n+\n+=== Bitcoin Address ===\n+\n+The bitcoinaddress body MUST be either a base58 P2SH or P2PKH address, bech32 Segwit version 0 address, bech32m Segwit address, or empty. Future address formats SHOULD instead be placed in query keys as optional payment instructions to provide backwards compatibility during upgrade cycles. After new address types are near-universally supported, or for recipients wishing to avoid a standard on-chain fallback, the bitcoinaddress part of the URI MAY be left empty.\n+\n+=== Query Keys ===\n+\n+The following keys are defined generally and apply to any URI regardless of payment instructions:\n+\n+*label: Label for that address (e.g. name of receiver)\n+*address: bitcoin address\n+*message: message that describes the transaction to the user ([[#Examples|see examples below]])\n+*pop: a URI which the Bitcoin Wallet may return to in order to provide the application which initiated the payment with proof that a payment was completed.\n+\n+The following keys are currently defined for payment instructions of various forms:\n+\n+*lightning: Lightning BOLT 11 invoices\n+*lno: Lightning BOLT12 offers\n+*sp: Silent Payment addresses\n+\n+New payment instructions using bech32 or bech32m encodings SHOULD reuse their address format's Human Readable Part as the parameter key.\n+\n+==== Transfer amount ====\n+\n+If an amount is provided, it MUST be specified in decimal BTC.\n+All amounts MUST contain no commas and use a period (.) as the separating character to separate whole numbers and decimal fractions.\n+I.e. amount=50.00 or amount=50 is treated as 50 BTC, and amount=50,000.00 is invalid.\n+\n+=== Proof of Payment ===\n+\n+The URI MAY include a \"pop\" (or \"req-pop\") parameter who's value can be used to build a URI which the wallet application can, after payment completes, \"open\" to provide proof the payment was completed or other information about the payment.\n+\n+The value of a \"pop\" (or \"req-pop\") parameter shall be a percent-encoded (per RFC 3986 section 2.1) URI prefix. The wallet application, if it supports providing payment information SHOULD percent-decode the provided URI once then append the Payment Information to the resulting URI and open it with the default system handler for the given URI.",
+      "path": "bip-XXXX.mediawiki",
+      "position": 86,
+      "original_position": 86,
+      "commit_id": "37404d4adaf5ab9108af0cfa04f9b1e9c5dd39ad",
+      "original_commit_id": "37404d4adaf5ab9108af0cfa04f9b1e9c5dd39ad",
+      "in_reply_to_id": 1805835999,
+      "user": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "> Why did you choose to directly append instead of providing the pop as a query param?\r\n\r\nI originally had it this way, but decide its more generic to have the initiating wallet specify the URI how they want, as they can always specify a URI that ends in `?pop=` and go from there.\r\n\r\n> multiple query params\r\n\r\nMmm, good point, I was thinking looking at something else that, duh, we need a way to expose which payment parameter was used...How about just doing `payment arg=pop` (with a special `onchain` arg if the address was in the uri body). So like it'd be `onchain=hexencodedtx` or `lightning=preimage` or `lno=preimage_and_invoice` (or whatever format we use for standardized bolt 12 pops)? That way its still clear what the PoP came from, it reuses the keys from the original bitcoin URI so its well known where they're gonna be (and we don't have to worry about defining them going forward and making sure things dont conflict) and the initiator can even pass `&pop=` at the end cause `pop=lightning=preimage` is a perfectly valid parameter!",
+      "created_at": "2024-10-18T20:40:16Z",
+      "updated_at": "2024-10-18T20:40:17Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1555#discussion_r1806997159",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1806997159"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1555"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 86,
+      "original_line": 86,
       "side": "RIGHT"
     }
   ]
