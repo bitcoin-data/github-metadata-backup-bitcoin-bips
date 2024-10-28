@@ -50,10 +50,10 @@
       }
     ],
     "created_at": "2024-10-17T12:39:57Z",
-    "updated_at": "2024-10-24T22:25:14Z",
+    "updated_at": "2024-10-28T18:07:46Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "f4716b3902c99eb8116f6a01d18d43b820a4dec5",
+    "merge_commit_sha": "6f65c214e5bba2e366cf2464d3f358441d1253f4",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -271,11 +271,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5357,
-        "stargazers_count": 9332,
-        "watchers_count": 9332,
-        "size": 15676,
+        "stargazers_count": 9345,
+        "watchers_count": 9345,
+        "size": 15634,
         "default_branch": "master",
-        "open_issues_count": 46,
+        "open_issues_count": 45,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -286,9 +286,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-10-22T21:51:39Z",
+        "pushed_at": "2024-10-25T15:13:16Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-10-24T13:23:05Z"
+        "updated_at": "2024-10-28T09:28:43Z"
       }
     },
     "_links": {
@@ -302,7 +302,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 1,
+    "review_comments": 2,
     "comments": 1
   },
   "events": [
@@ -612,6 +612,41 @@
       "submitted_at": "2024-10-24T22:25:14Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1687"
+    },
+    {
+      "event": "reviewed",
+      "id": 2399834343,
+      "node_id": "PRR_kwDOAN28mc6PCpDn",
+      "url": null,
+      "actor": null,
+      "commit_id": "e2adb50e77562b513d98b730a36168f32ce3ec3e",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1687#pullrequestreview-2399834343",
+      "submitted_at": "2024-10-28T18:07:46Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1687"
     }
   ],
   "comments": [
@@ -665,6 +700,58 @@
       "start_side": null,
       "line": 63,
       "original_line": 63,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1819522208",
+      "pull_request_review_id": 2399834343,
+      "id": 1819522208,
+      "node_id": "PRRC_kwDOAN28mc5sc7Sg",
+      "diff_hunk": "@@ -0,0 +1,187 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Sending Silent Payments with PSBTs\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Ava Chow <me@achow101.com>\n+          josibake <josibake@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: TBD\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-05-14\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Introduction==\n+\n+===Abstract===\n+\n+This document proposes additional fields and updated role responsibilities for BIP 370 PSBTv2\n+which adds support for sending to silent payments as described in BIP352.\n+\n+===Copyright===\n+\n+This BIP is licensed under the 2-clause BSD license.\n+\n+===Motivation===\n+\n+Partially Signed Bitcoin Transaction Version 2 as described in BIP 370 is not compatible with sending to silent payments as described in BIP352. In particular, the output script of a silent payment cannot be computed until after all transaction inputs have been added.\n+Also, any inputs that the Signer has the private keys for must be signed with SIGHASH_ALL and all inputs must not have any scriptPubKeys with Segwit version > 1.\n+Additionally, the silent payment outputs computed by a signer must be verifiable to other entities.\n+Therefore, new fields and role responsibilities must be added to carry, compute, and verify the silent payment data.\n+\n+==Specification==\n+\n+This document specifies new fields and new field inclusion/exclusion requirements.\n+\n+<tt>PSBT_OUT_SCRIPT</tt> is modified to be optional for outputs in silent payments capable PSBTs. If this field is not included in the output, then the field PSBT_OUT_SP_V0_INFO must be included.\n+\n+The new global types are defined as follows:\n+\n+{|\n+! Name\n+! <tt><keytype></tt>\n+! <tt><keydata></tt>\n+! <tt><keydata></tt> Description\n+! <tt><valuedata></tt>\n+! <tt><valuedata></tt> Description\n+! Versions Requiring Inclusion\n+! Versions Requiring Exclusion\n+! Versions Allowing Inclusion\n+|-\n+| Silent Payment Global ECDH Share\n+| <tt>PSBT_GLOBAL_SP_ECDH_SHARE = 0x07</tt>\n+| <tt><33 byte scan key> <36 byte outpoint>*</tt>\n+| The scan key and a list of outpoints corresponding to the prevouts of the inputs that this ECDH share is for. The outpoints are composed of a 32 byte txid followed by a 32-bit little endian uint.\n+| <tt><32 byte share></tt>\n+| An ECDH share for a scan key, followed by a list of outpoints. The ECDH shared is computed with ''a * B_scan'', where ''a'' is the sum of all private keys of the inputs matching the list of outpoints, and ''B_scan'' is the scan key of a recipient.",
+      "path": "bip-PSBT-SP.mediawiki",
+      "position": 58,
+      "original_position": 58,
+      "commit_id": "e2adb50e77562b513d98b730a36168f32ce3ec3e",
+      "original_commit_id": "e2adb50e77562b513d98b730a36168f32ce3ec3e",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "as already noted in the DLEQ gist, this should have a size of 33 bytes instead, as it represents a point on the curve (https://gist.github.com/andrewtoth/df97c3260cc8d12f09d3855ee61322ea?permalink_comment_id=5250407#gistcomment-5250407), and representing it as x-only very likely only increases complexity for the DLEQ proof.",
+      "created_at": "2024-10-28T18:07:45Z",
+      "updated_at": "2024-10-28T18:07:46Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1687#discussion_r1819522208",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1819522208"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1687"
+        }
+      },
+      "start_line": 57,
+      "original_start_line": 57,
+      "start_side": "RIGHT",
+      "line": 58,
+      "original_line": 58,
       "side": "RIGHT"
     }
   ]
