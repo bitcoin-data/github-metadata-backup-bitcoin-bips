@@ -59,7 +59,7 @@
       }
     ],
     "created_at": "2024-10-24T01:47:02Z",
-    "updated_at": "2024-10-26T20:23:55Z",
+    "updated_at": "2024-10-28T11:25:36Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "c00c5d5e810a6594dc91101aaaf78ce6e56ed355",
@@ -280,8 +280,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5357,
-        "stargazers_count": 9341,
-        "watchers_count": 9341,
+        "stargazers_count": 9345,
+        "watchers_count": 9345,
         "size": 15634,
         "default_branch": "master",
         "open_issues_count": 45,
@@ -297,7 +297,7 @@
         "visibility": "public",
         "pushed_at": "2024-10-25T15:13:16Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-10-26T15:16:02Z"
+        "updated_at": "2024-10-28T09:28:43Z"
       }
     },
     "_links": {
@@ -311,7 +311,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 4,
+    "review_comments": 6,
     "comments": 1
   },
   "events": [
@@ -612,6 +612,41 @@
         "name": "PR Author action required",
         "color": "e99695"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 2398781147,
+      "node_id": "PRR_kwDOAN28mc6O-n7b",
+      "url": null,
+      "actor": null,
+      "commit_id": "2aab0766e309604e927b888ec42b948f14a2ba8f",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1689#pullrequestreview-2398781147",
+      "submitted_at": "2024-10-28T11:25:36Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1689"
     }
   ],
   "comments": [
@@ -821,6 +856,110 @@
       "start_side": null,
       "line": 3,
       "original_line": 3,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1818882900",
+      "pull_request_review_id": 2398781147,
+      "id": 1818882900,
+      "node_id": "PRRC_kwDOAN28mc5safNU",
+      "diff_hunk": "@@ -0,0 +1,90 @@\n+<pre>\n+  BIP: ?\n+  Title: Discrete Log Equality Proofs over secp256k1\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Ruben Somsen <rsomsen@gmail.com>\n+  Comments-URI: TBD\n+  Status: Draft\n+  Type: Standards Track\n+  License: BSD-2-Clause\n+  Created: 2024-06-29\n+  Post-History: TBD\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes a standard for 64-byte zero-knowledge ''discrete logarithm equality proofs'' (DLEQ proofs) over the elliptic curve ''secp256k1''. For given elliptic curve points ''A'', ''B'', and ''C'', the prover proves knowledge of a scalar ''a'' such that ''A = a⋅G'' and ''C = a⋅B'' without revealing anything about ''a''. This can, for instance, be useful in ECDH: if ''A'' and ''B'' are ECDH public keys, and ''C'' is their ECDH shared secret computed as ''C = a⋅B'', the proof establishes that the same secret key ''a'' is used for generating both ''A'' and ''C'' without revealing ''a''.\n+\n+=== Copyright ===\n+\n+This document is licensed under the 2-clause BSD license.\n+\n+=== Motivation ===\n+\n+[https://github.com/bitcoin/bips/blob/master/bip-0352.mediawiki#specification BIP352] requires senders to compute output scripts using ECDH shared secrets from the same secret keys used to sign the inputs. Generating an incorrect signature will produce an invalid transaction that will be rejected by consensus. An incorrectly generated output script can still be consensus-valid, meaning funds may be lost if it gets broadcast.\n+By producing a DLEQ proof for the generated ECDH shared secrets, the signing entity can prove to other entities that the output scripts have been generated correctly without revealing the private keys.\n+\n+== Specification ==\n+\n+All conventions and notations are used as defined in [https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki#user-content-Notation BIP327].\n+\n+=== DLEQ Proof Generation ===\n+\n+Input:\n+* The secret key ''a'': a 256-bit unsigned integer\n+* The public key ''B'': a point on the curve\n+* Auxiliary random data ''r'': a 32-byte array\n+\n+The algorithm ''Prove(a, B, r)'' is defined as:\n+* Fail if ''a = 0'' or ''a &ge; n''.\n+* Fail if ''is_infinite(B)''.\n+* Let ''A = a⋅G''.\n+* Let ''C = a⋅B''.\n+* Let ''t'' be the byte-wise xor of ''bytes(32, a)'' and ''hash<sub>BIP?/aux</sub>(r)''.\n+* Let ''rand = hash<sub>DLEQ</sub>(t || cbytes(A) || cytes(C))''.\n+* Let ''k = int(rand) mod n''.\n+* Fail if ''k = 0''.\n+* Let ''R<sub>1</sub> = k⋅G''.\n+* Let ''R<sub>2</sub> = k⋅B''.\n+* Let ''e = int(hash<sub>DLEQ</sub>(cbytes(A) || cbytes(B) || cbytes(C) || cbytes(R<sub>1</sub>) || cbytes(R<sub>2</sub>)))''.\n+* Let ''proof = bytes(32, e) || bytes(32, (k + ea) mod n)''.",
+      "path": "bip-DLEQ.mediawiki",
+      "position": 52,
+      "original_position": 52,
+      "commit_id": "2aab0766e309604e927b888ec42b948f14a2ba8f",
+      "original_commit_id": "2aab0766e309604e927b888ec42b948f14a2ba8f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "pedantic nit: I think the `s` scalar deserves to be assigned explicitly before serialization, also to be symmetric to the verification part:\r\n```suggestion\r\n* Let ''s = (k + e⋅a) mod n''.\r\n* Let ''proof = bytes(32, e) || bytes(32, s)''.\r\n```",
+      "created_at": "2024-10-28T11:17:57Z",
+      "updated_at": "2024-10-28T11:25:36Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1689#discussion_r1818882900",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1818882900"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1689"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 52,
+      "original_line": 52,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1818891568",
+      "pull_request_review_id": 2398781147,
+      "id": 1818891568,
+      "node_id": "PRRC_kwDOAN28mc5sahUw",
+      "diff_hunk": "@@ -0,0 +1,90 @@\n+<pre>\n+  BIP: ?\n+  Title: Discrete Log Equality Proofs over secp256k1\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Ruben Somsen <rsomsen@gmail.com>\n+  Comments-URI: TBD\n+  Status: Draft\n+  Type: Standards Track\n+  License: BSD-2-Clause\n+  Created: 2024-06-29\n+  Post-History: TBD\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes a standard for 64-byte zero-knowledge ''discrete logarithm equality proofs'' (DLEQ proofs) over the elliptic curve ''secp256k1''. For given elliptic curve points ''A'', ''B'', and ''C'', the prover proves knowledge of a scalar ''a'' such that ''A = a⋅G'' and ''C = a⋅B'' without revealing anything about ''a''. This can, for instance, be useful in ECDH: if ''A'' and ''B'' are ECDH public keys, and ''C'' is their ECDH shared secret computed as ''C = a⋅B'', the proof establishes that the same secret key ''a'' is used for generating both ''A'' and ''C'' without revealing ''a''.\n+\n+=== Copyright ===\n+\n+This document is licensed under the 2-clause BSD license.\n+\n+=== Motivation ===\n+\n+[https://github.com/bitcoin/bips/blob/master/bip-0352.mediawiki#specification BIP352] requires senders to compute output scripts using ECDH shared secrets from the same secret keys used to sign the inputs. Generating an incorrect signature will produce an invalid transaction that will be rejected by consensus. An incorrectly generated output script can still be consensus-valid, meaning funds may be lost if it gets broadcast.\n+By producing a DLEQ proof for the generated ECDH shared secrets, the signing entity can prove to other entities that the output scripts have been generated correctly without revealing the private keys.\n+\n+== Specification ==\n+\n+All conventions and notations are used as defined in [https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki#user-content-Notation BIP327].\n+\n+=== DLEQ Proof Generation ===\n+\n+Input:\n+* The secret key ''a'': a 256-bit unsigned integer\n+* The public key ''B'': a point on the curve\n+* Auxiliary random data ''r'': a 32-byte array\n+\n+The algorithm ''Prove(a, B, r)'' is defined as:\n+* Fail if ''a = 0'' or ''a &ge; n''.\n+* Fail if ''is_infinite(B)''.\n+* Let ''A = a⋅G''.\n+* Let ''C = a⋅B''.\n+* Let ''t'' be the byte-wise xor of ''bytes(32, a)'' and ''hash<sub>BIP?/aux</sub>(r)''.\n+* Let ''rand = hash<sub>DLEQ</sub>(t || cbytes(A) || cytes(C))''.\n+* Let ''k = int(rand) mod n''.\n+* Fail if ''k = 0''.\n+* Let ''R<sub>1</sub> = k⋅G''.\n+* Let ''R<sub>2</sub> = k⋅B''.\n+* Let ''e = int(hash<sub>DLEQ</sub>(cbytes(A) || cbytes(B) || cbytes(C) || cbytes(R<sub>1</sub>) || cbytes(R<sub>2</sub>)))''.",
+      "path": "bip-DLEQ.mediawiki",
+      "position": 51,
+      "original_position": 51,
+      "commit_id": "2aab0766e309604e927b888ec42b948f14a2ba8f",
+      "original_commit_id": "2aab0766e309604e927b888ec42b948f14a2ba8f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "for a consistent naming of the tagged hashes, could use the same scheme as in BIP0340, i.e.\r\n- \"BIP0???/aux\" (for calculating `t`)\r\n- \"BIP0???/nonce\" (for calculating `k`) and \r\n- \"BIP0???/challenge\" (for calculating `e`; used both in proof generation and verification).",
+      "created_at": "2024-10-28T11:24:46Z",
+      "updated_at": "2024-10-28T11:25:36Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1689#discussion_r1818891568",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1818891568"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1689"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 51,
+      "original_line": 51,
       "side": "RIGHT"
     }
   ]
