@@ -50,10 +50,10 @@
       }
     ],
     "created_at": "2024-09-25T10:54:05Z",
-    "updated_at": "2024-10-08T17:53:40Z",
+    "updated_at": "2024-10-29T09:26:32Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "ea4adeb3f64ee1878276c3486052a705d0e1e029",
+    "merge_commit_sha": "65b3a466c97df5e1a26226120ade96f7d85de504",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -271,10 +271,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5346,
-        "stargazers_count": 9297,
-        "watchers_count": 9297,
-        "size": 15638,
+        "forks_count": 5359,
+        "stargazers_count": 9348,
+        "watchers_count": 9348,
+        "size": 15634,
         "default_branch": "master",
         "open_issues_count": 45,
         "is_template": false,
@@ -287,9 +287,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-10-08T02:46:24Z",
+        "pushed_at": "2024-10-25T15:13:16Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-10-08T14:54:46Z"
+        "updated_at": "2024-10-29T08:53:22Z"
       }
     },
     "_links": {
@@ -303,7 +303,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 8,
+    "review_comments": 7,
     "comments": 0
   },
   "events": [
@@ -570,41 +570,6 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1669#pullrequestreview-2355155487",
       "submitted_at": "2024-10-08T17:49:01Z",
-      "state": "COMMENTED",
-      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1669"
-    },
-    {
-      "event": "reviewed",
-      "id": 2355164467,
-      "node_id": "PRR_kwDOAN28mc6MYPUz",
-      "url": null,
-      "actor": null,
-      "commit_id": "c52c746cc1aa805ffc405ba75e17b6b42d2fe7a5",
-      "commit_url": null,
-      "created_at": null,
-      "author_association": "MEMBER",
-      "user": {
-        "login": "jonatack",
-        "id": 2415484,
-        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
-        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/jonatack",
-        "html_url": "https://github.com/jonatack",
-        "followers_url": "https://api.github.com/users/jonatack/followers",
-        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
-        "organizations_url": "https://api.github.com/users/jonatack/orgs",
-        "repos_url": "https://api.github.com/users/jonatack/repos",
-        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/jonatack/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "html_url": "https://github.com/bitcoin/bips/pull/1669#pullrequestreview-2355164467",
-      "submitted_at": "2024-10-08T17:53:40Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1669"
     }
@@ -972,58 +937,6 @@
       "start_side": null,
       "line": 92,
       "original_line": 92,
-      "side": "RIGHT"
-    },
-    {
-      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1792285744",
-      "pull_request_review_id": 2355164467,
-      "id": 1792285744,
-      "node_id": "PRRC_kwDOAN28mc5q1Bww",
-      "diff_hunk": "@@ -0,0 +1,111 @@\n+  BIP: XXX\n+  Layer: Applications\n+  Title: Octojoin v1\n+  Author: /dev/fd0 <alicexbt@protonmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0xxx\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-09-25\n+  License: BSD-2-Clause\n+\n+\n+==Abstract==\n+\n+This document describes the process to use swapped UTXOs for inputs, [[bip-0352.mediawiki|BIP 352]] silent payment addresses for outputs, and hide the transacted amount with multiple interpretations.\n+\n+==Motivation==\n+\n+Payjoin requires coordination and sharing of UTXOs between sender and recipient. This affects privacy and UX in some cases. Octojoin avoids sharing of UTXOs and uses swapped UTXOs.\n+\n+====Relation to Monero====\n+\n+Most Monero transactions use 16 ring size for the input, making it impossible to determine which input is signed by the user out of 16. The amounts are hidden, and stealth addresses are used for outputs.\n+\n+Octojoin achieves partial obfuscation similar to Monero's ring signatures ([https://www.getmonero.org/2024/04/27/fcmps.html FCMP++] will replace ring signatures in the future) and stealth addresses. Swaps can be done off-chain to obscure the transaction's input ownership and history.\n+\n+==Specification==\n+\n+====Sequence Diagram====\n+\n+<source lang=\"mermaid\">\n+sequenceDiagram\n+    participant Alice\n+    participant Wallet\n+    participant Bob\n+\n+    Alice->>Wallet: Label swapped UTXOs as 'octojoin'\n+    Bob->>Alice: Share silent payment address\n+    Alice->>Wallet: Create transaction using 'octojoin' UTXOs + 1 normal input\n+    Note right of Alice: Minimum 2 outputs and avoid change for multiple interpretations\n+    Wallet->>Bob: Pay Bob\n+</source>\n+\n+Users should label some UTXOs as “octojoin” so that they can be used in octojoin transactions. Ideally, these UTXOs should be ones that have been swapped with others and are linked to someone else’s transaction history.\n+\n+'''Input Obfuscation with Off-Chain Swaps'''\n+\n+Do off-chain swaps (e.g. statechain, submarine swaps, or coinswap) to obtain UTXOs with different histories. Ensure that all inputs come from other users except one belonging to the sender, making it difficult for on-chain analysts to determine ownership.\n+\n+'''Silent Payment Address for Outputs'''\n+\n+Use silent payment addresses to generate new addresses for the recipient.\n+\n+'''Multiple Outputs and Different Interpretations'''\n+\n+The transaction includes multiple outputs, which may include change to the sender, hiding the payment amount.\n+\n+An algorithm requiring some values from the user to create the transaction or notify the user about missing inputs will be implemented by different wallets:\n+\n+* Payment amount\n+* Number of inputs (default: 3)\n+* Number of outputs (default: 2)\n+* Equal amounts in inputs (default: false)\n+\n+Analysis of different decoy selection algorithms used in Monero: https://github.com/monero-project/research-lab/issues/99\n+\n+Input selection is important in Octojoin, although not the same as decoy selection used in different Monero wallets. Recommendations for Octojoin algorithms:\n+\n+Transaction MUST have at least 3 inputs, all swapped except one. It SHOULD avoid mixed input types and use random wallet fingerprints, including BIP 69. It SHOULD use inputs of similar age. Some inputs SHOULD be recent UTXOs. All outputs MUST use the same script type.\n+\n+==Rationale==\n+\n+====Default Values====\n+\n+We need at least 1 normal input in the transaction, so 2 swapped inputs will provide minimum privacy in a transaction. 1 output will reveal the payment amount, at least 2 outputs are required for multiple interpretations.\n+\n+Total transactions with 3 inputs (~43,000,000): https://blockchair.com/bitcoin/transactions?s=time(desc)&q=input_count(3)#f=hash,input_count,time\n+\n+Total transaction with 3 inputs and 2 outputs (~27,000,000): https://blockchair.com/bitcoin/transactions?s=time(desc)&q=input_count(3),output_count(2)#f=hash,input_count,time,output_count\n+\n+<source lang=\"mermaid\">\n+xychart-beta\n+    title \"Transactions with 3 inputs and 2 outputs\"\n+    x-axis [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep]\n+    y-axis \"Transactions (in thousands)\" 0 --> 160 \n+    bar [125, 143, 157, 130, 117, 106, 121, 123, 127]\n+</source>\n+\n+Transactions that already use 3 inputs and 2 outputs will serve as the anonymity set for octojoin transactions with default values. It is possible to change defaults and use more number of inputs and outputs.\n+\n+====Swapped UTXOs====\n+\n+Swapping UTXOs off-chain will obscure the transaction's input ownership and history. It also adds more noise on-chain to make chain analysis difficult\n+\n+====Silent Payment Addresses====\n+\n+Sender pay require more than 1 output so silent payment addresses will be the best approach to generate new addresses with no interaction and maximum privacy.",
-      "path": "bip-octojoin.mediawiki",
-      "position": 96,
-      "original_position": 96,
-      "commit_id": "c52c746cc1aa805ffc405ba75e17b6b42d2fe7a5",
-      "original_commit_id": "c52c746cc1aa805ffc405ba75e17b6b42d2fe7a5",
-      "in_reply_to_id": null,
-      "user": {
-        "login": "jonatack",
-        "id": 2415484,
-        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
-        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/jonatack",
-        "html_url": "https://github.com/jonatack",
-        "followers_url": "https://api.github.com/users/jonatack/followers",
-        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
-        "organizations_url": "https://api.github.com/users/jonatack/orgs",
-        "repos_url": "https://api.github.com/users/jonatack/repos",
-        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/jonatack/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "body": "\"Sender pay require more than 1 output\" -> seems unclear, and isn't this always the case in a transaction, if I'm not confused",
-      "created_at": "2024-10-08T17:53:40Z",
-      "updated_at": "2024-10-08T17:53:40Z",
-      "html_url": "https://github.com/bitcoin/bips/pull/1669#discussion_r1792285744",
-      "author_association": "MEMBER",
-      "_links": {
-        "self": {
-          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1792285744"
-        },
-        "pull_request": {
-          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1669"
-        }
-      },
-      "start_line": null,
-      "original_start_line": null,
-      "start_side": null,
-      "line": 96,
-      "original_line": 96,
       "side": "RIGHT"
     }
   ]
