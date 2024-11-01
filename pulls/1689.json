@@ -59,10 +59,10 @@
       }
     ],
     "created_at": "2024-10-24T01:47:02Z",
-    "updated_at": "2024-10-28T11:25:36Z",
+    "updated_at": "2024-11-01T04:46:32Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "c00c5d5e810a6594dc91101aaaf78ce6e56ed355",
+    "merge_commit_sha": "63cec5e9aef1d8f24564216a17282356c3f91706",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -279,12 +279,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5357,
-        "stargazers_count": 9345,
-        "watchers_count": 9345,
-        "size": 15634,
+        "forks_count": 5361,
+        "stargazers_count": 9355,
+        "watchers_count": 9355,
+        "size": 15626,
         "default_branch": "master",
-        "open_issues_count": 45,
+        "open_issues_count": 44,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -295,9 +295,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-10-25T15:13:16Z",
+        "pushed_at": "2024-10-31T00:51:52Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-10-28T09:28:43Z"
+        "updated_at": "2024-11-01T03:56:22Z"
       }
     },
     "_links": {
@@ -311,7 +311,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 6,
+    "review_comments": 8,
     "comments": 1
   },
   "events": [
@@ -647,6 +647,41 @@
       "submitted_at": "2024-10-28T11:25:36Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1689"
+    },
+    {
+      "event": "reviewed",
+      "id": 2405230279,
+      "node_id": "PRR_kwDOAN28mc6PXObH",
+      "url": null,
+      "actor": null,
+      "commit_id": "2aab0766e309604e927b888ec42b948f14a2ba8f",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "stratospher",
+        "id": 44024636,
+        "node_id": "MDQ6VXNlcjQ0MDI0NjM2",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44024636?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/stratospher",
+        "html_url": "https://github.com/stratospher",
+        "followers_url": "https://api.github.com/users/stratospher/followers",
+        "following_url": "https://api.github.com/users/stratospher/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/stratospher/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/stratospher/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/stratospher/subscriptions",
+        "organizations_url": "https://api.github.com/users/stratospher/orgs",
+        "repos_url": "https://api.github.com/users/stratospher/repos",
+        "events_url": "https://api.github.com/users/stratospher/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/stratospher/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1689#pullrequestreview-2405230279",
+      "submitted_at": "2024-11-01T04:46:32Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1689"
     }
   ],
   "comments": [
@@ -960,6 +995,110 @@
       "start_side": null,
       "line": 51,
       "original_line": 51,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1822817640",
+      "pull_request_review_id": 2405230279,
+      "id": 1822817640,
+      "node_id": "PRRC_kwDOAN28mc5spf1o",
+      "diff_hunk": "@@ -0,0 +1,90 @@\n+<pre>\n+  BIP: ?\n+  Title: Discrete Log Equality Proofs over secp256k1\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Ruben Somsen <rsomsen@gmail.com>\n+  Comments-URI: TBD\n+  Status: Draft\n+  Type: Standards Track\n+  License: BSD-2-Clause\n+  Created: 2024-06-29\n+  Post-History: TBD\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes a standard for 64-byte zero-knowledge ''discrete logarithm equality proofs'' (DLEQ proofs) over the elliptic curve ''secp256k1''. For given elliptic curve points ''A'', ''B'', and ''C'', the prover proves knowledge of a scalar ''a'' such that ''A = a⋅G'' and ''C = a⋅B'' without revealing anything about ''a''. This can, for instance, be useful in ECDH: if ''A'' and ''B'' are ECDH public keys, and ''C'' is their ECDH shared secret computed as ''C = a⋅B'', the proof establishes that the same secret key ''a'' is used for generating both ''A'' and ''C'' without revealing ''a''.\n+\n+=== Copyright ===\n+\n+This document is licensed under the 2-clause BSD license.\n+\n+=== Motivation ===\n+\n+[https://github.com/bitcoin/bips/blob/master/bip-0352.mediawiki#specification BIP352] requires senders to compute output scripts using ECDH shared secrets from the same secret keys used to sign the inputs. Generating an incorrect signature will produce an invalid transaction that will be rejected by consensus. An incorrectly generated output script can still be consensus-valid, meaning funds may be lost if it gets broadcast.\n+By producing a DLEQ proof for the generated ECDH shared secrets, the signing entity can prove to other entities that the output scripts have been generated correctly without revealing the private keys.\n+\n+== Specification ==\n+\n+All conventions and notations are used as defined in [https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki#user-content-Notation BIP327].\n+\n+=== DLEQ Proof Generation ===\n+\n+Input:\n+* The secret key ''a'': a 256-bit unsigned integer\n+* The public key ''B'': a point on the curve\n+* Auxiliary random data ''r'': a 32-byte array",
+      "path": "bip-DLEQ.mediawiki",
+      "position": 38,
+      "original_position": 38,
+      "commit_id": "2aab0766e309604e927b888ec42b948f14a2ba8f",
+      "original_commit_id": "2aab0766e309604e927b888ec42b948f14a2ba8f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "stratospher",
+        "id": 44024636,
+        "node_id": "MDQ6VXNlcjQ0MDI0NjM2",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44024636?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/stratospher",
+        "html_url": "https://github.com/stratospher",
+        "followers_url": "https://api.github.com/users/stratospher/followers",
+        "following_url": "https://api.github.com/users/stratospher/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/stratospher/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/stratospher/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/stratospher/subscriptions",
+        "organizations_url": "https://api.github.com/users/stratospher/orgs",
+        "repos_url": "https://api.github.com/users/stratospher/repos",
+        "events_url": "https://api.github.com/users/stratospher/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/stratospher/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "is it recommended to use a different `r` every time? I guess there's no risk of `a` being leaked with same `r` here.",
+      "created_at": "2024-10-30T14:58:42Z",
+      "updated_at": "2024-11-01T04:46:32Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1689#discussion_r1822817640",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1822817640"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1689"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 38,
+      "original_line": 38,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1824660791",
+      "pull_request_review_id": 2405230279,
+      "id": 1824660791,
+      "node_id": "PRRC_kwDOAN28mc5swh03",
+      "diff_hunk": "@@ -0,0 +1,90 @@\n+<pre>\n+  BIP: ?\n+  Title: Discrete Log Equality Proofs over secp256k1\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Ruben Somsen <rsomsen@gmail.com>\n+  Comments-URI: TBD\n+  Status: Draft\n+  Type: Standards Track\n+  License: BSD-2-Clause\n+  Created: 2024-06-29\n+  Post-History: TBD\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes a standard for 64-byte zero-knowledge ''discrete logarithm equality proofs'' (DLEQ proofs) over the elliptic curve ''secp256k1''. For given elliptic curve points ''A'', ''B'', and ''C'', the prover proves knowledge of a scalar ''a'' such that ''A = a⋅G'' and ''C = a⋅B'' without revealing anything about ''a''. This can, for instance, be useful in ECDH: if ''A'' and ''B'' are ECDH public keys, and ''C'' is their ECDH shared secret computed as ''C = a⋅B'', the proof establishes that the same secret key ''a'' is used for generating both ''A'' and ''C'' without revealing ''a''.\n+\n+=== Copyright ===\n+\n+This document is licensed under the 2-clause BSD license.\n+\n+=== Motivation ===\n+\n+[https://github.com/bitcoin/bips/blob/master/bip-0352.mediawiki#specification BIP352] requires senders to compute output scripts using ECDH shared secrets from the same secret keys used to sign the inputs. Generating an incorrect signature will produce an invalid transaction that will be rejected by consensus. An incorrectly generated output script can still be consensus-valid, meaning funds may be lost if it gets broadcast.\n+By producing a DLEQ proof for the generated ECDH shared secrets, the signing entity can prove to other entities that the output scripts have been generated correctly without revealing the private keys.\n+\n+== Specification ==\n+\n+All conventions and notations are used as defined in [https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki#user-content-Notation BIP327].\n+\n+=== DLEQ Proof Generation ===\n+\n+Input:\n+* The secret key ''a'': a 256-bit unsigned integer\n+* The public key ''B'': a point on the curve\n+* Auxiliary random data ''r'': a 32-byte array\n+\n+The algorithm ''Prove(a, B, r)'' is defined as:",
+      "path": "bip-DLEQ.mediawiki",
+      "position": 40,
+      "original_position": 40,
+      "commit_id": "2aab0766e309604e927b888ec42b948f14a2ba8f",
+      "original_commit_id": "2aab0766e309604e927b888ec42b948f14a2ba8f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "stratospher",
+        "id": 44024636,
+        "node_id": "MDQ6VXNlcjQ0MDI0NjM2",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44024636?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/stratospher",
+        "html_url": "https://github.com/stratospher",
+        "followers_url": "https://api.github.com/users/stratospher/followers",
+        "following_url": "https://api.github.com/users/stratospher/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/stratospher/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/stratospher/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/stratospher/subscriptions",
+        "organizations_url": "https://api.github.com/users/stratospher/orgs",
+        "repos_url": "https://api.github.com/users/stratospher/repos",
+        "events_url": "https://api.github.com/users/stratospher/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/stratospher/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "body": "micro-nit: maybe call it `GenerateProof`. (similar to `VerifyProof` below)",
+      "created_at": "2024-10-31T15:18:32Z",
+      "updated_at": "2024-11-01T04:46:32Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1689#discussion_r1824660791",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1824660791"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1689"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 40,
+      "original_line": 40,
       "side": "RIGHT"
     }
   ]
