@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-11-08T10:44:10Z",
-    "updated_at": "2024-11-09T09:53:37Z",
+    "updated_at": "2024-11-09T11:14:12Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "97d7b59e670c9723f0b954a6b12c70f31dd09655",
@@ -182,7 +182,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 15657,
+        "size": 15660,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -333,7 +333,7 @@
     "changed_files": 1,
     "commits": 5,
     "review_comments": 9,
-    "comments": 5
+    "comments": 6
   },
   "events": [
     {
@@ -1300,6 +1300,62 @@
         "date": "2024-11-09T09:51:56Z"
       },
       "sha": "eec10546357af967978a13aa0c989a31d4309b17"
+    },
+    {
+      "event": "commented",
+      "id": 2466176267,
+      "node_id": "IC_kwDOAN28mc6S_t0L",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2466176267",
+      "actor": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-11-09T11:14:12Z",
+      "updated_at": "2024-11-09T11:14:12Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> This is true but only applies if the feature is used. Support for it could be optional for example; wallets are free to limit the format and type of templates they support.\r\n\r\nIf the language supports it, software wallet developers will use it; performance will probably be ok on their test transactions spending 1 UTXO; then one of their users who is trying to consolidate 50 UTXOs will discover it's incredibly slow, complain to the vendor, and there will be no way to fix it at that point.\r\n\r\nTo make a stronger case on the stark difference in performance: for a _n_-of-_n_ multisig and a transaction spending _t_ inputs\r\n- aggregate-and-derive: 1 KeyAgg, plus 2 * _t_ BIP32 child pubkey derivations\r\n- derive-and-aggregate: _t_ KeyAgg, plus 2 * _n_ * _t_ BIP32 child pubkey derivations\r\n(some caching might be possible, but it doesn't change the substance). \r\n\r\nIn other words, aggregate-and-derive doesn't cost significantly more than normal multisigs in hardware signer's performance once you have a few UTXOs (apart from needing 2 rounds, of course), while the penalty cost of derive-and-aggregate is enormous. BIP32 derivations are currently the biggest performance bottleneck in the Ledger bitcoin app, when using multi-user policies.\r\n\r\nTherefore, by _not_ supporting it, I expect it will result in more efficient implementations, less debugging, less support tickets, and no loss of functionality.\r\n\r\n> > Finally, it breaks the `key placeholder` concept, as it would imply that we need to support derivations at different nesting levels in the grammar.\r\n> \r\n> IIUC this only requires that any wildcards in the musig keys to aggregate must be derived at the same index as other keys when a wildcard is present, which is the same restriction as any wildcards in any key expression elsewhere. IOW, the entire expression must be derivable with a single value for all wildcards, whether inside musig() or elsewhere. Perhaps I'm failing to grok your meaning here, or perhaps things would be clearer if I worked through implementing support for this extension personally.\r\n\r\nEven just parsing a descriptor template supporting both versions becomes a lot harder. This is more or less what a key expression in my AST looks like:\r\n\r\n```C\r\ntypedef struct {\r\n    uint32_t num_first;   // NUM_a of /<NUM_a,NUM_b>/*\r\n    uint32_t num_second;  // NUM_b of /<NUM_a,NUM_b>/*\r\n\r\n    KeyExpressionType type;\r\n    union {\r\n        // type == 0\r\n        struct {\r\n            int16_t key_index;  // index of the key\r\n        } k;\r\n        // type == 1\r\n        struct {\r\n            rptr_musig_aggr_key_info_t musig_info;\r\n        } m;\r\n    };\r\n} policy_node_keyexpr_t;\r\n```\r\n\r\nThey are very simple objects, derivations can only go in one place, and the grammar to describe them is context-free (so parsing for them is based on a trivial lookahead on the next one or few characters).\r\n \r\n> My concern here is that it appears on the descriptor side we have a technical decision with no clear rationale/documented justification, while on the descriptor template side there is an opposing technical decision with rationale but that may limit future interop or valuable use-cases.\r\n> \r\n> I would prefer to have these two sides aligned, or at least the rationale for differing be explicit on both side (i.e. a reply to the points you raised on the record somewhere).\r\n\r\nI understand the concern, and it is my desire to keep wallet policies as aligned as possible in order to minimize friction. \r\n\r\nHowever, wallet policies are not representing the same thing as descriptors:\r\n- descriptors represent arbitrary outputs that can be spent with arbitrarily complicated spending logic that hardware signing devices might or might not support.\r\n- wallet policies represent scripts for a vast class of smart contracts where the logic is however quite simple and uniform: \"you're spending from an account, and change (if any) goes back to the same account\".\r\n\r\nTherefore, wallet policies do not need to be as general as descriptors. It is fine if they are opinionated and much more structured - in fact, this makes them more useful, by implicitly leading wallet developers to only use _sane_ descriptors.\r\nIt's the same reason why miniscript doesn't (and can't) support arbitrary Scripts, despite many other Scripts have perfectly valid use cases.\r\n",
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1697#issuecomment-2466176267",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1697"
     }
   ],
   "comments": [
