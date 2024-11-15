@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-03-01T17:10:35Z",
-    "updated_at": "2024-11-14T22:49:04Z",
+    "updated_at": "2024-11-15T14:31:07Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "9d9aab17a6af50d4a2243e825d1b23297b896c4a",
@@ -277,9 +277,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5376,
-        "stargazers_count": 9399,
-        "watchers_count": 9399,
+        "forks_count": 5377,
+        "stargazers_count": 9402,
+        "watchers_count": 9402,
         "size": 15657,
         "default_branch": "master",
         "open_issues_count": 41,
@@ -295,7 +295,7 @@
         "visibility": "public",
         "pushed_at": "2024-11-14T02:24:11Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-11-14T02:24:23Z",
+        "updated_at": "2024-11-15T11:47:14Z",
         "allow_forking": true
       }
     },
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 13,
-    "review_comments": 37,
+    "review_comments": 38,
     "comments": 42
   },
   "events": [
@@ -6346,6 +6346,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1842981014"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1555"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 89,
+      "original_line": 89,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1843916677",
+      "pull_request_review_id": 2438773298,
+      "id": 1843916677,
+      "node_id": "PRRC_kwDOAN28mc5t5--F",
+      "diff_hunk": "@@ -0,0 +1,203 @@\n+<pre>\n+  BIP: XXXX\n+  Layer: Applications\n+  Title: URI Scheme\n+  Author: Matt Corallo <bip21@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-07-13\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+This BIP proposes a URI scheme for describing Bitcoin payment receipt information.\n+\n+==Motivation==\n+The purpose of this URI scheme is to enable users to easily make payments by simply clicking links on webpages or scanning QR Codes.\n+\n+This BIP is a modification of [[bip-0021.mediawiki|BIP 0021]] to add information about the modern usage of bitcoin: URIs (including standard query parameters and modern address types) as well as provide forward-looking guidance on how to incorporate new payment instructions. It further adds an optional extension to provide the payment initiator with proof of payment. BIP 21 was based on BIP 20, which was, in turn based off an earlier document by Nils Schneider.\n+\n+==Specification==\n+\n+=== General rules for handling (important!) ===\n+\n+Bitcoin clients MUST NOT act on URIs without getting the user's authorization.\n+They SHOULD require the user to manually approve each payment individually, though in some cases they MAY allow the user to automatically make this decision.\n+\n+=== Operating system integration ===\n+Graphical bitcoin clients SHOULD register themselves as the handler for the \"bitcoin:\" URI scheme by default, if no other handler is already registered. If there is already a registered handler, they MAY prompt the user to change it once when they first run the client.\n+\n+=== General Format ===\n+\n+Bitcoin URIs follow the general format for URIs as set forth in RFC 3986. The path component consists of a bitcoin address, and the query component provides additional payment options.\n+\n+Elements of the query component may contain characters outside the valid range. These must first be encoded according to UTF-8, and then each octet of the corresponding UTF-8 sequence must be percent-encoded as described in RFC 3986.\n+\n+=== ABNF grammar ===\n+\n+ bitcoinurn     = \"bitcoin:\" [ bitcoinaddress ] [ \"?\" bitcoinparams ]\n+ bitcoinaddress = *base58 / *bech32 / *bech32m\n+ bitcoinparams  = bitcoinparam [ \"&\" bitcoinparams ]\n+ bitcoinparam   = [ amountparam / labelparam / messageparam / responseparam / otherparam / reqparam ]\n+ amountparam    = \"amount=\" *digit [ \".\" *digit ]\n+ labelparam     = \"label=\" *qchar\n+ messageparam   = \"message=\" *qchar\n+ responseparam  = [ \"req-\" ] \"pop=\" *qchar\n+ otherparam     = qchar *qchar [ \"=\" *qchar ]\n+ reqparam       = \"req-\" qchar *qchar [ \"=\" *qchar ]\n+\n+Here, \"qchar\" corresponds to valid characters of an RFC 3986 URI query component, excluding the \"=\" and \"&\" characters, which this BIP takes as separators.\n+\n+The scheme component (\"bitcoin:\") is case-insensitive, and implementations must accept any combination of uppercase and lowercase letters. The query parameter keys are also case-insensitive. Query parameter values and bitcoin address fields may be case-sensitive depending on their content.\n+\n+=== Bitcoin Address ===\n+\n+The bitcoinaddress body MUST be either a base58 P2SH or P2PKH address, bech32 Segwit version 0 address, bech32m Segwit address, or empty. Future address formats SHOULD instead be placed in query keys as optional payment instructions to provide backwards compatibility during upgrade cycles. After new address types are near-universally supported, or for recipients wishing to avoid a standard on-chain fallback, the bitcoinaddress part of the URI MAY be left empty.\n+\n+=== Query Keys ===\n+\n+The following keys are defined generally and apply to any URI regardless of payment instructions:\n+\n+*label: Label for that address (e.g. name of receiver)\n+*address: bitcoin address\n+*message: message that describes the transaction to the user ([[#Examples|see examples below]])\n+*pop: a URI which the Bitcoin Wallet may return to in order to provide the application which initiated the payment with proof that a payment was completed.\n+\n+The following keys are currently defined for payment instructions of various forms:\n+\n+*lightning: Lightning BOLT 11 invoices\n+*lno: Lightning BOLT12 offers\n+*pay: [[bip-0351.mediawiki|BIP 351 Private Payment addresses]]\n+*sp: [[bip-0352.mediawiki|BIP 352 Silent Payment addresses]]\n+\n+New payment instructions using bech32 or bech32m encodings SHOULD reuse their address format's Human Readable Part as the parameter key.\n+\n+==== Transfer amount ====\n+\n+If an amount is provided, it MUST be specified in decimal BTC.\n+All amounts MUST contain no commas and use a period (.) as the separating character to separate whole numbers and decimal fractions.\n+I.e. amount=50.00 or amount=50 is treated as 50 BTC, and amount=50,000.00 is invalid.\n+\n+=== Proof of Payment ===\n+\n+The URI MAY include a \"pop\" (or \"req-pop\") parameter whose value can be used to build a URI which the wallet application can, after payment completes, \"open\" to provide proof the payment was completed or other information about the payment.\n+\n+The value of a \"pop\" (or \"req-pop\") parameter shall be a percent-encoded (per RFC 3986 section 2.1) URI prefix. The wallet application, if it supports providing payment information SHOULD percent-decode the provided URI once, append the query parameter key from which the payment instructions used were read, append a single =, and finally append the Payment Information to the resulting URI and open it with the default system handler for the URI. For payment instructions read from the body of the URI, \"onchain\" SHALL be used in place of the key.\n+\n+A wallet MUST validate that the provided URI's scheme is not (case-insensitive) \"http\", \"https\", \"file\", \"javascript\", \"mailto\" or any other scheme which will open in a web browser prior to opening it.",
+      "path": "bip-XXXX.mediawiki",
+      "position": 89,
+      "original_position": 89,
+      "commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
+      "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
+      "in_reply_to_id": 1808793379,
+      "user": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Yea, I guess I just see no need for a remote call for these callbacks - the whole point of the callbacks is to keep things local, if you're going remote anyway the thing initiating the payment can just ask the recipient if they got it using HTTP...",
+      "created_at": "2024-11-15T14:31:07Z",
+      "updated_at": "2024-11-15T14:31:07Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1555#discussion_r1843916677",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1843916677"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1555"
