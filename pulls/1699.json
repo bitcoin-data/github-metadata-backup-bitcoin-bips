@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-11-11T23:07:43Z",
-    "updated_at": "2024-11-15T18:24:43Z",
+    "updated_at": "2024-11-15T21:48:22Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merge_commit_sha": "d452697e23a78ea867764b62d59a5236410865ab",
@@ -159,7 +159,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 15654,
+        "size": 15662,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -277,8 +277,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5377,
-        "stargazers_count": 9403,
-        "watchers_count": 9403,
+        "stargazers_count": 9404,
+        "watchers_count": 9404,
         "size": 15657,
         "default_branch": "master",
         "open_issues_count": 41,
@@ -294,7 +294,7 @@
         "visibility": "public",
         "pushed_at": "2024-11-14T02:24:11Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-11-15T15:23:15Z",
+        "updated_at": "2024-11-15T21:54:30Z",
         "allow_forking": true
       }
     },
@@ -309,7 +309,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 5,
-    "review_comments": 5,
+    "review_comments": 6,
     "comments": 6
   },
   "events": [
@@ -1437,6 +1437,59 @@
       "start_side": null,
       "line": 128,
       "original_line": 134,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1844547889",
+      "pull_request_review_id": 2439751968,
+      "id": 1844547889,
+      "node_id": "PRRC_kwDOAN28mc5t8ZEx",
+      "diff_hunk": "@@ -0,0 +1,162 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_PAIRCOMMIT\n+  Author: moonsettler <moonsettler@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: <links to wiki page for comments>\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-11-08\n+  License: BSD-3-CLAUSE\n+</pre>\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode `OP_PAIRCOMMIT` which\n+provide limited vector commitment functionality in tapscript.\n+\n+When evaluated, the `OP_PAIRCOMMIT` instruction:\n+* Pops the top two values off the stack,\n+* takes the \"PairCommit\" tagged SHA256 hash of the stack elements,\n+* pushes the resulting commitment on the top of the stack.\n+\n+## Motivation\n+\n+To do LN-Symmetry contracts that don't require the nodes to keep old states,\n+we need to solve the data availability problem presented by unilateral closes.\n+Channel peers must be able to reconstruct the script that spends an\n+intermediate state.\n+\n+Using in sequence `OP_CHECKTEMPLATEVERIFY`, `OP_PAIRCOMMIT`, `OP_INTERNALKEY`\n+and `OP_CHECKSIGFROMSTACK` we can construct a rebindable channel that is also\n+optimal.\n+\n+If `OP_CAT` was available, it could be used to combine multiple stack elements,\n+that get verified with `OP_CHECKSIGFROMSTACK` as a valid state update.\n+\n+`OP_PAIRCOMMIT` solves this specific problem without introducing a wide range\n+of potentially controversial new behaviors, such as novel 2-way peg mechanisms.",
+      "path": "bip-PC.md",
+      "position": null,
+      "original_position": 39,
+      "commit_id": "dfb0670660eb7921f3d9c084129b4b4e276451bf",
+      "original_commit_id": "08ffb0303d9aa73e622ee98ed941cae0c63e906a",
+      "in_reply_to_id": 1843986559,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "That’s why I am suggesting that this proposal should collect some of that information.",
+      "created_at": "2024-11-15T21:45:59Z",
+      "updated_at": "2024-11-15T21:45:59Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#discussion_r1844547889",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1844547889"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+        }
+      },
+      "start_line": null,
+      "original_start_line": 35,
+      "start_side": "RIGHT",
+      "line": null,
+      "original_line": 39,
       "side": "RIGHT"
     }
   ]
