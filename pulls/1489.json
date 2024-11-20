@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1489/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1489/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/6dd3458ddc84eee552e209718e333e24af72cbeb",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/66b59192d5746a0dd8ad22fdeeacec877fd63124",
     "number": 1489,
     "state": "open",
     "locked": false,
@@ -36,7 +36,8 @@
       "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "patch_url": null
     },
     "body": "## Overview\r\nThese BIPs describe the Taproot Asset Protocol, a Taproot-native asset\r\noverlay built on top of the base Bitcoin blockchain. Taproot Assets enable\r\nthe representation of arbitrary (normal and collectibles) assets on top of\r\nBitcoin without bloating the base chain. The protocol is designed such that\r\ntransactions interacting with Taproot Assets are indistinguishable from\r\nregular transactions from the PoV of the Bitcoin blockchain. Taproot Assets\r\nextend the base Taproot script tree with a nested ''asset script'' tree (a\r\nmerkle-sum sparse merkle tree, or MS-SMT) that commits to valid witnesses as\r\nstructured metadata that allow for proofs of the movement of assets across\r\nthe transaction graph.  The provenance of transfers of a Taproot Asset can\r\nbe verified using a hermetic proof transmitted as flat file, or using the\r\naide of an externally maintained Universe, which is a MS-SMT that indexes\r\non-chain asset issuance+transfers, which natively supports\r\nproof-of-reserves/supply system.\r\n\r\nTaproot Assets support off-chain single and multi-hop transfers over\r\nLightning channels (based on the BOLT protocol suite), with the latter\r\nmanifested using Taproot Assets' unique embedded asset script system.  Light\r\nclient verification of on-chain Taproot Asset transfers is facilitated by a\r\nseries of on and off-chain merkle proofs, which can be compressed by\r\ndelegating a trust relationship to an active Universe instance. A variant on\r\noff-chain multi-party channels are proposed to support off-chain transfer of\r\nnormal assets.  In addition, a special type of Universe, dubbed a Pocket\r\nUniverse, which is based on an exit-only commit-chain design can be used to\r\naggregate transfers on-chain in a trust-minimized manner.\r\n\r\n## BIP Documents \r\n\r\nWith this PR, we seek to request BIP numbers be assigned for the 7 included documents:\r\n  * `bip-tap-mssmt`: describes the MS-SMT (Merkle-Sum Sparse Merkle Tree) data structure used to store assets and various proofs. \r\n  * `bip-tap`: describes the Taproot Assets Protocol validation and state transition rules. \r\n  * `bip-tap-addr`: describes the address format used to send and receive assets. \r\n  * `bip-tap-vm`: describes the initial version of the off-chain TAP VM used to lock and unlock assets. \r\n  * `bip-tap-vpsbt`: describes a vPSBT (virtual PSBT) which is a series custom types on top of the existing PSBT protocol to facilitate more elaborate asset related transactions. \r\n  * `bip-tap-proof-file`: describes the flat file format which is used to prove and verify the provenance of an asset \r\n  * `bip-tap-universe`: describes the Universe server construct, which is an off-chain index into TAP data on-chain, used for: proof distribution, asset boostraping, and asset transaction archiving. \r\n\r\nFor each BIP, we also include a sub-directory that includes comprehensive test vectors (to be expanded over time). ",
     "labels": [
@@ -50,10 +51,10 @@
       }
     ],
     "created_at": "2023-09-06T18:41:17Z",
-    "updated_at": "2024-10-17T17:54:32Z",
+    "updated_at": "2024-11-20T00:47:22Z",
     "mergeable": true,
-    "mergeable_state": "clean",
-    "merge_commit_sha": "ae051c6b669bdf603a967947ae0af02a163a61f8",
+    "mergeable_state": "unstable",
+    "merge_commit_sha": "00f2ec5a5811b33967c125db7fe71f89a1a082f3",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -61,7 +62,7 @@
     "head": {
       "label": "Roasbeef:bip-tap-pr",
       "ref": "bip-tap-pr",
-      "sha": "6dd3458ddc84eee552e209718e333e24af72cbeb",
+      "sha": "66b59192d5746a0dd8ad22fdeeacec877fd63124",
       "user": {
         "login": "Roasbeef",
         "id": 998190,
@@ -80,7 +81,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "repo": {
         "id": 51169931,
@@ -105,7 +107,8 @@
           "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
           "type": "User",
-          "site_admin": false
+          "site_admin": false,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/Roasbeef/bips",
@@ -154,12 +157,12 @@
         "svn_url": "https://github.com/Roasbeef/bips",
         "homepage": "bitcoin.org",
         "language": "Go",
-        "forks_count": 24,
+        "forks_count": 23,
         "stargazers_count": 64,
         "watchers_count": 64,
         "size": 17562,
         "default_branch": "master",
-        "open_issues_count": 5,
+        "open_issues_count": 4,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -170,9 +173,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-04-23T00:49:49Z",
+        "pushed_at": "2024-11-20T00:47:20Z",
         "created_at": "2016-02-05T19:45:12Z",
-        "updated_at": "2024-10-10T18:47:31Z"
+        "updated_at": "2024-10-10T18:47:31Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -197,7 +201,8 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -222,7 +227,8 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -271,12 +277,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5353,
-        "stargazers_count": 9319,
-        "watchers_count": 9319,
-        "size": 15670,
+        "forks_count": 5380,
+        "stargazers_count": 9415,
+        "watchers_count": 9415,
+        "size": 15657,
         "default_branch": "master",
-        "open_issues_count": 46,
+        "open_issues_count": 41,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -287,9 +293,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-10-15T16:45:25Z",
+        "pushed_at": "2024-11-14T02:24:11Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-10-17T07:28:11Z"
+        "updated_at": "2024-11-19T22:28:34Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -299,10 +306,10 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 94914,
+    "additions": 94915,
     "deletions": 0,
     "changed_files": 23,
-    "commits": 16,
+    "commits": 20,
     "review_comments": 2,
     "comments": 14
   },
@@ -322,8 +329,8 @@
         "url": "https://api.github.com/repos/bitcoin/bips/git/trees/ec79e8df621fd6549ac7ec4a6674e82505ad8d5f"
       },
       "verification": {
-        "verified": true,
-        "reason": "valid",
+        "verified": false,
+        "reason": "unknown_key",
         "payload": "tree ec79e8df621fd6549ac7ec4a6674e82505ad8d5f\nparent e643d247c8bc086745f3031cdee0899803edea2f\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1639624854 -0800\ncommitter Olaoluwa Osuntokun <laolu32@gmail.com> 1694025698 -0700\n\nbip-tap: BIPs for the Taproot Assets Protocol\n",
         "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEYKH6faW/8Ivcu+eQO71Z6ZsoAwYFAmT4x+QACgkQO71Z6Zso\nAwYgFhAA5lBH/Vwcryv2vgxEFgYMIeDC8jadbtcgjGMKOtIT3gRDNbWwXF0T8Hr1\nP1+8W6TRVIpdZEBDI0kT+b8VPSXIjehHzzV4Rci25DvPjUuwODKf9gzkjJzHNXRV\nhzERam+Ox7mB4ffpAIjq86ZotLiyn5OG8kfDNozW/tMn9CVgfYgR8tOyq22BI6BA\nWUFPXqBzbfWOW0hJZwNk072lG1AkjR2BYTEng4zmPcvW9I7JZRPo3OI7gEBZCnoE\nM/KhXQHmky851jpgrJDxv1hyquARSvf1DhoR12MRfBd9CbqqVm2Rai3NyeEYgjKU\nztOVR141yXc5+P88Igi+ELQawFcvMu5eTh40nLkRucuujMQEzVHkT4hpZSHli16x\nq6lrjwlLEsv5rL8ogluLZLtieY7z+wdrNAj6tSo2RGDAWRIAw5eL1Hp6o1ap2LuW\n52N0XliH2ogrTKBOzadNp4Dc4KOJ6n+iyhIDDoaRaQ3Yd0l0j82WyVEopNq0ILve\n7hfIWegdLK0DbTqgWxuFvA1tOmQ9TsVF2hv6hds+kJC3TvnOHSGhzo4kQhnNe0AI\ntvJmhZWYzDdWoYNAxbpFY4qIrncO5CxX64k8H7fuE1Guhk2f3ZCDDSxA1hYchHcb\nZLLeFS14zs5SrSMModTQbYTXy6LGkR5A4kebX4qNDCHQy61rX90=\n=7OmE\n-----END PGP SIGNATURE-----\n-----BEGIN OPENTIMESTAMPS GIT TIMESTAMP-----\n\nAQHwIG9+0NdWV3qRk9MuGkbslngXplq38jpsIYvAaRH/SbdNCP/wEJPhZMoIs+nZ\n/uljrBynBm8I8QRk+Mfo8Ah2hLPhWw6wawCD3+MNLvkMjiwraHR0cHM6Ly9ib2Iu\nYnRjLmNhbGVuZGFyLm9wZW50aW1lc3RhbXBzLm9yZ//wELTuMI9sICcx7Hmz7gK8\nP2oI8QRk+Mfo8AgLsqbNImQa/gCD3+MNLvkMjiMiaHR0cHM6Ly9idGMuY2FsZW5k\nYXIuY2F0YWxsYXh5LmNvbf/wEMltfTJCiAYiXgXWxB7mFPQI8SA8hVZzO7FcTLyX\nZYzZbICk1G7iKWEhaVY2wUB6NeN/OgjxBGT4x+jwCIqq4C9xjpgOAIPf4w0u+QyO\nLi1odHRwczovL2FsaWNlLmJ0Yy5jYWxlbmRhci5vcGVudGltZXN0YW1wcy5vcmfw\nEOgzujCq2GtKrUSevK6JMwsI8SDQcxkmJaSF9/ickVbAkOnPuoWAFnwTO1HDIIW9\nx4ZkvwjxBGT4x+jwCBFrwTNisOrdAIPf4w0u+QyOKShodHRwczovL2Zpbm5leS5j\nYWxlbmRhci5ldGVybml0eXdhbGwuY29t\n-----END OPENTIMESTAMPS GIT TIMESTAMP-----"
       },
@@ -370,7 +377,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -399,7 +407,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -425,7 +434,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1708962937",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -453,7 +463,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -482,7 +493,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -511,7 +523,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -537,7 +550,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1708977689",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -565,7 +579,8 @@
         "events_url": "https://api.github.com/users/Symphonic3/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Symphonic3/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -591,7 +606,8 @@
         "events_url": "https://api.github.com/users/Symphonic3/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Symphonic3/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1709148435",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -619,7 +635,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -645,7 +662,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1712839893",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -673,7 +691,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -702,7 +721,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -731,7 +751,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -757,7 +778,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1714414894",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -785,7 +807,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -811,7 +834,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1714522890",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -839,7 +863,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -865,7 +890,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1714585674",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -893,7 +919,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -922,7 +949,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -951,7 +979,8 @@
         "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/achow101/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -977,7 +1006,8 @@
         "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/achow101/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1714711675",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -1005,7 +1035,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1031,7 +1062,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1714936141",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -1059,7 +1091,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1085,7 +1118,8 @@
         "events_url": "https://api.github.com/users/ChrisMartl/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ChrisMartl/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1714947589",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -1113,7 +1147,8 @@
         "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/achow101/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1142,7 +1177,8 @@
         "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/achow101/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1693,8 +1729,8 @@
         "url": "https://api.github.com/repos/bitcoin/bips/git/trees/559aa04526113ed5edfd1c906ca91238a013a40c"
       },
       "verification": {
-        "verified": true,
-        "reason": "valid",
+        "verified": false,
+        "reason": "unknown_key",
         "payload": "tree 559aa04526113ed5edfd1c906ca91238a013a40c\nparent cc3e1ceea53f6181c2f8853ced2d1b6a9f91bc18\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1697507184 -0700\ncommitter Olaoluwa Osuntokun <laolu32@gmail.com> 1697670991 -0700\n\nbip-tap-universe: split universe trees, use new sum values\n\nIn this commit, we split the Universe trees into transfer vs issuance.\nThe leaf sum value for issuance is the number of units, while for\ntransfer just `1` (accumulator).\n\nFor Multiverse trees, we make a similar distinction. The sum value for\nan issuance multiverse is just 1, so it tracks the total amount of\nassets committed to. For transfer multiverses, the value here is the\nsame as the root of a transfer universe, this ends up summing to the\ntotal number of transfer committed to.\n",
         "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEYKH6faW/8Ivcu+eQO71Z6ZsoAwYFAmUwZ1AACgkQO71Z6Zso\nAwZq6Q/7BWntQxwqu/LTNlKj1LzccyvGG0a0OvkjwDIsqGnJDxtkVXqamkTDmeUz\nZkQQRiMsKr95pLDI9PosWLOGxm6cef0WnZdEL0pA2zyRYZqTn5BXMWthJBW6xwtd\nm3t/CGuzSLENXBsEUgUG1pZzmM6br1UPutLWOTP9Zpfao6fgX9ywh+TpVS3DVY7k\nDGvn/kMPHBidjZV3ET9CxvtQ6LtY2EsNt/fJ5sKTwiHKJstYWO+J+RslV9aK77Cb\neVNKroCeJ8bVCPu+llm4AUBRH/RaNQ/+9TU9BizUGs9p9ed/dqlH5vTV7pYTZtYQ\nCBhEH67/pLlHL8+vQtY9q2CHyy8+tCgV9EzmSy3CE/2M8xYdEcuk6mtwiecB1NQ4\naKgLRI9DemUFm7C0iVcMMNhf6KjvZDw35jQ5Px4duEk6n9aANI9x46WNYlPMl3sF\neF8uY/1srOMtXmn1GotKyIuvZW77PXl8udewrJO9bDJ0TjVmgz6fY+hhUmRuLVp0\n+pKuBc7ppt52Zk2Y+EQMNi4RNzCsFTwxQkOXfOwCXBIOv9nMhIccrLMvLC5G4yS1\nYTeQQZBkgD3Jyd4w1EWCOWeJyZbWWynfMYVu7XPNg0aGksmZgQU+3KoXT5fj1+BY\n2xQ5caq4d9UDvjxxzGTBLKbVYldv0eMi+mnYLGqwy3xOFGd+Wjw=\n=Bchk\n-----END PGP SIGNATURE-----\n-----BEGIN OPENTIMESTAMPS GIT TIMESTAMP-----\n\nAQHwIFGi0kSYblNgUmgAbS4IhmrOZVLkx2z0LApJlxL7s/cXCP/wEBR+IrdnvfcT\nafAuVS93+vMI8SDmxHcEMSbgtj6WRsuo49ksx34DjKFe+icWkRJjCxGA5QjxBGUw\nZ2HwCMj4SvekQ7LYAIPf4w0u+QyOLCtodHRwczovL2JvYi5idGMuY2FsZW5kYXIu\nb3BlbnRpbWVzdGFtcHMub3Jn//AQ2nBKwFRH+Al01yfyiDrzwAjxBGUwZ2HwCOmR\nKFkCmNeBAIPf4w0u+QyOIyJodHRwczovL2J0Yy5jYWxlbmRhci5jYXRhbGxheHku\nY29t//AQ+S7HfvDGejTJrRBZ3Jdf4AjxIPZTemHyQK79oPrOsOVE35sVV/iPCNf4\nXMDBTeFG6JtvCPEEZTBnYfAIyD87OT3Xtj8Ag9/jDS75DI4pKGh0dHBzOi8vZmlu\nbmV5LmNhbGVuZGFyLmV0ZXJuaXR5d2FsbC5jb23wEP8/suuqMqObWWPFVJFGbHEI\n8SAf/DaV86ceo5kOli5xIbkZxZsVDydVfy4bnms5Vli9bAjxIG4NiyRTLh6FGeUx\nvvV3mFi6XkVMiFsT7W8LlOxXE8R0CPEEZTBnYPAIS5u9CaMHfV0Ag9/jDS75DI4u\nLWh0dHBzOi8vYWxpY2UuYnRjLmNhbGVuZGFyLm9wZW50aW1lc3RhbXBzLm9yZw==\n-----END OPENTIMESTAMPS GIT TIMESTAMP-----"
       },
@@ -1786,7 +1822,8 @@
         "events_url": "https://api.github.com/users/kallewoof/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/kallewoof/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1812,7 +1849,8 @@
         "events_url": "https://api.github.com/users/kallewoof/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/kallewoof/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1855079626",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -1840,7 +1878,8 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1869,7 +1908,8 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1898,7 +1938,8 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1931,7 +1972,8 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1957,7 +1999,8 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1869721535",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
@@ -1991,7 +2034,8 @@
         "events_url": "https://api.github.com/users/illesdavid/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/illesdavid/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#pullrequestreview-1805281738",
       "submitted_at": "2024-01-05T02:44:48Z",
@@ -2021,7 +2065,8 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2047,10 +2092,131 @@
         "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-1892980021",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDcxYzgzZTU5OTllZjNiZDZkZWE5NjJkNjkxZWQzOTI3YjM2YjM5MWU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/71c83e5999ef3bd6dea962d691ed3927b36b391e",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/71c83e5999ef3bd6dea962d691ed3927b36b391e",
+      "tree": {
+        "sha": "4a143ccd154ebc8b60fabbe9934f7a1b08003a17",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/4a143ccd154ebc8b60fabbe9934f7a1b08003a17"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 4a143ccd154ebc8b60fabbe9934f7a1b08003a17\nparent 6dd3458ddc84eee552e209718e333e24af72cbeb\nauthor Gijs van Dam <gijs@lightning.engineering> 1710333517 +0100\ncommitter Gijs van Dam <gijs@lightning.engineering> 1710333517 +0100\n\nbip-tap: correct `asset_tree_root` usage\n\nThe field `asset_tree_root` is not 40 bytes long, but 32.\n\nThis is both consistent with the implementation, and with the definition\nof the field further down in this bip.\n\nDefinition:\n\n> the asset tree is calculated as either:\n> * <code>asset_tree_root = sha256(asset_id || left_hash || right_hash\n> || sum_value)</code>\n> or\n> * <code>asset_tree_root = sha256(asset_group_key || left_hash ||\n> right_hash || sum_value)</code>\n\nImplementation:\n\n```\nleafParts := [][]byte{\n  {byte(c.Version)}, TaprootAssetsMarker[:], rootHash[:],\n  rootSum[:],\n}\n```\n\nThe bip now reflects this.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEdTC1TV5Fpodg5okmAZpEhXc1/SAFAmXxn1AACgkQAZpEhXc1\n/SDfww/+LXaD+zNqSakJPv0ahaMX9dG3/fx/eNbsVfyPUEMdbe3J24RrGHKB+61T\nVXhartAp1pFGRDjYqlbW6E04riulaa0aETGWPhzrK/9uW1Hagv8tEZRv3o2WL0oQ\n4ZKKNwMXt7A3P79+TZDw+mwsVzy+5QArJR1K2BZELklfWISKuCzsvoUHvO3m8VX0\nsWgLJDjbFA0xt4ASjX84/smrifeNI922cBMOlRorNO7mPiIDNB3SCL3XVsSMmkaH\nnqnpwtYnSYwIUraihp6BGDJwSny+9T8pVahYv4Y+N/sDOjkinATDugaKKkWpvyfy\nxtJmYPRy6ipDYXoiEOJIGjf1OBWAIqLCMeJjNVpj+tHTnYa8qrd0Kj3lA2js/TaK\nyu5vKT4soZhXlaubPHOyoOfd30BkYzBSjdJeCb8KeOjxxCmDbNVfO6+L++17oe6C\ncsEqPTVycKVJibNCwAigKIddwaINJasLeMPbd7VUnE6el0djt9aSOs/U+MnNzUOx\nLvdxQR8G4G7h/PwHjTE4LrBiwKlLDroLosOx1qXDrw7XHqoSXB9OV4QBnRQ0tkp8\nRsR2WtaRCfT37WpXl15mGcvBskv0RPE6Itrr6672qMcMnSKGBOZxKlrQ4GZooxd4\nDPje9Pk5zNzVtLSl7ow1XIEntt/ACBMuxo2+6bi+tZ1fuE/WagY=\n=a9MH\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6dd3458ddc84eee552e209718e333e24af72cbeb",
+          "sha": "6dd3458ddc84eee552e209718e333e24af72cbeb",
+          "html_url": "https://github.com/bitcoin/bips/commit/6dd3458ddc84eee552e209718e333e24af72cbeb"
+        }
+      ],
+      "message": "bip-tap: correct `asset_tree_root` usage\n\nThe field `asset_tree_root` is not 40 bytes long, but 32.\n\nThis is both consistent with the implementation, and with the definition\nof the field further down in this bip.\n\nDefinition:\n\n> the asset tree is calculated as either:\n> * <code>asset_tree_root = sha256(asset_id || left_hash || right_hash\n> || sum_value)</code>\n> or\n> * <code>asset_tree_root = sha256(asset_group_key || left_hash ||\n> right_hash || sum_value)</code>\n\nImplementation:\n\n```\nleafParts := [][]byte{\n  {byte(c.Version)}, TaprootAssetsMarker[:], rootHash[:],\n  rootSum[:],\n}\n```\n\nThe bip now reflects this.",
+      "committer": {
+        "name": "Gijs van Dam",
+        "email": "gijs@lightning.engineering",
+        "date": "2024-03-13T12:38:37Z"
+      },
+      "author": {
+        "name": "Gijs van Dam",
+        "email": "gijs@lightning.engineering",
+        "date": "2024-03-13T12:38:37Z"
+      },
+      "sha": "71c83e5999ef3bd6dea962d691ed3927b36b391e"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGRlZmZlYmY0ZjcwYzllNGNlOTI0MjE3MzAxZGE3MDc2ZGVhOThkMGQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/deffebf4f70c9e4ce924217301da7076dea98d0d",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/deffebf4f70c9e4ce924217301da7076dea98d0d",
+      "tree": {
+        "sha": "4118a88e8088e6edb55cbe42c70f7816b7287496",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/4118a88e8088e6edb55cbe42c70f7816b7287496"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 4118a88e8088e6edb55cbe42c70f7816b7287496\nparent 71c83e5999ef3bd6dea962d691ed3927b36b391e\nauthor Gijs van Dam <gijs@lightning.engineering> 1711357242 +0100\ncommitter Gijs van Dam <gijs@lightning.engineering> 1711357242 +0100\n\nfixup! bip-tap: correct `asset_tree_root` usage\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEdTC1TV5Fpodg5okmAZpEhXc1/SAFAmYBPToACgkQAZpEhXc1\n/SAoRQ//cn6c+zSBrizKXMJ9yEFISr50o5WUiNGEeqsW+VU0op2L/EXDzyO40ukx\nLhRc0V11bOJrB/VgNpFuJLAyFpZA7k2eXEoekMd6zTPCKdBBvRE0nZgWLt8T1Stm\n67kLTrLjxoQK3i9KucojKFPNP2EOrDewHN0Us7l/7K2+D4Jkf4zfhByUWNCGLOAw\n1npApyVwohJiO4W7usIi1ETocS9qfeiyz+w/DDXjodqR0VT+2Vb7imbrhMWAHaKv\nvyJrDRYepI3hJSGz1yK4DDYbf4JDx6EbymSV3f8aXhrsxyXf2iFle3gMcqMDF6yB\nhHMepWqTlJkCpKOsFgu0J3aXwlAOFbv1ipBvSaAK1AnCV8+LqKvkEg3JuiS7p5Eu\nStpAuOvLDcFTFLKjIKYPJYbnb4KGaGHFhXZL8Y6B0cxqWZFr7zMU7s5ywovQ2Xqn\nR1I+fyu264Yw/J/RFUVFHswNpm7j9AVl16SdnqfbpaHLKhyi0D26Dt0ueFQWDUFy\nwwi8Ig9HzG4oiKDVazoyFxzhYSyF2ncIi1412t0/Yw+2w889tzID7kc2N5DyaXld\ng+cmxki0K8EUql5mENCIPFTA6b1T9BcQiFQmk7h3S4oB7Y9pqRlv1AhYYrrU7oXH\n1J5NkOw3BhLSz/q1eWMoJe6oTjMHsTPCXm9X+20kSnt4mbeectM=\n=gVdg\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/71c83e5999ef3bd6dea962d691ed3927b36b391e",
+          "sha": "71c83e5999ef3bd6dea962d691ed3927b36b391e",
+          "html_url": "https://github.com/bitcoin/bips/commit/71c83e5999ef3bd6dea962d691ed3927b36b391e"
+        }
+      ],
+      "message": "fixup! bip-tap: correct `asset_tree_root` usage",
+      "committer": {
+        "name": "Gijs van Dam",
+        "email": "gijs@lightning.engineering",
+        "date": "2024-03-25T09:00:42Z"
+      },
+      "author": {
+        "name": "Gijs van Dam",
+        "email": "gijs@lightning.engineering",
+        "date": "2024-03-25T09:00:42Z"
+      },
+      "sha": "deffebf4f70c9e4ce924217301da7076dea98d0d"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDE2NWZhYjFjZTQ0NWZhOWE2MjlkNmU3MmM5MGQyMjJhNzczNmJhMGE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/165fab1ce445fa9a629d6e72c90d222a7736ba0a",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/165fab1ce445fa9a629d6e72c90d222a7736ba0a",
+      "tree": {
+        "sha": "a90574486f814a8842ae4d0846e98bfed6b4cee9",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/a90574486f814a8842ae4d0846e98bfed6b4cee9"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree a90574486f814a8842ae4d0846e98bfed6b4cee9\nparent deffebf4f70c9e4ce924217301da7076dea98d0d\nauthor Gijs van Dam <gijs@lightning.engineering> 1711370895 +0100\ncommitter Gijs van Dam <gijs@lightning.engineering> 1711370895 +0100\n\nfixup! bip-tap: correct `asset_tree_root` usage\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEdTC1TV5Fpodg5okmAZpEhXc1/SAFAmYBco8ACgkQAZpEhXc1\n/SA4tg//Yzf9sLsRF8DRRWhXi4lHhiZU+tFrMLLC0olGglQhhNKPEU0fk0dcWTyi\ncr+MEnkS69v9HWY1yeWtJ7HLMUUK7O1eX8iydJaNn0KvCjwvB3EdRTiij/v5O1yP\nh1vzZl+pSn7I2AgDSlMjgQocKvFHmoyjJh3ek4O9U6sfF1bH95zJ+Oa2lL/HlA8i\nUJ/FNN/KWYITYkJINFKwy/ud8Wna7ey+UORo5g5r7YGyXEdxHoFqhzDOQSqgy7Gd\nI8byOdR3/u/E7aSIxVzSRrfZGr9jrQAkWKnfg8StPoQPytEnnM9+vM6laS4OP6HG\ndsawBGkZjtzaOLtIzIVhagUqnLOnzFGVdHhpR5Oxdm6uJCX74IoYiaMUwDSOOKSO\nwrD7miyk47IhWjyDRasFqCviFNspfnZTmcoY2iFXtznJxNrk8AwMePNECSIzJbur\nqUMF+qFvlmqApeJoOJzG7hskeFzBlPXmIEXO/0oXUvhqyBQbYDjciUz+WTsHNX4D\nBpE9H5d0yx7ZCn3ctWEzWSdl3JnPsrcsDIbwHfY0E+i/ED0MnCaEnuitnYS3acYo\nkTVbwt2qj/GO78rvjqRf1lTm4eOiLMKDPvaFExnOukUZsA/gJ526KFKv+UeEpXrs\nHtsD6EjuxpFQngxvj70phgMCOgMVfV8Zrj11VFTrgoX4jyTM2i8=\n=U61H\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/deffebf4f70c9e4ce924217301da7076dea98d0d",
+          "sha": "deffebf4f70c9e4ce924217301da7076dea98d0d",
+          "html_url": "https://github.com/bitcoin/bips/commit/deffebf4f70c9e4ce924217301da7076dea98d0d"
+        }
+      ],
+      "message": "fixup! bip-tap: correct `asset_tree_root` usage",
+      "committer": {
+        "name": "Gijs van Dam",
+        "email": "gijs@lightning.engineering",
+        "date": "2024-03-25T12:48:15Z"
+      },
+      "author": {
+        "name": "Gijs van Dam",
+        "email": "gijs@lightning.engineering",
+        "date": "2024-03-25T12:48:15Z"
+      },
+      "sha": "165fab1ce445fa9a629d6e72c90d222a7736ba0a"
     },
     {
       "event": "reviewed",
@@ -2081,7 +2247,8 @@
         "events_url": "https://api.github.com/users/5twelve/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/5twelve/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#pullrequestreview-2149540051",
       "submitted_at": "2024-06-29T10:47:23Z",
@@ -2111,7 +2278,8 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2137,10 +2305,56 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1489#issuecomment-2420152822",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1489"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDY2YjU5MTkyZDU3NDZhMGRkOGFkMjJmZGVlYWNlYzg3N2ZkNjMxMjQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/66b59192d5746a0dd8ad22fdeeacec877fd63124",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/66b59192d5746a0dd8ad22fdeeacec877fd63124",
+      "tree": {
+        "sha": "a90574486f814a8842ae4d0846e98bfed6b4cee9",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/a90574486f814a8842ae4d0846e98bfed6b4cee9"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree a90574486f814a8842ae4d0846e98bfed6b4cee9\nparent 6dd3458ddc84eee552e209718e333e24af72cbeb\nparent 165fab1ce445fa9a629d6e72c90d222a7736ba0a\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1732063640 -0800\ncommitter GitHub <noreply@github.com> 1732063640 -0800\n\nMerge pull request #47 from gijswijs/fix-asset-tree-root-length\n\nbip-tap: correct `asset_tree_root` usage",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJnPTGYCRC1aQ7uu5UhlAAA5PAQAAGTCvc8nMX6biSE/ok/VaK+\nYVgXbRgWXhPX6XNBpCFDy9e/Bz7mqgiin/CqMzdImiFLt9vUqkr7tp0hi09Zyn+D\nSuMUidLaNpQUkRnYvvsS6vP+Kxt+8OUhXhKcBX5zbTb/1ecQPNt03L/XxL9jRiz8\n17IgLtVU2EjPewuoAbRsmkuOBWunOXWzLiWJE0fVDH4CV3Bg+Xbp1cQOi+7o+VwK\ngLIrfni3dEJ6OPiSvu+x9Hl/xufU0BRCEm5RjB+xlegjOkDqLDwDfqo3gw3uPSZI\n07/PsxmOns+0rJtU/L4eSa87qBlF1KWhv3cs5FkRG2pck9Rctw9kUTwgL4NDq2vd\nuRdjKckfLuF9ZB3m+hP8q3O3XzMlshWo9gJ2Zxm6OkowZmYPM4OLtzapxf70karu\n8JEFF/Es454u0DnTLIWOZjiAObwPWiGWo4B2xeQltvtYxVeZMx7WWV9poiVp9Tc8\n+Hb6eZnvYW3rRJ3HKU5ByrgUFQHUoai7wn86RTgNebSMTK9ztz+eSMQCNJdZYr+6\nStROJsqjhhvGMykjsJ8PIZXLCqmaYoC8Yvz3wzTibU8iGaoyvJ24ZbJmPniP7dhJ\nsEMLZ7P/Az7yc109m45bzWgHxoHoEUZINc/EpmAXTvTlmkk1DqkRJMNM+hEY020N\nE7w+4up4yqVQBOGUUtfN\n=5yFy\n-----END PGP SIGNATURE-----\n"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6dd3458ddc84eee552e209718e333e24af72cbeb",
+          "sha": "6dd3458ddc84eee552e209718e333e24af72cbeb",
+          "html_url": "https://github.com/bitcoin/bips/commit/6dd3458ddc84eee552e209718e333e24af72cbeb"
+        },
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/165fab1ce445fa9a629d6e72c90d222a7736ba0a",
+          "sha": "165fab1ce445fa9a629d6e72c90d222a7736ba0a",
+          "html_url": "https://github.com/bitcoin/bips/commit/165fab1ce445fa9a629d6e72c90d222a7736ba0a"
+        }
+      ],
+      "message": "Merge pull request #47 from gijswijs/fix-asset-tree-root-length\n\nbip-tap: correct `asset_tree_root` usage",
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2024-11-20T00:47:20Z"
+      },
+      "author": {
+        "name": "Olaoluwa Osuntokun",
+        "email": "laolu32@gmail.com",
+        "date": "2024-11-20T00:47:20Z"
+      },
+      "sha": "66b59192d5746a0dd8ad22fdeeacec877fd63124"
     }
   ],
   "comments": []
