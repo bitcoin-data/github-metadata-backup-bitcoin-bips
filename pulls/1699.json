@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-11-11T23:07:43Z",
-    "updated_at": "2024-11-23T14:51:00Z",
+    "updated_at": "2024-11-23T15:46:29Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merge_commit_sha": "5e3e946434a591443bc37a5a31b93019b877b97c",
@@ -159,7 +159,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 15662,
+        "size": 15623,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -309,7 +309,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 5,
-    "review_comments": 7,
+    "review_comments": 8,
     "comments": 6
   },
   "events": [
@@ -1563,6 +1563,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1844588314"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+        }
+      },
+      "start_line": null,
+      "original_start_line": 35,
+      "start_side": "RIGHT",
+      "line": null,
+      "original_line": 39,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1855215320",
+      "pull_request_review_id": 2456425669,
+      "id": 1855215320,
+      "node_id": "PRRC_kwDOAN28mc5ulFbY",
+      "diff_hunk": "@@ -0,0 +1,162 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_PAIRCOMMIT\n+  Author: moonsettler <moonsettler@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: <links to wiki page for comments>\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-11-08\n+  License: BSD-3-CLAUSE\n+</pre>\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode `OP_PAIRCOMMIT` which\n+provide limited vector commitment functionality in tapscript.\n+\n+When evaluated, the `OP_PAIRCOMMIT` instruction:\n+* Pops the top two values off the stack,\n+* takes the \"PairCommit\" tagged SHA256 hash of the stack elements,\n+* pushes the resulting commitment on the top of the stack.\n+\n+## Motivation\n+\n+To do LN-Symmetry contracts that don't require the nodes to keep old states,\n+we need to solve the data availability problem presented by unilateral closes.\n+Channel peers must be able to reconstruct the script that spends an\n+intermediate state.\n+\n+Using in sequence `OP_CHECKTEMPLATEVERIFY`, `OP_PAIRCOMMIT`, `OP_INTERNALKEY`\n+and `OP_CHECKSIGFROMSTACK` we can construct a rebindable channel that is also\n+optimal.\n+\n+If `OP_CAT` was available, it could be used to combine multiple stack elements,\n+that get verified with `OP_CHECKSIGFROMSTACK` as a valid state update.\n+\n+`OP_PAIRCOMMIT` solves this specific problem without introducing a wide range\n+of potentially controversial new behaviors, such as novel 2-way peg mechanisms.",
+      "path": "bip-PC.md",
+      "position": null,
+      "original_position": 39,
+      "commit_id": "92ffeb88fbb96ab4b24d3c0634b27922f20f028f",
+      "original_commit_id": "08ffb0303d9aa73e622ee98ed941cae0c63e906a",
+      "in_reply_to_id": 1843986559,
+      "user": {
+        "login": "moonsettler",
+        "id": 90689674,
+        "node_id": "MDQ6VXNlcjkwNjg5Njc0",
+        "avatar_url": "https://avatars.githubusercontent.com/u/90689674?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/moonsettler",
+        "html_url": "https://github.com/moonsettler",
+        "followers_url": "https://api.github.com/users/moonsettler/followers",
+        "following_url": "https://api.github.com/users/moonsettler/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/moonsettler/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/moonsettler/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/moonsettler/subscriptions",
+        "organizations_url": "https://api.github.com/users/moonsettler/orgs",
+        "repos_url": "https://api.github.com/users/moonsettler/repos",
+        "events_url": "https://api.github.com/users/moonsettler/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/moonsettler/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Expanded on the rationale behind `OP_PAIRCOMMIT `on [delvingbitcoin](https://delvingbitcoin.org/t/op-paircommit-as-a-candidate-for-addition-to-lnhance/1216/13?u=moonsettler).",
+      "created_at": "2024-11-23T15:46:29Z",
+      "updated_at": "2024-11-23T15:48:41Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#discussion_r1855215320",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1855215320"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
