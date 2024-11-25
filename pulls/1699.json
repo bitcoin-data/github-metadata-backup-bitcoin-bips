@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-11-11T23:07:43Z",
-    "updated_at": "2024-11-25T17:56:34Z",
+    "updated_at": "2024-11-25T18:20:41Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merge_commit_sha": "5cf0bd4cdce734fef71a06b86122a5b80a44c737",
@@ -276,7 +276,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5382,
+        "forks_count": 5384,
         "stargazers_count": 9440,
         "watchers_count": 9440,
         "size": 15637,
@@ -309,7 +309,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 6,
-    "review_comments": 13,
+    "review_comments": 16,
     "comments": 6
   },
   "events": [
@@ -1994,6 +1994,165 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1857084852"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+        }
+      },
+      "start_line": 26,
+      "original_start_line": 26,
+      "start_side": "RIGHT",
+      "line": 29,
+      "original_line": 29,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1857115341",
+      "pull_request_review_id": 2459278866,
+      "id": 1857115341,
+      "node_id": "PRRC_kwDOAN28mc5usVTN",
+      "diff_hunk": "@@ -0,0 +1,187 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_PAIRCOMMIT\n+  Author: moonsettler <moonsettler@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: <links to wiki page for comments>\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-11-08\n+  License: BSD-3-CLAUSE\n+</pre>\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode `OP_PAIRCOMMIT` which\n+provides limited vector commitment functionality in tapscript.\n+\n+When evaluated, the `OP_PAIRCOMMIT` instruction:\n+* Pops the top two values off the stack,\n+* takes the \"PairCommit\" tagged SHA256 hash of the stack elements,\n+* pushes the resulting commitment on the top of the stack.\n+\n+## Motivation\n+\n+To do LN-Symmetry contracts that don't require the nodes to keep old states,\n+we need to solve the data availability problem presented by unilateral closes.\n+Channel peers must be able to reconstruct the script that spends an\n+intermediate state.",
+      "path": "bip-PC.md",
+      "position": 29,
+      "original_position": 29,
+      "commit_id": "a214597e9f31d93bbe24773ba3b467302a5ddcbc",
+      "original_commit_id": "a214597e9f31d93bbe24773ba3b467302a5ddcbc",
+      "in_reply_to_id": 1857084852,
+      "user": {
+        "login": "moonsettler",
+        "id": 90689674,
+        "node_id": "MDQ6VXNlcjkwNjg5Njc0",
+        "avatar_url": "https://avatars.githubusercontent.com/u/90689674?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/moonsettler",
+        "html_url": "https://github.com/moonsettler",
+        "followers_url": "https://api.github.com/users/moonsettler/followers",
+        "following_url": "https://api.github.com/users/moonsettler/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/moonsettler/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/moonsettler/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/moonsettler/subscriptions",
+        "organizations_url": "https://api.github.com/users/moonsettler/orgs",
+        "repos_url": "https://api.github.com/users/moonsettler/repos",
+        "events_url": "https://api.github.com/users/moonsettler/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/moonsettler/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "The data that needs to be available for state n is:\r\n```text\r\nstate-n-recovery-data { settlement-n-hash or state-n-balance }\r\n```\r\nThis is needed to reconstruct the whole script for the nth state address that the funds move to by the channel peer that only holds the latest state, so he can spend to the latest state.\r\n\r\nedit:\r\nInstead of an IF statement we could use different tap leaves (less optimal actually) and then merkle inclusion proof with sibling hashes would have to be known.",
+      "created_at": "2024-11-25T18:04:39Z",
+      "updated_at": "2024-11-25T18:08:08Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#discussion_r1857115341",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1857115341"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+        }
+      },
+      "start_line": 26,
+      "original_start_line": 26,
+      "start_side": "RIGHT",
+      "line": 29,
+      "original_line": 29,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1857141410",
+      "pull_request_review_id": 2459312887,
+      "id": 1857141410,
+      "node_id": "PRRC_kwDOAN28mc5usbqi",
+      "diff_hunk": "@@ -0,0 +1,187 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_PAIRCOMMIT\n+  Author: moonsettler <moonsettler@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: <links to wiki page for comments>\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-11-08\n+  License: BSD-3-CLAUSE\n+</pre>\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode `OP_PAIRCOMMIT` which\n+provides limited vector commitment functionality in tapscript.\n+\n+When evaluated, the `OP_PAIRCOMMIT` instruction:\n+* Pops the top two values off the stack,\n+* takes the \"PairCommit\" tagged SHA256 hash of the stack elements,\n+* pushes the resulting commitment on the top of the stack.\n+\n+## Motivation\n+\n+To do LN-Symmetry contracts that don't require the nodes to keep old states,\n+we need to solve the data availability problem presented by unilateral closes.\n+Channel peers must be able to reconstruct the script that spends an\n+intermediate state.",
+      "path": "bip-PC.md",
+      "position": 29,
+      "original_position": 29,
+      "commit_id": "a214597e9f31d93bbe24773ba3b467302a5ddcbc",
+      "original_commit_id": "a214597e9f31d93bbe24773ba3b467302a5ddcbc",
+      "in_reply_to_id": 1857084852,
+      "user": {
+        "login": "moonsettler",
+        "id": 90689674,
+        "node_id": "MDQ6VXNlcjkwNjg5Njc0",
+        "avatar_url": "https://avatars.githubusercontent.com/u/90689674?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/moonsettler",
+        "html_url": "https://github.com/moonsettler",
+        "followers_url": "https://api.github.com/users/moonsettler/followers",
+        "following_url": "https://api.github.com/users/moonsettler/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/moonsettler/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/moonsettler/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/moonsettler/subscriptions",
+        "organizations_url": "https://api.github.com/users/moonsettler/orgs",
+        "repos_url": "https://api.github.com/users/moonsettler/repos",
+        "events_url": "https://api.github.com/users/moonsettler/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/moonsettler/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "> Is this mechanism useful for things outside of LN-Symmetry?\r\n\r\nIt was obviously our primary motivation, but I would not be surprised if other applications that use CSFS find a similar use for it.",
+      "created_at": "2024-11-25T18:16:12Z",
+      "updated_at": "2024-11-25T18:16:12Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#discussion_r1857141410",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1857141410"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+        }
+      },
+      "start_line": 26,
+      "original_start_line": 26,
+      "start_side": "RIGHT",
+      "line": 29,
+      "original_line": 29,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1857149424",
+      "pull_request_review_id": 2459321389,
+      "id": 1857149424,
+      "node_id": "PRRC_kwDOAN28mc5usdnw",
+      "diff_hunk": "@@ -0,0 +1,187 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_PAIRCOMMIT\n+  Author: moonsettler <moonsettler@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: <links to wiki page for comments>\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-11-08\n+  License: BSD-3-CLAUSE\n+</pre>\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode `OP_PAIRCOMMIT` which\n+provides limited vector commitment functionality in tapscript.\n+\n+When evaluated, the `OP_PAIRCOMMIT` instruction:\n+* Pops the top two values off the stack,\n+* takes the \"PairCommit\" tagged SHA256 hash of the stack elements,\n+* pushes the resulting commitment on the top of the stack.\n+\n+## Motivation\n+\n+To do LN-Symmetry contracts that don't require the nodes to keep old states,\n+we need to solve the data availability problem presented by unilateral closes.\n+Channel peers must be able to reconstruct the script that spends an\n+intermediate state.",
+      "path": "bip-PC.md",
+      "position": 29,
+      "original_position": 29,
+      "commit_id": "a214597e9f31d93bbe24773ba3b467302a5ddcbc",
+      "original_commit_id": "a214597e9f31d93bbe24773ba3b467302a5ddcbc",
+      "in_reply_to_id": 1857084852,
+      "user": {
+        "login": "moonsettler",
+        "id": 90689674,
+        "node_id": "MDQ6VXNlcjkwNjg5Njc0",
+        "avatar_url": "https://avatars.githubusercontent.com/u/90689674?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/moonsettler",
+        "html_url": "https://github.com/moonsettler",
+        "followers_url": "https://api.github.com/users/moonsettler/followers",
+        "following_url": "https://api.github.com/users/moonsettler/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/moonsettler/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/moonsettler/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/moonsettler/subscriptions",
+        "organizations_url": "https://api.github.com/users/moonsettler/orgs",
+        "repos_url": "https://api.github.com/users/moonsettler/repos",
+        "events_url": "https://api.github.com/users/moonsettler/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/moonsettler/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "One way to think about the 3 opcodes (CSFS, IKEY, PC) is we decompose a CSFS variant that can use 1 byte pubkey (internal key) and can commit to a vector of stack elements as message. They thus become more generally useful, but to a limited degree without additional opcodes.\r\n\r\nDetailed introspection opcodes would also need vector commitments with CSFS, and as mentioned it would also be useful for CCV.",
+      "created_at": "2024-11-25T18:20:41Z",
+      "updated_at": "2024-11-25T18:20:41Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#discussion_r1857149424",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1857149424"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
