@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-11-11T23:07:43Z",
-    "updated_at": "2024-11-27T01:00:27Z",
+    "updated_at": "2024-11-27T05:40:46Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merge_commit_sha": "b933d24f853e6d744f48fd3e2fe0e2d6cdbe3066",
@@ -310,7 +310,7 @@
     "changed_files": 2,
     "commits": 12,
     "review_comments": 22,
-    "comments": 7
+    "comments": 8
   },
   "events": [
     {
@@ -1917,6 +1917,62 @@
         "date": "2024-11-27T01:00:16Z"
       },
       "sha": "e9540a252664094114acb2394b186f7658816a09"
+    },
+    {
+      "event": "commented",
+      "id": 2502899368,
+      "node_id": "IC_kwDOAN28mc6VLzao",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2502899368",
+      "actor": {
+        "login": "Ademan",
+        "id": 18740,
+        "node_id": "MDQ6VXNlcjE4NzQw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/18740?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Ademan",
+        "html_url": "https://github.com/Ademan",
+        "followers_url": "https://api.github.com/users/Ademan/followers",
+        "following_url": "https://api.github.com/users/Ademan/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Ademan/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Ademan/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Ademan/subscriptions",
+        "organizations_url": "https://api.github.com/users/Ademan/orgs",
+        "repos_url": "https://api.github.com/users/Ademan/repos",
+        "events_url": "https://api.github.com/users/Ademan/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Ademan/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-11-27T05:40:45Z",
+      "updated_at": "2024-11-27T05:40:45Z",
+      "author_association": "NONE",
+      "body": "I think I've changed my mind a bit. We were talking about computing a merkle tree for `f(u32,u32)` as if it was trivial but after a quick experiment it seems like that would take hundreds of years to compute (am I being dumb here?) Instead, you can compute `mul(u32,u32) -> u32` using 3 `mul(u16,u16)`s which *is* feasible to compute. The witness size is worse, ~`32 * 32 * 3 = 3072` instead of `32 * 64 * 1 = 2048`, but computing the tree for `mul(u16,u16)` is feasible using a naive algorithm on commodity hardware.\r\n\r\nThe implication of this is that where a function can be decomposed into operations on smaller inputs, PAIRCOMMIT is massively more feasible to use than encoding things into a tap tree.",
+      "user": {
+        "login": "Ademan",
+        "id": 18740,
+        "node_id": "MDQ6VXNlcjE4NzQw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/18740?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Ademan",
+        "html_url": "https://github.com/Ademan",
+        "followers_url": "https://api.github.com/users/Ademan/followers",
+        "following_url": "https://api.github.com/users/Ademan/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Ademan/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Ademan/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Ademan/subscriptions",
+        "organizations_url": "https://api.github.com/users/Ademan/orgs",
+        "repos_url": "https://api.github.com/users/Ademan/repos",
+        "events_url": "https://api.github.com/users/Ademan/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Ademan/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#issuecomment-2502899368",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1699"
     }
   ],
   "comments": [
