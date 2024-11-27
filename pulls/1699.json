@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-11-11T23:07:43Z",
-    "updated_at": "2024-11-27T15:30:55Z",
+    "updated_at": "2024-11-27T17:21:44Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merge_commit_sha": "b933d24f853e6d744f48fd3e2fe0e2d6cdbe3066",
@@ -156,10 +156,11 @@
         "hooks_url": "https://api.github.com/repos/lnhance/bips/hooks",
         "svn_url": "https://github.com/lnhance/bips",
         "homepage": "",
+        "language": "Wikitext",
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 15637,
+        "size": 15671,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -172,9 +173,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-11-27T01:00:25Z",
+        "pushed_at": "2024-11-27T16:35:40Z",
         "created_at": "2024-11-11T22:21:49Z",
-        "updated_at": "2024-11-11T22:21:49Z",
+        "updated_at": "2024-11-27T16:35:54Z",
         "allow_forking": true
       }
     },
@@ -310,7 +311,7 @@
     "changed_files": 2,
     "commits": 12,
     "review_comments": 22,
-    "comments": 12
+    "comments": 13
   },
   "events": [
     {
@@ -2316,6 +2317,62 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1699#issuecomment-2504114015",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1699"
+    },
+    {
+      "event": "commented",
+      "id": 2504410833,
+      "node_id": "IC_kwDOAN28mc6VRkbR",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2504410833",
+      "actor": {
+        "login": "Ademan",
+        "id": 18740,
+        "node_id": "MDQ6VXNlcjE4NzQw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/18740?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Ademan",
+        "html_url": "https://github.com/Ademan",
+        "followers_url": "https://api.github.com/users/Ademan/followers",
+        "following_url": "https://api.github.com/users/Ademan/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Ademan/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Ademan/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Ademan/subscriptions",
+        "organizations_url": "https://api.github.com/users/Ademan/orgs",
+        "repos_url": "https://api.github.com/users/Ademan/repos",
+        "events_url": "https://api.github.com/users/Ademan/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Ademan/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-11-27T17:20:40Z",
+      "updated_at": "2024-11-27T17:21:44Z",
+      "author_association": "NONE",
+      "body": "> ...\r\n> **edit:** Within the 32 bit realm we can already use OP_ADD, I see little practical diff between `<0x1234> <0x5678> CAT` and `<0x12340000> <0x5678> ADD`. And it sounds like 64 bit smolCAT would be way too expensive to generate (and also to interact with trustlessly).\r\n> \r\n> (actually the above examples are wrong, because internally bitcoin script uses little endian, but should convey the point)\r\n\r\nYeah for arbitrary 8 byte strings smolCAT seems infeasible to compute the table or merkle tree for. After a bit of conversation on IRC it could probably be feasible for arbitrary `f(b[4],b[4]) -> b[8]` with a custom ASIC¹ or maybe a cluster of FPGAs in a span of ~a few years but that would not be very useful for the average person.\r\n\r\nBit shifts over 32 bit integers seems pretty feasible though, that's `f(u32,u6)->u32` (maybe save some space by special casing shift = 0). it seems like my incredibly naive, unoptimized, single-core experiment could calculate that merkle tree in ~96 hours. Of course the proof is ~1.2k and users would likely need multiple, but the lookup table for that wouldn't fit in a block anyway so maybe something new is possible?\r\n\r\nYou can also separate positive and negative shifts, and maybe break it down into multiple rounds of shifts 1-3 or something (or 1k for a proof for a constant shift)\r\n\r\n[1]: afaik existing ASICs operate on block headers so couldn't help",
+      "user": {
+        "login": "Ademan",
+        "id": 18740,
+        "node_id": "MDQ6VXNlcjE4NzQw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/18740?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Ademan",
+        "html_url": "https://github.com/Ademan",
+        "followers_url": "https://api.github.com/users/Ademan/followers",
+        "following_url": "https://api.github.com/users/Ademan/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Ademan/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Ademan/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Ademan/subscriptions",
+        "organizations_url": "https://api.github.com/users/Ademan/orgs",
+        "repos_url": "https://api.github.com/users/Ademan/repos",
+        "events_url": "https://api.github.com/users/Ademan/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Ademan/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#issuecomment-2504410833",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1699"
     }
   ],
