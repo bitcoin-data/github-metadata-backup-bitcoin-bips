@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-11-11T23:07:43Z",
-    "updated_at": "2024-11-27T05:40:46Z",
+    "updated_at": "2024-11-27T09:39:07Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merge_commit_sha": "b933d24f853e6d744f48fd3e2fe0e2d6cdbe3066",
@@ -277,8 +277,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5384,
-        "stargazers_count": 9446,
-        "watchers_count": 9446,
+        "stargazers_count": 9447,
+        "watchers_count": 9447,
         "size": 15664,
         "default_branch": "master",
         "open_issues_count": 39,
@@ -294,7 +294,7 @@
         "visibility": "public",
         "pushed_at": "2024-11-25T22:18:04Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-11-26T22:16:21Z",
+        "updated_at": "2024-11-27T08:34:35Z",
         "allow_forking": true
       }
     },
@@ -310,7 +310,7 @@
     "changed_files": 2,
     "commits": 12,
     "review_comments": 22,
-    "comments": 8
+    "comments": 9
   },
   "events": [
     {
@@ -1972,6 +1972,62 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1699#issuecomment-2502899368",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1699"
+    },
+    {
+      "event": "commented",
+      "id": 2503388967,
+      "node_id": "IC_kwDOAN28mc6VNq8n",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2503388967",
+      "actor": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-11-27T09:39:06Z",
+      "updated_at": "2024-11-27T09:39:06Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> I think I've changed my mind a bit. We were talking about computing a merkle tree for `f(u32,u32)` as if it was trivial but after a quick experiment it seems like that would take hundreds of years to compute (am I being dumb here?) Instead, you can compute `mul(u32,u32) -> u32` using 3 `mul(u16,u16)`s which _is_ feasible to compute. The witness size is worse, ~`32 * 32 * 3 = 3072` instead of `32 * 64 * 1 = 2048`, but computing the tree for `mul(u16,u16)` is feasible using a naive algorithm on commodity hardware.\r\n\r\nArithmetic and bitwise operations where inputs & outputs are small enough, can already be done in Script in cheaper ways. Merkle trees as lookup tables are only interesting for functions that are either extremely complex, or where preimages/images are larger than what Script can work with.\r\nNote that you can already do small indexed lookup tables more efficiently by just hard-coding them in Script (that is: push the table on the stack and use OP_PICK to read its entries), and these techniques are widely used (e.g. in BitVM).\r\n\r\n> The implication of this is that where a function can be decomposed into operations on smaller inputs, PAIRCOMMIT is massively more feasible to use than encoding things into a tap tree.\r\n\r\nI think the only substantial difference is that in a Script where you need several lookups, you can do it with Merkle trees, while you can only do a single lookup with a precomputed taptree.",
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#issuecomment-2503388967",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1699"
     }
   ],
