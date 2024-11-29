@@ -42,7 +42,7 @@
     "body": "While reviewing https://github.com/bitcoin/bitcoin/pull/31247 a while ago I noticed that the mentioned public keys in the PSBT fields of this BIP are quite confusing. This is mostly due to a non-consistent mention of types (plain vs. x-only) and a purpose that is sometimes missing. This PR aims to improve this in the following ways:\r\n- be specific about the purpose of pubkey types in PSBT fields (\"plain pubkey\" alone doesn't say a lot, especially if it's used repeatedly within a field; explicitly call it \"aggregate pubkey\" or \"participant pubkey\" if applicable)\r\n- replace all uses of \"compressed pubkey\" by \"plain pubkey\" (the only category that should matter is whether the pubkey type is \"x-only\" or \"plain\"; in the latter case, it's obvious from the size of 33 bytes that the key is compressed)\r\n- use consistent word order, e.g. prefer \"plain aggregate public key\" over \"aggregate plain public key\"\r\n\r\nAnother possibility would be to even get rid of the \"plain\" terminology completely. From the fact that \"x-only\" is not explicitly mentioned and the size of 33 bytes it should be obvious that this is a plain public key.",
     "labels": [],
     "created_at": "2024-11-29T00:43:33Z",
-    "updated_at": "2024-11-29T11:55:39Z",
+    "updated_at": "2024-11-29T12:45:53Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "702487a906c1a39a1b4670d0e356d7ca82f1fdc5",
@@ -302,7 +302,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 3,
-    "comments": 2
+    "comments": 3
   },
   "events": [
     {
@@ -593,6 +593,62 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1705#issuecomment-2507656492",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1705"
+    },
+    {
+      "event": "commented",
+      "id": 2507749614,
+      "node_id": "IC_kwDOAN28mc6VeTju",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2507749614",
+      "actor": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-11-29T12:45:42Z",
+      "updated_at": "2024-11-29T12:45:53Z",
+      "author_association": "MEMBER",
+      "body": "> My impression was that \"compressed\" is significantly less used now than it was in the past (when there was only 65 vs. 33 bytes), especially since x-only pubkeys could then be seen as \"even more compressed\" 😅\r\n\r\nThat's true, but there's no other word for x-inclusive key.",
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1705#issuecomment-2507749614",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1705"
     }
   ],
