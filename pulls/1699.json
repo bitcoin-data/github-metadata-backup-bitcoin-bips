@@ -51,10 +51,10 @@
       }
     ],
     "created_at": "2024-11-11T23:07:43Z",
-    "updated_at": "2024-12-07T17:52:18Z",
+    "updated_at": "2024-12-09T19:08:41Z",
     "mergeable": true,
     "mergeable_state": "unstable",
-    "merge_commit_sha": "528e15b37d8b804c78c7e1288bf469361126c117",
+    "merge_commit_sha": "3342c2bcd748472de410a1403ca3f832328bdedd",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -203,7 +203,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 15647,
+        "size": 15642,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -320,12 +320,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5408,
-        "stargazers_count": 9486,
-        "watchers_count": 9486,
-        "size": 15681,
+        "forks_count": 5411,
+        "stargazers_count": 9493,
+        "watchers_count": 9493,
+        "size": 15677,
         "default_branch": "master",
-        "open_issues_count": 40,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -336,9 +336,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-12-06T18:36:10Z",
+        "pushed_at": "2024-12-09T03:19:36Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-07T17:21:00Z",
+        "updated_at": "2024-12-09T19:59:08Z",
         "allow_forking": true
       }
     },
@@ -353,7 +353,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 7,
-    "review_comments": 45,
+    "review_comments": 46,
     "comments": 20
   },
   "events": [
@@ -5266,6 +5266,59 @@
       "start_side": null,
       "line": null,
       "original_line": 192,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1876532409",
+      "pull_request_review_id": 2489731475,
+      "id": 1876532409,
+      "node_id": "PRRC_kwDOAN28mc5v2Zy5",
+      "diff_hunk": "@@ -0,0 +1,187 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_PAIRCOMMIT\n+  Author: moonsettler <moonsettler@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: <links to wiki page for comments>\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-11-08\n+  License: BSD-3-CLAUSE\n+</pre>\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode `OP_PAIRCOMMIT` which\n+provide limited vector commitment functionality in tapscript.\n+\n+When evaluated, the `OP_PAIRCOMMIT` instruction:\n+* Pops the top two values off the stack,\n+* takes the \"PairCommit\" tagged SHA256 hash of the stack elements,\n+* pushes the resulting commitment on the top of the stack.\n+\n+## Motivation\n+\n+To do LN-Symmetry contracts that don't require the nodes to keep old states,\n+we need to solve the data availability problem presented by unilateral closes.\n+Channel peers must be able to reconstruct the script that spends an\n+intermediate state.\n+\n+Using in sequence `OP_CHECKTEMPLATEVERIFY`, `OP_PAIRCOMMIT`, `OP_INTERNALKEY`\n+and `OP_CHECKSIGFROMSTACK` we can construct a rebindable channel that is also\n+optimal.",
+      "path": "bip-PC.md",
+      "position": null,
+      "original_position": 33,
+      "commit_id": "bad6dba4b2c9dda463b2a79e4770ac766e999b37",
+      "original_commit_id": "92ffeb88fbb96ab4b24d3c0634b27922f20f028f",
+      "in_reply_to_id": 1856874690,
+      "user": {
+        "login": "JeremyRubin",
+        "id": 886523,
+        "node_id": "MDQ6VXNlcjg4NjUyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/886523?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/JeremyRubin",
+        "html_url": "https://github.com/JeremyRubin",
+        "followers_url": "https://api.github.com/users/JeremyRubin/followers",
+        "following_url": "https://api.github.com/users/JeremyRubin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/JeremyRubin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/JeremyRubin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/JeremyRubin/subscriptions",
+        "organizations_url": "https://api.github.com/users/JeremyRubin/orgs",
+        "repos_url": "https://api.github.com/users/JeremyRubin/repos",
+        "events_url": "https://api.github.com/users/JeremyRubin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/JeremyRubin/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "PairCommit is generically useful as a concept, and I think that having things like this spec'd, implemented, and deployable is a positive good towards improving bitcoin.\r\n\r\nFurther, new things that synergize with exisiting older concepts having to go together into the same PR would create a disincentive for people to share and work on new ideas, since it would make them \"less mature\" as a package. For example, when I published the CTV V2 Hashing Spec WIP BIP, it would have made ZERO sense for that to go into the CTV BIP (or CTV PR, were it not merged), since it's a standalone concept. A concept that now, thanks to me writing it up, can be discussed against PairCommit as an alternative.\r\n\r\nwholeheartedly support this being a standalone BIP and PR.",
+      "created_at": "2024-12-09T19:08:41Z",
+      "updated_at": "2024-12-09T19:08:41Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#discussion_r1876532409",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1876532409"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+        }
+      },
+      "start_line": null,
+      "original_start_line": 31,
+      "start_side": "RIGHT",
+      "line": null,
+      "original_line": 33,
       "side": "RIGHT"
     }
   ]
