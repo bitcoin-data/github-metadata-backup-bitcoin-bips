@@ -60,10 +60,10 @@
       }
     ],
     "created_at": "2024-11-30T16:27:21Z",
-    "updated_at": "2024-12-06T18:33:54Z",
+    "updated_at": "2024-12-09T13:46:54Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "a3c8e5a11ffe87143e388028fca3cbda6913b525",
+    "merge_commit_sha": "ad8c03b40bb8ac1ef270e6f625bac83a7ff65b76",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -285,12 +285,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5406,
-        "stargazers_count": 9483,
-        "watchers_count": 9483,
-        "size": 15668,
+        "forks_count": 5411,
+        "stargazers_count": 9490,
+        "watchers_count": 9490,
+        "size": 15677,
         "default_branch": "master",
-        "open_issues_count": 40,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -301,9 +301,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-12-06T18:36:10Z",
+        "pushed_at": "2024-12-09T03:19:36Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-06T18:36:15Z",
+        "updated_at": "2024-12-09T12:29:41Z",
         "allow_forking": true
       }
     },
@@ -318,7 +318,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 2
   },
   "events": [
@@ -755,7 +755,98 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-12-06T18:33:55Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 2488844836,
+      "node_id": "PRR_kwDOAN28mc6UWMIk",
+      "url": null,
+      "actor": null,
+      "commit_id": "b999ac2d53b8f5467dfd717dd846f2bc441adbbe",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "> The function now checks if the previous output is a P2A address type and extracts the public key from the anchor_script.\r\n\r\nNote that the P2A output type intentionally doesn't involve keys, so there is nothing we could extract. I think there is no gain in handling this case explicitly, as we'd end up in the \"nothing matched\" (`return ECPubKey()`) case anyway, so it would be a no-op.",
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1707#pullrequestreview-2488844836",
+      "submitted_at": "2024-12-09T13:46:54Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1707"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1876005579",
+      "pull_request_review_id": 2488844836,
+      "id": 1876005579,
+      "node_id": "PRRC_kwDOAN28mc5v0ZLL",
+      "diff_hunk": "@@ -78,6 +78,11 @@ def get_pubkey_from_input(vin: VinInfo) -> ECPubKey:\n             pubkey = ECPubKey().set(vin.prevout[2:])\n             if (pubkey.valid) & (pubkey.compressed):\n                 return pubkey\n+    if is_p2a(vin.prevout): \n+        anchor_script = vin.scriptSig[1:] ",
+      "path": "bip-0352/reference.py",
+      "position": 5,
+      "original_position": 5,
+      "commit_id": "b999ac2d53b8f5467dfd717dd846f2bc441adbbe",
+      "original_commit_id": "b999ac2d53b8f5467dfd717dd846f2bc441adbbe",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "scriptSig for segwit spends is always empty by consensus rules, so this line doesn't make sense (see also https://bitcoin.stackexchange.com/questions/124615/is-the-scriptsig-spending-an-paytoanchor-output-expected-to-always-be-empty).",
+      "created_at": "2024-12-09T13:45:00Z",
+      "updated_at": "2024-12-09T13:46:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1707#discussion_r1876005579",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1876005579"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1707"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 82,
+      "original_line": 82,
+      "side": "RIGHT"
+    }
+  ]
 }
