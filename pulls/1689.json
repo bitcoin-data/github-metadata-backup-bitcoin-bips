@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2024-10-24T01:47:02Z",
-    "updated_at": "2024-12-09T21:26:13Z",
+    "updated_at": "2024-12-10T04:09:11Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "ba9aaad7477d4d83d2ef6764a9595aaad1b3e2f0",
@@ -190,7 +190,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 15678,
+        "size": 15679,
         "default_branch": "bip-schnorr",
         "open_issues_count": 0,
         "is_template": false,
@@ -308,8 +308,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5411,
-        "stargazers_count": 9493,
-        "watchers_count": 9493,
+        "stargazers_count": 9496,
+        "watchers_count": 9496,
         "size": 15677,
         "default_branch": "master",
         "open_issues_count": 39,
@@ -325,7 +325,7 @@
         "visibility": "public",
         "pushed_at": "2024-12-09T03:19:36Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-09T19:59:08Z",
+        "updated_at": "2024-12-10T04:49:08Z",
         "allow_forking": true
       }
     },
@@ -340,7 +340,7 @@
     "deletions": 0,
     "changed_files": 3,
     "commits": 5,
-    "review_comments": 20,
+    "review_comments": 21,
     "comments": 3
   },
   "events": [
@@ -2496,6 +2496,59 @@
       "start_side": null,
       "line": 95,
       "original_line": 82,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1877267181",
+      "pull_request_review_id": 2490908287,
+      "id": 1877267181,
+      "node_id": "PRRC_kwDOAN28mc5v5NLt",
+      "diff_hunk": "@@ -0,0 +1,92 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Discrete Log Equality Proofs\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Ruben Somsen <rsomsen@gmail.com>\n+  Comments-URI: TBD\n+  Status: Draft\n+  Type: Standards Track\n+  License: BSD-2-Clause\n+  Created: 2024-06-29\n+  Post-History: TBD\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes a standard for 64-byte zero-knowledge ''discrete logarithm equality proofs'' (DLEQ proofs) over an elliptic curve. For given elliptic curve points ''A'', ''B'', ''C'', and ''G'', the prover proves knowledge of a scalar ''a'' such that ''A = a⋅G'' and ''C = a⋅B'' without revealing anything about ''a''. This can, for instance, be useful in ECDH: if ''A'' and ''B'' are ECDH public keys, and ''C'' is their ECDH shared secret computed as ''C = a⋅B'', the proof establishes that the same secret key ''a'' is used for generating both ''A'' and ''C'' without revealing ''a''.\n+\n+=== Copyright ===\n+\n+This document is licensed under the 2-clause BSD license.\n+\n+=== Motivation ===\n+\n+[https://github.com/bitcoin/bips/blob/master/bip-0352.mediawiki#specification BIP352] requires senders to compute output scripts using ECDH shared secrets from the same secret keys used to sign the inputs. Generating an incorrect signature will produce an invalid transaction that will be rejected by consensus. An incorrectly generated output script can still be consensus-valid, meaning funds may be lost if it gets broadcast.\n+By producing a DLEQ proof for the generated ECDH shared secrets, the signing entity can prove to other entities that the output scripts have been generated correctly without revealing the private keys.\n+\n+== Specification ==\n+\n+All conventions and notations are used as defined in [https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki#user-content-Notation BIP327].\n+\n+=== DLEQ Proof Generation ===\n+\n+Input:\n+* The secret key ''a'': a 256-bit unsigned integer\n+* The public key ''B'': a point on the curve\n+* The generator point ''G'': a point on the curve\n+* Auxiliary random data ''r'': a 32-byte array\n+\n+The algorithm ''GenerateProof(a, B, r)'' is defined as:\n+* Fail if ''a = 0'' or ''a &ge; n''.\n+* Fail if ''is_infinite(B)''.\n+* Let ''A = a⋅G''.\n+* Let ''C = a⋅B''.\n+* Let ''t'' be the byte-wise xor of ''bytes(32, a)'' and ''hash<sub>BIP0???/aux</sub>(r)''.\n+* Let ''rand = hash<sub>BIP0???/nonce</sub>(t || cbytes(A) || cbytes(C))''.\n+* Let ''k = int(rand) mod n''.\n+* Fail if ''k = 0''.\n+* Let ''R<sub>1</sub> = k⋅G''.\n+* Let ''R<sub>2</sub> = k⋅B''.\n+* Let ''e = int(hash<sub>BIP0???/challenge</sub>(cbytes(A) || cbytes(B) || cbytes(C) || cbytes(G) || cbytes(R<sub>1</sub>) || cbytes(R<sub>2</sub>)))''.",
+      "path": "bip-DLEQ.mediawiki",
+      "position": null,
+      "original_position": 53,
+      "commit_id": "b5d47dfef9078811074b16760fd681d390e09ee8",
+      "original_commit_id": "4f5d87adc8bed41db534e2a3ec31096eb24a0851",
+      "in_reply_to_id": 1847024185,
+      "user": {
+        "login": "andrewtoth",
+        "id": 237213,
+        "node_id": "MDQ6VXNlcjIzNzIxMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/237213?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/andrewtoth",
+        "html_url": "https://github.com/andrewtoth",
+        "followers_url": "https://api.github.com/users/andrewtoth/followers",
+        "following_url": "https://api.github.com/users/andrewtoth/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/andrewtoth/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/andrewtoth/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/andrewtoth/subscriptions",
+        "organizations_url": "https://api.github.com/users/andrewtoth/orgs",
+        "repos_url": "https://api.github.com/users/andrewtoth/repos",
+        "events_url": "https://api.github.com/users/andrewtoth/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/andrewtoth/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Are we sure we can remove this? I added it to reference.py in case.",
+      "created_at": "2024-12-10T04:09:11Z",
+      "updated_at": "2024-12-10T04:09:11Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1689#discussion_r1877267181",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1877267181"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1689"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 53,
       "side": "RIGHT"
     }
   ]
