@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-11-29T00:43:33Z",
-    "updated_at": "2024-12-09T08:44:43Z",
+    "updated_at": "2024-12-11T03:14:03Z",
     "closed_at": "2024-12-09T03:19:36Z",
     "mergeable_state": "unknown",
     "merged_at": "2024-12-09T03:19:36Z",
@@ -224,7 +224,7 @@
         "forks_count": 0,
         "stargazers_count": 2,
         "watchers_count": 2,
-        "size": 15647,
+        "size": 15603,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -342,11 +342,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5411,
-        "stargazers_count": 9489,
-        "watchers_count": 9489,
+        "stargazers_count": 9499,
+        "watchers_count": 9499,
         "size": 15677,
         "default_branch": "master",
-        "open_issues_count": 39,
+        "open_issues_count": 41,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -357,9 +357,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-12-09T03:19:36Z",
+        "pushed_at": "2024-12-11T03:04:22Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-09T03:19:47Z",
+        "updated_at": "2024-12-11T03:04:27Z",
         "allow_forking": true
       }
     },
@@ -374,7 +374,7 @@
     "deletions": 13,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 8,
+    "review_comments": 9,
     "comments": 5
   },
   "events": [
@@ -992,8 +992,8 @@
         "site_admin": false,
         "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "50e820836dde563291458f4fd09ee1381ae76b76",
+      "commit_url": "https://api.github.com/repos/theStack/bips/commits/50e820836dde563291458f4fd09ee1381ae76b76",
       "created_at": "2024-12-05T23:47:22Z"
     },
     {
@@ -1755,6 +1755,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1874516388"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1705"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 58,
+      "original_line": 58,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1879264639",
+      "pull_request_review_id": 2494199545,
+      "id": 1879264639,
+      "node_id": "PRRC_kwDOAN28mc5wA01_",
+      "diff_hunk": "@@ -45,17 +45,18 @@ The new per-input types are defined as follows:\n |-\n | rowspan=\"2\"|MuSig2 Participant Public Keys\n | rowspan=\"2\"|<tt>PSBT_IN_MUSIG2_PARTICIPANT_PUBKEYS = 0x1a</tt>\n-| <tt><33 byte plain aggregate pubkey></tt>\n-| <tt><33 byte compressed pubkey>*</tt>\n+| <tt><33 byte aggregate pubkey (compressed)></tt>\n+| <tt><33 byte participant pubkey (compressed)>*</tt>\n | rowspan=\"2\"|\n | rowspan=\"2\"|\n | rowspan=\"2\"| 0, 2\n |-\n-| The MuSig2 aggregate plain public key<ref>'''Why the plain aggregate public key instead of x-only?'''\n+| The MuSig2 aggregate public key (compressed) <ref>'''Why the compressed aggregate public key instead of x-only?'''\n BIP 32 requires public keys to include their evenness byte. Aggregate public keys are expected to be\n derived from, following [[bip-0328.mediawiki|BIP 328]], and therefore will\n need to include the evenness. Furthermore, PSBT_IN_TAP_BIP32_DERIVATION fields include fingerprints\n-to identify master keys, and these fingerprints require full compressed public keys. By including\n+to identify master keys, and these fingerprints require y-coordinate of the public key,",
+      "path": "bip-0373.mediawiki",
+      "position": 18,
+      "original_position": 18,
+      "commit_id": "50e820836dde563291458f4fd09ee1381ae76b76",
+      "original_commit_id": "50e820836dde563291458f4fd09ee1381ae76b76",
+      "in_reply_to_id": 1874516388,
+      "user": {
+        "login": "kdmukai",
+        "id": 934746,
+        "node_id": "MDQ6VXNlcjkzNDc0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/934746?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/kdmukai",
+        "html_url": "https://github.com/kdmukai",
+        "followers_url": "https://api.github.com/users/kdmukai/followers",
+        "following_url": "https://api.github.com/users/kdmukai/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/kdmukai/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/kdmukai/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/kdmukai/subscriptions",
+        "organizations_url": "https://api.github.com/users/kdmukai/orgs",
+        "repos_url": "https://api.github.com/users/kdmukai/repos",
+        "events_url": "https://api.github.com/users/kdmukai/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/kdmukai/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "The previous sentence is confusing as well:\r\n\r\n\"Aggregate public keys are expected to be derived from, following BIP 328, and therefore [...]\"\r\n\r\nTo a layman (me!) it reads like there's a word missing (\"derived from... what?\"). But I see now that it's referring to them as the starting point (\"from\" the aggregate public key to a BIP32 public key). Perhaps clearer to say:\r\n\r\n\"BIP 32 public keys are expected to be derived from aggregate public keys (per BIP 328) and therefore...\"",
+      "created_at": "2024-12-11T03:14:03Z",
+      "updated_at": "2024-12-11T03:14:03Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1705#discussion_r1879264639",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1879264639"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1705"
