@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-09-27T16:08:30Z",
-    "updated_at": "2024-12-12T00:50:37Z",
+    "updated_at": "2024-12-12T17:18:10Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "573ceafceb4e9e9b8461528a71f5edbf096d40e7",
@@ -320,9 +320,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5414,
-        "stargazers_count": 9501,
-        "watchers_count": 9501,
+        "forks_count": 5415,
+        "stargazers_count": 9503,
+        "watchers_count": 9503,
         "size": 15687,
         "default_branch": "master",
         "open_issues_count": 41,
@@ -338,7 +338,7 @@
         "visibility": "public",
         "pushed_at": "2024-12-11T03:04:22Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-11T19:13:56Z",
+        "updated_at": "2024-12-12T15:39:45Z",
         "allow_forking": true
       }
     },
@@ -353,7 +353,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 22,
-    "review_comments": 50,
+    "review_comments": 52,
     "comments": 7
   },
   "events": [
@@ -5840,6 +5840,112 @@
       "start_side": null,
       "line": 447,
       "original_line": 447,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1882547707",
+      "pull_request_review_id": 2500275746,
+      "id": 1882547707,
+      "node_id": "PRRC_kwDOAN28mc5wNWX7",
+      "diff_hunk": "@@ -0,0 +1,587 @@\n+<pre>\n+  BIP: ?\n+  Title: QuBit: SegWit version 3 spending rules (P2QRH)\n+  Layer: <Consensus (soft fork)\n+  Author: Hunter Beast <hunter@surmount.systems>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-TBD\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-06-08\n+  License: BSD-3-Clause\n+</pre>\n+\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes the introduction of a new output type using signatures based on Post-Quantum Cryptography (PQC).\n+This approach for adding a post-quantum secure output type does not require a hard fork or block size increase.\n+\n+=== Copyright ===\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+=== Motivation ===\n+\n+The primary threat to Bitcoin from Cryptoanalytically-Relevant Quantum Computers (CRQCs) is their potential to break\n+the cryptographic assumptions of Elliptic Curve Cryptography (ECC), which secures Bitcoin's signatures and Taproot\n+commitments. Specifically, [https://arxiv.org/pdf/quant-ph/0301141 Shor's algorithm] enables a CRQC to solve the\n+Discrete Logarithm Problem (DLP) exponentially faster than classical methods<ref name=\"shor\">Shor's algorithm is\n+believed to need 10^8 operations to break a 256-bit elliptic curve public key.</ref>, allowing the derivation of private\n+keys from public keys—a process referred to as quantum key decryption. Importantly, simply increasing the public key\n+length (e.g., using a hypothetical secp512k1 curve) would only make deriving the private key twice as hard, offering\n+insufficient protection. The computational complexity of this attack is further explored in\n+[https://pubs.aip.org/avs/aqs/article/4/1/013801/2835275/The-impact-of-hardware-specifications-on-reaching ''The impact\n+of hardware specifications on reaching quantum advantage in the fault-tolerant regime''].\n+\n+This proposal aims to mitigate these risks by introducing a Pay to Quantum Resistant Hash (P2QRH) address type that\n+relies on post-quantum cryptographic (PQC) signature algorithms. By adopting PQC, Bitcoin can enhance its quantum\n+resistance without requiring a hard fork or block size increase.\n+\n+The vulnerability of existing Bitcoin addresses is investigated in\n+[https://web.archive.org/web/20240715101040/https://www2.deloitte.com/nl/nl/pages/innovatie/artikelen/quantum-computers-\n+and-the-bitcoin-blockchain.html this Deloitte report]. The report estimates that in 2020 approximately 25% of the\n+Bitcoin supply is held within addresses vulnerable to quantum attack. As of the time of writing, that number is now\n+closer to 20%. Additionally, cryptographer Pieter Wuille [https://x.com/pwuille/status/1108085284862713856 reasons]\n+even more might be vulnerable.\n+\n+Ordinarily, when a transaction is signed, the public key is explicitly stated in the input script. This means that the\n+public key is exposed on the blockchain when the transaction is spent, making it vulnerable to quantum attack until\n+it's mined. One way to mitigate this is to submit the transaction directly to a mining pool, bypassing the mempool.\n+This process is known as an out-of-band transaction or a private mempool. In this case, the mining pool must be trusted\n+not to reveal the transaction public key to attackers. The problem with this approach is that it requires a trusted\n+third party, which the P2QRH proposal aims to avoid.",
+      "path": "bip-p2qrh.mediawiki",
+      "position": 55,
+      "original_position": 55,
+      "commit_id": "e186b52cff5344c789bc5996de86697e62244323",
+      "original_commit_id": "e186b52cff5344c789bc5996de86697e62244323",
+      "in_reply_to_id": 1879211380,
+      "user": {
+        "login": "cryptoquick",
+        "id": 285690,
+        "node_id": "MDQ6VXNlcjI4NTY5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/285690?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/cryptoquick",
+        "html_url": "https://github.com/cryptoquick",
+        "followers_url": "https://api.github.com/users/cryptoquick/followers",
+        "following_url": "https://api.github.com/users/cryptoquick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/cryptoquick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/cryptoquick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/cryptoquick/subscriptions",
+        "organizations_url": "https://api.github.com/users/cryptoquick/orgs",
+        "repos_url": "https://api.github.com/users/cryptoquick/repos",
+        "events_url": "https://api.github.com/users/cryptoquick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/cryptoquick/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Actually, I think it provides important context and insight as to what P2QRH specifically addresses given the alternative (private miner mempools), but that's just my opinion.",
+      "created_at": "2024-12-12T17:02:59Z",
+      "updated_at": "2024-12-12T17:03:35Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1670#discussion_r1882547707",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1882547707"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1670"
+        }
+      },
+      "start_line": 54,
+      "original_start_line": 54,
+      "start_side": "RIGHT",
+      "line": 55,
+      "original_line": 55,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1882574533",
+      "pull_request_review_id": 2500315352,
+      "id": 1882574533,
+      "node_id": "PRRC_kwDOAN28mc5wNc7F",
+      "diff_hunk": "@@ -0,0 +1,587 @@\n+<pre>\n+  BIP: ?\n+  Title: QuBit: SegWit version 3 spending rules (P2QRH)\n+  Layer: <Consensus (soft fork)\n+  Author: Hunter Beast <hunter@surmount.systems>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-TBD\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-06-08\n+  License: BSD-3-Clause\n+</pre>\n+\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes the introduction of a new output type using signatures based on Post-Quantum Cryptography (PQC).\n+This approach for adding a post-quantum secure output type does not require a hard fork or block size increase.\n+\n+=== Copyright ===\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+=== Motivation ===\n+\n+The primary threat to Bitcoin from Cryptoanalytically-Relevant Quantum Computers (CRQCs) is their potential to break\n+the cryptographic assumptions of Elliptic Curve Cryptography (ECC), which secures Bitcoin's signatures and Taproot\n+commitments. Specifically, [https://arxiv.org/pdf/quant-ph/0301141 Shor's algorithm] enables a CRQC to solve the\n+Discrete Logarithm Problem (DLP) exponentially faster than classical methods<ref name=\"shor\">Shor's algorithm is\n+believed to need 10^8 operations to break a 256-bit elliptic curve public key.</ref>, allowing the derivation of private\n+keys from public keys—a process referred to as quantum key decryption. Importantly, simply increasing the public key\n+length (e.g., using a hypothetical secp512k1 curve) would only make deriving the private key twice as hard, offering\n+insufficient protection. The computational complexity of this attack is further explored in\n+[https://pubs.aip.org/avs/aqs/article/4/1/013801/2835275/The-impact-of-hardware-specifications-on-reaching ''The impact\n+of hardware specifications on reaching quantum advantage in the fault-tolerant regime''].\n+\n+This proposal aims to mitigate these risks by introducing a Pay to Quantum Resistant Hash (P2QRH) address type that\n+relies on post-quantum cryptographic (PQC) signature algorithms. By adopting PQC, Bitcoin can enhance its quantum\n+resistance without requiring a hard fork or block size increase.\n+\n+The vulnerability of existing Bitcoin addresses is investigated in\n+[https://web.archive.org/web/20240715101040/https://www2.deloitte.com/nl/nl/pages/innovatie/artikelen/quantum-computers-\n+and-the-bitcoin-blockchain.html this Deloitte report]. The report estimates that in 2020 approximately 25% of the\n+Bitcoin supply is held within addresses vulnerable to quantum attack. As of the time of writing, that number is now\n+closer to 20%. Additionally, cryptographer Pieter Wuille [https://x.com/pwuille/status/1108085284862713856 reasons]\n+even more might be vulnerable.\n+\n+Ordinarily, when a transaction is signed, the public key is explicitly stated in the input script. This means that the\n+public key is exposed on the blockchain when the transaction is spent, making it vulnerable to quantum attack until\n+it's mined. One way to mitigate this is to submit the transaction directly to a mining pool, bypassing the mempool.\n+This process is known as an out-of-band transaction or a private mempool. In this case, the mining pool must be trusted\n+not to reveal the transaction public key to attackers. The problem with this approach is that it requires a trusted\n+third party, which the P2QRH proposal aims to avoid.\n+\n+Not having public keys exposed on-chain is an important step for quantum security. Otherwise, funds would need to be\n+spent to new addresses on a regular basis in order to prevent the possibility of a \"long-range CRQC attack\" recovering\n+the key behind high-value addresses. A long-range quantum attack can be considered one performed with chain data, such\n+as that from a used address or one encoded in a spend script. This is likely to be more common early on, as early\n+quantum computers must be run for longer in order to overcome errors caused by noise. A \"short-range quantum attack\"\n+would be one performed on keys in the mempool, which is seen as much more difficult given the block time, and so it\n+requires more sophisticated CRQCs. As the value being sent increases, so too should the fee in order to commit the\n+transaction to the chain as soon as possible. Once the transaction is mined, it makes useless the public key revealed\n+by spending a UTXO, so long as it is never reused.\n+\n+It is proposed to implement a Pay to Quantum Resistant Hash (P2QRH) address type that relies on a PQC signature\n+algorithm. This new address type protects transactions submitted to the mempool and helps preserve the free market by",
+      "path": "bip-p2qrh.mediawiki",
+      "position": 68,
+      "original_position": 68,
+      "commit_id": "e186b52cff5344c789bc5996de86697e62244323",
+      "original_commit_id": "e186b52cff5344c789bc5996de86697e62244323",
+      "in_reply_to_id": 1879248187,
+      "user": {
+        "login": "cryptoquick",
+        "id": 285690,
+        "node_id": "MDQ6VXNlcjI4NTY5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/285690?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/cryptoquick",
+        "html_url": "https://github.com/cryptoquick",
+        "followers_url": "https://api.github.com/users/cryptoquick/followers",
+        "following_url": "https://api.github.com/users/cryptoquick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/cryptoquick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/cryptoquick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/cryptoquick/subscriptions",
+        "organizations_url": "https://api.github.com/users/cryptoquick/orgs",
+        "repos_url": "https://api.github.com/users/cryptoquick/repos",
+        "events_url": "https://api.github.com/users/cryptoquick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/cryptoquick/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Not really, but maybe that might make more sense? The fee market is supposed to be a free market.",
+      "created_at": "2024-12-12T17:18:10Z",
+      "updated_at": "2024-12-12T17:18:10Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1670#discussion_r1882574533",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1882574533"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1670"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 68,
+      "original_line": 68,
       "side": "RIGHT"
     }
   ]
