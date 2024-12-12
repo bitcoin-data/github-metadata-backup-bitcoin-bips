@@ -51,10 +51,10 @@
       }
     ],
     "created_at": "2024-09-27T16:08:30Z",
-    "updated_at": "2024-12-09T16:57:12Z",
+    "updated_at": "2024-12-11T23:37:38Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "b33720ea995d9e32b8382f9c0d4a837f6aeb6b62",
+    "merge_commit_sha": "573ceafceb4e9e9b8461528a71f5edbf096d40e7",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -222,9 +222,9 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 3,
-        "stargazers_count": 6,
-        "watchers_count": 6,
-        "size": 15748,
+        "stargazers_count": 8,
+        "watchers_count": 8,
+        "size": 15749,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -239,7 +239,7 @@
         "visibility": "public",
         "pushed_at": "2024-12-09T16:57:10Z",
         "created_at": "2024-05-14T01:43:35Z",
-        "updated_at": "2024-10-14T14:35:14Z",
+        "updated_at": "2024-12-10T15:10:04Z",
         "allow_forking": true
       }
     },
@@ -341,12 +341,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5411,
-        "stargazers_count": 9490,
-        "watchers_count": 9490,
-        "size": 15677,
+        "forks_count": 5413,
+        "stargazers_count": 9501,
+        "watchers_count": 9501,
+        "size": 15687,
         "default_branch": "master",
-        "open_issues_count": 39,
+        "open_issues_count": 41,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -357,9 +357,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-12-09T03:19:36Z",
+        "pushed_at": "2024-12-11T03:04:22Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-09T12:29:41Z",
+        "updated_at": "2024-12-11T19:13:56Z",
         "allow_forking": true
       }
     },
@@ -374,8 +374,8 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 22,
-    "review_comments": 41,
-    "comments": 6
+    "review_comments": 48,
+    "comments": 7
   },
   "events": [
     {
@@ -3171,6 +3171,62 @@
         "date": "2024-12-09T16:57:06Z"
       },
       "sha": "e186b52cff5344c789bc5996de86697e62244323"
+    },
+    {
+      "event": "commented",
+      "id": 2537420293,
+      "node_id": "IC_kwDOAN28mc6XPfYF",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2537420293",
+      "actor": {
+        "login": "EthanHeilman",
+        "id": 274814,
+        "node_id": "MDQ6VXNlcjI3NDgxNA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/274814?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/EthanHeilman",
+        "html_url": "https://github.com/EthanHeilman",
+        "followers_url": "https://api.github.com/users/EthanHeilman/followers",
+        "following_url": "https://api.github.com/users/EthanHeilman/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/EthanHeilman/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/EthanHeilman/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/EthanHeilman/subscriptions",
+        "organizations_url": "https://api.github.com/users/EthanHeilman/orgs",
+        "repos_url": "https://api.github.com/users/EthanHeilman/repos",
+        "events_url": "https://api.github.com/users/EthanHeilman/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/EthanHeilman/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-12-11T23:37:37Z",
+      "updated_at": "2024-12-11T23:37:37Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "I want to propose an alternative design. Instead of supporting multiple different signature algorithms in the same output and then inferring algorithm based on public key length. Flag signature algorithm based on address prefix, e.g. addresses that start with `bc1f` only accept FALCON-1024 public keys and signatures. \r\n\r\n- This makes it straightforward to add new post-quantum signature algorithms and lets you streamline this design by only needing to support one post-quantum signature algorithm.\r\n- This avoids using length as a signaling mechanism. Currently length works, but what if two algorithms have the same length public key? Do we lengthen one?\r\n- Supporting multiple signature algorithms in the same output is likely to increase complexity for other protocols. Say a payment channel where the two parties are using different signature algorithms. I don't see this as a strong reason not to do this, but I think the BIP needs a justification for this additional complexity.\r\n\r\nIs the reason you are doing multisig outside of script, because of the stack element limitations of some these bigger signatures? Are there any issues with the values on the attestation stack being larger than 520?\r\n",
+      "user": {
+        "login": "EthanHeilman",
+        "id": 274814,
+        "node_id": "MDQ6VXNlcjI3NDgxNA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/274814?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/EthanHeilman",
+        "html_url": "https://github.com/EthanHeilman",
+        "followers_url": "https://api.github.com/users/EthanHeilman/followers",
+        "following_url": "https://api.github.com/users/EthanHeilman/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/EthanHeilman/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/EthanHeilman/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/EthanHeilman/subscriptions",
+        "organizations_url": "https://api.github.com/users/EthanHeilman/orgs",
+        "repos_url": "https://api.github.com/users/EthanHeilman/repos",
+        "events_url": "https://api.github.com/users/EthanHeilman/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/EthanHeilman/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1670#issuecomment-2537420293",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1670"
     }
   ],
   "comments": [
