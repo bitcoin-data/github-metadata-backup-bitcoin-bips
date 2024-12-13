@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-11-29T00:43:33Z",
-    "updated_at": "2024-12-11T03:14:03Z",
+    "updated_at": "2024-12-13T21:54:24Z",
     "closed_at": "2024-12-09T03:19:36Z",
     "mergeable_state": "unknown",
     "merged_at": "2024-12-09T03:19:36Z",
@@ -341,12 +341,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5411,
-        "stargazers_count": 9499,
-        "watchers_count": 9499,
-        "size": 15677,
+        "forks_count": 5418,
+        "stargazers_count": 9510,
+        "watchers_count": 9510,
+        "size": 15687,
         "default_branch": "master",
-        "open_issues_count": 41,
+        "open_issues_count": 40,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -357,9 +357,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-12-11T03:04:22Z",
+        "pushed_at": "2024-12-13T21:56:25Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-11T03:04:27Z",
+        "updated_at": "2024-12-13T21:56:30Z",
         "allow_forking": true
       }
     },
@@ -374,7 +374,7 @@
     "deletions": 13,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 9,
+    "review_comments": 10,
     "comments": 5
   },
   "events": [
@@ -1808,6 +1808,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1879264639"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1705"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 58,
+      "original_line": 58,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1884583555",
+      "pull_request_review_id": 2503302524,
+      "id": 1884583555,
+      "node_id": "PRRC_kwDOAN28mc5wVHaD",
+      "diff_hunk": "@@ -45,17 +45,18 @@ The new per-input types are defined as follows:\n |-\n | rowspan=\"2\"|MuSig2 Participant Public Keys\n | rowspan=\"2\"|<tt>PSBT_IN_MUSIG2_PARTICIPANT_PUBKEYS = 0x1a</tt>\n-| <tt><33 byte plain aggregate pubkey></tt>\n-| <tt><33 byte compressed pubkey>*</tt>\n+| <tt><33 byte aggregate pubkey (compressed)></tt>\n+| <tt><33 byte participant pubkey (compressed)>*</tt>\n | rowspan=\"2\"|\n | rowspan=\"2\"|\n | rowspan=\"2\"| 0, 2\n |-\n-| The MuSig2 aggregate plain public key<ref>'''Why the plain aggregate public key instead of x-only?'''\n+| The MuSig2 aggregate public key (compressed) <ref>'''Why the compressed aggregate public key instead of x-only?'''\n BIP 32 requires public keys to include their evenness byte. Aggregate public keys are expected to be\n derived from, following [[bip-0328.mediawiki|BIP 328]], and therefore will\n need to include the evenness. Furthermore, PSBT_IN_TAP_BIP32_DERIVATION fields include fingerprints\n-to identify master keys, and these fingerprints require full compressed public keys. By including\n+to identify master keys, and these fingerprints require y-coordinate of the public key,",
+      "path": "bip-0373.mediawiki",
+      "position": 18,
+      "original_position": 18,
+      "commit_id": "50e820836dde563291458f4fd09ee1381ae76b76",
+      "original_commit_id": "50e820836dde563291458f4fd09ee1381ae76b76",
+      "in_reply_to_id": 1874516388,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "> The previous sentence is confusing as well:\r\n\r\n@kdmukai WDYT about\r\n\r\n```diff\r\n-BIP 32 requires public keys to include their evenness byte. Aggregate public keys are expected to be\r\n-derived from, following [[bip-0328.mediawiki|BIP 328]], and therefore will\r\n-need to include the evenness. Furthermore, PSBT_IN_TAP_BIP32_DERIVATION fields include fingerprints\r\n+BIP 32 requires public keys to include their evenness byte. Per [[bip-0328.mediawiki|BIP 328]], BIP 32\r\n+public keys can be derived from a BIP 327 MuSig2 aggregate public key; therefore, the latter needs\r\n+to include the evenness byte as well. Furthermore, PSBT_IN_TAP_BIP32_DERIVATION fields include fingerprints\r\n```\r\n",
+      "created_at": "2024-12-13T21:54:24Z",
+      "updated_at": "2024-12-13T21:54:24Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1705#discussion_r1884583555",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1884583555"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1705"
