@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1721/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1721/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/1b3ef5c6785c8b99d07fd3b596cba84fe06d1356",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
     "number": 1721,
     "state": "open",
     "locked": false,
@@ -39,7 +39,7 @@
       "site_admin": false,
       "patch_url": null
     },
-    "body": "To ensure no information is lost during conversion to descriptors, it’s useful to wrap\r\narbitrary hex data in a `sh()`, `wsh()`, or even within the `TREE` argument of a\r\n`tr(KEY, TREE)` descriptor.\r\n\r\nThe absence of this feature creates a challenge in representing non-standard redeem and\r\nwitness scripts within the descriptor language. Currently, they can only be represented\r\nas top-level `raw(HEX)` descriptors, which retain only the output script information and\r\nlack the ability to preserve the actual script.\r\n\r\nThis work stemmed from discussions with @sipa and @achow101 about the legacy\r\nwallet migration path, particularly while investigating migrated descriptors that lacked\r\ninformation about the script they were supposedly migrated from.\r\n\r\nAdditionally, issue [#24114](https://github.com/bitcoin/bitcoin/issues/24114), specifically https://github.com/bitcoin/bitcoin/issues/24114#issuecomment-1127978154, provides\r\nhistorical context and highlights other valid use cases enabled by this behavior change.",
+    "body": "Allowing arbitrary hex data to be wrapped in `sh()`, `wsh()`, or even within the `TREE`\r\nargument of a `tr(KEY, TREE)` descriptor enables the representation of currently\r\ninexpressible information.\r\n\r\nSpecifically, the absence of this feature limits the representation of non-standard redeem\r\nand witness scripts. This occurs because they can currently only be represented as top-level\r\n`raw(HEX)` descriptors, which retain only the output script information and lack the ability\r\nto preserve the actual script.\r\n\r\nThis work stemmed from discussions with @sipa and @achow101 about the legacy\r\nwallet migration path, particularly while investigating migrated descriptors that lacked\r\ninformation about the script they were supposedly migrated from.\r\n\r\nAdditionally, issue [#24114](https://github.com/bitcoin/bitcoin/issues/24114), specifically https://github.com/bitcoin/bitcoin/issues/24114#issuecomment-1127978154, provides\r\nhistorical context and highlights other valid use cases enabled by this behavior change.",
     "labels": [
       {
         "id": 275845989,
@@ -51,10 +51,10 @@
       }
     ],
     "created_at": "2024-12-17T21:19:31Z",
-    "updated_at": "2024-12-18T22:19:36Z",
+    "updated_at": "2024-12-20T19:00:08Z",
     "mergeable": true,
     "mergeable_state": "unstable",
-    "merge_commit_sha": "9b05a53f1af7c1c08c76ac9aef3f0ddad0f2a66e",
+    "merge_commit_sha": "2a0755f277c02c4f6223589e7ba20fa1e4868d08",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -62,7 +62,7 @@
     "head": {
       "label": "furszy:2024_descriptors_raw_as_subscript",
       "ref": "2024_descriptors_raw_as_subscript",
-      "sha": "1b3ef5c6785c8b99d07fd3b596cba84fe06d1356",
+      "sha": "a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
       "user": {
         "login": "furszy",
         "id": 5377650,
@@ -172,7 +172,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-12-18T22:19:17Z",
+        "pushed_at": "2024-12-20T19:00:06Z",
         "created_at": "2024-12-16T20:53:27Z",
         "updated_at": "2024-12-16T20:53:27Z",
         "allow_forking": true
@@ -181,7 +181,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "8e59f7414bef6203809deaad972a3d7a3a0c2f7a",
+      "sha": "2caa8e27b80c76ef581780f4da1039f106dde032",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -276,12 +276,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5436,
-        "stargazers_count": 9544,
-        "watchers_count": 9544,
-        "size": 15708,
+        "forks_count": 5442,
+        "stargazers_count": 9547,
+        "watchers_count": 9547,
+        "size": 15719,
         "default_branch": "master",
-        "open_issues_count": 42,
+        "open_issues_count": 44,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -292,9 +292,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-12-18T15:25:08Z",
+        "pushed_at": "2024-12-19T15:34:01Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-18T18:02:10Z",
+        "updated_at": "2024-12-20T14:39:20Z",
         "allow_forking": true
       }
     },
@@ -598,46 +598,6 @@
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1721"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDFiM2VmNWM2Nzg1YzhiOTlkMDdmZDNiNTk2Y2JhODRmZTA2ZDEzNTY",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1b3ef5c6785c8b99d07fd3b596cba84fe06d1356",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/1b3ef5c6785c8b99d07fd3b596cba84fe06d1356",
-      "tree": {
-        "sha": "e08e5f70e39f217eab73484d1aebb701d1edcb73",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/e08e5f70e39f217eab73484d1aebb701d1edcb73"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree e08e5f70e39f217eab73484d1aebb701d1edcb73\nparent 671c4628e5b66d35cfd9b2144de61a09f3cb402f\nauthor furszy <matiasfurszyfer@protonmail.com> 1734386503 -0500\ncommitter furszy <matiasfurszyfer@protonmail.com> 1734560348 -0500\n\nRaw() as subscript for descriptors\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEEA++0fqwRHQpmlZfQXdI8zGhqpiMFAmdjSlwACgkQXdI8zGhq\npiNFig/6AtV9HvavqnJPuPIEkQowoaYhOGZy+9IwK8/mSohLJ6rVOLMVn7qgdNqL\nWSNg8avimqNw5tA7nDSDCIYL04GT+FIAuu+walvzg+3fMKLUfQ5AuRucUZI/lrz2\nUy1FxwV3lORww7rKSZQihwxwNde6PspzfUltEqM7gKlY6vbcXUY7cJsUt+rtB8hs\ngnsaWMSCY1p076HRDRJhxnb33Yu4YRAka89eJYY/Kbx/ynW55k3/fHIaWPr4uKBC\nlT3BSt0sefDCOnr1ctnAqqIg72MYfXd2X8m99ne1EpkiLOQTM7NFKTlZj/YyDXOv\nDGHbn2DD0UwU4DNZVRHu81z3Gx7yn9OA+lbTBguS2xIboYYhIUZD4BrGp+ao9oVH\nez+1D6RuMQZcXxRkkZCLf7cBaF8dUIM9BFD724tbaxGkTJ1U7b9AsbJsiFtmuTOi\nJFHOn7CdYwQK9+495TCqGC8m15i1l7TN9A+5/x6Hm4k94VuDYOa8Nx9Ss/Z6ifnr\nRl/0Q2nD40PvVT/IKx2V+NnR8q5bHfQoBIe2waJhpJgzQb93Lr8tdI2/uR8TJk3i\nxR6cW6PFQmcbw5o6HY6F0GB2/KaBg6eKVXRvNKr0n4NI/iL7L9bwXn/+FMkXzP7T\n6lvD498EQUATNjDTLGWGik93hZFVfPGB2vPGjPs31IQ6YAawjAY=\n=QOnr\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/671c4628e5b66d35cfd9b2144de61a09f3cb402f",
-          "sha": "671c4628e5b66d35cfd9b2144de61a09f3cb402f",
-          "html_url": "https://github.com/bitcoin/bips/commit/671c4628e5b66d35cfd9b2144de61a09f3cb402f"
-        }
-      ],
-      "message": "Raw() as subscript for descriptors",
-      "committer": {
-        "name": "furszy",
-        "email": "matiasfurszyfer@protonmail.com",
-        "date": "2024-12-18T22:19:08Z"
-      },
-      "author": {
-        "name": "furszy",
-        "email": "matiasfurszyfer@protonmail.com",
-        "date": "2024-12-16T22:01:43Z"
-      },
-      "sha": "1b3ef5c6785c8b99d07fd3b596cba84fe06d1356"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 15709486906,
       "node_id": "HRFPE_lADOAN28mc6jrhdGzwAAAAOoW786",
@@ -666,6 +626,76 @@
       "commit_id": "1b3ef5c6785c8b99d07fd3b596cba84fe06d1356",
       "commit_url": "https://api.github.com/repos/furszy/bips/commits/1b3ef5c6785c8b99d07fd3b596cba84fe06d1356",
       "created_at": "2024-12-18T22:19:18Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGE2N2FmMDQ2MTVlZTNkNDhiMmNhODA1OWNmYTU4ZDU3YTNmZmNlZmI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
+      "tree": {
+        "sha": "e7658373c4f434896f66999c56cb21d6661d22e5",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/e7658373c4f434896f66999c56cb21d6661d22e5"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree e7658373c4f434896f66999c56cb21d6661d22e5\nparent 671c4628e5b66d35cfd9b2144de61a09f3cb402f\nauthor furszy <matiasfurszyfer@protonmail.com> 1734386503 -0500\ncommitter furszy <matiasfurszyfer@protonmail.com> 1734721172 -0500\n\nRaw() as subscript for descriptors\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEEA++0fqwRHQpmlZfQXdI8zGhqpiMFAmdlvpQACgkQXdI8zGhq\npiMJ6w/+NyP8p2Tx/Pd1Rxh9tCQTp9DtIbuUQkmvrahb+tfqpQhyySv9DBnEOf5J\ni+sK2ZjEhZGzM9EymbP99Qf4YfiiyeLgasr21rw+/C2kHdf+zT5W3tUMkHxHT0M9\ndu2+AkPx/0Dw49iL0vwGFx5CpRkUGkfNsVtLBV4eN2vbG5rRqollBBP+WFrqonk3\nJlUbjFt8mBf8H1P9tgb7C+eh540OnF0o9/1SI+MMdvtdqddR5XPdPJsVt+ukzsh+\n7nacuq/gkQ6G7afuduYNLQp5Bj5lawcygBZqhSidGrsELMPEGuwposKWVcUaQiCz\neA9SQT6MBCf3hK4HaeGoDO+OPvtw0X0JmR5Q0RR7gg18tSIEjGT0lFFiGamGpJ8+\nem9VNlk+G0MSaBS3MZnGoOhBlFomYu2HwMxKzeiFUqudNBMQL6KWQWOOR724ApmN\nMVrXt2ZFmSpbtBHJDdikQOWTJjHGEz//+dS/YfmDnF+wYLd2VlqPzzVeVbjgXb/M\nkO+rVKBAv2EAdIKP87jo8Qj4G+2F3gLAMbvX9ET1rCH+OXET2upQkt55FHz/r8tI\nowD57tK8Fpq/AGyjmYqBhkX+FoJkMy0nj30I+pDefl5cnLNcJ44PdOXdtNeHxVbR\nYlqRYAgTHycY5UQefm49l4Kp28MwKccE5OETP9cz1JAenGkzcjw=\n=uJTZ\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/671c4628e5b66d35cfd9b2144de61a09f3cb402f",
+          "sha": "671c4628e5b66d35cfd9b2144de61a09f3cb402f",
+          "html_url": "https://github.com/bitcoin/bips/commit/671c4628e5b66d35cfd9b2144de61a09f3cb402f"
+        }
+      ],
+      "message": "Raw() as subscript for descriptors",
+      "committer": {
+        "name": "furszy",
+        "email": "matiasfurszyfer@protonmail.com",
+        "date": "2024-12-20T18:59:32Z"
+      },
+      "author": {
+        "name": "furszy",
+        "email": "matiasfurszyfer@protonmail.com",
+        "date": "2024-12-16T22:01:43Z"
+      },
+      "sha": "a67af04615ee3d48b2ca8059cfa58d57a3ffcefb"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 15735965348,
+      "node_id": "HRFPE_lADOAN28mc6jrhdGzwAAAAOp78ak",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/15735965348",
+      "actor": {
+        "login": "furszy",
+        "id": 5377650,
+        "node_id": "MDQ6VXNlcjUzNzc2NTA=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/5377650?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/furszy",
+        "html_url": "https://github.com/furszy",
+        "followers_url": "https://api.github.com/users/furszy/followers",
+        "following_url": "https://api.github.com/users/furszy/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/furszy/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/furszy/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/furszy/subscriptions",
+        "organizations_url": "https://api.github.com/users/furszy/orgs",
+        "repos_url": "https://api.github.com/users/furszy/repos",
+        "events_url": "https://api.github.com/users/furszy/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/furszy/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": "a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
+      "commit_url": "https://api.github.com/repos/furszy/bips/commits/a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
+      "created_at": "2024-12-20T19:00:08Z"
     }
   ],
   "comments": [
@@ -678,7 +708,7 @@
       "path": "bip-0391.mediawiki",
       "position": null,
       "original_position": 26,
-      "commit_id": "1b3ef5c6785c8b99d07fd3b596cba84fe06d1356",
+      "commit_id": "a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
       "original_commit_id": "47fed6d9f01d45a8dd2cf222d588967a15ae9d99",
       "in_reply_to_id": null,
       "user": {
@@ -731,7 +761,7 @@
       "path": "bip-0391.mediawiki",
       "position": null,
       "original_position": 26,
-      "commit_id": "1b3ef5c6785c8b99d07fd3b596cba84fe06d1356",
+      "commit_id": "a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
       "original_commit_id": "47fed6d9f01d45a8dd2cf222d588967a15ae9d99",
       "in_reply_to_id": 1890745791,
       "user": {
