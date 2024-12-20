@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-12-17T21:19:31Z",
-    "updated_at": "2024-12-20T19:00:08Z",
+    "updated_at": "2024-12-20T19:32:36Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merge_commit_sha": "2a0755f277c02c4f6223589e7ba20fa1e4868d08",
@@ -309,7 +309,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 2,
+    "review_comments": 3,
     "comments": 0
   },
   "events": [
@@ -696,6 +696,42 @@
       "commit_id": "a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
       "commit_url": "https://api.github.com/repos/furszy/bips/commits/a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
       "created_at": "2024-12-20T19:00:08Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 2518213233,
+      "node_id": "PRR_kwDOAN28mc6WGOJx",
+      "url": null,
+      "actor": null,
+      "commit_id": "a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1721#pullrequestreview-2518213233",
+      "submitted_at": "2024-12-20T19:32:36Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1721"
     }
   ],
   "comments": [
@@ -803,6 +839,59 @@
       "start_side": null,
       "line": null,
       "original_line": 26,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1894316028",
+      "pull_request_review_id": 2518213233,
+      "id": 1894316028,
+      "node_id": "PRRC_kwDOAN28mc5w6Pf8",
+      "diff_hunk": "@@ -0,0 +1,76 @@\n+<pre>\n+  BIP: ???\n+  Layer: Applications\n+  Title: raw() as subscript in Output Script Descriptors\n+  Author: Matias Furszyfer mfurszy@protonmail.com\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-???\n+  Status: Draft\n+  Type: Informational\n+  Created: 2024-12-16\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies <tt>raw()</tt> as subscript for output script descriptors.\n+<tt>raw()</tt> encapsulates a raw hex script. This BIP allows <tt>raw()</tt> to be used in\n+the context of other descriptors.\n+\n+==Copyright==\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+==Motivation==\n+\n+Allowing arbitrary hex data to be wrapped in `sh()`, `wsh()`, or even within the `TREE`\n+argument of a `tr(KEY, TREE)` descriptor enables the representation of currently\n+inexpressible information in the descriptors' language.\n+\n+Specifically, the absence of this feature limits the representation of non-standard redeem\n+and witness scripts. This occurs because they can currently only be represented as top-level\n+`raw(HEX)` descriptors, which retain only the output script information and lack the ability\n+to preserve the actual script.\n+\n+Additionally, as noted [https://github.com/bitcoin/bitcoin/issues/24114#issuecomment-1127978154 here],\n+there are other useful scenarios for this feature. For example, it allows representing\n+in a descriptor that we lack full knowledge of all solvability paths but can still solve\n+the output, such as a taproot tree where we know only one of its paths, or even also\n+participating in signing a script without knowing all participants' keys, relying solely\n+on the script structure.\n+\n+==Specification==\n+\n+Allow raw(HEX) to be accepted within the context of `sh()`, `wsh()` and `tr()` descriptors.",
+      "path": "bip-0391.mediawiki",
+      "position": 44,
+      "original_position": 44,
+      "commit_id": "a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
+      "original_commit_id": "a67af04615ee3d48b2ca8059cfa58d57a3ffcefb",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "I think you’re mixing up MediaWiki and Markdown. If you want to use mediawiki, you would use `<tt>sh()</tt>`. It’s been permitted to submit BIPs in Markdown for a while though, if you prefer that.\r\n\r\n```suggestion\r\nAllow raw(HEX) to be accepted within the context of <tt>sh()</tt>, <tt>wsh()</tt> and <tt>tr()</tt> descriptors.\r\n```",
+      "created_at": "2024-12-20T19:31:36Z",
+      "updated_at": "2024-12-20T19:32:36Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1721#discussion_r1894316028",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1894316028"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1721"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 44,
+      "original_line": 44,
       "side": "RIGHT"
     }
   ]
