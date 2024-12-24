@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-11-11T23:07:43Z",
-    "updated_at": "2024-12-24T16:57:20Z",
+    "updated_at": "2024-12-24T17:53:57Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "8a899ebe8081081f8efac2bbbaed4f7bb4dc3978",
@@ -333,7 +333,7 @@
     "changed_files": 2,
     "commits": 3,
     "review_comments": 64,
-    "comments": 20
+    "comments": 21
   },
   "events": [
     {
@@ -2867,6 +2867,62 @@
       "submitted_at": "2024-12-24T16:57:19Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+    },
+    {
+      "event": "commented",
+      "id": 2561311768,
+      "node_id": "IC_kwDOAN28mc6YqoQY",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2561311768",
+      "actor": {
+        "login": "JeremyRubin",
+        "id": 886523,
+        "node_id": "MDQ6VXNlcjg4NjUyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/886523?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/JeremyRubin",
+        "html_url": "https://github.com/JeremyRubin",
+        "followers_url": "https://api.github.com/users/JeremyRubin/followers",
+        "following_url": "https://api.github.com/users/JeremyRubin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/JeremyRubin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/JeremyRubin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/JeremyRubin/subscriptions",
+        "organizations_url": "https://api.github.com/users/JeremyRubin/orgs",
+        "repos_url": "https://api.github.com/users/JeremyRubin/repos",
+        "events_url": "https://api.github.com/users/JeremyRubin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/JeremyRubin/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2024-12-24T17:37:44Z",
+      "updated_at": "2024-12-24T17:37:44Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "I get that there is a goal here to avoid introspection...\r\n\r\nbut it seems that it'd be more generically useful if the function were e.g., a TapBranch function, so then it could be used in the future with some other taproot editing opcodes.\r\n\r\ne.g., if `OP_TAPBRANCHCOMMIT` were to lexicographic sort, then cat, then commit, you could do paircommit like functionality by doing:\r\n\r\n`<a> <b> TUCK OP_TAPBRANCHCOMMIT OP_TAPBRANCHCOMMIT`\r\n\r\nthis works because while the first commit commits to  either `a||b` or `b||a`, and also has sliceable errors (e.g., `(a||b)[:i]` and `(a||b)[i:])`, the second commit re-commits to `<b>` and it's length which uniquely determines order and prevents sliceable errors.\r\n\r\nOne concern: OP_TAPBRANCHCOMMIT is witness \"malleable\", in that items could show up in the witness stack in either order and get the same result. It'd still be possible to make non-malleable witnesses by requiring the stack elements to be in order with a OP_LEXSORT or equivalent functionality.",
+      "user": {
+        "login": "JeremyRubin",
+        "id": 886523,
+        "node_id": "MDQ6VXNlcjg4NjUyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/886523?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/JeremyRubin",
+        "html_url": "https://github.com/JeremyRubin",
+        "followers_url": "https://api.github.com/users/JeremyRubin/followers",
+        "following_url": "https://api.github.com/users/JeremyRubin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/JeremyRubin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/JeremyRubin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/JeremyRubin/subscriptions",
+        "organizations_url": "https://api.github.com/users/JeremyRubin/orgs",
+        "repos_url": "https://api.github.com/users/JeremyRubin/repos",
+        "events_url": "https://api.github.com/users/JeremyRubin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/JeremyRubin/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#issuecomment-2561311768",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1699"
     }
   ],
   "comments": [
