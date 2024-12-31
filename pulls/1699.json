@@ -51,10 +51,10 @@
       }
     ],
     "created_at": "2024-11-11T23:07:43Z",
-    "updated_at": "2024-12-31T00:29:12Z",
+    "updated_at": "2024-12-31T16:13:21Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "384dd4ff89e52bc01524ad720e77e37af830055b",
+    "merge_commit_sha": "c3fd2bbd0b18a615ef8e807ed5eee85f5846e159",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -299,9 +299,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5448,
-        "stargazers_count": 9586,
-        "watchers_count": 9586,
+        "forks_count": 5449,
+        "stargazers_count": 9587,
+        "watchers_count": 9587,
         "size": 15794,
         "default_branch": "master",
         "open_issues_count": 42,
@@ -315,9 +315,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-12-28T21:17:59Z",
+        "pushed_at": "2024-12-31T16:28:36Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-30T20:04:31Z",
+        "updated_at": "2024-12-31T16:28:47Z",
         "allow_forking": true
       }
     },
@@ -332,7 +332,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 82,
+    "review_comments": 83,
     "comments": 26
   },
   "events": [
@@ -3248,6 +3248,43 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1699#pullrequestreview-2525858478",
       "submitted_at": "2024-12-30T18:52:16Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+    },
+    {
+      "event": "reviewed",
+      "id": 2526089473,
+      "node_id": "PRR_kwDOAN28mc6WkREB",
+      "url": null,
+      "actor": null,
+      "commit_id": "0ad3d24aa434487873e94f1fb28e0fce08c8c33e",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "I'm gonna spend some time with this BIP today and will either make comments or offer a revision to put the sections of this into a more cohesive sequence.",
+      "user": {
+        "login": "reardencode",
+        "id": 730881,
+        "node_id": "MDQ6VXNlcjczMDg4MQ==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/730881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/reardencode",
+        "html_url": "https://github.com/reardencode",
+        "followers_url": "https://api.github.com/users/reardencode/followers",
+        "following_url": "https://api.github.com/users/reardencode/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/reardencode/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/reardencode/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/reardencode/subscriptions",
+        "organizations_url": "https://api.github.com/users/reardencode/orgs",
+        "repos_url": "https://api.github.com/users/reardencode/repos",
+        "events_url": "https://api.github.com/users/reardencode/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/reardencode/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#pullrequestreview-2526089473",
+      "submitted_at": "2024-12-31T16:13:21Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
     }
@@ -7481,6 +7518,165 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1899770234"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 208,
+      "original_line": 208,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1899861239",
+      "pull_request_review_id": 2526089473,
+      "id": 1899861239,
+      "node_id": "PRRC_kwDOAN28mc5xPZT3",
+      "diff_hunk": "@@ -0,0 +1,265 @@\n+<pre>\n+  BIP: 442\n+  Layer: Consensus (soft fork)\n+  Title: OP_PAIRCOMMIT\n+  Author: moonsettler <moonsettler@protonmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0442\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-12-09\n+  License: BSD-3-Clause\n+</pre>\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode `OP_PAIRCOMMIT`, which\n+provides limited vector commitment functionality in tapscript.\n+\n+When evaluated, the `OP_PAIRCOMMIT` instruction:\n+* Pops the top two values off the stack,\n+* takes the \"PairCommit\" tagged SHA256 hash of the stack elements with size\n+commitments,\n+* pushes the resulting 32-byte hash to the top of stack.\n+\n+## Motivation\n+\n+Currently, bitcoin lacks a way to hash multiple stack elements together. Which\n+means building Merkle trees or verifying inclusion in a tree is not supported.",
+      "path": "bip-0442.md",
+      "position": 27,
+      "original_position": 27,
+      "commit_id": "0ad3d24aa434487873e94f1fb28e0fce08c8c33e",
+      "original_commit_id": "0ad3d24aa434487873e94f1fb28e0fce08c8c33e",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "reardencode",
+        "id": 730881,
+        "node_id": "MDQ6VXNlcjczMDg4MQ==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/730881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/reardencode",
+        "html_url": "https://github.com/reardencode",
+        "followers_url": "https://api.github.com/users/reardencode/followers",
+        "following_url": "https://api.github.com/users/reardencode/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/reardencode/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/reardencode/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/reardencode/subscriptions",
+        "organizations_url": "https://api.github.com/users/reardencode/orgs",
+        "repos_url": "https://api.github.com/users/reardencode/repos",
+        "events_url": "https://api.github.com/users/reardencode/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/reardencode/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "```suggestion\r\nCurrently, bitcoin lacks a way to commit to multiple stack elements together. It is common practice to hash a single item as part of a bitcoin script, either in hash/time locked contracts, or in pay-to-pubkey-hash (P2PKH) scripts, but there is no way to commit to multiple items with a single hash. \r\n\r\nIn a contrived but demonstrative example, if PAIRCOMMIT existed in legacy script, P2PKH could be extended to pay-to-pubkey-time-hash with scriptPubKey `2DUP PAIRCOMMIT RIPEMD160 <hash> EQUALVERIFY CHECKLOCKTIMEVERIFY DROP CHECKSIG`. This script format for single signature, time-locked bitcoin could be transformed into an address format.\r\n\r\nWith the ability to commit to pairs of elements, PAIRCOMMIT can be generalized Merklized commitments to a tree of elements with a single hash. On its own, this could enable a hash lock contract where the holder of any pre-image in a Merkle tree can unlock the spend, for example.\r\n\r\nIf `OP_CHECKSIGFROMSTACK` is combined with PAIRCOMMIT, the ability to sign commitments to multiple items enables both of the above but as a form of delegation. In cases where any single item can be used to unlock an output, additional off chain signatures be simply can be used as an alternative to PAIRCOMMIT. However in cases where multiple items must be used for spending together, PAIRCOMMIT removes the need for complex laddering schemes to ensure that all items were authorized together.\r\n```",
+      "created_at": "2024-12-31T00:30:03Z",
+      "updated_at": "2024-12-31T16:13:21Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#discussion_r1899861239",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1899861239"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+        }
+      },
+      "start_line": 26,
+      "original_start_line": 26,
+      "start_side": "RIGHT",
+      "line": 27,
+      "original_line": 27,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1899861301",
+      "pull_request_review_id": 2526089473,
+      "id": 1899861301,
+      "node_id": "PRRC_kwDOAN28mc5xPZU1",
+      "diff_hunk": "@@ -0,0 +1,265 @@\n+<pre>\n+  BIP: 442\n+  Layer: Consensus (soft fork)\n+  Title: OP_PAIRCOMMIT\n+  Author: moonsettler <moonsettler@protonmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0442\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-12-09\n+  License: BSD-3-Clause\n+</pre>\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode `OP_PAIRCOMMIT`, which\n+provides limited vector commitment functionality in tapscript.\n+\n+When evaluated, the `OP_PAIRCOMMIT` instruction:\n+* Pops the top two values off the stack,\n+* takes the \"PairCommit\" tagged SHA256 hash of the stack elements with size\n+commitments,\n+* pushes the resulting 32-byte hash to the top of stack.\n+\n+## Motivation\n+\n+Currently, bitcoin lacks a way to hash multiple stack elements together. Which\n+means building Merkle trees or verifying inclusion in a tree is not supported.\n+\n+`OP_PAIRCOMMIT` is a simple and efficient tool to commit to two stack elements,\n+in a way that makes length redistribution attacks infeasible.\n+\n+The number of SHA256 iterations is minimized in the typical use cases we can\n+optimize for. Since the Tag can be pre-computed as mid-state, it would only\n+take 1 or 2 hash cycles in validation for the unilateral close scenario.",
+      "path": "bip-0442.md",
+      "position": 34,
+      "original_position": 34,
+      "commit_id": "0ad3d24aa434487873e94f1fb28e0fce08c8c33e",
+      "original_commit_id": "0ad3d24aa434487873e94f1fb28e0fce08c8c33e",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "reardencode",
+        "id": 730881,
+        "node_id": "MDQ6VXNlcjczMDg4MQ==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/730881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/reardencode",
+        "html_url": "https://github.com/reardencode",
+        "followers_url": "https://api.github.com/users/reardencode/followers",
+        "following_url": "https://api.github.com/users/reardencode/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/reardencode/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/reardencode/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/reardencode/subscriptions",
+        "organizations_url": "https://api.github.com/users/reardencode/orgs",
+        "repos_url": "https://api.github.com/users/reardencode/repos",
+        "events_url": "https://api.github.com/users/reardencode/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/reardencode/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "This seems like something that belongs in a footnote not in the main text.",
+      "created_at": "2024-12-31T00:30:22Z",
+      "updated_at": "2024-12-31T16:13:21Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#discussion_r1899861301",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1899861301"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
+        }
+      },
+      "start_line": 32,
+      "original_start_line": 32,
+      "start_side": "RIGHT",
+      "line": 34,
+      "original_line": 34,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1900176590",
+      "pull_request_review_id": 2526089473,
+      "id": 1900176590,
+      "node_id": "PRRC_kwDOAN28mc5xQmTO",
+      "diff_hunk": "@@ -0,0 +1,265 @@\n+<pre>\n+  BIP: 442\n+  Layer: Consensus (soft fork)\n+  Title: OP_PAIRCOMMIT\n+  Author: moonsettler <moonsettler@protonmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0442\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-12-09\n+  License: BSD-3-Clause\n+</pre>\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode `OP_PAIRCOMMIT`, which\n+provides limited vector commitment functionality in tapscript.\n+\n+When evaluated, the `OP_PAIRCOMMIT` instruction:\n+* Pops the top two values off the stack,\n+* takes the \"PairCommit\" tagged SHA256 hash of the stack elements with size\n+commitments,\n+* pushes the resulting 32-byte hash to the top of stack.\n+\n+## Motivation\n+\n+Currently, bitcoin lacks a way to hash multiple stack elements together. Which\n+means building Merkle trees or verifying inclusion in a tree is not supported.\n+\n+`OP_PAIRCOMMIT` is a simple and efficient tool to commit to two stack elements,\n+in a way that makes length redistribution attacks infeasible.\n+\n+The number of SHA256 iterations is minimized in the typical use cases we can\n+optimize for. Since the Tag can be pre-computed as mid-state, it would only\n+take 1 or 2 hash cycles in validation for the unilateral close scenario.\n+\n+## Specification\n+\n+Repurpose opcode 205 (currently `OP_SUCCESS`) as follows:\n+\n+`OP_PAIRCOMMIT` pops two elements off the stack, then concatenates them along\n+with their size commitments and takes the tagged SHA256 hash of that\n+concatenated string, then pushes the resulting hash back on the stack.\n+\n+Given the stack `[x1, x2]`, where `x2` is at the top of the stack:\n+\n+`OP_PAIRCOMMIT` will push `SHA256(tagPC|cs(x1)|x1|cs(x2)|x2)` onto the stack.\n+\n+Where `|` denotes concatenation and `tagPC` is calculated according to\n+[BIP-340] tagged hash as `SHA256(\"PairCommit\")|SHA256(\"PairCommit\")` and\n+`cs(x)` means `CompactSize(x)`.\n+\n+### Implementation\n+\n+```c++\n+case OP_PAIRCOMMIT: {\n+    // OP_PAIRCOMMIT is only available in Tapscript\n+    // ...\n+    // x1 x2 -- hash\n+    if (stack.size() < 2) {\n+        return set_error(serror, SCRIPT_ERR_INVALID_STACK_OPERATION);\n+    }\n+    const valtype& vch1 = stacktop(-2);\n+    const valtype& vch2 = stacktop(-1);\n+\n+    uint256 hash = PairCommitHash(vch1, vch2);\n+\n+    stack.pop_back();\n+    stack.pop_back();\n+    stack.emplace_back(hash.begin(), hash.end());\n+    break;\n+}\n+```\n+```c++\n+const HashWriter HASHER_PAIRCOMMIT{TaggedHash(\"PairCommit\")};\n+\n+uint256 PairCommitHash(const std::vector<unsigned char>& x1, const std::vector<unsigned char>& x2)\n+{\n+    return (HashWriter{HASHER_PAIRCOMMIT} << x1 << x2).GetSHA256();\n+}\n+```\n+### Use in script\n+\n+`OP_PAIRCOMMIT` can be used to commit to a vector of stack elements in a way\n+that is not vulnerable to various forms of witness malleability. It is, however,\n+highly optimized for just 2 stack elements.\n+\n+```text\n+# pc-hash = PC(a, PC(b, c))\n+\n+<a> <b> <c> | PC PC <pc-hash> OP_EQUALVERIFY\n+```\n+\n+### Use in LN-Symmetry\n+\n+To do LN-Symmetry contracts that don't require the nodes to keep old states,\n+we need to solve the data availability problem presented by unilateral closes.\n+Channel peers must be able to reconstruct the script that spends an\n+intermediate state.\n+\n+Using in sequence `OP_CHECKTEMPLATEVERIFY`, `OP_PAIRCOMMIT`, `OP_INTERNALKEY`\n+and `OP_CHECKSIGFROMSTACK` we can construct a rebindable channel that is also\n+[optimal].\n+\n+The following assembly-like pseudo-code shows a possible LN-Symmetry channel\n+construction that provides data availability to spend to the latest state from\n+an earlier state pushed on-chain with a forced close by channel partner.\n+\n+\n+```text\n+# S = 500000000\n+# IK -> A+B\n+<sig> <state-n-recovery-data> <state-n-hash> | CTV PC IK CSFS <S+1> CLTV DROP\n+```\n+before funding, sign the first state:\n+```text\n+# state-n-hash { nLockTime(S+n), out(contract, amount(A)+amount(B)) }\n+# settlement-n-hash { nSequence(2w), out(A, amount(A)), out(B, amount(B)) }\n+# state-n-recovery-data { settlement-n-hash or state-n-balance }\n+\n+# contract for state n < m\n+IF\n+  <sig> <state-m-recovery-data> <state-m-hash> | CTV PC IK CSFS <S+n+1> CLTV DROP\n+ELSE\n+  <settlement-n-hash> CTV\n+ENDIF\n+```\n+\n+### Use with future updates\n+\n+Detailed introspection opcodes would also need vector commitments when used\n+with `OP_CHECKSIGFROMSTACK`.\n+\n+`OP_CHECKCONTRACTVERIFY` would also need a way to carry complex data.\n+\n+## Reference Implementation\n+\n+A reference implementation is provided here:\n+\n+https://github.com/lnhance/bitcoin/pull/6/files\n+\n+## Rationale\n+\n+If `OP_CAT` was available, it could be used to combine multiple stack elements\n+that get verified with `OP_CHECKSIGFROMSTACK` as a valid state update.\n+\n+Using `OP_CAT` for this purpose requires additional opcodes to prevent witness\n+malleability (e.g. `0x0102 0x03 OP_CAT` is identical to `0x01 0x0203 OP_CAT`).\n+\n+`OP_PAIRCOMMIT` solves this specific problem without introducing a wide range\n+of potentially controversial new behaviors like fully detailed introspection,\n+which includes the ability to inspect parent transactions and novel 2-way peg\n+mechanisms. ([CAT-tricks-I] and [CAT-tricks-II] by Andrew Poelstra)\n+\n+Alternatively `OP_RETURN` could be used to ensure the availability of the state\n+recovery data, as `OP_CHECKTEMPLATEVERIFY` naturally commits to all outputs.\n+However, its cost in weight units would be over 4 times higher than that of\n+using `OP_PAIRCOMMIT`.\n+\n+One way to think about the 3 opcodes (`OP_CHECKSIGFROMSTACK`, `OP_INTERNALKEY`,\n+`OP_PAIRCOMMIT`) is we decompose a `OP_CHECKSIGFROMSTACK` variant that can use\n+a 1-byte `OP_TRUE` public key (substituting for the *taproot internal key*) and\n+can commit to a number of stack elements as a message.\n+\n+### Behaviors LNhance tries to avoid introducing\n+\n+The following behaviors are out of scope for LNhance and should not be enabled\n+as a side effect without explicit consensus:\n+\n+* Fine-grained introspection\n+* State-carrying covenants\n+* Bigint operations\n+* New arithmetic capabilities using lookup tables\n+\n+### Alternative approaches\n+\n+The following list of alternative approaches were discussed and rejected for\n+various reasons, either for expanding the scope or for unnecessary complexity:\n+\n+* OP_CAT\n+* SHA256 streaming opcodes\n+* Merkle operation opcodes\n+* 'Kitty' CAT: result or inputs arbitrarily limited in size\n+* OP_CHECKTEMPLATEVERIFY committing to the taproot annex in tapscript\n+* OP_CHECKSIGFROMSTACK on n elements as message\n+* OP_VECTORCOMMIT: generalized form for n > 2 elements\n+* ReKey: key delegation and multiple use of OP_CHECKSIGFROMSTACK\n+\n+### Cost comparison of LN-Symmetry constructions\n+\n+| Method        | ChannelSc | UpdateSc | UpdateW | ForceC  | Contest | Settle |\n+| :------------ | --------: | -------: | ------: | ------: | ------: | :----: |\n+| APO-Annex     |      8 WU |   113 WU |  100 WU | 1221 WU |  627 WU | SigOp  |\n+| APO-Return    |      8 WU |   113 WU |   66 WU | 1359 WU |  765 WU | SigOp  |\n+| CTV+CSFS+IKEY |     10 WU |    48 WU |   98 WU | 1328 WU |  732 WU |  CTV   |\n+| CTV+CSFS      |     43 WU |    81 WU |   98 WU | 1394 WU |  765 WU |  CTV   |\n+| LNhance       |     11 WU |    49 WU |  131 WU | 1191 WU |  594 WU |  CTV   |\n+\n+*ChannelSc: channel script, UpdateSc: update script, UpdateW: witness is the\n+same size for both Force Close and Contest in LN-Symmetry, ForceC: total cost of unilateral close transactions*\n+\n+### Proving general computation\n+\n+Merkle trees can be used to prove computation where the root of the tree\n+represents the *function* and the leaves represent the *inputs* and *output*.\n+There are practical limits to the entropy space for the *inputs* as they need\n+to be iterated over and hashed into a Merkle root.\n+\n+Taproot MAST trees can currently cover 128 bits of entropy space, which is over",
+      "path": "bip-0442.md",
+      "position": 208,
+      "original_position": 208,
+      "commit_id": "0ad3d24aa434487873e94f1fb28e0fce08c8c33e",
+      "original_commit_id": "0ad3d24aa434487873e94f1fb28e0fce08c8c33e",
+      "in_reply_to_id": 1899723011,
+      "user": {
+        "login": "reardencode",
+        "id": 730881,
+        "node_id": "MDQ6VXNlcjczMDg4MQ==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/730881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/reardencode",
+        "html_url": "https://github.com/reardencode",
+        "followers_url": "https://api.github.com/users/reardencode/followers",
+        "following_url": "https://api.github.com/users/reardencode/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/reardencode/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/reardencode/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/reardencode/subscriptions",
+        "organizations_url": "https://api.github.com/users/reardencode/orgs",
+        "repos_url": "https://api.github.com/users/reardencode/repos",
+        "events_url": "https://api.github.com/users/reardencode/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/reardencode/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "I think \"Taproot script tree\" or \"Taproot Merkle tree\" would both be clear, I prefer the former.",
+      "created_at": "2024-12-31T15:58:37Z",
+      "updated_at": "2024-12-31T16:13:21Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1699#discussion_r1900176590",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1900176590"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1699"
