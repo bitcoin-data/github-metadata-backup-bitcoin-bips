@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-10-17T12:39:57Z",
-    "updated_at": "2024-12-31T10:28:00Z",
+    "updated_at": "2024-12-31T15:09:52Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "321ebe56c2e8821aba40e98f0af4693606e0ed84",
@@ -294,7 +294,7 @@
         "visibility": "public",
         "pushed_at": "2024-12-28T21:17:59Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-31T06:20:40Z",
+        "updated_at": "2024-12-31T11:53:14Z",
         "allow_forking": true
       }
     },
@@ -309,7 +309,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 9,
-    "review_comments": 53,
+    "review_comments": 54,
     "comments": 1
   },
   "events": [
@@ -3999,6 +3999,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1900039892"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1687"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 58,
+      "original_line": 58,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1900156330",
+      "pull_request_review_id": 2526540148,
+      "id": 1900156330,
+      "node_id": "PRRC_kwDOAN28mc5xQhWq",
+      "diff_hunk": "@@ -0,0 +1,196 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Sending Silent Payments with PSBTs\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Ava Chow <me@achow101.com>\n+          josibake <josibake@protonmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: TBD\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-05-14\n+  License: BSD-2-Clause\n+  Post-History: https://groups.google.com/g/bitcoindev/c/5G5wzqUXyk4\n+  Requires: 352, 370\n+</pre>\n+\n+==Introduction==\n+\n+===Abstract===\n+\n+This document proposes additional fields and updated role responsibilities for BIP370 PSBTv2\n+which adds support for sending to silent payments as described in BIP352.\n+\n+===Copyright===\n+\n+This BIP is licensed under the 2-clause BSD license.\n+\n+===Motivation===\n+\n+Partially Signed Bitcoin Transaction Version 2 as described in BIP370 is not compatible with sending to silent payments as described in BIP352. \n+In particular, the output script of a silent payment cannot be computed until after all transaction inputs have been added.\n+Additionally, the silent payment outputs computed by a signer must be verifiable by other entities, otherwise funds could be sent to an incorrect output script.\n+Therefore, new fields and role responsibilities must be added to carry, compute, and verify the silent payment data.\n+\n+==Specification==\n+\n+This document specifies new fields and new field inclusion/exclusion requirements.\n+\n+The new global types are defined as follows:\n+\n+{|\n+! Name\n+! <tt><keytype></tt>\n+! <tt><keydata></tt>\n+! <tt><keydata></tt> Description\n+! <tt><valuedata></tt>\n+! <tt><valuedata></tt> Description\n+! Versions Requiring Inclusion\n+! Versions Requiring Exclusion\n+! Versions Allowing Inclusion\n+|-\n+| Silent Payment Global ECDH Share\n+| <tt>PSBT_GLOBAL_SP_ECDH_SHARE = 0x07</tt>\n+| <tt><33 byte scan key> <36 byte outpoint>*</tt>\n+| The scan key and a list of outpoints corresponding to the prevouts of the inputs that this ECDH share is for. The outpoints are composed of a 32 byte txid followed by a 32-bit little endian uint.\n+| <tt><33 byte share></tt>\n+| An ECDH share for a scan key, followed by a list of outpoints. The ECDH shared is computed with ''a * B_scan'', where ''a'' is the sum of all private keys of the inputs matching the list of outpoints, and ''B_scan'' is the scan key of a recipient.",
+      "path": "bip-PSBT-SP.mediawiki",
+      "position": 58,
+      "original_position": 58,
+      "commit_id": "c9589c588bdc7e265ca2a73ba54e0df1c1c95c7f",
+      "original_commit_id": "c9589c588bdc7e265ca2a73ba54e0df1c1c95c7f",
+      "in_reply_to_id": 1899140441,
+      "user": {
+        "login": "andrewtoth",
+        "id": 237213,
+        "node_id": "MDQ6VXNlcjIzNzIxMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/237213?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/andrewtoth",
+        "html_url": "https://github.com/andrewtoth",
+        "followers_url": "https://api.github.com/users/andrewtoth/followers",
+        "following_url": "https://api.github.com/users/andrewtoth/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/andrewtoth/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/andrewtoth/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/andrewtoth/subscriptions",
+        "organizations_url": "https://api.github.com/users/andrewtoth/orgs",
+        "repos_url": "https://api.github.com/users/andrewtoth/repos",
+        "events_url": "https://api.github.com/users/andrewtoth/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/andrewtoth/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "> But perhaps this BIP doesn't have to go into details around that\r\n\r\nHmm I'm not sure that's a good idea to leave that unspecified. Different implementations could then depend on different metadata fields that may or may not be set and be incompatible. The purpose of a standard is to avoid that problem.\r\n\r\nIf it's easier we can use the BIP-32 derivation field since I see `PSBT_IN_HASH160` is not implemented in https://github.com/bitcoinjs/bip174 either. The difference is that the value of that field should be set to a fingerprint and derivation path which some signers might not want to share. We can specify in this document to set this field for non-taproot sp eligible inputs, and a zero fingerprint and empty path array for the value.",
+      "created_at": "2024-12-31T15:09:52Z",
+      "updated_at": "2024-12-31T15:09:52Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1687#discussion_r1900156330",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1900156330"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1687"
