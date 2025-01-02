@@ -51,10 +51,10 @@
       }
     ],
     "created_at": "2024-09-27T16:08:30Z",
-    "updated_at": "2025-01-01T16:22:06Z",
+    "updated_at": "2025-01-02T19:58:31Z",
     "mergeable": true,
     "mergeable_state": "clean",
-    "merge_commit_sha": "3b714f972b0231c58f5edd8af5e1fae518c93a88",
+    "merge_commit_sha": "4f1aaf20471f58b391ba68b7bfd59564cc4df968",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -222,8 +222,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 4,
-        "stargazers_count": 13,
-        "watchers_count": 13,
+        "stargazers_count": 14,
+        "watchers_count": 14,
         "size": 15760,
         "default_branch": "master",
         "open_issues_count": 1,
@@ -239,7 +239,7 @@
         "visibility": "public",
         "pushed_at": "2024-12-23T22:47:28Z",
         "created_at": "2024-05-14T01:43:35Z",
-        "updated_at": "2024-12-17T18:02:47Z",
+        "updated_at": "2025-01-01T18:30:42Z",
         "allow_forking": true
       }
     },
@@ -342,11 +342,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5449,
-        "stargazers_count": 9588,
-        "watchers_count": 9588,
-        "size": 15803,
+        "stargazers_count": 9589,
+        "watchers_count": 9589,
+        "size": 15806,
         "default_branch": "master",
-        "open_issues_count": 42,
+        "open_issues_count": 41,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -357,9 +357,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-12-31T16:28:36Z",
+        "pushed_at": "2025-01-02T00:04:57Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-12-31T21:00:42Z",
+        "updated_at": "2025-01-02T10:09:31Z",
         "allow_forking": true
       }
     },
@@ -5774,9 +5774,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-01-01T16:22:04Z",
-      "updated_at": "2025-01-01T16:22:04Z",
+      "updated_at": "2025-01-02T19:58:31Z",
       "author_association": "NONE",
-      "body": "> @mraksoll4 All PQC algos will of course need to be compatible with BIP-32 HD wallet-style key derivation. There are definitely PQC libraries out there that just assume you'll never want to bring your own entropy, and so they don't provide a field or argument to provide that, but the intention behind the implementation of this BIP is that there will be a custom PQC library for bitcoin specifically that will implement things like this. So, your concern, while valid, is an implementation detail, and doesn't really have much bearing on the BIP itself.\r\n\r\nWell, we have no problems with private keys, and also with generating from a seed, I have already implemented for experiments on the liboqs library the use of my own seed for falcon and dilithium to obtain a pair of keys, as well as obtaining a public key from a private one.\r\n\r\nThere are also no problems with multi-signature, the signature itself can be merged.\r\n\r\nbut we have a problem with obtaining public keys from the master public key ; due to the design of post quantum algorithms, we do not have the ability to obtain public keys from other public keys through predictable mathematical operations as in ecdsa.\r\n\r\nalthough perhaps I don’t fully understand how we get the master public key.",
+      "body": "> @mraksoll4 All PQC algos will of course need to be compatible with BIP-32 HD wallet-style key derivation. There are definitely PQC libraries out there that just assume you'll never want to bring your own entropy, and so they don't provide a field or argument to provide that, but the intention behind the implementation of this BIP is that there will be a custom PQC library for bitcoin specifically that will implement things like this. So, your concern, while valid, is an implementation detail, and doesn't really have much bearing on the BIP itself.\r\n\r\nWell, we have no problems with private keys, and also with generating from a seed, I have already implemented for experiments on the liboqs library the use of my own seed for falcon and dilithium to obtain a pair of keys, as well as obtaining a public key from a private one.\r\n\r\nThere are also no problems with multi-signature, the signature itself can be merged.\r\n\r\nbut we have a problem with obtaining public keys from the master public key ; due to the design of post quantum algorithms, we do not have the ability to obtain public keys from other public keys through predictable mathematical operations as in ecdsa.\r\n\r\nalthough perhaps I don’t fully understand how we get the master public key.\r\n\r\nhow start you can see at base examle .\r\n\r\nhttps://github.com/open-quantum-safe/liboqs/pull/2031\r\n\r\nfirst we need to solve the problem of key hierarchy, or we will have to forget about generating public keys without cration the private key, although for example in Falcon you don't need the entire private key but only part of it to reconstruct the public key\r\n```\r\n\r\n/*\r\n * This function reconstructs the public key from a given private key.\r\n * It decodes the private key components (f and g) from the secret key\r\n * and uses them to regenerate the corresponding public key (h).\r\n * The generated public key is then encoded into the provided pk array.\r\n * \r\n * public (pk):  The output buffer where the public key will be stored (must be at least PQCLEAN_FALCON512_CLEAN_CRYPTO_PUBLICKEYBYTES in size).\r\n * private (sk):  The input secret key (private key) in byte array format (must be PQCLEAN_FALCON512_CLEAN_CRYPTO_SECRETKEYBYTES in size).\r\n * Return value: 0 on success, -1 on error.\r\n */\r\nint \r\nPQCLEAN_FALCON1024_CLEAN_crypto_sign_pubkey_from_privkey(\r\n    uint8_t *pk, const uint8_t *sk) {\r\n    union {\r\n        uint8_t b[FALCON_KEYGEN_TEMP_10];\r\n        uint64_t dummy_u64;\r\n        fpr dummy_fpr;\r\n    } tmp;\r\n    int8_t f[1024], g[1024], F[1024];\r\n    uint16_t h[1024];\r\n    size_t u, v;\r\n\r\n    /*\r\n     * Decode the private key.\r\n     */\r\n    if (sk[0] != 0x50 + 10) {\r\n        return -1;\r\n    }\r\n    u = 1;\r\n    v = PQCLEAN_FALCON1024_CLEAN_trim_i8_decode(\r\n            f, 10, PQCLEAN_FALCON1024_CLEAN_max_fg_bits[10],\r\n            sk + u, PQCLEAN_FALCON1024_CLEAN_CRYPTO_SECRETKEYBYTES - u);\r\n    if (v == 0) {\r\n        return -1;\r\n    }\r\n    u += v;\r\n    v = PQCLEAN_FALCON1024_CLEAN_trim_i8_decode(\r\n            g, 10, PQCLEAN_FALCON1024_CLEAN_max_fg_bits[10],\r\n            sk + u, PQCLEAN_FALCON1024_CLEAN_CRYPTO_SECRETKEYBYTES - u);\r\n    if (v == 0) {\r\n        return -1;\r\n    }\r\n\r\n    /*\r\n     * Reconstruct the public key using f and g by calling the compute_public function.\r\n     */\r\n    if (!PQCLEAN_FALCON1024_CLEAN_compute_public(h, f, g, 10, tmp.b)) {\r\n        return -1;\r\n    }\r\n\r\n    /*\r\n     * Encode public key.\r\n     */\r\n    pk[0] = 0x00 + 10;\r\n    v = PQCLEAN_FALCON1024_CLEAN_modq_encode(\r\n            pk + 1, PQCLEAN_FALCON1024_CLEAN_CRYPTO_PUBLICKEYBYTES - 1,\r\n            h, 10);\r\n    if (v != PQCLEAN_FALCON1024_CLEAN_CRYPTO_PUBLICKEYBYTES - 1) {\r\n        return -1;\r\n    }\r\n\r\n    return 0;\r\n}\r\n\r\n```",
       "user": {
         "login": "mraksoll4",
         "id": 32709596,
