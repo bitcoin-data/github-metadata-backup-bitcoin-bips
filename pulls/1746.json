@@ -42,7 +42,7 @@
     "body": "This is a BIP Draft for an `unspendable` key expression that can be used as the taproot internal key. The expression creates a provably unspendable key that is deterministically created with only the descriptor. This allows all participants to verify that the keypath is unspendable, while also hiding that fact from outside observers.\r\n\r\nPrevious discussion on delving https://delvingbitcoin.org/t/unspendable-keys-in-descriptors/304.\r\n\r\nMailing list post: https://groups.google.com/g/bitcoindev/c/xWxy8DtW6m8\r\n",
     "labels": [],
     "created_at": "2025-01-17T14:48:42Z",
-    "updated_at": "2025-01-19T19:22:40Z",
+    "updated_at": "2025-01-19T20:30:35Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "9b8bd5395456154b849afde768676a804b2a09d8",
@@ -268,8 +268,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5466,
-        "stargazers_count": 9637,
-        "watchers_count": 9637,
+        "stargazers_count": 9638,
+        "watchers_count": 9638,
         "size": 15836,
         "default_branch": "master",
         "open_issues_count": 34,
@@ -285,7 +285,7 @@
         "visibility": "public",
         "pushed_at": "2025-01-14T15:14:42Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-01-19T19:29:54Z",
+        "updated_at": "2025-01-19T20:02:34Z",
         "allow_forking": true
       }
     },
@@ -301,7 +301,7 @@
     "changed_files": 1,
     "commits": 9,
     "review_comments": 3,
-    "comments": 15
+    "comments": 16
   },
   "events": [
     {
@@ -2654,6 +2654,62 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-01-19T19:22:40Z"
+    },
+    {
+      "event": "commented",
+      "id": 2601010849,
+      "node_id": "IC_kwDOAN28mc6bCEah",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2601010849",
+      "actor": {
+        "login": "darosior",
+        "id": 22457751,
+        "node_id": "MDQ6VXNlcjIyNDU3NzUx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22457751?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/darosior",
+        "html_url": "https://github.com/darosior",
+        "followers_url": "https://api.github.com/users/darosior/followers",
+        "following_url": "https://api.github.com/users/darosior/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/darosior/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/darosior/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/darosior/subscriptions",
+        "organizations_url": "https://api.github.com/users/darosior/orgs",
+        "repos_url": "https://api.github.com/users/darosior/repos",
+        "events_url": "https://api.github.com/users/darosior/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/darosior/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-01-19T20:30:33Z",
+      "updated_at": "2025-01-19T20:30:33Z",
+      "author_association": "MEMBER",
+      "body": "> I see this constraint in the Liana code as well. So we can't do `tr(unspendable, {pk(key),sha256(h)})`?\r\n\r\nThis is a Liana-specific constraint which i don't think should apply to this standard. (We have a bunch of constraints on the descriptors accepted in Liana to make it easier to reason about what action can be performed by the user.)\r\n\r\nNote also the `sha256(h)` leaf is a Miniscript, which here would be considered malleable as it does not have a key check required on all spending paths. For instance the Bitcoin Core wallet would refuse to import it as malleable Miniscript descriptors are considered unsafe (or not \"sane\") to use.",
+      "user": {
+        "login": "darosior",
+        "id": 22457751,
+        "node_id": "MDQ6VXNlcjIyNDU3NzUx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22457751?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/darosior",
+        "html_url": "https://github.com/darosior",
+        "followers_url": "https://api.github.com/users/darosior/followers",
+        "following_url": "https://api.github.com/users/darosior/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/darosior/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/darosior/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/darosior/subscriptions",
+        "organizations_url": "https://api.github.com/users/darosior/orgs",
+        "repos_url": "https://api.github.com/users/darosior/repos",
+        "events_url": "https://api.github.com/users/darosior/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/darosior/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1746#issuecomment-2601010849",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1746"
     }
   ],
   "comments": [
