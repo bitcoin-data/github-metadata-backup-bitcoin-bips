@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-01-17T14:48:42Z",
-    "updated_at": "2025-01-20T15:41:24Z",
+    "updated_at": "2025-01-20T16:55:01Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "9b8bd5395456154b849afde768676a804b2a09d8",
@@ -309,7 +309,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 9,
-    "review_comments": 9,
+    "review_comments": 12,
     "comments": 17
   },
   "events": [
@@ -3361,6 +3361,165 @@
       "start_side": null,
       "line": 93,
       "original_line": 93,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1922644978",
+      "pull_request_review_id": 2562798538,
+      "id": 1922644978,
+      "node_id": "PRRC_kwDOAN28mc5ymTvy",
+      "diff_hunk": "@@ -0,0 +1,111 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: unspendable() Descriptor Key Expression\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Kewde <kewde@particl.io>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-12-12\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies a <tt>unspendable()</tt> key expression for output script descriptors. The <tt>unspendable()</tt> expression operates on the root <tt>TREE</tt> expression and produces an unspendable public key that can be independently verified by anyone with knowledge of all the constituent public keys.\n+\n+==Copyright==\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+==Motivation==\n+\n+When creating a multi-party Taproot transaction spending only from the script path, it is useful to be able to prove to all cosigners that they keypath is unspendable. Otherwise a malicious participant could use an internal key which they have the private key for and spend the transaction out from the rest of the participants.\n+\n+This document introduces a mechanism to compute a NUMS (Nothing Up My Sleeve) point for use in the Taproot key path that:\n+* Allows active participants involved in constructing the output script to independently verify the unspendable key.\n+* Prevents passive observers from recognizing that the key path is unspendable.\n+* Enables signers with limited information, such as hardware wallets, to verify unspendability without requiring user interaction.\n+\n+==Specification==\n+\n+A new key expression is defined: <tt>unspendable()/NUM/.../*</tt>.\n+\n+===<tt>unspendable()/NUM/.../*</tt>===\n+\n+The <tt>unspendable</tt> expression can only be used as the first argument of a BIP386 <tt>tr(KEY, TREE)</tt> expression. All other <tt>KEY</tt> expressions in the descriptor must be <tt>xpub</tt> encoded extended public keys with exactly 2 unhardened derivation steps. The derivation steps may include <tt>/*</tt> or a BIP389 multipath expression, but still must have only unhardened steps. BIP390 <tt>musig(KEY, KEY, ..., KEY)</tt> expressions are allowed, but the variant with derivation after the expression <tt>musig(KEY, KEY, ..., KEY)/NUM/.../*</tt> is forbidden.",
+      "path": "bip-xxxx.mediawiki",
+      "position": 38,
+      "original_position": 38,
+      "commit_id": "a2e38654501e755372b7f6ac3b9487635b91ce21",
+      "original_commit_id": "a2e38654501e755372b7f6ac3b9487635b91ce21",
+      "in_reply_to_id": 1922037785,
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Per the previous discussions, the goal was to come up with something that works for both descriptors and wallet policies, and doesn't require any complicated parsing. Aggregating `musig()` before using its key (rather than using the individual keys like you'd do for `multi/sortedmulti` fragments) would completely negate the advantages of sorting and removing duplicates - namely, being able to compute the deterministic chaincode with a simple function of the involved xpubs.",
+      "created_at": "2025-01-20T16:30:47Z",
+      "updated_at": "2025-01-20T16:30:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1746#discussion_r1922644978",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1922644978"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1746"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 38,
+      "original_line": 38,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1922667310",
+      "pull_request_review_id": 2562840179,
+      "id": 1922667310,
+      "node_id": "PRRC_kwDOAN28mc5ymZMu",
+      "diff_hunk": "@@ -0,0 +1,111 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: unspendable() Descriptor Key Expression\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Kewde <kewde@particl.io>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-12-12\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies a <tt>unspendable()</tt> key expression for output script descriptors. The <tt>unspendable()</tt> expression operates on the root <tt>TREE</tt> expression and produces an unspendable public key that can be independently verified by anyone with knowledge of all the constituent public keys.\n+\n+==Copyright==\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+==Motivation==\n+\n+When creating a multi-party Taproot transaction spending only from the script path, it is useful to be able to prove to all cosigners that they keypath is unspendable. Otherwise a malicious participant could use an internal key which they have the private key for and spend the transaction out from the rest of the participants.\n+\n+This document introduces a mechanism to compute a NUMS (Nothing Up My Sleeve) point for use in the Taproot key path that:\n+* Allows active participants involved in constructing the output script to independently verify the unspendable key.\n+* Prevents passive observers from recognizing that the key path is unspendable.\n+* Enables signers with limited information, such as hardware wallets, to verify unspendability without requiring user interaction.\n+\n+==Specification==\n+\n+A new key expression is defined: <tt>unspendable()/NUM/.../*</tt>.\n+\n+===<tt>unspendable()/NUM/.../*</tt>===\n+\n+The <tt>unspendable</tt> expression can only be used as the first argument of a BIP386 <tt>tr(KEY, TREE)</tt> expression. All other <tt>KEY</tt> expressions in the descriptor must be <tt>xpub</tt> encoded extended public keys with exactly 2 unhardened derivation steps. The derivation steps may include <tt>/*</tt> or a BIP389 multipath expression, but still must have only unhardened steps. BIP390 <tt>musig(KEY, KEY, ..., KEY)</tt> expressions are allowed, but the variant with derivation after the expression <tt>musig(KEY, KEY, ..., KEY)/NUM/.../*</tt> is forbidden.",
+      "path": "bip-xxxx.mediawiki",
+      "position": 38,
+      "original_position": 38,
+      "commit_id": "a2e38654501e755372b7f6ac3b9487635b91ce21",
+      "original_commit_id": "a2e38654501e755372b7f6ac3b9487635b91ce21",
+      "in_reply_to_id": 1922037785,
+      "user": {
+        "login": "andrewtoth",
+        "id": 237213,
+        "node_id": "MDQ6VXNlcjIzNzIxMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/237213?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/andrewtoth",
+        "html_url": "https://github.com/andrewtoth",
+        "followers_url": "https://api.github.com/users/andrewtoth/followers",
+        "following_url": "https://api.github.com/users/andrewtoth/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/andrewtoth/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/andrewtoth/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/andrewtoth/subscriptions",
+        "organizations_url": "https://api.github.com/users/andrewtoth/orgs",
+        "repos_url": "https://api.github.com/users/andrewtoth/repos",
+        "events_url": "https://api.github.com/users/andrewtoth/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/andrewtoth/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "One of the goals is also to not have any malleability - two descriptors or policies that produce the same merkle root should always produce the same internal key.\r\nWe cannot know if an xpub in a descriptor or wallet policy is actually an aggregate xpub, which could also be represented with the `musig` expression.",
+      "created_at": "2025-01-20T16:50:59Z",
+      "updated_at": "2025-01-20T16:50:59Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1746#discussion_r1922667310",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1922667310"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1746"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 38,
+      "original_line": 38,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1922671741",
+      "pull_request_review_id": 2562848660,
+      "id": 1922671741,
+      "node_id": "PRRC_kwDOAN28mc5ymaR9",
+      "diff_hunk": "@@ -0,0 +1,111 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: unspendable() Descriptor Key Expression\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Kewde <kewde@particl.io>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-12-12\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies a <tt>unspendable()</tt> key expression for output script descriptors. The <tt>unspendable()</tt> expression operates on the root <tt>TREE</tt> expression and produces an unspendable public key that can be independently verified by anyone with knowledge of all the constituent public keys.\n+\n+==Copyright==\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+==Motivation==\n+\n+When creating a multi-party Taproot transaction spending only from the script path, it is useful to be able to prove to all cosigners that they keypath is unspendable. Otherwise a malicious participant could use an internal key which they have the private key for and spend the transaction out from the rest of the participants.\n+\n+This document introduces a mechanism to compute a NUMS (Nothing Up My Sleeve) point for use in the Taproot key path that:\n+* Allows active participants involved in constructing the output script to independently verify the unspendable key.\n+* Prevents passive observers from recognizing that the key path is unspendable.\n+* Enables signers with limited information, such as hardware wallets, to verify unspendability without requiring user interaction.\n+\n+==Specification==\n+\n+A new key expression is defined: <tt>unspendable()/NUM/.../*</tt>.\n+\n+===<tt>unspendable()/NUM/.../*</tt>===\n+\n+The <tt>unspendable</tt> expression can only be used as the first argument of a BIP386 <tt>tr(KEY, TREE)</tt> expression. All other <tt>KEY</tt> expressions in the descriptor must be <tt>xpub</tt> encoded extended public keys with exactly 2 unhardened derivation steps. The derivation steps may include <tt>/*</tt> or a BIP389 multipath expression, but still must have only unhardened steps. BIP390 <tt>musig(KEY, KEY, ..., KEY)</tt> expressions are allowed, but the variant with derivation after the expression <tt>musig(KEY, KEY, ..., KEY)/NUM/.../*</tt> is forbidden.",
+      "path": "bip-xxxx.mediawiki",
+      "position": 38,
+      "original_position": 38,
+      "commit_id": "a2e38654501e755372b7f6ac3b9487635b91ce21",
+      "original_commit_id": "a2e38654501e755372b7f6ac3b9487635b91ce21",
+      "in_reply_to_id": 1922037785,
+      "user": {
+        "login": "sipa",
+        "id": 548488,
+        "node_id": "MDQ6VXNlcjU0ODQ4OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/sipa",
+        "html_url": "https://github.com/sipa",
+        "followers_url": "https://api.github.com/users/sipa/followers",
+        "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
+        "organizations_url": "https://api.github.com/users/sipa/orgs",
+        "repos_url": "https://api.github.com/users/sipa/repos",
+        "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/sipa/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "@andrewtoth You're imposing an (arbitrary) distinction though at the xpub level. If you expand a description in any specific position, and replace all xpub/keypath expression with their hex pubkey at that point, the merkle root will still be the same, but since you've lost the xpub data, you can't generate the same unspendable keys anymore.\r\n\r\n(I don't have an opinion either way here, just pointing out that what kinds of changes you incorporate in the calculation and which you don't is inherently arbitrary)",
+      "created_at": "2025-01-20T16:55:01Z",
+      "updated_at": "2025-01-20T16:55:48Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1746#discussion_r1922671741",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1922671741"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1746"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 38,
+      "original_line": 38,
       "side": "RIGHT"
     }
   ]
