@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-09-27T16:08:30Z",
-    "updated_at": "2025-01-24T21:30:05Z",
+    "updated_at": "2025-01-24T22:46:19Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "bedc38f87e0e7ecb284a772960b97ee0acae2140",
@@ -224,7 +224,7 @@
         "forks_count": 3,
         "stargazers_count": 16,
         "watchers_count": 16,
-        "size": 15739,
+        "size": 15750,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -237,7 +237,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-01-24T21:30:11Z",
+        "pushed_at": "2025-01-24T22:14:22Z",
         "created_at": "2024-05-14T01:43:35Z",
         "updated_at": "2025-01-23T16:21:34Z",
         "allow_forking": true
@@ -7878,9 +7878,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-01-24T21:30:03Z",
-      "updated_at": "2025-01-24T21:30:03Z",
+      "updated_at": "2025-01-24T22:46:19Z",
       "author_association": "NONE",
-      "body": "> @mraksoll4\r\n> \r\n> > multithreading\r\n> \r\n> Some things are not easy to multithread, such as WASM implementations, like that used by BDK web wallets, so we can't rely on that to address those concerns. SQIsign's performance was particularly terrible, and so it was removed.\r\n> \r\n> > Ideally, they should be used in combination with hash-based approaches, such as sponge constructions like Keccak (e.g., SHA-3, SHAKE256)\r\n> \r\n> Given that the threat Grover's poses is more remote than the threat posed by Shor's, I'd really rather restrict this BIP to only changes to signature algorithms and not to any hash functions used by Bitcoin.\r\n> \r\n> > I believe the approach should be independent of ECDSA to avoid even the slightest potential vulnerability.\r\n> \r\n> Absolutely not. It's fine to support secp256k1 even in a post-quantum regime so long as it's combined with PQC.\r\n\r\nIt’s more convenient to store a separate descriptor with a separate seed for post quantum addresses and separation of generation; in addition to security, this is convenient if we later want to add more signature algorithms\r\n\r\n\r\nin case of combination it is also important what do we want to use for quantum algorithm as a seed? If keys are what they are and convert them to 48 bytes of seed, then what is the point? It will be enough for an attacker to crack ecdsa, because they are connected, if they have their keygen with their seed and are connected almost exclusively by paths, that is, an additional level of protection. Sha3 algorithms are less susceptible to Sha256 problems, shake256 is simply convenient as a converter for obtaining good cryptographic bytes from combined paths with a base seed.\r\n\r\n",
+      "body": "> @mraksoll4\r\n> \r\n> > multithreading\r\n> \r\n> Some things are not easy to multithread, such as WASM implementations, like that used by BDK web wallets, so we can't rely on that to address those concerns. SQIsign's performance was particularly terrible, and so it was removed.\r\n> \r\n> > Ideally, they should be used in combination with hash-based approaches, such as sponge constructions like Keccak (e.g., SHA-3, SHAKE256)\r\n> \r\n> Given that the threat Grover's poses is more remote than the threat posed by Shor's, I'd really rather restrict this BIP to only changes to signature algorithms and not to any hash functions used by Bitcoin.\r\n> \r\n> > I believe the approach should be independent of ECDSA to avoid even the slightest potential vulnerability.\r\n> \r\n> Absolutely not. It's fine to support secp256k1 even in a post-quantum regime so long as it's combined with PQC.\r\n\r\nIt’s more convenient to store a separate descriptor with a separate seed for post quantum addresses and separation of generation; in addition to security, this is convenient if we later want to add more signature algorithms\r\n\r\n\r\nin case of combination it is also important what do we want to use for quantum algorithm as a seed? If keys are what they are and convert them to 48 bytes of seed, then what is the point? It will be enough for an attacker to crack ecdsa, because they are connected, if they have their keygen with their seed and are connected almost exclusively by paths, that is, an additional level of protection. Sha3 algorithms are less susceptible to Sha256 problems, shake256 is simply convenient as a converter for obtaining good cryptographic bytes from combined paths with a base seed.\r\n\r\n\r\n```\r\nqrh key descritpor(ECDSA + Master seed with base path as simple example)\r\n       │                                           │  \r\n       │                                           │  \r\nMaster Key(ECDSA)                           Master Seed (PQ) \r\n       │                                           │\r\n       │                                           │\r\n       │                                           │\r\n       │                                           │                                           \r\n       │                                           │               \r\n       │                                           │\r\n       ▼                                           │                                   \r\n   xpub (ECDSA)                                    │                       \r\n       │                                           │\r\n       │                                           │\r\nDrive Path (ECDSA)                      shake256(Derived path + seed (PQ))\r\n       │                                           │\r\n       │                                           │\r\n┌──────▼─────────┐                         ┌───────▼───────┐\r\n│                │                         │               │\r\n│ Pub Key (ECDSA)│                         │ Pub Key (PQ)  │\r\n│                │                         │               │\r\n│                │                         │               │\r\n└───────┬────────┘                         └───────┬───────┘\r\n        │                                          │\r\n        │                                          │\r\n        ├──────────────────────────────────────────┤\r\n        │                                          │\r\n        ▼                                          ▼\r\n┌───────────────────────────────────────────────────────────┐\r\n│                     Merkle Tree Root                      │\r\n│ (Combining Pub Keys from ECDSA and PQ for Merkle Root)    │\r\n└───────────────────────────────────────────────────────────┘\r\n```\r\n\r\nthis is a simplified scheme without scripts, in a real scheme we also include scripts\r\n\r\n\r\nin essence, 2 signature algorithms converge for us through the use of 1 path in relation to the child keys of ecdsa, simultaneously requesting for the attestation field a public key for PQ, or a private key when we need a signature\r\n\r\nit is also possible to do caching, but due to the fact that the keys are huge, this should be optional for anyone who needs it, for everyday use we store only the master and the paths associated with it\r\n\r\n",
       "user": {
         "login": "mraksoll4",
         "id": 32709596,
