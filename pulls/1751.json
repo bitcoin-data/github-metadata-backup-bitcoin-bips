@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2025-01-24T06:23:20Z",
-    "updated_at": "2025-01-29T20:09:51Z",
+    "updated_at": "2025-01-31T16:34:24Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merge_commit_sha": "3c9835c45e787dcfc688d68c0faadb1e1aa9c4ea",
@@ -286,12 +286,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5473,
-        "stargazers_count": 9660,
-        "watchers_count": 9660,
+        "forks_count": 5477,
+        "stargazers_count": 9664,
+        "watchers_count": 9664,
         "size": 15864,
         "default_branch": "master",
-        "open_issues_count": 37,
+        "open_issues_count": 38,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -304,7 +304,7 @@
         "visibility": "public",
         "pushed_at": "2025-01-29T19:49:53Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-01-29T19:50:04Z",
+        "updated_at": "2025-01-31T08:32:24Z",
         "allow_forking": true
       }
     },
@@ -319,7 +319,7 @@
     "deletions": 16,
     "changed_files": 4,
     "commits": 2,
-    "review_comments": 1,
+    "review_comments": 2,
     "comments": 1
   },
   "events": [
@@ -803,6 +803,43 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-01-29T20:09:51Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 2587246757,
+      "node_id": "PRR_kwDOAN28mc6aNkCl",
+      "url": null,
+      "actor": null,
+      "commit_id": "5f42eb64d4df8920220332a62128afd2f6403be1",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "lgtm ACK 5f42eb64d4df8920220332a62128afd2f6403be1\r\n\r\nSomething to solve for a different PR, but it seems there is currently a general mismatch in the BIP that wasn't noticed so far: the algorithms take G as input parameter with the intention to \"[let this algorithm be used for other curves](https://github.com/bitcoin/bips/blob/master/bip-0374.mediawiki#cite_note-why_include_G_2)\", but on the other hand the reference implementation and the test vectors are currently still only available for the secp256k1 curve. To my understanding, supporting different curves could mean completely different curve parameters (e.g. different constants a, b, p, n etc., and even different serialization size of scalars and points that are not compatible with the BIP), and not only choosing a different generator point on a curve with the same equation. Is it even possible to write the BIP in such a generic way? Other BIPs often include the warning _\"We note that adapting this proposal to other elliptic curves is not straightforward and can result in an insecure scheme.\"_ (e.g. in [BIP327](https://github.com/bitcoin/bips/blob/5333e5e9514aa9f92810cfbde830da79c44051bf/bip-0327.mediawiki?plain=1#L215), which is referred to in this BIP), likely for a good reason. If the intention was to indeed only support secp256k1 with different G values (if that makes sense and has use cases), the phrases should adapted.",
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1751#pullrequestreview-2587246757",
+      "submitted_at": "2025-01-31T16:34:24Z",
+      "state": "APPROVED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1751"
     }
   ],
   "comments": [
@@ -857,6 +894,59 @@
       "start_side": null,
       "line": 59,
       "original_line": 59,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1937581887",
+      "pull_request_review_id": 2587246757,
+      "id": 1937581887,
+      "node_id": "PRRC_kwDOAN28mc5zfSc_",
+      "diff_hunk": "@@ -1,5 +1,5 @@\n #!/usr/bin/env python3\n-\"\"\"Generate the BIP-DLEQ test vectors (limited to secp256k1 generator right now).\"\"\"\n+\"\"\"Generate the BIP-0374 test vectors.\"\"\"",
+      "path": "bip-0374/gen_test_vectors.py",
+      "position": 3,
+      "original_position": 3,
+      "commit_id": "5f42eb64d4df8920220332a62128afd2f6403be1",
+      "original_commit_id": "41e0f34f765e12e0a79d60b4874c95def2246a3b",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "nit: if you have to retouch, could also substitute s/BIP-DLEQ/BIP-0374/ in run_test_vectors.py",
+      "created_at": "2025-01-31T16:32:02Z",
+      "updated_at": "2025-01-31T16:34:24Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1751#discussion_r1937581887",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1937581887"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1751"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 2,
+      "original_line": 2,
       "side": "RIGHT"
     }
   ]
