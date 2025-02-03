@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2024-01-10T20:44:45Z",
-    "updated_at": "2025-02-03T15:07:22Z",
+    "updated_at": "2025-02-03T22:48:36Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merge_commit_sha": "70c6360e1be4b4fb419d8fbc1ef635d29231878f",
@@ -182,7 +182,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-02-03T15:10:51Z",
+        "pushed_at": "2025-02-03T22:31:11Z",
         "created_at": "2016-05-19T14:20:20Z",
         "updated_at": "2024-01-03T20:10:00Z",
         "allow_forking": true
@@ -286,9 +286,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5482,
-        "stargazers_count": 9668,
-        "watchers_count": 9668,
+        "forks_count": 5481,
+        "stargazers_count": 9669,
+        "watchers_count": 9669,
         "size": 15866,
         "default_branch": "master",
         "open_issues_count": 36,
@@ -304,7 +304,7 @@
         "visibility": "public",
         "pushed_at": "2025-02-01T16:34:42Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-02-03T15:38:20Z",
+        "updated_at": "2025-02-03T21:40:51Z",
         "allow_forking": true
       }
     },
@@ -319,7 +319,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 14,
-    "review_comments": 4,
+    "review_comments": 5,
     "comments": 4
   },
   "events": [
@@ -1742,6 +1742,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1939543574"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1538"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 18,
+      "original_line": 18,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1940233210",
+      "pull_request_review_id": 2591312274,
+      "id": 1940233210,
+      "node_id": "PRRC_kwDOAN28mc5zpZv6",
+      "diff_hunk": "@@ -0,0 +1,336 @@\n+<pre>\n+  BIP: TBD\n+  Layer: Consensus (soft fork)\n+  Title: 64 bit arithmetic operations\n+  Author: Chris Stewart <stewart.chris1234@gmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0364\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-09-11\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This BIP re-enables two opcodes: OP_MUL and OP_DIV.\n+\n+This BIP also expands supported precision for valid operands from `-2^31 +1` to `2^31 -1` to `-2^63 +1...2^63 -1`.",
+      "path": "bip-0364.mediawiki",
+      "position": 18,
+      "original_position": 18,
+      "commit_id": "bc417cbd88a96aba275ffc320d82b821aa84c5ba",
+      "original_commit_id": "bc417cbd88a96aba275ffc320d82b821aa84c5ba",
+      "in_reply_to_id": 1939543574,
+      "user": {
+        "login": "Christewart",
+        "id": 3514957,
+        "node_id": "MDQ6VXNlcjM1MTQ5NTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3514957?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Christewart",
+        "html_url": "https://github.com/Christewart",
+        "followers_url": "https://api.github.com/users/Christewart/followers",
+        "following_url": "https://api.github.com/users/Christewart/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Christewart/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Christewart/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Christewart/subscriptions",
+        "organizations_url": "https://api.github.com/users/Christewart/orgs",
+        "repos_url": "https://api.github.com/users/Christewart/repos",
+        "events_url": "https://api.github.com/users/Christewart/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Christewart/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Hi Ethan thanks for your continued interest in this topic.\r\n\r\n>I want to make sure I understand, this isn't proposing new opcodes that handle 64-bit arithmetic is it redefining the existing opcodes. Is that correct?\r\n\r\n:+1:\r\n\r\n>It's probably on your TODO list, but what is the mechanism you are using to make this a softfork? Script versioning?\r\n\r\nMy latest thinking for the upgrade mechanism is allocating a new tap leaf version to indicate the precision of arithmetic operations for Script. This was suggested by @sipa [here](https://delvingbitcoin.org/t/64-bit-arithmetic-soft-fork/397/8?u=chris_stewart_5). [You can read about how this works on delving bitcoin](https://delvingbitcoin.org/t/deploying-new-taproot-leaf-versions/406) and see my implementation of it [here](https://github.com/Christewart/bitcoin/blob/20fe67b5e4f2db7326ba5b8771c4516a7010861e/src/script/interpreter.cpp#L2019) inside the bitcoin c++ code base.\r\n\r\nI personally think this makes Scripts easier to reason about as the leaf version indicates the precision of _all_ numeric operations during this Script's execution. If we want to increase precision again in the future, we can allocate a new leaf version and extend the underlying precision of CScriptNum and expose that functionality as I've done here\r\n\r\nhttps://github.com/Christewart/bitcoin/blob/20fe67b5e4f2db7326ba5b8771c4516a7010861e/src/script/interpreter.cpp#L257\r\n\r\n\r\n>In the future we may wish to increase the supported precision again. What about adding a precision commitment to make soft-forking precision upgrades easier?\r\n\r\nCommitting to arbitrary precision seems hard, but i think this BIP lays the groundwork for extending precision in the future by making the precision of arithmetic operations linked with new tapleaf versions.\r\n\r\nI pushed to this branch staged changes in a haphazard state, apologies. I'm working on a [BIP currently to disallow 64 byte transactions in the bitcoin blockchain](https://github.com/Christewart/bips/blob/2024-12-20-64bytetxs/bip-XXXX.mediawiki) as I think that is more likely to be widely accepted by the community, and then will be coming back to this work.",
+      "created_at": "2025-02-03T22:48:36Z",
+      "updated_at": "2025-02-03T22:50:41Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1538#discussion_r1940233210",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1940233210"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1538"
