@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2024-01-10T20:44:45Z",
-    "updated_at": "2025-02-06T18:57:46Z",
+    "updated_at": "2025-02-07T01:13:27Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merge_commit_sha": "7e6252b1fb6c6aa8de984ab33e8bfff85160d1f4",
@@ -287,9 +287,9 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5482,
-        "stargazers_count": 9670,
-        "watchers_count": 9670,
-        "size": 15873,
+        "stargazers_count": 9669,
+        "watchers_count": 9669,
+        "size": 15875,
         "default_branch": "master",
         "open_issues_count": 34,
         "is_template": false,
@@ -304,7 +304,7 @@
         "visibility": "public",
         "pushed_at": "2025-02-06T18:20:20Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-02-06T18:20:26Z",
+        "updated_at": "2025-02-06T20:11:14Z",
         "allow_forking": true
       }
     },
@@ -319,7 +319,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 14,
-    "review_comments": 5,
+    "review_comments": 6,
     "comments": 5
   },
   "events": [
@@ -1738,6 +1738,42 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-02-06T18:57:47Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 2600528491,
+      "node_id": "PRR_kwDOAN28mc6bAOpr",
+      "url": null,
+      "actor": null,
+      "commit_id": "bc417cbd88a96aba275ffc320d82b821aa84c5ba",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "Roasbeef",
+        "id": 998190,
+        "node_id": "MDQ6VXNlcjk5ODE5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roasbeef",
+        "html_url": "https://github.com/Roasbeef",
+        "followers_url": "https://api.github.com/users/Roasbeef/followers",
+        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
+        "repos_url": "https://api.github.com/users/Roasbeef/repos",
+        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1538#pullrequestreview-2600528491",
+      "submitted_at": "2025-02-07T01:13:27Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1538"
     }
   ],
   "comments": [
@@ -1951,6 +1987,59 @@
       "start_side": null,
       "line": 18,
       "original_line": 18,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1945751703",
+      "pull_request_review_id": 2600528491,
+      "id": 1945751703,
+      "node_id": "PRRC_kwDOAN28mc5z-dCX",
+      "diff_hunk": "@@ -0,0 +1,336 @@\n+<pre>\n+  BIP: TBD\n+  Layer: Consensus (soft fork)\n+  Title: 64 bit arithmetic operations\n+  Author: Chris Stewart <stewart.chris1234@gmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0364\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-09-11\n+  License: BSD-3-Clause\n+</pre>\n+\n+==Abstract==\n+\n+This BIP re-enables two opcodes: OP_MUL and OP_DIV.\n+\n+This BIP also expands supported precision for valid operands from `-2^31 +1` to `2^31 -1` to `-2^63 +1...2^63 -1`.\n+\n+==Motivation==\n+\n+64 bit arithmetic operations are required to support arithmetic on satoshi values.\n+Math on satoshis required precision of 51 bits. Many bitcoin protocol proposals - such as covenant proposals -\n+require Script access to output values. To support the full range of possible output values\n+we need 64 bit precision.\n+\n+===OP_INOUT_AMOUNT===\n+\n+[https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-September/019420.html OP_INOUT_AMOUNT] is\n+part of the [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-September/019419.html OP_TAPLEAFUPDATE_VERIFY] soft fork proposal.\n+This opcode pushes two values onto the stack, the amount from this\n+input's utxo, and the amount in the corresponding output, and then expect\n+anyone using OP_TLUV to use maths operators to verify that funds are being\n+appropriately retained in the updated scriptPubKey.\n+\n+Since the value of the utxos can be up to 51 bits in value, we require 64 bit\n+arithmetic operations.\n+\n+\n+==Overflows==\n+\n+This propsal retains overflow semantics from the original bitcoin implementation.\n+\n+Results from 64bit numeric opcodes may overflow and are valid as long as they are not used in a subsequent numeric operation.\n+\n+If overflowed results are used in a subsequent numeric operation, the Script terminates immediately.\n+\n+==Detailed Specification==\n+\n+Refer to the reference implementation, reproduced below, for the precise\n+semantics and detailed rationale for those semantics.\n+\n+<source lang=\"cpp\">\n+class CScriptNum",
+      "path": "bip-0364.mediawiki",
+      "position": 54,
+      "original_position": 54,
+      "commit_id": "bc417cbd88a96aba275ffc320d82b821aa84c5ba",
+      "original_commit_id": "bc417cbd88a96aba275ffc320d82b821aa84c5ba",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Roasbeef",
+        "id": 998190,
+        "node_id": "MDQ6VXNlcjk5ODE5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roasbeef",
+        "html_url": "https://github.com/Roasbeef",
+        "followers_url": "https://api.github.com/users/Roasbeef/followers",
+        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
+        "repos_url": "https://api.github.com/users/Roasbeef/repos",
+        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Big thumbs down at the idea of just pasting a blob of C++ code vs actually specifying the semantics of the new op codes. ",
+      "created_at": "2025-02-07T01:13:23Z",
+      "updated_at": "2025-02-07T01:13:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1538#discussion_r1945751703",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1945751703"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1538"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 54,
+      "original_line": 54,
       "side": "RIGHT"
     }
   ]
