@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2025-02-07T15:59:14Z",
-    "updated_at": "2025-02-10T20:37:42Z",
+    "updated_at": "2025-02-11T08:11:49Z",
     "closed_at": "2025-02-10T20:22:31Z",
     "mergeable_state": "unknown",
     "merged_at": "2025-02-10T20:22:31Z",
@@ -182,7 +182,7 @@
         "forks_count": 1,
         "stargazers_count": 1,
         "watchers_count": 1,
-        "size": 16818,
+        "size": 16839,
         "default_branch": "master",
         "open_issues_count": 2,
         "is_template": false,
@@ -195,7 +195,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-02-10T20:33:08Z",
+        "pushed_at": "2025-02-10T21:30:20Z",
         "created_at": "2017-08-22T02:17:23Z",
         "updated_at": "2024-12-10T21:43:37Z",
         "allow_forking": true
@@ -299,12 +299,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5484,
-        "stargazers_count": 9678,
-        "watchers_count": 9678,
-        "size": 15875,
+        "forks_count": 5485,
+        "stargazers_count": 9682,
+        "watchers_count": 9682,
+        "size": 15872,
         "default_branch": "master",
-        "open_issues_count": 34,
+        "open_issues_count": 36,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -317,7 +317,7 @@
         "visibility": "public",
         "pushed_at": "2025-02-10T20:22:31Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-02-10T20:22:43Z",
+        "updated_at": "2025-02-11T06:50:06Z",
         "allow_forking": true
       }
     },
@@ -332,7 +332,7 @@
     "deletions": 8,
     "changed_files": 4,
     "commits": 1,
-    "review_comments": 2,
+    "review_comments": 3,
     "comments": 5
   },
   "events": [
@@ -1080,6 +1080,59 @@
       "start_side": "RIGHT",
       "line": 120,
       "original_line": 120,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1950399744",
+      "pull_request_review_id": 2607971625,
+      "id": 1950399744,
+      "node_id": "PRRC_kwDOAN28mc50QL0A",
+      "diff_hunk": "@@ -96,19 +96,28 @@\n my $bipnum = 0;\n while (++$bipnum <= $topbip) {\n \tmy $fn = sprintf \"bip-%04d.mediawiki\", $bipnum;\n+\tmy $is_markdown = 0;\n \tif (!-e $fn) {\n \t\t$fn = sprintf \"bip-%04d.md\", $bipnum;\n+\t\t$is_markdown = 1;\n \t}\n \t-e $fn || next;\n \topen my $F, \"<$fn\";\n-\twhile (<$F> !~ m[^(?:\\xef\\xbb\\xbf)?<pre>$]) {\n+\tif ($is_markdown) {\n+\t\twhile (<$F> !~ m[^(?:\\xef\\xbb\\xbf)?```$]) {\n+\t\t\tdie \"No ``` in $fn\" if eof $F;\n+\t\t}\n+\t} else {\n+\t\twhile (<$F> !~ m[^(?:\\xef\\xbb\\xbf)?<pre>$]) {",
+      "path": "scripts/buildtable.pl",
+      "position": 17,
+      "original_position": 17,
+      "commit_id": "726df6f4d54c7c7f9f1856ab37d07ece5defa0eb",
+      "original_commit_id": "726df6f4d54c7c7f9f1856ab37d07ece5defa0eb",
+      "in_reply_to_id": 1949588001,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "It reads the next (first) line of the file, checks if the full line doesn't exactly match `<pre>` possibly preceded by the byte order marker, and aborts if it doesn't. Not sure why it's written as a while loop; it's not like it can actually enter the loop body twice.",
+      "created_at": "2025-02-11T08:11:49Z",
+      "updated_at": "2025-02-11T08:11:49Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1759#discussion_r1950399744",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1950399744"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1759"
+        }
+      },
+      "start_line": 107,
+      "original_start_line": 107,
+      "start_side": "RIGHT",
+      "line": 111,
+      "original_line": 111,
       "side": "RIGHT"
     }
   ]
