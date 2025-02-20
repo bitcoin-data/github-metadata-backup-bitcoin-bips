@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-09-27T16:08:30Z",
-    "updated_at": "2025-02-20T17:57:47Z",
+    "updated_at": "2025-02-20T22:09:18Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -75,27 +75,6 @@
         "repos_url": "https://api.github.com/users/EthanHeilman/repos",
         "events_url": "https://api.github.com/users/EthanHeilman/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/EthanHeilman/received_events",
-        "type": "User",
-        "site_admin": false,
-        "patch_url": null
-      },
-      {
-        "login": "jonatack",
-        "id": 2415484,
-        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
-        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/jonatack",
-        "html_url": "https://github.com/jonatack",
-        "followers_url": "https://api.github.com/users/jonatack/followers",
-        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
-        "organizations_url": "https://api.github.com/users/jonatack/orgs",
-        "repos_url": "https://api.github.com/users/jonatack/repos",
-        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
         "patch_url": null
@@ -375,7 +354,7 @@
     "deletions": 0,
     "changed_files": 3,
     "commits": 39,
-    "review_comments": 186,
+    "review_comments": 187,
     "comments": 51
   },
   "events": [
@@ -8401,6 +8380,42 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1670#issuecomment-2672261736",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1670"
+    },
+    {
+      "event": "reviewed",
+      "id": 2631271190,
+      "node_id": "PRR_kwDOAN28mc6c1gMW",
+      "url": null,
+      "actor": null,
+      "commit_id": "8c0f7982932e180a32539120445a629077072b40",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "MEMBER",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1670#pullrequestreview-2631271190",
+      "submitted_at": "2025-02-20T22:09:18Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1670"
     }
   ],
   "comments": [
@@ -18207,6 +18222,59 @@
       "start_side": "RIGHT",
       "line": 398,
       "original_line": 398,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1964407115",
+      "pull_request_review_id": 2631271190,
+      "id": 1964407115,
+      "node_id": "PRRC_kwDOAN28mc51FnlL",
+      "diff_hunk": "@@ -0,0 +1,611 @@\n+<pre>\n+  BIP: 360\n+  Title: Pay to Quantum Resistant Hash\n+  Layer: Consensus (soft fork)\n+  Author: Hunter Beast <hunter@surmount.systems>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0360\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-12-18\n+  License: BSD-3-Clause\n+</pre>\n+\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes the introduction of a new output type using signatures based on Post-Quantum Cryptography (PQC).\n+This approach for adding a post-quantum secure output type does not require a hard fork or block size increase.\n+\n+=== Copyright ===\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+=== Motivation ===\n+\n+The primary threat to Bitcoin from Cryptoanalytically-Relevant Quantum Computers (CRQCs) is their potential to break\n+the cryptographic assumptions of Elliptic Curve Cryptography (ECC), which secures Bitcoin's signatures and Taproot\n+commitments. Specifically, [https://arxiv.org/pdf/quant-ph/0301141 Shor's algorithm] enables a CRQC to solve the\n+Discrete Logarithm Problem (DLP) exponentially faster than classical methods<ref name=\"shor\">Shor's algorithm is\n+believed to need 10^8 operations to break a 256-bit elliptic curve public key.</ref>, allowing the derivation of\n+private keys from public keys—a process referred to as quantum key decryption. Importantly, simply doubling the public\n+key length (e.g., using a hypothetical secp512k1 curve) would only make deriving the private key twice as hard,\n+offering insufficient protection. The computational complexity of this attack is further explored in\n+[https://pubs.aip.org/avs/aqs/article/4/1/013801/2835275/The-impact-of-hardware-specifications-on-reaching ''The impact of hardware specifications on reaching quantum advantage in the fault-tolerant regime''].\n+\n+This proposal aims to mitigate these risks by introducing a Pay to Quantum Resistant Hash (P2QRH) output type that\n+relies on PQC signature algorithms. By adopting PQC, Bitcoin can enhance its quantum\n+resistance without requiring a hard fork or block size increase.\n+\n+The vulnerability of existing Bitcoin addresses is investigated in\n+[https://web.archive.org/web/20240715101040/https://www2.deloitte.com/nl/nl/pages/innovatie/artikelen/quantum-computers-and-the-bitcoin-blockchain.html this Deloitte report].\n+The report estimates that in 2020 approximately 25% of the Bitcoin supply is held within addresses vulnerable to\n+quantum attack. As of the time of writing, that number is now closer to 20%. Independently, Bitcoin developer Pieter\n+Wuille [https://x.com/pwuille/status/1108085284862713856 reasons] even more addresses might be vulnerable, representing",
+      "path": "bip-0360.mediawiki",
+      "position": 46,
+      "original_position": 46,
+      "commit_id": "8c0f7982932e180a32539120445a629077072b40",
+      "original_commit_id": "8c0f7982932e180a32539120445a629077072b40",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Just learned this link is now dead, as that developer deleted his account.",
+      "created_at": "2025-02-20T22:09:18Z",
+      "updated_at": "2025-02-20T22:09:18Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1670#discussion_r1964407115",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1964407115"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1670"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 46,
+      "original_line": 46,
       "side": "RIGHT"
     }
   ]
