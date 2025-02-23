@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2025-02-14T20:57:17Z",
-    "updated_at": "2025-02-22T16:09:23Z",
+    "updated_at": "2025-02-23T18:44:35Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -287,9 +287,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5496,
-        "stargazers_count": 9720,
-        "watchers_count": 9720,
+        "forks_count": 5497,
+        "stargazers_count": 9721,
+        "watchers_count": 9721,
         "size": 16072,
         "default_branch": "master",
         "open_issues_count": 35,
@@ -305,7 +305,7 @@
         "visibility": "public",
         "pushed_at": "2025-02-20T23:21:22Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-02-22T16:25:24Z",
+        "updated_at": "2025-02-23T14:36:20Z",
         "allow_forking": true
       }
     },
@@ -320,7 +320,7 @@
     "deletions": 7,
     "changed_files": 1,
     "commits": 4,
-    "review_comments": 10,
+    "review_comments": 12,
     "comments": 6
   },
   "events": [
@@ -1483,6 +1483,43 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-02-22T16:09:24Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 2635707200,
+      "node_id": "PRR_kwDOAN28mc6dGbNA",
+      "url": null,
+      "actor": null,
+      "commit_id": "22f7f0477c825031a8be80589464766cb2eb2559",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "ACK 22f7f0477c825031a8be80589464766cb2eb2559\r\n\r\nOne optional elaboration",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1768#pullrequestreview-2635707200",
+      "submitted_at": "2025-02-23T18:33:31Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1768"
     }
   ],
   "comments": [
@@ -2014,6 +2051,112 @@
       "start_side": null,
       "line": null,
       "original_line": 37,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1966852995",
+      "pull_request_review_id": 2635707200,
+      "id": 1966852995,
+      "node_id": "PRRC_kwDOAN28mc51O8uD",
+      "diff_hunk": "@@ -42,13 +44,15 @@ Full nodes following this BIP <I>SHOULD</I> relay address/services (<code>addr</\n \n === Counter-measures for peer fingerprinting ===\n \n-Peers may have different prune depths (depending on the peers configuration, disk space, etc.) which can result in a fingerprinting weakness (finding the prune depth through getdata requests). NODE_NETWORK_LIMITED supporting peers <I>SHOULD</I> avoid leaking the prune depth and therefore not serve blocks deeper than the signaled <code>NODE_NETWORK_LIMITED</code> threshold (288 blocks).\n+Peers may have different prune depths (depending on their configuration, disk space, etc.), which can result in a fingerprinting weakness (finding the prune depth through getdata requests).\n+\n+Pruned nodes should therefore avoid leaking the prune depth and <I>SHOULD NOT</I> serve blocks deeper than the signaled <code>NODE_NETWORK_LIMITED</code> threshold of 288 blocks.\n \n === Risks ===\n \n Pruned peers following this BIP may consume more outbound bandwidth.\n \n-Light clients (and such) who are not checking the <code>nServiceFlags</code> (service bits) from a relayed <code>addr</code>-message may unwillingly connect to a pruned peer and ask for (filtered) blocks at a depth below their pruned depth. Light clients should therefore check the service bits (and eventually connect to peers signaling <code>NODE_NETWORK_LIMITED</code> if they require [filtered] blocks around the tip). Light clients obtaining peer IPs though DNS seed should use the DNS filtering option.\n+Light clients (and such) who are not checking the <code>nServiceFlags</code> (service bits) from a relayed <code>addr</code>-message may unwittingly connect to a pruned peer and ask for (filtered) blocks at a depth below their pruned depth. Light clients should therefore check the service bits (and eventually connect to peers signaling <code>NODE_NETWORK_LIMITED</code> and not also signaling serving the full block chain, if they require [filtered] blocks around the tip). Light clients obtaining peer IPs though DNS seed should use the DNS filtering option.",
+      "path": "bip-0159.mediawiki",
+      "position": 44,
+      "original_position": 44,
+      "commit_id": "22f7f0477c825031a8be80589464766cb2eb2559",
+      "original_commit_id": "22f7f0477c825031a8be80589464766cb2eb2559",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Sorry for the piecemeal review, but re-reading that paragraph again, I was thinking that it might be good to describe both cases comprehensively:\r\n\r\n```suggestion\r\nLight clients (and such) who are not checking the <code>nServiceFlags</code> (service bits) from a relayed <code>addr</code>-message may unwittingly connect to a pruned peer and ask for (filtered) blocks at a depth below the peer’s pruned depth. Light clients should therefore check the service bits and (1) connect to peers signaling <code>NODE_NETWORK_LIMITED</code> that preferably do not also signal serving the full block chain, if they only require [filtered] blocks around the tip, or (2) connect to peers signaling serving the full block chain if they need data older than the latest 288 blocks. Light clients obtaining peer IPs though DNS seed should use the DNS filtering option.\r\n```",
+      "created_at": "2025-02-23T18:32:30Z",
+      "updated_at": "2025-02-23T18:33:31Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1768#discussion_r1966852995",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1966852995"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1768"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 55,
+      "original_line": 55,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1966855598",
+      "pull_request_review_id": 2635714370,
+      "id": 1966855598,
+      "node_id": "PRRC_kwDOAN28mc51O9Wu",
+      "diff_hunk": "@@ -42,13 +44,15 @@ Full nodes following this BIP <I>SHOULD</I> relay address/services (<code>addr</\n \n === Counter-measures for peer fingerprinting ===\n \n-Peers may have different prune depths (depending on the peers configuration, disk space, etc.) which can result in a fingerprinting weakness (finding the prune depth through getdata requests). NODE_NETWORK_LIMITED supporting peers <I>SHOULD</I> avoid leaking the prune depth and therefore not serve blocks deeper than the signaled <code>NODE_NETWORK_LIMITED</code> threshold (288 blocks).\n+Peers may have different prune depths (depending on their configuration, disk space, etc.), which can result in a fingerprinting weakness (finding the prune depth through getdata requests).\n+\n+Pruned nodes should therefore avoid leaking the prune depth and <I>SHOULD NOT</I> serve blocks deeper than the signaled <code>NODE_NETWORK_LIMITED</code> threshold of 288 blocks.\n \n === Risks ===\n \n Pruned peers following this BIP may consume more outbound bandwidth.\n \n-Light clients (and such) who are not checking the <code>nServiceFlags</code> (service bits) from a relayed <code>addr</code>-message may unwillingly connect to a pruned peer and ask for (filtered) blocks at a depth below their pruned depth. Light clients should therefore check the service bits (and eventually connect to peers signaling <code>NODE_NETWORK_LIMITED</code> if they require [filtered] blocks around the tip). Light clients obtaining peer IPs though DNS seed should use the DNS filtering option.\n+Light clients (and such) who are not checking the <code>nServiceFlags</code> (service bits) from a relayed <code>addr</code>-message may unwittingly connect to a pruned peer and ask for (filtered) blocks at a depth below their pruned depth. Light clients should therefore check the service bits (and eventually connect to peers signaling <code>NODE_NETWORK_LIMITED</code> and not also signaling serving the full block chain, if they require [filtered] blocks around the tip). Light clients obtaining peer IPs though DNS seed should use the DNS filtering option.",
+      "path": "bip-0159.mediawiki",
+      "position": 44,
+      "original_position": 44,
+      "commit_id": "22f7f0477c825031a8be80589464766cb2eb2559",
+      "original_commit_id": "22f7f0477c825031a8be80589464766cb2eb2559",
+      "in_reply_to_id": 1966852995,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Oh, and I noticed that \r\n\r\n- \"though\" should be \"through\" \r\n- once \"(filtered)\" is in parentheses, but the other time it’s in brackets \"[filtered]\"",
+      "created_at": "2025-02-23T18:44:34Z",
+      "updated_at": "2025-02-23T18:44:35Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1768#discussion_r1966855598",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1966855598"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1768"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 55,
+      "original_line": 55,
       "side": "RIGHT"
     }
   ]
