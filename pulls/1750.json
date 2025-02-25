@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-01-23T18:54:20Z",
-    "updated_at": "2025-02-25T20:26:28Z",
+    "updated_at": "2025-02-25T21:07:18Z",
     "closed_at": "2025-02-25T20:26:28Z",
     "mergeable_state": "unknown",
     "merged": true,
@@ -358,9 +358,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-02-25T20:26:27Z",
+        "pushed_at": "2025-02-25T21:49:41Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-02-25T20:46:03Z",
+        "updated_at": "2025-02-25T21:49:46Z",
         "allow_forking": true
       }
     },
@@ -375,7 +375,7 @@
     "deletions": 4,
     "changed_files": 1,
     "commits": 19,
-    "review_comments": 28,
+    "review_comments": 32,
     "comments": 11
   },
   "events": [
@@ -4145,6 +4145,218 @@
       "start_side": null,
       "line": 153,
       "original_line": 153,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1970539779",
+      "pull_request_review_id": 2642458533,
+      "id": 1970539779,
+      "node_id": "PRRC_kwDOAN28mc51dA0D",
+      "diff_hunk": "@@ -131,14 +131,63 @@ The following fragment represents a wallet label export:\n { \"type\": \"addr\", \"ref\": \"bc1q34aq5drpuwy3wgl9lhup9892qp6svr8ldzyy7c\", \"label\": \"Address\" }\n { \"type\": \"pubkey\", \"ref\": \"0283409659355b6d1cc3c32decd5d561abaac86c37a353b52895a5e6c196d6f448\", \"label\": \"Public Key\" }\n { \"type\": \"input\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:0\", \"label\": \"Input\" }\n-{ \"type\": \"output\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:1\", \"label\": \"Output\" , \"spendable\" : \"false\" }\n+{ \"type\": \"output\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:1\", \"label\": \"Output\", \"spendable\": false }\n { \"type\": \"xpub\", \"ref\": \"xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8\", \"label\": \"Extended Public Key\" }\n { \"type\": \"tx\", \"ref\": \"f546156d9044844e02b181026a1a407abfca62e7ea1159f87bbeaa77b4286c74\", \"label\": \"Account #1 Transaction\", \"origin\": \"wpkh([d34db33f/84'/0'/1'])\" }\n </pre>\n \n+==Additional Fields==\n+\n+If the goal is solely to move labels between cooperating wallets,\n+then the above values are the minimum needed. However, wallet data\n+exports can serve other purposes. Many values associated with\n+addresses, transactions and outputs are already on hand for the\n+wallet generating the export, and yet would be hard or impossible\n+for importing tools to reconstruct.\n+\n+All of the following values are optional for the exporter to provide,\n+but should be given if they are readily available.\n+\n+=== Transactions ===\n+\n+* <tt>height</tt>: An integer giving the block height where this fully confirmed transaction can be found. For transactions that are confirmed by less than 6 blocks, omit this field or provide a value of zero.  (Background: Until it is fully confirmed, the \"height\" of a transaction is in flux and may vary due to chain reorgs. However, the consumer of the labels, may not know the current block height, so it cannot know if the height is \"real\" (firm, fixed) or just transitory, so it's important not to include the height unless the generating wallet considers the transaction to be confirmed.)\n+\n+* <tt>time</tt>: ISO-8601 formatted timestamp of the block given by the \"height\" field, preferably in UTC, although ISO-8601 can represent local times. Example: <tt>2025-01-23T11:40:35Z</tt>.\n+\n+* <tt>fee</tt>: Integer giving the number of Satoshis that went to the miner for this transaction.\n+\n+* <tt>value</tt>: Signed integer giving the number of Satoshis that came into the wallet by this transaction. Will be negative when sats leave the wallet. Could be zero if it is a consolidation transaction that moves from old UTXO to new. \n+\n+* <tt>rate</tt>: Exchange rate at time of transaction. This is the value of a Bitcoin, expressed in another currency, at the time of the transaction, based on user preferences for data source. Multiple currencies can be given. Keys are ISO 4217 currency codes where possible. Example: <tt>\"rate\": { \"USD\":  105620.00 }</tt>\n+\n+=== Address, Inputs, and Outputs ===\n+\n+* <tt>keypath</tt>: The data needed to build full descriptor down to the specific address.  This extends <tt>origin</tt> with the final two components that are unhardened (in the typical case, assuming BIP-84).  Provide string <tt>/1/123</tt> for <tt>wpkh([d34db33f/84'/0'/0'/1/123])</tt>. If the first character is not <tt>/</tt>, then it should be interpreted as a full descriptor, independant of <tt>origin</tt> (if any).\n+\n+=== Inputs and Outputs ===\n+\n+* <tt>value</tt>: Integer with the number of Satoshis (<tt>nValue</tt>) of the input or output.\n+\n+* <tt>fmv</tt>: Fair market value of the input/output relative to some other currency, typically fiat. The value should be a mapping, from currency code to decimal number. Example: <tt>\"fmv\": { \"USD\":  1233.45 }</tt>. Most situations will have only a single currency value, and it represents the real price of the goods/services expressed in some fiat currency. This is not an exchange *rate*, but an absolute value. By dividing by the <tt>value</tt> (above), it is possible to calculate an effective change rate for the transaction.\n+\n+* <tt>height</tt> and <tt>time</tt>: Same definition as defined in Transactions.\n+\n+=== Address ===\n+\n+* <tt>heights</tt>: a list of block heights that contain any activity related to this address, include outputs that deposit to the address, and transactions that spend UTXO of this address. An empty array indicates the address is unused.",
+      "path": "bip-0329.mediawiki",
+      "position": 66,
+      "original_position": 66,
+      "commit_id": "795255ba5bc3abf509ca0d211d3fb5f2e2e0fc5f",
+      "original_commit_id": "795255ba5bc3abf509ca0d211d3fb5f2e2e0fc5f",
+      "in_reply_to_id": 1970479575,
+      "user": {
+        "login": "doc-hex",
+        "id": 1482781,
+        "node_id": "MDQ6VXNlcjE0ODI3ODE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1482781?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/doc-hex",
+        "html_url": "https://github.com/doc-hex",
+        "followers_url": "https://api.github.com/users/doc-hex/followers",
+        "following_url": "https://api.github.com/users/doc-hex/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/doc-hex/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/doc-hex/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/doc-hex/subscriptions",
+        "organizations_url": "https://api.github.com/users/doc-hex/orgs",
+        "repos_url": "https://api.github.com/users/doc-hex/repos",
+        "events_url": "https://api.github.com/users/doc-hex/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/doc-hex/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "UTXOs",
+      "created_at": "2025-02-25T21:04:49Z",
+      "updated_at": "2025-02-25T21:04:49Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1750#discussion_r1970539779",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1970539779"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1750"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 177,
+      "original_line": 177,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1970539883",
+      "pull_request_review_id": 2642458719,
+      "id": 1970539883,
+      "node_id": "PRRC_kwDOAN28mc51dA1r",
+      "diff_hunk": "@@ -131,14 +131,63 @@ The following fragment represents a wallet label export:\n { \"type\": \"addr\", \"ref\": \"bc1q34aq5drpuwy3wgl9lhup9892qp6svr8ldzyy7c\", \"label\": \"Address\" }\n { \"type\": \"pubkey\", \"ref\": \"0283409659355b6d1cc3c32decd5d561abaac86c37a353b52895a5e6c196d6f448\", \"label\": \"Public Key\" }\n { \"type\": \"input\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:0\", \"label\": \"Input\" }\n-{ \"type\": \"output\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:1\", \"label\": \"Output\" , \"spendable\" : \"false\" }\n+{ \"type\": \"output\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:1\", \"label\": \"Output\", \"spendable\": false }\n { \"type\": \"xpub\", \"ref\": \"xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8\", \"label\": \"Extended Public Key\" }\n { \"type\": \"tx\", \"ref\": \"f546156d9044844e02b181026a1a407abfca62e7ea1159f87bbeaa77b4286c74\", \"label\": \"Account #1 Transaction\", \"origin\": \"wpkh([d34db33f/84'/0'/1'])\" }\n </pre>\n \n+==Additional Fields==\n+\n+If the goal is solely to move labels between cooperating wallets,\n+then the above values are the minimum needed. However, wallet data\n+exports can serve other purposes. Many values associated with\n+addresses, transactions and outputs are already on hand for the\n+wallet generating the export, and yet would be hard or impossible\n+for importing tools to reconstruct.\n+\n+All of the following values are optional for the exporter to provide,\n+but should be given if they are readily available.\n+\n+=== Transactions ===\n+\n+* <tt>height</tt>: An integer giving the block height where this fully confirmed transaction can be found. For transactions that are confirmed by less than 6 blocks, omit this field or provide a value of zero.  (Background: Until it is fully confirmed, the \"height\" of a transaction is in flux and may vary due to chain reorgs. However, the consumer of the labels, may not know the current block height, so it cannot know if the height is \"real\" (firm, fixed) or just transitory, so it's important not to include the height unless the generating wallet considers the transaction to be confirmed.)\n+\n+* <tt>time</tt>: ISO-8601 formatted timestamp of the block given by the \"height\" field, preferably in UTC, although ISO-8601 can represent local times. Example: <tt>2025-01-23T11:40:35Z</tt>.\n+\n+* <tt>fee</tt>: Integer giving the number of Satoshis that went to the miner for this transaction.\n+\n+* <tt>value</tt>: Signed integer giving the number of Satoshis that came into the wallet by this transaction. Will be negative when sats leave the wallet. Could be zero if it is a consolidation transaction that moves from old UTXO to new. \n+\n+* <tt>rate</tt>: Exchange rate at time of transaction. This is the value of a Bitcoin, expressed in another currency, at the time of the transaction, based on user preferences for data source. Multiple currencies can be given. Keys are ISO 4217 currency codes where possible. Example: <tt>\"rate\": { \"USD\":  105620.00 }</tt>\n+\n+=== Address, Inputs, and Outputs ===\n+\n+* <tt>keypath</tt>: The data needed to build full descriptor down to the specific address.  This extends <tt>origin</tt> with the final two components that are unhardened (in the typical case, assuming BIP-84).  Provide string <tt>/1/123</tt> for <tt>wpkh([d34db33f/84'/0'/0'/1/123])</tt>. If the first character is not <tt>/</tt>, then it should be interpreted as a full descriptor, independant of <tt>origin</tt> (if any).\n+\n+=== Inputs and Outputs ===\n+\n+* <tt>value</tt>: Integer with the number of Satoshis (<tt>nValue</tt>) of the input or output.\n+\n+* <tt>fmv</tt>: Fair market value of the input/output relative to some other currency, typically fiat. The value should be a mapping, from currency code to decimal number. Example: <tt>\"fmv\": { \"USD\":  1233.45 }</tt>. Most situations will have only a single currency value, and it represents the real price of the goods/services expressed in some fiat currency. This is not an exchange *rate*, but an absolute value. By dividing by the <tt>value</tt> (above), it is possible to calculate an effective change rate for the transaction.\n+\n+* <tt>height</tt> and <tt>time</tt>: Same definition as defined in Transactions.\n+\n+=== Address ===\n+\n+* <tt>heights</tt>: a list of block heights that contain any activity related to this address, include outputs that deposit to the address, and transactions that spend UTXO of this address. An empty array indicates the address is unused.\n+\n+== Comment on Types in JSON ==\n+\n+JSON can serialize a number of basic types, including string, integer\n+and boolean (true/false).  Decimal values (<tt>123.45</tt>) can\n+also be serialized, but some parsing libraries may interpret them as floating\n+point values which is generally not what we want in financial applications.",
+      "path": "bip-0329.mediawiki",
+      "position": 73,
+      "original_position": 73,
+      "commit_id": "795255ba5bc3abf509ca0d211d3fb5f2e2e0fc5f",
+      "original_commit_id": "795255ba5bc3abf509ca0d211d3fb5f2e2e0fc5f",
+      "in_reply_to_id": 1970487689,
+      "user": {
+        "login": "doc-hex",
+        "id": 1482781,
+        "node_id": "MDQ6VXNlcjE0ODI3ODE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1482781?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/doc-hex",
+        "html_url": "https://github.com/doc-hex",
+        "followers_url": "https://api.github.com/users/doc-hex/followers",
+        "following_url": "https://api.github.com/users/doc-hex/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/doc-hex/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/doc-hex/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/doc-hex/subscriptions",
+        "organizations_url": "https://api.github.com/users/doc-hex/orgs",
+        "repos_url": "https://api.github.com/users/doc-hex/repos",
+        "events_url": "https://api.github.com/users/doc-hex/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/doc-hex/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "sure",
+      "created_at": "2025-02-25T21:04:55Z",
+      "updated_at": "2025-02-25T21:04:55Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1750#discussion_r1970539883",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1970539883"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1750"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 184,
+      "original_line": 184,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1970540064",
+      "pull_request_review_id": 2642459033,
+      "id": 1970540064,
+      "node_id": "PRRC_kwDOAN28mc51dA4g",
+      "diff_hunk": "@@ -131,14 +131,63 @@ The following fragment represents a wallet label export:\n { \"type\": \"addr\", \"ref\": \"bc1q34aq5drpuwy3wgl9lhup9892qp6svr8ldzyy7c\", \"label\": \"Address\" }\n { \"type\": \"pubkey\", \"ref\": \"0283409659355b6d1cc3c32decd5d561abaac86c37a353b52895a5e6c196d6f448\", \"label\": \"Public Key\" }\n { \"type\": \"input\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:0\", \"label\": \"Input\" }\n-{ \"type\": \"output\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:1\", \"label\": \"Output\" , \"spendable\" : \"false\" }\n+{ \"type\": \"output\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:1\", \"label\": \"Output\", \"spendable\": false }\n { \"type\": \"xpub\", \"ref\": \"xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8\", \"label\": \"Extended Public Key\" }\n { \"type\": \"tx\", \"ref\": \"f546156d9044844e02b181026a1a407abfca62e7ea1159f87bbeaa77b4286c74\", \"label\": \"Account #1 Transaction\", \"origin\": \"wpkh([d34db33f/84'/0'/1'])\" }\n </pre>\n \n+==Additional Fields==\n+\n+If the goal is solely to move labels between cooperating wallets,\n+then the above values are the minimum needed. However, wallet data\n+exports can serve other purposes. Many values associated with\n+addresses, transactions and outputs are already on hand for the\n+wallet generating the export, and yet would be hard or impossible\n+for importing tools to reconstruct.\n+\n+All of the following values are optional for the exporter to provide,\n+but should be given if they are readily available.\n+\n+=== Transactions ===\n+\n+* <tt>height</tt>: An integer giving the block height where this fully confirmed transaction can be found. For transactions that are confirmed by less than 6 blocks, omit this field or provide a value of zero.  (Background: Until it is fully confirmed, the \"height\" of a transaction is in flux and may vary due to chain reorgs. However, the consumer of the labels, may not know the current block height, so it cannot know if the height is \"real\" (firm, fixed) or just transitory, so it's important not to include the height unless the generating wallet considers the transaction to be confirmed.)",
+      "path": "bip-0329.mediawiki",
+      "position": 42,
+      "original_position": 42,
+      "commit_id": "795255ba5bc3abf509ca0d211d3fb5f2e2e0fc5f",
+      "original_commit_id": "795255ba5bc3abf509ca0d211d3fb5f2e2e0fc5f",
+      "in_reply_to_id": 1970492260,
+      "user": {
+        "login": "doc-hex",
+        "id": 1482781,
+        "node_id": "MDQ6VXNlcjE0ODI3ODE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1482781?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/doc-hex",
+        "html_url": "https://github.com/doc-hex",
+        "followers_url": "https://api.github.com/users/doc-hex/followers",
+        "following_url": "https://api.github.com/users/doc-hex/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/doc-hex/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/doc-hex/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/doc-hex/subscriptions",
+        "organizations_url": "https://api.github.com/users/doc-hex/orgs",
+        "repos_url": "https://api.github.com/users/doc-hex/repos",
+        "events_url": "https://api.github.com/users/doc-hex/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/doc-hex/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "yes, I like",
+      "created_at": "2025-02-25T21:05:06Z",
+      "updated_at": "2025-02-25T21:05:06Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1750#discussion_r1970540064",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1970540064"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1750"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 153,
+      "original_line": 153,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1970542336",
+      "pull_request_review_id": 2642462998,
+      "id": 1970542336,
+      "node_id": "PRRC_kwDOAN28mc51dBcA",
+      "diff_hunk": "@@ -131,14 +131,63 @@ The following fragment represents a wallet label export:\n { \"type\": \"addr\", \"ref\": \"bc1q34aq5drpuwy3wgl9lhup9892qp6svr8ldzyy7c\", \"label\": \"Address\" }\n { \"type\": \"pubkey\", \"ref\": \"0283409659355b6d1cc3c32decd5d561abaac86c37a353b52895a5e6c196d6f448\", \"label\": \"Public Key\" }\n { \"type\": \"input\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:0\", \"label\": \"Input\" }\n-{ \"type\": \"output\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:1\", \"label\": \"Output\" , \"spendable\" : \"false\" }\n+{ \"type\": \"output\", \"ref\": \"f91d0a8a78462bc59398f2c5d7a84fcff491c26ba54c4833478b202796c8aafd:1\", \"label\": \"Output\", \"spendable\": false }\n { \"type\": \"xpub\", \"ref\": \"xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8\", \"label\": \"Extended Public Key\" }\n { \"type\": \"tx\", \"ref\": \"f546156d9044844e02b181026a1a407abfca62e7ea1159f87bbeaa77b4286c74\", \"label\": \"Account #1 Transaction\", \"origin\": \"wpkh([d34db33f/84'/0'/1'])\" }\n </pre>\n \n+==Additional Fields==\n+\n+If the goal is solely to move labels between cooperating wallets,\n+then the above values are the minimum needed. However, wallet data\n+exports can serve other purposes. Many values associated with\n+addresses, transactions and outputs are already on hand for the\n+wallet generating the export, and yet would be hard or impossible\n+for importing tools to reconstruct.\n+\n+All of the following values are optional for the exporter to provide,\n+but should be given if they are readily available.\n+\n+=== Transactions ===\n+\n+* <tt>height</tt>: An integer giving the block height where this fully confirmed transaction can be found. For transactions that are confirmed by less than 6 blocks, omit this field or provide a value of zero.\n+\n+* <tt>time</tt>: ISO-8601 formatted timestamp of the block given by the \"height\" field, preferably in UTC, although ISO-8601 can represent local times. Example: <tt>2025-01-23T11:40:35-05:00</tt>.\n+\n+* <tt>fee</tt>: Integer giving the number of Satoshis that went to the miner for this transaction.\n+\n+* <tt>value</tt>: Signed integer giving the number of Satoshis that came into the wallet by this transaction. Will be negative when sats leave the wallet. Could be zero if it is a consolidation transaction that moves from old UTXO to new. ",
+      "path": "bip-0329.mediawiki",
+      "position": 48,
+      "original_position": 39,
+      "commit_id": "795255ba5bc3abf509ca0d211d3fb5f2e2e0fc5f",
+      "original_commit_id": "e63bfa45acc35e30230e57d4b76dfc1f4aa19797",
+      "in_reply_to_id": 1944820633,
+      "user": {
+        "login": "doc-hex",
+        "id": 1482781,
+        "node_id": "MDQ6VXNlcjE0ODI3ODE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1482781?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/doc-hex",
+        "html_url": "https://github.com/doc-hex",
+        "followers_url": "https://api.github.com/users/doc-hex/followers",
+        "following_url": "https://api.github.com/users/doc-hex/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/doc-hex/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/doc-hex/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/doc-hex/subscriptions",
+        "organizations_url": "https://api.github.com/users/doc-hex/orgs",
+        "repos_url": "https://api.github.com/users/doc-hex/repos",
+        "events_url": "https://api.github.com/users/doc-hex/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/doc-hex/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "if a fee is paid in a consolidation, then it cannot be zero value; it would be net negative... might be better to delete the zero case here as it's just confusing.",
+      "created_at": "2025-02-25T21:07:18Z",
+      "updated_at": "2025-02-25T21:07:19Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1750#discussion_r1970542336",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1970542336"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1750"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 159,
+      "original_line": 159,
       "side": "RIGHT"
     }
   ]
