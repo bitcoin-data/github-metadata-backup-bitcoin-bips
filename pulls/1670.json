@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-09-27T16:08:30Z",
-    "updated_at": "2025-03-07T15:55:47Z",
+    "updated_at": "2025-03-07T16:01:23Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -9016,9 +9016,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-03-07T13:36:52Z",
-      "updated_at": "2025-03-07T13:36:52Z",
+      "updated_at": "2025-03-07T16:01:23Z",
       "author_association": "NONE",
-      "body": "@cryptoquick I really appreciate this BIP -- I learned about it from the Bitcoin Season 2 podcast you did.\r\n\r\nI read the BIP and still need to digest it, but I'm trying to summarize the proposal.  Would you say this is accurate:\r\n\r\n> This BIP introduces a new address type that supports quantum resistant public keys.  Because new ciphers are at significantly greater risk of being broken, a single address can require multiple public keys, all of which must have a valid signature in the unlocking script before the output can be spent.  The most secure address construction therefore requires valid signatures from an existing ECDSA key and all 3 of the recently standardized NIST PQ signature algorithms.",
+      "body": "@cryptoquick I really appreciate this BIP -- I learned about it from the Bitcoin Season 2 podcast you did.\r\n\r\nI read the BIP and still need to digest it, but I'm trying to summarize the proposal.  Would you say this is accurate:\r\n\r\n> This BIP introduces a new address type that supports quantum resistant public keys.  Because new ciphers are at significantly greater risk of being broken, a single address can require multiple public keys.  The user can construct an address using 3 types of QR public keys and a standard, non-QR resistant ECDSA pubkey.  The user can define a multisig construction such that only a subset of these keys need provide a digital signature in order to spend the output.  For those only concerned with security against quantum computers, the most logical construction would be a 4/4 multsig with keys of each of the 4 pubkey types. \r\n\r\n\r\nEDIT: Updated the above language to capture multisig component.\r\n\r\nThis raised a question in my mind.  Have you considered eliminating the additional complexity required to support multisig?  Perhaps it would be a simpler, cleaner BIP to address one and only one need: quantum resistance.  The end user can choose 1,2,3 or 4 pub keys, 1 of each type, and there must be n/n signatures to spend.\r\n\r\nI'm supposing that the answer is \"QR multisig is a valid use case -- we why not support it?\"  I think that's totally valid, but was just wondering if those were your thoughts and whether you think there's value in the simplicity gains from eliminating the need for multisig.",
       "user": {
         "login": "mark-nesbitt",
         "id": 174074977,
@@ -20677,7 +20677,7 @@
       },
       "body": "Is this BIP also attempting to support a multisig use case, where some but not all the QR pub keys require a signature?\r\n\r\nIf yes, I'm curious to know if you've considered relaxing that requirement.  Perhaps it would be a simpler, cleaner BIP to address one and only one need: quantum resistance.\r\n\r\nIf no, wouldn't there only ever be 4 pubkeys?  That would make me think a Merkle structure for hashing/revealing the keys is unnecessary, as all 4 keys are always needed to spend the output.",
       "created_at": "2025-03-07T14:04:29Z",
-      "updated_at": "2025-03-07T14:04:30Z",
+      "updated_at": "2025-03-07T16:04:49Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1670#discussion_r1985114788",
       "author_association": "NONE",
       "_links": {
@@ -20730,7 +20730,7 @@
       },
       "body": "Having reread, I answered my own question: the BIP is supporting multisig.  I'll close this comment and ask in the PR comment section about your thoughts on relaxing that requirement",
       "created_at": "2025-03-07T15:55:47Z",
-      "updated_at": "2025-03-07T15:55:47Z",
+      "updated_at": "2025-03-07T16:04:51Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1670#discussion_r1985309133",
       "author_association": "NONE",
       "_links": {
