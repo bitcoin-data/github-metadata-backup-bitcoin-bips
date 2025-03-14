@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-09-27T16:08:30Z",
-    "updated_at": "2025-03-13T22:56:55Z",
+    "updated_at": "2025-03-13T23:25:59Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -321,9 +321,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5525,
-        "stargazers_count": 9773,
-        "watchers_count": 9773,
+        "forks_count": 5526,
+        "stargazers_count": 9775,
+        "watchers_count": 9775,
         "size": 15357,
         "default_branch": "master",
         "open_issues_count": 35,
@@ -339,7 +339,7 @@
         "visibility": "public",
         "pushed_at": "2025-03-13T19:29:25Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-03-13T19:29:37Z",
+        "updated_at": "2025-03-13T23:56:49Z",
         "allow_forking": true
       }
     },
@@ -354,7 +354,7 @@
     "deletions": 0,
     "changed_files": 3,
     "commits": 44,
-    "review_comments": 234,
+    "review_comments": 235,
     "comments": 61
   },
   "events": [
@@ -22186,6 +22186,59 @@
       "start_side": "RIGHT",
       "line": 262,
       "original_line": 254,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1994424541",
+      "pull_request_review_id": 2683578716,
+      "id": 1994424541,
+      "node_id": "PRRC_kwDOAN28mc524IDd",
+      "diff_hunk": "@@ -0,0 +1,617 @@\n+<pre>\n+  BIP: 360\n+  Title: Pay to Quantum Resistant Hash\n+  Layer: Consensus (soft fork)\n+  Author: Hunter Beast <hunter@surmount.systems>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0360\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-12-18\n+  License: BSD-3-Clause\n+</pre>\n+\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes the introduction of a new output type using signatures based on Post-Quantum Cryptography (PQC).\n+This approach for adding a post-quantum secure output type does not require a hard fork or block size increase.\n+\n+=== Copyright ===\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+=== Motivation ===\n+\n+The primary threat to Bitcoin from Cryptoanalytically-Relevant Quantum Computers (CRQCs)<ref name=\"CRQC\">\n+A Cryptoanalytically-Relevant Quantum Computer is an ''object'' which is only loosely defined by ''characteristics'' in quantum physics as of today. It could be understood in the context of this BIP and in bitcoin that it's a ''hardware-agnostic'' computer supposed to have the architecture to keep ''coherent'' a sufficient number of logical qubits to be able to run the Shor algorithm in an efficient fashion.</ref>\n+is their potential to break the cryptographic assumptions of Elliptic Curve Cryptography (ECC), which secures Bitcoin's signatures and Taproot\n+commitments. Specifically, [https://arxiv.org/pdf/quant-ph/0301141 Shor's algorithm] enables a CRQC to solve the\n+Discrete Logarithm Problem (DLP) exponentially faster than classical methods<ref name=\"shor\">Shor's algorithm is\n+believed to need 10^8 operations to break a 256-bit elliptic curve public key.</ref>, allowing the derivation of\n+private keys from public keys—a process referred to as quantum key decryption. Importantly, simply doubling the public\n+key length (e.g., using a hypothetical secp512k1 curve) would only make deriving the private key twice as hard,\n+offering insufficient protection. The computational complexity of this attack is further explored in\n+[https://pubs.aip.org/avs/aqs/article/4/1/013801/2835275/The-impact-of-hardware-specifications-on-reaching ''The impact of hardware specifications on reaching quantum advantage in the fault-tolerant regime''].\n+\n+This proposal aims to mitigate these risks by introducing a Pay to Quantum Resistant Hash (P2QRH) output type that\n+relies on PQC signature algorithms. By adopting PQC, Bitcoin can enhance its quantum\n+resistance without requiring a hard fork or block size increase.\n+\n+The vulnerability of existing Bitcoin addresses<ref name=\"address-vulnerability\">A vulnerable Bitcoin address is any\n+''scriptPubKey'' type that exposes an elliptic curve public key as ''raw bytes'' in a ''block'', making it susceptible\n+to private key derivation through Shor's algorithm. This includes P2PK outputs and any script that contains an\n+unprotected public key.</ref> is detailed in\n+[https://web.archive.org/web/20240715101040/https://www2.deloitte.com/nl/nl/pages/innovatie/artikelen/quantum-computers-and-the-bitcoin-blockchain.html this Deloitte report].\n+The report estimates that in 2020 approximately 25% of the Bitcoin supply is held within addresses vulnerable to\n+quantum attack. As of the time of writing, that number is now closer to 20%. Independently, Bitcoin developer Pieter\n+Wuille [https://web.archive.org/web/20220531184542/https://twitter.com/pwuille/status/1108085284862713856 reasons] even more addresses might be vulnerable, representing\n+5M to 10M bitcoin.\n+\n+Ordinarily, when a transaction is signed, the public key is explicitly stated in the input script. This means that the\n+public key is exposed on the blockchain when the transaction is spent, making it vulnerable to quantum attack until\n+it's mined. One way to mitigate this is to submit the transaction directly to a mining pool, bypassing the mempool.\n+This process is known as an out-of-band transaction or a private mempool. In this case, the mining pool must be trusted\n+not to reveal the transaction public key to attackers. The problem with this approach is that it requires a trusted\n+third party, which the P2QRH proposal aims to avoid. It also doesn't account for block reorg attacks, which would\n+reveal public keys in blocks that were once mined but are now orphaned and must be mined again. Additionally,\n+it depends on the mining pool whether they reveal their block template to either the public or to miners.\n+\n+Not having public keys exposed on-chain is an important step for quantum security. Otherwise, funds would need to be\n+spent to new addresses on a regular basis in order to prevent the possibility of a \"long-exposure CRQC attack\" recovering\n+the key behind high-value addresses. A long-exposure quantum attack can be considered one performed with chain data, such\n+as that from a used address or one encoded in a spend script. This is likely to be more common early on, as early\n+quantum computers must be run for longer in order to overcome errors caused by noise. A \"short-exposure quantum attack\"\n+would be one performed on keys in the mempool, which is seen as much more difficult given the block time, and so it\n+requires more sophisticated CRQCs.<ref name=\"short-exposure\">\n+In the paper\n+[https://arxiv.org/pdf/2306.08585 How to compute a 256-bit elliptic curve private key with only 50 million Toffoli gates]\n+the authors estimate that a CRQC with 28 million superconducting physical qubits would take 8.3 seconds to calculate a\n+256-bit key, while a CRQC with 6.9 million physical qubits would take 58 seconds. This implies that a CRQC with 4x as\n+many qubits would be roughly 7 times faster.\n+</ref>\n+\n+As the value being sent increases, so too should the fee in order to commit the transaction to the chain as soon as\n+possible. Once the transaction is mined, it makes useless the public key revealed by spending a UTXO, so long as it is\n+never reused.\n+\n+It is proposed to implement a Pay to Quantum Resistant Hash (P2QRH) output type that relies on a PQC signature\n+algorithm. This new output type protects transactions submitted to the mempool and helps preserve the free market by\n+preventing the need for private, out-of-band mempool transactions.\n+\n+The following table is intended to inform the average Bitcoin user whether their bitcoin is vulnerable to a long-exposure\n+quantum attack:\n+\n+{| class=\"wikitable\"\n+|+ Output types vulnerable to long-exposure attacks on unspent addresses\n+|-\n+! Type !! Vulnerable !! Prefix !! Example\n+|-\n+| P2PK || Yes || Varies || 2103203b768951584fe9af6d9d9e6ff26a5f76e453212f19ba163774182ab8057f3eac\n+|-\n+| P2PKH || No¹ || 1 || 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa\n+|-\n+| P2MS || Yes || Varies || 52410496ec45f878b62c46c4be8e336dff7cc58df9b502178cc240e...\n+|-\n+| P2SH || No¹ || 3 || 3FkhZo7sGNue153xhgqPBcUaBsYvJW6tTx\n+|-\n+| P2WPKH || No¹ || bc1q || bc1qsnh5ktku9ztqeqfr89yrqjd05eh58nah884mku\n+|-\n+| P2WSH || No¹ || bc1q || bc1qvhu3557twysq2ldn6dut6rmaj3qk04p60h9l79wk4lzgy0ca8mfsnffz65\n+|-\n+| P2TR || Yes || bc1p || bc1p92aslsnseq786wxfk3ekra90ds9ku47qttupfjsqmmj4z82xdq4q3rr58u\n+|-\n+| P2QRH || No || bc1r || bc1r8rt68aze8tek87cnz4ndnvfzk6tk93jv39n4lmpu5a4yw453rcpszsft3z\n+|}\n+\n+¹ Funds in P2PKH, P2SH, P2WPKH, and P2WSH outputs become vulnerable to long-exposure quantum attacks when their input script is revealed. An address is no longer safe against long-exposure quantum attacks after funds from it have been spent.\n+\n+It should be noted that Taproot outputs are vulnerable in that they encode a 32-byte x-only public key, from which a\n+full public key can be reconstructed.\n+\n+If the parent private key of an extended public key (xpub) is recovered by a CRQC, the attacker also recovers\n+the entire extended private key, whether it uses hardened or unhardened derivation.",
+      "path": "bip-0360.mediawiki",
+      "position": null,
+      "original_position": 115,
+      "commit_id": "48eaf8f84a6e6495628021703a07f0c22e0f4c99",
+      "original_commit_id": "32c0a3d81645e63e59305f280186bb192869c3e8",
+      "in_reply_to_id": 1967750597,
+      "user": {
+        "login": "cryptoquick",
+        "id": 285690,
+        "node_id": "MDQ6VXNlcjI4NTY5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/285690?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/cryptoquick",
+        "html_url": "https://github.com/cryptoquick",
+        "followers_url": "https://api.github.com/users/cryptoquick/followers",
+        "following_url": "https://api.github.com/users/cryptoquick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/cryptoquick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/cryptoquick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/cryptoquick/subscriptions",
+        "organizations_url": "https://api.github.com/users/cryptoquick/orgs",
+        "repos_url": "https://api.github.com/users/cryptoquick/repos",
+        "events_url": "https://api.github.com/users/cryptoquick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/cryptoquick/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "@jonatack Sure, here it is:\r\nhttps://github.com/bitcoin/bips/pull/1670/commits/5a1459bb179acc259db41fc6d7965f830f22e147#diff-e296d32a8f60ef9f846683e801718d16c41fa7d8f1065e0afa6405a0764a91e3R116-R122",
+      "created_at": "2025-03-13T23:25:59Z",
+      "updated_at": "2025-03-13T23:25:59Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1670#discussion_r1994424541",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1994424541"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1670"
+        }
+      },
+      "start_line": null,
+      "original_start_line": 114,
+      "start_side": "RIGHT",
+      "line": null,
+      "original_line": 115,
       "side": "RIGHT"
     }
   ]
