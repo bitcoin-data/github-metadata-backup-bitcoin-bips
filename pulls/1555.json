@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2024-03-01T17:10:35Z",
-    "updated_at": "2025-03-14T20:25:19Z",
+    "updated_at": "2025-03-16T19:58:52Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -287,12 +287,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5527,
-        "stargazers_count": 9780,
-        "watchers_count": 9780,
+        "forks_count": 5534,
+        "stargazers_count": 9782,
+        "watchers_count": 9782,
         "size": 15357,
         "default_branch": "master",
-        "open_issues_count": 35,
+        "open_issues_count": 37,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -305,7 +305,7 @@
         "visibility": "public",
         "pushed_at": "2025-03-13T19:29:25Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-03-14T17:51:06Z",
+        "updated_at": "2025-03-16T09:27:44Z",
         "allow_forking": true
       }
     },
@@ -320,7 +320,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 17,
-    "review_comments": 57,
+    "review_comments": 58,
     "comments": 48
   },
   "events": [
@@ -8124,6 +8124,59 @@
       "start_side": null,
       "line": 10,
       "original_line": 10,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1997695324",
+      "pull_request_review_id": 2688782003,
+      "id": 1997695324,
+      "node_id": "PRRC_kwDOAN28mc53Emlc",
+      "diff_hunk": "@@ -0,0 +1,203 @@\n+<pre>\n+  BIP: XXXX\n+  Layer: Applications\n+  Title: URI Scheme\n+  Author: Matt Corallo <bip21@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-07-13\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Abstract==\n+This BIP proposes a URI scheme for describing Bitcoin payment receipt information.\n+\n+==Motivation==\n+The purpose of this URI scheme is to enable users to easily make payments by simply clicking links on webpages or scanning QR Codes.\n+\n+This BIP is a modification of [[bip-0021.mediawiki|BIP 0021]] to add information about the modern usage of bitcoin: URIs (including standard query parameters and modern address types) as well as provide forward-looking guidance on how to incorporate new payment instructions. It further adds an optional extension to provide the payment initiator with proof of payment. BIP 21 was based on BIP 20, which was, in turn based off an earlier document by Nils Schneider.\n+\n+==Specification==\n+\n+=== General rules for handling (important!) ===\n+\n+Bitcoin clients MUST NOT act on URIs without getting the user's authorization.\n+They SHOULD require the user to manually approve each payment individually, though in some cases they MAY allow the user to automatically make this decision.\n+\n+=== Operating system integration ===\n+Graphical bitcoin clients SHOULD register themselves as the handler for the \"bitcoin:\" URI scheme by default, if no other handler is already registered. If there is already a registered handler, they MAY prompt the user to change it once when they first run the client.\n+\n+=== General Format ===\n+\n+Bitcoin URIs follow the general format for URIs as set forth in RFC 3986. The path component consists of a bitcoin address, and the query component provides additional payment options.\n+\n+Elements of the query component may contain characters outside the valid range. These must first be encoded according to UTF-8, and then each octet of the corresponding UTF-8 sequence must be percent-encoded as described in RFC 3986.\n+\n+=== ABNF grammar ===\n+\n+ bitcoinurn     = \"bitcoin:\" [ bitcoinaddress ] [ \"?\" bitcoinparams ]\n+ bitcoinaddress = *base58 / *bech32 / *bech32m\n+ bitcoinparams  = bitcoinparam [ \"&\" bitcoinparams ]\n+ bitcoinparam   = [ amountparam / labelparam / messageparam / responseparam / otherparam / reqparam ]\n+ amountparam    = \"amount=\" *digit [ \".\" *digit ]\n+ labelparam     = \"label=\" *qchar\n+ messageparam   = \"message=\" *qchar\n+ responseparam  = [ \"req-\" ] \"pop=\" *qchar\n+ otherparam     = qchar *qchar [ \"=\" *qchar ]\n+ reqparam       = \"req-\" qchar *qchar [ \"=\" *qchar ]\n+\n+Here, \"qchar\" corresponds to valid characters of an RFC 3986 URI query component, excluding the \"=\" and \"&\" characters, which this BIP takes as separators.\n+\n+The scheme component (\"bitcoin:\") is case-insensitive, and implementations must accept any combination of uppercase and lowercase letters. The query parameter keys are also case-insensitive. Query parameter values and bitcoin address fields may be case-sensitive depending on their content.\n+\n+=== Bitcoin Address ===\n+\n+The bitcoinaddress body MUST be either a base58 P2SH or P2PKH address, bech32 Segwit version 0 address, bech32m Segwit address, or empty. Future address formats SHOULD instead be placed in query keys as optional payment instructions to provide backwards compatibility during upgrade cycles. After new address types are near-universally supported, or for recipients wishing to avoid a standard on-chain fallback, the bitcoinaddress part of the URI MAY be left empty.\n+\n+=== Query Keys ===\n+\n+The following keys are defined generally and apply to any URI regardless of payment instructions:\n+\n+*label: Label for that address (e.g. name of receiver)\n+*address: bitcoin address\n+*message: message that describes the transaction to the user ([[#Examples|see examples below]])\n+*pop: a URI which the Bitcoin Wallet may return to in order to provide the application which initiated the payment with proof that a payment was completed.\n+\n+The following keys are currently defined for payment instructions of various forms:\n+\n+*lightning: Lightning BOLT 11 invoices\n+*lno: Lightning BOLT12 offers\n+*pay: [[bip-0351.mediawiki|BIP 351 Private Payment addresses]]\n+*sp: [[bip-0352.mediawiki|BIP 352 Silent Payment addresses]]\n+\n+New payment instructions using bech32 or bech32m encodings SHOULD reuse their address format's Human Readable Part as the parameter key.",
+      "path": "bip-XXXX.mediawiki",
+      "position": null,
+      "original_position": 75,
+      "commit_id": "dd5093eeb9443572c5d537e37a13b54123d730c0",
+      "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
+      "in_reply_to_id": 1844481008,
+      "user": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Ha, indeed, I already added examples and explicitly included text on duplicate parameters in the last push because it was obviously underspecified :)",
+      "created_at": "2025-03-16T19:58:52Z",
+      "updated_at": "2025-03-16T19:58:52Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1555#discussion_r1997695324",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1997695324"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1555"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 75,
       "side": "RIGHT"
     }
   ]
