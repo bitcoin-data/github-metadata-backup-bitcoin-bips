@@ -42,7 +42,7 @@
     "body": "This pull request introduces a new Bitcoin Improvement Proposal (BIP):\r\n\r\n**Programmable Bitcoin Token Standard (PBTS)**\r\n\r\nPBTS provides a Layer 1 token standard leveraging Bitcoin Script and Taproot to enable the creation, transfer, and verification of native programmable tokens directly on Bitcoin. It introduces structured programmability without requiring changes to Bitcoin’s consensus rules.\r\n\r\n### Key Highlights:\r\n\r\n- **Layer 1 Implementation:** Tokens are fully validated and transferred on Bitcoin's base layer without external dependencies.\r\n- **Taproot Optimized:** Minimal impact on scalability, with optimized transaction size and fees.\r\n- **Structured Programmability:** Enables predefined execution paths, such as vesting contracts, milestone-based escrows, and oracle integration.\r\n\r\nFull details are available in the proposed BIP markdown file:  \r\n- [bip-pbts.md](bip-pbts.md)\r\n\r\nFeedback, suggestions, and discussion are welcome.\r\n",
     "labels": [],
     "created_at": "2025-03-08T22:49:35Z",
-    "updated_at": "2025-03-17T05:55:42Z",
+    "updated_at": "2025-03-17T06:04:17Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -268,7 +268,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5534,
+        "forks_count": 5535,
         "stargazers_count": 9783,
         "watchers_count": 9783,
         "size": 15357,
@@ -302,7 +302,7 @@
     "changed_files": 1,
     "commits": 2,
     "review_comments": 9,
-    "comments": 1
+    "comments": 2
   },
   "events": [
     {
@@ -475,6 +475,62 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1787#issuecomment-2724900167",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1787"
+    },
+    {
+      "event": "commented",
+      "id": 2728263686,
+      "node_id": "IC_kwDOAN28mc6ingAG",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2728263686",
+      "actor": {
+        "login": "GobiShanthan",
+        "id": 73505570,
+        "node_id": "MDQ6VXNlcjczNTA1NTcw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73505570?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/GobiShanthan",
+        "html_url": "https://github.com/GobiShanthan",
+        "followers_url": "https://api.github.com/users/GobiShanthan/followers",
+        "following_url": "https://api.github.com/users/GobiShanthan/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/GobiShanthan/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/GobiShanthan/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/GobiShanthan/subscriptions",
+        "organizations_url": "https://api.github.com/users/GobiShanthan/orgs",
+        "repos_url": "https://api.github.com/users/GobiShanthan/repos",
+        "events_url": "https://api.github.com/users/GobiShanthan/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/GobiShanthan/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-03-17T06:04:16Z",
+      "updated_at": "2025-03-17T06:04:16Z",
+      "author_association": "NONE",
+      "body": "Thank you for your thoughtful feedback. I appreciate your concerns and will address them directly:\r\n\r\nRegarding enforcement without consensus changes:\r\nTBS uses standard Bitcoin Script to enforce token rules. Token supply is maintained through transaction structure - when tokens are transferred, the transaction must spend existing token UTXOs and create outputs with identical token commitments where input and output amounts match exactly. This conservation is enforced through Bitcoin's existing UTXO model and script validation.\r\n\r\nOn the apparent contradiction:\r\nYou're right that TBS requires compatible wallet software to create valid token transactions (similar to multisig). However, unlike pure client-side validation, the token rules are enforced directly through Bitcoin's consensus mechanisms when validating scripts - any node can verify token transactions without external systems.\r\nOn comparison with other standards:\r\n\r\nI don't claim TBS would necessarily obsolete all others - different approaches have different tradeoffs. The goal is to offer a standard that minimizes blockchain bloat and aligns with Bitcoin's security model.\r\nOn improving Bitcoin:\r\n\r\nI understand your concern about tokenization's effects on other networks. My observation is simply that token activity is already happening on Bitcoin, and a well-designed standard might help reduce negative externalities like excessive data storage.\r\nI've edited my previous replies to be more direct and on-point. I apologize for my lengthy earlier responses. I'm fairly new to this process and would genuinely appreciate your guidance on how to improve this proposal.\r\n\r\n If you have any further questions, I would be happy to answer them.",
+      "user": {
+        "login": "GobiShanthan",
+        "id": 73505570,
+        "node_id": "MDQ6VXNlcjczNTA1NTcw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73505570?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/GobiShanthan",
+        "html_url": "https://github.com/GobiShanthan",
+        "followers_url": "https://api.github.com/users/GobiShanthan/followers",
+        "following_url": "https://api.github.com/users/GobiShanthan/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/GobiShanthan/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/GobiShanthan/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/GobiShanthan/subscriptions",
+        "organizations_url": "https://api.github.com/users/GobiShanthan/orgs",
+        "repos_url": "https://api.github.com/users/GobiShanthan/repos",
+        "events_url": "https://api.github.com/users/GobiShanthan/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/GobiShanthan/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1787#issuecomment-2728263686",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1787"
     }
   ],
@@ -830,9 +886,9 @@
         "site_admin": false,
         "patch_url": null
       },
-      "body": "PBTS doesn't require consensus changes because it doesn't introduce any \"special meaning\" at the consensus level. Instead, it uses existing Bitcoin Script capabilities to create self-enforcing token rules.\r\nHere's specifically how it works:\r\nThe token properties (like ID and supply) are committed to in standard Taproot outputs through Bitcoin Script patterns. For example:\r\n<token_metadata_hash> OP_DROP\r\n<issuer_pubkey> OP_CHECKSIG\r\n\r\nWhere token_metadata_hash is a hash of the token's properties including ID and supply.\r\nWhen transferring tokens, spending conditions enforce token rules through standard script validation:\r\n\r\nTo spend a token output, the transaction must provide valid signatures and satisfy all script conditions\r\nNew outputs must preserve the token's properties through identical script commitments\r\nThe sum of token amounts in the outputs must match the inputs (preventing inflation)\r\n\r\nCrucially, this doesn't require Bitcoin nodes to understand the concept of \"tokens\" - they simply enforce normal script execution rules. The token semantics are interpreted by compatible wallet software, but the validation happens through standard Bitcoin transaction verification.\r\nIt's similar to how multisig wallets work - Bitcoin consensus rules don't understand the higher-level concept of \"shared custody,\" but they enforce the script conditions that implement it.\r\n",
+      "body": "TBS doesn't require consensus changes because it doesn't introduce any \"special meaning\" at the consensus level. Instead, it uses existing Bitcoin Script capabilities to create self-enforcing token rules.\r\nHere's specifically how it works:\r\nThe token properties (like ID and supply) are committed to in standard Taproot outputs through Bitcoin Script patterns. For example:\r\n<token_metadata_hash> OP_DROP\r\n<issuer_pubkey> OP_CHECKSIG\r\n\r\nWhere token_metadata_hash is a hash of the token's properties including ID and supply.\r\nWhen transferring tokens, spending conditions enforce token rules through standard script validation:\r\n\r\nTo spend a token output, the transaction must provide valid signatures and satisfy all script conditions\r\nNew outputs must preserve the token's properties through identical script commitments\r\nThe sum of token amounts in the outputs must match the inputs (preventing inflation)\r\n\r\nCrucially, this doesn't require Bitcoin nodes to understand the concept of \"tokens\" - they simply enforce normal script execution rules. The token semantics are interpreted by compatible wallet software, but the validation happens through standard Bitcoin transaction verification.\r\nIt's similar to how multisig wallets work - Bitcoin consensus rules don't understand the higher-level concept of \"shared custody,\" but they enforce the script conditions that implement it.\r\n",
       "created_at": "2025-03-12T21:41:36Z",
-      "updated_at": "2025-03-17T05:54:43Z",
+      "updated_at": "2025-03-17T06:05:24Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1787#discussion_r1992335087",
       "author_association": "NONE",
       "_links": {
@@ -936,9 +992,9 @@
         "site_admin": false,
         "patch_url": null
       },
-      "body": "We initially submitted PBTS as a standard BIP, but it should have been an informational BIP—apologies for the mistake. Regarding comparisons, I understand skepticism about another token standard; PBTS isn’t meant to replace others but to provide a more Bitcoin-native approach that aligns with its security and validation model. While it’s an open question whether token protocols belong in this repository, token activity is already happening on Bitcoin (e.g., Ordinals), often inefficiently. PBTS aims to improve Bitcoin by offering a structured, UTXO-based standard that optimizes Taproot, reducing blockchain bloat and improving transaction efficiency compared to ad-hoc tokenization methods.",
+      "body": "We initially submitted TBS as a standard BIP, but it should have been an informational BIP—apologies for the mistake. Regarding comparisons, I understand skepticism about another token standard; TBS isn’t meant to replace others but to provide a more Bitcoin-native approach that aligns with its security and validation model. While it’s an open question whether token protocols belong in this repository, token activity is already happening on Bitcoin (e.g., Ordinals), often inefficiently. TBS aims to improve Bitcoin by offering a structured, UTXO-based standard that optimizes Taproot, reducing blockchain bloat and improving transaction efficiency compared to ad-hoc tokenization methods.",
       "created_at": "2025-03-12T22:08:20Z",
-      "updated_at": "2025-03-17T05:45:02Z",
+      "updated_at": "2025-03-17T06:05:17Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1787#discussion_r1992363783",
       "author_association": "NONE",
       "_links": {
