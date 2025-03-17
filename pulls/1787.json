@@ -42,7 +42,7 @@
     "body": "This pull request introduces a new Bitcoin Improvement Proposal (BIP):\r\n\r\n**Programmable Bitcoin Token Standard (PBTS)**\r\n\r\nPBTS provides a Layer 1 token standard leveraging Bitcoin Script and Taproot to enable the creation, transfer, and verification of native programmable tokens directly on Bitcoin. It introduces structured programmability without requiring changes to Bitcoin’s consensus rules.\r\n\r\n### Key Highlights:\r\n\r\n- **Layer 1 Implementation:** Tokens are fully validated and transferred on Bitcoin's base layer without external dependencies.\r\n- **Taproot Optimized:** Minimal impact on scalability, with optimized transaction size and fees.\r\n- **Structured Programmability:** Enables predefined execution paths, such as vesting contracts, milestone-based escrows, and oracle integration.\r\n\r\nFull details are available in the proposed BIP markdown file:  \r\n- [bip-pbts.md](bip-pbts.md)\r\n\r\nFeedback, suggestions, and discussion are welcome.\r\n",
     "labels": [],
     "created_at": "2025-03-08T22:49:35Z",
-    "updated_at": "2025-03-14T14:35:40Z",
+    "updated_at": "2025-03-17T05:55:42Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -268,12 +268,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5526,
-        "stargazers_count": 9779,
-        "watchers_count": 9779,
+        "forks_count": 5534,
+        "stargazers_count": 9783,
+        "watchers_count": 9783,
         "size": 15357,
         "default_branch": "master",
-        "open_issues_count": 35,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -286,7 +286,7 @@
         "visibility": "public",
         "pushed_at": "2025-03-13T19:29:25Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-03-14T13:19:01Z",
+        "updated_at": "2025-03-17T01:44:46Z",
         "allow_forking": true
       }
     },
@@ -301,7 +301,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 10,
+    "review_comments": 9,
     "comments": 1
   },
   "events": [
@@ -830,9 +830,9 @@
         "site_admin": false,
         "patch_url": null
       },
-      "body": "How TSB Functions Without Consensus Changes\r\n\r\nTSB  leverages existing Bitcoin protocol features—specifically Taproot and Bitcoin Script—to create and enforce token rules without requiring any modifications to Bitcoin's consensus layer:\r\n1. Script-Based Enforcement Rather Than Protocol-Level Rules\r\nTSB tokens are encoded and validated entirely through standard Bitcoin transactions and scripts:\r\nToken Creation: Tokens are created by crafting Taproot outputs with specific script structures that encode token metadata and rules.\r\nToken Transfer: When transferring tokens, spending conditions are enforced through script execution during regular transaction validation.\r\nSupply Constraints: Total supply rules are maintained through carefully structured scripts that prevent unauthorized token creation.\r\n\r\n2. Commitment-Based Verification\r\nTSB uses Taproot's commitment structure to enforce token rules:\r\nWhen a token is created, its properties (ID, supply, metadata) are committed to in the Taproot output.\r\nAny future transfers must adhere to these commitments to be considered valid token transactions.\r\nThese commitments are verified using standard Bitcoin Script operations that already exist.\r\n\r\n3. Wallet-Level Implementation\r\nLike other application-layer protocols on Bitcoin:\r\nSpecialized wallets recognize TSB token patterns and create compliant transactions\r\nToken validation occurs within standard Bitcoin Script execution\r\nNo changes to Bitcoin nodes or mining software are required\r\n\r\n\r\n4. Why This Isn't A Consensus Change\r\nBitcoin nodes will continue to validate transactions using existing rules:\r\nNo new opcodes are required\r\nNo changes to transaction validation logic\r\nNo modifications to block validation\r\nThe key insight is that TSB doesn't require the Bitcoin protocol to \"understand\" tokens specifically. It just requires that Bitcoin continues to enforce its existing script validation rules, which TSB leverages to create token-like behavior through carefully designed transaction patterns.\r\n",
+      "body": "PBTS doesn't require consensus changes because it doesn't introduce any \"special meaning\" at the consensus level. Instead, it uses existing Bitcoin Script capabilities to create self-enforcing token rules.\r\nHere's specifically how it works:\r\nThe token properties (like ID and supply) are committed to in standard Taproot outputs through Bitcoin Script patterns. For example:\r\n<token_metadata_hash> OP_DROP\r\n<issuer_pubkey> OP_CHECKSIG\r\n\r\nWhere token_metadata_hash is a hash of the token's properties including ID and supply.\r\nWhen transferring tokens, spending conditions enforce token rules through standard script validation:\r\n\r\nTo spend a token output, the transaction must provide valid signatures and satisfy all script conditions\r\nNew outputs must preserve the token's properties through identical script commitments\r\nThe sum of token amounts in the outputs must match the inputs (preventing inflation)\r\n\r\nCrucially, this doesn't require Bitcoin nodes to understand the concept of \"tokens\" - they simply enforce normal script execution rules. The token semantics are interpreted by compatible wallet software, but the validation happens through standard Bitcoin transaction verification.\r\nIt's similar to how multisig wallets work - Bitcoin consensus rules don't understand the higher-level concept of \"shared custody,\" but they enforce the script conditions that implement it.\r\n",
       "created_at": "2025-03-12T21:41:36Z",
-      "updated_at": "2025-03-12T21:41:36Z",
+      "updated_at": "2025-03-17T05:54:43Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1787#discussion_r1992335087",
       "author_association": "NONE",
       "_links": {
@@ -883,9 +883,9 @@
         "site_admin": false,
         "patch_url": null
       },
-      "body": "How TSB Enforces Adherence to the Token Supply Limit\r\n\r\nTSB ensures strict token supply limits by leveraging Taproot script commitments and UTXO-based validation. Since Bitcoin enforces its own transaction rules at the protocol level, TSB integrates supply constraints directly into Bitcoin’s consensus layer, preventing unauthorized token creation.\r\n\r\n1. Fixed Supply Commitment at Issuance\r\nThe total token supply is permanently committed at the time of issuance. This is embedded in the Taproot output, ensuring that no additional tokens can ever be created.\r\n Token Issuance Script (Genesis Commitment)\r\n# TSB Token Genesis Script\r\n<token_metadata_hash> OP_DROP\r\n<issuer_pubkey> OP_CHECKSIG\r\n\r\nHow this enforces the supply limit:\r\nThe token’s metadata hash includes the total supply, ensuring it is fixed and immutable.\r\nThe issuer’s public key controls initial distribution, preventing unauthorized issuance.\r\nThe supply limit is enforced within the Taproot output, making it part of Bitcoin’s consensus rules.\r\n\r\n\r\n2. Enforcing Supply Conservation in Transfers\r\nTSB tokens must originate from an existing UTXO that references the original issuance, ensuring that no new tokens can be introduced.\r\nToken Transfer Validation Script\r\n# TSB Token Transfer Script (Preserving Supply)\r\n<token_metadata_hash> OP_DROP\r\n<prev_utxo_commitment> OP_CHECKSIGVERIFY\r\n<receiver_pubkey> OP_CHECKSIG\r\n\r\nHow this maintains supply integrity:\r\nTokens can only be spent if they reference a valid prior UTXO, preventing unauthorized creation.\r\nThe script ensures that ownership is transferred while preserving the original issuance constraints.\r\nBitcoin’s UTXO model inherently prevents overspending, enforcing a strict conservation principle.\r\n\r\n3. Preventing Inflation in Multi-Output Transactions\r\nWhen splitting tokens across multiple recipients, TSB scripts ensure that the sum of the outputs exactly matches the input, preventing supply inflation.\r\nMulti-Output Conservation Script\r\n# Ensuring Token Outputs Sum to Input\r\n<token_metadata_hash> OP_DROP\r\n<input_utxo_amount>\r\n<output1_amount> <output2_amount> OP_ADD\r\nOP_EQUALVERIFY  # Ensures total outputs = inputs\r\n<receiver_pubkey> OP_CHECKSIG\r\n\r\nWhy this prevents excess token creation:\r\nThe sum of all token outputs must always match the input amount.\r\nAny attempt to create excess tokens fails validation before confirmation.\r\nBitcoin’s consensus rules reject transactions that do not satisfy these conditions, ensuring strict supply enforcement.\r\n\r\n4. Leveraging Taproot for Efficient Supply Enforcement\r\nTSB utilizes Taproot’s Merkleized script structure to ensure supply constraints remain intact while allowing flexible spending conditions.\r\nTaproot Spending Paths for TSB Tokens\r\n{\r\n  # Path 1: Standard Transfer\r\n  <token_metadata_hash> <prev_utxo_commitment> OP_CHECKSIGVERIFY <receiver_pubkey> OP_CHECKSIG,\r\n\r\n  # Path 2: Expiry Condition (Reclaim Unspent Tokens)\r\n  <timelock> OP_CHECKLOCKTIMEVERIFY OP_DROP <sender_pubkey> OP_CHECKSIG\r\n}\r\n\r\n\r\n How Taproot optimizes enforcement:\r\nOnly authorized transactions can modify token ownership, ensuring strict adherence to supply constraints.\r\nUnused tokens can be reclaimed if they remain unspent for a predefined period.\r\nAll transactions inherit issuance rules cryptographically, preventing supply violations.\r\n\r\n\r\nTSB ensures token supply limits are enforced natively within Bitcoin’s consensus rules. By embedding constraints in Taproot commitments, Bitcoin Script validation, and the UTXO model, TSB eliminates the need for external tracking. Every transaction must reference prior UTXOs, enforcing strict supply conservation at the protocol level.\r\nThis guarantees a fully Bitcoin-native token system where supply constraints cannot be bypassed, altered, or inflated, ensuring long-term security and stability. \r\n",
+      "body": "Thank you for your question on token supply enforcement. This is indeed a critical aspect of the proposal.\r\nThe token supply limit is enforced through a combination of transaction structure and script verification without requiring consensus changes:\r\n\r\nGenesis Commitment:\r\nWhen tokens are initially created, a specific UTXO contains the total supply commitment:\r\nCopy<token_id> <total_supply> <metadata_hash> OP_CAT OP_CAT OP_SHA256 <genesis_commitment_hash> OP_EQUALVERIFY\r\n<issuer_pubkey> OP_CHECKSIG\r\n\r\nConservation in Transfers:\r\nFor any transfer, the transaction must:\r\n\r\nSpend from one or more UTXOs containing token commitments\r\nCreate new outputs with identical token ID and metadata commitments\r\nEnsure numerical conservation of the token amount\r\n\r\n\r\nExample Transfer Mechanism:\r\nCopy// Input\r\nUTXO with token_amount_in (e.g., 100 tokens)\r\n\r\n// Outputs\r\nOutput1: <token_id> <amount1> <metadata_hash> OP_CAT OP_CAT OP_SHA256 <token_commitment> OP_EQUALVERIFY <recipient1_pubkey> OP_CHECKSIG\r\nOutput2: <token_id> <amount2> <metadata_hash> OP_CAT OP_CAT OP_SHA256 <token_commitment> OP_EQUALVERIFY <recipient2_pubkey> OP_CHECKSIG\r\nThe transaction is only valid if amount1 + amount2 = token_amount_in\r\n\r\nThe key insight is that Bitcoin's existing UTXO model inherently enforces conservation:\r\n\r\nYou can only spend what exists\r\nYou can't double-spend the same UTXO\r\nScript verification ensures the token metadata remains consistent\r\n\r\nBy encoding token amounts directly in the output scripts and requiring validation of these values during transfers, the supply limit is enforced through regular Bitcoin transaction validation rules.\r\nNo new outputs containing valid token commitments can be created without spending existing ones, and the amount validation in the scripts ensures no inflation occurs during transfers.\r\n",
       "created_at": "2025-03-12T21:42:42Z",
-      "updated_at": "2025-03-12T21:42:43Z",
+      "updated_at": "2025-03-17T05:57:35Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1787#discussion_r1992336135",
       "author_association": "NONE",
       "_links": {
@@ -936,67 +936,14 @@
         "site_admin": false,
         "patch_url": null
       },
-      "body": "The Token Standard on Bitcoin (TSB) directly improves Bitcoin in several ways:\r\nFirst, TSB addresses existing blockchain bloat and efficiency issues. Token activities already occur on Bitcoin through methods like Ordinals/BRC-20, which store excessive data and consume block space inefficiently. By implementing an optimized standard with Taproot-optimized transactions and efficient UTXO management, TSB reduces this bloat, decreasing overall transaction costs and resource requirements for running full nodes—benefiting all Bitcoin users.\r\nSecond, TSB strengthens Bitcoin's security model. Current token implementations often require centralized indexers or off-chain validation, introducing new trust assumptions into Bitcoin's ecosystem. TSB ensures all token validation occurs on-chain using Bitcoin Script, making tokens fully verifiable by any Bitcoin node without specialized software or external dependencies. This preserves Bitcoin's trustless nature even as token usage grows.\r\n\r\nThird, TSB expands Bitcoin's utility without requiring consensus changes. By enabling programmable token functionality through existing Bitcoin Script capabilities, TSB increases Bitcoin's relevance and competitiveness against alternative blockchains that offer token functionality. This helps preserve Bitcoin's network effects and value proposition in the broader cryptocurrency ecosystem.\r\n\r\nRegarding repository relevance: TSB standardizes how Bitcoin transactions are structured and validated for token operations, similar to how other BIPs standardize transaction formats and script execution. As token activity already exists on Bitcoin, providing a standard implementation path for wallets, exchanges, and nodes aligns with the BIP process's goal of improving Bitcoin's protocol-level standards and interoperability.",
+      "body": "We initially submitted PBTS as a standard BIP, but it should have been an informational BIP—apologies for the mistake. Regarding comparisons, I understand skepticism about another token standard; PBTS isn’t meant to replace others but to provide a more Bitcoin-native approach that aligns with its security and validation model. While it’s an open question whether token protocols belong in this repository, token activity is already happening on Bitcoin (e.g., Ordinals), often inefficiently. PBTS aims to improve Bitcoin by offering a structured, UTXO-based standard that optimizes Taproot, reducing blockchain bloat and improving transaction efficiency compared to ad-hoc tokenization methods.",
       "created_at": "2025-03-12T22:08:20Z",
-      "updated_at": "2025-03-12T22:08:20Z",
+      "updated_at": "2025-03-17T05:45:02Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1787#discussion_r1992363783",
       "author_association": "NONE",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1992363783"
-        },
-        "pull_request": {
-          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1787"
-        }
-      },
-      "start_line": null,
-      "original_start_line": null,
-      "start_side": null,
-      "line": 33,
-      "original_line": 33,
-      "side": "RIGHT"
-    },
-    {
-      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1992366659",
-      "pull_request_review_id": 2679987360,
-      "id": 1992366659,
-      "node_id": "PRRC_kwDOAN28mc52wRpD",
-      "diff_hunk": "@@ -0,0 +1,305 @@\n+# BIP-XXXX: Programmable Bitcoin Token Standard (PBTS)\n+\n+```\n+BIP: XXXX\n+Layer: Applications\n+Title: Programmable Bitcoin Token Standard (PBTS)\n+Author: Gobi Shanthan <gobi@torram.xyz>, Lee Raj. <lee@torram.xyz>\n+Comments-Summary: No comments yet.\n+Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+Status: Draft\n+Type: Standards Track\n+Created: 2025-02-11\n+License: BSD-2-Clause\n+Discussions-To: bitcoin-dev@lists.linuxfoundation.org\n+Post-History: 2025-02-11\n+Requires: 340, 341, 342\n+```\n+\n+## Abstract\n+\n+The **Programmable Bitcoin Token Standard (PBTS)** introduces a method to create, transfer, and validate native Bitcoin-based tokens using **Bitcoin Script** and **Taproot**. PBTS enhances Bitcoin's Layer 1 functionality by enabling **tokenized assets** with programmable conditions without compromising security, decentralization, or predictability. Unlike Ethereum or Solana, PBTS **does not introduce Turing-complete smart contracts** but leverages **structured pre-commitments** and **Taproot optimizations** to enable secure, efficient programmable tokens.\n+\n+PBTS is a **non-consensus-breaking, backward-compatible** standard that ensures tokens remain verifiable and transferable without requiring modifications to Bitcoin's core protocol.\n+\n+## Copyright\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+## Motivation\n+\n+Bitcoin adheres to the principles of **minimalism and security**, which have made it the most robust and decentralized blockchain. PBTS aligns with this philosophy by introducing **programmability without complexity**, ensuring that Bitcoin's core remains unchanged while extending its utility in a predictable and efficient way.\n+\n+Bitcoin currently lacks a **native** token standard that enables **flexible** and **fully Layer 1** token issuance with programmable conditions. Existing solutions such as **Ordinals, RGB, and Runes** either rely on **external tracking mechanisms** or **Layer 2 solutions** that introduce centralization risks. PBTS provides a **UTXO-based**, predefined, and non-intrusive method for issuing tokens that remain completely **verifiable on Bitcoin's base layer** with advanced programmable features like time-locked vesting and milestone-based escrow.",
-      "path": "bip-pbst.md",
-      "position": 33,
-      "original_position": 33,
-      "commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
-      "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
-      "in_reply_to_id": 1991802274,
-      "user": {
-        "login": "GobiShanthan",
-        "id": 73505570,
-        "node_id": "MDQ6VXNlcjczNTA1NTcw",
-        "avatar_url": "https://avatars.githubusercontent.com/u/73505570?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/GobiShanthan",
-        "html_url": "https://github.com/GobiShanthan",
-        "followers_url": "https://api.github.com/users/GobiShanthan/followers",
-        "following_url": "https://api.github.com/users/GobiShanthan/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/GobiShanthan/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/GobiShanthan/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/GobiShanthan/subscriptions",
-        "organizations_url": "https://api.github.com/users/GobiShanthan/orgs",
-        "repos_url": "https://api.github.com/users/GobiShanthan/repos",
-        "events_url": "https://api.github.com/users/GobiShanthan/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/GobiShanthan/received_events",
-        "type": "User",
-        "site_admin": false,
-        "patch_url": null
-      },
-      "body": "for additional information to expand on the Bip \r\n\r\n 1. Ecosystem Fragmentation\r\nThe Bitcoin token ecosystem is currently highly fragmented with multiple competing standards:\r\nOrdinals/BRC-20 use inscription-based approaches that are inefficient and difficult to scale\r\nRGB utilizes client-side validation that's hard to integrate with existing Bitcoin infrastructure\r\nRunes and similar proposals use different methodologies for tracking ownership\r\nColored Coins introduced early approaches that lacked standardization\r\nThis fragmentation creates several critical problems:\r\nDevelopers must build separate infrastructure for each token standard\r\nWallets need custom implementations to support different token types\r\nToken interoperability is nearly impossible between standards\r\nUsers face a confusing experience with inconsistent token behaviors\r\nLiquidity becomes fragmented across multiple token ecosystems\r\n\r\n2. Limited Expressivity and Programmability\r\nCurrent Bitcoin token solutions offer extremely limited programmability:\r\nMost existing token standards can only perform simple transfers\r\nComplex conditional logic (vesting schedules, escrow, etc.) is difficult or impossible\r\nBusiness logic requiring multi-stage releases can't be encoded on-chain\r\nToken behaviors can't adapt to external conditions or time-based parameters\r\nDevelopers are forced to implement business logic off-chain, reducing security\r\n\r\n3. Off-Chain Dependency Risks\r\nMany token standards require external systems for validation:\r\nReliance on centralized indexers creates single points of failure\r\nExternal validation layers introduce additional trust assumptions\r\nPotential for censorship or manipulation by indexer operators\r\nScaling challenges when indexers must process high transaction volumes\r\nToken validity can't be independently verified by standard Bitcoin nodes\r\nHow PBTS Improves Bitcoin\r\n\r\n1. Enhanced Utility Through Expressivity\r\nPBTS dramatically increases what's possible with Bitcoin tokens:\r\nProgrammable token behavior \r\nTime-locked vesting\r\nMilestone-based releases \r\nOracle integration \r\nMulti-signature governance \r\nAll this additional expressivity remains within Bitcoin's secure, deterministic execution environment - providing predictability without the risks of Turing-complete smart contracts.\r\n\r\n2. Unifying the Token Ecosystem\r\nPBTS creates a universal foundation for Bitcoin-based tokens:\r\nProvides a common language and interface for all token applications\r\nCreates consistent standards for wallet integration and user experience\r\nEnables interoperability between different token implementations\r\nConsolidates development resources around a single robust standard\r\nEncourages ecosystem-wide innovations rather than siloed development\r\nSimilar to how ERC-20 standardized Ethereum's token ecosystem in its early days, PBTS could create a coherent framework for Bitcoin's token economy.\r\n\r\n\r\n3. True Layer 1 Security and Validation\r\nPBTS ensures that tokens benefit from Bitcoin's full security model:\r\nComplete validation directly through Bitcoin Script execution\r\nNo external dependencies for determining token validity or ownership\r\nToken rules enforced by standard Bitcoin consensus mechanisms\r\nFully verifiable by any Bitcoin node without specialized software\r\nResistant to censorship or manipulation by indexer operators\r\n\r\n4. Efficiency and Scalability Optimizations\r\nThe proposal emphasizes Bitcoin-compatible efficiency:\r\nTaproot optimization significantly reduces transaction sizes\r\nStructured script templates minimize blockchain bloat\r\nCompatibility with future Bitcoin scaling solutions\r\nEfficient batching capabilities for token operations\r\n\r\n5. Future-Proof Design\r\nApplications built on a well-designed standard would remain compatible with future Bitcoin protocol improvements.\r\nBy providing a standardized, expressive, and secure token framework that operates entirely within Bitcoin's existing security model, PBTS creates a foundation for a robust token ecosystem that enhances Bitcoin's utility without compromising its core principles or requiring consensus changes.\r\n",
-      "created_at": "2025-03-12T22:11:31Z",
-      "updated_at": "2025-03-12T22:11:31Z",
-      "html_url": "https://github.com/bitcoin/bips/pull/1787#discussion_r1992366659",
-      "author_association": "NONE",
-      "_links": {
-        "self": {
-          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1992366659"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1787"
