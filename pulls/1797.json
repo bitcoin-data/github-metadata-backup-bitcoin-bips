@@ -40,9 +40,27 @@
       "patch_url": null
     },
     "body": "The recovery scriptPubKey needs to be prefixed with its CompactSize-encoded length when computing the sPK hash.\r\n\r\nI verified this by:\r\n- Checking the [functional tests](https://github.com/jamesob/bitcoin/commit/5e59c074703f0913db7ee004b99d086857d10ad6#diff-65a47d52759ba7800338bacb3005836bdc0f3962de356621e5c50887c85c4af8R1407-R1409), where `recovery_spk_tagged_hash()` is implemented using [`ser_string()`](https://github.com/bitcoin/bitcoin/blob/af3dee0b8d456a8aa9ade9c6e7f4283a90590eae/test/functional/test_framework/messages.py#L148-L149) which adds the CompactSize-encoded length prefix\r\n- Using an [implementation in Minsc](https://min.sc/v0.3/#gist=d8ac58dadc7377c3e231b4c7735ee5c5) to construct a [transaction](https://mutinynet.com/tx/944db06a37842fea9f7db117a0118221ee4bbdb0116354c562adcd12edaa365e) spending using `OP_VAULT_RECOVER` and broadcasting it to mutinynet (see line 2 for the recovery sPK hash computation)\r\n- Checking with @jamesob \r\n\r\nAlternatively, the implementation could be amended to match the current specification and drop the length prefix. Since this is committing to a single element, the length isn't really necessary.",
-    "labels": [],
+    "labels": [
+      {
+        "id": 275846070,
+        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
+        "name": "Proposed BIP modification",
+        "color": "5319e7",
+        "default": false
+      },
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
+      }
+    ],
     "created_at": "2025-03-22T22:24:14Z",
-    "updated_at": "2025-03-22T22:24:14Z",
+    "updated_at": "2025-03-23T21:41:10Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -268,9 +286,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5544,
-        "stargazers_count": 9800,
-        "watchers_count": 9800,
+        "forks_count": 5546,
+        "stargazers_count": 9802,
+        "watchers_count": 9802,
         "size": 15411,
         "default_branch": "master",
         "open_issues_count": 32,
@@ -286,7 +304,7 @@
         "visibility": "public",
         "pushed_at": "2025-03-22T01:26:29Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-03-22T10:30:14Z",
+        "updated_at": "2025-03-23T15:09:44Z",
         "allow_forking": true
       }
     },
@@ -404,6 +422,74 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-03-22T22:24:15Z"
+    },
+    {
+      "event": "labeled",
+      "id": 16946049636,
+      "node_id": "LE_lADOAN28mc6vSIVUzwAAAAPyEDJk",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/16946049636",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-03-23T21:40:11Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 16946053903,
+      "node_id": "LE_lADOAN28mc6vSIVUzwAAAAPyEEMP",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/16946053903",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-03-23T21:41:10Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
     }
   ],
   "comments": []
