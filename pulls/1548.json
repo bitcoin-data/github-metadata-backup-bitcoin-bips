@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-01-31T14:30:51Z",
-    "updated_at": "2025-03-24T13:39:36Z",
+    "updated_at": "2025-03-24T14:22:32Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -311,7 +311,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 7,
-    "review_comments": 39,
+    "review_comments": 40,
     "comments": 23
   },
   "events": [
@@ -5442,6 +5442,59 @@
       "start_side": "RIGHT",
       "line": 145,
       "original_line": 145,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2010285350",
+      "pull_request_review_id": 2710572876,
+      "id": 2010285350,
+      "node_id": "PRRC_kwDOAN28mc530oUm",
+      "diff_hunk": "@@ -0,0 +1,190 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Binary Output Descriptors\n+  Author: SeedHammer <team@seedhammer.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-seedhammer-binary-output-descriptors\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-01-31\n+  License: BSD-2-Clause\n+</pre>\n+\n+==Introduction==\n+\n+===Abstract===\n+\n+This document proposes an efficient encoding format for output descriptors as\n+defined by [[bip-0380.mediawiki|BIP 380]] and its extensions. Based on\n+key-value maps as defined by [[bip-0174.mediawiki|BIP 174]], the encoding\n+supports descriptor and key metadata.\n+\n+===Copyright===\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+===Motivation===\n+\n+A BIP 380 output descriptor is a textual representation of a set of output\n+scripts, such that Bitcoin wallets may agree on the scripts and addresses\n+to provide the user. However, a descriptor string by itself is not ideal for\n+transferring between wallets: it lacks a machine-recognizable header, cannot\n+represent metadata such as name and birth block, and its use of base58 for\n+extended keys is inefficient.\n+\n+BIP 174 gives us a self-describing file format, metadata, and a compact,\n+binary representation of keys. Assuming most wallets already implement the PSBT\n+format, the implementation overhead of this BIP is expected to be low\n+<ref> '''Why not extend BIP 174?'''\n+The PSBT format is not a general-purpose container format, and descriptors\n+are useful outside of signing flows (backup, initializing wallet\n+software).</ref>\n+<ref> '''Why not use the older Blockchain Commons BCR-2020-010 format?'''\n+The format was [[https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-010-output-desc.md#deprecated-superseded-by-version-3-output-descriptors|recently deprecated]],\n+due to its use of reserved CBOR tags.</ref>\n+<ref>'''Why not use the new Blockchain Commons BCR-2023-010 format?'''\n+The [[https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2023-010-output-descriptor.md|BCR-2023-010 format]]\n+is roughly equivalent to this proposal, but was designed and released outside of\n+the usual BIP proposal process.\n+\n+In particular, we believe BCR-2023-010 would have faced opposition\n+in the BIP process because it is based on the [[https://cbor.io/spec.html|CBOR encoding]].\n+CBOR is designed for generality and compactness and is therefore significantly\n+more complex than the PSBT encoding. In contrast, the PSBT key-value maps are\n+supported by all wallet software that interact with PSBT files, are easier to\n+review, and they fit in embedded devices.\n+\n+Released in late 2023, BCR-2023-010 doesn't have the advantage of widespread\n+support at the time of this writing.</ref>.\n+\n+==Specification==\n+\n+The Binary Output Descriptor (BOD) format consists of a fixed header, a\n+key-value map describing the output descriptor, and a key-value map for\n+each key.\n+\n+ <bod> := <magic> <global-map> <key-map>*\n+ <magic> := 0x62 0x6F 0x64 0xFF\n+ <global-map> := <keypair>* 0x00\n+ <key-map> := <keypair>* 0x00\n+\n+The definition for <tt><keypair></tt> follows [[bip-0174.mediawiki#specification|BIP 174]].\n+\n+The defined global types are as follows:\n+\n+{|\n+! Name\n+! <tt><keytype></tt>\n+! <tt><keydata></tt>\n+! <tt><keydata></tt> Description\n+! <tt><valuedata></tt>\n+! <tt><valuedata></tt> Description\n+|-\n+| Output Descriptor\n+| <tt>BOD_GLOBAL_OUTPUT_DESCRIPTOR = 0x00</tt>",
+      "path": "bip-bod-descriptors.mediawiki",
+      "position": 84,
+      "original_position": 84,
+      "commit_id": "36403bec0124addaca245c50f7d8dd44fae21319",
+      "original_commit_id": "36403bec0124addaca245c50f7d8dd44fae21319",
+      "in_reply_to_id": 2010096338,
+      "user": {
+        "login": "benma",
+        "id": 1225267,
+        "node_id": "MDQ6VXNlcjEyMjUyNjc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1225267?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/benma",
+        "html_url": "https://github.com/benma",
+        "followers_url": "https://api.github.com/users/benma/followers",
+        "following_url": "https://api.github.com/users/benma/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/benma/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/benma/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/benma/subscriptions",
+        "organizations_url": "https://api.github.com/users/benma/orgs",
+        "repos_url": "https://api.github.com/users/benma/repos",
+        "events_url": "https://api.github.com/users/benma/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/benma/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Indeed that was my assumption, apologies. I should have read the full BIP again before commenting.\r\n\r\nI lean strongly towards extending the PSBT format instead of creating a new format.\r\n\r\n1. Descriptors are essential for secure signing as @bigspider explained [here](https://github.com/bitcoin/bips/pull/1548#issuecomment-2003568487), so including them in the PSBT format is appropriate.\r\n1. @achow101 commented that one could infer the descriptor. It is not quite clear to me if descriptors can really be inferred from other existing PSBT fields in all cases, but even if, it would add significant complexity, performance problems and code bloat - especially for hardware signers that don't have many resources\r\n1. There is a lot of software that interacts with PSBTs. Getting all of them to support a parallel format would take a long time and adds needless friction. Wallets handling PSBTs already simply ignore fields unknown to them, so having the descriptors in the PSBT is automatically compatible with all existing software.\r\n1. UX for users who directly use PSBTs (importing/exporting) would become tricky: how would a user export and transfer both formats between wallets? Doing it twice (once per format) is cumbersome and error prone.  \r\n\r\n",
+      "created_at": "2025-03-24T14:22:32Z",
+      "updated_at": "2025-03-24T14:23:39Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1548#discussion_r2010285350",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2010285350"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1548"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 84,
+      "original_line": 84,
       "side": "RIGHT"
     }
   ]
