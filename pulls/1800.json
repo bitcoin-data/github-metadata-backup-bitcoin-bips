@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-03-26T17:22:35Z",
-    "updated_at": "2025-03-27T16:06:15Z",
+    "updated_at": "2025-03-28T14:41:47Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -277,12 +277,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5550,
-        "stargazers_count": 9820,
-        "watchers_count": 9820,
+        "forks_count": 5549,
+        "stargazers_count": 9823,
+        "watchers_count": 9823,
         "size": 15459,
         "default_branch": "master",
-        "open_issues_count": 31,
+        "open_issues_count": 33,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -295,7 +295,7 @@
         "visibility": "public",
         "pushed_at": "2025-03-24T18:55:28Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-03-27T12:01:50Z",
+        "updated_at": "2025-03-28T13:06:01Z",
         "allow_forking": true
       }
     },
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 37,
+    "review_comments": 38,
     "comments": 0
   },
   "events": [
@@ -2485,6 +2485,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2017023175"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1800"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 55,
+      "original_line": 55,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2018813167",
+      "pull_request_review_id": 2725788795,
+      "id": 2018813167,
+      "node_id": "PRRC_kwDOAN28mc54VKTv",
+      "diff_hunk": "@@ -0,0 +1,207 @@\n+```\n+  BIP: ?\n+  Title: Consensus Cleanup\n+  Author: Antoine Poinsot <mail@antoinep.com>\n+          Matt Corallo <bips@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-03-17\n+  License: CC0-1.0\n+```\n+\n+# Abstract\n+\n+Introduce new consensus rules in order to fix the timewarp attack, reduce the worst case block\n+validation, prevent Merkle tree weaknesses and avoid duplicate transactions without\n+[bip-0030][BIP30] validation.\n+\n+# Motivation\n+\n+This proposal addresses a number of long standing vulnerabilities and weaknesses in the Bitcoin\n+protocol. Bundling those fixes together allows to overcome the fixed cost of deploying a Bitcoin\n+soft fork.\n+\n+The timewarp bug permits a majority hashrate attacker to arbitrarily increase the block rate,\n+allowing them to steal block subsidy from future miners, and increase validation costs to nodes that\n+have to deal with the increased average transaction rate. By strategically setting the block\n+timestamp, the timewarp bug lets miners bring down the difficulty to its minimum within 38 days of\n+starting the attack. The existence of this bug not only significantly empowers a 51% attacker, but\n+also makes it notably harder to reason about miners' incentives. It could indeed be in the interest\n+of short-sighted miners as well as short-sighted users to exploit this vulnerability in a small\n+enough proportion to increase the block rate without fatally hurting the network, as the effectively\n+increased block space would - all others things equal - bring fee rates down for users.\n+\n+Specially crafted blocks may be expensive to process, with validation times ranging from a few\n+minutes up to more than a hour on lower end devices. Long block validation times are a nuisance to\n+users, increasing the cost to independently fully validate the consensus rules. In addition they can\n+be used by miners to attack their competition, creating perverse incentives, centralization\n+pressures and reduced network security.\n+\n+In computing a block's Merkle root, a 64 bytes transaction can be interpreted as an intermediate\n+node in the tree in addition to a leaf. This makes it possible to fake inclusion proofs by\n+pretending a 64 bytes block transaction is an inner node, as well as to pretend the inner nodes on\n+one level of the tree are the actual block transactions.\n+\n+Since [bip-0034][BIP34] activation, explicit [bip-0030][BIP30] validation is not necessary until\n+block height 1,983,702[^0].  Mandating new coinbase transactions be different from the early\n+[bip-0034][BIP34] violations makes it possible to get rid of [bip-0030][BIP30] validation forever.\n+Besides its unnecessary cost, another downside of [bip-0030][BIP30] validation is that it cannot be\n+performed by Utreexo clients. Finally, leveraging the coinbase transaction's `nLockTime` field\n+allows applications to recover the block height corresponding to a coinbase transaction without\n+having to parse Bitcoin Script.\n+\n+# Specification",
+      "path": "bip-cc.md",
+      "position": 55,
+      "original_position": 55,
+      "commit_id": "098894f04f41494b0329a3e0479e27f33f841812",
+      "original_commit_id": "098894f04f41494b0329a3e0479e27f33f841812",
+      "in_reply_to_id": 2017023175,
+      "user": {
+        "login": "darosior",
+        "id": 22457751,
+        "node_id": "MDQ6VXNlcjIyNDU3NzUx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22457751?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/darosior",
+        "html_url": "https://github.com/darosior",
+        "followers_url": "https://api.github.com/users/darosior/followers",
+        "following_url": "https://api.github.com/users/darosior/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/darosior/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/darosior/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/darosior/subscriptions",
+        "organizations_url": "https://api.github.com/users/darosior/orgs",
+        "repos_url": "https://api.github.com/users/darosior/repos",
+        "events_url": "https://api.github.com/users/darosior/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/darosior/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "As i replied on the mailing list thread, i am not going to split this BIP into parts as i think it would unnecessarily increase overhead and could impede progress. I am happy to assign numbers to the rules though, if you find it makes them easier to be referenced.",
+      "created_at": "2025-03-28T14:41:46Z",
+      "updated_at": "2025-03-28T14:41:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1800#discussion_r2018813167",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2018813167"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1800"
