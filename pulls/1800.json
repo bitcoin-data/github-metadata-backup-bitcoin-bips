@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-03-26T17:22:35Z",
-    "updated_at": "2025-04-01T08:12:02Z",
+    "updated_at": "2025-04-01T14:34:15Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -278,11 +278,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5555,
-        "stargazers_count": 9829,
-        "watchers_count": 9829,
+        "stargazers_count": 9830,
+        "watchers_count": 9830,
         "size": 15464,
         "default_branch": "master",
-        "open_issues_count": 34,
+        "open_issues_count": 35,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -295,7 +295,7 @@
         "visibility": "public",
         "pushed_at": "2025-03-29T14:58:33Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-03-31T22:59:42Z",
+        "updated_at": "2025-04-01T14:48:55Z",
         "allow_forking": true
       }
     },
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 59,
+    "review_comments": 63,
     "comments": 2
   },
   "events": [
@@ -3863,6 +3863,218 @@
       "start_side": null,
       "line": 60,
       "original_line": 60,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2022970099",
+      "pull_request_review_id": 2732894863,
+      "id": 2022970099,
+      "node_id": "PRRC_kwDOAN28mc54lBLz",
+      "diff_hunk": "@@ -0,0 +1,207 @@\n+```\n+  BIP: ?\n+  Title: Consensus Cleanup\n+  Author: Antoine Poinsot <mail@antoinep.com>\n+          Matt Corallo <bips@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-03-17\n+  License: CC0-1.0\n+```\n+\n+# Abstract\n+\n+Introduce new consensus rules in order to fix the timewarp attack, reduce the worst case block\n+validation, prevent Merkle tree weaknesses and avoid duplicate transactions without\n+[bip-0030][BIP30] validation.\n+\n+# Motivation\n+\n+This proposal addresses a number of long standing vulnerabilities and weaknesses in the Bitcoin\n+protocol. Bundling those fixes together allows to overcome the fixed cost of deploying a Bitcoin\n+soft fork.\n+\n+The timewarp bug permits a majority hashrate attacker to arbitrarily increase the block rate,\n+allowing them to steal block subsidy from future miners, and increase validation costs to nodes that\n+have to deal with the increased average transaction rate. By strategically setting the block\n+timestamp, the timewarp bug lets miners bring down the difficulty to its minimum within 38 days of\n+starting the attack. The existence of this bug not only significantly empowers a 51% attacker, but\n+also makes it notably harder to reason about miners' incentives. It could indeed be in the interest\n+of short-sighted miners as well as short-sighted users to exploit this vulnerability in a small\n+enough proportion to increase the block rate without fatally hurting the network, as the effectively\n+increased block space would - all others things equal - bring fee rates down for users.\n+\n+Specially crafted blocks may be expensive to process, with validation times ranging from a few\n+minutes up to more than a hour on lower end devices. Long block validation times are a nuisance to\n+users, increasing the cost to independently fully validate the consensus rules. In addition they can\n+be used by miners to attack their competition, creating perverse incentives, centralization\n+pressures and reduced network security.\n+\n+In computing a block's Merkle root, a 64 bytes transaction can be interpreted as an intermediate\n+node in the tree in addition to a leaf. This makes it possible to fake inclusion proofs by\n+pretending a 64 bytes block transaction is an inner node, as well as to pretend the inner nodes on\n+one level of the tree are the actual block transactions.\n+\n+Since [bip-0034][BIP34] activation, explicit [bip-0030][BIP30] validation is not necessary until\n+block height 1,983,702[^0].  Mandating new coinbase transactions be different from the early\n+[bip-0034][BIP34] violations makes it possible to get rid of [bip-0030][BIP30] validation forever.\n+Besides its unnecessary cost, another downside of [bip-0030][BIP30] validation is that it cannot be\n+performed by Utreexo clients. Finally, leveraging the coinbase transaction's `nLockTime` field\n+allows applications to recover the block height corresponding to a coinbase transaction without\n+having to parse Bitcoin Script.\n+\n+# Specification\n+\n+For all blocks after activation the following new rules apply.\n+\n+Given a block at height `N`:\n+- if `N % 2016` is equal to `0` the `nTime` field of the block must be set to a value higher than or\n+  equal to the value of the `nTime` field of block at height `N-1` minus `7200`;\n+- if `N % 2016` is equal to `2015` the `nTime` field of the block must be set to a value higher than\n+  or equal to the value of the `nTime` field of block at height `N-2015`.\n+\n+A limit is set on the number of potentially executed signature operations in validating a\n+transaction. It applies to all transactions in the block except the coinbase transaction[^1]. For\n+each input in the transaction, count the number of `CHECKSIG` and `CHECKMULTISIG` in the input\n+scriptSig and previous output's scriptPubKey, including the P2SH redeemScript. If the total is\n+strictly higher than `2500`, the transaction is invalid. The accounting is the same as for\n+[bip-0016][BIP16 specs]: a `CHECKSIG` operation accounts for `1` and a `CHECKMULTISIG` accounts for\n+the number of public keys associated, or `20` if the number of public keys is greater than `16`. A\n+`CHECKMULTISIG` not directly preceded by a minimally-pushed number between `1` and `16` (included)\n+accounts for `20`.\n+\n+Transactions whose (witness-stripped) serialized size is exactly 64 bytes are made invalid.\n+\n+The coinbase transaction's `nLockTime` field must be set to the height of the block minus `1`[^2]\n+and its `nSequence` field must not be equal to `0xffffffff`.\n+\n+# Rationale\n+\n+The restrictions on the timestamp of the first and last blocks of a difficulty adjustment period fix\n+the timewarp and Murch-Zawy vulnerabilities[^3]. The latter poses mostly theoretical concerns but is\n+extremely low risk to fix: the duration of an adjustment period has never been, and should never be,\n+negative. The former is fixed by preventing the timestamp of the first block of a difficulty period\n+to be lower than the previous block's, with a two hours grace period. A [previous\n+proposal][BIP-XXXX] to fix timewarp used a ten minutes grace period instead, also adopted for\n+[testnet4][BIP94 timewarp]. Out of an abundance of caution and because it only trivially worsens the\n+block rate increase under attack, a two hours grace period is used here[^4].\n+\n+Disabling some Script operations and functionalities was [previously proposed][BIP-XXXX] to reduce\n+the worst case block validation time but was met with resistance due to confiscation concerns[^5]. A\n+delicate balance needs to be struck between minimizing the confiscation risks of a mitigation, even\n+if merely theoretical, and bounding the costs one could impose on all other users of the system. To\n+this effect a limit on the number of potentially executed signature operations pinpoints exactly the\n+harmful behaviour, leaving maximum flexibility in how Script functionalities may have been used.\n+Such a limit reduces the worst case block validation time by a factor of 40 and drastically\n+increases the preparation cost of an attack to make it uneconomical for a miner[^6]. The `2500`\n+value was chosen as the tightest value that did not make any non-pathological standard transaction\n+invalid[^7].\n+\n+In the presence of 64 bytes transactions a block header's Merkle root may be valid for different\n+sets of transactions. This is because in the Merkle tree construction a 64 bytes transaction may be\n+interpreted as the catenation of two 32 bytes hashes, or the catenation of two 32 bytes hashes may\n+be interpreted as a transaction. The former allows to fake a block inclusion proof and the latter\n+makes it such that for a valid block the Merkle root in the block header is not a unique identifier\n+for the corresponding list of valid transactions[^8]. 64 bytes transactions can only contain an\n+output Script that lets anyone spend the funds, or burns them.  They have also been non-standard for\n+6 years at the time this is written. It was suggested the known vulnerabilities could instead be\n+mitigated by committing to the Merkle tree depth in the header's version field[^9]. The authors\n+believe it is preferable to address the root cause by invalidating 64 bytes transactions. This\n+approach also fixes the vulnerability without developers of SPV verifiers having to implement the\n+mitigation or to know it is necessary in the first place.\n+\n+Several blocks prior to [bip-0034][BIP34] activation contain a coinbase transaction such as its\n+scriptSig contains a valid [bip-0034][BIP34] commitment to a future block height. This offers an\n+opportunity to duplicate these coinbase transactions in the future[^10] and for this reason\n+[bip-0030][BIP30] validation will need to be re-activated from block 1,983,702. A simple way to\n+prevent this is to mandate that future coinbase transactions vary slightly from coinbase\n+transactions before [bip-0034][BIP34] activation. There are multiple ways of achieving this, but\n+enforcing the timelock for the coinbase transaction makes it so all coinbase transactions past\n+Consensus Cleanup activation could not have been valid before this height and therefore cannot be a\n+duplicate[^11].\n+\n+# Backward compatibility\n+\n+This proposal only tightens the block validation rules: there is no block that is valid under the\n+rules proposed in this BIP but not under the existing Bitcoin consensus rules. As a consequence\n+these changes are backward-compatible with unupgraded node software. That said, the authors strongly\n+encourage node operators to upgrade in order to fully validate all consensus rules.\n+\n+# Acknowledgements\n+\n+This document builds upon an [earlier proposal][BIP-XXXX] by one of the authors.\n+\n+The authors would like to thank everyone involved in researching the most appropriate mitigation for\n+each of these bugs. We would like to thank in particular Anthony Towns and Sjors Provoost for their\n+direct contributions to this proposal, as well as @0xb10c and Brian Groll for providing the authors\n+with data to analyze the proposed mitigations.\n+\n+# Copyright\n+\n+This document is licensed under the Creative Commons CC0 1.0 Universal license.\n+\n+\n+[^0]: Block 1,983,702 is the earliest future block which could contain a duplicate coinbase\n+transaction while still respecting [bip-0034][BIP34]. See [this post][Delving duplicable] for a list\n+of all such future blocks.\n+[^1]: Technically this limit *cannot* apply to a coinbase transaction as the size of its sole\n+input's scriptSig is limited.\n+[^2]: The locktime validation, which is also performed for coinbase transactions, enforces that the\n+nLockTime value is the last block at which a transaction is invalid, not the first one at which it\n+is valid.\n+[^3]: The timewarp attack is described [here][SE timewarp] and the Murch-Zawy attack [here][Delving\n+Murch-Zawy].\n+[^4]: A bug in testnet4 pushed blocks' timestamps in the future when exploited, revealing how some",
+      "path": "bip-cc.md",
+      "position": 155,
+      "original_position": 156,
+      "commit_id": "34ea72c72a40b90611663fc3fe0e62177923773d",
+      "original_commit_id": "098894f04f41494b0329a3e0479e27f33f841812",
+      "in_reply_to_id": 2017012556,
+      "user": {
+        "login": "darosior",
+        "id": 22457751,
+        "node_id": "MDQ6VXNlcjIyNDU3NzUx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22457751?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/darosior",
+        "html_url": "https://github.com/darosior",
+        "followers_url": "https://api.github.com/users/darosior/followers",
+        "following_url": "https://api.github.com/users/darosior/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/darosior/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/darosior/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/darosior/subscriptions",
+        "organizations_url": "https://api.github.com/users/darosior/orgs",
+        "repos_url": "https://api.github.com/users/darosior/repos",
+        "events_url": "https://api.github.com/users/darosior/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/darosior/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Yeah, \"bug\" is not a correct characterization since it was intentional. However i think \"exploited\" is fair since people apparently assumed all participants would always be honest, and, well, they are not.\r\n\r\nI went with \"abused\" to use a little bit less loaded language:\r\n```suggestion\r\n[^4]: The testnet4 exception pushed blocks' timestamps in the future when abused, revealing how some\r\n```\r\n\r\nWhat do you think?",
+      "created_at": "2025-04-01T14:22:38Z",
+      "updated_at": "2025-04-01T14:22:39Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1800#discussion_r2022970099",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2022970099"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1800"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 155,
+      "original_line": 155,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2022974794",
+      "pull_request_review_id": 2732903049,
+      "id": 2022974794,
+      "node_id": "PRRC_kwDOAN28mc54lCVK",
+      "diff_hunk": "@@ -0,0 +1,207 @@\n+```\n+  BIP: ?\n+  Title: Consensus Cleanup\n+  Author: Antoine Poinsot <mail@antoinep.com>\n+          Matt Corallo <bips@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-03-17\n+  License: CC0-1.0\n+```\n+\n+# Abstract\n+\n+Introduce new consensus rules in order to fix the timewarp attack, reduce the worst case block\n+validation, prevent Merkle tree weaknesses and avoid duplicate transactions without\n+[bip-0030][BIP30] validation.\n+\n+# Motivation\n+\n+This proposal addresses a number of long standing vulnerabilities and weaknesses in the Bitcoin\n+protocol. Bundling those fixes together allows to overcome the fixed cost of deploying a Bitcoin\n+soft fork.\n+\n+The timewarp bug permits a majority hashrate attacker to arbitrarily increase the block rate,\n+allowing them to steal block subsidy from future miners, and increase validation costs to nodes that\n+have to deal with the increased average transaction rate. By strategically setting the block\n+timestamp, the timewarp bug lets miners bring down the difficulty to its minimum within 38 days of\n+starting the attack. The existence of this bug not only significantly empowers a 51% attacker, but\n+also makes it notably harder to reason about miners' incentives. It could indeed be in the interest\n+of short-sighted miners as well as short-sighted users to exploit this vulnerability in a small\n+enough proportion to increase the block rate without fatally hurting the network, as the effectively\n+increased block space would - all others things equal - bring fee rates down for users.\n+\n+Specially crafted blocks may be expensive to process, with validation times ranging from a few\n+minutes up to more than a hour on lower end devices. Long block validation times are a nuisance to\n+users, increasing the cost to independently fully validate the consensus rules. In addition they can\n+be used by miners to attack their competition, creating perverse incentives, centralization\n+pressures and reduced network security.\n+\n+In computing a block's Merkle root, a 64 bytes transaction can be interpreted as an intermediate\n+node in the tree in addition to a leaf. This makes it possible to fake inclusion proofs by\n+pretending a 64 bytes block transaction is an inner node, as well as to pretend the inner nodes on\n+one level of the tree are the actual block transactions.\n+\n+Since [bip-0034][BIP34] activation, explicit [bip-0030][BIP30] validation is not necessary until\n+block height 1,983,702[^0].  Mandating new coinbase transactions be different from the early\n+[bip-0034][BIP34] violations makes it possible to get rid of [bip-0030][BIP30] validation forever.\n+Besides its unnecessary cost, another downside of [bip-0030][BIP30] validation is that it cannot be\n+performed by Utreexo clients. Finally, leveraging the coinbase transaction's `nLockTime` field\n+allows applications to recover the block height corresponding to a coinbase transaction without\n+having to parse Bitcoin Script.\n+\n+# Specification\n+\n+For all blocks after activation the following new rules apply.\n+\n+Given a block at height `N`:\n+- if `N % 2016` is equal to `0` the `nTime` field of the block must be set to a value higher than or\n+  equal to the value of the `nTime` field of block at height `N-1` minus `7200`;\n+- if `N % 2016` is equal to `2015` the `nTime` field of the block must be set to a value higher than\n+  or equal to the value of the `nTime` field of block at height `N-2015`.\n+\n+A limit is set on the number of potentially executed signature operations in validating a\n+transaction. It applies to all transactions in the block except the coinbase transaction[^1]. For\n+each input in the transaction, count the number of `CHECKSIG` and `CHECKMULTISIG` in the input\n+scriptSig and previous output's scriptPubKey, including the P2SH redeemScript. If the total is\n+strictly higher than `2500`, the transaction is invalid. The accounting is the same as for\n+[bip-0016][BIP16 specs]: a `CHECKSIG` operation accounts for `1` and a `CHECKMULTISIG` accounts for\n+the number of public keys associated, or `20` if the number of public keys is greater than `16`. A\n+`CHECKMULTISIG` not directly preceded by a minimally-pushed number between `1` and `16` (included)\n+accounts for `20`.\n+\n+Transactions whose (witness-stripped) serialized size is exactly 64 bytes are made invalid.\n+\n+The coinbase transaction's `nLockTime` field must be set to the height of the block minus `1`[^2]\n+and its `nSequence` field must not be equal to `0xffffffff`.\n+\n+# Rationale\n+\n+The restrictions on the timestamp of the first and last blocks of a difficulty adjustment period fix\n+the timewarp and Murch-Zawy vulnerabilities[^3]. The latter poses mostly theoretical concerns but is\n+extremely low risk to fix: the duration of an adjustment period has never been, and should never be,\n+negative. The former is fixed by preventing the timestamp of the first block of a difficulty period\n+to be lower than the previous block's, with a two hours grace period. A [previous\n+proposal][BIP-XXXX] to fix timewarp used a ten minutes grace period instead, also adopted for\n+[testnet4][BIP94 timewarp]. Out of an abundance of caution and because it only trivially worsens the\n+block rate increase under attack, a two hours grace period is used here[^4].\n+\n+Disabling some Script operations and functionalities was [previously proposed][BIP-XXXX] to reduce\n+the worst case block validation time but was met with resistance due to confiscation concerns[^5]. A\n+delicate balance needs to be struck between minimizing the confiscation risks of a mitigation, even\n+if merely theoretical, and bounding the costs one could impose on all other users of the system. To\n+this effect a limit on the number of potentially executed signature operations pinpoints exactly the\n+harmful behaviour, leaving maximum flexibility in how Script functionalities may have been used.\n+Such a limit reduces the worst case block validation time by a factor of 40 and drastically\n+increases the preparation cost of an attack to make it uneconomical for a miner[^6]. The `2500`\n+value was chosen as the tightest value that did not make any non-pathological standard transaction\n+invalid[^7].\n+\n+In the presence of 64 bytes transactions a block header's Merkle root may be valid for different\n+sets of transactions. This is because in the Merkle tree construction a 64 bytes transaction may be\n+interpreted as the catenation of two 32 bytes hashes, or the catenation of two 32 bytes hashes may\n+be interpreted as a transaction. The former allows to fake a block inclusion proof and the latter\n+makes it such that for a valid block the Merkle root in the block header is not a unique identifier\n+for the corresponding list of valid transactions[^8]. 64 bytes transactions can only contain an\n+output Script that lets anyone spend the funds, or burns them.  They have also been non-standard for\n+6 years at the time this is written. It was suggested the known vulnerabilities could instead be\n+mitigated by committing to the Merkle tree depth in the header's version field[^9]. The authors\n+believe it is preferable to address the root cause by invalidating 64 bytes transactions. This\n+approach also fixes the vulnerability without developers of SPV verifiers having to implement the\n+mitigation or to know it is necessary in the first place.\n+\n+Several blocks prior to [bip-0034][BIP34] activation contain a coinbase transaction such as its\n+scriptSig contains a valid [bip-0034][BIP34] commitment to a future block height. This offers an\n+opportunity to duplicate these coinbase transactions in the future[^10] and for this reason\n+[bip-0030][BIP30] validation will need to be re-activated from block 1,983,702. A simple way to\n+prevent this is to mandate that future coinbase transactions vary slightly from coinbase\n+transactions before [bip-0034][BIP34] activation. There are multiple ways of achieving this, but\n+enforcing the timelock for the coinbase transaction makes it so all coinbase transactions past\n+Consensus Cleanup activation could not have been valid before this height and therefore cannot be a\n+duplicate[^11].\n+\n+# Backward compatibility\n+\n+This proposal only tightens the block validation rules: there is no block that is valid under the\n+rules proposed in this BIP but not under the existing Bitcoin consensus rules. As a consequence\n+these changes are backward-compatible with unupgraded node software. That said, the authors strongly\n+encourage node operators to upgrade in order to fully validate all consensus rules.\n+\n+# Acknowledgements\n+\n+This document builds upon an [earlier proposal][BIP-XXXX] by one of the authors.\n+\n+The authors would like to thank everyone involved in researching the most appropriate mitigation for\n+each of these bugs. We would like to thank in particular Anthony Towns and Sjors Provoost for their\n+direct contributions to this proposal, as well as @0xb10c and Brian Groll for providing the authors\n+with data to analyze the proposed mitigations.\n+\n+# Copyright\n+\n+This document is licensed under the Creative Commons CC0 1.0 Universal license.\n+\n+\n+[^0]: Block 1,983,702 is the earliest future block which could contain a duplicate coinbase\n+transaction while still respecting [bip-0034][BIP34]. See [this post][Delving duplicable] for a list\n+of all such future blocks.\n+[^1]: Technically this limit *cannot* apply to a coinbase transaction as the size of its sole\n+input's scriptSig is limited.\n+[^2]: The locktime validation, which is also performed for coinbase transactions, enforces that the\n+nLockTime value is the last block at which a transaction is invalid, not the first one at which it\n+is valid.\n+[^3]: The timewarp attack is described [here][SE timewarp] and the Murch-Zawy attack [here][Delving\n+Murch-Zawy].\n+[^4]: A bug in testnet4 pushed blocks' timestamps in the future when exploited, revealing how some",
+      "path": "bip-cc.md",
+      "position": 155,
+      "original_position": 156,
+      "commit_id": "34ea72c72a40b90611663fc3fe0e62177923773d",
+      "original_commit_id": "098894f04f41494b0329a3e0479e27f33f841812",
+      "in_reply_to_id": 2017012556,
+      "user": {
+        "login": "fjahr",
+        "id": 1322187,
+        "node_id": "MDQ6VXNlcjEzMjIxODc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322187?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fjahr",
+        "html_url": "https://github.com/fjahr",
+        "followers_url": "https://api.github.com/users/fjahr/followers",
+        "following_url": "https://api.github.com/users/fjahr/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fjahr/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fjahr/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fjahr/subscriptions",
+        "organizations_url": "https://api.github.com/users/fjahr/orgs",
+        "repos_url": "https://api.github.com/users/fjahr/repos",
+        "events_url": "https://api.github.com/users/fjahr/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fjahr/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "maybe s/exception/difficulty exception/ but otherwise sounds good to me!",
+      "created_at": "2025-04-01T14:25:11Z",
+      "updated_at": "2025-04-01T14:25:11Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1800#discussion_r2022974794",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2022974794"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1800"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 155,
+      "original_line": 155,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2022981378",
+      "pull_request_review_id": 2732914306,
+      "id": 2022981378,
+      "node_id": "PRRC_kwDOAN28mc54lD8C",
+      "diff_hunk": "@@ -0,0 +1,207 @@\n+```\n+  BIP: ?\n+  Title: Consensus Cleanup\n+  Author: Antoine Poinsot <mail@antoinep.com>\n+          Matt Corallo <bips@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-03-17\n+  License: CC0-1.0\n+```\n+\n+# Abstract\n+\n+Introduce new consensus rules in order to fix the timewarp attack, reduce the worst case block\n+validation, prevent Merkle tree weaknesses and avoid duplicate transactions without\n+[bip-0030][BIP30] validation.\n+\n+# Motivation\n+\n+This proposal addresses a number of long standing vulnerabilities and weaknesses in the Bitcoin\n+protocol. Bundling those fixes together allows to overcome the fixed cost of deploying a Bitcoin\n+soft fork.\n+\n+The timewarp bug permits a majority hashrate attacker to arbitrarily increase the block rate,\n+allowing them to steal block subsidy from future miners, and increase validation costs to nodes that\n+have to deal with the increased average transaction rate. By strategically setting the block\n+timestamp, the timewarp bug lets miners bring down the difficulty to its minimum within 38 days of\n+starting the attack. The existence of this bug not only significantly empowers a 51% attacker, but\n+also makes it notably harder to reason about miners' incentives. It could indeed be in the interest\n+of short-sighted miners as well as short-sighted users to exploit this vulnerability in a small\n+enough proportion to increase the block rate without fatally hurting the network, as the effectively\n+increased block space would - all others things equal - bring fee rates down for users.\n+\n+Specially crafted blocks may be expensive to process, with validation times ranging from a few\n+minutes up to more than a hour on lower end devices. Long block validation times are a nuisance to\n+users, increasing the cost to independently fully validate the consensus rules. In addition they can\n+be used by miners to attack their competition, creating perverse incentives, centralization\n+pressures and reduced network security.\n+\n+In computing a block's Merkle root, a 64 bytes transaction can be interpreted as an intermediate\n+node in the tree in addition to a leaf. This makes it possible to fake inclusion proofs by\n+pretending a 64 bytes block transaction is an inner node, as well as to pretend the inner nodes on\n+one level of the tree are the actual block transactions.\n+\n+Since [bip-0034][BIP34] activation, explicit [bip-0030][BIP30] validation is not necessary until\n+block height 1,983,702[^0].  Mandating new coinbase transactions be different from the early\n+[bip-0034][BIP34] violations makes it possible to get rid of [bip-0030][BIP30] validation forever.\n+Besides its unnecessary cost, another downside of [bip-0030][BIP30] validation is that it cannot be\n+performed by Utreexo clients. Finally, leveraging the coinbase transaction's `nLockTime` field\n+allows applications to recover the block height corresponding to a coinbase transaction without\n+having to parse Bitcoin Script.\n+\n+# Specification",
+      "path": "bip-cc.md",
+      "position": null,
+      "original_position": 55,
+      "commit_id": "34ea72c72a40b90611663fc3fe0e62177923773d",
+      "original_commit_id": "098894f04f41494b0329a3e0479e27f33f841812",
+      "in_reply_to_id": 2017023175,
+      "user": {
+        "login": "darosior",
+        "id": 22457751,
+        "node_id": "MDQ6VXNlcjIyNDU3NzUx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22457751?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/darosior",
+        "html_url": "https://github.com/darosior",
+        "followers_url": "https://api.github.com/users/darosior/followers",
+        "following_url": "https://api.github.com/users/darosior/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/darosior/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/darosior/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/darosior/subscriptions",
+        "organizations_url": "https://api.github.com/users/darosior/orgs",
+        "repos_url": "https://api.github.com/users/darosior/repos",
+        "events_url": "https://api.github.com/users/darosior/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/darosior/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "I tried doing this but i couldn't find a way that did not add unnecessary clutter. It just seems seems to me that introducing numbers does not make the rules easier to reference. For instance \"The Consensus Cleanup timewarp fix\" is just clearer and less confusing than \"The Consensus Cleanup rule 1\".",
+      "created_at": "2025-04-01T14:28:36Z",
+      "updated_at": "2025-04-01T14:28:37Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1800#discussion_r2022981378",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2022981378"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1800"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 55,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2022992272",
+      "pull_request_review_id": 2732932527,
+      "id": 2022992272,
+      "node_id": "PRRC_kwDOAN28mc54lGmQ",
+      "diff_hunk": "@@ -0,0 +1,207 @@\n+```\n+  BIP: ?\n+  Title: Consensus Cleanup\n+  Author: Antoine Poinsot <mail@antoinep.com>\n+          Matt Corallo <bips@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-03-17\n+  License: CC0-1.0\n+```\n+\n+# Abstract\n+\n+Introduce new consensus rules in order to fix the timewarp attack, reduce the worst case block\n+validation, prevent Merkle tree weaknesses and avoid duplicate transactions without\n+[bip-0030][BIP30] validation.\n+\n+# Motivation\n+\n+This proposal addresses a number of long standing vulnerabilities and weaknesses in the Bitcoin\n+protocol. Bundling those fixes together allows to overcome the fixed cost of deploying a Bitcoin\n+soft fork.\n+\n+The timewarp bug permits a majority hashrate attacker to arbitrarily increase the block rate,\n+allowing them to steal block subsidy from future miners, and increase validation costs to nodes that\n+have to deal with the increased average transaction rate. By strategically setting the block\n+timestamp, the timewarp bug lets miners bring down the difficulty to its minimum within 38 days of\n+starting the attack. The existence of this bug not only significantly empowers a 51% attacker, but\n+also makes it notably harder to reason about miners' incentives. It could indeed be in the interest\n+of short-sighted miners as well as short-sighted users to exploit this vulnerability in a small\n+enough proportion to increase the block rate without fatally hurting the network, as the effectively\n+increased block space would - all others things equal - bring fee rates down for users.\n+\n+Specially crafted blocks may be expensive to process, with validation times ranging from a few\n+minutes up to more than a hour on lower end devices. Long block validation times are a nuisance to\n+users, increasing the cost to independently fully validate the consensus rules. In addition they can\n+be used by miners to attack their competition, creating perverse incentives, centralization\n+pressures and reduced network security.\n+\n+In computing a block's Merkle root, a 64 bytes transaction can be interpreted as an intermediate\n+node in the tree in addition to a leaf. This makes it possible to fake inclusion proofs by\n+pretending a 64 bytes block transaction is an inner node, as well as to pretend the inner nodes on\n+one level of the tree are the actual block transactions.\n+\n+Since [bip-0034][BIP34] activation, explicit [bip-0030][BIP30] validation is not necessary until\n+block height 1,983,702[^0].  Mandating new coinbase transactions be different from the early\n+[bip-0034][BIP34] violations makes it possible to get rid of [bip-0030][BIP30] validation forever.\n+Besides its unnecessary cost, another downside of [bip-0030][BIP30] validation is that it cannot be\n+performed by Utreexo clients. Finally, leveraging the coinbase transaction's `nLockTime` field\n+allows applications to recover the block height corresponding to a coinbase transaction without\n+having to parse Bitcoin Script.\n+\n+# Specification\n+\n+For all blocks after activation the following new rules apply.\n+\n+Given a block at height `N`:\n+- if `N % 2016` is equal to `0` the `nTime` field of the block must be set to a value higher than or\n+  equal to the value of the `nTime` field of block at height `N-1` minus `7200`;\n+- if `N % 2016` is equal to `2015` the `nTime` field of the block must be set to a value higher than\n+  or equal to the value of the `nTime` field of block at height `N-2015`.\n+\n+A limit is set on the number of potentially executed signature operations in validating a\n+transaction. It applies to all transactions in the block except the coinbase transaction[^1]. For\n+each input in the transaction, count the number of `CHECKSIG` and `CHECKMULTISIG` in the input\n+scriptSig and previous output's scriptPubKey, including the P2SH redeemScript. If the total is\n+strictly higher than `2500`, the transaction is invalid. The accounting is the same as for\n+[bip-0016][BIP16 specs]: a `CHECKSIG` operation accounts for `1` and a `CHECKMULTISIG` accounts for\n+the number of public keys associated, or `20` if the number of public keys is greater than `16`. A\n+`CHECKMULTISIG` not directly preceded by a minimally-pushed number between `1` and `16` (included)\n+accounts for `20`.\n+\n+Transactions whose (witness-stripped) serialized size is exactly 64 bytes are made invalid.\n+\n+The coinbase transaction's `nLockTime` field must be set to the height of the block minus `1`[^2]\n+and its `nSequence` field must not be equal to `0xffffffff`.\n+\n+# Rationale\n+\n+The restrictions on the timestamp of the first and last blocks of a difficulty adjustment period fix\n+the timewarp and Murch-Zawy vulnerabilities[^3]. The latter poses mostly theoretical concerns but is\n+extremely low risk to fix: the duration of an adjustment period has never been, and should never be,\n+negative. The former is fixed by preventing the timestamp of the first block of a difficulty period\n+to be lower than the previous block's, with a two hours grace period. A [previous\n+proposal][BIP-XXXX] to fix timewarp used a ten minutes grace period instead, also adopted for\n+[testnet4][BIP94 timewarp]. Out of an abundance of caution and because it only trivially worsens the\n+block rate increase under attack, a two hours grace period is used here[^4].\n+\n+Disabling some Script operations and functionalities was [previously proposed][BIP-XXXX] to reduce\n+the worst case block validation time but was met with resistance due to confiscation concerns[^5]. A\n+delicate balance needs to be struck between minimizing the confiscation risks of a mitigation, even\n+if merely theoretical, and bounding the costs one could impose on all other users of the system. To\n+this effect a limit on the number of potentially executed signature operations pinpoints exactly the\n+harmful behaviour, leaving maximum flexibility in how Script functionalities may have been used.\n+Such a limit reduces the worst case block validation time by a factor of 40 and drastically\n+increases the preparation cost of an attack to make it uneconomical for a miner[^6]. The `2500`\n+value was chosen as the tightest value that did not make any non-pathological standard transaction\n+invalid[^7].\n+\n+In the presence of 64 bytes transactions a block header's Merkle root may be valid for different\n+sets of transactions. This is because in the Merkle tree construction a 64 bytes transaction may be\n+interpreted as the catenation of two 32 bytes hashes, or the catenation of two 32 bytes hashes may\n+be interpreted as a transaction. The former allows to fake a block inclusion proof and the latter\n+makes it such that for a valid block the Merkle root in the block header is not a unique identifier\n+for the corresponding list of valid transactions[^8]. 64 bytes transactions can only contain an\n+output Script that lets anyone spend the funds, or burns them.  They have also been non-standard for",
+      "path": "bip-cc.md",
+      "position": 108,
+      "original_position": 108,
+      "commit_id": "34ea72c72a40b90611663fc3fe0e62177923773d",
+      "original_commit_id": "098894f04f41494b0329a3e0479e27f33f841812",
+      "in_reply_to_id": 2016113103,
+      "user": {
+        "login": "darosior",
+        "id": 22457751,
+        "node_id": "MDQ6VXNlcjIyNDU3NzUx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22457751?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/darosior",
+        "html_url": "https://github.com/darosior",
+        "followers_url": "https://api.github.com/users/darosior/followers",
+        "following_url": "https://api.github.com/users/darosior/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/darosior/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/darosior/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/darosior/subscriptions",
+        "organizations_url": "https://api.github.com/users/darosior/orgs",
+        "repos_url": "https://api.github.com/users/darosior/repos",
+        "events_url": "https://api.github.com/users/darosior/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/darosior/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "It seems the only actionable item left in this review comment is:\r\n> It would be good to elaborate on these two specific claims.\r\n\r\nI'm not sure how to elaborate further than that. I think this is enough for the reader to think about it and convince themselves it is the case and more information would just be superfluous. Closing this but feel free to reopen if you have a suggestion.",
+      "created_at": "2025-04-01T14:34:15Z",
+      "updated_at": "2025-04-01T14:34:15Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1800#discussion_r2022992272",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2022992272"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1800"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 108,
+      "original_line": 108,
       "side": "RIGHT"
     }
   ]
