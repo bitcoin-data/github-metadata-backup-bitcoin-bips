@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-03-26T17:22:35Z",
-    "updated_at": "2025-04-21T10:34:12Z",
+    "updated_at": "2025-04-21T14:22:59Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 124,
+    "review_comments": 125,
     "comments": 15
   },
   "events": [
@@ -9290,6 +9290,59 @@
       "start_side": "RIGHT",
       "line": null,
       "original_line": 130,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2052457441",
+      "pull_request_review_id": 2781357949,
+      "id": 2052457441,
+      "node_id": "PRRC_kwDOAN28mc56VgPh",
+      "diff_hunk": "@@ -0,0 +1,207 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Consensus Cleanup\n+  Author: Antoine Poinsot <mail@antoinep.com>\n+          Matt Corallo <bips@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: ?\n+  License: CC0-1.0\n+```\n+\n+## Abstract\n+\n+This document proposes new consensus rules in order to fix the timewarp attack, reduce the worst\n+case block validation time, prevent Merkle tree weaknesses and avoid duplicate transactions without\n+[bip-0030][BIP30] validation.\n+\n+## Motivation\n+\n+This proposal addresses a number of long-standing vulnerabilities and weaknesses in the Bitcoin\n+protocol. Bundling these fixes together allows to overcome the fixed cost of deploying a Bitcoin\n+soft fork.\n+\n+The timewarp bug permits a majority hashrate attacker to arbitrarily increase the block rate,\n+allowing them to steal block subsidy from future miners, and increase validation costs to nodes that\n+have to deal with the increased average transaction rate. By strategically setting the block\n+timestamp, the timewarp bug lets miners bring down the difficulty to its minimum within 38 days of\n+starting the attack. The existence of this bug not only significantly empowers a 51% attacker, but\n+also makes it notably harder to reason about miners' incentives. It could indeed be in the interest\n+of short-sighted miners as well as short-sighted users to exploit this vulnerability in a small\n+enough proportion to increase the block rate without fatally hurting the network, as the effectively\n+increased block space would - all others things equal - bring fee rates down for users.\n+\n+Specially crafted blocks may be expensive to process, with validation times ranging from a few\n+minutes up to more than an hour on lower-end devices. Long block validation times are a nuisance to\n+users, increasing the cost to independently fully validate the consensus rules. In addition they can\n+be used by miners to attack their competition, creating perverse incentives, centralization\n+pressures and leading to reduced network security.\n+\n+In computing a block's Merkle root, a 64-byte transaction can be interpreted as an intermediate\n+node in the tree in addition to a leaf. This makes it possible to fake inclusion proofs by\n+pretending a 64-byte block transaction is an inner node, as well as to pretend the inner nodes on\n+one level of the tree are the actual block transactions.\n+\n+Since [bip-0034][BIP34] activation, explicit [bip-0030][BIP30] validation is not necessary until\n+block height 1,983,702[^0].  Mandating new coinbase transactions be different from the early\n+[bip-0034][BIP34] violations makes it possible to get rid of [bip-0030][BIP30] validation forever.\n+Besides its unnecessary cost, another downside of [bip-0030][BIP30] validation is that it cannot be\n+performed by Utreexo clients. Finally, leveraging the coinbase transaction's `nLockTime` field\n+allows applications to recover the block height corresponding to a coinbase transaction without\n+having to parse Script.\n+\n+## Specification\n+\n+For all blocks after activation the following new rules apply.\n+\n+Given a block at height `N`:\n+- if `N % 2016` is equal to 0 the timestamp of the block must be set to a value higher than or\n+  equal to the value of the timestamp of block at height `N-1` minus 7200;\n+- if `N % 2016` is equal to 2015 the timestamp of the block must be set to a value higher than\n+  or equal to the value of the timestamp of block at height `N-2015`.\n+\n+A limit is set on the number of potentially executed signature operations in validating a\n+transaction. It applies to all transactions in the block except the coinbase transaction[^1]. For\n+each input in the transaction, count the number of `CHECKSIG` and `CHECKMULTISIG` in the input\n+scriptSig and previous output's scriptPubKey, including the P2SH redeemScript. The accounting is the\n+same as for [bip-0016][BIP16 specs]: a `CHECKSIG`/`CHECKSIGVERIFY` operation accounts for 1 and a\n+`CHECKMULTISIG`/`CHECKMULTISIGVERIFY` accounts for the number of public keys associated, or 20 if\n+the number of public keys is greater than 16. A `CHECKMULTISIG`/`CHECKMULTISIGVERIFY` not directly\n+preceded by a minimally-pushed number between 1 and 16 (included) accounts for 20. If the\n+total is strictly higher than 2500, the transaction is invalid.\n+\n+Transactions whose witness-stripped serialized size is exactly 64 bytes are made invalid.\n+\n+The coinbase transaction's `nLockTime` field must be set to the height of the block minus 1[^2]",
+      "path": "bip-cc.md",
+      "position": null,
+      "original_position": 78,
+      "commit_id": "b1a59cadb090abe32f4c4b0b1173a4c3fad5497f",
+      "original_commit_id": "21a9cd52a0e49dd545153c16b5b7121cb825cef9",
+      "in_reply_to_id": 2029450291,
+      "user": {
+        "login": "darosior",
+        "id": 22457751,
+        "node_id": "MDQ6VXNlcjIyNDU3NzUx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22457751?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/darosior",
+        "html_url": "https://github.com/darosior",
+        "followers_url": "https://api.github.com/users/darosior/followers",
+        "following_url": "https://api.github.com/users/darosior/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/darosior/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/darosior/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/darosior/subscriptions",
+        "organizations_url": "https://api.github.com/users/darosior/orgs",
+        "repos_url": "https://api.github.com/users/darosior/repos",
+        "events_url": "https://api.github.com/users/darosior/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/darosior/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "I'm moving this discussion [to the Delving thread](https://delvingbitcoin.org/t/great-consensus-cleanup-revival/710/85?u=antoinep). Please @luke-jr provide more details there so your objection can be addressed.",
+      "created_at": "2025-04-21T14:22:59Z",
+      "updated_at": "2025-04-21T14:22:59Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1800#discussion_r2052457441",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2052457441"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1800"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 78,
       "side": "RIGHT"
     }
   ]
