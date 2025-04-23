@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-03-26T17:22:35Z",
-    "updated_at": "2025-04-23T17:13:55Z",
+    "updated_at": "2025-04-23T20:02:20Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 142,
+    "review_comments": 143,
     "comments": 18
   },
   "events": [
@@ -10479,6 +10479,59 @@
       "start_side": null,
       "line": 119,
       "original_line": 119,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2056793498",
+      "pull_request_review_id": 2788558861,
+      "id": 2056793498,
+      "node_id": "PRRC_kwDOAN28mc56mC2a",
+      "diff_hunk": "@@ -0,0 +1,231 @@\n+```\n+  BIP: 54\n+  Layer: Consensus (soft fork)\n+  Title: Consensus Cleanup\n+  Author: Antoine Poinsot <mail@antoinep.com>\n+          Matt Corallo <bips@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0054\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-04-11\n+  License: CC0-1.0\n+```\n+\n+## Abstract\n+\n+This document proposes new consensus rules in order to fix the timewarp attack, reduce the worst\n+case block validation time, prevent Merkle tree weaknesses, and avoid duplicate transactions without\n+[bip-0030][BIP30] validation.\n+\n+## Motivation\n+\n+This proposal addresses a number of long-standing vulnerabilities and weaknesses in the Bitcoin\n+protocol. Bundling these fixes together allows to overcome the fixed cost of deploying a Bitcoin\n+soft fork.\n+\n+The timewarp bug permits a majority hashrate attacker to arbitrarily increase the block rate,\n+allowing them to steal block subsidy from future miners and increase validation costs to nodes that\n+have to deal with the increased average transaction rate. By strategically setting the block\n+timestamp, the timewarp bug lets miners bring down the difficulty to its minimum within 38 days of\n+starting the attack. The existence of this bug not only significantly empowers a 51% attacker, but\n+also makes it notably harder to reason about miners' incentives. It could indeed be in the interest\n+of short-sighted miners as well as short-sighted users to exploit this vulnerability in a small\n+enough proportion to increase the block rate without fatally hurting the network, as the effectively\n+increased block space would - all others things equal - bring fee rates down for users.\n+\n+Specially crafted blocks may be expensive to process, with validation times ranging from a few\n+minutes up to more than an hour on lower-end devices. Long block validation times are a nuisance to\n+users, increasing the cost to independently fully validate the consensus rules. In addition they can\n+be used by miners to attack their competition, creating perverse incentives, centralization\n+pressures and leading to reduced network security.\n+\n+In computing a block's Merkle root, a 64-byte transaction can be interpreted as an intermediate\n+node in the tree in addition to a leaf. This makes it possible to fake inclusion proofs by\n+pretending a 64-byte block transaction is an inner node, as well as to pretend the inner nodes on\n+one level of the tree are the actual block transactions.\n+\n+Since [bip-0034][BIP34] activation, explicit [bip-0030][BIP30] validation is not necessary until\n+block height 1,983,702[^0].  Mandating new coinbase transactions be different from the early\n+[bip-0034][BIP34] violations makes it possible to get rid of [bip-0030][BIP30] validation forever.\n+Besides its unnecessary cost, another downside of [bip-0030][BIP30] validation is that it cannot be\n+performed by Utreexo clients. Finally, leveraging the coinbase transaction's `nLockTime` field\n+allows applications to recover the block height corresponding to a coinbase transaction without\n+having to parse Script.\n+\n+## Specification\n+\n+For all blocks after activation the following new rules apply.\n+\n+Given a block at height `N`:\n+- if `N % 2016` is equal to 0, the timestamp of the block must be set to a value higher than or\n+  equal to the value of the timestamp of block at height `N-1` minus 7200;",
+      "path": "bip-0054.md",
+      "position": 62,
+      "original_position": 62,
+      "commit_id": "f0ca398f3438fc46bc9d88b978a856e200292151",
+      "original_commit_id": "b1a59cadb090abe32f4c4b0b1173a4c3fad5497f",
+      "in_reply_to_id": 2055014661,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Mildly disagree. BIPs are technical documentation, not prose. The main purpose is to convey complex information accurately and concisely. I suggested adding the inequation, because I felt that it presents the information more accessibly than the sentence. It’s not a blocker for me, though.",
+      "created_at": "2025-04-23T19:59:17Z",
+      "updated_at": "2025-04-23T20:02:20Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1800#discussion_r2056793498",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2056793498"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1800"
+        }
+      },
+      "start_line": 61,
+      "original_start_line": 61,
+      "start_side": "RIGHT",
+      "line": 62,
+      "original_line": 62,
       "side": "RIGHT"
     }
   ]
