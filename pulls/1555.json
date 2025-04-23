@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1555/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1555/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/7634fe549949e40cd6003efcd52678d7f1c37832",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/f5cb29f9b7267963c2c079a9fabd98b32f80a462",
     "number": 1555,
     "state": "open",
     "locked": false,
@@ -51,11 +51,11 @@
       }
     ],
     "created_at": "2024-03-01T17:10:35Z",
-    "updated_at": "2025-04-23T13:49:18Z",
+    "updated_at": "2025-04-23T14:52:11Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "9fe62bd166c1732f9d5de89369e6b53d92221434",
+    "merge_commit_sha": "c2f8bfbc7a9c08727607d8caebf27a3c25f9f6f9",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -63,7 +63,7 @@
     "head": {
       "label": "TheBlueMatt:2024-03-uris-without-bodies",
       "ref": "2024-03-uris-without-bodies",
-      "sha": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "sha": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "user": {
         "login": "TheBlueMatt",
         "id": 649246,
@@ -174,7 +174,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-04-23T00:16:33Z",
+        "pushed_at": "2025-04-23T14:51:55Z",
         "created_at": "2016-05-03T00:30:51Z",
         "updated_at": "2024-12-11T19:50:09Z",
         "allow_forking": true
@@ -183,7 +183,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "757e15e56883b754963dff732dde01a425f9cec6",
+      "sha": "bf8f197553b4e64e3ab296d89213d6979de0d133",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -312,7 +312,7 @@
     "changed_files": 2,
     "commits": 3,
     "review_comments": 67,
-    "comments": 52
+    "comments": 53
   },
   "events": [
     {
@@ -5064,46 +5064,6 @@
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1555"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDc2MzRmZTU0OTk0OWU0MGNkNjAwM2VmY2Q1MjY3OGQ3ZjFjMzc4MzI",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/7634fe549949e40cd6003efcd52678d7f1c37832",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/7634fe549949e40cd6003efcd52678d7f1c37832",
-      "tree": {
-        "sha": "5859fdb112829f6f33b2411d9addb675987ec887",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/5859fdb112829f6f33b2411d9addb675987ec887"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f958360a270874fe0b41d29391b80b7a106b1516",
-          "sha": "f958360a270874fe0b41d29391b80b7a106b1516",
-          "html_url": "https://github.com/bitcoin/bips/commit/f958360a270874fe0b41d29391b80b7a106b1516"
-        }
-      ],
-      "message": "Update BIP 321 with information about more modern usage of it\n\nAs Bitcoin has grown, the introduction of new address formats\ndescribing new forms of payment instructions has become\nincreasingly fraught with compatibility issues. Not only does there\nexist traditional on-chain addresses, but some recipients wish to\nreceive Lightning (when the sender supports it) or newer formats\nsuch as Silent Payments.\n\nThis has led to increasing use of the BIP 21 query parameters to\nencode further optional payment instructions.\n\nLooking forward, as new payment instructions get adopted, it makes\nmuch more sense to include them in query parameters rather than\nreplace the existing address field, ensuring compatibility with\nsenders and recipients who may or may not be upgraded to support\nall the latest payment instructions.\n\nThis updates BIP 321 to suggest that future address formats do this.\n\nFurther, it updates BIP 321 to allow an empty bitcoin address in\ncases where new payment instructions have moved to becoming\nmandatory. This isn't a backwards-incompatible change any more than\nswitching to a new address format is, so doesn't impact existing\nBIP 21 implementations in a new way, however provides a nice\nconclusion to the query-parameter-based upgrade path - once a form\nof payment instructions has broad adoption, senders can simply drop\nthe existing address field, keeping their existing query parameter\nencoding, rather than replace the existing address field. It also\naddresses the question of what to do if a wallet no longer wishes\nto receive some legacy on-chain address, but has multiple payment\ninstruction formats that they wish to include - deciding which one\nto place in the address field would be a difficult task.\n\nFinally, it defines a new query parameter, the `pop` parameter,\nwhich allows the initiating application to receive callbacks for\nproof of payment completion.",
-      "committer": {
-        "name": "Matt Corallo",
-        "email": "git@bluematt.me",
-        "date": "2025-04-23T00:16:26Z"
-      },
-      "author": {
-        "name": "Matt Corallo",
-        "email": "git@bluematt.me",
-        "date": "2025-03-25T00:23:16Z"
-      },
-      "sha": "7634fe549949e40cd6003efcd52678d7f1c37832"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 17361946470,
       "node_id": "HRFPE_lADOAN28mc6A-XLTzwAAAAQK2kdm",
@@ -5225,6 +5185,132 @@
       "submitted_at": "2025-04-23T13:49:18Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1555"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGY1Y2IyOWY5YjcyNjc5NjNjMmMwNzlhOWZhYmQ5OGIzMmY4MGE0NjI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f5cb29f9b7267963c2c079a9fabd98b32f80a462",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/f5cb29f9b7267963c2c079a9fabd98b32f80a462",
+      "tree": {
+        "sha": "24429e577f55f00cc81b8bc0edc282bba4e04d28",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/24429e577f55f00cc81b8bc0edc282bba4e04d28"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f958360a270874fe0b41d29391b80b7a106b1516",
+          "sha": "f958360a270874fe0b41d29391b80b7a106b1516",
+          "html_url": "https://github.com/bitcoin/bips/commit/f958360a270874fe0b41d29391b80b7a106b1516"
+        }
+      ],
+      "message": "Update BIP 321 with information about more modern usage of it\n\nAs Bitcoin has grown, the introduction of new address formats\ndescribing new forms of payment instructions has become\nincreasingly fraught with compatibility issues. Not only does there\nexist traditional on-chain addresses, but some recipients wish to\nreceive Lightning (when the sender supports it) or newer formats\nsuch as Silent Payments.\n\nThis has led to increasing use of the BIP 21 query parameters to\nencode further optional payment instructions.\n\nLooking forward, as new payment instructions get adopted, it makes\nmuch more sense to include them in query parameters rather than\nreplace the existing address field, ensuring compatibility with\nsenders and recipients who may or may not be upgraded to support\nall the latest payment instructions.\n\nThis updates BIP 321 to suggest that future address formats do this.\n\nFurther, it updates BIP 321 to allow an empty bitcoin address in\ncases where new payment instructions have moved to becoming\nmandatory. This isn't a backwards-incompatible change any more than\nswitching to a new address format is, so doesn't impact existing\nBIP 21 implementations in a new way, however provides a nice\nconclusion to the query-parameter-based upgrade path - once a form\nof payment instructions has broad adoption, senders can simply drop\nthe existing address field, keeping their existing query parameter\nencoding, rather than replace the existing address field. It also\naddresses the question of what to do if a wallet no longer wishes\nto receive some legacy on-chain address, but has multiple payment\ninstruction formats that they wish to include - deciding which one\nto place in the address field would be a difficult task.\n\nFinally, it defines a new query parameter, the `pop` parameter,\nwhich allows the initiating application to receive callbacks for\nproof of payment completion.",
+      "committer": {
+        "name": "Matt Corallo",
+        "email": "git@bluematt.me",
+        "date": "2025-04-23T14:51:51Z"
+      },
+      "author": {
+        "name": "Matt Corallo",
+        "email": "git@bluematt.me",
+        "date": "2025-03-25T00:23:16Z"
+      },
+      "sha": "f5cb29f9b7267963c2c079a9fabd98b32f80a462"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 17372854563,
+      "node_id": "HRFPE_lADOAN28mc6A-XLTzwAAAAQLgLkj",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/17372854563",
+      "actor": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
+      "commit_url": "https://api.github.com/repos/TheBlueMatt/bips/commits/f5cb29f9b7267963c2c079a9fabd98b32f80a462",
+      "created_at": "2025-04-23T14:51:57Z"
+    },
+    {
+      "event": "commented",
+      "id": 2824583351,
+      "node_id": "IC_kwDOAN28mc6oW7i3",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2824583351",
+      "actor": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-04-23T14:52:11Z",
+      "updated_at": "2025-04-23T14:52:11Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Oops, sorry, indeed, I moved that paragraph into the rationale section and made it a subsection.",
+      "user": {
+        "login": "TheBlueMatt",
+        "id": 649246,
+        "node_id": "MDQ6VXNlcjY0OTI0Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/649246?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/TheBlueMatt",
+        "html_url": "https://github.com/TheBlueMatt",
+        "followers_url": "https://api.github.com/users/TheBlueMatt/followers",
+        "following_url": "https://api.github.com/users/TheBlueMatt/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/TheBlueMatt/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/TheBlueMatt/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/TheBlueMatt/subscriptions",
+        "organizations_url": "https://api.github.com/users/TheBlueMatt/orgs",
+        "repos_url": "https://api.github.com/users/TheBlueMatt/repos",
+        "events_url": "https://api.github.com/users/TheBlueMatt/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/TheBlueMatt/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1555#issuecomment-2824583351",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1555"
     }
   ],
   "comments": [
@@ -5237,7 +5323,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 5,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "039f1e7a07edd69fe3bf942c91a1fd31f24d413f",
       "in_reply_to_id": null,
       "user": {
@@ -5290,7 +5376,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 18,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "039f1e7a07edd69fe3bf942c91a1fd31f24d413f",
       "in_reply_to_id": null,
       "user": {
@@ -5343,7 +5429,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 35,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "039f1e7a07edd69fe3bf942c91a1fd31f24d413f",
       "in_reply_to_id": null,
       "user": {
@@ -5396,7 +5482,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 45,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "039f1e7a07edd69fe3bf942c91a1fd31f24d413f",
       "in_reply_to_id": null,
       "user": {
@@ -5449,7 +5535,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 46,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "039f1e7a07edd69fe3bf942c91a1fd31f24d413f",
       "in_reply_to_id": null,
       "user": {
@@ -5502,7 +5588,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 54,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "039f1e7a07edd69fe3bf942c91a1fd31f24d413f",
       "in_reply_to_id": null,
       "user": {
@@ -5555,7 +5641,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 35,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "039f1e7a07edd69fe3bf942c91a1fd31f24d413f",
       "in_reply_to_id": 1610123462,
       "user": {
@@ -5608,7 +5694,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 11,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -5661,7 +5747,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 91,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -5714,7 +5800,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 93,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -5767,7 +5853,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 8,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -5820,7 +5906,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 16,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -5873,7 +5959,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 13,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -5926,7 +6012,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 99,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -5979,7 +6065,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 104,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -6032,7 +6118,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 166,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -6085,7 +6171,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 4,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -6138,7 +6224,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 57,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -6191,7 +6277,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 113,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -6244,7 +6330,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 19,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": null,
       "user": {
@@ -6297,7 +6383,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 11,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": 1679806274,
       "user": {
@@ -6350,7 +6436,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 11,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": 1679806274,
       "user": {
@@ -6403,7 +6489,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 91,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": 1679819659,
       "user": {
@@ -6456,7 +6542,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 16,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": 1679825665,
       "user": {
@@ -6509,7 +6595,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 4,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": 1679839332,
       "user": {
@@ -6562,7 +6648,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 57,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": 1679841811,
       "user": {
@@ -6615,7 +6701,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 84,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "37404d4adaf5ab9108af0cfa04f9b1e9c5dd39ad",
       "in_reply_to_id": null,
       "user": {
@@ -6668,7 +6754,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 86,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "37404d4adaf5ab9108af0cfa04f9b1e9c5dd39ad",
       "in_reply_to_id": null,
       "user": {
@@ -6721,7 +6807,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 135,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "37404d4adaf5ab9108af0cfa04f9b1e9c5dd39ad",
       "in_reply_to_id": null,
       "user": {
@@ -6774,7 +6860,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 86,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "37404d4adaf5ab9108af0cfa04f9b1e9c5dd39ad",
       "in_reply_to_id": 1805835999,
       "user": {
@@ -6827,7 +6913,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 74,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "869b99a4562233553b877e252e442eab62bb6a15",
       "in_reply_to_id": null,
       "user": {
@@ -6880,7 +6966,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 86,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "37404d4adaf5ab9108af0cfa04f9b1e9c5dd39ad",
       "in_reply_to_id": 1805835999,
       "user": {
@@ -6933,7 +7019,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 89,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -6986,7 +7072,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 11,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": 1679806274,
       "user": {
@@ -7039,7 +7125,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 89,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": 1808793379,
       "user": {
@@ -7092,7 +7178,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 89,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": 1808793379,
       "user": {
@@ -7145,7 +7231,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 89,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": 1808793379,
       "user": {
@@ -7198,7 +7284,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 89,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": 1808793379,
       "user": {
@@ -7251,7 +7337,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 15,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7304,7 +7390,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 16,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7357,7 +7443,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 53,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7410,7 +7496,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 57,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "836ef064e433721238f0cddbf95da4b8c0ebe2b9",
       "in_reply_to_id": 1679841811,
       "user": {
@@ -7463,7 +7549,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 64,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7516,7 +7602,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 75,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7569,7 +7655,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 106,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7622,7 +7708,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 113,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7675,7 +7761,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 117,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7728,7 +7814,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 134,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7781,7 +7867,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 143,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7834,7 +7920,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 20,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7887,7 +7973,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 138,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": null,
       "user": {
@@ -7940,7 +8026,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 64,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": 1844436360,
       "user": {
@@ -7993,7 +8079,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 75,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": 1844481008,
       "user": {
@@ -8046,7 +8132,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 75,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": 1844481008,
       "user": {
@@ -8099,7 +8185,7 @@
       "path": "bip-0321.mediawiki",
       "position": null,
       "original_position": 2,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "dd5093eeb9443572c5d537e37a13b54123d730c0",
       "in_reply_to_id": null,
       "user": {
@@ -8152,7 +8238,7 @@
       "path": "bip-0321.mediawiki",
       "position": null,
       "original_position": 7,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "dd5093eeb9443572c5d537e37a13b54123d730c0",
       "in_reply_to_id": null,
       "user": {
@@ -8205,7 +8291,7 @@
       "path": "bip-0321.mediawiki",
       "position": null,
       "original_position": 10,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "dd5093eeb9443572c5d537e37a13b54123d730c0",
       "in_reply_to_id": null,
       "user": {
@@ -8258,7 +8344,7 @@
       "path": "bip-XXXX.mediawiki",
       "position": null,
       "original_position": 75,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "d7c021a10278391580de33f847d443d5fcc1be53",
       "in_reply_to_id": 1844481008,
       "user": {
@@ -8311,7 +8397,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 6,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "8c64f729aafac4cbc58e3a6716d625a6153ca4a5",
       "in_reply_to_id": null,
       "user": {
@@ -8364,7 +8450,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 9,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "bd2455c6f526b0d7d53ddb2317d8f5c82d6a63f5",
       "in_reply_to_id": null,
       "user": {
@@ -8417,7 +8503,7 @@
       "path": "bip-0321.mediawiki",
       "position": 11,
       "original_position": 11,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "bd2455c6f526b0d7d53ddb2317d8f5c82d6a63f5",
       "in_reply_to_id": null,
       "user": {
@@ -8470,7 +8556,7 @@
       "path": "bip-0321.mediawiki",
       "position": null,
       "original_position": 14,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "bd2455c6f526b0d7d53ddb2317d8f5c82d6a63f5",
       "in_reply_to_id": null,
       "user": {
@@ -8523,7 +8609,7 @@
       "path": "README.mediawiki",
       "position": null,
       "original_position": 6,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "bd2455c6f526b0d7d53ddb2317d8f5c82d6a63f5",
       "in_reply_to_id": null,
       "user": {
@@ -8576,7 +8662,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 9,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "bd2455c6f526b0d7d53ddb2317d8f5c82d6a63f5",
       "in_reply_to_id": 2023428428,
       "user": {
@@ -8629,7 +8715,7 @@
       "path": "bip-0021.mediawiki",
       "position": null,
       "original_position": 9,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "bd2455c6f526b0d7d53ddb2317d8f5c82d6a63f5",
       "in_reply_to_id": 2023428428,
       "user": {
@@ -8682,7 +8768,7 @@
       "path": "README.mediawiki",
       "position": null,
       "original_position": 5,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "b44805d2a01c94b0154d20ca3e3f3f9408300789",
       "in_reply_to_id": null,
       "user": {
@@ -8733,9 +8819,9 @@
       "node_id": "PRRC_kwDOAN28mc56jZFu",
       "diff_hunk": "@@ -0,0 +1,236 @@\n+<pre>\n+  BIP: 321\n+  Layer: Applications\n+  Title: URI Scheme\n+  Author: Matt Corallo <bip21@bluematt.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0321\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-11-15\n+  License: BSD-2-Clause\n+  Replaces: 21\n+</pre>\n+\n+== Copyright ==\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+== Abstract ==\n+\n+This BIP proposes a URI scheme for describing Bitcoin payment instructions.\n+\n+== Motivation ==\n+\n+The purpose of this URI scheme is to enable users to easily make payments by simply clicking links on webpages or scanning QR Codes.\n+\n+This BIP is a modification of [[bip-0021.mediawiki|BIP 0021]] to add information about the modern usage of bitcoin: URIs (including standard query parameters and modern address types) as well as provide forward-looking guidance on how to incorporate new payment instructions. It further adds an optional extension to provide the payment initiator with proof of payment. BIP 21 was based on BIP 20, which was, in turn based on an earlier document by Nils Schneider.\n+\n+== Specification ==\n+\n+=== General rules for handling (important!) ===\n+\n+Bitcoin clients MUST NOT act on URIs without getting the user's authorization.\n+They SHOULD require the user to manually approve each payment individually, though in some cases they MAY allow the user to automatically make this decision.\n+\n+=== Operating system integration ===\n+\n+Graphical bitcoin clients SHOULD register themselves as the handler for the \"bitcoin:\" URI scheme by default, if no other handler is already registered. If there is already a registered handler, they MAY prompt the user to change it once when they first run the client.\n+\n+=== General Format ===\n+\n+Bitcoin URIs follow the general format for URIs as set forth in RFC 3986. The path component consists of a bitcoin address, and the query component provides additional payment options.\n+\n+Elements of the query component may contain characters outside the valid range. These must first be encoded according to UTF-8, and then each octet of the corresponding UTF-8 sequence must be percent-encoded as described in RFC 3986.\n+\n+=== ABNF grammar ===\n+\n+ bitcoinurn     = \"bitcoin:\" [ bitcoinaddress ] [ \"?\" bitcoinparams ]\n+ bitcoinaddress = *base58 / *bech32 / *bech32m\n+ bitcoinparams  = bitcoinparam [ \"&\" bitcoinparams ]\n+ bitcoinparam   = [ amountparam / labelparam / messageparam / responseparam / otherparam / reqparam ]\n+ amountparam    = \"amount=\" *digit [ \".\" *digit ]\n+ labelparam     = \"label=\" *qchar\n+ messageparam   = \"message=\" *qchar\n+ responseparam  = [ \"req-\" ] \"pop=\" *qchar\n+ otherparam     = qchar *qchar [ \"=\" *qchar ]\n+ reqparam       = \"req-\" qchar *qchar [ \"=\" *qchar ]\n+\n+Here, \"qchar\" corresponds to valid characters of an RFC 3986 URI query component, excluding the \"=\" and \"&\" characters, which this BIP takes as separators.\n+\n+The scheme component (\"bitcoin:\") is case-insensitive, and implementations must accept any combination of uppercase and lowercase letters. The query parameter keys are also case-insensitive. Query parameter values and bitcoin address fields may be case-sensitive depending on their content.\n+\n+Multiple query parameters with the same key MAY be included for query parameters representing payment instructions. Multiple query parameters with the same key MUST NOT be included for keys \"label\", \"message\", or \"pop\". Multiple query parameters with the same key for other keys MUST be allowed for unknown query parameters. Future query parameter keys may or may not allow for duplicate parameters.\n+\n+=== Bitcoin Address ===\n+\n+The bitcoinaddress body MUST be either a base58 P2SH or P2PKH address, bech32 Segwit version 0 address, bech32m Segwit address, or empty. Future address formats SHOULD instead be placed in query keys as optional payment instructions to provide backwards compatibility during upgrade cycles. The bitcoinaddress part of the URI MAY be left empty if there is at least one payment instruction provided in a query parameter, allowing for recipients wishing to avoid a standard on-chain fallback.\n+\n+=== Query Keys ===\n+\n+The following keys are defined generally and apply to any URI regardless of payment instructions:\n+\n+*label: Label for the recipient (e.g. name of receiver)\n+*message: message that describes the transaction to the user ([[#Examples|see examples below]])\n+*pop: a URI which the Bitcoin Wallet may return to in order to provide the application which initiated the payment with proof that a payment was completed.\n+\n+The following keys are currently defined for payment instructions of various forms:\n+\n+*lightning: Lightning BOLT 11 invoices\n+*lno: Lightning BOLT12 offers\n+*pay: [[bip-0351.mediawiki|BIP 351 Private Payment addresses]]\n+*sp: [[bip-0352.mediawiki|BIP 352 Silent Payment addresses]]\n+\n+New payment instructions using bech32 or bech32m encodings SHOULD reuse their address format's Human Readable Part as the parameter key.\n+\n+==== Transfer amount ====\n+\n+If an amount is provided, it MUST be specified in decimal BTC.\n+All amounts MUST contain no commas and use a period (.) as the separating character to separate whole numbers and decimal fractions.\n+I.e. amount=50.00 or amount=50 is treated as 50 BTC, and amount=50,000.00 is invalid.\n+\n+=== Proof of Payment ===\n+\n+The URI MAY include a \"pop\" (or \"req-pop\") parameter whose value can be used to build a URI which the wallet application can, after payment completes, \"open\" to provide proof the payment was completed or other information about the payment.\n+\n+The value of a \"pop\" (or \"req-pop\") parameter shall be a percent-encoded (per RFC 3986 section 2.1) URI prefix. The wallet application, if it supports providing payment information SHOULD percent-decode the provided URI once, append the query parameter key from which the payment instructions used were read, append a single =, and finally append the Payment Information to the resulting URI and open it with the default system handler for the URI. For payment instructions read from the body of the URI, \"onchain\" SHALL be used in place of the key.\n+\n+A wallet MUST validate that the provided URI's scheme is not (case-insensitive) \"http\", \"https\", \"file\", \"javascript\", \"mailto\" or any other scheme which will open in a web browser prior to opening it.\n+\n+If a wallet will not open the pop scheme (either because it does not support returning payment information for the selected payment method or because it uses a URI scheme which should not be opened) and the parameter was passed as a \"req-pop\" parameter, the wallet MUST NOT initiate payment.\n+\n+For payments made using an on-chain transaction, the Payment Information shall be the full (including witness data) Bitcoin transaction as it was broadcasted to the Bitcoin network, encoded in hex.\n+\n+For payments made using a BOLT 11 invoice (communicated via the `lightning` parameter), the Payment Information shall be the hex-encoded payment preimage.\n+\n+Other payment schemes will define their own Payment Information format. This BIP may be updated from time to time with Payment Information formats for other payment schemes.\n+\n+== Rationale ==\n+\n+=== Payment identifiers, not person identifiers ===\n+\n+Best practices are that a unique address should be used for every transaction on-chain.\n+Therefore, a URI which contains an on-chain payment address MUST NOT represent an exchange of personal information, but a one-time payment instruction. URIs which represent only reusable non-address-reusing payment instructions (like Lightning BOLT12 offers or Silent Payments) MAY be reused as a wallet sees fit.\n+\n+== Forward compatibility ==\n+\n+Query parameter keys which are prefixed with a req- are considered required.  If a client does not implement handling a query parameter which has a key prefixed with req-, it MUST consider the entire URI invalid.  Any other query parameters which are not implemented, but which are not prefixed with a req-, can be safely ignored.\n+\n+As future new address types should be added using query parameters rather than the `bitcoinaddress` field, URIs seamlessly support various payment instructions while senders only need to support legacy instructions. This allows old senders to pay newer recipients which offer more modern payment instruction formats.\n+\n+== Backward compatibility ==\n+\n+Compared to BIP 21, this document describes standard query parameters containing payment instructions, makes query parameters case-insensitive, allows bech32 and bech32m addresses in the `bitcoinaddress` field, and allows for URIs with an empty `bitcoinaddress` field. Use of bech32 and bech32m `bitcoinaddress` fields were long-since common practice in 2024, and the `lightning` query parameter storing BOLT 11 payment instructions became common practice in the year or three leading up to 2024. Inclusion of standard query parameters was added to provide guidance on query parameter usage going forward.\n+\n+Additionally, this BIP describes the \"pop\" query parameter, which was unused and will be ignored by BIP 21 implementations.\n+\n+Any existing BIP 21 implementation should automatically be fully compliant with this BIP, as the changes only describe existing practice or impact future address format inclusion, with the one possible exception of query parameters being made case-insensitive. Note, however, that treating query parameters as case-insensitive is already common practice due to the use of mostly-uppercase URIs in QR codes.\n+\n+== Proof of Payment ==",
       "path": "bip-0321.mediawiki",
-      "position": 129,
+      "position": null,
       "original_position": 129,
-      "commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
+      "commit_id": "f5cb29f9b7267963c2c079a9fabd98b32f80a462",
       "original_commit_id": "7634fe549949e40cd6003efcd52678d7f1c37832",
       "in_reply_to_id": null,
       "user": {
@@ -8775,7 +8861,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 129,
+      "line": null,
       "original_line": 129,
       "side": "RIGHT"
     }
