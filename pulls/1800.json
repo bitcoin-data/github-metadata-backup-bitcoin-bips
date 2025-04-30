@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-03-26T17:22:35Z",
-    "updated_at": "2025-04-29T22:24:26Z",
+    "updated_at": "2025-04-30T10:50:13Z",
     "closed_at": "2025-04-29T22:23:51Z",
     "mergeable_state": "unknown",
     "merged": true,
@@ -341,10 +341,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5579,
-        "stargazers_count": 9885,
-        "watchers_count": 9885,
-        "size": 16081,
+        "forks_count": 5578,
+        "stargazers_count": 9887,
+        "watchers_count": 9887,
+        "size": 16094,
         "default_branch": "master",
         "open_issues_count": 37,
         "is_template": false,
@@ -359,7 +359,7 @@
         "visibility": "public",
         "pushed_at": "2025-04-29T22:23:51Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-04-29T22:24:02Z",
+        "updated_at": "2025-04-30T09:57:20Z",
         "allow_forking": true
       }
     },
@@ -375,7 +375,7 @@
     "changed_files": 2,
     "commits": 1,
     "review_comments": 167,
-    "comments": 24
+    "comments": 25
   },
   "events": [
     {
@@ -3754,6 +3754,62 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-04-29T22:23:51Z"
+    },
+    {
+      "event": "commented",
+      "id": 2841572486,
+      "node_id": "IC_kwDOAN28mc6pXvSG",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/2841572486",
+      "actor": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-04-30T10:45:53Z",
+      "updated_at": "2025-04-30T10:50:12Z",
+      "author_association": "MEMBER",
+      "body": "So I don't forget, in order to make sure miners set `nLockTime` and `nSequence` correctly, we could have `getblocktemplate` add `!bip54` to its rules result field (at the moment of activation).\r\n\r\nAt the same time, like Bitcoin Core does with SegWit, clients add `bip54` to the rules field in their request to indicate that they can handle it (any time before activation). Some time before activation Bitcoin Core could start emitting warnings if miners haven't set this yet.\r\n\r\nPer [BIP9](https://github.com/bitcoin/bips/blob/master/bip-0009.mediawiki#getblocktemplate-changes) using `!` in the `getblocktemplate` response means that a miner must not use this template unless they've implemented the required changes. Bitcoin Core currently even refuses to make a template if `segwit` isn't set.\r\n\r\nWe could then either:\r\n1. expect miners to just implement this by using the existing `height` parameter; or\r\n2. provide the _required_ `nLockTime` and a _suggested_ `nSequence` (only 1 bit is required)\r\n\r\nDoing (2) would be more in line with what we already do in Stratum v2.\r\n\r\nThis can be its own BIP similar to [BIP145](https://github.com/bitcoin/bips/blob/master/bip-0145.mediawiki) for SegWit. Or it can be part of this one, given that it's much simpler.",
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1800#issuecomment-2841572486",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1800"
     }
   ],
   "comments": [
