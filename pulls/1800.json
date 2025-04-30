@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-03-26T17:22:35Z",
-    "updated_at": "2025-04-30T10:50:13Z",
+    "updated_at": "2025-04-30T12:08:51Z",
     "closed_at": "2025-04-29T22:23:51Z",
     "mergeable_state": "unknown",
     "merged": true,
@@ -3784,9 +3784,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-04-30T10:45:53Z",
-      "updated_at": "2025-04-30T10:50:12Z",
+      "updated_at": "2025-04-30T12:08:50Z",
       "author_association": "MEMBER",
-      "body": "So I don't forget, in order to make sure miners set `nLockTime` and `nSequence` correctly, we could have `getblocktemplate` add `!bip54` to its rules result field (at the moment of activation).\r\n\r\nAt the same time, like Bitcoin Core does with SegWit, clients add `bip54` to the rules field in their request to indicate that they can handle it (any time before activation). Some time before activation Bitcoin Core could start emitting warnings if miners haven't set this yet.\r\n\r\nPer [BIP9](https://github.com/bitcoin/bips/blob/master/bip-0009.mediawiki#getblocktemplate-changes) using `!` in the `getblocktemplate` response means that a miner must not use this template unless they've implemented the required changes. Bitcoin Core currently even refuses to make a template if `segwit` isn't set.\r\n\r\nWe could then either:\r\n1. expect miners to just implement this by using the existing `height` parameter; or\r\n2. provide the _required_ `nLockTime` and a _suggested_ `nSequence` (only 1 bit is required)\r\n\r\nDoing (2) would be more in line with what we already do in Stratum v2.\r\n\r\nThis can be its own BIP similar to [BIP145](https://github.com/bitcoin/bips/blob/master/bip-0145.mediawiki) for SegWit. Or it can be part of this one, given that it's much simpler.",
+      "body": "So I don't forget, in order to make sure miners set `nLockTime` and `nSequence` correctly, we could have `getblocktemplate` add `!bip54` to its rules result field (at the moment of activation).\r\n\r\nAt the same time, like Bitcoin Core does with SegWit, clients add `bip54` to the rules field in their request to indicate that they can handle it (any time before activation). Some time before activation Bitcoin Core could start emitting warnings if miners haven't set this yet.\r\n\r\nPer [BIP9](https://github.com/bitcoin/bips/blob/master/bip-0009.mediawiki#getblocktemplate-changes) using `!` in the `getblocktemplate` response means that a miner must not use this template unless they've implemented the required changes. Bitcoin Core currently even refuses to make a template if `segwit` isn't set.\r\n\r\nWe could then either:\r\n1. expect miners to just implement this by using the existing `height` parameter; or\r\n2. provide the _required_ `nLockTime` and a _suggested_ `nSequence` (only 1 bit is required)\r\n\r\nDoing (2) would be more in line with what we already do in Stratum v2.\r\n\r\nThis can be its own BIP similar to [BIP145](https://github.com/bitcoin/bips/blob/master/bip-0145.mediawiki) for SegWit. Or it can be part of this one, given that it's much simpler.\r\n\r\n---\r\n\r\nThis also ensures that, at least in Bitcoin Core, the version field will signal support if and only if the mining client supports it. Which reminds me that I need to check if / how the stratum v2 template code handles this.",
       "user": {
         "login": "Sjors",
         "id": 10217,
