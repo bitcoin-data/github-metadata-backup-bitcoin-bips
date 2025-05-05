@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2023-08-12T21:10:05Z",
-    "updated_at": "2025-05-05T17:58:33Z",
+    "updated_at": "2025-05-05T22:41:25Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -160,7 +160,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 16544,
+        "size": 16603,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -278,8 +278,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5588,
-        "stargazers_count": 9900,
-        "watchers_count": 9900,
+        "stargazers_count": 9899,
+        "watchers_count": 9899,
         "size": 16096,
         "default_branch": "master",
         "open_issues_count": 37,
@@ -295,7 +295,7 @@
         "visibility": "public",
         "pushed_at": "2025-05-01T03:07:28Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-05-05T15:25:05Z",
+        "updated_at": "2025-05-05T21:51:11Z",
         "allow_forking": true
       }
     },
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 149,
-    "review_comments": 176,
+    "review_comments": 177,
     "comments": 19
   },
   "events": [
@@ -9727,6 +9727,42 @@
         "date": "2025-05-05T17:59:12Z"
       },
       "sha": "1ad8f269614bdb703c6e91b1a30aa67f70be893d"
+    },
+    {
+      "event": "reviewed",
+      "id": 2816306283,
+      "node_id": "PRR_kwDOAN28mc6n3Wxr",
+      "url": null,
+      "actor": null,
+      "commit_id": "1ad8f269614bdb703c6e91b1a30aa67f70be893d",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1483#pullrequestreview-2816306283",
+      "submitted_at": "2025-05-05T22:41:25Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1483"
     }
   ],
   "comments": [
@@ -18632,6 +18668,59 @@
       "start_side": null,
       "line": null,
       "original_line": 4,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2074319923",
+      "pull_request_review_id": 2816306283,
+      "id": 2074319923,
+      "node_id": "PRRC_kwDOAN28mc57o5wz",
+      "diff_hunk": "@@ -0,0 +1,672 @@\n+```\n+  BIP: 77\n+  Layer: Applications\n+  Title: Async Payjoin\n+  Author: Dan Gould <d@ngould.dev>\n+          Yuval Kogman <nothingmuch@woobling.org>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0077\n+  Post-History: https://github.com/bitcoin/bips/pull/1483\n+                https://gnusha.org/pi/bitcoindev/7B11AE34-27A7-46ED-95BF-66CA13BA26F3@ngould.dev/#t\n+                https://gnusha.org/pi/bitcoindev/3C0A6E4C-444E-4E75-829C-1A21D8EE40E0@ngould.dev/#t\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-08-08\n+  License: BSD-2-Clause\n+  Requires: 21, 78, 173, 174\n+```\n+\n+## Copyright\n+\n+This BIP is licensed under the 2-clause BSD license.\n+\n+## Abstract\n+\n+Payjoin lets Bitcoin senders and receivers interact to make batched\n+transactions.\n+\n+This document proposes a second, backwards-compatible, asynchronous version of the\n+Payjoin protocol described in [BIP 78](bip-0078.mediawiki). The requirement\n+for a receiver to host a secure public endpoint for interactions is replaced by\n+that of an untrusted third-party \"directory\" server accessed via HTTP clients that\n+communicate using an asynchronous protocol and authenticated, encrypted\n+payloads. Complete Payjoin receiver functionality, including payment\n+output substitution, is preserved. Authenticated encryption depends only on cryptographic\n+primitives available in Bitcoin Core. Requests use [Oblivious\n+HTTP](https://www.ietf.org/rfc/rfc9458.html) (OHTTP) to\n+prevent the directory and other Payjoin clients from linking requests to client\n+IP addresses.\n+\n+## Motivation\n+\n+Satoshi Nakamoto pointed out one specific privacy risk in the\n+[whitepaper](https://bitcoin.org/en/bitcoin-paper),\n+that transactions with multiple inputs \"necessarily reveal that\n+their inputs were owned by the same owner.\" Payjoin enables *inputs* owned\n+by distinct owners to be spent in a batch. Thus, Payjoin can\n+address that risk which would come to be called the \"common-input-ownership heuristic\"\n+by making interactive batching practical.\n+\n+While addressing Bitcoin's primal privacy risk, Payjoin *input* batching\n+also improves on the widespread non-interactive *output* batching practice\n+deployed by exchanges. When combined, the same movement of funds can use even\n+less block weight and so save more fees.\n+\n+One might think of the Payjoin examplar combining a\n+transfer with a receiver consolidation into one transaction. But Payjoin\n+can also secure [transaction\n+cut-through](https://bitcointalk.org/index.php?topic=281848.0),  \n+allowing a sender to transfer funds to a receiver who immediately transfers\n+funds to third parties all in one transaction. For example, deposits to an\n+exchange may \"cut through\" a single transaction that also satisfies\n+withdrawals. Payjoin enables more blockspace-efficient transactions to save\n+transaction fees while addressing privacy risks.\n+\n+However, BIP 78's Payjoin version 1 requirements have proven to be an\n+obstacle to adoption. Version 1 receivers must host a secured\n+public-facing HTTP server. Mobile and web environments limit the ability\n+to fulfil such a requirement. Version 1 also requires synchronous\n+communication. Both sender and receiver must be online simultaneously.\n+Wallet developers [\n+regard](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-January/018358.html)\n+these requirements as barriers to Payjoin adoption.\n+\n+To address these limitations, our goal is to specify a practical\n+coordinationmechanism appropriate for widespread implementation. This proposal\n+leverages widespread solutions to common problems, building on established web\n+standards and common Bitcoin primitives.\n+\n+## Overview\n+\n+A Payjoin *sender* and *receiver* interact so that they may both contribute to a\n+transaction. To do so in version 2, they exchange asynchronous end-to-end\n+encrypted messages by relaying them to a store-and-forward *directory* server\n+using OHTTP.\n+\n+Before initiating the protocol, the receiver must secure communications with\n+the directory by [bootstrapping](#ohttp-bootstrapping).\n+\n+- The receiver [initiates a Payjoin Session](#session-initiation)\n+  by sharing a [Payjoin URI](#payjoin-uri) that includes its directory mailbox\n+  for receiving messages.\n+- The sender [posts a message](#sender-original-psbt-messaging)\n+  containing a fully signed fallback transaction, known as the *Original PSBT*,\n+  to the mailbox.\n+- The receiver gets this message and\n+  [posts a message containing a *Proposal\n+  PSBT*](#receiver-proposal-psbt-messaging)\n+  in response, based on the Original PSBT and including receiver\n+  contributions.\n+- The sender gets the Proposal PSBT, [checks it, signs, and\n+  broadcasts](#sender-signing-and-broadcast) the final transaction.\n+\n+At any point, either party may choose to broadcast the\n+fallback transaction described by the Original PSBT instead of proceeding.\n+\n+Messages are buffered in the directory, allowing both parties to tolerate\n+temporary disconnections and resume communication by polling.\n+\n+### Sequence Diagram\n+\n+```mermaid\n+sequenceDiagram\n+    title Async Payjoin Sequence Diagram\n+    participant R as Receiver\n+    participant D as Directory\n+    participant S as Sender\n+    participant N as Network\n+\n+    R-)S:  Payjoin Uri (BIP 21) out of band\n+    \n+    R-->>D: Poll GET Requests<br/>for Original PSBT\n+    activate D \n+    S->>D: POST Request<br/>Original PSBT\n+    D->>R: GET Response<br/>Original PSBT\n+    deactivate D\n+\n+    S-->>D: Poll GET Requests<br/>for Proposal PSBT\n+    activate D\n+    R->>D: POST Request<br/>Proposal PSBT\n+    D->>S: GET Response<br/>Proposal PSBT\n+    deactivate D\n+\n+    S->>N: Broadcast Payjoin\n+```\n+\n+## Specification\n+\n+### OHTTP Bootstrapping\n+\n+Before initiating a Payjoin Session a receiver must first discover the\n+directory's\n+[OHTTP Key Configuration](https://www.ietf.org/rfc/rfc9458.html#section-3.1),\n+via an authenticated\n+bootstrap mechanism. The key configuration contains information to establish\n+[Hybrid Public Key Encryption](#secp256k1-hybrid-public-key-encryption) (HPKE) in order to secure communications between the client and the directory in\n+liu of TLS.\n+\n+The bootstrap mechanism may vary by implementation but must\n+follow [OHTTP Consistency\n+Requirements](https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-key-consistency-01)\n+and should not reveal a receiver IP address to the directory. Some\n+examples of suitable mechanisms include getting a key configuration\n+from a payjoin URI, a trusted application binary, or fetching using https-in-http\n+CONNECT method, https-in-WebSocket, Tor, or a VPN.\n+\n+Directory OHTTP Gateways MUST support [RFC 9540 Key Configuration\n+Fetching](https://www.rfc-editor.org/rfc/rfc9540.html#name-key-configuration-fetching)\n+via GET request. RFC 9540 defines the\n+gateway location as `/.well-known/ohttp-gateway`.\n+\n+### Session Initiation\n+\n+A receivers initiates a session by sharing a Payjoin URI. Because a URI\n+contains sensitive information, such as a receiver address, it should be shared\n+over a confidential channel.\n+\n+#### Payjoin URI\n+\n+Bitcoin URIs ([BIP\n+21](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki)\n+or [BIP\n+321](https://github.com/bitcoin/bips/blob/master/bip-0321.mediawiki))\n+are a standard way to request bitcoin.\n+\n+A Payjoin URI is a Bitcoin URI that contains a `pj` parameter. The `pj`\n+parameter is a URL in both BIP 78 and BIP 77.\n+\n+Senders that understand Bitcoin URI but don't support Payjoin will just\n+ignore the `pj` parameter and proceed to typical address-based\n+transaction flows.\n+\n+A `req-pj` parameter, as specified in BIP 21, may be used instead of\n+`pj` to signal that Payjoin is required.\n+\n+The `pj` parameter must be [uppercased and should be the last parameter\n+of the URI](#uppercase-url).\n+\n+Since version 1 payloads are neither encrypted nor authenticated,\n+a directory used for backwards-compatible payloads is known\n+as an [\"unsecured payjoin server\" in BIP 78\n+parlance](https://github.com/bitcoin/bips/blob/master/bip-0078.mediawiki#unsecured-payjoin-server).\n+backwards-compatible receivers MUST enable `pjos=0` to disable output\n+substitution in order to prevent modification by a malicious directory.\n+\n+##### Mailbox endpoint\n+\n+In Payjoin version 2 the URL in the `pj` parameter is the mailbox\n+endpoint URL. Mailboxes are shared HTTP resources hosted by the\n+directory and serve as OHTTP Target Resources. Clients use these endpoints\n+to relay encrypted messages. They `POST` messages to and `GET` messages from\n+mailbox endpoints via OHTTP.\n+\n+Payjoin version 1 senders may POST messages directly to mailbox endpoints\n+for [backwards compatibility](#backwards-compatibility).\n+\n+###### Short ID\n+\n+A Short ID identifies a mailbox. The Short ID is the path component of\n+the mailbox endpoint. One is derived by hashing the compressed\n+secp256k1 mailbox public key with SHA-256, truncating it to [8 bytes\n+(64 bits)](#64-bit-short-id), and encoding it in",
+      "path": "bip-0077.md",
+      "position": 210,
+      "original_position": 210,
+      "commit_id": "1ad8f269614bdb703c6e91b1a30aa67f70be893d",
+      "original_commit_id": "1ad8f269614bdb703c6e91b1a30aa67f70be893d",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "```suggestion\r\n(64 bits)](#64-bit-short-id-length), and encoding it in\r\n```",
+      "created_at": "2025-05-05T22:41:25Z",
+      "updated_at": "2025-05-05T22:41:25Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1483#discussion_r2074319923",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2074319923"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1483"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 210,
+      "original_line": 210,
       "side": "RIGHT"
     }
   ]
