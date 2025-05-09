@@ -60,11 +60,11 @@
       }
     ],
     "created_at": "2023-09-30T11:40:55Z",
-    "updated_at": "2025-03-19T18:46:40Z",
+    "updated_at": "2025-05-09T18:15:25Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
-    "merge_commit_sha": "ad3c923bf4c5fcb2b94bf4451929a553da4c4801",
+    "merge_commit_sha": "61ec672721c34f8a491c0c5529f0ebe741d2891c",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -286,12 +286,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 9792,
-        "watchers_count": 9792,
-        "size": 15370,
+        "forks_count": 5592,
+        "stargazers_count": 9910,
+        "watchers_count": 9910,
+        "size": 16118,
         "default_branch": "master",
-        "open_issues_count": 38,
+        "open_issues_count": 35,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -302,9 +302,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-03-19T13:53:42Z",
+        "pushed_at": "2025-05-08T18:38:26Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-03-19T13:53:55Z",
+        "updated_at": "2025-05-09T18:34:05Z",
         "allow_forking": true
       }
     },
@@ -319,7 +319,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 1,
-    "review_comments": 83,
+    "review_comments": 84,
     "comments": 7
   },
   "events": [
@@ -6084,6 +6084,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2004026072"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 47,
+      "original_line": 47,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2082255631",
+      "pull_request_review_id": 2829320520,
+      "id": 2082255631,
+      "node_id": "PRRC_kwDOAN28mc58HLMP",
+      "diff_hunk": "@@ -0,0 +1,438 @@\n+```\n+  BIP: 346\n+  Layer: Consensus (soft fork)\n+  Title: OP_TXHASH and OP_CHECKTXHASHVERIFY\n+  Author: Steven Roose <steven@roose.io>, Brandon Black <freedom@reardencode.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0346\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2023-09-03\n+  License: BSD-3-Clause\n+```\n+\n+# Abstract\n+\n+This BIP proposes two new opcodes, `OP_CHECKTXHASHVERIFY`, to be activated\n+as a change to the semantics of `OP_NOP4` in legacy script, segwit and tapscript;\n+and `OP_TXHASH`, to be activated as a change to the semantics of `OP_SUCCESS189`\n+in tapscript only.\n+\n+These opcodes provide a generalized method for introspecting certain details of\n+the spending transaction, which enables non-interactive enforcement of certain\n+properties of the transaction spending a certain UTXO.\n+\n+The constructions specified in this BIP also open up the way for other\n+potential updates; see Motivation section for more details.\n+\n+As mentioned in the Deployment section, alternatively, the\n+`OP_CHECKTXHASHVERIFY` semantics could be used to upgrade an existing deployment\n+of the `OP_CHECKTEMPLATEVERIFY` opcode. The opcode `OP_TXHASH` could then\n+potentially be renamed to `OP_TEMPLATEHASH`.\n+\n+\n+# Summary\n+\n+## OP_CHECKTXHASHVERIFY\n+\n+The first new opcode, `OP_CHECKTXHASHVERIFY`, redefines the `OP_NOP4` opcode\n+(`0xb3`) as a soft fork upgrade. This opcode is active in both legacy script,\n+segwitv0 p2wsh and tapscript contexts.\n+\n+It has the following semantics:\n+\n+* There is at least one element on the stack, fail otherwise.\n+* The element on the stack is at least 32 bytes long, NOP otherwise.\n+* The first 32 bytes are interpreted as the StackTxHash and the remaining\n+  suffix bytes specify the TxFieldSelector.\n+* The TxFieldSelector valid, fail otherwise.",
+      "path": "bip-0346.md",
+      "position": 47,
+      "original_position": 47,
+      "commit_id": "debd349e6181d949cbea0691fcc0d67b265b02a8",
+      "original_commit_id": "debd349e6181d949cbea0691fcc0d67b265b02a8",
+      "in_reply_to_id": 2004026072,
+      "user": {
+        "login": "stevenroose",
+        "id": 853468,
+        "node_id": "MDQ6VXNlcjg1MzQ2OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/853468?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/stevenroose",
+        "html_url": "https://github.com/stevenroose",
+        "followers_url": "https://api.github.com/users/stevenroose/followers",
+        "following_url": "https://api.github.com/users/stevenroose/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/stevenroose/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/stevenroose/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/stevenroose/subscriptions",
+        "organizations_url": "https://api.github.com/users/stevenroose/orgs",
+        "repos_url": "https://api.github.com/users/stevenroose/repos",
+        "events_url": "https://api.github.com/users/stevenroose/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/stevenroose/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "That's not possible. We want to push something to the stack and going from nothing to the stack to something on the stack is a breaking change. Unfortunately it's not possible to have softfork-able hooks into this opcode.",
+      "created_at": "2025-05-09T18:15:25Z",
+      "updated_at": "2025-05-09T18:15:25Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#discussion_r2082255631",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2082255631"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
