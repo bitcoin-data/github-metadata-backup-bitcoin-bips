@@ -60,11 +60,11 @@
       }
     ],
     "created_at": "2025-04-18T08:03:18Z",
-    "updated_at": "2025-04-23T13:31:26Z",
+    "updated_at": "2025-05-12T02:38:15Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
-    "merge_commit_sha": "fa0ce961746fc760f8001f188ecc2ba460634095",
+    "merge_commit_sha": "ee4d3965d5fc9e7f64c673a065c14188838e0412",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -286,12 +286,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5569,
-        "stargazers_count": 9875,
-        "watchers_count": 9875,
-        "size": 15524,
+        "forks_count": 5594,
+        "stargazers_count": 9912,
+        "watchers_count": 9912,
+        "size": 16118,
         "default_branch": "master",
-        "open_issues_count": 36,
+        "open_issues_count": 35,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -302,9 +302,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-04-23T12:50:33Z",
+        "pushed_at": "2025-05-08T18:38:26Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-04-23T12:50:38Z",
+        "updated_at": "2025-05-12T02:48:55Z",
         "allow_forking": true
       }
     },
@@ -319,7 +319,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 5,
-    "review_comments": 8,
+    "review_comments": 9,
     "comments": 2
   },
   "events": [
@@ -1328,6 +1328,59 @@
       "start_side": "RIGHT",
       "line": 11,
       "original_line": 11,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2083727722",
+      "pull_request_review_id": 2831658734,
+      "id": 2083727722,
+      "node_id": "PRRC_kwDOAN28mc58Mylq",
+      "diff_hunk": "@@ -0,0 +1,607 @@\n+TBD | QES2 | A Hybrid Post-Quantum and Classical Digital Signature Scheme for Bitcoin | [Caleb Lee] director@j1729labs.online, [Justin Park] < justin7361@j1729labs.online>, [Eunice Lee] cuspro0103@j1729labs.online, [Sophia Shim] zypo1015@j1729labs.online | 2025-04-18 | Draft\n+\n+:BIP: Unassigned\n+:Title: QES2 - A Hybrid Post-Quantum and Classical Digital Signature Scheme for Bitcoin\n+:Author: [Caleb Lee] director@j1729labs.online, [Justin Park] justin7361@j1729labs.online, [Eunice Lee] cuspro0103@j1729labs.online, [Sophia Shim] zypo1015@j1729labs.online\n+:Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-XXXX\n+:Status: Draft\n+:Type: Standards Track\n+:Created: 2025-04-18\n+:License: BSD-2-Clause\n+:Requires: 340, 341, 342\n+\n+Abstract\n+========\n+\n+This BIP proposes QES2 (Quantum-Enhanced Signature Scheme), a hybrid digital signature scheme that creates a cryptographic binding between post-quantum cryptography (specifically Dilithium) and traditional ECDSA signatures for Bitcoin transactions. The approach first creates a Dilithium signature and then uses ECDSA to sign the Dilithium signature itself, creating a chain of cryptographic trust where the classical signature verifies the quantum-resistant signature. This approach provides both quantum resistance and backward compatibility, enabling Bitcoin to transition gradually to quantum-resistant security while preserving compatibility with existing infrastructure.\n+\n+Copyright\n+=========\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+Motivation\n+==========\n+\n+Bitcoin's security fundamentally relies on the Elliptic Curve Digital Signature Algorithm (ECDSA) with the secp256k1 curve. While effective against classical computing attacks, ECDSA is vulnerable to quantum computers running Shor's algorithm, which can solve the discrete logarithm problem in polynomial time.\n+\n+As quantum computing advances, this vulnerability poses an existential threat to Bitcoin's security model. Recent estimates suggest that sufficiently powerful quantum computers capable of breaking ECDSA could be developed within the next decade.\n+\n+The Bitcoin community faces several challenges when considering a transition to post-quantum cryptography:\n+\n+1. Post-quantum signature schemes typically have significantly larger key and signature sizes\n+2. Complete replacement of ECDSA would break compatibility with existing wallets and infrastructure\n+3. The security of newer post-quantum schemes is still being evaluated by the cryptographic community\n+4. A sudden switch would require extensive coordination across the entire ecosystem\n+\n+This BIP proposes QES2 as a balanced solution that:\n+\n+1. Maintains compatibility with existing Bitcoin infrastructure\n+2. Adds quantum resistance through a lattice-based signature scheme (Dilithium)\n+3. Creates a cryptographic binding between PQC signatures and ECDSA signatures\n+4. Allows for a gradual, opt-in transition to quantum-resistant security\n+5. Creates a safety net against future quantum computing threats\n+\n+Specification\n+============\n+\n+Overview\n+--------\n+\n+QES2 combines the Dilithium post-quantum signature scheme with the classical ECDSA signature scheme currently used in Bitcoin. The key innovation is that QES2 doesn't just use both signature schemes in parallel but creates a cryptographic binding between them. First, the Dilithium signature is generated for the transaction digest, then the ECDSA signature signs the Dilithium signature itself. This binding ensures that the ECDSA signature validates the integrity of the quantum-resistant signature.\n+\n+The QES2 signature process can be represented as:\n+\n+.. code-block::\n+\n+   Sign_QES2 = Sign_ECDSA(Sign_PQC(message))\n+\n+And the verification process:\n+\n+.. code-block::\n+\n+   Verify_QES2 = Verify_ECDSA(σ_PQ) ∧ Verify_PQC(message)\n+\n+This creates a chained trust model where breaking the scheme would require breaking both the quantum-resistant signature and the classical signature.\n+\n+Mathematical Notation and Parameters\n+------------------------------------\n+\n+Let us define the following notation:\n+\n+- m: The message to be signed (transaction digest)\n+- sk_PQ: Dilithium private key\n+- pk_PQ: Dilithium public key\n+- sk_EC: ECDSA private key\n+- pk_EC: ECDSA public key\n+- σ_PQ: Dilithium signature on the message\n+- σ_EC: ECDSA signature on the Dilithium signature\n+- H: SHA-256 hash function\n+- S_PQ: Dilithium signing algorithm\n+- V_PQ: Dilithium verification algorithm\n+- S_EC: ECDSA signing algorithm\n+- V_EC: ECDSA verification algorithm\n+\n+Dilithium Parameters\n+~~~~~~~~~~~~~~~~~~~\n+\n+The Dilithium instantiation uses the following parameters:\n+\n+- Security level: NIST security level 3 (equivalent to AES-192)\n+- Dimension n: 256\n+- Modulus q: 8380417\n+- Weight of challenge γ1: 60\n+- Weight of secret γ2: (q-1)/16\n+- Number of iterations κ: 5\n+- Public key size: 1,952 bytes\n+- Private key size: 4,000 bytes\n+- Signature size: 2,701 bytes\n+\n+ECDSA Parameters\n+~~~~~~~~~~~~~~~\n+\n+The ECDSA implementation uses the following parameters:\n+\n+- Curve: secp256k1\n+- Field size: 256 bits\n+- Public key size: 33 bytes (compressed)\n+- Signature size: ~72 bytes (with sighash flag)\n+\n+Script Types and Address Format\n+-------------------------------\n+\n+This BIP introduces a new script template:\n+\n+.. code-block::\n+\n+   <pq_signature_push> <ecdsa_signature_push> <pubkey_push> OP_QES2_CHECKSIG\n+\n+Where:\n+\n+- ``<pq_signature_push>`` is the Dilithium signature component on the transaction digest\n+- ``<ecdsa_signature_push>`` is the ECDSA signature on the Dilithium signature\n+- ``<pubkey_push>`` includes both the ECDSA public key and Dilithium public key\n+- ``OP_QES2_CHECKSIG`` is a new opcode that verifies the entire chained signature scheme\n+\n+New Opcode\n+~~~~~~~~~~\n+\n+We introduce a new opcode, tentatively assigned as ``OP_QES2_CHECKSIG (0xba)``, that performs verification of the hybrid QES2 signature by checking both the ECDSA signature (which validates the PQC signature) and the Dilithium signature itself.\n+\n+P2QPK (Pay to QES2 Public Key)\n+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n+\n+Similar to P2PK, but using QES2:\n+\n+.. code-block::\n+\n+   <combined_pubkey> OP_QES2_CHECKSIG\n+\n+P2QPKH (Pay to QES2 Public Key Hash)\n+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n+\n+Similar to P2PKH, but using a hash of the combined QES2 public key:\n+\n+.. code-block::\n+\n+   OP_DUP OP_HASH160 <qes2_pubkeyhash> OP_EQUALVERIFY OP_QES2_CHECKSIG\n+\n+P2QSH (Pay to QES2 Script Hash)\n+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n+\n+Similar to P2SH, but with QES2 signature verification:\n+\n+.. code-block::\n+\n+   OP_HASH160 <qes2_script_hash> OP_EQUAL\n+\n+Address Format\n+~~~~~~~~~~~~~\n+\n+QES2 addresses use a new version byte with a Bech32m encoding:\n+\n+.. code-block::\n+\n+   qp1<bech32m_encoded_program>\n+\n+Where the version byte indicates the use of QES2 and distinguishes between P2QPKH and P2QSH formats.\n+\n+Key Management\n+--------------\n+\n+Two approaches for managing QES2 keys:\n+\n+1. **Deterministic Derivation**\n+\n+   The Dilithium key pair is deterministically derived from the ECDSA private key:\n+\n+   .. code-block::\n+\n+      sk_PQ = HMAC-SHA512(sk_EC, \"Bitcoin_Dilithium_Key_Derivation\")\n+\n+   From sk_PQ, we compute:\n+\n+   .. code-block::\n+\n+      pk_PQ = Dilithium.KeyGen(sk_PQ)\n+\n+2. **Independent Keys**\n+\n+   The ECDSA and Dilithium key pairs are generated independently and bound together in the transaction script.\n+\n+The combined public key is represented as:\n+\n+.. code-block::\n+\n+   pk_combined = pk_PQ || pk_EC\n+\n+Where ``||`` denotes concatenation.\n+\n+The first approach is recommended for simplicity of wallet implementation, while the second offers greater flexibility.\n+\n+Signing Process\n+--------------\n+\n+The QES2 signing process consists of the following steps:\n+\n+1. **Transaction Serialization**\n+\n+   - Serialize the transaction inputs and outputs according to the appropriate sighash algorithm\n+   - Generate the transaction digest m = H(H(tx)) using double SHA-256\n+\n+2. **Post-Quantum Signature Generation**\n+\n+   - Generate a Dilithium signature on the transaction digest:\n+\n+     .. code-block::\n+\n+        σ_PQ = S_PQ(sk_PQ, m)\n+\n+3. **Vector Encoding**\n+\n+   - Flatten the post-quantum signature to obtain a coefficient vector\n+   - Apply domain-specific encoding to the coefficient vector\n+   - Apply compression and normalization to produce ê\n+\n+4. **ECDSA Signature Generation**\n+\n+   - Generate an ECDSA signature directly on the encoded PQC signature:\n+\n+     .. code-block::\n+\n+        σ_EC = S_EC(sk_EC, ê)\n+\n+   - The ECDSA signature follows the standard Bitcoin format, including the appropriate sighash flag\n+\n+5. **Complete Signature**\n+\n+   - The final QES2 signature consists of: (σ_PQ, σ_EC)\n+\n+This process can be summarized as:\n+\n+.. code-block::\n+\n+   Sign_QES2(m) = (σ_PQ, σ_EC)\n+\n+where:\n+\n+- σ_PQ = S_PQ(sk_PQ, m)\n+- σ_EC = S_EC(sk_EC, ê)\n+\n+Importantly, the ECDSA signature is not signing the original message but is signing the PQC signature directly. This creates a cryptographic binding where the ECDSA signature validates the Dilithium signature.\n+\n+Verification Procedure\n+---------------------\n+\n+The verification of a QES2 signature consists of the following steps:\n+\n+1. **Transaction Digest Calculation**\n+\n+   - Calculate the transaction digest m = H(H(tx)) according to the sighash flags\n+\n+2. **Vector Decoding**\n+\n+   - Decode the PQC signature component σ_PQ to obtain ê\n+\n+3. **ECDSA Signature Verification**\n+\n+   - Verify the ECDSA signature on the encoded PQC signature:\n+\n+     .. code-block::\n+\n+        valid_EC = V_EC(pk_EC, ê, σ_EC)\n+\n+   - This step verifies the integrity of the Dilithium signature\n+\n+4. **Post-Quantum Signature Verification**\n+\n+   - Verify the Dilithium signature on the original transaction digest:\n+\n+     .. code-block::\n+\n+        valid_PQ = V_PQ(pk_PQ, m, σ_PQ)\n+\n+5. **Combined Verification Decision**\n+\n+   - Accept the QES2 signature as valid if and only if both verifications succeed:\n+\n+     .. code-block::\n+\n+        valid = valid_EC ∧ valid_PQ\n+\n+The verification process can be summarized as:\n+\n+.. code-block::\n+\n+   Verify_QES2(m, σ_PQ, σ_EC, pk_PQ, pk_EC) = V_EC(pk_EC, ê, σ_EC) ∧ V_PQ(pk_PQ, m, σ_PQ)\n+\n+This verification procedure ensures that:\n+\n+1. The transaction has not been tampered with (verified by Dilithium)\n+2. The Dilithium signature is valid for the transaction\n+3. The ECDSA signature validates the integrity of the Dilithium signature\n+\n+The security of this approach stems from the fact that an attacker would need to forge both signature types or find a way to create a valid ECDSA signature that endorses a forged Dilithium signature.\n+\n+Optimizations\n+------------\n+\n+To maintain reasonable validation performance:\n+\n+1. **Early rejection**: Perform ECDSA verification first and only proceed with Dilithium verification if ECDSA passes\n+2. **Optional verification**: During the initial deployment phase, nodes can verify only the ECDSA component\n+3. **Batch verification**: For multiple signatures in a transaction, use batch verification techniques\n+\n+The early rejection optimization can be formalized as:\n+\n+.. code-block::\n+\n+   valid = \n+   {\n+     V_PQ(pk_PQ, m, σ_PQ)  if V_EC(pk_EC, ê, σ_EC) = true\n+     false                  otherwise\n+   }\n+\n+Taproot Compatibility\n+--------------------\n+\n+QES2 can be integrated with BIP-340 (Taproot) by:\n+\n+1. Using the QES2-based signature in place of the Schnorr signature",
+      "path": "bip-newproposal.mediawiki",
+      "position": 330,
+      "original_position": 330,
+      "commit_id": "11a563aeaf50808390106cfda66bec5037443d6b",
+      "original_commit_id": "11a563aeaf50808390106cfda66bec5037443d6b",
+      "in_reply_to_id": 2050797563,
+      "user": {
+        "login": "j1729labs",
+        "id": 207299364,
+        "node_id": "U_kgDODFsjJA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/207299364?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/j1729labs",
+        "html_url": "https://github.com/j1729labs",
+        "followers_url": "https://api.github.com/users/j1729labs/followers",
+        "following_url": "https://api.github.com/users/j1729labs/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/j1729labs/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/j1729labs/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/j1729labs/subscriptions",
+        "organizations_url": "https://api.github.com/users/j1729labs/orgs",
+        "repos_url": "https://api.github.com/users/j1729labs/repos",
+        "events_url": "https://api.github.com/users/j1729labs/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/j1729labs/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "> You specify QES2 as ECDSA, but ECDSA doesn't support all that Schnorr does. This seems like a step backwards that could break Taproot compatibility. Would it not make sense to implement QES2 with Schnorr and remove mention of ECDSA?\r\n\r\nI am considering the overall direction of my research as follows:\r\n\r\nInitially, I aim to provide a hybrid signature scheme.\r\n\r\nUltimately, I plan to propose a PQC-based signature scheme optimized for Bitcoin.\r\n\r\nThe QES2 scheme I'm presenting is a hybrid dual-signature model that combines ECDSA and Delicium. The role of ECDSA is to offer a structure that is well-suited for existing Bitcoin systems. As you mentioned, one might question whether this approach is vulnerable to attacks exploiting the Schnorr algorithm. However, even if the ECDSA signature is verified, the Delicium-related verification is not completed, so such concerns do not materialize.\r\n\r\nFurthermore, we are in an advanced stage of R&D on a model that mitigates protocol-level vulnerabilities of the Schnorr algorithm in Isogeny-based PQC, one of the NIST Round 3 finalists. We are considering applying this improved model as the final design.\r\n(Isogeny-based PQC has the advantage of a small key size, and if the Schnorr-related vulnerabilities are addressed, it becomes a very strong candidate.)\r\n\r\n",
+      "created_at": "2025-05-12T02:38:15Z",
+      "updated_at": "2025-05-12T02:46:35Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1830#discussion_r2083727722",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2083727722"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1830"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 330,
+      "original_line": 330,
       "side": "RIGHT"
     }
   ]
