@@ -42,7 +42,7 @@
     "body": "This pull request adds a draft of a new BIP project titled the \"Bitcoin Dormant Refund Proposal (BDRP).\"\r\n\r\nThe BIP project introduces a voluntary Long-Term Proof-of-Activity (LTAP) mechanism to distinguish between lost and dormant coins after more than 100 years, allowing them to be re-mined.\r\n\r\nThis proposal respects the principles of immutability and user sovereignty. We welcome your feedback.",
     "labels": [],
     "created_at": "2025-05-17T21:40:55Z",
-    "updated_at": "2025-05-19T18:34:37Z",
+    "updated_at": "2025-05-19T20:39:52Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -324,7 +324,7 @@
     "deletions": 0,
     "changed_files": 4,
     "commits": 10,
-    "review_comments": 7,
+    "review_comments": 9,
     "comments": 2
   },
   "events": [
@@ -1051,6 +1051,43 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1852#issuecomment-2891946778",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1852"
+    },
+    {
+      "event": "reviewed",
+      "id": 2851908014,
+      "node_id": "PRR_kwDOAN28mc6p_Kmu",
+      "url": null,
+      "actor": null,
+      "commit_id": "dfa241af613b47c4e073ef61677205b277de6e80",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "MEMBER",
+      "body": "> \"a lack of LTAPs may indicate dormancy\"\r\n\r\nQuestionable motivation IMO. This would only be true if everyone were forced to adopt the practice of publishing activity proofs to avoid their funds considered dormant and garnished by overzealous authorities, which doesn't seem in keeping the with bitcoin philosophy -- thus, per BIP 2, out of BIPs scope.\r\n\r\nPlease see this section of BIP 2 on what to do before submitting a BIP draft to this repository:\r\n\r\n```\r\nOnce the champion has asked the Bitcoin community as to whether an idea has any chance of acceptance, a draft BIP should be presented to the [https://groups.google.com/g/bitcoindev Bitcoin development mailing list].\r\nThis gives the author a chance to flesh out the draft BIP to make it properly formatted, of high quality, and to address additional concerns about the proposal.\r\nFollowing a discussion, the proposal should be submitted to the [https://github.com/bitcoin/bips BIPs git repository] as a pull request.\r\n```",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1852#pullrequestreview-2851908014",
+      "submitted_at": "2025-05-19T20:39:52Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1852"
     }
   ],
   "comments": [
@@ -1370,6 +1407,112 @@
       "start_side": null,
       "line": 1,
       "original_line": 1,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2096431032",
+      "pull_request_review_id": 2851908014,
+      "id": 2096431032,
+      "node_id": "PRRC_kwDOAN28mc589P-4",
+      "diff_hunk": "@@ -0,0 +1,93 @@\n+BIP: TBD\n+Title: Bitcoin Dormant Recovery Proposal (BDRP)\n+Author: Mohamed Magdi Ahmed <Idris Magdi> (X.CoM/page_magdi)\n+Status: Draft\n+Type: Informational\n+Created: 2025-05-17\n+License: BSD-2-Clause\n+\n+==Summary==\n+This proposal introduces an '''opt-in mechanism''' for Bitcoin holders to prove long-term activity over decades using signed time-based messages called Long-Term Activity Proofs (LTAPs). This mechanism enables the community to optionally consider inactive wallets (over 100 years) for recovery or recycling discussions — '''without compromising Bitcoin’s immutability, decentralization, or the principle of non-confiscation'''.\n+\n+==Abstract==\n+A substantial amount of Bitcoin is believed to be permanently lost due to forgotten private keys or abandoned wallets. This reduces the effective circulating supply and may cause extreme deflationary effects in the very long term.\n+\n+To address this without violating Bitcoin’s foundational rules, this proposal introduces a '''voluntary system''' where users can periodically sign a message using their wallet’s private key every decade or so. This signed message (LTAP) confirms that the wallet is still in control of a living entity. Over time, a lack of LTAPs may indicate dormancy, helping future generations assess wallet activity while preserving user privacy and ownership.\n+\n+==Motivation==\n+* Preserve long-term liquidity and utility of Bitcoin.\n+* Prevent total supply from decreasing irreversibly due to lost keys.\n+* Maintain user sovereignty — no enforcement, only voluntary participation.\n+* Facilitate historical auditing and policy planning by future communities.\n+\n+==Rationale==\n+Bitcoin is a finite resource. As time passes, more of it becomes irretrievably lost. While this contributes to scarcity and value, it also risks rendering Bitcoin illiquid in the far future.\n+\n+This proposal '''does not suggest forcibly reclaiming coins''', but rather introduces a '''social signal system''' to help distinguish between active and dormant wallets over extreme time horizons (e.g., 100+ years). This gives future generations the opportunity to evolve responsibly, should they choose to discuss reactivation of provably abandoned funds.\n+\n+==Specification==\n+\n+===1. Long-Term Activity Proof (LTAP)===\n+* A message signed with a wallet’s private key proving it is still accessible.\n+* Suggested to be generated once every 10 years, optionally published to a decentralized registry (on-chain, Layer-2, or other).\n+* Format of the message:\n+\n+<pre>\n+LTAP - &lt;Wallet Address&gt; - &lt;UTC Timestamp&gt; - &lt;Optional Metadata&gt;\n+</pre>\n+\n+Example:\n+\n+<pre>\n+LTAP - bc1p8j0ckwf372usvlvve0aesen7jzplxf2fgysg3fur3lt6nlh8r9wq6sww6p - 2125-01-01T00:00:00Z - still alive\n+</pre>\n+\n+* The signature must be verifiable with standard Bitcoin message signing tools.\n+* Publication could be via any public timestamped medium (blockchain, IPFS, etc.)\n+\n+===2. Dormancy Threshold===\n+* A wallet that shows '''no LTAP for more than 100 years''' may be '''socially''' categorized as dormant.\n+* No forced action is defined by this BIP.\n+* Communities may discuss use cases such as statistical tracking or theoretical economic models.\n+\n+===3. Privacy Considerations===\n+* No identity or off-chain data is required.\n+* LTAPs are purely cryptographic and voluntary.\n+* No public registry is mandatory — only suggested for future reference.\n+\n+==Compatibility==\n+* 100% backward-compatible with Bitcoin.\n+* Does not change consensus rules.\n+* LTAP system operates entirely '''off-chain''' unless voluntarily recorded on-chain.\n+\n+==Reference Implementation==\n+A sample LTAP generator may look like:\n+\n+<pre>\n+bitcoin-cli signmessage \"&lt;wallet_address&gt;\" \"LTAP - &lt;wallet_address&gt; - &lt;timestamp&gt; - optional note\"\n+</pre>\n+\n+==A note on the importance of this proposal==\n+This update gives future generations the opportunity to own and mine more Bitcoin, rather than constantly losing it, which ultimately leads to a depleted supply of Bitcoin. This is considered unfair to future generations, especially as the total Bitcoin mining capacity is depleted.\n+\n+==Copyright==\n+This work is licensed under the BSD 2-Clause License.\n+\n+== Supporting Reference ==\n+\n+For full context, motivations, and background behind this BIP, please refer to the external repository:\n+https://github.com/Danger-MaN/Bitcoin_bip-bdrp\n+And My Twitter X:\n+https://X.CoM/Page_Magdi",
+      "path": "bip-0495.mediawiki",
+      "position": 81,
+      "original_position": 81,
+      "commit_id": "dfa241af613b47c4e073ef61677205b277de6e80",
+      "original_commit_id": "dfa241af613b47c4e073ef61677205b277de6e80",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "I don't see additional information in the linked external repository.\r\n\r\n(We don't see other BIP authors providing their X/twitter social media account, and these can be volatile links.)",
+      "created_at": "2025-05-19T20:23:26Z",
+      "updated_at": "2025-05-19T20:40:34Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1852#discussion_r2096431032",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2096431032"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1852"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 81,
+      "original_line": 81,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2096439145",
+      "pull_request_review_id": 2851908014,
+      "id": 2096439145,
+      "node_id": "PRRC_kwDOAN28mc589R9p",
+      "diff_hunk": "@@ -0,0 +1,93 @@\n+BIP: TBD\n+Title: Bitcoin Dormant Recovery Proposal (BDRP)\n+Author: Mohamed Magdi Ahmed <Idris Magdi> (X.CoM/page_magdi)\n+Status: Draft\n+Type: Informational\n+Created: 2025-05-17\n+License: BSD-2-Clause\n+\n+==Summary==\n+This proposal introduces an '''opt-in mechanism''' for Bitcoin holders to prove long-term activity over decades using signed time-based messages called Long-Term Activity Proofs (LTAPs). This mechanism enables the community to optionally consider inactive wallets (over 100 years) for recovery or recycling discussions — '''without compromising Bitcoin’s immutability, decentralization, or the principle of non-confiscation'''.\n+\n+==Abstract==\n+A substantial amount of Bitcoin is believed to be permanently lost due to forgotten private keys or abandoned wallets. This reduces the effective circulating supply and may cause extreme deflationary effects in the very long term.\n+\n+To address this without violating Bitcoin’s foundational rules, this proposal introduces a '''voluntary system''' where users can periodically sign a message using their wallet’s private key every decade or so. This signed message (LTAP) confirms that the wallet is still in control of a living entity. Over time, a lack of LTAPs may indicate dormancy, helping future generations assess wallet activity while preserving user privacy and ownership.\n+\n+==Motivation==\n+* Preserve long-term liquidity and utility of Bitcoin.\n+* Prevent total supply from decreasing irreversibly due to lost keys.\n+* Maintain user sovereignty — no enforcement, only voluntary participation.\n+* Facilitate historical auditing and policy planning by future communities.\n+\n+==Rationale==\n+Bitcoin is a finite resource. As time passes, more of it becomes irretrievably lost. While this contributes to scarcity and value, it also risks rendering Bitcoin illiquid in the far future.\n+\n+This proposal '''does not suggest forcibly reclaiming coins''', but rather introduces a '''social signal system''' to help distinguish between active and dormant wallets over extreme time horizons (e.g., 100+ years). This gives future generations the opportunity to evolve responsibly, should they choose to discuss reactivation of provably abandoned funds.",
+      "path": "bip-0495.mediawiki",
+      "position": 26,
+      "original_position": 26,
+      "commit_id": "dfa241af613b47c4e073ef61677205b277de6e80",
+      "original_commit_id": "dfa241af613b47c4e073ef61677205b277de6e80",
+      "in_reply_to_id": 2096246483,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Agree. This looks like it could be misused by regulatory overreach similar to what we see currently in places like the USA, where some states confiscate (\"garnish\") accounts after only 2 or 3 years without activity.",
+      "created_at": "2025-05-19T20:29:26Z",
+      "updated_at": "2025-05-19T20:39:52Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1852#discussion_r2096439145",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2096439145"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1852"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 26,
+      "original_line": 26,
       "side": "RIGHT"
     }
   ]
