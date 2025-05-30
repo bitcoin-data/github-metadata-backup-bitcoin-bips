@@ -52,11 +52,11 @@
       }
     ],
     "created_at": "2025-03-08T22:49:35Z",
-    "updated_at": "2025-05-27T05:48:57Z",
+    "updated_at": "2025-05-30T18:15:18Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "d4c4e7f596881ec1ba572d1b87e8faacaa39e2d1",
+    "merge_commit_sha": "1c0c47e12c71df3763060de8ca6dce6c772d1d0a",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -278,12 +278,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5610,
-        "stargazers_count": 9950,
-        "watchers_count": 9950,
-        "size": 16445,
+        "forks_count": 5619,
+        "stargazers_count": 9959,
+        "watchers_count": 9959,
+        "size": 16437,
         "default_branch": "master",
-        "open_issues_count": 34,
+        "open_issues_count": 37,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -294,9 +294,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-05-23T00:26:04Z",
+        "pushed_at": "2025-05-28T18:56:35Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-05-27T04:06:37Z",
+        "updated_at": "2025-05-30T16:38:15Z",
         "allow_forking": true
       }
     },
@@ -311,7 +311,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 3,
-    "review_comments": 29,
+    "review_comments": 30,
     "comments": 9
   },
   "events": [
@@ -2932,6 +2932,59 @@
       "start_side": null,
       "line": 82,
       "original_line": 82,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2116374764",
+      "pull_request_review_id": 2882076189,
+      "id": 2116374764,
+      "node_id": "PRRC_kwDOAN28mc5-JVDs",
+      "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX\n+\n+Layer: Applications\n+\n+Title: Wallet Recognition Standard for Taproot Token (TSB-P)\n+\n+Author: Gobi Shanthan \\<gobi@torram.xyz\\>, Lee Raj. \\<lee@torram.xyz\\>\n+\n+Comments-Summary: A standard for wallet interoperability in token pattern recognition\n+\n+Status: Draft\n+\n+Type: Informational\n+\n+Created: 2025-04-20\n+\n+License: BSD-2-Clause\n+\n+Discussions-To: [[bitcoin-dev@lists.linuxfoundation.org](mailto:bitcoin-dev@lists.linuxfoundation.org)]\n+\n+# Abstract\n+\n+This document proposes a wallet interoperability standard for recognizing and interpreting token patterns in Taproot transactions, similar to how BIP39 standardized seed phrases without modifying consensus rules. The Token Standard on Bitcoin - Programmable (TSB-P) defines a structured format within Taproot leaf scripts that allows wallets to consistently identify, display, and interpret token information embedded in standard Bitcoin transactions.\n+\n+By creating a \"BIP39 for token recognition,\" this specification aims to improve user experience, reduce implementation fragmentation, and standardize representation of token-related activities on Bitcoin without requiring consensus changes or modifying Bitcoin's primary purpose as a currency.\n+\n+# Motivation\n+\n+## The Need for Wallet Interoperability\n+\n+Bitcoin wallets currently lack a standardized approach to recognizing and displaying token-related transactions, resulting in several challenges:\n+\n+1. **Inconsistent User Experience**: The same token-representing UTXO may appear differently across wallets or not be recognized at all\n+2. **Implementation Fragmentation**: Wallet developers must create custom token detection logic\n+3. **Excessive Blockchain Usage**: Some token approaches create unnecessary data bloat\n+4. **User Confusion**: Difficult to distinguish between token types and behaviors\n+\n+## Relationship to Other Standards\n+\n+This proposal draws inspiration from several successful Bitcoin standards:\n+\n+- **BIP39**: Standardized seed phrases for wallets without changing consensus rules\n+- **BIP21**: Standardized payment request URIs for consistent wallet handling\n+- **BIP329**: Standardized wallet labels for better interoperability\n+\n+Each of these standards improved Bitcoin's usability through wallet interoperability without requiring protocol modifications. TSB-P follows this pattern by standardizing how wallets recognize token-related patterns.\n+\n+## Benefits of Standardization\n+\n+A standardized wallet recognition pattern for token-representing UTXOs would:\n+\n+1. **Improve User Experience**: Tokens are displayed consistently across compatible wallets\n+2. **Simplify Wallet Development**: Standard patterns are easier to implement\n+3. **Reduce Blockchain Impact**: Efficient representation using Taproot's advantages\n+4. **Enable Advanced Features**: Support for time-locks, multisig, and other Bitcoin Script features\n+\n+Importantly, this standard does not seek to modify Bitcoin's consensus rules or create new token validation systems. It simply standardizes how wallets interpret specific Taproot script patterns, similar to how BIP39 standardized seed phrase interpretation.\n+\n+# Specification\n+\n+## Wallet Recognition Pattern Structure\n+\n+This BIP defines a standardized Taproot leaf script pattern that compatible wallets should recognize and interpret:\n+\n+```\n+OP_TRUE\n+OP_IF\n+  <\"TSB\">                  # 3-byte marker\n+  <tokenID>                # 16 bytes identifier",
+      "path": "bip-tbs-p.md",
+      "position": 69,
+      "original_position": 69,
+      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "in_reply_to_id": 2078197271,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Sorry, I meant **2<sup>128</sup>**, not \"2128\".\r\n\r\n> It also doesn’t add much size to the script, so it felt like a solid default.\r\n\r\nUh, aren’t these 16 bytes going to appear in every single token transfer output? If so, I don’t follow your line of thinking and would suggest that you aim to be more space efficient.",
+      "created_at": "2025-05-30T18:15:18Z",
+      "updated_at": "2025-05-30T18:15:18Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1787#discussion_r2116374764",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2116374764"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1787"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 69,
+      "original_line": 69,
       "side": "RIGHT"
     }
   ]
