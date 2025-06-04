@@ -51,9 +51,10 @@
       }
     ],
     "created_at": "2024-10-24T01:47:02Z",
-    "updated_at": "2025-02-06T18:36:47Z",
+    "updated_at": "2025-06-04T01:12:30Z",
     "closed_at": "2024-12-27T15:29:47Z",
     "mergeable_state": "unknown",
+    "merged": true,
     "merged_at": "2024-12-27T15:29:47Z",
     "merged_by": {
       "login": "murchandamus",
@@ -202,7 +203,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 15822,
+        "size": 15714,
         "default_branch": "bip-schnorr",
         "open_issues_count": 0,
         "is_template": false,
@@ -215,7 +216,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-02-06T18:41:18Z",
+        "pushed_at": "2025-02-27T22:41:48Z",
         "created_at": "2019-11-29T03:52:22Z",
         "updated_at": "2024-12-24T05:49:42Z",
         "allow_forking": true
@@ -319,12 +320,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5482,
-        "stargazers_count": 9670,
-        "watchers_count": 9670,
-        "size": 15873,
+        "forks_count": 5625,
+        "stargazers_count": 9965,
+        "watchers_count": 9965,
+        "size": 16433,
         "default_branch": "master",
-        "open_issues_count": 34,
+        "open_issues_count": 36,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -335,9 +336,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-02-06T18:20:20Z",
+        "pushed_at": "2025-06-03T21:39:06Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-02-06T18:20:26Z",
+        "updated_at": "2025-06-03T23:24:32Z",
         "allow_forking": true
       }
     },
@@ -352,7 +353,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 24,
-    "review_comments": 34,
+    "review_comments": 35,
     "comments": 8
   },
   "events": [
@@ -5010,6 +5011,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1945243090"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1689"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 76,
+      "original_line": 76,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2125226772",
+      "pull_request_review_id": 2894540321,
+      "id": 2125226772,
+      "node_id": "PRRC_kwDOAN28mc5-rGMU",
+      "diff_hunk": "@@ -0,0 +1,128 @@\n+<pre>\n+  BIP: 374\n+  Layer: Applications\n+  Title: Discrete Log Equality Proofs\n+  Author: Andrew Toth <andrewstoth@gmail.com>\n+          Ruben Somsen <rsomsen@gmail.com>\n+          Sebastian Falbesoner <sebastian.falbesoner@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0374\n+  Status: Draft\n+  Type: Standards Track\n+  License: BSD-2-Clause\n+  Created: 2024-12-26\n+  Post-History: https://gist.github.com/andrewtoth/df97c3260cc8d12f09d3855ee61322ea\n+                https://groups.google.com/g/bitcoindev/c/MezoKV5md7s\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document proposes a standard for 64-byte zero-knowledge ''discrete logarithm equality proofs'' (DLEQ proofs) over an elliptic curve. For given elliptic curve points ''A'', ''B'', ''C'', ''G'', and a scalar ''a'' known only to the prover where ''A = a⋅G'' and ''C = a⋅B'', the prover proves knowledge of ''a'' without revealing anything about ''a''. This can, for instance, be useful in ECDH: if ''A'' and ''B'' are ECDH public keys, and ''C'' is their ECDH shared secret computed as ''C = a⋅B'', the proof establishes that the same secret key ''a'' is used for generating both ''A'' and ''C'' without revealing ''a''.\n+\n+=== Copyright ===\n+\n+This document is licensed under the 2-clause BSD license.\n+\n+=== Motivation ===\n+\n+[https://github.com/bitcoin/bips/blob/master/bip-0352.mediawiki#specification BIP352] requires senders to compute output scripts using ECDH shared secrets from the same secret keys used to sign the inputs. Generating an incorrect signature will produce an invalid transaction that will be rejected by consensus. An incorrectly generated output script can still be consensus-valid, meaning funds may be lost if it gets broadcast.\n+By producing a DLEQ proof for the generated ECDH shared secrets, the signing entity can prove to other entities that the output scripts have been generated correctly without revealing the private keys.\n+\n+== Specification ==\n+\n+All conventions and notations are used as defined in [https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki#user-content-Notation BIP327].\n+\n+=== Description ===\n+\n+The basic proof generation uses a random scalar ''k'', the secret ''a'', and the point being proven ''C = a⋅B''.\n+\n+* Let ''R<sub>1</sub> = k⋅G''.\n+* Let ''R<sub>2</sub> = k⋅B''.\n+* Let ''e = hash(R<sub>1</sub> || R<sub>2</sub>)''.\n+* Let ''s = (k + e⋅a)''.\n+\n+Providing only ''C'', ''e'' and ''s'' as a proof does not reveal ''a'' or ''k''.\n+\n+Verifying the proof involves recreating ''R<sub>1</sub>'' and ''R<sub>2</sub>'' with only ''e'' and ''s'' as follows:\n+\n+* Let ''R<sub>1</sub> = s⋅G - e⋅A''.\n+* Let ''R<sub>2</sub> = s⋅B - e⋅C''.\n+\n+This can be verified by substituting ''s = (k + e⋅a)'':\n+\n+* ''s⋅G - e⋅A = (k + e⋅a)⋅G - e⋅A = k⋅G + e⋅(a⋅G) - e⋅A = k⋅G + e⋅A - e⋅A = k⋅G''.\n+* ''s⋅B - e⋅C = (k + e⋅a)⋅B - e⋅C = k⋅B + e⋅(a⋅B) - e⋅C = k⋅B + e⋅C - e⋅C = k⋅B''.\n+\n+Thus verifying ''e = hash(R<sub>1</sub> || R<sub>2</sub>)'' proves the discrete logarithm equivalency of ''A'' and ''C''.\n+\n+=== DLEQ Proof Generation ===\n+\n+The following generates a proof that the result of ''a⋅B'' and the result of ''a⋅G'' are both generated from the same scalar ''a'' without having to reveal ''a''.\n+\n+Input:\n+* The secret key ''a'': a 256-bit unsigned integer\n+* The public key ''B'': a point on the curve\n+* Auxiliary random data ''r'': a 32-byte array<ref name=\"why_include_auxiliary_random_data\"> ''' Why include auxiliary random data?''' The auxiliary random data should be set to fresh randomness for each proof. The same rationale and recommendations from [https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#default-signing BIP340] should be applied.</ref> \n+* The generator point ''G'': a point on the curve<ref name=\"why_include_G\"> ''' Why include the generator point G as an input?''' While all other BIPs have used the generator point from secp256k1, passing it as an input here lets this algorithm be used for other curves.</ref>\n+* An optional message ''m'': a 32-byte array<ref name=\"why_include_a_message\"> ''' Why include a message as an input?''' This could be useful for protocols that want to authorize on a compound statement, not just knowledge of a scalar. This allows the protocol to combine knowledge of the scalar and the statement.</ref>\n+\n+The algorithm ''GenerateProof(a, B, r, G, m)'' is defined as:\n+* Fail if ''a = 0'' or ''a &ge; n''.\n+* Fail if ''is_infinite(B)''.\n+* Let ''A = a⋅G''.\n+* Let ''C = a⋅B''.\n+* Let ''t'' be the byte-wise xor of ''bytes(32, a)'' and ''hash<sub>BIP0374/aux</sub>(r)''.\n+* Let ''rand = hash<sub>BIP0374/nonce</sub>(t || cbytes(A) || cbytes(C))''.",
+      "path": "bip-0374.mediawiki",
+      "position": 76,
+      "original_position": 76,
+      "commit_id": "248540e2ac1bc887035a1906736d26617f22851d",
+      "original_commit_id": "248540e2ac1bc887035a1906736d26617f22851d",
+      "in_reply_to_id": 1939790470,
+      "user": {
+        "login": "LLFourn",
+        "id": 3734083,
+        "node_id": "MDQ6VXNlcjM3MzQwODM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3734083?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/LLFourn",
+        "html_url": "https://github.com/LLFourn",
+        "followers_url": "https://api.github.com/users/LLFourn/followers",
+        "following_url": "https://api.github.com/users/LLFourn/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/LLFourn/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/LLFourn/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/LLFourn/subscriptions",
+        "organizations_url": "https://api.github.com/users/LLFourn/orgs",
+        "repos_url": "https://api.github.com/users/LLFourn/repos",
+        "events_url": "https://api.github.com/users/LLFourn/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/LLFourn/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "necro note.\r\n\r\nIt looks like adding `m` is enough to guarantee security in this case. To make this kind of thing easier to reason about it's typical to just take all the public inputs and concatenate them together and use this byte string as a value in both the nonce derivation and the challenge.\r\n\r\nIt's always tricky to get this right. What if someone decides to make an API where the full statement is passed in to avoid re-computing A and C. This would appear harmless and is something crypto implementers get pleasure from, but if somehow an attacker gets control of the statement to be proved and is able to ask the honest proving to attempt to prove wrong statements all of a sudden this apparently harmless modification becomes a security problem if using deterministic nonces.",
+      "created_at": "2025-06-04T01:12:30Z",
+      "updated_at": "2025-06-04T01:18:43Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1689#discussion_r2125226772",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2125226772"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1689"
