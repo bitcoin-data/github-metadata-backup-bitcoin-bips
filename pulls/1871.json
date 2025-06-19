@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-06-18T22:06:40Z",
-    "updated_at": "2025-06-19T11:51:23Z",
+    "updated_at": "2025-06-19T13:35:08Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -311,7 +311,7 @@
     "deletions": 10,
     "changed_files": 10,
     "commits": 2,
-    "review_comments": 6,
+    "review_comments": 7,
     "comments": 0
   },
   "events": [
@@ -979,6 +979,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2156814854"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1871"
+        }
+      },
+      "start_line": 62,
+      "original_start_line": 62,
+      "start_side": "RIGHT",
+      "line": 63,
+      "original_line": 63,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2157035641",
+      "pull_request_review_id": 2943046317,
+      "id": 2157035641,
+      "node_id": "PRRC_kwDOAN28mc6AkcB5",
+      "diff_hunk": "@@ -49,16 +52,17 @@ backed up, or guess, the correct order of keys.</ref>.\n \n ===<tt>musig(KEY, KEY, ..., KEY)/NUM/.../*</tt>===\n \n-<tt>musig(KEY, KEY, ..., KEY)/NUM/.../*</tt> expressions are also allowed, with the same usage\n-restrictions as in the previous section. The aggregate public key\n-is first computed as described above, with the keys also being sorted after all derivation and prior\n-to aggregation. Then further BIP 32 derivation will be performed on the aggregate public key as described in\n-[[bip-0328.mediawiki|BIP 328]]. As there is no aggregate private key,\n-only unhardened derivation from the aggregate public key is allowed, and thus the derivation steps\n-following the <tt>musig()</tt> expression cannot contain\n-<tt>/NUMh</tt> or <tt>/NUM'</tt> derivation steps nor <tt>/*h</tt>, or <tt>/*'</tt> child derivation.\n-For these <tt>musig()</tt> expressions, the KEY expressions contained within must be xpubs or derived from\n-xpubs, and cannot contain child derivation as specified by a <tt>/*</tt>, <tt>/*'</tt>, <tt>/*h</tt>, or multipath as specified with <tt>/<NUM;NUM;...></tt>.\n+<tt>musig(KEY, KEY, ..., KEY)/NUM/.../*</tt> expressions are also allowed if no KEY expression\n+contains child derivation as specified by <tt>/*</tt> or multipath as specified with\n+<tt>/<NUM;NUM;...></tt>, in addition to the same usage restrictions as in the previous section. The KEY expressions\n+additionally must be xpubs or derived from xpubs. The aggregate public key is first computed as\n+described above, with the keys also being sorted after all derivation and prior to aggregation.\n+Then further BIP 32 derivation will be performed on the aggregate public key as described in\n+[[bip-0328.mediawiki|BIP 328]]. The <tt>/NUM/.../*</tt> following the <tt>musig()</tt> specifies\n+the derivation path to be used when deriving from the aggregate public key. <tt>/*</tt> is also\n+optional. As there is no aggregate private key, only unhardened derivation from the aggregate public",
+      "path": "bip-0390.mediawiki",
+      "position": 41,
+      "original_position": 41,
+      "commit_id": "c754a4d095704228de928deb817cda47a6499e3e",
+      "original_commit_id": "c754a4d095704228de928deb817cda47a6499e3e",
+      "in_reply_to_id": 2156814854,
+      "user": {
+        "login": "rkrux",
+        "id": 5960750,
+        "node_id": "MDQ6VXNlcjU5NjA3NTA=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/5960750?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/rkrux",
+        "html_url": "https://github.com/rkrux",
+        "followers_url": "https://api.github.com/users/rkrux/followers",
+        "following_url": "https://api.github.com/users/rkrux/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/rkrux/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/rkrux/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/rkrux/subscriptions",
+        "organizations_url": "https://api.github.com/users/rkrux/orgs",
+        "repos_url": "https://api.github.com/users/rkrux/repos",
+        "events_url": "https://api.github.com/users/rkrux/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/rkrux/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "> So musig(xpub.../1,xpub.../2)/3/4 will be treated as musig(xpub.../1,xpub.../2)/3/4/*?\r\n\r\nOn second thought, I think this is not what this means, they both will be treated separately.\r\nSorry I didn't mean to add more confusion.",
+      "created_at": "2025-06-19T13:35:08Z",
+      "updated_at": "2025-06-19T13:35:08Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1871#discussion_r2157035641",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2157035641"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1871"
