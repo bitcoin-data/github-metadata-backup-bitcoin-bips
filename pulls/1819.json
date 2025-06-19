@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2025-04-11T22:14:36Z",
-    "updated_at": "2025-06-18T22:53:38Z",
+    "updated_at": "2025-06-19T09:50:59Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -170,7 +170,7 @@
         "forks_count": 2,
         "stargazers_count": 1,
         "watchers_count": 1,
-        "size": 17292,
+        "size": 17276,
         "default_branch": "master",
         "open_issues_count": 2,
         "is_template": false,
@@ -292,7 +292,7 @@
         "watchers_count": 9999,
         "size": 16471,
         "default_branch": "master",
-        "open_issues_count": 34,
+        "open_issues_count": 35,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -320,7 +320,7 @@
     "deletions": 46,
     "changed_files": 1,
     "commits": 15,
-    "review_comments": 44,
+    "review_comments": 45,
     "comments": 3
   },
   "events": [
@@ -4536,6 +4536,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2155648008"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1819"
+        }
+      },
+      "start_line": null,
+      "original_start_line": 150,
+      "start_side": "RIGHT",
+      "line": null,
+      "original_line": 153,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2156606724",
+      "pull_request_review_id": 2942335434,
+      "id": 2156606724,
+      "node_id": "PRRC_kwDOAN28mc6AizUE",
+      "diff_hunk": "@@ -0,0 +1,754 @@\n+```\n+  BIP: 3\n+  Title: Updated BIP Process\n+  Author: Murch <murch@murch.one>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0003\n+  Status: Proposed\n+  Type: Process\n+  Created: 2025-01-09\n+  License: BSD-2-Clause\n+  Post-History: https://github.com/murchandamus/bips/pull/2\n+                https://gnusha.org/pi/bitcoindev/59fa94cea6f70e02b1ce0da07ae230670730171c.camel@timruffing.de/#t\n+  Requires: 123\n+  Replaces: 2\n+```\n+\n+## Abstract\n+\n+This _Bitcoin Improvement Proposal (BIP)_ provides information about the preparation of BIPs and policies relating to\n+the publication of BIPs. It replaces [BIP 2](bip-0002.mediawiki) with a streamlined process, and may be amended to\n+address the evolving needs of the BIP process.\n+\n+## Motivation\n+\n+BIP 2 was written in 2016.\n+This BIP revisits aspects of the BIP 2 process\n+that did not achieve broad adoption, reduces the judgment calls assigned to the BIP Editor role, delineates the\n+BIP Types more clearly, and generalizes the BIP process to meet the community’s use of the repository.\n+\n+## Fundamentals\n+\n+### What is a BIP?\n+\n+BIPs cover the range of interests of the Bitcoin[^capitalization] community. The main topic is information and technologies that support and expand the utility of the bitcoin\n+currency. Most BIPs provide a concise, self-contained, technical description of one new concept, feature, or standard.\n+Some BIPs describe processes, implementation guidelines, best practices, incident reports (e.g.,\n+[BIP 50](bip-0050.mediawiki)), or other information relevant to the Bitcoin community. However, any topics related to\n+the Bitcoin protocol, peer-to-peer network, and client software may be acceptable.\n+\n+BIPs are intended to be a means for proposing new protocol features, coordinating client standards, and\n+documenting design decisions that have gone into implementations. BIPs may be submitted by anyone.\n+\n+The scope of the BIP\n+repository is limited to BIPs that do not oppose the fundamental principle that Bitcoin constitutes a peer-to-peer\n+electronic cash system for the bitcoin currency.\n+\n+### BIP Ownership\n+\n+Each BIP is primarily owned by its authors and represents the authors’ opinion or recommendation. The authors are\n+expected to foster discussion, address feedback and dissenting opinions, and, if applicable, advance the adoption of\n+their proposal within the Bitcoin community. As a BIP progresses through the workflow, it becomes increasingly\n+ co-owned by the Bitcoin community.\n+\n+#### Authors and Deputies\n+\n+Authors may want additional help with the BIP process after writing an initial draft. In that case, they may assign\n+one or more Deputies to their BIP. Deputies are stand-in owners of a BIP who were not involved in writing the\n+document. They support the authors in advancing the proposal, or act as a point of contact for the BIP in the absence of the\n+authors. Deputies may perform the role of Authors for any aspect of the BIP process unless overruled by an Author.\n+Deputies share ownership of the BIP at the discretion of the Authors.\n+\n+### What is the Significance of BIPs?\n+\n+BIPs do not define what Bitcoin is: individual BIPs do not represent Bitcoin community consensus or a general\n+recommendation for implementation. A BIP represents a personal recommendation by the BIP authors to the Bitcoin\n+community. Some BIPs may never be adopted. Some BIPs may be adopted by one or more Bitcoin clients or other related\n+software. Some may even end up changing the consensus rules that the Bitcoin ecosystem jointly enforces.\n+\n+### What is the Purpose of the BIPs Repository?\n+\n+The [BIPs repository](https://github.com/bitcoin/bips/) serves as a publication medium and archive for mature proposals.\n+Through its high visibility, it facilitates the community-wide consideration of BIPs and provides a well-established\n+source to retrieve the latest version of any BIP. The repository transparently records all changes to each BIP and\n+allows any community member to retain a complete copy of the archive easily.\n+\n+The BIPs repository is not a tool to track acceptance[^acceptance], adoption, or community consensus on BIPs, beyond\n+providing a brief overview of BIP statuses (see [Workflow](#workflow) below) to the audience.\n+There is no formal or informal decision body that governs Bitcoin development or decides acceptance of BIPs. Bitcoin\n+development emerges from the participation of stakeholders across the ecosystem.\n+\n+## BIP Format and Structure\n+\n+### Specification\n+\n+Authors may choose to submit BIPs in MediaWiki or Markdown[^markdown] format.\n+\n+Each BIP must have a _Preamble_, an _Abstract_, a _Copyright_, and a _Motivation_ section. Authors should consider all issues in the\n+following list and address each as appropriate.\n+\n+* Preamble — Headers containing metadata about the BIP (see the section [BIP Header Preamble](#bip-header-preamble)\n+  below).\n+* Abstract — A short description of the issue being addressed.\n+* Motivation — Why is this BIP being written? Clearly explain how the existing situation presents a problem and why the proposed idea resolves the\n+  issue or improves upon the current situation.\n+* Specification — The technical specification should describe the syntax and semantics of any new feature. The\n+  specification should be detailed enough to enable any Bitcoin project to create an interoperable implementation.\n+* Rationale — The rationale fleshes out the specification by describing what inspired the design and why particular\n+  design decisions were made. It should describe related work and alternate designs that were considered. The rationale\n+  should record relevant objections or important concerns that were raised and addressed as this proposal was developed.\n+* Backward Compatibility — Any BIP that introduces incompatibilities must include a section describing these incompatibities and their severity as well as provide instructions on how\n+  implementers and users should deal with these incompatibilities.\n+* Reference Implementation — Where applicable, a reference implementation, test vectors, and documentation must be\n+  finished before the BIP can be given the status \"Complete\". Test vectors must be provided in the BIP or\n+  as auxiliary files (see [Auxiliary Files](#auxiliary-files)) under an acceptable license. The reference implementation can be provided in the BIP, as an auxiliary file, or per reference to a pull request that is expected to remain available permanently.\n+* Changelog — A section to track modifications to a BIP after reaching Complete status.\n+* Copyright — The BIP must be placed under an acceptable license (see [BIP Licensing](#bip-licensing) below).\n+\n+#### BIP Header Preamble\n+\n+Each BIP must begin with an [RFC 822-style header preamble](https://www.w3.org/Protocols/rfc822/). The headers must\n+appear in the following order. Headers marked with \"\\*\" are optional. All other headers are required.\n+\n+##### Overview\n+\n+```\n+  BIP: <BIP number, or \"?\">\n+* Layer: <Consensus (soft fork) | Consensus (hard fork) | Peer Services | API/RPC | Applications>\n+  Title: <BIP title (≤ 50 characters)>\n+  Authors: <Authors’ names and email addresses>\n+* Deputies: <Deputies’ names and email addresses>\n+  Status: <Draft | Complete | Deployed | Closed>\n+  Type: <Specification | Informational | Process>\n+  Created: <Date of number assignment (yyyy-mm-dd), or \"?\">\n+  License: <Identifier(s) of acceptable license(s)>\n+* License-Code: <Identifier(s) for Code under different acceptable license(s)>\n+* Discussion: <Noteworthy discussion threads in \"yyyy-mm-dd: URL\" format>\n+* Version: <MAJOR.MINOR.PATCH>\n+* Requires: <BIP number(s)>\n+* Replaces: <BIP number(s)>\n+* Proposed-Replacement: <BIP number(s)>\n+```\n+\n+##### Header Descriptions\n+\n+* BIP — The assigned number of the BIP. Please use \"?\" before a number has been assigned by the BIP Editors.\n+* Layer — The layer of Bitcoin the BIP applies to using the BIP classification defined in [BIP 123](bip-0123.mediawiki).\n+* Authors — The names (or pseudonyms) and email addresses of all authors of the BIP. The format of each authors header\n+  value must be\n+\n+      Random J. User <address@dom.ain>\n+\n+  Multiple authors are recorded on separate lines:\n+\n+      Authors: Random J. User <address@dom.ain>\n+               Anata Sample <anata@domain.example>\n+\n+* Deputies — Additional owners of the BIP that are not authors. The Deputies header uses the same format as the\n+  Authors header. See the [BIP Ownership](#bip-ownership) section above.\n+* Status — The stage of the workflow of the proposal. See the [Workflow](#workflow) section below.\n+* Type — See the [BIP Types](#bip-types) section below for a description of the three BIP types.\n+* License and License-Code — These headers list SPDX License Identifier(s) of the acceptable licenses under which the\n+  BIP and corresponding code are available. See the [BIP Licensing](#bip-licensing) section below for a description of\n+  the Licenses and their SPDX License Identifiers. If there are multiple acceptable licenses, each should be on a\n+  separate line.",
+      "path": "bip-0003.md",
+      "position": null,
+      "original_position": 153,
+      "commit_id": "0138ff175ad18be93bd290f164ac583fb781aae3",
+      "original_commit_id": "3ec810e7c483a3896ce3221e9da2920306736251",
+      "in_reply_to_id": 2045656492,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "> did you mean that we altogether drop our licensing scheme in favor of following the SPDX standard?\r\n\r\nIndeed!\r\n\r\n> If so, that sounds like a good idea, but I would like @ajtowns prefer that it were done as a separate pull request, possibly even while BIP 3 is proposed.\r\n\r\nI agreed, this should be done separately. Though the changes will be trivial, this will touch many existing BIPs.\r\n",
+      "created_at": "2025-06-19T09:50:58Z",
+      "updated_at": "2025-06-19T09:50:59Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1819#discussion_r2156606724",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2156606724"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1819"
