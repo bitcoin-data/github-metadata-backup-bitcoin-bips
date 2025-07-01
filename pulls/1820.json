@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-04-12T03:32:19Z",
-    "updated_at": "2025-07-01T05:42:54Z",
+    "updated_at": "2025-07-01T06:49:17Z",
     "mergeable": false,
     "mergeable_state": "dirty",
     "merged": false,
@@ -321,7 +321,7 @@
     "changed_files": 190,
     "commits": 31,
     "review_comments": 4,
-    "comments": 3
+    "comments": 4
   },
   "events": [
     {
@@ -2206,9 +2206,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-07-01T05:42:54Z",
-      "updated_at": "2025-07-01T05:42:54Z",
+      "updated_at": "2025-07-01T06:49:17Z",
       "author_association": "CONTRIBUTOR",
-      "body": "You can reproduce the error message and get more info with:\r\n\r\n```sh\r\n$ git checkout 187d8859dce80c8433ff7466d012b5dd78ac3136   # master's parent commit\r\n$ git merge 5e776c4c92d0a33c15311c7289139835132f2fec # this PR\r\n$ scripts/diffcheck.sh\r\n...\r\n$ diff -u -B5 /tmp/before.diff /tmp/after.diff\r\n...\r\n```\r\n\r\nIt's complaining that there are differences in the summaries of BIPs 40 (\"Stratum wire protocol\"), 41 (\"Stratum mining protocol\"), and 63 (\"Stealth addresses\"); which are all changing from \"Standard\" to \"Specification\", but only exist as assigned numbers, with no actual document in the repo. They're all more than a decade old based on git blame's output, so could probably just be removed from the README entirely (though doing that would also trigger the same set of errors).",
+      "body": "You can reproduce the error message and get more info with:\r\n\r\n```sh\r\n$ git checkout 187d8859dce80c8433ff7466d012b5dd78ac3136   # master's parent commit (to avoid the conflict)\r\n$ git merge 5e776c4c92d0a33c15311c7289139835132f2fec      # this PR\r\n$ scripts/diffcheck.sh\r\n...\r\n$ diff -u -B5 /tmp/before.diff /tmp/after.diff\r\n...\r\n```\r\n\r\nIt's complaining that there are differences in the summaries of BIPs 40 (\"Stratum wire protocol\"), 41 (\"Stratum mining protocol\"), and 63 (\"Stealth addresses\"); which are all changing from \"Standard\" to \"Specification\", but only exist as assigned numbers, with no actual document in the repo. They're all more than a decade old based on git blame's output, so could probably just be removed from the README entirely (though doing that would also trigger the same set of errors).",
       "user": {
         "login": "ajtowns",
         "id": 127186,
@@ -2231,6 +2231,62 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1820#issuecomment-3021876374",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1820"
+    },
+    {
+      "event": "commented",
+      "id": 3022078527,
+      "node_id": "IC_kwDOAN28mc60IUI_",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3022078527",
+      "actor": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-07-01T06:39:17Z",
+      "updated_at": "2025-07-01T06:39:17Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "I wonder if it would be worthwhile splitting the list of BIPs in the README by status. I've had a go at that in a gist here, including an update for the perl script: https://gist.github.com/ajtowns/5a8c504b6ef0e91437614be2840921d7#file-test-mediawiki (also changed the link text to be BIP-nnn instead of just nnn, to make searching for \"bip-3\" easier)",
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1820#issuecomment-3022078527",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1820"
     }
   ],
