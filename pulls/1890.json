@@ -42,7 +42,7 @@
     "body": "This PR addresses the concerns raised in #1885 with regards using `+` as a delimiter, by switching to `-`. Some URI libraries implement RFC 1866's (HTML 2.0) \"keyword\" delimitation in query parameters by decoding `+` as ` ` unconditionally, which necessitates kludgy workarounds.\r\n\r\nAdditionally fragment parameters must now ordered lexicographically (instead of reverse), the motivation for a canonical ordering was to reduce implementation fingerprinting concerns, but the reverse lexicographical ordering was specified simply because that was the behavior that was already implemented in PDK. Since that is somewhat surprising and the delimiter change breaks backwards compatibility anyway, the marginal cost in terms of compatibility of reducing the surprisingness of the reversed ordering is arguably zero, so this is also addressed here.\r\n\r\ncc @kumulynja",
     "labels": [],
     "created_at": "2025-07-05T12:48:46Z",
-    "updated_at": "2025-07-05T12:48:46Z",
+    "updated_at": "2025-07-07T20:04:53Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -152,7 +152,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 16402,
+        "size": 16836,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -269,9 +269,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5651,
-        "stargazers_count": 10024,
-        "watchers_count": 10024,
+        "forks_count": 5653,
+        "stargazers_count": 10026,
+        "watchers_count": 10026,
         "size": 16504,
         "default_branch": "master",
         "open_issues_count": 30,
@@ -287,7 +287,7 @@
         "visibility": "public",
         "pushed_at": "2025-07-03T21:49:17Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-07-05T10:21:15Z",
+        "updated_at": "2025-07-07T04:15:17Z",
         "allow_forking": true
       }
     },
@@ -302,7 +302,7 @@
     "deletions": 9,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 0
   },
   "events": [
@@ -445,7 +445,97 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-07-05T12:48:47Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 2995136700,
+      "node_id": "PRR_kwDOAN28mc6yhii8",
+      "url": null,
+      "actor": null,
+      "commit_id": "315dcc2252c6987307393bd0cf0a6add9bed5b46",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1890#pullrequestreview-2995136700",
+      "submitted_at": "2025-07-07T20:04:53Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1890"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2190926260",
+      "pull_request_review_id": 2995136700,
+      "id": 2190926260,
+      "node_id": "PRRC_kwDOAN28mc6CluG0",
+      "diff_hunk": "@@ -726,6 +728,18 @@ seconds or else the directory should respond with an `unavailable` JSON\n error code as [defined in BIP\n 78](https://github.com/bitcoin/bips/blob/master/bip-0078.mediawiki#receivers-well-known-errors).\n \n+### BIP 77\n+\n+A previous version of this document specified `+` as the fragment parameter\n+separator. This can cause issues due to a common convention (not specified in\n+RFC 3986, but in RFC 1866 in relation to HTML form submission and query\n+parameters, not URI fragments) of representing ` ` with `+` in URI query\n+parameters.\n+\n+As a result of this change implementations are encouraged to still accept `+`\n+delimited fragment parameters for during 2026 (a grace period of just under 6\n+months).\n+",
+      "path": "bip-0077.md",
+      "position": 60,
+      "original_position": 60,
+      "commit_id": "315dcc2252c6987307393bd0cf0a6add9bed5b46",
+      "original_commit_id": "315dcc2252c6987307393bd0cf0a6add9bed5b46",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "This part would perhaps better work in a [\"Changelog\" section](https://github.com/bitcoin/bips/blob/master/bip-0003.md#changelog), given that the Backwards compatibility section usually refers to existing behavior and other proposals.",
+      "created_at": "2025-07-07T20:04:53Z",
+      "updated_at": "2025-07-07T20:04:53Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1890#discussion_r2190926260",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2190926260"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1890"
+        }
+      },
+      "start_line": 731,
+      "original_start_line": 731,
+      "start_side": "RIGHT",
+      "line": 742,
+      "original_line": 742,
+      "side": "RIGHT"
+    }
+  ]
 }
