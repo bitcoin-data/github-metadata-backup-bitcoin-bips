@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1890/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1890/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/315dcc2252c6987307393bd0cf0a6add9bed5b46",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/555dff7cee8bfb7c1d758971d4909a1ff1ab0ff6",
     "number": 1890,
     "state": "open",
     "locked": false,
@@ -42,11 +42,11 @@
     "body": "This PR addresses the concerns raised in #1885 with regards using `+` as a delimiter, by switching to `-`. Some URI libraries implement RFC 1866's (HTML 2.0) \"keyword\" delimitation in query parameters by decoding `+` as ` ` unconditionally, which necessitates kludgy workarounds.\r\n\r\nAdditionally fragment parameters must now ordered lexicographically (instead of reverse), the motivation for a canonical ordering was to reduce implementation fingerprinting concerns, but the reverse lexicographical ordering was specified simply because that was the behavior that was already implemented in PDK. Since that is somewhat surprising and the delimiter change breaks backwards compatibility anyway, the marginal cost in terms of compatibility of reducing the surprisingness of the reversed ordering is arguably zero, so this is also addressed here.\r\n\r\ncc @kumulynja",
     "labels": [],
     "created_at": "2025-07-05T12:48:46Z",
-    "updated_at": "2025-07-07T20:04:53Z",
+    "updated_at": "2025-07-08T11:13:47Z",
     "mergeable": true,
-    "mergeable_state": "clean",
+    "mergeable_state": "unstable",
     "merged": false,
-    "merge_commit_sha": "509a2d1a5d3b17a773c0f1f9914c69f24d517ea9",
+    "merge_commit_sha": "a4a99f0ca1d3e8720941dddb424d1e37f5048cf0",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -54,7 +54,7 @@
     "head": {
       "label": "nothingmuch:fragment-fixes",
       "ref": "fragment-fixes",
-      "sha": "315dcc2252c6987307393bd0cf0a6add9bed5b46",
+      "sha": "555dff7cee8bfb7c1d758971d4909a1ff1ab0ff6",
       "user": {
         "login": "nothingmuch",
         "id": 14242,
@@ -165,7 +165,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-07-05T12:48:07Z",
+        "pushed_at": "2025-07-08T11:13:41Z",
         "created_at": "2018-11-06T14:13:02Z",
         "updated_at": "2018-11-06T14:13:05Z",
         "allow_forking": true
@@ -269,9 +269,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5653,
-        "stargazers_count": 10026,
-        "watchers_count": 10026,
+        "forks_count": 5655,
+        "stargazers_count": 10025,
+        "watchers_count": 10025,
         "size": 16504,
         "default_branch": "master",
         "open_issues_count": 30,
@@ -287,7 +287,7 @@
         "visibility": "public",
         "pushed_at": "2025-07-03T21:49:17Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-07-07T04:15:17Z",
+        "updated_at": "2025-07-08T11:50:05Z",
         "allow_forking": true
       }
     },
@@ -298,11 +298,11 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 23,
+    "additions": 26,
     "deletions": 9,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 1,
+    "review_comments": 2,
     "comments": 0
   },
   "events": [
@@ -345,46 +345,6 @@
         "date": "2025-07-03T14:24:02Z"
       },
       "sha": "7ea6cfe64ff6bc76a32cce363f6f6484bdfe56ed"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDMxNWRjYzIyNTJjNjk4NzMwNzM5M2JkMGNmMGE2YWRkOWJlZDViNDY",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/315dcc2252c6987307393bd0cf0a6add9bed5b46",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/315dcc2252c6987307393bd0cf0a6add9bed5b46",
-      "tree": {
-        "sha": "01733201da4285a0f68eb18aa13567f5c94139ed",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/01733201da4285a0f68eb18aa13567f5c94139ed"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/7ea6cfe64ff6bc76a32cce363f6f6484bdfe56ed",
-          "sha": "7ea6cfe64ff6bc76a32cce363f6f6484bdfe56ed",
-          "html_url": "https://github.com/bitcoin/bips/commit/7ea6cfe64ff6bc76a32cce363f6f6484bdfe56ed"
-        }
-      ],
-      "message": "Specify lexicographical order for fragment params\n\nThe rationale for this change is that since `-` instead of `+` breaks\ncompatibility anyway, the marginal cost of removing this\nunusual/surprising requirement for reverse lexicographical ordering is\nzero.",
-      "committer": {
-        "name": "Yuval Kogman",
-        "email": "nothingmuch@woobling.org",
-        "date": "2025-07-05T12:48:01Z"
-      },
-      "author": {
-        "name": "Yuval Kogman",
-        "email": "nothingmuch@woobling.org",
-        "date": "2025-07-03T14:25:36Z"
-      },
-      "sha": "315dcc2252c6987307393bd0cf0a6add9bed5b46"
     },
     {
       "event": "mentioned",
@@ -481,6 +441,106 @@
       "submitted_at": "2025-07-07T20:04:53Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1890"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 18523836933,
+      "node_id": "HRFPE_lADOAN28mc6_BuTVzwAAAARQG1IF",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18523836933",
+      "actor": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": "8d742c30f69d2ca31b6674330d0f1b2dd658cdc5",
+      "commit_url": "https://api.github.com/repos/nothingmuch/bips/commits/8d742c30f69d2ca31b6674330d0f1b2dd658cdc5",
+      "created_at": "2025-07-08T11:11:40Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDU1NWRmZjdjZWU4YmZiN2MxZDc1ODk3MWQ0OTA5YTFmZjFhYjBmZjY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/555dff7cee8bfb7c1d758971d4909a1ff1ab0ff6",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/555dff7cee8bfb7c1d758971d4909a1ff1ab0ff6",
+      "tree": {
+        "sha": "7a16f1208ec9575abe0c306248c2ce579bd6f3ee",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/7a16f1208ec9575abe0c306248c2ce579bd6f3ee"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/7ea6cfe64ff6bc76a32cce363f6f6484bdfe56ed",
+          "sha": "7ea6cfe64ff6bc76a32cce363f6f6484bdfe56ed",
+          "html_url": "https://github.com/bitcoin/bips/commit/7ea6cfe64ff6bc76a32cce363f6f6484bdfe56ed"
+        }
+      ],
+      "message": "Specify lexicographical order for fragment params\n\nThe rationale for this change is that since `-` instead of `+` breaks\ncompatibility anyway, the marginal cost of removing this\nunusual/surprising requirement for reverse lexicographical ordering is\nzero.",
+      "committer": {
+        "name": "Yuval Kogman",
+        "email": "nothingmuch@woobling.org",
+        "date": "2025-07-08T11:13:37Z"
+      },
+      "author": {
+        "name": "Yuval Kogman",
+        "email": "nothingmuch@woobling.org",
+        "date": "2025-07-03T14:25:36Z"
+      },
+      "sha": "555dff7cee8bfb7c1d758971d4909a1ff1ab0ff6"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 18523867714,
+      "node_id": "HRFPE_lADOAN28mc6_BuTVzwAAAARQG8pC",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18523867714",
+      "actor": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": "555dff7cee8bfb7c1d758971d4909a1ff1ab0ff6",
+      "commit_url": "https://api.github.com/repos/nothingmuch/bips/commits/555dff7cee8bfb7c1d758971d4909a1ff1ab0ff6",
+      "created_at": "2025-07-08T11:13:42Z"
     }
   ],
   "comments": [
@@ -491,9 +551,9 @@
       "node_id": "PRRC_kwDOAN28mc6CluG0",
       "diff_hunk": "@@ -726,6 +728,18 @@ seconds or else the directory should respond with an `unavailable` JSON\n error code as [defined in BIP\n 78](https://github.com/bitcoin/bips/blob/master/bip-0078.mediawiki#receivers-well-known-errors).\n \n+### BIP 77\n+\n+A previous version of this document specified `+` as the fragment parameter\n+separator. This can cause issues due to a common convention (not specified in\n+RFC 3986, but in RFC 1866 in relation to HTML form submission and query\n+parameters, not URI fragments) of representing ` ` with `+` in URI query\n+parameters.\n+\n+As a result of this change implementations are encouraged to still accept `+`\n+delimited fragment parameters for during 2026 (a grace period of just under 6\n+months).\n+",
       "path": "bip-0077.md",
-      "position": 60,
+      "position": null,
       "original_position": 60,
-      "commit_id": "315dcc2252c6987307393bd0cf0a6add9bed5b46",
+      "commit_id": "555dff7cee8bfb7c1d758971d4909a1ff1ab0ff6",
       "original_commit_id": "315dcc2252c6987307393bd0cf0a6add9bed5b46",
       "in_reply_to_id": null,
       "user": {
@@ -530,10 +590,63 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1890"
         }
       },
-      "start_line": 731,
+      "start_line": null,
       "original_start_line": 731,
       "start_side": "RIGHT",
-      "line": 742,
+      "line": null,
+      "original_line": 742,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2192204221",
+      "pull_request_review_id": 2997141435,
+      "id": 2192204221,
+      "node_id": "PRRC_kwDOAN28mc6CqmG9",
+      "diff_hunk": "@@ -726,6 +728,18 @@ seconds or else the directory should respond with an `unavailable` JSON\n error code as [defined in BIP\n 78](https://github.com/bitcoin/bips/blob/master/bip-0078.mediawiki#receivers-well-known-errors).\n \n+### BIP 77\n+\n+A previous version of this document specified `+` as the fragment parameter\n+separator. This can cause issues due to a common convention (not specified in\n+RFC 3986, but in RFC 1866 in relation to HTML form submission and query\n+parameters, not URI fragments) of representing ` ` with `+` in URI query\n+parameters.\n+\n+As a result of this change implementations are encouraged to still accept `+`\n+delimited fragment parameters for during 2026 (a grace period of just under 6\n+months).\n+",
+      "path": "bip-0077.md",
+      "position": null,
+      "original_position": 60,
+      "commit_id": "555dff7cee8bfb7c1d758971d4909a1ff1ab0ff6",
+      "original_commit_id": "315dcc2252c6987307393bd0cf0a6add9bed5b46",
+      "in_reply_to_id": 2190926260,
+      "user": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Thanks, I forgot about that part of BIP 3 but that does make a lot more sense.\r\n\r\nI retroactively called the merged draft 0.1.0, and this updated version 0.2.0, and moved the compatibility grace period recommendation to the section defining the fragment parameters, since that didn't seem to make sense in the changelog.",
+      "created_at": "2025-07-08T11:13:46Z",
+      "updated_at": "2025-07-08T11:13:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1890#discussion_r2192204221",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2192204221"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1890"
+        }
+      },
+      "start_line": null,
+      "original_start_line": 731,
+      "start_side": "RIGHT",
+      "line": null,
       "original_line": 742,
       "side": "RIGHT"
     }
