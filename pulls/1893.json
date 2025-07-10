@@ -12,12 +12,12 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1893/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1893/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/6707c35bbda9d6606078ce29b2a08b716e3add87",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/2bcf4207f14fdfbf3de16cfe7a90029aa4ce02d4",
     "number": 1893,
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "[WIP] Correct and enforce field ordering",
+    "title": "Fix and enforce BIP 2 & 3 field ordering",
     "user": {
       "login": "nothingmuch",
       "id": 14242,
@@ -39,14 +39,14 @@
       "site_admin": false,
       "patch_url": null
     },
-    "body": "The first commit enforces that fields are sorted as per BIP 3, but does not strictly depend on #1820 \r\n\r\nThe last two commits are intended to be a scripted diff and should be rebased such that it precedes the current first commit, however due to some ambiguity in the desired field ordering and lack of scripted diff tooling in this repository, the script is instead introduced as a file, and the last commit is just to demonstrating the effects of running that script",
+    "body": "The first commit is a scripted diff that enforces BIP 2's specified field ordering.\r\n\r\nThe second commit enforces that fields are ordered consistently with both BIP 2 and BIP 3. It does not strictly depend on #1820.",
     "labels": [],
     "created_at": "2025-07-10T00:32:04Z",
-    "updated_at": "2025-07-10T00:34:38Z",
+    "updated_at": "2025-07-10T01:59:50Z",
     "mergeable": true,
-    "mergeable_state": "unstable",
+    "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "9eb26322acf7fbb47247b3641c0ce51b1f54debe",
+    "merge_commit_sha": "e198c861f315c45e6f614da4e5c920a7ebb280ab",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -54,7 +54,7 @@
     "head": {
       "label": "nothingmuch:field-ordering",
       "ref": "field-ordering",
-      "sha": "6707c35bbda9d6606078ce29b2a08b716e3add87",
+      "sha": "2bcf4207f14fdfbf3de16cfe7a90029aa4ce02d4",
       "user": {
         "login": "nothingmuch",
         "id": 14242,
@@ -165,7 +165,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-07-10T00:27:09Z",
+        "pushed_at": "2025-07-10T01:47:10Z",
         "created_at": "2018-11-06T14:13:02Z",
         "updated_at": "2018-11-06T14:13:05Z",
         "allow_forking": true
@@ -297,135 +297,15 @@
       }
     },
     "author_association": "CONTRIBUTOR",
-    "draft": true,
-    "additions": 146,
-    "deletions": 15,
-    "changed_files": 11,
-    "commits": 3,
+    "draft": false,
+    "additions": 43,
+    "deletions": 14,
+    "changed_files": 10,
+    "commits": 2,
     "review_comments": 0,
-    "comments": 0
+    "comments": 1
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDY0MmJhOGEyNDRiMmE0MjBlMjdiNTM2MWFlYmQzYjg5MjI3ZTczNGE",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/642ba8a244b2a420e27b5361aebd3b89227e734a",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/642ba8a244b2a420e27b5361aebd3b89227e734a",
-      "tree": {
-        "sha": "dab851d403808b734034220033d5fec3b1dc30b3",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/dab851d403808b734034220033d5fec3b1dc30b3"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c17a3dbcebafb6d48a8510438ab9dab58ece1add",
-          "sha": "c17a3dbcebafb6d48a8510438ab9dab58ece1add",
-          "html_url": "https://github.com/bitcoin/bips/commit/c17a3dbcebafb6d48a8510438ab9dab58ece1add"
-        }
-      ],
-      "message": "CI: Enforce field ordering requirement",
-      "committer": {
-        "name": "Yuval Kogman",
-        "email": "nothingmuch@woobling.org",
-        "date": "2025-07-09T23:36:29Z"
-      },
-      "author": {
-        "name": "Yuval Kogman",
-        "email": "nothingmuch@woobling.org",
-        "date": "2025-07-09T23:36:29Z"
-      },
-      "sha": "642ba8a244b2a420e27b5361aebd3b89227e734a"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDExMjdlN2Y3NWZlZDFmY2EyNTY3NzQ0OWE1NGE4ZjdiMmQ2NzJkMDI",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1127e7f75fed1fca25677449a54a8f7b2d672d02",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/1127e7f75fed1fca25677449a54a8f7b2d672d02",
-      "tree": {
-        "sha": "34dc1f7b6688296e528ae02b94a93e6d480494a6",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/34dc1f7b6688296e528ae02b94a93e6d480494a6"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/642ba8a244b2a420e27b5361aebd3b89227e734a",
-          "sha": "642ba8a244b2a420e27b5361aebd3b89227e734a",
-          "html_url": "https://github.com/bitcoin/bips/commit/642ba8a244b2a420e27b5361aebd3b89227e734a"
-        }
-      ],
-      "message": "[WIP] script to sort fields\n\nThis is intended to become a scripted diff for the next commit, but for\nnow is added as a file because the desired field order is still\nambiguous\n\nthe current @FieldOrder definition contains fields whose order is not\nspecified by BIP 3, and inserts these additional ones in ad-hoc\npositions to more or less minimize the resulting diffs",
-      "committer": {
-        "name": "Yuval Kogman",
-        "email": "nothingmuch@woobling.org",
-        "date": "2025-07-10T00:25:13Z"
-      },
-      "author": {
-        "name": "Yuval Kogman",
-        "email": "nothingmuch@woobling.org",
-        "date": "2025-07-10T00:24:55Z"
-      },
-      "sha": "1127e7f75fed1fca25677449a54a8f7b2d672d02"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDY3MDdjMzViYmRhOWQ2NjA2MDc4Y2UyOWIyYTA4YjcxNmUzYWRkODc",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6707c35bbda9d6606078ce29b2a08b716e3add87",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/6707c35bbda9d6606078ce29b2a08b716e3add87",
-      "tree": {
-        "sha": "d39076aa1ba51d606a9c32613e049517563bdc19",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/d39076aa1ba51d606a9c32613e049517563bdc19"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1127e7f75fed1fca25677449a54a8f7b2d672d02",
-          "sha": "1127e7f75fed1fca25677449a54a8f7b2d672d02",
-          "html_url": "https://github.com/bitcoin/bips/commit/1127e7f75fed1fca25677449a54a8f7b2d672d02"
-        }
-      ],
-      "message": "[WIP] apply field sorting",
-      "committer": {
-        "name": "Yuval Kogman",
-        "email": "nothingmuch@woobling.org",
-        "date": "2025-07-10T00:27:00Z"
-      },
-      "author": {
-        "name": "Yuval Kogman",
-        "email": "nothingmuch@woobling.org",
-        "date": "2025-07-10T00:25:05Z"
-      },
-      "sha": "6707c35bbda9d6606078ce29b2a08b716e3add87"
-    },
     {
       "event": "renamed",
       "id": 18555552059,
@@ -459,6 +339,296 @@
         "from": "Field ordering",
         "to": "[WIP] Correct and enforce field ordering"
       }
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 18555901564,
+      "node_id": "HRFPE_lADOAN28mc6_xygpzwAAAARSBJZ8",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18555901564",
+      "actor": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": "6aa421314e49b3710c88a6cd3ad51a9bd81da037",
+      "commit_url": "https://api.github.com/repos/nothingmuch/bips/commits/6aa421314e49b3710c88a6cd3ad51a9bd81da037",
+      "created_at": "2025-07-10T01:11:44Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGNmZDVkNTk2NTNlYjNhOTUwM2Y1ZDc1MzI4MTA4M2Q3MDZhYmM1ZjI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/cfd5d59653eb3a9503f5d753281083d706abc5f2",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/cfd5d59653eb3a9503f5d753281083d706abc5f2",
+      "tree": {
+        "sha": "8368b94d12b727abdd97c1430bec9d4361bb82c1",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/8368b94d12b727abdd97c1430bec9d4361bb82c1"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c17a3dbcebafb6d48a8510438ab9dab58ece1add",
+          "sha": "c17a3dbcebafb6d48a8510438ab9dab58ece1add",
+          "html_url": "https://github.com/bitcoin/bips/commit/c17a3dbcebafb6d48a8510438ab9dab58ece1add"
+        }
+      ],
+      "message": "scripted-diff: fix BIP 2 field order violations\n\n-BEGIN VERIFY SCRIPT-\nset -e\nperl <<'-END PERL-'\nuse strict;\nuse warnings;\n\nmy $topbip = 9999;\n\nmy @FieldOrder = qw(\n\tBIP\n\tLayer\n\tTitle\n\tAuthor\n\tAuthors\n\tEditor\n\tDeputies\n\tDiscussions-To\n\tComments-Summary\n\tComments-URI\n\tStatus\n\tType\n\tCreated\n\tLicense\n\tLicense-Code\n\tDiscussion\n\tPost-History\n\tVersion\n\tRequires\n\tReplaces\n\tProposed-Replacement\n\tSuperseded-By\n);\n\nmy $bipnum = 0;\nwhile (++$bipnum <= $topbip) {\n\tmy $fn = sprintf \"bip-%04d.mediawiki\", $bipnum;\n\tmy $is_markdown = 0;\n\tif (!-e $fn) {\n\t\t$fn = sprintf \"bip-%04d.md\", $bipnum;\n\t\t$is_markdown = 1;\n\t}\n\t-e $fn || next;\n\topen my $F, \"<\", $fn or die \"$!\";\n\n\tmy (@before, %preamble, @after);\n\n\tif ($is_markdown) {\n\t\twhile (<$F>) {\n\t\t\tpush @before, $_;\n\t\t\tlast if m[^(?:\\xef\\xbb\\xbf)?```$]\n\t\t}\n\t\tdie \"No ``` in $fn\" if eof $F;\n\t} else {\n\t\twhile (<$F>) {\n\t\t\tpush @before, $_;\n\t\t\tlast if m[^(?:\\xef\\xbb\\xbf)?<pre>$];\n\t\t}\n\t\tdie \"No <pre> in $fn\" if eof $F;\n\t}\n\tmy %found;\n\tmy ($title, $author, $status, $type, $layer);\n\tmy ($field, $val, @field_order);\n\twhile (<$F>) {\n\t\tpush @after, $_ and last if ($is_markdown && m[^```$]);\n\t\tpush @after, $_ and last if (!$is_markdown && m[^</pre>$]);\n\n\t\tif (m[^  ([\\w-]+)\\: (.*\\S)$]) {\n\t\t\t$field = $1;\n\t\t\t$val = $2;\n\t\t} elsif (m[^  ( +)(.*\\S)$]) {\n\t\t\t$val = $2;\n\t\t} else {\n\t\t\tdie \"Bad line in $fn preamble\";\n\t\t}\n\n\t\tpush @{$preamble{$field} ||= []}, $_;\n\t}\n\tpush @after, <$F>;\n\tclose $F or die $!;\n\n\topen my $W, \">\", \"$fn\" or die \"$!\";\n\n\tprint $W @before;\n\tprint $W map { @$_ } grep { defined } delete @preamble{@FieldOrder};\n\tdie \"Unknown fields: @{[ keys %preamble ]}\" if %preamble;\n\tprint $W @after;\n\n\tclose $W or die $!;\n}\n-END PERL-\n-END VERIFY SCRIPT-",
+      "committer": {
+        "name": "Yuval Kogman",
+        "email": "nothingmuch@woobling.org",
+        "date": "2025-07-10T01:40:49Z"
+      },
+      "author": {
+        "name": "Yuval Kogman",
+        "email": "nothingmuch@woobling.org",
+        "date": "2025-07-10T00:24:55Z"
+      },
+      "sha": "cfd5d59653eb3a9503f5d753281083d706abc5f2"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 18556151694,
+      "node_id": "HRFPE_lADOAN28mc6_xygpzwAAAARSCGeO",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18556151694",
+      "actor": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": "69d5303274ffa467dba33f4befef3063e01b3439",
+      "commit_url": "https://api.github.com/repos/nothingmuch/bips/commits/69d5303274ffa467dba33f4befef3063e01b3439",
+      "created_at": "2025-07-10T01:41:31Z"
+    },
+    {
+      "event": "renamed",
+      "id": 18556155443,
+      "node_id": "RTE_lADOAN28mc6_xygpzwAAAARSCHYz",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18556155443",
+      "actor": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-07-10T01:42:01Z",
+      "rename": {
+        "from": "[WIP] Correct and enforce field ordering",
+        "to": "Fix and enforce BIP 2 & 3 field ordering"
+      }
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDJiY2Y0MjA3ZjE0ZmRmYmYzZGUxNmNmZTdhOTAwMjlhYTRjZTAyZDQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/2bcf4207f14fdfbf3de16cfe7a90029aa4ce02d4",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/2bcf4207f14fdfbf3de16cfe7a90029aa4ce02d4",
+      "tree": {
+        "sha": "4ef34737d8a71a0443ed20398cddb6fd9e694f3c",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/4ef34737d8a71a0443ed20398cddb6fd9e694f3c"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/cfd5d59653eb3a9503f5d753281083d706abc5f2",
+          "sha": "cfd5d59653eb3a9503f5d753281083d706abc5f2",
+          "html_url": "https://github.com/bitcoin/bips/commit/cfd5d59653eb3a9503f5d753281083d706abc5f2"
+        }
+      ],
+      "message": "CI: Enforce BIP 2 & 3 field ordering requirements\n\nThe specified field order is consistent with both BIPs 2 and 3. The\nordering of fields which are only present in one or the other is\nambiguous, e.g. as in `Proposed-Replacement` and `Superseded-By` but\nonly one of these applies to a given BIP.\n\nThe `Editor` field is spurious, only being used in BIP 69, and appears\nafter Author.",
+      "committer": {
+        "name": "Yuval Kogman",
+        "email": "nothingmuch@woobling.org",
+        "date": "2025-07-10T01:47:08Z"
+      },
+      "author": {
+        "name": "Yuval Kogman",
+        "email": "nothingmuch@woobling.org",
+        "date": "2025-07-09T23:36:29Z"
+      },
+      "sha": "2bcf4207f14fdfbf3de16cfe7a90029aa4ce02d4"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 18556191761,
+      "node_id": "HRFPE_lADOAN28mc6_xygpzwAAAARSCQQR",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18556191761",
+      "actor": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": "2bcf4207f14fdfbf3de16cfe7a90029aa4ce02d4",
+      "commit_url": "https://api.github.com/repos/nothingmuch/bips/commits/2bcf4207f14fdfbf3de16cfe7a90029aa4ce02d4",
+      "created_at": "2025-07-10T01:47:11Z"
+    },
+    {
+      "event": "ready_for_review",
+      "id": 18556197847,
+      "node_id": "RFRE_lADOAN28mc6_xygpzwAAAARSCRvX",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18556197847",
+      "actor": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-07-10T01:47:26Z"
+    },
+    {
+      "event": "commented",
+      "id": 3054954987,
+      "node_id": "IC_kwDOAN28mc62Funr",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3054954987",
+      "actor": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-07-10T01:49:41Z",
+      "updated_at": "2025-07-10T01:49:41Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Tested with https://github.com/bitcoin/bitcoin/blob/a40e9536588c366886de4f4b9d67b8665a509929/test/lint/commit-script-check.sh",
+      "user": {
+        "login": "nothingmuch",
+        "id": 14242,
+        "node_id": "MDQ6VXNlcjE0MjQy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/14242?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nothingmuch",
+        "html_url": "https://github.com/nothingmuch",
+        "followers_url": "https://api.github.com/users/nothingmuch/followers",
+        "following_url": "https://api.github.com/users/nothingmuch/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nothingmuch/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nothingmuch/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nothingmuch/subscriptions",
+        "organizations_url": "https://api.github.com/users/nothingmuch/orgs",
+        "repos_url": "https://api.github.com/users/nothingmuch/repos",
+        "events_url": "https://api.github.com/users/nothingmuch/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nothingmuch/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1893#issuecomment-3054954987",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1893"
     }
   ],
   "comments": []
