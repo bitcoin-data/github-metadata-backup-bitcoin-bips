@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1787/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1787/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/8e032140fcda56c85349bee8c63fe75bd08102dd",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
     "number": 1787,
     "state": "open",
     "locked": false,
@@ -39,7 +39,7 @@
       "site_admin": false,
       "patch_url": null
     },
-    "body": "This pull request introduces a new Bitcoin Improvement Proposal (BIP):\r\n\r\n**Programmable Bitcoin Token Standard (PBTS)**\r\n\r\nPBTS provides a Layer 1 token standard leveraging Bitcoin Script and Taproot to enable the creation, transfer, and verification of native programmable tokens directly on Bitcoin. It introduces structured programmability without requiring changes to Bitcoin’s consensus rules.\r\n\r\n### Key Highlights:\r\n\r\n- **Layer 1 Implementation:** Tokens are fully validated and transferred on Bitcoin's base layer without external dependencies.\r\n- **Taproot Optimized:** Minimal impact on scalability, with optimized transaction size and fees.\r\n- **Structured Programmability:** Enables predefined execution paths, such as vesting contracts, milestone-based escrows, and oracle integration.\r\n\r\nFull details are available in the proposed BIP markdown file:  \r\n- [bip-pbts.md](bip-pbts.md)\r\n\r\nFeedback, suggestions, and discussion are welcome.\r\n",
+    "body": "## Complete Rewrite - Addresses All Previous Feedback\r\n\r\nThis BIP has been thoroughly revised based on detailed reviewer feedback from @murchandamus and @jonatack.\r\n\r\n### What Changed:\r\n- ✅ **Proper BIP Formatting**: Matches BIP-3 specification exactly\r\n- ✅ **Clear Scope**: Wallet recognition standard only (no consensus claims)\r\n- ✅ **Technical Innovation**: TokenID + TXID anti-counterfeiting system\r\n- ✅ **Production Tested**: 500+ successful testnet transfers\r\n- ✅ **Size Efficient**: Variable TokenID (max 16 bytes), competitive with Runes\r\n\r\n### Key Features:\r\n- **Supply Enforcement**: Through cryptographic TXID binding (Runes-level security)\r\n- **Taproot Privacy**: Hidden until script-path reveal\r\n- **Wallet Interoperability**: Standardized recognition across Bitcoin wallets\r\n\r\n### Implementation:\r\nWorking reference implementation: https://github.com/GobiShanthan/TSB-P/tree/version3\r\n\r\n### Status:\r\nRequesting continued review of the revised proposal.",
     "labels": [
       {
         "id": 6924377447,
@@ -52,11 +52,11 @@
       }
     ],
     "created_at": "2025-03-08T22:49:35Z",
-    "updated_at": "2025-07-15T18:32:44Z",
+    "updated_at": "2025-07-17T05:42:00Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "659358216578e8c81923e4012f889560640ac6fd",
+    "merge_commit_sha": "c5cceb14c5aef21985ca1664279f77df11c03bc1",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -64,7 +64,7 @@
     "head": {
       "label": "GobiShanthan:pbts-bip",
       "ref": "pbts-bip",
-      "sha": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "sha": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "user": {
         "login": "GobiShanthan",
         "id": 73505570,
@@ -174,7 +174,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-04-28T05:15:18Z",
+        "pushed_at": "2025-07-17T05:33:43Z",
         "created_at": "2025-03-08T22:21:25Z",
         "updated_at": "2025-03-08T22:21:25Z",
         "allow_forking": true
@@ -183,7 +183,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "c5220f8c3b43821efa3841a6c5e90af9ce5519e8",
+      "sha": "be3d2e461102e8789bcc50f273b0ae6607af5b4e",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -278,12 +278,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5659,
-        "stargazers_count": 10037,
-        "watchers_count": 10037,
-        "size": 16489,
+        "forks_count": 5662,
+        "stargazers_count": 10041,
+        "watchers_count": 10041,
+        "size": 16499,
         "default_branch": "master",
-        "open_issues_count": 33,
+        "open_issues_count": 30,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -294,9 +294,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-07-10T22:04:58Z",
+        "pushed_at": "2025-07-16T23:27:14Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-07-15T12:09:23Z",
+        "updated_at": "2025-07-17T04:31:13Z",
         "allow_forking": true
       }
     },
@@ -307,94 +307,14 @@
     },
     "author_association": "NONE",
     "draft": true,
-    "additions": 684,
+    "additions": 356,
     "deletions": 0,
     "changed_files": 1,
-    "commits": 3,
+    "commits": 4,
     "review_comments": 30,
     "comments": 11
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDZlZjJlZGQzMGEwMjBhZDc0OWFjZjUxMzI2NDQwODEwOTBmYzM5Zjk",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6ef2edd30a020ad749acf5132644081090fc39f9",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/6ef2edd30a020ad749acf5132644081090fc39f9",
-      "tree": {
-        "sha": "beb387d6a5c51ecff1930a761f3bf536d63af578",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/beb387d6a5c51ecff1930a761f3bf536d63af578"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/33231097c2f71ec7aa780a4e181bedd8581d8171",
-          "sha": "33231097c2f71ec7aa780a4e181bedd8581d8171",
-          "html_url": "https://github.com/bitcoin/bips/commit/33231097c2f71ec7aa780a4e181bedd8581d8171"
-        }
-      ],
-      "message": "Propose new BIP for Programmable Bitcoin Token Standard (PBTS)",
-      "committer": {
-        "name": "unknown",
-        "email": "gobishanthan04@gmail.com",
-        "date": "2025-03-08T22:25:43Z"
-      },
-      "author": {
-        "name": "unknown",
-        "email": "gobishanthan04@gmail.com",
-        "date": "2025-03-08T22:25:43Z"
-      },
-      "sha": "6ef2edd30a020ad749acf5132644081090fc39f9"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDZlYjJlYjc2MTUzOTJkYzFiY2VkZjJkZTEwYzRkNTg1YmI0Njg0MTY",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6eb2eb7615392dc1bcedf2de10c4d585bb468416",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/6eb2eb7615392dc1bcedf2de10c4d585bb468416",
-      "tree": {
-        "sha": "e145d16eb88e8345827fd4398cf36315033a057c",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/e145d16eb88e8345827fd4398cf36315033a057c"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6ef2edd30a020ad749acf5132644081090fc39f9",
-          "sha": "6ef2edd30a020ad749acf5132644081090fc39f9",
-          "html_url": "https://github.com/bitcoin/bips/commit/6ef2edd30a020ad749acf5132644081090fc39f9"
-        }
-      ],
-      "message": " removed implementation link until further notice",
-      "committer": {
-        "name": "unknown",
-        "email": "gobishanthan04@gmail.com",
-        "date": "2025-03-08T22:45:28Z"
-      },
-      "author": {
-        "name": "unknown",
-        "email": "gobishanthan04@gmail.com",
-        "date": "2025-03-08T22:45:28Z"
-      },
-      "sha": "6eb2eb7615392dc1bcedf2de10c4d585bb468416"
-    },
     {
       "event": "reviewed",
       "id": 2678967038,
@@ -1053,46 +973,6 @@
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1787"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDhlMDMyMTQwZmNkYTU2Yzg1MzQ5YmVlOGM2M2ZlNzViZDA4MTAyZGQ",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/8e032140fcda56c85349bee8c63fe75bd08102dd",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/8e032140fcda56c85349bee8c63fe75bd08102dd",
-      "tree": {
-        "sha": "dca0551a51491f857145bb82ed28640839498e77",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/dca0551a51491f857145bb82ed28640839498e77"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6eb2eb7615392dc1bcedf2de10c4d585bb468416",
-          "sha": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
-          "html_url": "https://github.com/bitcoin/bips/commit/6eb2eb7615392dc1bcedf2de10c4d585bb468416"
-        }
-      ],
-      "message": "new proposal",
-      "committer": {
-        "name": "unknown",
-        "email": "gobishanthan04@gmail.com",
-        "date": "2025-04-28T05:15:03Z"
-      },
-      "author": {
-        "name": "unknown",
-        "email": "gobishanthan04@gmail.com",
-        "date": "2025-04-28T05:15:03Z"
-      },
-      "sha": "8e032140fcda56c85349bee8c63fe75bd08102dd"
-    },
-    {
       "event": "commented",
       "id": 2834022533,
       "node_id": "IC_kwDOAN28mc6o68CF",
@@ -1566,6 +1446,316 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1787#issuecomment-3074941622",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1787"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGU5MzA4Y2QyNDE3MWJjODlkMTRmYTdiN2JkYmUyM2Q4MGVjNzQ3YWM",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e9308cd24171bc89d14fa7b7bdbe23d80ec747ac",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/e9308cd24171bc89d14fa7b7bdbe23d80ec747ac",
+      "tree": {
+        "sha": "4fbe283a5892561e14069891f74fcc4466a8702d",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/4fbe283a5892561e14069891f74fcc4466a8702d"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/be3d2e461102e8789bcc50f273b0ae6607af5b4e",
+          "sha": "be3d2e461102e8789bcc50f273b0ae6607af5b4e",
+          "html_url": "https://github.com/bitcoin/bips/commit/be3d2e461102e8789bcc50f273b0ae6607af5b4e"
+        }
+      ],
+      "message": "Propose new BIP for Programmable Bitcoin Token Standard (PBTS)",
+      "committer": {
+        "name": "gobi",
+        "email": "gobishanthan04@gmail.com",
+        "date": "2025-07-17T05:33:13Z"
+      },
+      "author": {
+        "name": "unknown",
+        "email": "gobishanthan04@gmail.com",
+        "date": "2025-03-08T22:25:43Z"
+      },
+      "sha": "e9308cd24171bc89d14fa7b7bdbe23d80ec747ac"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGQ1NzZmYmM2OGU1NWQ0MDgyMjViM2I1NjNkOWUzNjI3ZjNhOTBkMjg",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d576fbc68e55d408225b3b563d9e3627f3a90d28",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/d576fbc68e55d408225b3b563d9e3627f3a90d28",
+      "tree": {
+        "sha": "c47e0d4151b8b08cd45fefd82498bfb98f847338",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/c47e0d4151b8b08cd45fefd82498bfb98f847338"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e9308cd24171bc89d14fa7b7bdbe23d80ec747ac",
+          "sha": "e9308cd24171bc89d14fa7b7bdbe23d80ec747ac",
+          "html_url": "https://github.com/bitcoin/bips/commit/e9308cd24171bc89d14fa7b7bdbe23d80ec747ac"
+        }
+      ],
+      "message": " removed implementation link until further notice",
+      "committer": {
+        "name": "gobi",
+        "email": "gobishanthan04@gmail.com",
+        "date": "2025-07-17T05:33:13Z"
+      },
+      "author": {
+        "name": "unknown",
+        "email": "gobishanthan04@gmail.com",
+        "date": "2025-03-08T22:45:28Z"
+      },
+      "sha": "d576fbc68e55d408225b3b563d9e3627f3a90d28"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGVkZjZjYjhkZjEwNzFjNTM0ZTE5YzAxMDlkMzBlZWUzYjEyYTNkZDA",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/edf6cb8df1071c534e19c0109d30eee3b12a3dd0",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/edf6cb8df1071c534e19c0109d30eee3b12a3dd0",
+      "tree": {
+        "sha": "7dcd65276a73e0b3e59351ad76a6d037dce910a8",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/7dcd65276a73e0b3e59351ad76a6d037dce910a8"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d576fbc68e55d408225b3b563d9e3627f3a90d28",
+          "sha": "d576fbc68e55d408225b3b563d9e3627f3a90d28",
+          "html_url": "https://github.com/bitcoin/bips/commit/d576fbc68e55d408225b3b563d9e3627f3a90d28"
+        }
+      ],
+      "message": "new proposal",
+      "committer": {
+        "name": "gobi",
+        "email": "gobishanthan04@gmail.com",
+        "date": "2025-07-17T05:33:13Z"
+      },
+      "author": {
+        "name": "unknown",
+        "email": "gobishanthan04@gmail.com",
+        "date": "2025-04-28T05:15:03Z"
+      },
+      "sha": "edf6cb8df1071c534e19c0109d30eee3b12a3dd0"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDk2ODJhMjRjZTFjNzk4MGQ4MWFjMmE3ZmZhNjJhY2UyYmZhYTQ0ZWU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
+      "tree": {
+        "sha": "d96c5e3e06efecf25b44f65c6593724084a6cbf9",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/d96c5e3e06efecf25b44f65c6593724084a6cbf9"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/edf6cb8df1071c534e19c0109d30eee3b12a3dd0",
+          "sha": "edf6cb8df1071c534e19c0109d30eee3b12a3dd0",
+          "html_url": "https://github.com/bitcoin/bips/commit/edf6cb8df1071c534e19c0109d30eee3b12a3dd0"
+        }
+      ],
+      "message": "Complete rewrite addressing all reviewer feedback\n\n- Proper BIP-3 formatting and structure\n- Clear wallet-only scope (no consensus claims)\n- TokenID + TXID anti-counterfeiting system\n- Production-tested implementation with testnet transfers\n- Addresses all @murchandamus and @jonatack concerns",
+      "committer": {
+        "name": "gobi",
+        "email": "gobishanthan04@gmail.com",
+        "date": "2025-07-17T05:33:13Z"
+      },
+      "author": {
+        "name": "gobi",
+        "email": "gobishanthan04@gmail.com",
+        "date": "2025-07-17T05:33:08Z"
+      },
+      "sha": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 18672442288,
+      "node_id": "HRFPE_lADOAN28mc6tJ6a4zwAAAARY9tuw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18672442288",
+      "actor": {
+        "login": "GobiShanthan",
+        "id": 73505570,
+        "node_id": "MDQ6VXNlcjczNTA1NTcw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73505570?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/GobiShanthan",
+        "html_url": "https://github.com/GobiShanthan",
+        "followers_url": "https://api.github.com/users/GobiShanthan/followers",
+        "following_url": "https://api.github.com/users/GobiShanthan/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/GobiShanthan/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/GobiShanthan/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/GobiShanthan/subscriptions",
+        "organizations_url": "https://api.github.com/users/GobiShanthan/orgs",
+        "repos_url": "https://api.github.com/users/GobiShanthan/repos",
+        "events_url": "https://api.github.com/users/GobiShanthan/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/GobiShanthan/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
+      "commit_url": "https://api.github.com/repos/GobiShanthan/bips/commits/9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
+      "created_at": "2025-07-17T05:33:44Z"
+    },
+    {
+      "event": "mentioned",
+      "id": 18672539580,
+      "node_id": "MEE_lADOAN28mc6tJ6a4zwAAAARY-Fe8",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18672539580",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-07-17T05:42:20Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 18672539614,
+      "node_id": "SE_lADOAN28mc6tJ6a4zwAAAARY-Ffe",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18672539614",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-07-17T05:42:21Z"
+    },
+    {
+      "event": "mentioned",
+      "id": 18672539640,
+      "node_id": "MEE_lADOAN28mc6tJ6a4zwAAAARY-Ff4",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18672539640",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-07-17T05:42:21Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 18672539656,
+      "node_id": "SE_lADOAN28mc6tJ6a4zwAAAARY-FgI",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/18672539656",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-07-17T05:42:21Z"
     }
   ],
   "comments": [
@@ -1578,7 +1768,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 6,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": null,
       "user": {
@@ -1631,7 +1821,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 33,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": null,
       "user": {
@@ -1684,7 +1874,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 97,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": null,
       "user": {
@@ -1737,7 +1927,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 169,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": null,
       "user": {
@@ -1790,7 +1980,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 6,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": 1991767450,
       "user": {
@@ -1843,7 +2033,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 6,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": 1991767450,
       "user": {
@@ -1896,7 +2086,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 97,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": 1991820833,
       "user": {
@@ -1949,7 +2139,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 169,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": 1991823527,
       "user": {
@@ -2002,7 +2192,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 33,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": 1991802274,
       "user": {
@@ -2055,7 +2245,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 70,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": null,
       "user": {
@@ -2108,7 +2298,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 6,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": 1991767450,
       "user": {
@@ -2161,7 +2351,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 21,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": null,
       "user": {
@@ -2214,7 +2404,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 33,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": 1991802274,
       "user": {
@@ -2267,7 +2457,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 82,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": null,
       "user": {
@@ -2320,7 +2510,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 97,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": 1991820833,
       "user": {
@@ -2373,7 +2563,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 121,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": null,
       "user": {
@@ -2426,7 +2616,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 141,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": null,
       "user": {
@@ -2479,7 +2669,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 169,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": 1991823527,
       "user": {
@@ -2532,7 +2722,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 15,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": null,
       "user": {
@@ -2585,7 +2775,7 @@
       "path": "bip-pbst.md",
       "position": null,
       "original_position": 33,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "6eb2eb7615392dc1bcedf2de10c4d585bb468416",
       "in_reply_to_id": 1991802274,
       "user": {
@@ -2636,9 +2826,9 @@
       "node_id": "PRRC_kwDOAN28mc573n-4",
       "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX\n+\n+Layer: Applications\n+\n+Title: Wallet Recognition Standard for Taproot Token (TSB-P)",
       "path": "bip-tbs-p.md",
-      "position": 5,
+      "position": null,
       "original_position": 5,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
       "in_reply_to_id": null,
       "user": {
@@ -2678,7 +2868,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 5,
+      "line": null,
       "original_line": 5,
       "side": "RIGHT"
     },
@@ -2689,9 +2879,9 @@
       "node_id": "PRRC_kwDOAN28mc573oWZ",
       "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX\n+\n+Layer: Applications\n+\n+Title: Wallet Recognition Standard for Taproot Token (TSB-P)\n+\n+Author: Gobi Shanthan \\<gobi@torram.xyz\\>, Lee Raj. \\<lee@torram.xyz\\>\n+\n+Comments-Summary: A standard for wallet interoperability in token pattern recognition\n+\n+Status: Draft\n+\n+Type: Informational",
       "path": "bip-tbs-p.md",
-      "position": 13,
+      "position": null,
       "original_position": 13,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
       "in_reply_to_id": null,
       "user": {
@@ -2731,7 +2921,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 13,
+      "line": null,
       "original_line": 13,
       "side": "RIGHT"
     },
@@ -2742,9 +2932,9 @@
       "node_id": "PRRC_kwDOAN28mc573o6Q",
       "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX",
       "path": "bip-tbs-p.md",
-      "position": 1,
+      "position": null,
       "original_position": 1,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
       "in_reply_to_id": null,
       "user": {
@@ -2784,7 +2974,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 1,
+      "line": null,
       "original_line": 1,
       "side": "RIGHT"
     },
@@ -2795,9 +2985,9 @@
       "node_id": "PRRC_kwDOAN28mc573pxm",
       "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX\n+\n+Layer: Applications\n+\n+Title: Wallet Recognition Standard for Taproot Token (TSB-P)\n+\n+Author: Gobi Shanthan \\<gobi@torram.xyz\\>, Lee Raj. \\<lee@torram.xyz\\>\n+\n+Comments-Summary: A standard for wallet interoperability in token pattern recognition\n+\n+Status: Draft\n+\n+Type: Informational\n+\n+Created: 2025-04-20\n+\n+License: BSD-2-Clause\n+\n+Discussions-To: [[bitcoin-dev@lists.linuxfoundation.org](mailto:bitcoin-dev@lists.linuxfoundation.org)]",
       "path": "bip-tbs-p.md",
-      "position": 19,
+      "position": null,
       "original_position": 19,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
       "in_reply_to_id": null,
       "user": {
@@ -2837,7 +3027,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 19,
+      "line": null,
       "original_line": 19,
       "side": "RIGHT"
     },
@@ -2848,9 +3038,9 @@
       "node_id": "PRRC_kwDOAN28mc573q2Q",
       "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX\n+\n+Layer: Applications\n+\n+Title: Wallet Recognition Standard for Taproot Token (TSB-P)\n+\n+Author: Gobi Shanthan \\<gobi@torram.xyz\\>, Lee Raj. \\<lee@torram.xyz\\>\n+\n+Comments-Summary: A standard for wallet interoperability in token pattern recognition\n+\n+Status: Draft\n+\n+Type: Informational\n+\n+Created: 2025-04-20\n+\n+License: BSD-2-Clause\n+\n+Discussions-To: [[bitcoin-dev@lists.linuxfoundation.org](mailto:bitcoin-dev@lists.linuxfoundation.org)]\n+\n+# Abstract",
       "path": "bip-tbs-p.md",
-      "position": 21,
+      "position": null,
       "original_position": 21,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
       "in_reply_to_id": null,
       "user": {
@@ -2890,7 +3080,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 21,
+      "line": null,
       "original_line": 21,
       "side": "RIGHT"
     },
@@ -2901,9 +3091,9 @@
       "node_id": "PRRC_kwDOAN28mc573sYX",
       "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX\n+\n+Layer: Applications\n+\n+Title: Wallet Recognition Standard for Taproot Token (TSB-P)\n+\n+Author: Gobi Shanthan \\<gobi@torram.xyz\\>, Lee Raj. \\<lee@torram.xyz\\>\n+\n+Comments-Summary: A standard for wallet interoperability in token pattern recognition\n+\n+Status: Draft\n+\n+Type: Informational\n+\n+Created: 2025-04-20\n+\n+License: BSD-2-Clause\n+\n+Discussions-To: [[bitcoin-dev@lists.linuxfoundation.org](mailto:bitcoin-dev@lists.linuxfoundation.org)]\n+\n+# Abstract\n+\n+This document proposes a wallet interoperability standard for recognizing and interpreting token patterns in Taproot transactions, similar to how BIP39 standardized seed phrases without modifying consensus rules. The Token Standard on Bitcoin - Programmable (TSB-P) defines a structured format within Taproot leaf scripts that allows wallets to consistently identify, display, and interpret token information embedded in standard Bitcoin transactions.\n+\n+By creating a \"BIP39 for token recognition,\" this specification aims to improve user experience, reduce implementation fragmentation, and standardize representation of token-related activities on Bitcoin without requiring consensus changes or modifying Bitcoin's primary purpose as a currency.\n+\n+# Motivation\n+\n+## The Need for Wallet Interoperability\n+\n+Bitcoin wallets currently lack a standardized approach to recognizing and displaying token-related transactions, resulting in several challenges:\n+\n+1. **Inconsistent User Experience**: The same token-representing UTXO may appear differently across wallets or not be recognized at all\n+2. **Implementation Fragmentation**: Wallet developers must create custom token detection logic\n+3. **Excessive Blockchain Usage**: Some token approaches create unnecessary data bloat\n+4. **User Confusion**: Difficult to distinguish between token types and behaviors\n+\n+## Relationship to Other Standards\n+\n+This proposal draws inspiration from several successful Bitcoin standards:\n+\n+- **BIP39**: Standardized seed phrases for wallets without changing consensus rules\n+- **BIP21**: Standardized payment request URIs for consistent wallet handling\n+- **BIP329**: Standardized wallet labels for better interoperability\n+\n+Each of these standards improved Bitcoin's usability through wallet interoperability without requiring protocol modifications. TSB-P follows this pattern by standardizing how wallets recognize token-related patterns.\n+\n+## Benefits of Standardization\n+\n+A standardized wallet recognition pattern for token-representing UTXOs would:\n+\n+1. **Improve User Experience**: Tokens are displayed consistently across compatible wallets\n+2. **Simplify Wallet Development**: Standard patterns are easier to implement\n+3. **Reduce Blockchain Impact**: Efficient representation using Taproot's advantages\n+4. **Enable Advanced Features**: Support for time-locks, multisig, and other Bitcoin Script features\n+\n+Importantly, this standard does not seek to modify Bitcoin's consensus rules or create new token validation systems. It simply standardizes how wallets interpret specific Taproot script patterns, similar to how BIP39 standardized seed phrase interpretation.\n+\n+# Specification\n+\n+## Wallet Recognition Pattern Structure\n+\n+This BIP defines a standardized Taproot leaf script pattern that compatible wallets should recognize and interpret:\n+\n+```\n+OP_TRUE\n+OP_IF\n+  <\"TSB\">                  # 3-byte marker\n+  <tokenID>                # 16 bytes identifier",
       "path": "bip-tbs-p.md",
-      "position": 69,
+      "position": null,
       "original_position": 69,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
       "in_reply_to_id": null,
       "user": {
@@ -2943,7 +3133,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 69,
+      "line": null,
       "original_line": 69,
       "side": "RIGHT"
     },
@@ -2954,9 +3144,9 @@
       "node_id": "PRRC_kwDOAN28mc573tvZ",
       "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX\n+\n+Layer: Applications\n+\n+Title: Wallet Recognition Standard for Taproot Token (TSB-P)\n+\n+Author: Gobi Shanthan \\<gobi@torram.xyz\\>, Lee Raj. \\<lee@torram.xyz\\>\n+\n+Comments-Summary: A standard for wallet interoperability in token pattern recognition\n+\n+Status: Draft\n+\n+Type: Informational\n+\n+Created: 2025-04-20\n+\n+License: BSD-2-Clause\n+\n+Discussions-To: [[bitcoin-dev@lists.linuxfoundation.org](mailto:bitcoin-dev@lists.linuxfoundation.org)]\n+\n+# Abstract\n+\n+This document proposes a wallet interoperability standard for recognizing and interpreting token patterns in Taproot transactions, similar to how BIP39 standardized seed phrases without modifying consensus rules. The Token Standard on Bitcoin - Programmable (TSB-P) defines a structured format within Taproot leaf scripts that allows wallets to consistently identify, display, and interpret token information embedded in standard Bitcoin transactions.\n+\n+By creating a \"BIP39 for token recognition,\" this specification aims to improve user experience, reduce implementation fragmentation, and standardize representation of token-related activities on Bitcoin without requiring consensus changes or modifying Bitcoin's primary purpose as a currency.\n+\n+# Motivation\n+\n+## The Need for Wallet Interoperability\n+\n+Bitcoin wallets currently lack a standardized approach to recognizing and displaying token-related transactions, resulting in several challenges:\n+\n+1. **Inconsistent User Experience**: The same token-representing UTXO may appear differently across wallets or not be recognized at all\n+2. **Implementation Fragmentation**: Wallet developers must create custom token detection logic\n+3. **Excessive Blockchain Usage**: Some token approaches create unnecessary data bloat\n+4. **User Confusion**: Difficult to distinguish between token types and behaviors\n+\n+## Relationship to Other Standards\n+\n+This proposal draws inspiration from several successful Bitcoin standards:\n+\n+- **BIP39**: Standardized seed phrases for wallets without changing consensus rules\n+- **BIP21**: Standardized payment request URIs for consistent wallet handling\n+- **BIP329**: Standardized wallet labels for better interoperability\n+\n+Each of these standards improved Bitcoin's usability through wallet interoperability without requiring protocol modifications. TSB-P follows this pattern by standardizing how wallets recognize token-related patterns.\n+\n+## Benefits of Standardization\n+\n+A standardized wallet recognition pattern for token-representing UTXOs would:\n+\n+1. **Improve User Experience**: Tokens are displayed consistently across compatible wallets\n+2. **Simplify Wallet Development**: Standard patterns are easier to implement\n+3. **Reduce Blockchain Impact**: Efficient representation using Taproot's advantages\n+4. **Enable Advanced Features**: Support for time-locks, multisig, and other Bitcoin Script features\n+\n+Importantly, this standard does not seek to modify Bitcoin's consensus rules or create new token validation systems. It simply standardizes how wallets interpret specific Taproot script patterns, similar to how BIP39 standardized seed phrase interpretation.\n+\n+# Specification\n+\n+## Wallet Recognition Pattern Structure\n+\n+This BIP defines a standardized Taproot leaf script pattern that compatible wallets should recognize and interpret:\n+\n+```\n+OP_TRUE\n+OP_IF\n+  <\"TSB\">                  # 3-byte marker\n+  <tokenID>                # 16 bytes identifier\n+  <amount>                 # 8 bytes (uint64 big-endian)\n+  <typeCode>               # 1 byte token type\n+  OP_DROP                  # Drop markers from stack\n+  OP_DROP\n+  OP_DROP\n+  OP_DROP\n+  <metadata>               # Variable length user data\n+  <timestamp>              # 8 bytes (uint64 big-endian)\n+  OP_DROP                  # Drop optional fields\n+  OP_DROP\n+  <programmable_logic>     # Spending conditions\n+OP_ENDIF\n+```",
       "path": "bip-tbs-p.md",
-      "position": 82,
+      "position": null,
       "original_position": 82,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
       "in_reply_to_id": null,
       "user": {
@@ -2996,7 +3186,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 82,
+      "line": null,
       "original_line": 82,
       "side": "RIGHT"
     },
@@ -3007,9 +3197,9 @@
       "node_id": "PRRC_kwDOAN28mc59qOhH",
       "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX\n+\n+Layer: Applications\n+\n+Title: Wallet Recognition Standard for Taproot Token (TSB-P)\n+\n+Author: Gobi Shanthan \\<gobi@torram.xyz\\>, Lee Raj. \\<lee@torram.xyz\\>\n+\n+Comments-Summary: A standard for wallet interoperability in token pattern recognition\n+\n+Status: Draft\n+\n+Type: Informational\n+\n+Created: 2025-04-20\n+\n+License: BSD-2-Clause\n+\n+Discussions-To: [[bitcoin-dev@lists.linuxfoundation.org](mailto:bitcoin-dev@lists.linuxfoundation.org)]\n+\n+# Abstract\n+\n+This document proposes a wallet interoperability standard for recognizing and interpreting token patterns in Taproot transactions, similar to how BIP39 standardized seed phrases without modifying consensus rules. The Token Standard on Bitcoin - Programmable (TSB-P) defines a structured format within Taproot leaf scripts that allows wallets to consistently identify, display, and interpret token information embedded in standard Bitcoin transactions.\n+\n+By creating a \"BIP39 for token recognition,\" this specification aims to improve user experience, reduce implementation fragmentation, and standardize representation of token-related activities on Bitcoin without requiring consensus changes or modifying Bitcoin's primary purpose as a currency.\n+\n+# Motivation\n+\n+## The Need for Wallet Interoperability\n+\n+Bitcoin wallets currently lack a standardized approach to recognizing and displaying token-related transactions, resulting in several challenges:\n+\n+1. **Inconsistent User Experience**: The same token-representing UTXO may appear differently across wallets or not be recognized at all\n+2. **Implementation Fragmentation**: Wallet developers must create custom token detection logic\n+3. **Excessive Blockchain Usage**: Some token approaches create unnecessary data bloat\n+4. **User Confusion**: Difficult to distinguish between token types and behaviors\n+\n+## Relationship to Other Standards\n+\n+This proposal draws inspiration from several successful Bitcoin standards:\n+\n+- **BIP39**: Standardized seed phrases for wallets without changing consensus rules\n+- **BIP21**: Standardized payment request URIs for consistent wallet handling\n+- **BIP329**: Standardized wallet labels for better interoperability\n+\n+Each of these standards improved Bitcoin's usability through wallet interoperability without requiring protocol modifications. TSB-P follows this pattern by standardizing how wallets recognize token-related patterns.\n+\n+## Benefits of Standardization\n+\n+A standardized wallet recognition pattern for token-representing UTXOs would:\n+\n+1. **Improve User Experience**: Tokens are displayed consistently across compatible wallets\n+2. **Simplify Wallet Development**: Standard patterns are easier to implement\n+3. **Reduce Blockchain Impact**: Efficient representation using Taproot's advantages\n+4. **Enable Advanced Features**: Support for time-locks, multisig, and other Bitcoin Script features\n+\n+Importantly, this standard does not seek to modify Bitcoin's consensus rules or create new token validation systems. It simply standardizes how wallets interpret specific Taproot script patterns, similar to how BIP39 standardized seed phrase interpretation.\n+\n+# Specification\n+\n+## Wallet Recognition Pattern Structure\n+\n+This BIP defines a standardized Taproot leaf script pattern that compatible wallets should recognize and interpret:\n+\n+```\n+OP_TRUE\n+OP_IF\n+  <\"TSB\">                  # 3-byte marker\n+  <tokenID>                # 16 bytes identifier",
       "path": "bip-tbs-p.md",
-      "position": 69,
+      "position": null,
       "original_position": 69,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
       "in_reply_to_id": 2078197271,
       "user": {
@@ -3049,7 +3239,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 69,
+      "line": null,
       "original_line": 69,
       "side": "RIGHT"
     },
@@ -3060,9 +3250,9 @@
       "node_id": "PRRC_kwDOAN28mc59qP6c",
       "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX\n+\n+Layer: Applications\n+\n+Title: Wallet Recognition Standard for Taproot Token (TSB-P)\n+\n+Author: Gobi Shanthan \\<gobi@torram.xyz\\>, Lee Raj. \\<lee@torram.xyz\\>\n+\n+Comments-Summary: A standard for wallet interoperability in token pattern recognition\n+\n+Status: Draft\n+\n+Type: Informational\n+\n+Created: 2025-04-20\n+\n+License: BSD-2-Clause\n+\n+Discussions-To: [[bitcoin-dev@lists.linuxfoundation.org](mailto:bitcoin-dev@lists.linuxfoundation.org)]\n+\n+# Abstract\n+\n+This document proposes a wallet interoperability standard for recognizing and interpreting token patterns in Taproot transactions, similar to how BIP39 standardized seed phrases without modifying consensus rules. The Token Standard on Bitcoin - Programmable (TSB-P) defines a structured format within Taproot leaf scripts that allows wallets to consistently identify, display, and interpret token information embedded in standard Bitcoin transactions.\n+\n+By creating a \"BIP39 for token recognition,\" this specification aims to improve user experience, reduce implementation fragmentation, and standardize representation of token-related activities on Bitcoin without requiring consensus changes or modifying Bitcoin's primary purpose as a currency.\n+\n+# Motivation\n+\n+## The Need for Wallet Interoperability\n+\n+Bitcoin wallets currently lack a standardized approach to recognizing and displaying token-related transactions, resulting in several challenges:\n+\n+1. **Inconsistent User Experience**: The same token-representing UTXO may appear differently across wallets or not be recognized at all\n+2. **Implementation Fragmentation**: Wallet developers must create custom token detection logic\n+3. **Excessive Blockchain Usage**: Some token approaches create unnecessary data bloat\n+4. **User Confusion**: Difficult to distinguish between token types and behaviors\n+\n+## Relationship to Other Standards\n+\n+This proposal draws inspiration from several successful Bitcoin standards:\n+\n+- **BIP39**: Standardized seed phrases for wallets without changing consensus rules\n+- **BIP21**: Standardized payment request URIs for consistent wallet handling\n+- **BIP329**: Standardized wallet labels for better interoperability\n+\n+Each of these standards improved Bitcoin's usability through wallet interoperability without requiring protocol modifications. TSB-P follows this pattern by standardizing how wallets recognize token-related patterns.\n+\n+## Benefits of Standardization\n+\n+A standardized wallet recognition pattern for token-representing UTXOs would:\n+\n+1. **Improve User Experience**: Tokens are displayed consistently across compatible wallets\n+2. **Simplify Wallet Development**: Standard patterns are easier to implement\n+3. **Reduce Blockchain Impact**: Efficient representation using Taproot's advantages\n+4. **Enable Advanced Features**: Support for time-locks, multisig, and other Bitcoin Script features\n+\n+Importantly, this standard does not seek to modify Bitcoin's consensus rules or create new token validation systems. It simply standardizes how wallets interpret specific Taproot script patterns, similar to how BIP39 standardized seed phrase interpretation.\n+\n+# Specification\n+\n+## Wallet Recognition Pattern Structure\n+\n+This BIP defines a standardized Taproot leaf script pattern that compatible wallets should recognize and interpret:\n+\n+```\n+OP_TRUE\n+OP_IF\n+  <\"TSB\">                  # 3-byte marker\n+  <tokenID>                # 16 bytes identifier\n+  <amount>                 # 8 bytes (uint64 big-endian)\n+  <typeCode>               # 1 byte token type\n+  OP_DROP                  # Drop markers from stack\n+  OP_DROP\n+  OP_DROP\n+  OP_DROP\n+  <metadata>               # Variable length user data\n+  <timestamp>              # 8 bytes (uint64 big-endian)\n+  OP_DROP                  # Drop optional fields\n+  OP_DROP\n+  <programmable_logic>     # Spending conditions\n+OP_ENDIF\n+```",
       "path": "bip-tbs-p.md",
-      "position": 82,
+      "position": null,
       "original_position": 82,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
       "in_reply_to_id": 2078202841,
       "user": {
@@ -3102,7 +3292,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 82,
+      "line": null,
       "original_line": 82,
       "side": "RIGHT"
     },
@@ -3113,9 +3303,9 @@
       "node_id": "PRRC_kwDOAN28mc5-JVDs",
       "diff_hunk": "@@ -0,0 +1,684 @@\n+BIP: XXX\n+\n+Layer: Applications\n+\n+Title: Wallet Recognition Standard for Taproot Token (TSB-P)\n+\n+Author: Gobi Shanthan \\<gobi@torram.xyz\\>, Lee Raj. \\<lee@torram.xyz\\>\n+\n+Comments-Summary: A standard for wallet interoperability in token pattern recognition\n+\n+Status: Draft\n+\n+Type: Informational\n+\n+Created: 2025-04-20\n+\n+License: BSD-2-Clause\n+\n+Discussions-To: [[bitcoin-dev@lists.linuxfoundation.org](mailto:bitcoin-dev@lists.linuxfoundation.org)]\n+\n+# Abstract\n+\n+This document proposes a wallet interoperability standard for recognizing and interpreting token patterns in Taproot transactions, similar to how BIP39 standardized seed phrases without modifying consensus rules. The Token Standard on Bitcoin - Programmable (TSB-P) defines a structured format within Taproot leaf scripts that allows wallets to consistently identify, display, and interpret token information embedded in standard Bitcoin transactions.\n+\n+By creating a \"BIP39 for token recognition,\" this specification aims to improve user experience, reduce implementation fragmentation, and standardize representation of token-related activities on Bitcoin without requiring consensus changes or modifying Bitcoin's primary purpose as a currency.\n+\n+# Motivation\n+\n+## The Need for Wallet Interoperability\n+\n+Bitcoin wallets currently lack a standardized approach to recognizing and displaying token-related transactions, resulting in several challenges:\n+\n+1. **Inconsistent User Experience**: The same token-representing UTXO may appear differently across wallets or not be recognized at all\n+2. **Implementation Fragmentation**: Wallet developers must create custom token detection logic\n+3. **Excessive Blockchain Usage**: Some token approaches create unnecessary data bloat\n+4. **User Confusion**: Difficult to distinguish between token types and behaviors\n+\n+## Relationship to Other Standards\n+\n+This proposal draws inspiration from several successful Bitcoin standards:\n+\n+- **BIP39**: Standardized seed phrases for wallets without changing consensus rules\n+- **BIP21**: Standardized payment request URIs for consistent wallet handling\n+- **BIP329**: Standardized wallet labels for better interoperability\n+\n+Each of these standards improved Bitcoin's usability through wallet interoperability without requiring protocol modifications. TSB-P follows this pattern by standardizing how wallets recognize token-related patterns.\n+\n+## Benefits of Standardization\n+\n+A standardized wallet recognition pattern for token-representing UTXOs would:\n+\n+1. **Improve User Experience**: Tokens are displayed consistently across compatible wallets\n+2. **Simplify Wallet Development**: Standard patterns are easier to implement\n+3. **Reduce Blockchain Impact**: Efficient representation using Taproot's advantages\n+4. **Enable Advanced Features**: Support for time-locks, multisig, and other Bitcoin Script features\n+\n+Importantly, this standard does not seek to modify Bitcoin's consensus rules or create new token validation systems. It simply standardizes how wallets interpret specific Taproot script patterns, similar to how BIP39 standardized seed phrase interpretation.\n+\n+# Specification\n+\n+## Wallet Recognition Pattern Structure\n+\n+This BIP defines a standardized Taproot leaf script pattern that compatible wallets should recognize and interpret:\n+\n+```\n+OP_TRUE\n+OP_IF\n+  <\"TSB\">                  # 3-byte marker\n+  <tokenID>                # 16 bytes identifier",
       "path": "bip-tbs-p.md",
-      "position": 69,
+      "position": null,
       "original_position": 69,
-      "commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
+      "commit_id": "9682a24ce1c7980d81ac2a7ffa62ace2bfaa44ee",
       "original_commit_id": "8e032140fcda56c85349bee8c63fe75bd08102dd",
       "in_reply_to_id": 2078197271,
       "user": {
@@ -3155,7 +3345,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 69,
+      "line": null,
       "original_line": 69,
       "side": "RIGHT"
     }
