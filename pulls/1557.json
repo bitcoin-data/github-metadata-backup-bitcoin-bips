@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2024-03-07T15:46:34Z",
-    "updated_at": "2025-07-28T20:55:05Z",
+    "updated_at": "2025-07-28T21:09:54Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -321,12 +321,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5670,
+        "forks_count": 5671,
         "stargazers_count": 10077,
         "watchers_count": 10077,
-        "size": 16599,
+        "size": 16516,
         "default_branch": "master",
-        "open_issues_count": 30,
+        "open_issues_count": 32,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -354,7 +354,7 @@
     "deletions": 4,
     "changed_files": 18,
     "commits": 58,
-    "review_comments": 35,
+    "review_comments": 36,
     "comments": 29
   },
   "events": [
@@ -6052,6 +6052,43 @@
         "name": "PR Author action required",
         "color": "e99695"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 3064609096,
+      "node_id": "PRR_kwDOAN28mc62qjlI",
+      "url": null,
+      "actor": null,
+      "commit_id": "3dbdbd50becf5e5183cbca93eb8acfb3d6ef4e08",
+      "commit_url": null,
+      "created_at": null,
+      "author_association": "CONTRIBUTOR",
+      "body": "Cool, thanks for working on this. I see that there is quite a bit more here now. I’m not particularly familiar with the Stratum protocol, so in the first pass I read for editorial minutiae. Generally, it is expected that every BIP contains some specific sections. This document is missing the following sections:\n\n- Copyright — The BIP must be explicitly licensed under acceptable copyright terms (see [BIP 2](https://github.com/bitcoin/bips/blob/master/bip-0002.mediawiki#BIP%20licensing)).\n- Rationale — The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work. The rationale should provide evidence of consensus within the community and discuss important objections or concerns raised during discussion.\n- Backwards compatibility — All BIPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their severity. The BIP must explain how the author proposes to deal with these incompatibilities.\n\nI would guess that the Rationale section will gather a few items from discussion on the mailing list and here. The Backwards Compatibility section may benefit from more explanation on the extensions you added to round out the prior existing documentation. Regarding the Copyright section and licensing terms, perhaps @slush0 could chime in, if you two would be open to using difference terms than PD, because PD is not an acceptable license for BIPs anymore.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1557#pullrequestreview-3064609096",
+      "submitted_at": "2025-07-28T21:09:54Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1557"
     }
   ],
   "comments": [
@@ -7908,6 +7945,59 @@
       "start_side": null,
       "line": 175,
       "original_line": 157,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2237856478",
+      "pull_request_review_id": 3064609096,
+      "id": 2237856478,
+      "node_id": "PRRC_kwDOAN28mc6FYvre",
+      "diff_hunk": "@@ -0,0 +1,200 @@\n+<pre>\n+  BIP: 40\n+  Layer: API/RPC\n+  Title: Stratum wire protocol\n+  Author: Marek Palatinus <slush@satoshilabs.com>\n+          Ben van Hartingsveldt <ben.vanhartingsveldt@yocto.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0040\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-03-07\n+  License: PD\n+</pre>\n+\n+==Abstract==\n+\n+This document describes the Stratum wire protocol used in clients such as Electrum, and which also laid the foundation for the Stratum mining protocol, used in many Bitcoin pools.\n+\n+The specification is intended to set a standard for connections between clients and servers in which the client is able to request data without having to download the full blockchain.\n+\n+The specification consists of four parts. In the first part, the data format is defined. In the second part, the possible transport protocols (including encapsulation) are described. In the third part, the available methods are documented. In the fourth part, signed messages are explained.\n+\n+==Motivation==\n+\n+Many clients want to give users access to the Bitcoin ecosystem. However, for specific reasons not every user is able to download the full blockchain to their machine.\n+\n+The Stratum wire protocol defines a way to access the blockchain without having it downloaded. For example, a client can request both the genesis block and the latest block with the same latency, because the Stratum server synchronizes and indexes all the blocks for us.\n+\n+==History==\n+\n+The Stratum wire protocol was introduced by Marek Palatinus in late 2011 and early 2012. It was a language-independent alternative to the Python-based protocol in early versions of Electrum, created by Thomas Voegtlin. The Stratum wire protocol made it possible to create compatible servers that Electrum could connect to, but it also made it possible to write alternative clients.\n+\n+Later in 2012, Marek Palatinus introduced Stratum for mining pools as well: The Stratum mining protocol, as defined in [[bip-0041.mediawiki|BIP 41]].\n+\n+==Extension==\n+\n+This BIP has some extended specification information that isn't found in the older, legacy specifications.<ref name=\"extended\">This is extended specification information of the Stratum wire protocol to make it more complete. This information will not be found in any code or specification before this BIP.</ref> For backwards compatibility, it is recommended to implement the legacy specification information too, which is also described in this specification.",
+      "path": "bip-0040.mediawiki",
+      "position": 37,
+      "original_position": 37,
+      "commit_id": "3dbdbd50becf5e5183cbca93eb8acfb3d6ef4e08",
+      "original_commit_id": "3dbdbd50becf5e5183cbca93eb8acfb3d6ef4e08",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "This might fit in the \"Backward Compatibility\" section",
+      "created_at": "2025-07-28T21:00:25Z",
+      "updated_at": "2025-07-28T21:09:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1557#discussion_r2237856478",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2237856478"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1557"
+        }
+      },
+      "start_line": 35,
+      "original_start_line": 35,
+      "start_side": "RIGHT",
+      "line": 37,
+      "original_line": 37,
       "side": "RIGHT"
     }
   ]
