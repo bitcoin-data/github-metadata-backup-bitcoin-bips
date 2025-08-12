@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-08-10T06:56:50Z",
-    "updated_at": "2025-08-12T04:38:57Z",
+    "updated_at": "2025-08-12T05:03:58Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 13,
     "commits": 3,
-    "review_comments": 20,
+    "review_comments": 21,
     "comments": 0
   },
   "events": [
@@ -1701,6 +1701,59 @@
       "start_side": null,
       "line": 194,
       "original_line": 194,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2268584595",
+      "pull_request_review_id": 3108546515,
+      "id": 2268584595,
+      "node_id": "PRRC_kwDOAN28mc6HN9qT",
+      "diff_hunk": "@@ -0,0 +1,627 @@\n+```\n+BIP: TBD\n+Layer: Peer Services\n+Title: Utreexo Accumulator Specification\n+Authors: Tadge Dryja <rx@awsomnet.org>\n+         Calvin Kim <bip@calvinkim.info>\n+         Davidson Souza <bip@dlsouza.dev>\n+Comments-URI: TBD\n+Status: Draft\n+Type: Specification\n+Created: 2025-06-18\n+License: BSD-3-Clause\n+Depends: BIP-???? (Utreexo Accumulator Specification)\n+```\n+\n+## Abstract\n+\n+This BIP describes the Utreexo accumulator and it's operations. It lays down how to update the\n+accumulator as well as how to generate and verify inclusion proofs for elements in the accumulator.\n+\n+## Motivation\n+\n+The Bitcoin network is composed of a set of nodes that validate blocks and\n+transactions as they are received. These nodes need to keep track of the current state of the network in order to\n+fulfill their role. Most importantly, they must maintain a record of all coins that\n+have been created but not yet spent—a collection known as the UTXO set.\n+\n+This set is typically stored in a database that must be accessed frequently and cannot\n+be pruned. As a result, the cost of running a node is directly tied to the size\n+of the UTXO set. Since it can grow indefinitely—bounded only by block size—it represents a\n+long-term scalability concern.\n+\n+Utreexo is a dynamic accumulator that enables the UTXO set to be represented in just a few kilobytes,\n+by requiring peers to provide additional proof data to verify the inclusion of a UTXO in the\n+accumulator. This allows for the construction of extremely lightweight nodes capable of performing\n+the same validation as a full node, without the need to store the entire UTXO set.\n+\n+This BIP defines how the Utreexo accumulator works, defining the data structure and algorithms used to\n+maintain the accumulator, as well as how to generate and verify inclusion proofs for elements in the accumulator.\n+It does not define how the accumulator is used in the Bitcoin protocol, but rather provides a foundation for future\n+BIPs that will define how to integrate Utreexo into Bitcoin validation and P2P network protocol.\n+\n+## License\n+\n+This document is licensed under the BSD-3-Clause license.\n+\n+## Preliminaries\n+\n+An accumulator is a cryptographic data structure that allows for the compact representation of a set,\n+enabling efficient membership proofs without requiring storage of the entire set. In the context of Utreexo,\n+the accumulator tracks the current set of unspent transaction outputs (UTXOs).\n+\n+The Utreexo accumulator is based on an append-only Merkle tree design introduced in [^1],\n+which provides logarithmic-sized inclusion proofs. Utreexo extends this design to support dynamic updates,\n+specifically enabling deletions from the set—a requirement for tracking UTXO spends in Bitcoin.\n+To accommodate this, Utreexo increases the storage requirement for the accumulator state to O(log₂(N)),",
+      "path": "utreexo-accumulator-bip.md",
+      "position": 56,
+      "original_position": 56,
+      "commit_id": "a94f6434c8f4be7469a3d913046a3c66db48f805",
+      "original_commit_id": "a94f6434c8f4be7469a3d913046a3c66db48f805",
+      "in_reply_to_id": 2267860444,
+      "user": {
+        "login": "kcalvinalvin",
+        "id": 37185887,
+        "node_id": "MDQ6VXNlcjM3MTg1ODg3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/37185887?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/kcalvinalvin",
+        "html_url": "https://github.com/kcalvinalvin",
+        "followers_url": "https://api.github.com/users/kcalvinalvin/followers",
+        "following_url": "https://api.github.com/users/kcalvinalvin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/kcalvinalvin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/kcalvinalvin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/kcalvinalvin/subscriptions",
+        "organizations_url": "https://api.github.com/users/kcalvinalvin/orgs",
+        "repos_url": "https://api.github.com/users/kcalvinalvin/repos",
+        "events_url": "https://api.github.com/users/kcalvinalvin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/kcalvinalvin/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Ah the paragraph could be worded better.\n\nIt's referring to how the merkle forest is expanded to support more leaves. Like sparse merkle trees, you pre-allocate the Utreexo accumulator to hold 2^n leaves. If you want to hold (2^n)+1 leaves, you need to resize the accumulator to hold 2^n+1 leaves.",
+      "created_at": "2025-08-12T05:03:58Z",
+      "updated_at": "2025-08-12T05:03:58Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1923#discussion_r2268584595",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2268584595"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1923"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 56,
+      "original_line": 56,
       "side": "RIGHT"
     }
   ]
