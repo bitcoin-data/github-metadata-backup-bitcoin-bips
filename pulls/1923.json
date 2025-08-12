@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-08-10T06:56:50Z",
-    "updated_at": "2025-08-11T22:06:47Z",
+    "updated_at": "2025-08-12T03:49:15Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 13,
     "commits": 3,
-    "review_comments": 18,
+    "review_comments": 19,
     "comments": 0
   },
   "events": [
@@ -1595,6 +1595,59 @@
       "start_side": null,
       "line": 66,
       "original_line": 66,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2268508383",
+      "pull_request_review_id": 3108452258,
+      "id": 2268508383,
+      "node_id": "PRRC_kwDOAN28mc6HNrDf",
+      "diff_hunk": "@@ -0,0 +1,486 @@\n+```\n+BIP: TBD\n+Layer: Peer Services\n+Title: Utreexo - Peer Services\n+Authors: Tadge Dryja <rx@awsomnet.org>\n+         Calvin Kim <bip@calvinkim.info>\n+         Davidson Souza <bip@dlsouza.dev>\n+Comments-URI: TBD\n+Status: Draft\n+Type: Specification\n+Created: 2024-08-08\n+License: BSD-3-Clause\n+Depends: BIP-???? (Utreexo - Peer Services)\n+```\n+\n+## Abstract\n+\n+Utreexo creates a compact representation of the UTXO set that only takes a couple of kilobytes.\n+When spending a transaction, one must provide an inclusion proof for the UTXOs being spent.\n+This BIP defines the networking-layer changes needed to allow nodes to exchange the inclusion proofs.\n+This document **does not** describe how to validate blocks and transactions using the provided data, see [Utreexo - Validation Layer](./utreexo-validation-bip.md) for more details.\n+\n+## Motivation\n+\n+Utreexo nodes require the inclusion proof to fully validate blocks and transactions.\n+Each block has an corresponding inclusion proof with it and this inclusion proof for blocks up to height 906,937 requires an additional 631.85GB, which is roughly 40GB less than the size of the block data.\n+Each transaction also has an corresponding inclusion proof with it and for normal transaction relay, the proof is roughly 3 times the size of the transaction.\n+It's still reasonable for a single node to download this extra data but little caching goes a long way in reducing the amount of data that one has to download.\n+We define the new P2P messages for the inclusion proofs to support caching to reduce bandwidth while also allowing a high bandwidth, low-latency usage.\n+\n+## License\n+\n+This BIP is licensed under the BSD-3-Clause license.\n+\n+## Overview\n+\n+### Requirements and Compatibility\n+\n+Nodes implementing Utreexo can choose which messages to support.\n+There are a number of configurations possible, and this BIP does not restrict nodes to any subsets of messages.\n+\n+That said, there are three likely types of nodes:\n+1. Compact State Nodes (CSNs)\n+2. Bridge nodes\n+3. Archive nodes\n+\n+CSNs have the goal of minimizing data storage and download while performing block validation.\n+Archive and bridge nodes store more data and provide this data to CSNs.\n+\n+Bridge nodes are nodes that can add inclusion proofs to mempool transactions, support the same set of messages as CSNs, and are in fact should be indistinguishable from CSNs on the network.\n+Archive nodes are able to serve the blocks and the inclusion proofs. However, they are not able to generate the inclusion proofs as they do not keep the full UTXO set.\n+\n+Note that the archive and bridge capabilities of a node are separate; a bridge node can be bridge only, without previous block proof data, and an archive node doesn't need to be able to bridge.\n+\n+The one exception to this flexibility is that archive nodes must provide both the blocks and the inclusion proofs.\n+While theoretically possible to split these two resources, the blocks are quite small relative to the block proofs, and it simplifies clients to be able to rely on being able to request both over the same connection.\n+\n+### Pre-P2P: Bridge Building\n+\n+When introducing Utreexo into an existing network, there are 2 thing needed before CSNs can operate.\n+First, archive nodes need to build proofs for old blocks to serve during the initial-block download (IBD).\n+Second, nodes need to build and maintain the UTXO merkle forest, and an index of outpoints to leaves of that forest, so that they can build proofs for new transactions.\n+Both of these processes happen without any p2p messages by taking an already existing, synchronized archive full node and going through its stored block data.\n+\n+Once an archive and bridge node have been established, CSNs download blocks and inclusion proofs to IBD and maintain sync with the bitcoin network. \n+\n+### Initial Block Download\n+\n+![Current IBD](bip-utreexo-p2p/current-ibd.png)\n+\n+Current IBD is done by a headers-first block download, in which the node downloads all the Bitcoin block headers, verifies that they connect, and start downloading the actual block data for validation.\n+\n+![Utreexo node IBD](bip-utreexo-p2p/utreexo-node-ibd.png)\n+\n+Utreexo nodes still perform the headers-first phase.\n+However, in addition to blocks, they also require the inclusion proof for UTXOs spent in that block.\n+Hence a Utreexo node will send a `getutreexoproof` message along with the `getdata` message for a given block.\n+This flow is the simplest change and allows a Utreexo node to validate and perform IBD but this method does require downloading about 2 times compared to the current nodes as the inclusion proof for a block is roughly the same size as the block itself.\n+\n+![Bandwidth efficient Utreexo node IBD](bip-utreexo-p2p/bandwidth-efficient-utreexo-node-ibd.png)\n+\n+For Utreexo nodes with memory to spare, we introduce a `TTL` message that will have a time-to-live value for each of the outputs in a given block.\n+\n+With these TTL values, a node receiving the `TTL` message will be able to determine which output to cache with the Clairvoyant algorithm[^1] which allows the IBD-ing node to reduce the bandwidth required in syncing the node in the most efficient way possible.\n+\n+The node will have the block and the TTLs for the outputs of the given block which it can then use to cache parts of the inclusion proof and only request the needed parts of an inclusion proof for future blocks.\n+\n+We note that it is feasible for a node to receive incorrect TTL values from malicious nodes and this can negatively impact the bandwidth savings.\n+Nodes can mitigate this by not downloading TTL values too far into the future or by checking if the `TTL` message received was included in the accumulator hard-coded into the binary.\n+\n+This TTL commitment scheme is described in detail [here](#Commitment scheme for TTL messages).\n+\n+### Transaction relay\n+\n+![Current TX relay](bip-utreexo-p2p/current-tx-relay.png)\n+\n+Current transaction relay is done by sending an inv message with the hash of the transaction and a type field that denotes that this hash represents a transaction.\n+If the node receiving the inv is does not have a tx matching that hash, it then requests for it using a getdata message.\n+\n+![Utreexo TX relay](bip-utreexo-p2p/utreexo-tx-relay.png)\n+\n+The transaction relay for Utreexo nodes doesn't add any extra round trips.\n+However, it does include extra inventory vectors in the inv message.\n+\n+We introduce a new inventory vector type called `utreexoproofhash` which make up the extra information that a Utreexo node will receive.",
+      "path": "utreexo-p2p-bip.md",
+      "position": 105,
+      "original_position": 105,
+      "commit_id": "a94f6434c8f4be7469a3d913046a3c66db48f805",
+      "original_commit_id": "a94f6434c8f4be7469a3d913046a3c66db48f805",
+      "in_reply_to_id": 2266920621,
+      "user": {
+        "login": "kcalvinalvin",
+        "id": 37185887,
+        "node_id": "MDQ6VXNlcjM3MTg1ODg3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/37185887?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/kcalvinalvin",
+        "html_url": "https://github.com/kcalvinalvin",
+        "followers_url": "https://api.github.com/users/kcalvinalvin/followers",
+        "following_url": "https://api.github.com/users/kcalvinalvin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/kcalvinalvin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/kcalvinalvin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/kcalvinalvin/subscriptions",
+        "organizations_url": "https://api.github.com/users/kcalvinalvin/orgs",
+        "repos_url": "https://api.github.com/users/kcalvinalvin/repos",
+        "events_url": "https://api.github.com/users/kcalvinalvin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/kcalvinalvin/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "I'll go with `, which makes` since `includes` sounds like the `utreexoproofhash` invvect has other information as well",
+      "created_at": "2025-08-12T03:49:15Z",
+      "updated_at": "2025-08-12T03:49:15Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1923#discussion_r2268508383",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2268508383"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1923"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 105,
+      "original_line": 105,
       "side": "RIGHT"
     }
   ]
