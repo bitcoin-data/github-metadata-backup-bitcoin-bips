@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-08-08T15:42:22Z",
-    "updated_at": "2025-08-18T21:31:07Z",
+    "updated_at": "2025-08-19T08:46:38Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -278,8 +278,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5705,
-        "stargazers_count": 10129,
-        "watchers_count": 10129,
+        "stargazers_count": 10130,
+        "watchers_count": 10130,
         "size": 16580,
         "default_branch": "master",
         "open_issues_count": 33,
@@ -295,7 +295,7 @@
         "visibility": "public",
         "pushed_at": "2025-08-18T19:43:37Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-08-18T19:43:50Z",
+        "updated_at": "2025-08-19T08:32:29Z",
         "allow_forking": true
       }
     },
@@ -311,7 +311,7 @@
     "changed_files": 2,
     "commits": 2,
     "review_comments": 0,
-    "comments": 0
+    "comments": 1
   },
   "events": [
     {
@@ -465,6 +465,62 @@
       "submitted_at": "2025-08-18T21:31:07Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1916"
+    },
+    {
+      "event": "commented",
+      "id": 3199823876,
+      "node_id": "IC_kwDOAN28mc6-uXAE",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3199823876",
+      "actor": {
+        "login": "fifalodm",
+        "id": 172500006,
+        "node_id": "U_kgDOCkgkJg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/172500006?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fifalodm",
+        "html_url": "https://github.com/fifalodm",
+        "followers_url": "https://api.github.com/users/fifalodm/followers",
+        "following_url": "https://api.github.com/users/fifalodm/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fifalodm/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fifalodm/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fifalodm/subscriptions",
+        "organizations_url": "https://api.github.com/users/fifalodm/orgs",
+        "repos_url": "https://api.github.com/users/fifalodm/repos",
+        "events_url": "https://api.github.com/users/fifalodm/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fifalodm/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-08-19T08:46:38Z",
+      "updated_at": "2025-08-19T08:46:38Z",
+      "author_association": "NONE",
+      "body": "Thanks for the review!\r\n\r\nThese are actual bug fixes, not just stylistic changes:\r\n\r\n1. **`deser_compact_size` bug**  \r\n   The old code did `b = f.read(1)` and then immediately called `struct.unpack(\"<B\", f.read(1))[0]`.  \r\n   That skipped the first byte and unpacked the next one.  \r\n   - For values like `0xfd/0xfe/0xff` (multi-byte varints), the prefix byte was lost and parsing went out of sync.  \r\n   - Even for small values (≤252), the stream advanced one byte too far.\r\n\r\n   The fix correctly unpacks the already-read `b`, so the prefix is handled properly.\r\n\r\n2. **Mutable default argument in `scanning`**  \r\n   Using `{}` as a default creates a single shared dict across calls. This can leak state between function calls.  \r\n   Switching to `labels: Optional[Dict[str, str]] = None` and initializing inside the function avoids that Python pitfall.\r\n\r\nSo both changes address correctness issues, not just style.\r\n",
+      "user": {
+        "login": "fifalodm",
+        "id": 172500006,
+        "node_id": "U_kgDOCkgkJg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/172500006?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fifalodm",
+        "html_url": "https://github.com/fifalodm",
+        "followers_url": "https://api.github.com/users/fifalodm/followers",
+        "following_url": "https://api.github.com/users/fifalodm/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fifalodm/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fifalodm/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fifalodm/subscriptions",
+        "organizations_url": "https://api.github.com/users/fifalodm/orgs",
+        "repos_url": "https://api.github.com/users/fifalodm/repos",
+        "events_url": "https://api.github.com/users/fifalodm/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fifalodm/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1916#issuecomment-3199823876",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1916"
     }
   ],
   "comments": []
