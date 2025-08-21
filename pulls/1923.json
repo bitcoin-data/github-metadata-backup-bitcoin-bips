@@ -51,11 +51,11 @@
       }
     ],
     "created_at": "2025-08-10T06:56:50Z",
-    "updated_at": "2025-08-20T07:31:07Z",
+    "updated_at": "2025-08-21T19:13:47Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "25403941e48d14c8f25f9a2660394fe8165e55cd",
+    "merge_commit_sha": "f34b1fe14a2550e94d559bd906ac882234187d96",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -277,12 +277,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5706,
-        "stargazers_count": 10134,
-        "watchers_count": 10134,
-        "size": 16580,
+        "forks_count": 5708,
+        "stargazers_count": 10138,
+        "watchers_count": 10138,
+        "size": 16586,
         "default_branch": "master",
-        "open_issues_count": 33,
+        "open_issues_count": 35,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -293,9 +293,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-08-18T19:43:37Z",
+        "pushed_at": "2025-08-21T15:48:36Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-08-20T06:41:40Z",
+        "updated_at": "2025-08-21T15:48:48Z",
         "allow_forking": true
       }
     },
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 13,
     "commits": 3,
-    "review_comments": 35,
+    "review_comments": 36,
     "comments": 13
   },
   "events": [
@@ -1608,6 +1608,43 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1923#issuecomment-3204518476",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1923"
+    },
+    {
+      "event": "reviewed",
+      "id": 3141977529,
+      "node_id": "PRR_kwDOAN28mc67RsW5",
+      "url": null,
+      "actor": null,
+      "commit_id": "d1d03420ac5ee234494d84358a4abd06df269f65",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-08-21T19:13:47Z",
+      "author_association": "NONE",
+      "user": {
+        "login": "lucad70",
+        "id": 102705148,
+        "node_id": "U_kgDOBh8n_A",
+        "avatar_url": "https://avatars.githubusercontent.com/u/102705148?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/lucad70",
+        "html_url": "https://github.com/lucad70",
+        "followers_url": "https://api.github.com/users/lucad70/followers",
+        "following_url": "https://api.github.com/users/lucad70/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/lucad70/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/lucad70/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/lucad70/subscriptions",
+        "organizations_url": "https://api.github.com/users/lucad70/orgs",
+        "repos_url": "https://api.github.com/users/lucad70/repos",
+        "events_url": "https://api.github.com/users/lucad70/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/lucad70/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1923#pullrequestreview-3141977529",
+      "submitted_at": "2025-08-21T19:13:47Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1923"
     }
   ],
   "comments": [
@@ -3358,6 +3395,59 @@
       "start_side": null,
       "line": null,
       "original_line": 98,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2291920873",
+      "pull_request_review_id": 3141977529,
+      "id": 2291920873,
+      "node_id": "PRRC_kwDOAN28mc6Im-_p",
+      "diff_hunk": "@@ -0,0 +1,328 @@\n+```\n+BIP: TBD\n+Layer: Peer Services\n+Title: Utreexo - Validation Layer\n+Authors: Tadge Dryja <rx@awsomnet.org>\n+         Calvin Kim <bip@calvinkim.info>\n+         Davidson Souza <bip@dlsouza.dev>\n+Comments-URI: TBD\n+Status: Draft\n+Type: Specification\n+Created: 2023-10-01\n+License: BSD-3-Clause\n+Requires: BIP-???? (Utreexo Accumulator Specification)\n+```\n+\n+## Abstract\n+\n+This BIP defines the rules for validating blocks and transactions using the\n+Utreexo accumulator. It is important to note that this BIP does not define the\n+Utreexo accumulator itself, for that see BIP-????. This document is only concerned with\n+the general rules for validating blocks and transactions using the Utreexo,\n+so that all Utreexo nodes can stay in consensus with one another.\n+\n+## Motivation\n+\n+Although Utreexo in its current form is not proposed as a soft fork, it is essential that\n+all implementations adhere to a consistent workflow when performing consensus-critical\n+operations. This BIP defines that workflow, along with the specific rules and their\n+required ordering.\n+\n+There are five consensus-critical components when using the Utreexo accumulator to\n+represent the UTXO set:\n+\n+ - 1: The serialization format of each UTXO (\"leaf data\").\n+ - 2: The hash function used to hash the leaf data.\n+ - 3: Which transaction outputs are excluded from the accumulator.\n+ - 4: The order of operations for the additions and deletions in the accumulator.\n+ - 5: The format of the UTXO proof.\n+\n+A discrepancy in any of the five components above will result in a divergent\n+accumulator state, leading to consensus incompatibilities.\n+\n+## License\n+\n+This BIP is licensed under the BSD 3-clause license.\n+\n+## Specification\n+\n+### Node Hashes\n+\n+During a node's normal operation, it will need to compute the leaf hash for UTXOs\n+being added or removed from the accumulator. The leaf hash is a 32 byte hash that\n+is computed using the SHA-512/256 hash function. See [UTXO Hash Preimages](#utxo-hash-preimages) for the\n+details on how to compute the leaf hash.\n+\n+Unless otherwise specified, all fields are in little-endian format.\n+\n+#### UTXO Hash Preimages\n+\n+Individual UTXOs are represented as 32 byte hashes in the Utreexo accumulator. To obtain this\n+hash, you must compute the SHA-512/256 hash of the following data:\n+\n+| Name              | Type                     | Description                               |\n+| ----------------- | ------------------------ | ----------------------------------------- |\n+| Utreexo_Tag_V1    | 64 byte array            | The version tag to be prepended to the leafhash. |\n+| Utreexo_Tag_V1    | 64 byte array            | The version tag to be prepended to the leafhash. |",
+      "path": "utreexo-validation-bip.md",
+      "position": 66,
+      "original_position": 66,
+      "commit_id": "d1d03420ac5ee234494d84358a4abd06df269f65",
+      "original_commit_id": "d1d03420ac5ee234494d84358a4abd06df269f65",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "lucad70",
+        "id": 102705148,
+        "node_id": "U_kgDOBh8n_A",
+        "avatar_url": "https://avatars.githubusercontent.com/u/102705148?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/lucad70",
+        "html_url": "https://github.com/lucad70",
+        "followers_url": "https://api.github.com/users/lucad70/followers",
+        "following_url": "https://api.github.com/users/lucad70/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/lucad70/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/lucad70/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/lucad70/subscriptions",
+        "organizations_url": "https://api.github.com/users/lucad70/orgs",
+        "repos_url": "https://api.github.com/users/lucad70/repos",
+        "events_url": "https://api.github.com/users/lucad70/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/lucad70/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "For clarification, is the `Utreexo_Tag_V1` really used twice in preimage to the hash?",
+      "created_at": "2025-08-21T19:13:46Z",
+      "updated_at": "2025-08-21T19:13:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1923#discussion_r2291920873",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2291920873"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1923"
+        }
+      },
+      "start_line": 63,
+      "original_start_line": 63,
+      "start_side": "RIGHT",
+      "line": 66,
+      "original_line": 66,
       "side": "RIGHT"
     }
   ]
