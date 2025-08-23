@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1944/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1944/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/7602e08769c005a747b903507e45b298cc946e55",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/14f28051a76d3bef8e75f7f410bdef83241b9362",
     "number": 1944,
     "state": "open",
     "locked": false,
@@ -51,11 +51,11 @@
       }
     ],
     "created_at": "2025-08-22T22:43:24Z",
-    "updated_at": "2025-08-23T17:00:01Z",
+    "updated_at": "2025-08-23T17:42:28Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "1d219f84935bbb27400e79c93edc7440bd83bfa7",
+    "merge_commit_sha": "8609e263e04013b74b6558493595686de133e948",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -63,7 +63,7 @@
     "head": {
       "label": "JeremyRubin:optweakadd",
       "ref": "optweakadd",
-      "sha": "7602e08769c005a747b903507e45b298cc946e55",
+      "sha": "14f28051a76d3bef8e75f7f410bdef83241b9362",
       "user": {
         "login": "JeremyRubin",
         "id": 886523,
@@ -161,7 +161,7 @@
         "forks_count": 6,
         "stargazers_count": 6,
         "watchers_count": 6,
-        "size": 17241,
+        "size": 17261,
         "default_branch": "master",
         "open_issues_count": 2,
         "is_template": false,
@@ -174,7 +174,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-08-23T17:00:00Z",
+        "pushed_at": "2025-08-23T17:42:27Z",
         "created_at": "2016-06-17T13:35:25Z",
         "updated_at": "2025-08-07T03:04:03Z",
         "allow_forking": true
@@ -307,11 +307,11 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": true,
-    "additions": 495,
+    "additions": 496,
     "deletions": 0,
     "changed_files": 3,
-    "commits": 4,
-    "review_comments": 1,
+    "commits": 5,
+    "review_comments": 2,
     "comments": 0
   },
   "events": [
@@ -545,6 +545,46 @@
         "date": "2025-08-23T16:59:58Z"
       },
       "sha": "7602e08769c005a747b903507e45b298cc946e55"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDE0ZjI4MDUxYTc2ZDNiZWY4ZTc1ZjdmNDEwYmRlZjgzMjQxYjkzNjI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/14f28051a76d3bef8e75f7f410bdef83241b9362",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/14f28051a76d3bef8e75f7f410bdef83241b9362",
+      "tree": {
+        "sha": "5d9c6e22a98af2fb6334cab143f156fd7ed397cd",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/5d9c6e22a98af2fb6334cab143f156fd7ed397cd"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/7602e08769c005a747b903507e45b298cc946e55",
+          "sha": "7602e08769c005a747b903507e45b298cc946e55",
+          "html_url": "https://github.com/bitcoin/bips/commit/7602e08769c005a747b903507e45b298cc946e55"
+        }
+      ],
+      "message": "BIP TweakAdd -- add mailing list discussion",
+      "committer": {
+        "name": "Jeremy Rubin",
+        "email": "jeremy@char.network",
+        "date": "2025-08-23T17:42:25Z"
+      },
+      "author": {
+        "name": "Jeremy Rubin",
+        "email": "jeremy@char.network",
+        "date": "2025-08-23T17:42:25Z"
+      },
+      "sha": "14f28051a76d3bef8e75f7f410bdef83241b9362"
     }
   ],
   "comments": [
@@ -555,9 +595,9 @@
       "node_id": "PRRC_kwDOAN28mc6IyaHd",
       "diff_hunk": "@@ -0,0 +1,244 @@\n+```\n+BIP: TBD\n+Layer: Consensus (soft fork)\n+Title: OP_TWEAKADD - x-only key tweak addition\n+Author: Jeremy Rubin <jeremy@char.network>\n+Status: Draft\n+Type: Standards Track\n+Created: 2025-08-22\n+License: BSD-3-Clause\n+```\n+## Abstract\n+\n+This proposal defines a new tapscript opcode, `OP_TWEAKADD`, that takes an x-only public key and a 32-byte integer `h` on the stack and pushes the x-only public key corresponding to `P + h*G`, where `P` is the lifted point for the input x-coordinate and `G` is the secp256k1 generator. The operation mirrors the Taproot tweak used by BIP340 signers and enables simple, verifiable key modifications inside script without revealing private keys or relying on hash locks.\n+\n+## Motivation\n+\n+Bitcoin already leverages x-only key tweaking (for example, Taproot internal to output key derivation). Exposing a minimal, consensus-enforced version of \"add a generator multiple to this key\" inside tapscript:\n+\n+- Enables script-level key evolutions (e.g., variable dependent authorized keys) without full signature verification at each step.\n+- Supports scriptless-script patterns where spending conditions are realized by transforming keys rather than revealing preimages.\n+- Allows compact covenant-like constructions where authorization is carried by key lineage, while keeping semantics narrowly scoped.\n+\n+\n+## Specification\n+\n+### Applicability and opcode number\n+\n+- Context: Only valid in tapscript (witness version 1, leaf version 0xc0). In legacy or segwit v0 script, `OP_TWEAKADD` is disabled and causes script failure.\n+- Opcode: OP_TWEAKADD (0xBE, or TBD, any unused OP_SUCCESSx, preferably one which might never be restored in the future).\n+\n+### Stack semantics\n+\n+Input (top last):\n+\n+```\n+\n+... \\[pubkey32] \\[h32] OP\\_TWEAKADD  ->  ... \\[pubkey32\\_out]\n+\n+````\n+\n+- `pubkey32`: 32-byte x-only public key (big-endian x coordinate).\n+- `h32`: 32-byte big-endian unsigned integer `t`.\n+\n+Output:\n+\n+- `pubkey32_out`: 32-byte x-only public key for `Q = P + t*G`.\n+\n+### Operation and failure conditions\n+\n+Let `n` be the secp256k1 curve order.\n+\n+1. Parse `h32` as big-endian integer `t`. If `t >= n`, fail.\n+2. Interpret `pubkey32` as an x-coordinate and attempt the BIP340 even-Y lift:\n+   - If no curve point exists with that x, fail.\n+   - Otherwise, obtain `P` with even Y.\n+3. Compute `Q = P + t*G`. If `Q` is the point at infinity, fail.\n+4. Push `x(Q)` as a 32-byte big-endian value.\n+\n+### Conventions\n+\n+- X-only keys follow BIP340 conventions (even-Y).\n+- Scalars must be exactly 32 bytes, big-endian, and less than `n`.\n+- Non-32-byte inputs fail (consensus). Minimal push rules apply (policy).\n+\n+### Resource usage\n+\n+- Performs one fixed-base EC scalar multiplication (`t*G`) plus one EC point addition (`P + t*G`).\n+- Costs should be aligned with `OP_CHECKSIG` operation, budget is decremented by 50.\n+\n+## Rationale\n+\n+- Even-Y x-only is consistent with BIP340/Taproot.\n+- Infinity outputs are rejected to avoid invalid keys.\n+- Functionality is narrowly scoped to Taproot-style tweaks, avoiding arbitrary EC arithmetic.\n+- Push opcode rather than verification opcode for script compactness.\n+\n+## Backwards compatibility\n+\n+- Old nodes: treat unknown tapscript opcode as OP_SUCCESSx.\n+- This is a soft-fork change, tapscript-only.\n+\n+## Future compatibility\n+\n+- A future OP_CAT or OP_TAPTREE opcode can prepare a tweak for a taproot output key correctly\n+\n+## Deployment\n+\n+TBD\n+\n+## Security considerations\n+\n+- Scalar range check prevents overflow and ambiguity.\n+- Infinity guard ensures valid outputs only.\n+- Scripts must control `t` derivation securely, which in many applications is trivial.\n+- No new witness malleability introduced because tweaks must be exactly 32-bytes, and x-only key can only derive one even-Y point.\n+\n+## Reference semantics (pseudocode)\n+\n+```python\n+SECP256K1_ORDER = n  # 0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141\n+\n+def tweak_add(pubkey32: bytes, h32: bytes) -> bytes:\n+    if len(pubkey32) != 32 or len(h32) != 32:\n+        raise ValueError\n+    t = int.from_bytes(h32, 'big')\n+    if t >= SECP256K1_ORDER:\n+        raise ValueError\n+    P = lift_x_even_y(pubkey32)  # BIP340 lift of x to the point with even Y\n+    if P is None:\n+        raise ValueError\n+    Q = point_add(P, scalar_mul_G(t))  # Q = P + t*G\n+    if Q is None:  # point at infinity\n+        raise ValueError\n+    return Q.x.to_bytes(32, 'big')\n+````\n+\n+## Script evaluation rules\n+\n+0. If less than 2 stack elements, fail.\n+1. Pop `h32`, then `pubkey32`.\n+2. If either length is not 32, fail.\n+3. Run `tweak_add` as above.\n+4. Push the 32-byte x-only result.\n+\n+## Test vectors (numeric, hex)\n+\n+All values are 32-byte hex, big-endian. Curve is secp256k1 with generator G. Order `n`:\n+\n+```\n+n = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141 \n+```\n+\n+The following vectors assume BIP340 even-Y lifting of input x-only keys.\n+\n+TODO: these test vectors will be actually computed and checked...\n+\n+### Known inputs\n+\n+```\n+x(G)   = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+x(2G)  = c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5\n+x(3G)  = f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9\n+x(5G)  = 2f8bde4d1a07209355b4a7250a5c5128e88b84bddc619ab7cba8d569b240efe4\n+x(6G)  = fff97bd5755eeea420453a14355235d382f6472f8568a18b2f057a1460297556\n+x(7G)  = 5cbdf0646e5db4eaa398f365f2ea7a0e3d419b7e0330e39ce92bddedcac4f9bc\n+```\n+\n+### Passing cases\n+\n+1. Identity tweak (t = 0):\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = 0000000000000000000000000000000000000000000000000000000000000000\n+result   = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+```\n+\n+2. Increment by 1:\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = 0000000000000000000000000000000000000000000000000000000000000001\n+result   = c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5\n+```\n+\n+3. Increment by 2:\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = 0000000000000000000000000000000000000000000000000000000000000002\n+result   = f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9\n+```\n+\n+4. Increment by 5:\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = 0000000000000000000000000000000000000000000000000000000000000005\n+result   = fff97bd5755eeea420453a14355235d382f6472f8568a18b2f057a1460297556\n+```\n+\n+5. Different input x (using x(2G)) with t = 3:\n+\n+```\n+pubkey32 = c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5\n+h32      = 0000000000000000000000000000000000000000000000000000000000000003\n+result   = 2f8bde4d1a07209355b4a7250a5c5128e88b84bddc619ab7cba8d569b240efe4\n+```\n+\n+6. Larger values: input x(7G) with t = 9:\n+\n+```\n+pubkey32 = 5cbdf0646e5db4eaa398f365f2ea7a0e3d419b7e0330e39ce92bddedcac4f9bc\n+h32      = 0000000000000000000000000000000000000000000000000000000000000009\n+result   = e60fce93b59e9ec53011aabc21c23e97b2a31369b87a5ae9c44ee89e2a6dec0a\n+```\n+\n+### Failing cases\n+\n+A) Scalar out of range (t = n):\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = ffffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141\n+expect   = fail\n+```\n+\n+B) Invalid x (no lift possible), example x = 0:\n+\n+```\n+pubkey32 = 0000000000000000000000000000000000000000000000000000000000000000\n+h32      = 0000000000000000000000000000000000000000000000000000000000000001\n+expect   = fail\n+```\n+\n+C) Infinity result: choose input x(G), t = n - 1 (so P + t*G = n*G = infinity):\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = ffffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140\n+expect   = fail\n+```\n+\n+\n+## Reference implementation notes\n+\n+* Reuse BIP340 lift/encode helpers from Taproot verification.\n+* Implement `t*G` via fixed-base multiplication, then combine with `P` using point addition.\n+* Serialize the result as 32-byte x-only.\n+* Charge EC op budget as 50, like `OP_CHECKSIGADD`.\n+\n+\n+## Acknowledgements\n+\n+This proposal extends the Taproot tweak mechanism (BIP340/341) into script, inspired by prior work on scriptless scripts and key-evolution constructions. There has been various discussion of OP_TWEAKADD over the years, including by Russell O'Connor and Steven Roose.\n+\n+## References\n+\n+- [CATT: Thoughts about an alternative covenant softfork proposal](https://delvingbitcoin.org/t/catt-thoughts-about-an-alternative-covenant-softfork-proposal/125)\n+- [Bitcoindev mailing list discussion](https://gnusha.org/pi/bitcoindev/e98d76f2-6f2c-9c3a-6a31-bccb34578c31@roose.io/)",
       "path": "bip-XXXX.md",
-      "position": 310,
+      "position": null,
       "original_position": 240,
-      "commit_id": "7602e08769c005a747b903507e45b298cc946e55",
+      "commit_id": "14f28051a76d3bef8e75f7f410bdef83241b9362",
       "original_commit_id": "b24c5049ed9b71aa64cf38fe221f3af2c3b0aee8",
       "in_reply_to_id": null,
       "user": {
@@ -597,7 +637,60 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 310,
+      "line": null,
+      "original_line": 240,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2296239704",
+      "pull_request_review_id": 3148611382,
+      "id": 2296239704,
+      "node_id": "PRRC_kwDOAN28mc6I3dZY",
+      "diff_hunk": "@@ -0,0 +1,244 @@\n+```\n+BIP: TBD\n+Layer: Consensus (soft fork)\n+Title: OP_TWEAKADD - x-only key tweak addition\n+Author: Jeremy Rubin <jeremy@char.network>\n+Status: Draft\n+Type: Standards Track\n+Created: 2025-08-22\n+License: BSD-3-Clause\n+```\n+## Abstract\n+\n+This proposal defines a new tapscript opcode, `OP_TWEAKADD`, that takes an x-only public key and a 32-byte integer `h` on the stack and pushes the x-only public key corresponding to `P + h*G`, where `P` is the lifted point for the input x-coordinate and `G` is the secp256k1 generator. The operation mirrors the Taproot tweak used by BIP340 signers and enables simple, verifiable key modifications inside script without revealing private keys or relying on hash locks.\n+\n+## Motivation\n+\n+Bitcoin already leverages x-only key tweaking (for example, Taproot internal to output key derivation). Exposing a minimal, consensus-enforced version of \"add a generator multiple to this key\" inside tapscript:\n+\n+- Enables script-level key evolutions (e.g., variable dependent authorized keys) without full signature verification at each step.\n+- Supports scriptless-script patterns where spending conditions are realized by transforming keys rather than revealing preimages.\n+- Allows compact covenant-like constructions where authorization is carried by key lineage, while keeping semantics narrowly scoped.\n+\n+\n+## Specification\n+\n+### Applicability and opcode number\n+\n+- Context: Only valid in tapscript (witness version 1, leaf version 0xc0). In legacy or segwit v0 script, `OP_TWEAKADD` is disabled and causes script failure.\n+- Opcode: OP_TWEAKADD (0xBE, or TBD, any unused OP_SUCCESSx, preferably one which might never be restored in the future).\n+\n+### Stack semantics\n+\n+Input (top last):\n+\n+```\n+\n+... \\[pubkey32] \\[h32] OP\\_TWEAKADD  ->  ... \\[pubkey32\\_out]\n+\n+````\n+\n+- `pubkey32`: 32-byte x-only public key (big-endian x coordinate).\n+- `h32`: 32-byte big-endian unsigned integer `t`.\n+\n+Output:\n+\n+- `pubkey32_out`: 32-byte x-only public key for `Q = P + t*G`.\n+\n+### Operation and failure conditions\n+\n+Let `n` be the secp256k1 curve order.\n+\n+1. Parse `h32` as big-endian integer `t`. If `t >= n`, fail.\n+2. Interpret `pubkey32` as an x-coordinate and attempt the BIP340 even-Y lift:\n+   - If no curve point exists with that x, fail.\n+   - Otherwise, obtain `P` with even Y.\n+3. Compute `Q = P + t*G`. If `Q` is the point at infinity, fail.\n+4. Push `x(Q)` as a 32-byte big-endian value.\n+\n+### Conventions\n+\n+- X-only keys follow BIP340 conventions (even-Y).\n+- Scalars must be exactly 32 bytes, big-endian, and less than `n`.\n+- Non-32-byte inputs fail (consensus). Minimal push rules apply (policy).\n+\n+### Resource usage\n+\n+- Performs one fixed-base EC scalar multiplication (`t*G`) plus one EC point addition (`P + t*G`).\n+- Costs should be aligned with `OP_CHECKSIG` operation, budget is decremented by 50.\n+\n+## Rationale\n+\n+- Even-Y x-only is consistent with BIP340/Taproot.\n+- Infinity outputs are rejected to avoid invalid keys.\n+- Functionality is narrowly scoped to Taproot-style tweaks, avoiding arbitrary EC arithmetic.\n+- Push opcode rather than verification opcode for script compactness.\n+\n+## Backwards compatibility\n+\n+- Old nodes: treat unknown tapscript opcode as OP_SUCCESSx.\n+- This is a soft-fork change, tapscript-only.\n+\n+## Future compatibility\n+\n+- A future OP_CAT or OP_TAPTREE opcode can prepare a tweak for a taproot output key correctly\n+\n+## Deployment\n+\n+TBD\n+\n+## Security considerations\n+\n+- Scalar range check prevents overflow and ambiguity.\n+- Infinity guard ensures valid outputs only.\n+- Scripts must control `t` derivation securely, which in many applications is trivial.\n+- No new witness malleability introduced because tweaks must be exactly 32-bytes, and x-only key can only derive one even-Y point.\n+\n+## Reference semantics (pseudocode)\n+\n+```python\n+SECP256K1_ORDER = n  # 0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141\n+\n+def tweak_add(pubkey32: bytes, h32: bytes) -> bytes:\n+    if len(pubkey32) != 32 or len(h32) != 32:\n+        raise ValueError\n+    t = int.from_bytes(h32, 'big')\n+    if t >= SECP256K1_ORDER:\n+        raise ValueError\n+    P = lift_x_even_y(pubkey32)  # BIP340 lift of x to the point with even Y\n+    if P is None:\n+        raise ValueError\n+    Q = point_add(P, scalar_mul_G(t))  # Q = P + t*G\n+    if Q is None:  # point at infinity\n+        raise ValueError\n+    return Q.x.to_bytes(32, 'big')\n+````\n+\n+## Script evaluation rules\n+\n+0. If less than 2 stack elements, fail.\n+1. Pop `h32`, then `pubkey32`.\n+2. If either length is not 32, fail.\n+3. Run `tweak_add` as above.\n+4. Push the 32-byte x-only result.\n+\n+## Test vectors (numeric, hex)\n+\n+All values are 32-byte hex, big-endian. Curve is secp256k1 with generator G. Order `n`:\n+\n+```\n+n = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141 \n+```\n+\n+The following vectors assume BIP340 even-Y lifting of input x-only keys.\n+\n+TODO: these test vectors will be actually computed and checked...\n+\n+### Known inputs\n+\n+```\n+x(G)   = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+x(2G)  = c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5\n+x(3G)  = f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9\n+x(5G)  = 2f8bde4d1a07209355b4a7250a5c5128e88b84bddc619ab7cba8d569b240efe4\n+x(6G)  = fff97bd5755eeea420453a14355235d382f6472f8568a18b2f057a1460297556\n+x(7G)  = 5cbdf0646e5db4eaa398f365f2ea7a0e3d419b7e0330e39ce92bddedcac4f9bc\n+```\n+\n+### Passing cases\n+\n+1. Identity tweak (t = 0):\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = 0000000000000000000000000000000000000000000000000000000000000000\n+result   = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+```\n+\n+2. Increment by 1:\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = 0000000000000000000000000000000000000000000000000000000000000001\n+result   = c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5\n+```\n+\n+3. Increment by 2:\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = 0000000000000000000000000000000000000000000000000000000000000002\n+result   = f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9\n+```\n+\n+4. Increment by 5:\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = 0000000000000000000000000000000000000000000000000000000000000005\n+result   = fff97bd5755eeea420453a14355235d382f6472f8568a18b2f057a1460297556\n+```\n+\n+5. Different input x (using x(2G)) with t = 3:\n+\n+```\n+pubkey32 = c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5\n+h32      = 0000000000000000000000000000000000000000000000000000000000000003\n+result   = 2f8bde4d1a07209355b4a7250a5c5128e88b84bddc619ab7cba8d569b240efe4\n+```\n+\n+6. Larger values: input x(7G) with t = 9:\n+\n+```\n+pubkey32 = 5cbdf0646e5db4eaa398f365f2ea7a0e3d419b7e0330e39ce92bddedcac4f9bc\n+h32      = 0000000000000000000000000000000000000000000000000000000000000009\n+result   = e60fce93b59e9ec53011aabc21c23e97b2a31369b87a5ae9c44ee89e2a6dec0a\n+```\n+\n+### Failing cases\n+\n+A) Scalar out of range (t = n):\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = ffffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141\n+expect   = fail\n+```\n+\n+B) Invalid x (no lift possible), example x = 0:\n+\n+```\n+pubkey32 = 0000000000000000000000000000000000000000000000000000000000000000\n+h32      = 0000000000000000000000000000000000000000000000000000000000000001\n+expect   = fail\n+```\n+\n+C) Infinity result: choose input x(G), t = n - 1 (so P + t*G = n*G = infinity):\n+\n+```\n+pubkey32 = 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798\n+h32      = ffffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140\n+expect   = fail\n+```\n+\n+\n+## Reference implementation notes\n+\n+* Reuse BIP340 lift/encode helpers from Taproot verification.\n+* Implement `t*G` via fixed-base multiplication, then combine with `P` using point addition.\n+* Serialize the result as 32-byte x-only.\n+* Charge EC op budget as 50, like `OP_CHECKSIGADD`.\n+\n+\n+## Acknowledgements\n+\n+This proposal extends the Taproot tweak mechanism (BIP340/341) into script, inspired by prior work on scriptless scripts and key-evolution constructions. There has been various discussion of OP_TWEAKADD over the years, including by Russell O'Connor and Steven Roose.\n+\n+## References\n+\n+- [CATT: Thoughts about an alternative covenant softfork proposal](https://delvingbitcoin.org/t/catt-thoughts-about-an-alternative-covenant-softfork-proposal/125)\n+- [Bitcoindev mailing list discussion](https://gnusha.org/pi/bitcoindev/e98d76f2-6f2c-9c3a-6a31-bccb34578c31@roose.io/)",
+      "path": "bip-XXXX.md",
+      "position": null,
+      "original_position": 240,
+      "commit_id": "14f28051a76d3bef8e75f7f410bdef83241b9362",
+      "original_commit_id": "b24c5049ed9b71aa64cf38fe221f3af2c3b0aee8",
+      "in_reply_to_id": 2294915549,
+      "user": {
+        "login": "JeremyRubin",
+        "id": 886523,
+        "node_id": "MDQ6VXNlcjg4NjUyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/886523?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/JeremyRubin",
+        "html_url": "https://github.com/JeremyRubin",
+        "followers_url": "https://api.github.com/users/JeremyRubin/followers",
+        "following_url": "https://api.github.com/users/JeremyRubin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/JeremyRubin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/JeremyRubin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/JeremyRubin/subscriptions",
+        "organizations_url": "https://api.github.com/users/JeremyRubin/orgs",
+        "repos_url": "https://api.github.com/users/JeremyRubin/repos",
+        "events_url": "https://api.github.com/users/JeremyRubin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/JeremyRubin/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "yes sir 🫡 ",
+      "created_at": "2025-08-23T17:40:27Z",
+      "updated_at": "2025-08-23T17:40:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1944#discussion_r2296239704",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2296239704"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1944"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
       "original_line": 240,
       "side": "RIGHT"
     }
