@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-08-22T22:43:24Z",
-    "updated_at": "2025-08-25T21:42:01Z",
+    "updated_at": "2025-08-25T23:31:25Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -278,7 +278,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5711,
+        "forks_count": 5712,
         "stargazers_count": 10145,
         "watchers_count": 10145,
         "size": 16604,
@@ -311,7 +311,7 @@
     "deletions": 0,
     "changed_files": 3,
     "commits": 6,
-    "review_comments": 6,
+    "review_comments": 7,
     "comments": 0
   },
   "events": [
@@ -1010,6 +1010,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2299198935"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1944"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 29,
+      "original_line": 29,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2299354678",
+      "pull_request_review_id": 3153322188,
+      "id": 2299354678,
+      "node_id": "PRRC_kwDOAN28mc6JDV42",
+      "diff_hunk": "@@ -0,0 +1,317 @@\n+```\n+BIP: TBD\n+Layer: Consensus (soft fork)\n+Title: OP_TWEAKADD - x-only key tweak addition\n+Author: Jeremy Rubin <jeremy@char.network>\n+Status: Draft\n+Type: Standards Track\n+Created: 2025-08-22\n+License: BSD-3-Clause\n+```\n+## Abstract\n+\n+This proposal defines a new tapscript opcode, `OP_TWEAKADD`, that takes an x-only public key and a 32-byte integer `h` on the stack and pushes the x-only public key corresponding to `P + h*G`, where `P` is the lifted point for the input x-coordinate and `G` is the secp256k1 generator. The operation mirrors the Taproot tweak used by BIP340 signers and enables simple, verifiable key modifications inside script without revealing private keys or relying on hash locks.\n+\n+## Motivation\n+\n+Bitcoin already leverages x-only key tweaking (for example, Taproot internal to output key derivation). Exposing a minimal, consensus-enforced version of \"add a generator multiple to this key\" inside tapscript:\n+\n+- Enables script-level key evolutions (e.g., variable dependent authorized keys) without full signature verification at each step.\n+- Supports scriptless-script patterns where spending conditions are realized by transforming keys rather than revealing preimages.\n+- Allows compact covenant-like constructions where authorization is carried by key lineage, while keeping semantics narrowly scoped.\n+\n+\n+## Specification\n+\n+### Applicability and opcode number\n+\n+- Context: Only valid in tapscript (witness version 1, leaf version 0xc0). In legacy or segwit v0 script, `OP_TWEAKADD` is disabled and causes script failure.\n+- Opcode: OP_TWEAKADD (0xBE, or TBD, any unused OP_SUCCESSx, preferably one which might never be restored in the future).",
+      "path": "bip-XXXX.md",
+      "position": 29,
+      "original_position": 29,
+      "commit_id": "9415fbc4e4176d1510aea9a66eb52564fac3f52c",
+      "original_commit_id": "9415fbc4e4176d1510aea9a66eb52564fac3f52c",
+      "in_reply_to_id": 2299198935,
+      "user": {
+        "login": "JeremyRubin",
+        "id": 886523,
+        "node_id": "MDQ6VXNlcjg4NjUyMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/886523?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/JeremyRubin",
+        "html_url": "https://github.com/JeremyRubin",
+        "followers_url": "https://api.github.com/users/JeremyRubin/followers",
+        "following_url": "https://api.github.com/users/JeremyRubin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/JeremyRubin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/JeremyRubin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/JeremyRubin/subscriptions",
+        "organizations_url": "https://api.github.com/users/JeremyRubin/orgs",
+        "repos_url": "https://api.github.com/users/JeremyRubin/repos",
+        "events_url": "https://api.github.com/users/JeremyRubin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/JeremyRubin/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "E.g., it's desirable to not use 0x7f because that's OP_SUBSTR and if we ever did a soft fork like that, it's simpler to not change those opcodes.\r\n\r\nfrom bip-347:\r\n\r\n> We specifically choose to use OP_SUCCESS126 rather than another OP_SUCCESSx as OP_SUCCESS126 uses the same opcode value (126 in decimal and 0x7e in hexadecimal) that was used for OP_CAT prior to it being disabled in Bitcoin. This removes a potential source of confusion that would exist if we had a opcode value different from the one used in the original OP_CAT opcode.\r\n\r\n\r\n",
+      "created_at": "2025-08-25T23:31:25Z",
+      "updated_at": "2025-08-25T23:31:25Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1944#discussion_r2299354678",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2299354678"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1944"
