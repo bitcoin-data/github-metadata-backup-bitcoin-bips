@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-08-10T06:56:50Z",
-    "updated_at": "2025-09-02T02:56:12Z",
+    "updated_at": "2025-09-02T03:12:13Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 13,
     "commits": 3,
-    "review_comments": 106,
+    "review_comments": 107,
     "comments": 17
   },
   "events": [
@@ -7313,6 +7313,59 @@
       "start_side": "RIGHT",
       "line": 224,
       "original_line": 224,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2314818355",
+      "pull_request_review_id": 3174764203,
+      "id": 2314818355,
+      "node_id": "PRRC_kwDOAN28mc6J-VMz",
+      "diff_hunk": "@@ -0,0 +1,486 @@\n+```\n+BIP: TBD\n+Layer: Peer Services\n+Title: Utreexo - Peer Services\n+Authors: Tadge Dryja <rx@awsomnet.org>\n+         Calvin Kim <bip@calvinkim.info>\n+         Davidson Souza <bip@dlsouza.dev>\n+Comments-URI: TBD\n+Status: Draft\n+Type: Specification\n+Created: 2024-08-08\n+License: BSD-3-Clause\n+Requires: <BIP-???? (Utreexo Accumulator Specification), BIP-???? (Utreexo - Validation Layer)>\n+```\n+\n+## Abstract\n+\n+Utreexo creates a compact representation of the UTXO set that only takes a couple of kilobytes.\n+When spending a transaction, one must provide an inclusion proof for the UTXOs being spent.\n+This BIP defines the networking-layer changes needed to allow nodes to exchange the inclusion proofs.\n+This document **does not** describe how to validate blocks and transactions using the provided data, see [Utreexo - Validation Layer](./utreexo-validation-bip.md) for more details.\n+\n+## Motivation\n+\n+Utreexo nodes require the inclusion proof to fully validate blocks and transactions.\n+Each block has a corresponding inclusion proof with it and this inclusion proof for blocks up to height 906,937 requires an additional 631.85GB, which is roughly 40GB less than the size of the block data.\n+Each transaction also has a corresponding inclusion proof with it and for normal transaction relay, the proof is roughly 3 times the size of the transaction.\n+It's still reasonable for a single node to download this extra data but little caching goes a long way in reducing the amount of data that one has to download.\n+We define the new P2P messages for the inclusion proofs to support caching to reduce bandwidth while also allowing a high bandwidth, low-latency usage.\n+\n+## License\n+\n+This BIP is licensed under the BSD-3-Clause license.\n+\n+## Overview\n+\n+### Requirements and Compatibility\n+\n+Nodes implementing Utreexo can choose which messages to support.\n+There are a number of configurations possible, and this BIP does not restrict nodes to any subsets of messages.\n+\n+That said, there are three likely types of nodes:\n+1. Compact State Nodes (CSNs)\n+2. Bridge nodes\n+3. Archive nodes\n+\n+CSNs have the goal of minimizing data storage and download while performing block validation.\n+Archive and bridge nodes store more data and provide this data to CSNs.\n+\n+Bridge nodes are nodes that can add inclusion proofs to mempool transactions, support the same set of messages as CSNs, and should in fact be indistinguishable from CSNs on the network.",
+      "path": "utreexo-p2p-bip.md",
+      "position": 50,
+      "original_position": 50,
+      "commit_id": "d1d03420ac5ee234494d84358a4abd06df269f65",
+      "original_commit_id": "d1d03420ac5ee234494d84358a4abd06df269f65",
+      "in_reply_to_id": 2308572658,
+      "user": {
+        "login": "adiabat",
+        "id": 22841402,
+        "node_id": "MDQ6VXNlcjIyODQxNDAy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22841402?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/adiabat",
+        "html_url": "https://github.com/adiabat",
+        "followers_url": "https://api.github.com/users/adiabat/followers",
+        "following_url": "https://api.github.com/users/adiabat/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/adiabat/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/adiabat/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/adiabat/subscriptions",
+        "organizations_url": "https://api.github.com/users/adiabat/orgs",
+        "repos_url": "https://api.github.com/users/adiabat/repos",
+        "events_url": "https://api.github.com/users/adiabat/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/adiabat/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Maybe \"indistinguishable\" is too strong -- it would be great if nobody could tell, but if there are a small number of bridge nodes and a large number of CSNs it might be traceable.\r\n\r\nThe main thing is bridge nodes don't announce themselves as such; they just pass proofs and transactions around just like CSNs.  If you're a CSN connected directly to a bridge node, you might see a lot of INVs and proofs originate from that node, and they might be a bridge, but they might just be a well connected CSN.\r\n\r\nIt's similar to trying to prevent people from tracing new transactions to originating nodes, though probably in one sense harder (bridge nodes keep being bridge nodes all the time vs only getting one shot with a wallet broadcasting) but also lower stakes (determining that a node is a bridge doesn't hurt privacy or network strength that much).\r\n",
+      "created_at": "2025-09-02T03:12:13Z",
+      "updated_at": "2025-09-02T03:12:13Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1923#discussion_r2314818355",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2314818355"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1923"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 50,
+      "original_line": 50,
       "side": "RIGHT"
     }
   ]
