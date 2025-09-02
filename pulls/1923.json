@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-08-10T06:56:50Z",
-    "updated_at": "2025-08-30T03:53:12Z",
+    "updated_at": "2025-09-02T02:56:12Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -277,12 +277,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5713,
-        "stargazers_count": 10153,
-        "watchers_count": 10153,
+        "forks_count": 5716,
+        "stargazers_count": 10165,
+        "watchers_count": 10165,
         "size": 16604,
         "default_branch": "master",
-        "open_issues_count": 37,
+        "open_issues_count": 38,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -295,7 +295,7 @@
         "visibility": "public",
         "pushed_at": "2025-08-25T18:58:40Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-08-30T03:13:09Z",
+        "updated_at": "2025-09-01T23:26:41Z",
         "allow_forking": true
       }
     },
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 13,
     "commits": 3,
-    "review_comments": 104,
+    "review_comments": 106,
     "comments": 17
   },
   "events": [
@@ -7207,6 +7207,112 @@
       "start_side": null,
       "line": 287,
       "original_line": 287,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2314801802",
+      "pull_request_review_id": 3174745474,
+      "id": 2314801802,
+      "node_id": "PRRC_kwDOAN28mc6J-RKK",
+      "diff_hunk": "@@ -0,0 +1,632 @@\n+```\n+BIP: TBD\n+Layer: Peer Services\n+Title: Utreexo Accumulator Specification\n+Authors: Tadge Dryja <rx@awsomnet.org>\n+         Calvin Kim <bip@calvinkim.info>\n+         Davidson Souza <bip@dlsouza.dev>\n+Comments-URI: TBD\n+Status: Draft\n+Type: Specification\n+Created: 2025-06-18\n+License: BSD-3-Clause\n+```\n+\n+## Abstract\n+\n+This BIP describes the Utreexo accumulator and it's operations. It lays down how to update the\n+accumulator as well as how to generate and verify inclusion proofs for elements in the accumulator.\n+\n+## Motivation\n+\n+The Bitcoin network is composed of a set of nodes that validate blocks and\n+transactions as they are received. These nodes need to keep track of the current state of the network in order to\n+fulfill their role. Most importantly, they must maintain a record of all coins that\n+have been created but not yet spent, a collection known as the UTXO set.\n+\n+This set is typically stored in a database that must be accessed frequently and cannot\n+be pruned. As a result, the cost of running a node is directly tied to the size\n+of the UTXO set. Since it can grow indefinitely, bounded only by block size, it represents a\n+long-term scalability concern.\n+\n+Utreexo is a dynamic accumulator that enables the UTXO set to be represented in just a few kilobytes,\n+by requiring peers to provide additional proof data to verify the inclusion of a UTXO in the\n+accumulator. This allows for the construction of extremely lightweight nodes capable of performing\n+the same validation as a full node, without the need to store the entire UTXO set.\n+\n+This BIP defines how the Utreexo accumulator works, defining the data structure and algorithms used to\n+maintain the accumulator, as well as how to generate and verify inclusion proofs for elements in the accumulator.\n+It does not define how the accumulator is used in the Bitcoin protocol, but rather provides a foundation for future\n+BIPs that will define how to integrate Utreexo into Bitcoin validation and P2P network protocol.\n+\n+## License\n+\n+This document is licensed under the BSD-3-Clause license.\n+\n+## Preliminaries\n+\n+An accumulator is a cryptographic data structure that allows for the compact representation of a set,\n+enabling efficient membership proofs without requiring storage of the entire set. In the context of Utreexo,\n+the accumulator tracks the current set of unspent transaction outputs (UTXOs).\n+\n+The Utreexo accumulator is based on an append-only Merkle tree design introduced in [^1],\n+which provides logarithmic-sized inclusion proofs. Utreexo extends this design to support dynamic updates,\n+specifically enabling deletions from the set—a requirement for tracking UTXO spends in Bitcoin.\n+To accommodate this, Utreexo changes the storage requirement from the accumulator design in [^1] to $O(log_2(N))$,\n+where N is the number of elements ever added to the set, while still keeping proof sizes small and verification efficient.\n+\n+## Merkle Forest\n+\n+The Utreexo accumulator consists of a set of Merkle trees: specifically, perfect binary trees with $2^n$ elements,\n+where each node in the tree contains a 32-byte hash. The elements being stored appear at the leaves—the bottom layer of the tree.\n+The topmost node is referred to as the \"root,\" while nodes located between the leaves and the root are called \"intermediate nodes.\"\n+\n+Any integer number of elements ($N$) can be represented as a forest of such trees. On average, a set of N elements will require\n+approximately $\\frac{log_2(N)}{2}$ trees. The number and sizes of trees are determined by the binary representation of $N$:\n+each 1-bit corresponds to a tree, and its position in the binary encoding determines the size of that tree.\n+\n+For example, a forest with 5 elements (binary `0b101`) would consist of two trees: one with 4 elements (representing the 2nd bit)\n+and one with 1 element (representing the 0th bit). A forest with 8 elements (`0b1000`) would require only a single 8-element tree,\n+as 8 is a power of 2.\n+\n+More generally, for any N, the number of trees equals the number of set bits (1s) in the binary representation of N.\n+The size of each tree corresponds to the power of two represented by the position of each set bit.\n+For example, the decimal number 21 (binary `0b10101`) contains three 1-bits, meaning three trees are needed in the forest:\n+a 16-element tree ($2^4$), a 4-element tree ($2^2$), and a 1-element tree ($2^0$), with gaps at the 8-element ($2^3$)\n+and 2-element ($2^1$) positions.\n+\n+Each of the hashes in the forest can be referred by an integer label. This labeling is a convention we find easiest\n+to use but does not directly affect the design of the accumulator; other labelling systems could also work and be\n+translated to this one.\n+\n+We label positions starting at `0` on the bottom left, incrementing as we traverse the bottom row from left to right,\n+and then continue on to higher rows. There may be gaps in the label numbers when moving up a row; the label\n+numbers are \"padded out\" to the next perfect tree that could encompass the entire forest.\n+\n+For example, a forest with 8 leaves will have a single tree and positions will be labeled like this:\n+\n+```\n+14\n+|---------------\\\n+12              13\n+|-------\\       |-------\\\n+08      09      10      11\n+|---\\   |---\\   |---\\   |---\\\n+00  01  02  03  04  05  06  07\n+```\n+\n+While a forest with 7 leaves will look like this:\n+\n+```\n+\n+|---------------\\\n+12\n+|-------\\       |-------\\\n+08      09      10\n+|---\\   |---\\   |---\\   |---\\\n+00  01  02  03  04  05  06\n+```\n+\n+\n+When adding another leaf to the accumulator when it's already allocated $2^N$ leaves will result in\n+the accumulator resizing to hold $2^{N+1}$ leaves. For example, when adding a leaf to the accumulator\n+state here:\n+\n+```\n+14\n+|---------------\\\n+12              13\n+|-------\\       |-------\\\n+08      09      10      11\n+|---\\   |---\\   |---\\   |---\\\n+00  01  02  03  04  05  06  07\n+```\n+\n+The new accumulator will look like so:\n+\n+```\n+\n+|-------------------------------\\\n+28\n+|---------------\\               |---------------\\\n+24              25\n+|-------\\       |-------\\       |-------\\       |-------\\\n+16      17      18      19\n+|---\\   |---\\   |---\\   |---\\   |---\\   |---\\   |---\\   |---\\\n+00  01  02  03  04  05  06  07  08\n+```\n+\n+The new accumulator with all the positions:\n+\n+```\n+30\n+|-------------------------------\\\n+28                              29\n+|---------------\\               |---------------\\\n+24              25              26              27\n+|-------\\       |-------\\       |-------\\       |-------\\\n+16      17      18      19      20      21      22      23\n+|---\\   |---\\   |---\\   |---\\   |---\\   |---\\   |---\\   |---\\\n+00  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15\n+```\n+\n+# Definitions\n+\n+- `hash` refers to a vector of 32 byte arrays.\n+- `[]hash` refers to a vector of `hash`.\n+- `acc` refers to the Utreexo accumulator state. An `acc` is comprised of:\n+  - `roots` refers to the roots of the Merkle Trees. Represented as `[]hash`.\n+  - `numleaves` refers to the number of total leaves added to the accumulator. Represented as uint64.\n+- `root` refers to the top `hash` in a tree in the `acc`.\n+- `proof` is an inclusion proof for elements in the accumulator. It's comprised of two fields:\n+  - `targets` are the positions of the elements being proven. Represented as a vector of uint64.\n+  - `proof` are the hashes needed to hash the roots. Represented as a `[]hash`. `proof` MUST be in ascending order by the node positions.\n+    The proof is considered invalid otherwise.\n+\n+# Specification\n+\n+The hash function SHA512/256[^2] is used for the hash operations in the accumulator.\n+\n+An Utreexo accumulator implementation MUST support these 3 operations: Addition, Verification, and Deletion.\n+\n+## Utility Functions\n+\n+The following utility functions are required for performing accumulator operations:\n+\n+**parent_hash(left, right):** Returns the hash of the concatenation of two child hashes (`left` and `right`).",
+      "path": "utreexo-accumulator-bip.md",
+      "position": 176,
+      "original_position": 176,
+      "commit_id": "d1d03420ac5ee234494d84358a4abd06df269f65",
+      "original_commit_id": "d1d03420ac5ee234494d84358a4abd06df269f65",
+      "in_reply_to_id": 2299099519,
+      "user": {
+        "login": "adiabat",
+        "id": 22841402,
+        "node_id": "MDQ6VXNlcjIyODQxNDAy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22841402?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/adiabat",
+        "html_url": "https://github.com/adiabat",
+        "followers_url": "https://api.github.com/users/adiabat/followers",
+        "following_url": "https://api.github.com/users/adiabat/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/adiabat/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/adiabat/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/adiabat/subscriptions",
+        "organizations_url": "https://api.github.com/users/adiabat/orgs",
+        "repos_url": "https://api.github.com/users/adiabat/repos",
+        "events_url": "https://api.github.com/users/adiabat/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/adiabat/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "That's a good point, and we can add a bit about this potential issue in the BIP.\r\n\r\nLeaves can move up, and it's no longer leaves getting hashed with leaves, but leaf/internal node pairs happen often.  An attack would be to grind through transactions to get two leaf hashes that together could look like a leaf data preimage for a rogue UTXO. \r\n\r\nThe reason this isn't a problem is that in all cases when a node is verifying a UTXO proof, the full UTXO data is known and a keyed hash is used (see \"UTXO Hash Preimages\" section of the validation BIP) to get from the UTXO data to the leaf.  The first 128 bytes input to the hash function are the tags (the hash of \"UtreexoV1\").  Since this tag is only used for UTXO data, and not in internal accumulator hashes, this should prevent any internal hashes from being interpreted as UTXO data.",
+      "created_at": "2025-09-02T02:52:06Z",
+      "updated_at": "2025-09-02T02:52:06Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1923#discussion_r2314801802",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2314801802"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1923"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 176,
+      "original_line": 176,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2314805353",
+      "pull_request_review_id": 3174749361,
+      "id": 2314805353,
+      "node_id": "PRRC_kwDOAN28mc6J-SBp",
+      "diff_hunk": "@@ -0,0 +1,328 @@\n+```\n+BIP: TBD\n+Layer: Peer Services\n+Title: Utreexo - Validation Layer\n+Authors: Tadge Dryja <rx@awsomnet.org>\n+         Calvin Kim <bip@calvinkim.info>\n+         Davidson Souza <bip@dlsouza.dev>\n+Comments-URI: TBD\n+Status: Draft\n+Type: Specification\n+Created: 2023-10-01\n+License: BSD-3-Clause\n+Requires: BIP-???? (Utreexo Accumulator Specification)\n+```\n+\n+## Abstract\n+\n+This BIP defines the rules for validating blocks and transactions using the\n+Utreexo accumulator. It is important to note that this BIP does not define the\n+Utreexo accumulator itself, for that see BIP-????. This document is only concerned with\n+the general rules for validating blocks and transactions using the Utreexo,\n+so that all Utreexo nodes can stay in consensus with one another.\n+\n+## Motivation\n+\n+Although Utreexo in its current form is not proposed as a soft fork, it is essential that\n+all implementations adhere to a consistent workflow when performing consensus-critical\n+operations. This BIP defines that workflow, along with the specific rules and their\n+required ordering.\n+\n+There are five consensus-critical components when using the Utreexo accumulator to\n+represent the UTXO set:\n+\n+ - 1: The serialization format of each UTXO (\"leaf data\").\n+ - 2: The hash function used to hash the leaf data.\n+ - 3: Which transaction outputs are excluded from the accumulator.\n+ - 4: The order of operations for the additions and deletions in the accumulator.\n+ - 5: The format of the UTXO proof.\n+\n+A discrepancy in any of the five components above will result in a divergent\n+accumulator state, leading to consensus incompatibilities.\n+\n+## License\n+\n+This BIP is licensed under the BSD 3-clause license.\n+\n+## Specification\n+\n+### Node Hashes\n+\n+During a node's normal operation, it will need to compute the leaf hash for UTXOs\n+being added or removed from the accumulator. The leaf hash is a 32 byte hash that\n+is computed using the SHA-512/256 hash function. See [UTXO Hash Preimages](#utxo-hash-preimages) for the\n+details on how to compute the leaf hash.\n+\n+Unless otherwise specified, all fields are in little-endian format.\n+\n+#### UTXO Hash Preimages\n+\n+Individual UTXOs are represented as 32 byte hashes in the Utreexo accumulator. To obtain this\n+hash, you must compute the SHA-512/256 hash of the following data:\n+\n+| Name              | Type                     | Description                               |\n+| ----------------- | ------------------------ | ----------------------------------------- |\n+| Utreexo_Tag_V1    | 64 byte array            | The version tag to be prepended to the leafhash. |\n+| Utreexo_Tag_V1    | 64 byte array            | The version tag to be prepended to the leafhash. |\n+| BlockHash         | 32 byte array            | The hash of the block in which this tx was confirmed. |\n+| TXID              | 32 byte array            | The transaction's TXID                    |\n+| Vout              | 4 bytes unsigned integer | The output index of this UTXO             |\n+| Header code       | 4 bytes unsigned integer | The block height and iscoinbase. This is a value obtained by left shifting the block height that confirmed this transaction, and then OR-ing it with 1, only if this transaction is a coinbase. |\n+| Amount            | 8 bytes unsigned integer | The amount in satoshis for this UTXO      |\n+| scriptPubkey size | varint                   | scriptPubKey length in bytes              |\n+| scriptPubkey      | variable byte array      | The locking script of the UTXO            |\n+\n+Each field being defined as follows:\n+\n+##### Version tag\n+\n+We use tagged hashes for the hashes committed in the accumulator for versioning\n+purposes. This is added so that if there are changes in the preimage of the\n+hash, the version tag helps to avoid misinterpretation.\n+\n+The Utreexo version tag is the SHA512 hash of the string `UtreexoV1`, which is represented as the vector\n+`[85 116 114 101 101 120 111 86 49]` and hex `0x5574726565786f5631`.  (The resulting 64 byte output is\n+`5b832db8ca26c25be1c542d6cceddda8c145615cff5c35727fb3462610807e20ae534dc3f64299199931772e03787d18156eb3151e0ed1b3098bdc8445861885`).\n+\n+##### Blockhash\n+\n+We commit to the hash of the block which confirms the UTXO. This\n+is not currently used in the validation code, but could be used at a future\n+version to increase the work required for collision attacks.\n+A valid blockhash requires a large amount of work, which would prevent an\n+attacker from performing a standard cycle-finding collision attack in $2^{n/2}$\n+operations for an n-bit hash.\n+\n+This could allow a later or alternate version to use shorter truncated hashes,\n+saving bandwidth and storage while still keeping Bitcoin's $2^{128}$ security.\n+\n+##### TXID\n+\n+The TXID is the transaction ID of the transaction that created this UTXO.\n+\n+##### VOUT\n+\n+The output index of the UTXO in the transaction.\n+\n+##### Header code\n+\n+This field stores the block height and a boolean for marking that the UTXO is\n+part of a coinbase transaction. Mostly serves to save space as the coinbase\n+boolean can be stored in a single bit.\n+\n+This field is a value obtained by left shifting the block height that\n+confirmed this transaction, and then setting the least significant bit to 1 only\n+if it's part of a coinbase transaction. The code to do that is like so:\n+\n+```\n+header_code = block_height\n+header_code <<= 1\n+if IsCoinBase {\n+    header_code |= 1 // only set the bit 0 if it's a coinbase.\n+}\n+```\n+\n+The block height is needed as during transaction validation, it is used during\n+the check of BIP-0065 CLTV. In current nodes, the block height is stored locally\n+as a part of the UTXO set. Since Utreexo nodes get this data from peers, we need\n+to commit to the block height to avoid security vulnerabilities.\n+\n+The boolean for coinbase is needed as they may not be spent before having 100 confirmations.\n+This data is also currently stored locally as a part of the UTXO set for current nodes.\n+\n+##### Amount\n+\n+This field is added to commit to the value of the UTXO. With current nodes, this\n+is stored in the UTXO set but since we receive this in the proof from our peers,\n+we need to commit to this value to avoid malicious peers that may send over the\n+wrong amount.\n+\n+##### script pubkey size\n+\n+As the script pubkey is a variable length byte array, we prepend it with the\n+length.\n+\n+##### script pubkey\n+\n+This field is added to commit to the locking script of the UTXO. With current\n+nodes, this is stored in the UTXO set but since we receive this in the proof\n+from our peers, we need to commit to this value to avoid malicious peers that\n+may send over the wrong locking script.\n+\n+#### Hash function\n+\n+The leaf data is hashed with SHA-512/256, which gives us a 32 byte hash.\n+It was chosen over SHA-256 due to the faster performance on 64 bit systems.\n+\n+#### Excluded UTXOs from the accumulator\n+\n+Not all transaction outputs are added to a node's UTXO set. Normal Bitcoin nodes\n+only form consensus on the set of transactions, not on the UTXO set, so different\n+nodes can omit different outputs and stay compatible as long as those outputs are\n+never spent. Utreexo nodes, however, do require explicit consensus on the UTXO set\n+as all proofs are with respect to the Merkle roots of the entire set.\n+\n+For this reason, we define which UTXOs are not inserted to the accumulator.  Any\n+variations here will result in Utreexo nodes with incompatible proofs.\n+\n+##### Provably unspendable transaction outputs\n+\n+There are outputs in the Bitcoin network that we can guarantee that they cannot\n+be spent without a hard-fork of the network. The following output types are not\n+added to the accumulator:\n+- Outputs that start with an OP_RETURN (0x6a)\n+- Outputs with a scriptPubkey larger than 10,000 bytes\n+\n+##### Same block spends\n+\n+Often, UTXOs are created and spent in the same block. This is allowed by Bitcoin\n+consensus rules as long as the output being spent is created by a transaction earlier\n+in the block than the spending transaction.\n+In Utreexo, nodes inspect blocks and identify which outputs are being created\n+and destroyed in the same block, and exclude them from the accumulator and proofs.\n+\n+There's no need to provide proofs for outputs which have been created in the same\n+block. Adding and then immediately removing the output from the accumulator would be\n+possible but doesn't serve any purpose - once outputs are spent their past existence\n+cannot be proven with the Utreexo accumulator (and SPV proofs already provide that).\n+\n+For these reasons, outputs which are spent in the same block where they are created\n+are omitted from the accumulator, and those inputs are omitted from block proofs.\n+\n+#### Order of operations\n+\n+The Utreexo accumulator lacks associative properties during addition and the\n+ordering of which UTXO hash gets added first is consensus critical. For\n+the modification of the accumulator the steps are as follows:\n+\n+1. Batch remove the UTXOs that were spent in the block based on the algorithm\n+   defined in BIP-????. Deletions itself are order-independent.\n+2. Batch add all non-excluded outputs in the order they're included in the\n+   Bitcoin block. Additions are order-dependent.\n+\n+The removal and the addition of the hashes follow the algorithms defined in\n+BIP-????.\n+\n+#### Format of the UTXO proof\n+\n+The UTXO proof has 2 elements: the accumulator proof and the leaf data. The\n+leaf data provides the necessary UTXO data for block validation that would be\n+stored locally for non-Utreexo nodes. The accumulator proof proves that the\n+given UTXO hash preimages are committed in the accumulator.\n+\n+Accumulator proof is defined in BIP-????, and contains two elements:\n+\n+1. A vector of positions of the UTXO hashes in the accumulator.\n+2. A vector of hashes required to hash up to the roots.\n+\n+For (1), positions are in the order of the leaves that are being proved in\n+the accumulator. These are all the inputs in the natural blockchain order that\n+excludes the same block spends.\n+\n+The UTXO hash preimages follow the same ordering as (1) in the accumulator\n+proofs. Each of the positions in (1) refer to the UTXO hash preimage in the same\n+index.",
+      "path": "utreexo-validation-bip.md",
+      "position": 224,
+      "original_position": 224,
+      "commit_id": "d1d03420ac5ee234494d84358a4abd06df269f65",
+      "original_commit_id": "d1d03420ac5ee234494d84358a4abd06df269f65",
+      "in_reply_to_id": 2304944981,
+      "user": {
+        "login": "adiabat",
+        "id": 22841402,
+        "node_id": "MDQ6VXNlcjIyODQxNDAy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22841402?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/adiabat",
+        "html_url": "https://github.com/adiabat",
+        "followers_url": "https://api.github.com/users/adiabat/followers",
+        "following_url": "https://api.github.com/users/adiabat/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/adiabat/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/adiabat/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/adiabat/subscriptions",
+        "organizations_url": "https://api.github.com/users/adiabat/orgs",
+        "repos_url": "https://api.github.com/users/adiabat/repos",
+        "events_url": "https://api.github.com/users/adiabat/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/adiabat/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Yeah it's both.  First the merkle branch is needed to verify that the UTXO exists at all, then the UTXO data / leaf preimage is needed to feed in to the normal script & transaction validation.  We can make it clear that there's really 2 things stuck together here.",
+      "created_at": "2025-09-02T02:56:11Z",
+      "updated_at": "2025-09-02T02:56:12Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1923#discussion_r2314805353",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2314805353"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1923"
+        }
+      },
+      "start_line": 223,
+      "original_start_line": 223,
+      "start_side": "RIGHT",
+      "line": 224,
+      "original_line": 224,
       "side": "RIGHT"
     }
   ]
