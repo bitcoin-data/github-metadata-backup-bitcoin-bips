@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-08-18T01:32:43Z",
-    "updated_at": "2025-09-04T21:01:31Z",
+    "updated_at": "2025-09-04T22:09:21Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -311,7 +311,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 6,
+    "review_comments": 9,
     "comments": 4
   },
   "events": [
@@ -894,6 +894,43 @@
         "from": "BIP 153 SENDTEMPLATE",
         "to": "BIP153: SENDTEMPLATE"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 3187387039,
+      "node_id": "PRR_kwDOAN28mc69-6qf",
+      "url": null,
+      "actor": null,
+      "commit_id": "6fbdd71cd44d9ec5873ead3c029e6e5e56a4d003",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-09-04T22:09:21Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "Roasbeef",
+        "id": 998190,
+        "node_id": "MDQ6VXNlcjk5ODE5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roasbeef",
+        "html_url": "https://github.com/Roasbeef",
+        "followers_url": "https://api.github.com/users/Roasbeef/followers",
+        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
+        "repos_url": "https://api.github.com/users/Roasbeef/repos",
+        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1937#pullrequestreview-3187387039",
+      "submitted_at": "2025-09-04T22:09:21Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1937"
     }
   ],
   "comments": [
@@ -1107,6 +1144,165 @@
       "start_side": "RIGHT",
       "line": null,
       "original_line": 74,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323645154",
+      "pull_request_review_id": 3187387039,
+      "id": 2323645154,
+      "node_id": "PRRC_kwDOAN28mc6KgALi",
+      "diff_hunk": "@@ -0,0 +1,150 @@\n+```\n+  BIP: TBD\n+  Layer: Peer Services\n+  Title: Sharing Block Templates with Peers\n+  Author: Anthony Towns <aj@erisian.com.au>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-TBD\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-08-08\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aJvZwR_bPeT4LaH6@erisian.com.au/T/#u\n+                https://delvingbitcoin.org/t/sharing-block-templates/1906\n+```\n+\n+## Abstract\n+\n+This BIP describes the use of [BIP-152 compact blocks][BIP-152] encoding\n+for sharing block templates (ie, the next block's predicted transactions)\n+with peers.\n+\n+## Motivation\n+\n+The primary goal of sharing block templates is to improve the\n+effectiveness of compact block reconstruction, particularly for nodes\n+who have a more restrictive transaction relay policy than their peers.\n+\n+Secondary benefits of this approach are that it (a) allows nodes that have\n+not been online recently to quickly repopulate the top of their mempool,\n+and (b) provides a way for transactions that may have dropped out of\n+nodes' mempools to be rebroadcast across the network by third parties,\n+potentially providing better privacy than if only the nodes directly\n+involved in the transaction would rebroadcast it.\n+\n+## Specification\n+\n+This introduces three new messages (`sendtemplate`, `gettemplate`,\n+`template`), and reuses two others (`getblocktxn`, `blocktxn`, defined in\n+[BIP-152][BIP-152]).\n+\n+### `sendtemplate`\n+\n+1. The `sendtemplate` message is defined as a message with `pchCommand ==\n+\"sendtemplate\"`.\n+2. No payload data should be provided, however, for upgrade purposes,\n+any payload data received should be ignored.\n+3. If a node implements this BIP, it must send the `sendtemplate`\n+message after `version` and before `verack`.\n+\n+### `gettemplate`\n+\n+1. The `gettemplate` message is defined as a message with `pchCommand ==",
+      "path": "bip-ajtowns-sendtemplate.md",
+      "position": 52,
+      "original_position": 52,
+      "commit_id": "6fbdd71cd44d9ec5873ead3c029e6e5e56a4d003",
+      "original_commit_id": "6fbdd71cd44d9ec5873ead3c029e6e5e56a4d003",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Roasbeef",
+        "id": 998190,
+        "node_id": "MDQ6VXNlcjk5ODE5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roasbeef",
+        "html_url": "https://github.com/Roasbeef",
+        "followers_url": "https://api.github.com/users/Roasbeef/followers",
+        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
+        "repos_url": "https://api.github.com/users/Roasbeef/repos",
+        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Any reason to not also allocate a message ID from the range specific in [BIP 324](https://github.com/bitcoin/bips/blob/master/bip-0324.mediawiki#application-layer-specification)? \n\nThe guidelines specify that if a message is sent more than once per connection then a number you be allocated (IIUC both this and the `template` message): \n> We recommend reserving 1-byte type IDs for message types that are sent more than once per direction per connection.",
+      "created_at": "2025-09-04T22:05:51Z",
+      "updated_at": "2025-09-04T22:09:21Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1937#discussion_r2323645154",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323645154"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1937"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 52,
+      "original_line": 52,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323646649",
+      "pull_request_review_id": 3187387039,
+      "id": 2323646649,
+      "node_id": "PRRC_kwDOAN28mc6KgAi5",
+      "diff_hunk": "@@ -0,0 +1,150 @@\n+```\n+  BIP: TBD\n+  Layer: Peer Services\n+  Title: Sharing Block Templates with Peers\n+  Author: Anthony Towns <aj@erisian.com.au>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-TBD\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-08-08\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aJvZwR_bPeT4LaH6@erisian.com.au/T/#u\n+                https://delvingbitcoin.org/t/sharing-block-templates/1906\n+```\n+\n+## Abstract\n+\n+This BIP describes the use of [BIP-152 compact blocks][BIP-152] encoding\n+for sharing block templates (ie, the next block's predicted transactions)\n+with peers.\n+\n+## Motivation\n+\n+The primary goal of sharing block templates is to improve the\n+effectiveness of compact block reconstruction, particularly for nodes\n+who have a more restrictive transaction relay policy than their peers.\n+\n+Secondary benefits of this approach are that it (a) allows nodes that have\n+not been online recently to quickly repopulate the top of their mempool,\n+and (b) provides a way for transactions that may have dropped out of\n+nodes' mempools to be rebroadcast across the network by third parties,\n+potentially providing better privacy than if only the nodes directly\n+involved in the transaction would rebroadcast it.\n+\n+## Specification\n+\n+This introduces three new messages (`sendtemplate`, `gettemplate`,\n+`template`), and reuses two others (`getblocktxn`, `blocktxn`, defined in\n+[BIP-152][BIP-152]).\n+\n+### `sendtemplate`\n+\n+1. The `sendtemplate` message is defined as a message with `pchCommand ==\n+\"sendtemplate\"`.\n+2. No payload data should be provided, however, for upgrade purposes,\n+any payload data received should be ignored.\n+3. If a node implements this BIP, it must send the `sendtemplate`\n+message after `version` and before `verack`.\n+\n+### `gettemplate`\n+\n+1. The `gettemplate` message is defined as a message with `pchCommand ==\n+\"gettemplate\"`.\n+2. No payload data should be provided.\n+3. If the node received a `sendtemplate` message, it may send a\n+`gettemplate` message at any time after `verack`, in order\n+to request a new template.\n+3. A `gettemplate` message must not be sent if a `sendtemplate` message\n+was not already received.\n+4. Upon receipt of a `gettemplate` message, a node may reply with a\n+`template` message.\n+\n+### `template`",
+      "path": "bip-ajtowns-sendtemplate.md",
+      "position": 63,
+      "original_position": 63,
+      "commit_id": "6fbdd71cd44d9ec5873ead3c029e6e5e56a4d003",
+      "original_commit_id": "6fbdd71cd44d9ec5873ead3c029e6e5e56a4d003",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Roasbeef",
+        "id": 998190,
+        "node_id": "MDQ6VXNlcjk5ODE5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roasbeef",
+        "html_url": "https://github.com/Roasbeef",
+        "followers_url": "https://api.github.com/users/Roasbeef/followers",
+        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
+        "repos_url": "https://api.github.com/users/Roasbeef/repos",
+        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "`blocktemplate` instead? Otherwise, at a glance the semantics of the message are ambiguous. ",
+      "created_at": "2025-09-04T22:06:49Z",
+      "updated_at": "2025-09-04T22:09:21Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1937#discussion_r2323646649",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323646649"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1937"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 63,
+      "original_line": 63,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323650621",
+      "pull_request_review_id": 3187387039,
+      "id": 2323650621,
+      "node_id": "PRRC_kwDOAN28mc6KgBg9",
+      "diff_hunk": "@@ -0,0 +1,150 @@\n+```\n+  BIP: TBD\n+  Layer: Peer Services\n+  Title: Sharing Block Templates with Peers\n+  Author: Anthony Towns <aj@erisian.com.au>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-TBD\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-08-08\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aJvZwR_bPeT4LaH6@erisian.com.au/T/#u\n+                https://delvingbitcoin.org/t/sharing-block-templates/1906\n+```\n+\n+## Abstract\n+\n+This BIP describes the use of [BIP-152 compact blocks][BIP-152] encoding\n+for sharing block templates (ie, the next block's predicted transactions)\n+with peers.\n+\n+## Motivation\n+\n+The primary goal of sharing block templates is to improve the\n+effectiveness of compact block reconstruction, particularly for nodes\n+who have a more restrictive transaction relay policy than their peers.\n+\n+Secondary benefits of this approach are that it (a) allows nodes that have\n+not been online recently to quickly repopulate the top of their mempool,\n+and (b) provides a way for transactions that may have dropped out of\n+nodes' mempools to be rebroadcast across the network by third parties,\n+potentially providing better privacy than if only the nodes directly\n+involved in the transaction would rebroadcast it.\n+\n+## Specification",
+      "path": "bip-ajtowns-sendtemplate.md",
+      "position": 35,
+      "original_position": 35,
+      "commit_id": "6fbdd71cd44d9ec5873ead3c029e6e5e56a4d003",
+      "original_commit_id": "6fbdd71cd44d9ec5873ead3c029e6e5e56a4d003",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Roasbeef",
+        "id": 998190,
+        "node_id": "MDQ6VXNlcjk5ODE5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roasbeef",
+        "html_url": "https://github.com/Roasbeef",
+        "followers_url": "https://api.github.com/users/Roasbeef/followers",
+        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
+        "repos_url": "https://api.github.com/users/Roasbeef/repos",
+        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "I notice there's no p2p protocol version bump, why is that?. IIUC, this message is only useful if you're talking with a peer that's directly peered, or is the Bitcoin node backing a mining pool. A p2p version bump would permit nodes to seek out other nodes that meet this requirement, instead of blindly connecting out to find such nodes.  ",
+      "created_at": "2025-09-04T22:09:10Z",
+      "updated_at": "2025-09-04T22:09:21Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1937#discussion_r2323650621",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323650621"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1937"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 35,
+      "original_line": 35,
       "side": "RIGHT"
     }
   ]
