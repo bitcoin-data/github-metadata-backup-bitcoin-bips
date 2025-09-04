@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1953/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1953/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/b26f77db65f346b84ed3326907e7d5cf27012d1f",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/b7c79dcbc0c5c0688ea47f287b89f0336b073629",
     "number": 1953,
     "state": "open",
     "locked": false,
@@ -48,14 +48,23 @@
         "name": "Proposed BIP modification",
         "color": "5319e7",
         "default": false
+      },
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
       }
     ],
     "created_at": "2025-09-04T15:54:52Z",
-    "updated_at": "2025-09-04T17:32:03Z",
+    "updated_at": "2025-09-04T21:17:41Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "5e2d09cca725deb6074d400e26d1062420462bc3",
+    "merge_commit_sha": "d34d4404dbaaf1d52f19c42191022992d4805c56",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -63,7 +72,7 @@
     "head": {
       "label": "macgyver13:bip352-generate-intermediate-comp",
       "ref": "bip352-generate-intermediate-comp",
-      "sha": "b26f77db65f346b84ed3326907e7d5cf27012d1f",
+      "sha": "b7c79dcbc0c5c0688ea47f287b89f0336b073629",
       "user": {
         "login": "macgyver13",
         "id": 4712150,
@@ -173,7 +182,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-09-04T15:52:38Z",
+        "pushed_at": "2025-09-04T21:17:40Z",
         "created_at": "2025-09-04T13:56:58Z",
         "updated_at": "2025-09-04T13:56:58Z",
         "allow_forking": true
@@ -278,11 +287,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5721,
-        "stargazers_count": 10170,
-        "watchers_count": 10170,
-        "size": 16581,
+        "stargazers_count": 10172,
+        "watchers_count": 10172,
+        "size": 16593,
         "default_branch": "master",
-        "open_issues_count": 40,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -293,9 +302,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-09-03T21:06:40Z",
+        "pushed_at": "2025-09-04T20:35:54Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-09-04T15:31:51Z",
+        "updated_at": "2025-09-04T20:36:05Z",
         "allow_forking": true
       }
     },
@@ -306,11 +315,11 @@
     },
     "author_association": "NONE",
     "draft": false,
-    "additions": 523,
-    "deletions": 68,
+    "additions": 517,
+    "deletions": 67,
     "changed_files": 2,
-    "commits": 1,
-    "review_comments": 0,
+    "commits": 2,
+    "review_comments": 4,
     "comments": 0
   },
   "events": [
@@ -481,7 +490,332 @@
         "name": "Proposed BIP modification",
         "color": "5319e7"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 3187239018,
+      "node_id": "PRR_kwDOAN28mc69-Whq",
+      "url": null,
+      "actor": null,
+      "commit_id": "b26f77db65f346b84ed3326907e7d5cf27012d1f",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-09-04T21:07:40Z",
+      "author_association": "MEMBER",
+      "body": "Pinging BIP authors @josibake @RubenSomsen for feedback or approval.\r\n\r\nThe tests pass with this change.\r\n```ruby\r\n/bip-0352 $ ./reference.py send_and_receive_test_vectors.json\r\nSimple send: two inputs\r\nSimple send: two inputs, order reversed\r\nSimple send: two inputs from the same transaction\r\nSimple send: two inputs from the same transaction, order reversed\r\nOutpoint ordering byte-lexicographically vs. vout-integer\r\nSingle recipient: multiple UTXOs from the same public key\r\nSingle recipient: taproot only inputs with even y-values\r\nSingle recipient: taproot only with mixed even/odd y-values\r\nSingle recipient: taproot input with even y-value and non-taproot input\r\nSingle recipient: taproot input with odd y-value and non-taproot input\r\nMultiple outputs: multiple outputs, same recipient\r\nMultiple outputs: multiple outputs, multiple recipients\r\nReceiving with labels: label with even parity\r\nReceiving with labels: label with odd parity\r\nReceiving with labels: large label integer\r\nMultiple outputs with labels: un-labeled and labeled address; same recipient\r\nMultiple outputs with labels: multiple outputs for labeled address; same recipient\r\nMultiple outputs with labels: un-labeled, labeled, and multiple outputs for labeled address; same recipients\r\nSingle recipient: use silent payments for sender change\r\nSingle recipient: taproot input with NUMS point\r\nPubkey extraction from malleated p2pkh\r\nP2PKH and P2WPKH Uncompressed Keys are skipped\r\nSkip invalid P2SH inputs\r\nRecipient ignores unrelated outputs\r\nNo valid inputs, sender generates no outputs\r\nInput keys sum up to zero / point at infinity: sending fails, receiver skips tx\r\nAll tests passed\r\n```",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1953#pullrequestreview-3187239018",
+      "submitted_at": "2025-09-04T21:07:40Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1953"
+    },
+    {
+      "event": "labeled",
+      "id": 19515376863,
+      "node_id": "LE_lADOAN28mc7JuX4EzwAAAASLNQTf",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/19515376863",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-09-04T21:08:31Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGI3Yzc5ZGNiYzBjNWMwNjg4ZWE0N2YyODdiODlmMDMzNmIwNzM2Mjk",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b7c79dcbc0c5c0688ea47f287b89f0336b073629",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/b7c79dcbc0c5c0688ea47f287b89f0336b073629",
+      "tree": {
+        "sha": "469d7a1e32873605eb2dee4cc9f523d4656c0eb6",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/469d7a1e32873605eb2dee4cc9f523d4656c0eb6"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b26f77db65f346b84ed3326907e7d5cf27012d1f",
+          "sha": "b26f77db65f346b84ed3326907e7d5cf27012d1f",
+          "html_url": "https://github.com/bitcoin/bips/commit/b26f77db65f346b84ed3326907e7d5cf27012d1f"
+        }
+      ],
+      "message": "address feedback (newline + extra whitespace)",
+      "committer": {
+        "name": "macgyver13",
+        "email": "4712150+macgyver13@users.noreply.github.com",
+        "date": "2025-09-04T21:17:38Z"
+      },
+      "author": {
+        "name": "macgyver13",
+        "email": "4712150+macgyver13@users.noreply.github.com",
+        "date": "2025-09-04T21:17:38Z"
+      },
+      "sha": "b7c79dcbc0c5c0688ea47f287b89f0336b073629"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323541932",
+      "pull_request_review_id": 3187239018,
+      "id": 2323541932,
+      "node_id": "PRRC_kwDOAN28mc6Kfm-s",
+      "diff_hunk": "@@ -2752,9 +3179,11 @@\n                     \"addresses\": [\n                         \"sp1qqtrqglu5g8kh6mfsg4qxa9wq0nv9cauwfwxw70984wkqnw2uwz0w2qnehen8a7wuhwk9tgrzjh8gwzc8q2dlekedec5djk0js9d3d7qhnq6lqj3s\"\n                     ],\n-                    \"outputs\": []\n+                    \"outputs\": [],\n+                    \"tweak\": null,\n+                    \"shared_secret\": null\n                 }\n             }\n         ]\n     }\n-]\n+]",
+      "path": "bip-0352/send_and_receive_test_vectors.json",
+      "position": 1,
+      "original_position": 1106,
+      "commit_id": "b7c79dcbc0c5c0688ea47f287b89f0336b073629",
+      "original_commit_id": "b26f77db65f346b84ed3326907e7d5cf27012d1f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "nit, don't remove the newline at end of file",
+      "created_at": "2025-09-04T21:01:55Z",
+      "updated_at": "2025-09-04T21:07:40Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1953#discussion_r2323541932",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323541932"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1953"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 3189,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323543128",
+      "pull_request_review_id": 3187239018,
+      "id": 2323543128,
+      "node_id": "PRRC_kwDOAN28mc6KfnRY",
+      "diff_hunk": "@@ -141,6 +148,16 @@ def create_outputs(input_priv_keys: List[Tuple[ECKey, bool]], outpoints: List[CO\n     outputs = []\n     for B_scan, B_m_values in silent_payment_groups.items():\n         ecdh_shared_secret = input_hash * a_sum * B_scan\n+        ",
+      "path": "bip-0352/reference.py",
+      "position": 1,
+      "original_position": 32,
+      "commit_id": "b7c79dcbc0c5c0688ea47f287b89f0336b073629",
+      "original_commit_id": "b26f77db65f346b84ed3326907e7d5cf27012d1f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "remove the extra spaces added here\r\n```suggestion\r\n\r\n```",
+      "created_at": "2025-09-04T21:02:46Z",
+      "updated_at": "2025-09-04T21:07:40Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1953#discussion_r2323543128",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323543128"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1953"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 151,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323545176",
+      "pull_request_review_id": 3187239018,
+      "id": 2323545176,
+      "node_id": "PRRC_kwDOAN28mc6KfnxY",
+      "diff_hunk": "@@ -151,9 +168,15 @@ def create_outputs(input_priv_keys: List[Tuple[ECKey, bool]], outpoints: List[CO\n     return list(set(outputs))\n \n \n-def scanning(b_scan: ECKey, B_spend: ECPubKey, A_sum: ECPubKey, input_hash: bytes, outputs_to_check: List[ECPubKey], labels: Dict[str, str] = {}) -> List[Dict[str, str]]:\n+def scanning(b_scan: ECKey, B_spend: ECPubKey, A_sum: ECPubKey, input_hash: bytes, outputs_to_check: List[ECPubKey], labels: Dict[str, str] = None, expected: Dict[str, any] = None) -> List[Dict[str, str]]:\n     G = ECKey().set(1).get_pubkey()\n+    input_hash_key = ECKey().set(input_hash)\n+    computed_tweak_point = input_hash_key * A_sum\n+    assert computed_tweak_point.get_bytes(False).hex() == expected.get(\"tweak\"), \"tweak did not match expected\"\n+    ",
+      "path": "bip-0352/reference.py",
+      "position": 1,
+      "original_position": 55,
+      "commit_id": "b7c79dcbc0c5c0688ea47f287b89f0336b073629",
+      "original_commit_id": "b26f77db65f346b84ed3326907e7d5cf27012d1f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "```suggestion\r\n\r\n```",
+      "created_at": "2025-09-04T21:04:01Z",
+      "updated_at": "2025-09-04T21:07:40Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1953#discussion_r2323545176",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323545176"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1953"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 176,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323545806",
+      "pull_request_review_id": 3187239018,
+      "id": 2323545806,
+      "node_id": "PRRC_kwDOAN28mc6Kfn7O",
+      "diff_hunk": "@@ -151,9 +168,15 @@ def create_outputs(input_priv_keys: List[Tuple[ECKey, bool]], outpoints: List[CO\n     return list(set(outputs))\n \n \n-def scanning(b_scan: ECKey, B_spend: ECPubKey, A_sum: ECPubKey, input_hash: bytes, outputs_to_check: List[ECPubKey], labels: Dict[str, str] = {}) -> List[Dict[str, str]]:\n+def scanning(b_scan: ECKey, B_spend: ECPubKey, A_sum: ECPubKey, input_hash: bytes, outputs_to_check: List[ECPubKey], labels: Dict[str, str] = None, expected: Dict[str, any] = None) -> List[Dict[str, str]]:\n     G = ECKey().set(1).get_pubkey()\n+    input_hash_key = ECKey().set(input_hash)\n+    computed_tweak_point = input_hash_key * A_sum\n+    assert computed_tweak_point.get_bytes(False).hex() == expected.get(\"tweak\"), \"tweak did not match expected\"\n+    \n     ecdh_shared_secret = input_hash * b_scan * A_sum\n+    assert ecdh_shared_secret.get_bytes(False).hex() == expected.get(\"shared_secret\"), \"ecdh_shared_secret did not match expected shared_secret\"\n+    ",
+      "path": "bip-0352/reference.py",
+      "position": 1,
+      "original_position": 58,
+      "commit_id": "b7c79dcbc0c5c0688ea47f287b89f0336b073629",
+      "original_commit_id": "b26f77db65f346b84ed3326907e7d5cf27012d1f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "```suggestion\r\n\r\n```",
+      "created_at": "2025-09-04T21:04:21Z",
+      "updated_at": "2025-09-04T21:07:40Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1953#discussion_r2323545806",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2323545806"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1953"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 179,
+      "side": "RIGHT"
+    }
+  ]
 }
