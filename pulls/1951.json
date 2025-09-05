@@ -39,7 +39,7 @@
       "site_admin": false,
       "patch_url": null
     },
-    "body": "This is a bip for encrypted backup, an encryption scheme for bitcoin wallet related metadata.\r\n\r\nMailing list post: just sent\r\n\r\n```\r\nHi all,\r\n\r\nAt WizardSardine (where we’re building Liana wallet) we have been discussing an encryption scheme for descriptors for at least two years.  \r\n\r\nA few months ago Salvatore Ingala published on delvingbitcoin a clear scheme that matches our requirements.  \r\nI have been working on implementing this scheme over the past few weeks and would like to share a draft implementations & BIP in order to collect feedback, remarks, and reviews.\r\n\r\nDraft BIP: https://github.com/bitcoin/bips/pull/1951\r\nRust implementation + CLI: https://github.com/pythcoiner/encrypted_backup\r\nA simple GUI using rust implem: https://github.com/pythcoiner/bed\r\nSalvatore delving post: https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts\r\n\r\n**Open questions**\r\n\r\n- **Deterministic nonce:** Currently the nonce is generated randomly. Is it safe to produce a deterministic nonce, e.g. `hash(\"NONCE\" || plaintext || key_1 || … || key_n)`, or are there known security concerns with this approach?  \r\n- **Cipher choice:** I arbitrarily chose AES‑GCM‑256. Is this the best choice for this use case, or would another construction be preferable?  \r\n- **Byte order:** All fields are defined to be encoded in big‑endian. Is there any reason to consider a different endianness?\r\n\r\nAny thoughts, suggestions, or references are welcome.\r\n\r\nThanks,  \r\npyth  \r\n```",
+    "body": "This is a bip for encrypted backup, an encryption scheme for bitcoin wallet related metadata.\r\n\r\nMailing list post: https://groups.google.com/g/bitcoindev/c/5NgJbpVDgEc\r\n",
     "labels": [
       {
         "id": 275845989,
@@ -51,11 +51,11 @@
       }
     ],
     "created_at": "2025-09-04T06:47:33Z",
-    "updated_at": "2025-09-04T17:09:38Z",
+    "updated_at": "2025-09-05T04:59:26Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "189eccf37853a9910387ce0e25d0aba8d3aa1abe",
+    "merge_commit_sha": "e4eecd81b00202e61566b807ea5d6a0d1d560999",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -278,11 +278,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5721,
-        "stargazers_count": 10170,
-        "watchers_count": 10170,
-        "size": 16581,
+        "stargazers_count": 10174,
+        "watchers_count": 10174,
+        "size": 16593,
         "default_branch": "master",
-        "open_issues_count": 40,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -293,9 +293,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-09-03T21:06:40Z",
+        "pushed_at": "2025-09-04T20:35:54Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-09-04T15:31:51Z",
+        "updated_at": "2025-09-05T01:29:05Z",
         "allow_forking": true
       }
     },
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 19,
+    "review_comments": 20,
     "comments": 3
   },
   "events": [
@@ -1700,6 +1700,59 @@
       "start_side": null,
       "line": 256,
       "original_line": 256,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2324098893",
+      "pull_request_review_id": 3187990452,
+      "id": 2324098893,
+      "node_id": "PRRC_kwDOAN28mc6Khu9N",
+      "diff_hunk": "@@ -0,0 +1,268 @@\n+```\n+BIP: ?  \n+Layer: Applications  \n+Title: Bitcoin Encrypted Backup  \n+Author: // TBD  \n+Comments-Summary: No comments yet.  \n+Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-????  \n+Status: Draft  \n+Type: Informational  \n+Created: 2025-08-22  \n+License: BSD-2-Clause  \n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines a compact encryption scheme for **wallet descriptors** (BIP-0380),\n+**wallet policies** (BIP-0388), **labels** (BIP-0329), and\n+**wallet backup metadata** (json). The encrypted output—called a\n+*bitcoin encrypted backup* (BEB), enables users to outsource long‑term storage to\n+untrusted media or cloud services without revealing which addresses, scripts, or\n+number of cosigners are involved.Encryption keys are derived from the\n+lexicographically‑sorted public keys inside the descriptor or policy, so any party\n+who already holds one of those keys can later decrypt the backup without extra secrets\n+or round‑trips. The format uses AES-GCM-256 with a 96‑bit random nonce and a 128‑bit\n+authentication tag to provide confidentiality and integrity.\n+While initially designed for descriptors and policies, the same scheme encrypts labels\n+and backup metadata, allowing a uniform, vendor‑neutral, and future‑extensible backup format.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+In practice, losing the **wallet descriptor** (or **wallet policy**) is often **as\n+catastrophic as losing the wallet’s seed** itself.  While the seed grants the\n+ability to sign, the descriptor grants a map to the coins.  In multisig or\n+miniscript contexts, keys alone are **not sufficient** for recovery: without the\n+original descriptor the wallet cannot reconstruct the script.\n+\n+Offline storage of descriptors has two practical obstacles:\n+\n+1. **Descriptors are hard to store offline.**  \n+   Descriptor string representation can be far longer than a 12/24-word seed phrase.  \n+Paper, steel, and other long-term analog media quickly become impractical for such\n+lengths, or error-prone to transcribe.\n+\n+2. **Online redundancy carries risk.**  \n+   Keeping backups on USB thumb-drives, computers, phones, or (worst) cloud drives\n+avoids the first problem but amplifies surveillance risk: anyone who gains these\n+**plaintext descriptors** learns the wallet’s public keys, script structure,\n+etc...  Even with encryption at the cloud provider, an attacker or a subpoena can\n+compel access, and each extra copy multiplies the attack surface.\n+\n+These constraints lead to an acute need for an **encrypted**, and\n+ideally compact backup format that:\n+\n+* can be **safely stored in multiple places**, including untrusted on-line services,  \n+* can be **decrypt only by intended holders** of specified public keys,  \n+* and keeps both **keys and plaintext** hidden from any party who lacks the",
+      "path": "bip-encrypted-backup.md",
+      "position": 65,
+      "original_position": 65,
+      "commit_id": "d9d02ffc5b5c70ed19f1185e68f4882273c71eef",
+      "original_commit_id": "d9d02ffc5b5c70ed19f1185e68f4882273c71eef",
+      "in_reply_to_id": 2321165717,
+      "user": {
+        "login": "pythcoiner",
+        "id": 124568858,
+        "node_id": "U_kgDOB2zFGg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/124568858?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/pythcoiner",
+        "html_url": "https://github.com/pythcoiner",
+        "followers_url": "https://api.github.com/users/pythcoiner/followers",
+        "following_url": "https://api.github.com/users/pythcoiner/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/pythcoiner/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/pythcoiner/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/pythcoiner/subscriptions",
+        "organizations_url": "https://api.github.com/users/pythcoiner/orgs",
+        "repos_url": "https://api.github.com/users/pythcoiner/repos",
+        "events_url": "https://api.github.com/users/pythcoiner/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/pythcoiner/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "I'll drop this one, it's redunndant with the previous one",
+      "created_at": "2025-09-05T04:59:26Z",
+      "updated_at": "2025-09-05T04:59:26Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1951#discussion_r2324098893",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2324098893"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1951"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 65,
+      "original_line": 65,
       "side": "RIGHT"
     }
   ]
