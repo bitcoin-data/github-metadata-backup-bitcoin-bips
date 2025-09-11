@@ -17,7 +17,7 @@
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "Update bip-0327.mediawiki",
+    "title": "Caution on tweaking in bip 327",
     "user": {
       "login": "AdamISZ",
       "id": 4278257,
@@ -42,7 +42,7 @@
     "body": "The BIP is quite difficult to parse in terms of understanding the functionality and safety of tweaking keys.\r\n\r\nIn particular, while it is a terrible idea for more than one reason, constructing a MuSig2 aggregated key using related (bip32 unhardened) individual keys in the list is very specifically insecure, but that is not noted.\r\n\r\nIt's admittedly debatable whether you ever have to specify that a certain kind of stupid behaviour is to be warned against, but my justification is:\r\n\r\n1. The BIP is very explicitly \"supporting tweaking\" right from the Abstract. It isn't immediately clear that this means tweaking the ouput, not the input. Perhaps a minor note early on would help with that.\r\n\r\n2. Pre- this patch, in the section I'm editing, the document again explicitly says it supports tweaking, and this time, in relation to the *input* keys. It then goes on to explain the background of the attack outlined on the mailing list (I updated to a gnusha link: https://gnusha.org/pi/bitcoindev/576db60c-b05b-5b9a-75e5-9610f3e04eda@gmail.com/ ), which is much more \"in scope\" in the sense that the honest signer behaviour isn't stupid, but at the same time, the conditions of that attack are quite obscure.\r\n\r\n3. While the behaviour is stupid, it's not inconceivable, and it sits within perhaps the most likely/common usage pattern of MuSig2: multisig for better cold storage/savings security. Multiple keys controlled by the same signer, using multiple hardware devices for redundant security. As noted by Jonas Nick in an earlier email convo we had, there is at least one reason such stupid behaviour might be considered: less backup (and/or laziness). I admit that a large majority would have the common sense to not reuse the same wallet seed across devices, but in case anyone did it, they are exposed in a specific way that is very unobvious.\r\n\r\n4. To generalize the above, for me the BIP is not sufficiently explicit that the design of the MuSig2 algorithm does not address the possibility of related input keys at all (and it would be easy as an engineer consumer to assume that related keys would be safe, if they didn't look at the mathematical formulas too much).\r\n\r\nIf you want a concrete description of the attack, here you go (see Appendix A.2 of [DahLIAS](https://eprint.iacr.org/2025/692) for what I mean by \"multipliers:\"):\r\n\r\n2 devices set up with one secret key each, where the keys are on the same branch so that sk1 = sk2 + t for \"public\" t (handwave).\r\n\r\nThe network is compromised by the attacker. It exchanges messages with device 1 (sk1); receives nonces, maliciously calculates the response nonces (with the multipliers), receives a partial sig for sk1 and can complete the signing protocol just from knowing t.\r\n\r\nThe higher-level idea here is (I'm cribbing from an earlier email I wrote):\r\n\r\n> ... which I think nicely illustrates something that occurred to me earlier: there's a question of \"what is authorization?\" being raised here. In a single key signature, there is a single authorizing event, so we never worry too much about the \"semantics\" of the action of signing. It's one action, and it's all or nothing: you authorize, or you don't.\r\n\r\n> In multi-signing it's not atomic. The semantics of individual signing events are something decided on by the operator(s) of the protocol. I might want to say \"I authorize if and only if 3 different hardware devices sign\" (or 3 people or whatever). How does the security definition represent this? I believe the rationale for applying EUF-CMA as in the paper is \"we take a maximally pessimistic approach and assume that all except honest are the adversary, then we demand the adversary produce a signature without authorizing events from the honest signer\" on the basis that, if the honest signer did authorize, then there is no security failure (the honest signer wanted it!) - but that's exactly the point I'm questioning.\r\n\r\n> So it's back to the slightly confusion position of \"that this is possible is worrying, but all the obvious ways of exploiting it as a weakness reduce to an already fundamentally insecure multisig setup (using calculable tweaks of existing keys), and the base security model does not include this\" (\"capture\", perhaps).\r\n\r\n> Whimsically I wonder if this can be seen as analogous to EUF style security vs SUF style security: for most purposes you don't need strong unforgeability but it can cause implementation headaches if you don't have it (MtGox,  hehe).",
     "labels": [],
     "created_at": "2025-09-11T13:25:01Z",
-    "updated_at": "2025-09-11T13:25:01Z",
+    "updated_at": "2025-09-11T14:24:43Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -151,7 +151,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 12990,
+        "size": 16759,
         "default_branch": "bip-schnorr",
         "open_issues_count": 0,
         "is_template": false,
@@ -344,6 +344,40 @@
         "date": "2025-09-11T13:23:19Z"
       },
       "sha": "bf696165b32a59d71d0ddece8482c356e00afb88"
+    },
+    {
+      "event": "renamed",
+      "id": 19638986933,
+      "node_id": "RTE_lADOAN28mc7LC_8zzwAAAASSkyi1",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/19638986933",
+      "actor": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-09-11T14:24:43Z",
+      "rename": {
+        "from": "Update bip-0327.mediawiki",
+        "to": "Caution on tweaking in bip 327"
+      }
     }
   ],
   "comments": []
