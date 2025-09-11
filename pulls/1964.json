@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2025-09-11T13:25:01Z",
-    "updated_at": "2025-09-11T16:03:19Z",
+    "updated_at": "2025-09-11T17:02:20Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -286,7 +286,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5726,
+        "forks_count": 5725,
         "stargazers_count": 10185,
         "watchers_count": 10185,
         "size": 16620,
@@ -319,8 +319,8 @@
     "deletions": 3,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 1,
-    "comments": 1
+    "review_comments": 2,
+    "comments": 2
   },
   "events": [
     {
@@ -775,6 +775,122 @@
       "submitted_at": "2025-09-11T16:02:29Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1964"
+    },
+    {
+      "event": "commented",
+      "id": 3281906964,
+      "node_id": "IC_kwDOAN28mc7Dne0U",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3281906964",
+      "actor": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-09-11T17:01:32Z",
+      "updated_at": "2025-09-11T17:01:32Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> Hi @AdamISZ, I do not quite understand this PR. The BIP _does support_ unhardened tweaking of the input keys and as far as we know there's no vulnerability when using this BIP with tweaked input keys. That's because the BIP implements the countermeasure mentioned in the bitcoin-dev email: \"fix is to make the secret key argument to the NonceGen algorithm mandatory\", except that we've chosen to make the public key argument mandatory instead of the secret key.\r\n\r\nI also do not understand :) As per our earlier discussion, the scenario: victim has 2 signing devices with sk1 on device 1 and sk2 on device 2, where sk2 = sk1 + t, allows a completed MuSig2 aggregated signature if device 1 follows the steps: (1) share nonces R11, R12 and then after receiving R21, R22, shares partial sig s_1 = r_11 + b*r_12 + H(X~, R, m)*a_1*sk1 . Based on the attacker calculating R21 and R22 as multiples (a2/a1)*R11, (a2/a1)*R12. (I believe you'd earlier agreed that this does constitute an attack, though, as qualified at perhaps painful length in my description above, it's only an \"attack\" against a very unwise/stupid setup!).\r\n\r\nHow does the mitigation you mention affect this? That mitigation addresses the possibility that the honest signer might have pre-stored nonces and then the attacker can grind t values to use those nonces with different tweaked keys and parallel executions to do a Wagner attack. Here I'm just talking about using a key and a publicly known tweak at two indices (the whole thing about \"outside the security definition\" to have \"two honest signer indices\").",
+      "user": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1964#issuecomment-3281906964",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1964"
+    },
+    {
+      "event": "mentioned",
+      "id": 19642677877,
+      "node_id": "MEE_lADOAN28mc7LC_8zzwAAAASSy3p1",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/19642677877",
+      "actor": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-09-11T17:01:33Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 19642677925,
+      "node_id": "SE_lADOAN28mc7LC_8zzwAAAASSy3ql",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/19642677925",
+      "actor": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-09-11T17:01:33Z"
     }
   ],
   "comments": [
@@ -819,6 +935,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2341498719"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1964"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 536,
+      "original_line": 536,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2341812472",
+      "pull_request_review_id": 3212858836,
+      "id": 2341812472,
+      "node_id": "PRRC_kwDOAN28mc6LlTj4",
+      "diff_hunk": "@@ -533,8 +533,10 @@ The reference implementation is for demonstration purposes only and not to be us\n \n === Signing with Tweaked Individual Keys ===\n \n-The scheme in this proposal has been designed to be secure\n-even if signers tweak their individual secret keys with tweaks known to the adversary (e.g., as in BIP32 unhardened derivation)\n+Using 2 signing keys that are related with publically known tweaks (such as unhardened BIP32 derivation) is **not secure** in MuSig2 (see the attack described in [https://eprint.iacr.org/2025/692 the DahLIAS paper], Appendix A.2, which applies directly), in the specific sense that an attacker can complete the signing protocol after receiving only 1 partial signature, not 2. If a user were to spread signing keys across multiple hardware devices, but using the same wallet seed and different addresses from the same BIP32 branch, it would therefore not be secure. The same would be true for publically known multiplicative tweaks (K2 = c * K1), as well as additive tweaks (K2 = K1 + t*G).",
+      "path": "bip-0327.mediawiki",
+      "position": 6,
+      "original_position": 6,
+      "commit_id": "bf696165b32a59d71d0ddece8482c356e00afb88",
+      "original_commit_id": "bf696165b32a59d71d0ddece8482c356e00afb88",
+      "in_reply_to_id": 2341498719,
+      "user": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Thanks for taking the trouble @jonatack ! I will fix up the spellings (and I think a bunch of other not-quite-right stuff) if the content turns out to be useful.",
+      "created_at": "2025-09-11T17:02:20Z",
+      "updated_at": "2025-09-11T17:02:20Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1964#discussion_r2341812472",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2341812472"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1964"
