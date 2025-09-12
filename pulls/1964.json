@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2025-09-11T13:25:01Z",
-    "updated_at": "2025-09-11T21:20:20Z",
+    "updated_at": "2025-09-12T00:35:40Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -286,7 +286,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5726,
+        "forks_count": 5727,
         "stargazers_count": 10186,
         "watchers_count": 10186,
         "size": 16620,
@@ -320,7 +320,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 2,
-    "comments": 2
+    "comments": 3
   },
   "events": [
     {
@@ -929,6 +929,62 @@
       "submitted_at": "2025-09-11T21:20:20Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1964"
+    },
+    {
+      "event": "commented",
+      "id": 3283083929,
+      "node_id": "IC_kwDOAN28mc7Dr-KZ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3283083929",
+      "actor": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-09-12T00:35:40Z",
+      "updated_at": "2025-09-12T00:35:40Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> We also do not specifically point out in the BIP that using the same key multiple times is insecure, because a partial signature for one of the keys is also a partial signature for the others. That's why the wording \"is insecure\" sounds a bit too strong to me.\r\n\r\nYes. It's clearly debatable whether this needs to be written somewhere, given the extensive caveats, and also the wording/presentation is debatable as you say; this PR was basically a first, or a zero-th draft.\r\n\r\nI think what leads me to suggest adding a note is that it's a weakness, of some sort, that slips between the cracks; while you'd struggle to find any engineer that thought using related keys like this was a good idea, I'm not at all sure if you'd get an overwhelming number of them that knew that doing it is unsafe not *only* because getting access to one key gains control of both (or more) signers, but even when the secret key is not leaked (with an active attack).\r\n\r\nFurther, depending on the implementation, this is a deployment decision, i.e. it's not only a coder but more a user that can make this bad decision.\r\n\r\nIf I were trying to be imaginative and come up with some new scheme (using multisig) where this mattered, I would fail, because I can't imagine a scheme where someone might think it sensible to have two keys governed by the same secret key material, acting as additional authorization, when they could use two actually different keys instead. Perhaps I just lack imagination! So I did my best to outline in the above, a situation where, however badly considered, someone in user-land might actually do it.\r\n\r\nWithout any warning at any level of the \"stack\" (neither the original paper for the protocol, nor the BIP, nor any implementation of the BIP), it is conceivable that a user of an implementation might foolishly do it, thinking that \"MuSig2 is designed to be safe in the presence of tweaks\", which is a reasonable conclusion to draw from this BIP, at least absent a super-careful reading, and most specifically because there is an existing paragraph defining how (public) key checking in NonceGen defends against one real (if very corner-case-y) attack that uses tweaks.\r\n\r\n> Also, there's maybe a better citation than Appendix A.2 of the DahLIAS paper because it attacks a different scheme (MuSig2-IAS) and the attack is qualitatively different: it allows forging a signature for a different message, not the same one.\r\n\r\nYes. I wrote this because that's where I saw it; the attack mechanism is written clearly there. A different citation makes sense to avoid the confusion you mention.",
+      "user": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1964#issuecomment-3283083929",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1964"
     }
   ],
   "comments": [
