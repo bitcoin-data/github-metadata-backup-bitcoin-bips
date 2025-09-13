@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/1964/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/1964/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/bf696165b32a59d71d0ddece8482c356e00afb88",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/5c060d42ad7e26bd32f99becdc5c711b8ba1f21a",
     "number": 1964,
     "state": "open",
     "locked": false,
@@ -60,11 +60,11 @@
       }
     ],
     "created_at": "2025-09-11T13:25:01Z",
-    "updated_at": "2025-09-12T00:35:40Z",
+    "updated_at": "2025-09-13T14:55:38Z",
     "mergeable": true,
-    "mergeable_state": "unstable",
+    "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "e33020e814b7c5ae48294a7596aaf88c1aaa4935",
+    "merge_commit_sha": "099431273753f3564b58388ff7bb3eea0d212ede",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -72,7 +72,7 @@
     "head": {
       "label": "AdamISZ:patch-1",
       "ref": "patch-1",
-      "sha": "bf696165b32a59d71d0ddece8482c356e00afb88",
+      "sha": "5c060d42ad7e26bd32f99becdc5c711b8ba1f21a",
       "user": {
         "login": "AdamISZ",
         "id": 4278257,
@@ -182,7 +182,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-09-11T13:23:20Z",
+        "pushed_at": "2025-09-13T14:51:16Z",
         "created_at": "2019-11-08T18:20:49Z",
         "updated_at": "2019-11-08T18:20:50Z",
         "allow_forking": true
@@ -286,9 +286,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5727,
-        "stargazers_count": 10186,
-        "watchers_count": 10186,
+        "forks_count": 5729,
+        "stargazers_count": 10188,
+        "watchers_count": 10188,
         "size": 16620,
         "default_branch": "master",
         "open_issues_count": 42,
@@ -304,7 +304,7 @@
         "visibility": "public",
         "pushed_at": "2025-09-10T21:10:03Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-09-11T21:09:37Z",
+        "updated_at": "2025-09-12T12:30:18Z",
         "allow_forking": true
       }
     },
@@ -320,49 +320,9 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 2,
-    "comments": 3
+    "comments": 4
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGJmNjk2MTY1YjMyYTU5ZDcxZDBkZGVjZTg0ODJjMzU2ZTAwYWZiODg",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/bf696165b32a59d71d0ddece8482c356e00afb88",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/bf696165b32a59d71d0ddece8482c356e00afb88",
-      "tree": {
-        "sha": "f2dc895afa4dc29e4a6854ac5f59b597021f4d91",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/f2dc895afa4dc29e4a6854ac5f59b597021f4d91"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree f2dc895afa4dc29e4a6854ac5f59b597021f4d91\nparent abf3bdab2947cad5204b60d298b305adc597f04c\nauthor Adam Gibson <ekaggata@gmail.com> 1757596999 -0300\ncommitter GitHub <noreply@github.com> 1757596999 -0300\n\nUpdate bip-0327.mediawiki\n\nThe BIP is quite difficult to parse in terms of understanding the functionality and safety of tweaking keys.\r\n\r\nIn particular, while it is a terrible idea for more than one reason, constructing a MuSig2 aggregated key using related (bip32 unhardened) individual keys in the list is very specifically insecure, but that is not noted.\r\n\r\nIt's admittedly debatable whether you ever have to specify that a certain kind of stupid behaviour is to be warned against, but my justification is:\r\n\r\n1. The BIP is very explicitly \"supporting tweaking\" right from the Abstract. It isn't immediately clear that this means tweaking the ouput, not the input. Perhaps a minor note early on would help with that.\r\n\r\n2. Pre- this patch, in the section I'm editing, the document again explicitly says it supports tweaking, and this time, in relation to the *input* keys. It then goes on to explain the background of the attack outlined on the mailing list (I updated to a gnusha link: https://gnusha.org/pi/bitcoindev/576db60c-b05b-5b9a-75e5-9610f3e04eda@gmail.com/ ), which is much more \"in scope\" in the sense that the honest signer behaviour isn't stupid, but at the same time, the conditions of that attack are quite obscure.\r\n\r\n3. While the behaviour is stupid, it's not inconceivable, and it sits within perhaps the most likely/common usage pattern of MuSig2: multisig for better cold storage/savings security. Multiple keys controlled by the same signer, using multiple hardware devices for redundant security. As noted by Jonas Nick in an earlier email convo we had, there is at least one reason such stupid behaviour might be considered: less backup (and/or laziness). I admit that a large majority would have the common sense to not reuse the same wallet seed across devices, but in case anyone did it, they are exposed in a specific way that is very unobvious.\r\n\r\n4. To generalize the above, for me the BIP is not sufficiently explicit that the design of the MuSig2 algorithm does not address the possibility of related input keys at all (and it would be easy as an engineer consumer to assume that related keys would be safe, if they didn't look at the mathematical formulas too much).\r\n\r\nIf you want a concrete description of the attack, here you go (see Appendix A.2 of [DahLIAS](https://eprint.iacr.org/2025/692) for what I mean by \"multipliers:\"):\r\n\r\n2 devices set up with one secret key each, where the keys are on the same branch so that sk1 = sk2 + t for \"public\" t (handwave).\r\n\r\nThe network is compromised by the attacker. It exchanges messages with device 1 (sk1); receives nonces, maliciously calculates the response nonces (with the multipliers), receives a partial sig for sk1 and can complete the signing protocol just from knowing t.\r\n\r\nThe higher-level idea here is (I'm cribbing from an earlier email I wrote):\r\n\r\n> ... which I think nicely illustrates something that occurred to me earlier: there's a question of \"what is authorization?\" being raised here. In a single key signature, there is a single authorizing event, so we never worry too much about the \"semantics\" of the action of signing. It's one action, and it's all or nothing: you authorize, or you don't.\r\n\r\n> In multi-signing it's not atomic. The semantics of individual signing events are something decided on by the operator(s) of the protocol. I might want to say \"I authorize if and only if 3 different hardware devices sign\" (or 3 people or whatever). How does the security definition represent this? I believe the rationale for applying EUF-CMA as in the paper is \"we take a maximally pessimistic approach and assume that all except honest are the adversary, then we demand the adversary produce a signature without authorizing events from the honest signer\" on the basis that, if the honest signer did authorize, then there is no security failure (the honest signer wanted it!) - but that's exactly the point I'm questioning.\r\n\r\n> So it's back to the slightly confusion position of \"that this is possible is worrying, but all the obvious ways of exploiting it as a weakness reduce to an already fundamentally insecure multisig setup (using calculable tweaks of existing keys), and the base security model does not include this\" (\"capture\", perhaps).\r\n\r\n> Whimsically I wonder if this can be seen as analogous to EUF style security vs SUF style security: for most purposes you don't need strong unforgeability but it can cause implementation headaches if you don't have it (MtGox,  hehe).",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJows1HCRC1aQ7uu5UhlAAAD4wQACb1oJsJKqTe58T/PP0DHQI4\nbNMwJdiKZFHZMSxOGkTXIriSPNciQhYcrYOAogkxKbZye5ZcmB7PVnItJQq2/qJv\nw6T9VfYCpBx3sKMIOi5qx5W8Mhc4lmBjNkXmscURoc3hatPhv77eGh1qoyDGHWah\nitxlxnXAXR1/OQpj3YpgHA0fjk1aQ/tW4T+ZtE7FZYSuJm3EzjXNOmD4qrxyAyRu\ncizhS7P4TEWGChdCi6Ze4tb/tnfWm9XQam+/WqCy2+jNQdvx4HxuNO3m5RFNXjTP\nCCmPzBXzZ4Osrd7rxD0D0gtFZfWpKSterQbD2L95ZVnj9kDhWWpLkomLOyQBMQSF\ntUowhWFkainzc1tM9dm2pLhJwgq2LWsiwL/W1zdthDNbxHY8XMHWZpQJCGNragXb\nfw3jetq0lVX2SX6Rm5MntB6922gnGy58Umy6VPM835rCP6z4dGjEl4Z0I1Zum22c\nUaZxuAcg1iQm7jIEd2Rs9X1UTZG1Cdcs7R+8gZouuNRyk7CEQ0kz4wKCJkVdpK8L\n13o8Ho7PgE63VUShOi6WY9meJXFhsjUwHR57bgyA5v58m/Tu4DE69HmbcS+gi71v\n/r9nETGcvWP7KwGx7fEMm2XsETFeI4e+Xie8SXt1zVkcKtTpSoRebvZksYQfw46J\nMPNQmrWevQQu8N+TbOMT\n=I600\n-----END PGP SIGNATURE-----\n"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/abf3bdab2947cad5204b60d298b305adc597f04c",
-          "sha": "abf3bdab2947cad5204b60d298b305adc597f04c",
-          "html_url": "https://github.com/bitcoin/bips/commit/abf3bdab2947cad5204b60d298b305adc597f04c"
-        }
-      ],
-      "message": "Update bip-0327.mediawiki\n\nThe BIP is quite difficult to parse in terms of understanding the functionality and safety of tweaking keys.\r\n\r\nIn particular, while it is a terrible idea for more than one reason, constructing a MuSig2 aggregated key using related (bip32 unhardened) individual keys in the list is very specifically insecure, but that is not noted.\r\n\r\nIt's admittedly debatable whether you ever have to specify that a certain kind of stupid behaviour is to be warned against, but my justification is:\r\n\r\n1. The BIP is very explicitly \"supporting tweaking\" right from the Abstract. It isn't immediately clear that this means tweaking the ouput, not the input. Perhaps a minor note early on would help with that.\r\n\r\n2. Pre- this patch, in the section I'm editing, the document again explicitly says it supports tweaking, and this time, in relation to the *input* keys. It then goes on to explain the background of the attack outlined on the mailing list (I updated to a gnusha link: https://gnusha.org/pi/bitcoindev/576db60c-b05b-5b9a-75e5-9610f3e04eda@gmail.com/ ), which is much more \"in scope\" in the sense that the honest signer behaviour isn't stupid, but at the same time, the conditions of that attack are quite obscure.\r\n\r\n3. While the behaviour is stupid, it's not inconceivable, and it sits within perhaps the most likely/common usage pattern of MuSig2: multisig for better cold storage/savings security. Multiple keys controlled by the same signer, using multiple hardware devices for redundant security. As noted by Jonas Nick in an earlier email convo we had, there is at least one reason such stupid behaviour might be considered: less backup (and/or laziness). I admit that a large majority would have the common sense to not reuse the same wallet seed across devices, but in case anyone did it, they are exposed in a specific way that is very unobvious.\r\n\r\n4. To generalize the above, for me the BIP is not sufficiently explicit that the design of the MuSig2 algorithm does not address the possibility of related input keys at all (and it would be easy as an engineer consumer to assume that related keys would be safe, if they didn't look at the mathematical formulas too much).\r\n\r\nIf you want a concrete description of the attack, here you go (see Appendix A.2 of [DahLIAS](https://eprint.iacr.org/2025/692) for what I mean by \"multipliers:\"):\r\n\r\n2 devices set up with one secret key each, where the keys are on the same branch so that sk1 = sk2 + t for \"public\" t (handwave).\r\n\r\nThe network is compromised by the attacker. It exchanges messages with device 1 (sk1); receives nonces, maliciously calculates the response nonces (with the multipliers), receives a partial sig for sk1 and can complete the signing protocol just from knowing t.\r\n\r\nThe higher-level idea here is (I'm cribbing from an earlier email I wrote):\r\n\r\n> ... which I think nicely illustrates something that occurred to me earlier: there's a question of \"what is authorization?\" being raised here. In a single key signature, there is a single authorizing event, so we never worry too much about the \"semantics\" of the action of signing. It's one action, and it's all or nothing: you authorize, or you don't.\r\n\r\n> In multi-signing it's not atomic. The semantics of individual signing events are something decided on by the operator(s) of the protocol. I might want to say \"I authorize if and only if 3 different hardware devices sign\" (or 3 people or whatever). How does the security definition represent this? I believe the rationale for applying EUF-CMA as in the paper is \"we take a maximally pessimistic approach and assume that all except honest are the adversary, then we demand the adversary produce a signature without authorizing events from the honest signer\" on the basis that, if the honest signer did authorize, then there is no security failure (the honest signer wanted it!) - but that's exactly the point I'm questioning.\r\n\r\n> So it's back to the slightly confusion position of \"that this is possible is worrying, but all the obvious ways of exploiting it as a weakness reduce to an already fundamentally insecure multisig setup (using calculable tweaks of existing keys), and the base security model does not include this\" (\"capture\", perhaps).\r\n\r\n> Whimsically I wonder if this can be seen as analogous to EUF style security vs SUF style security: for most purposes you don't need strong unforgeability but it can cause implementation headaches if you don't have it (MtGox,  hehe).",
-      "committer": {
-        "name": "GitHub",
-        "email": "noreply@github.com",
-        "date": "2025-09-11T13:23:19Z"
-      },
-      "author": {
-        "name": "Adam Gibson",
-        "email": "ekaggata@gmail.com",
-        "date": "2025-09-11T13:23:19Z"
-      },
-      "sha": "bf696165b32a59d71d0ddece8482c356e00afb88"
-    },
     {
       "event": "renamed",
       "id": 19638986933,
@@ -985,6 +945,132 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1964#issuecomment-3283083929",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1964"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDVjMDYwZDQyYWQ3ZTI2YmQzMmY5OWJlY2RjNWM3MTFiOGJhMWYyMWE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5c060d42ad7e26bd32f99becdc5c711b8ba1f21a",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/5c060d42ad7e26bd32f99becdc5c711b8ba1f21a",
+      "tree": {
+        "sha": "9e61a24b8ae3ced7a7cca4899dbde0f021b051da",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/9e61a24b8ae3ced7a7cca4899dbde0f021b051da"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 9e61a24b8ae3ced7a7cca4899dbde0f021b051da\nparent abf3bdab2947cad5204b60d298b305adc597f04c\nauthor Adam Gibson <ekaggata@gmail.com> 1757596999 -0300\ncommitter Adam Gibson <adamisz@protonmail.com> 1757774948 -0300\n\nUpdate bip-0327.mediawiki\n\nThe BIP is quite difficult to parse in terms of understanding the functionality and safety of tweaking keys.\n\nIn particular, while it is a terrible idea for more than one reason, constructing a MuSig2 aggregated key using related (bip32 unhardened) individual keys in the list is very specifically insecure, but that is not noted.\n\nIt's admittedly debatable whether you ever have to specify that a certain kind of stupid behaviour is to be warned against, but my justification is:\n\n1. The BIP is very explicitly \"supporting tweaking\" right from the Abstract. It isn't immediately clear that this means tweaking the ouput, not the input. Perhaps a minor note early on would help with that.\n\n2. Pre- this patch, in the section I'm editing, the document again explicitly says it supports tweaking, and this time, in relation to the *input* keys. It then goes on to explain the background of the attack outlined on the mailing list (I updated to a gnusha link: https://gnusha.org/pi/bitcoindev/576db60c-b05b-5b9a-75e5-9610f3e04eda@gmail.com/ ), which is much more \"in scope\" in the sense that the honest signer behaviour isn't stupid, but at the same time, the conditions of that attack are quite obscure.\n\n3. While the behaviour is stupid, it's not inconceivable, and it sits within perhaps the most likely/common usage pattern of MuSig2: multisig for better cold storage/savings security. Multiple keys controlled by the same signer, using multiple hardware devices for redundant security. As noted by Jonas Nick in an earlier email convo we had, there is at least one reason such stupid behaviour might be considered: less backup (and/or laziness). I admit that a large majority would have the common sense to not reuse the same wallet seed across devices, but in case anyone did it, they are exposed in a specific way that is very unobvious.\n\n4. To generalize the above, for me the BIP is not sufficiently explicit that the design of the MuSig2 algorithm does not address the possibility of related input keys at all (and it would be easy as an engineer consumer to assume that related keys would be safe, if they didn't look at the mathematical formulas too much).\n\nIf you want a concrete description of the attack, here you go (see Appendix A.2 of [DahLIAS](https://eprint.iacr.org/2025/692) for what I mean by \"multipliers:\"):\n\n2 devices set up with one secret key each, where the keys are on the same branch so that sk1 = sk2 + t for \"public\" t (handwave).\n\nThe network is compromised by the attacker. It exchanges messages with device 1 (sk1); receives nonces, maliciously calculates the response nonces (with the multipliers), receives a partial sig for sk1 and can complete the signing protocol just from knowing t.\n\nThe higher-level idea here is (I'm cribbing from an earlier email I wrote):\n\n> ... which I think nicely illustrates something that occurred to me earlier: there's a question of \"what is authorization?\" being raised here. In a single key signature, there is a single authorizing event, so we never worry too much about the \"semantics\" of the action of signing. It's one action, and it's all or nothing: you authorize, or you don't.\n\n> In multi-signing it's not atomic. The semantics of individual signing events are something decided on by the operator(s) of the protocol. I might want to say \"I authorize if and only if 3 different hardware devices sign\" (or 3 people or whatever). How does the security definition represent this? I believe the rationale for applying EUF-CMA as in the paper is \"we take a maximally pessimistic approach and assume that all except honest are the adversary, then we demand the adversary produce a signature without authorizing events from the honest signer\" on the basis that, if the honest signer did authorize, then there is no security failure (the honest signer wanted it!) - but that's exactly the point I'm questioning.\n\n> So it's back to the slightly confusion position of \"that this is possible is worrying, but all the obvious ways of exploiting it as a weakness reduce to an already fundamentally insecure multisig setup (using calculable tweaks of existing keys), and the base security model does not include this\" (\"capture\", perhaps).\n\n> Whimsically I wonder if this can be seen as analogous to EUF style security vs SUF style security: for most purposes you don't need strong unforgeability but it can cause implementation headaches if you don't have it (MtGox,  hehe).\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEECISVQjhz/l7edwYic+ZVjafLiHoFAmjFhIcACgkQc+ZVjafL\niHr/fA//RgHVixEZPucH6HkvBwCXUlswlQP/AC1J4YDvUp4eY6SHvMvuCl/h41i4\nVtIlsMh6jnE8Nc2jcunoajuqBQn6s/R7cDWoCc/aqTnG+sOhYg9bSPAQcwwAJqmQ\nT7QR3xyJDAu63kZ+m1JzIdlJLnsElykD8I/BbG595Bl769E3kuxFdkyjnS2T4x2b\nsSkggyai9Nx0t44CDTJ9DkVUQFDOzKFA4uWbeVdVnL4rhfM5TrQRwAx+I7cy5K+U\n2P5N0kCfSDApdOMn465+NvaVuadQD8TN7xcz4pgsyBTVhEYA/fKIlZNPrDczo/mI\nljTfP0nal4ybSstpfKO5yeXxfQmSdfebRQvQIb5xPpAUEecxJ0L+I0GexmkL6aLH\nSylyIagmIRZQmGNHPIGjFLrvdjxAMn4Vs7dVH+qwTOGIFGE0d8i5zEHpUye30IKe\nKFuJVYqqKQk8Wu0s2Qt/ngG0LZapwBMtxUN4kSwjKABQmSOnasLq9ndHG6BNRKSC\no8TZOmuyJv9buSBheYE4R0CXzF6IR11DnVL80ZPGXGArQG5lM9tdVF9QLPMgY6NU\nJpjbGEBdYXJNumxA6efHMfwp9uEBaNfGVuOs6nYeVfhpRVQgrD4Pbw194OhRumfd\nRYt5d30zlK0H8C3PD9utMxhu8Bj3aWtAx8lqjUEn+iBH99L3agU=\n=RQUZ\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/abf3bdab2947cad5204b60d298b305adc597f04c",
+          "sha": "abf3bdab2947cad5204b60d298b305adc597f04c",
+          "html_url": "https://github.com/bitcoin/bips/commit/abf3bdab2947cad5204b60d298b305adc597f04c"
+        }
+      ],
+      "message": "Update bip-0327.mediawiki\n\nThe BIP is quite difficult to parse in terms of understanding the functionality and safety of tweaking keys.\n\nIn particular, while it is a terrible idea for more than one reason, constructing a MuSig2 aggregated key using related (bip32 unhardened) individual keys in the list is very specifically insecure, but that is not noted.\n\nIt's admittedly debatable whether you ever have to specify that a certain kind of stupid behaviour is to be warned against, but my justification is:\n\n1. The BIP is very explicitly \"supporting tweaking\" right from the Abstract. It isn't immediately clear that this means tweaking the ouput, not the input. Perhaps a minor note early on would help with that.\n\n2. Pre- this patch, in the section I'm editing, the document again explicitly says it supports tweaking, and this time, in relation to the *input* keys. It then goes on to explain the background of the attack outlined on the mailing list (I updated to a gnusha link: https://gnusha.org/pi/bitcoindev/576db60c-b05b-5b9a-75e5-9610f3e04eda@gmail.com/ ), which is much more \"in scope\" in the sense that the honest signer behaviour isn't stupid, but at the same time, the conditions of that attack are quite obscure.\n\n3. While the behaviour is stupid, it's not inconceivable, and it sits within perhaps the most likely/common usage pattern of MuSig2: multisig for better cold storage/savings security. Multiple keys controlled by the same signer, using multiple hardware devices for redundant security. As noted by Jonas Nick in an earlier email convo we had, there is at least one reason such stupid behaviour might be considered: less backup (and/or laziness). I admit that a large majority would have the common sense to not reuse the same wallet seed across devices, but in case anyone did it, they are exposed in a specific way that is very unobvious.\n\n4. To generalize the above, for me the BIP is not sufficiently explicit that the design of the MuSig2 algorithm does not address the possibility of related input keys at all (and it would be easy as an engineer consumer to assume that related keys would be safe, if they didn't look at the mathematical formulas too much).\n\nIf you want a concrete description of the attack, here you go (see Appendix A.2 of [DahLIAS](https://eprint.iacr.org/2025/692) for what I mean by \"multipliers:\"):\n\n2 devices set up with one secret key each, where the keys are on the same branch so that sk1 = sk2 + t for \"public\" t (handwave).\n\nThe network is compromised by the attacker. It exchanges messages with device 1 (sk1); receives nonces, maliciously calculates the response nonces (with the multipliers), receives a partial sig for sk1 and can complete the signing protocol just from knowing t.\n\nThe higher-level idea here is (I'm cribbing from an earlier email I wrote):\n\n> ... which I think nicely illustrates something that occurred to me earlier: there's a question of \"what is authorization?\" being raised here. In a single key signature, there is a single authorizing event, so we never worry too much about the \"semantics\" of the action of signing. It's one action, and it's all or nothing: you authorize, or you don't.\n\n> In multi-signing it's not atomic. The semantics of individual signing events are something decided on by the operator(s) of the protocol. I might want to say \"I authorize if and only if 3 different hardware devices sign\" (or 3 people or whatever). How does the security definition represent this? I believe the rationale for applying EUF-CMA as in the paper is \"we take a maximally pessimistic approach and assume that all except honest are the adversary, then we demand the adversary produce a signature without authorizing events from the honest signer\" on the basis that, if the honest signer did authorize, then there is no security failure (the honest signer wanted it!) - but that's exactly the point I'm questioning.\n\n> So it's back to the slightly confusion position of \"that this is possible is worrying, but all the obvious ways of exploiting it as a weakness reduce to an already fundamentally insecure multisig setup (using calculable tweaks of existing keys), and the base security model does not include this\" (\"capture\", perhaps).\n\n> Whimsically I wonder if this can be seen as analogous to EUF style security vs SUF style security: for most purposes you don't need strong unforgeability but it can cause implementation headaches if you don't have it (MtGox,  hehe).",
+      "committer": {
+        "name": "Adam Gibson",
+        "email": "adamisz@protonmail.com",
+        "date": "2025-09-13T14:49:08Z"
+      },
+      "author": {
+        "name": "Adam Gibson",
+        "email": "ekaggata@gmail.com",
+        "date": "2025-09-11T13:23:19Z"
+      },
+      "sha": "5c060d42ad7e26bd32f99becdc5c711b8ba1f21a"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 19678405399,
+      "node_id": "HRFPE_lADOAN28mc7LC_8zzwAAAASU7KMX",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/19678405399",
+      "actor": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": "5c060d42ad7e26bd32f99becdc5c711b8ba1f21a",
+      "commit_url": "https://api.github.com/repos/AdamISZ/bips/commits/5c060d42ad7e26bd32f99becdc5c711b8ba1f21a",
+      "created_at": "2025-09-13T14:51:17Z"
+    },
+    {
+      "event": "commented",
+      "id": 3288493175,
+      "node_id": "IC_kwDOAN28mc7EAmx3",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3288493175",
+      "actor": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-09-13T14:55:38Z",
+      "updated_at": "2025-09-13T14:55:38Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Updated in 5c060d42ad7e26bd32f99becdc5c711b8ba1f21a ; now a briefer note in the main text, with a footnote explaining the background, which seems more appropriate. As well as formatting fixes. What remains: still referring to DahLIAS A2 but perhaps replace; also I think needs a changelog update.\r\n\r\nLet me know if this format/phrasing seems reasonable or not.",
+      "user": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1964#issuecomment-3288493175",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1964"
     }
   ],
   "comments": [
@@ -995,9 +1081,9 @@
       "node_id": "PRRC_kwDOAN28mc6LkG9f",
       "diff_hunk": "@@ -533,8 +533,10 @@ The reference implementation is for demonstration purposes only and not to be us\n \n === Signing with Tweaked Individual Keys ===\n \n-The scheme in this proposal has been designed to be secure\n-even if signers tweak their individual secret keys with tweaks known to the adversary (e.g., as in BIP32 unhardened derivation)\n+Using 2 signing keys that are related with publically known tweaks (such as unhardened BIP32 derivation) is **not secure** in MuSig2 (see the attack described in [https://eprint.iacr.org/2025/692 the DahLIAS paper], Appendix A.2, which applies directly), in the specific sense that an attacker can complete the signing protocol after receiving only 1 partial signature, not 2. If a user were to spread signing keys across multiple hardware devices, but using the same wallet seed and different addresses from the same BIP32 branch, it would therefore not be secure. The same would be true for publically known multiplicative tweaks (K2 = c * K1), as well as additive tweaks (K2 = K1 + t*G).",
       "path": "bip-0327.mediawiki",
-      "position": 6,
+      "position": 1,
       "original_position": 6,
-      "commit_id": "bf696165b32a59d71d0ddece8482c356e00afb88",
+      "commit_id": "5c060d42ad7e26bd32f99becdc5c711b8ba1f21a",
       "original_commit_id": "bf696165b32a59d71d0ddece8482c356e00afb88",
       "in_reply_to_id": null,
       "user": {
@@ -1037,7 +1123,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 536,
+      "line": null,
       "original_line": 536,
       "side": "RIGHT"
     },
@@ -1048,9 +1134,9 @@
       "node_id": "PRRC_kwDOAN28mc6LlTj4",
       "diff_hunk": "@@ -533,8 +533,10 @@ The reference implementation is for demonstration purposes only and not to be us\n \n === Signing with Tweaked Individual Keys ===\n \n-The scheme in this proposal has been designed to be secure\n-even if signers tweak their individual secret keys with tweaks known to the adversary (e.g., as in BIP32 unhardened derivation)\n+Using 2 signing keys that are related with publically known tweaks (such as unhardened BIP32 derivation) is **not secure** in MuSig2 (see the attack described in [https://eprint.iacr.org/2025/692 the DahLIAS paper], Appendix A.2, which applies directly), in the specific sense that an attacker can complete the signing protocol after receiving only 1 partial signature, not 2. If a user were to spread signing keys across multiple hardware devices, but using the same wallet seed and different addresses from the same BIP32 branch, it would therefore not be secure. The same would be true for publically known multiplicative tweaks (K2 = c * K1), as well as additive tweaks (K2 = K1 + t*G).",
       "path": "bip-0327.mediawiki",
-      "position": 6,
+      "position": 1,
       "original_position": 6,
-      "commit_id": "bf696165b32a59d71d0ddece8482c356e00afb88",
+      "commit_id": "5c060d42ad7e26bd32f99becdc5c711b8ba1f21a",
       "original_commit_id": "bf696165b32a59d71d0ddece8482c356e00afb88",
       "in_reply_to_id": 2341498719,
       "user": {
@@ -1090,7 +1176,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 536,
+      "line": null,
       "original_line": 536,
       "side": "RIGHT"
     }
