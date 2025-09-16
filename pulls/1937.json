@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-08-18T01:32:43Z",
-    "updated_at": "2025-09-16T21:03:58Z",
+    "updated_at": "2025-09-16T22:59:22Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -311,8 +311,8 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 10,
-    "comments": 5
+    "review_comments": 12,
+    "comments": 6
   },
   "events": [
     {
@@ -1037,6 +1037,62 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-09-16T21:03:59Z"
+    },
+    {
+      "event": "commented",
+      "id": 3300596383,
+      "node_id": "IC_kwDOAN28mc7Euxqf",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3300596383",
+      "actor": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-09-16T22:54:55Z",
+      "updated_at": "2025-09-16T22:54:55Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "I think this is fine to merge as draft, further review/changes can happen in that state as I understand it.",
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1937#issuecomment-3300596383",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1937"
     }
   ],
   "comments": [
@@ -1568,6 +1624,112 @@
       "start_side": null,
       "line": null,
       "original_line": 35,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2353829984",
+      "pull_request_review_id": 3231946639,
+      "id": 2353829984,
+      "node_id": "PRRC_kwDOAN28mc6MTJhg",
+      "diff_hunk": "@@ -0,0 +1,150 @@\n+```\n+  BIP: TBD\n+  Layer: Peer Services\n+  Title: Sharing Block Templates with Peers\n+  Author: Anthony Towns <aj@erisian.com.au>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-TBD\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-08-08\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aJvZwR_bPeT4LaH6@erisian.com.au/T/#u\n+                https://delvingbitcoin.org/t/sharing-block-templates/1906\n+```\n+\n+## Abstract\n+\n+This BIP describes the use of [BIP-152 compact blocks][BIP-152] encoding\n+for sharing block templates (ie, the next block's predicted transactions)\n+with peers.\n+\n+## Motivation\n+\n+The primary goal of sharing block templates is to improve the\n+effectiveness of compact block reconstruction, particularly for nodes\n+who have a more restrictive transaction relay policy than their peers.\n+\n+Secondary benefits of this approach are that it (a) allows nodes that have\n+not been online recently to quickly repopulate the top of their mempool,\n+and (b) provides a way for transactions that may have dropped out of\n+nodes' mempools to be rebroadcast across the network by third parties,\n+potentially providing better privacy than if only the nodes directly\n+involved in the transaction would rebroadcast it.\n+\n+## Specification",
+      "path": "bip-ajtowns-sendtemplate.md",
+      "position": 1,
+      "original_position": 35,
+      "commit_id": "86d20db638c7b2f1e29f2f3072eab005f5b811d5",
+      "original_commit_id": "6fbdd71cd44d9ec5873ead3c029e6e5e56a4d003",
+      "in_reply_to_id": 2323650621,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "I'm hopeful that it will eventually be widely supported enough not to need people to seek out supporting clients explicitly -- it should be pretty low overhead to just provide templates. Also, I think you'd want something more subtle than just \"does the node support this protocol\" when working out who to peer with -- you want templates that are about equally as diverse as miners: getting the same template from multiple peers isn't very helpful, and getting templates that don't match any miners also isn't helpful. So I think it makes more sense to get some experience with the behaviour of things before speccing out best practices or new features for peer discovery. ",
+      "created_at": "2025-09-16T22:57:57Z",
+      "updated_at": "2025-09-16T22:57:57Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1937#discussion_r2353829984",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2353829984"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1937"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 35,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2353831445",
+      "pull_request_review_id": 3231948599,
+      "id": 2353831445,
+      "node_id": "PRRC_kwDOAN28mc6MTJ4V",
+      "diff_hunk": "@@ -0,0 +1,150 @@\n+```\n+  BIP: TBD\n+  Layer: Peer Services\n+  Title: Sharing Block Templates with Peers\n+  Author: Anthony Towns <aj@erisian.com.au>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-TBD\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-08-08\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aJvZwR_bPeT4LaH6@erisian.com.au/T/#u\n+                https://delvingbitcoin.org/t/sharing-block-templates/1906\n+```\n+\n+## Abstract\n+\n+This BIP describes the use of [BIP-152 compact blocks][BIP-152] encoding\n+for sharing block templates (ie, the next block's predicted transactions)\n+with peers.\n+\n+## Motivation\n+\n+The primary goal of sharing block templates is to improve the\n+effectiveness of compact block reconstruction, particularly for nodes\n+who have a more restrictive transaction relay policy than their peers.\n+\n+Secondary benefits of this approach are that it (a) allows nodes that have\n+not been online recently to quickly repopulate the top of their mempool,\n+and (b) provides a way for transactions that may have dropped out of\n+nodes' mempools to be rebroadcast across the network by third parties,\n+potentially providing better privacy than if only the nodes directly\n+involved in the transaction would rebroadcast it.\n+\n+## Specification\n+\n+This introduces three new messages (`sendtemplate`, `gettemplate`,\n+`template`), and reuses two others (`getblocktxn`, `blocktxn`, defined in\n+[BIP-152][BIP-152]).\n+\n+### `sendtemplate`\n+\n+1. The `sendtemplate` message is defined as a message with `pchCommand ==\n+\"sendtemplate\"`.\n+2. No payload data should be provided, however, for upgrade purposes,\n+any payload data received should be ignored.\n+3. If a node implements this BIP, it must send the `sendtemplate`\n+message after `version` and before `verack`.\n+\n+### `gettemplate`\n+\n+1. The `gettemplate` message is defined as a message with `pchCommand ==",
+      "path": "bip-ajtowns-sendtemplate.md",
+      "position": 1,
+      "original_position": 52,
+      "commit_id": "86d20db638c7b2f1e29f2f3072eab005f5b811d5",
+      "original_commit_id": "6fbdd71cd44d9ec5873ead3c029e6e5e56a4d003",
+      "in_reply_to_id": 2323645154,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "(I have in my backlog an idea for having these ids get determined dynamically during initial connection negotiation, which avoids the problem of BIPs attempting to assign the same id to different messages)",
+      "created_at": "2025-09-16T22:59:22Z",
+      "updated_at": "2025-09-16T22:59:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1937#discussion_r2353831445",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2353831445"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1937"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 52,
       "side": "RIGHT"
     }
   ]
