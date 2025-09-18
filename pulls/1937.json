@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-08-18T01:32:43Z",
-    "updated_at": "2025-09-17T23:57:52Z",
+    "updated_at": "2025-09-18T00:20:50Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -311,7 +311,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 17,
+    "review_comments": 18,
     "comments": 6
   },
   "events": [
@@ -1129,6 +1129,43 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1937#pullrequestreview-3236367565",
       "submitted_at": "2025-09-17T23:57:52Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1937"
+    },
+    {
+      "event": "reviewed",
+      "id": 3236718567,
+      "node_id": "PRR_kwDOAN28mc7A7Gfn",
+      "url": null,
+      "actor": null,
+      "commit_id": "86d20db638c7b2f1e29f2f3072eab005f5b811d5",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-09-18T00:20:50Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "Roasbeef",
+        "id": 998190,
+        "node_id": "MDQ6VXNlcjk5ODE5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roasbeef",
+        "html_url": "https://github.com/Roasbeef",
+        "followers_url": "https://api.github.com/users/Roasbeef/followers",
+        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
+        "repos_url": "https://api.github.com/users/Roasbeef/repos",
+        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1937#pullrequestreview-3236718567",
+      "submitted_at": "2025-09-18T00:20:50Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1937"
     }
@@ -2033,6 +2070,59 @@
       "start_side": null,
       "line": 13,
       "original_line": 13,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2357112288",
+      "pull_request_review_id": 3236718567,
+      "id": 2357112288,
+      "node_id": "PRRC_kwDOAN28mc6Mfq3g",
+      "diff_hunk": "@@ -0,0 +1,150 @@\n+```\n+  BIP: 153\n+  Layer: Peer Services\n+  Title: Sharing Block Templates with Peers\n+  Author: Anthony Towns <aj@erisian.com.au>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0153\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-09-05\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aJvZwR_bPeT4LaH6@erisian.com.au/T/#u\n+                https://delvingbitcoin.org/t/sharing-block-templates/1906\n+```\n+\n+## Abstract\n+\n+This BIP describes the use of [BIP-152 compact blocks][BIP-152] encoding\n+for sharing block templates (ie, the next block's predicted transactions)\n+with peers.\n+\n+## Motivation\n+\n+The primary goal of sharing block templates is to improve the\n+effectiveness of compact block reconstruction, particularly for nodes\n+who have a more restrictive transaction relay policy than their peers.\n+\n+Secondary benefits of this approach are that it (a) allows nodes that have\n+not been online recently to quickly repopulate the top of their mempool,\n+and (b) provides a way for transactions that may have dropped out of\n+nodes' mempools to be rebroadcast across the network by third parties,\n+potentially providing better privacy than if only the nodes directly\n+involved in the transaction would rebroadcast it.\n+\n+## Specification\n+\n+This introduces three new messages (`sendtemplate`, `gettemplate`,\n+`template`), and reuses two others (`getblocktxn`, `blocktxn`, defined in\n+[BIP-152][BIP-152]).\n+\n+### `sendtemplate`\n+\n+1. The `sendtemplate` message is defined as a message with `pchCommand ==\n+\"sendtemplate\"`.\n+2. No payload data should be provided, however, for upgrade purposes,\n+any payload data received should be ignored.\n+3. If a node implements this BIP, it must send the `sendtemplate`\n+message after `version` and before `verack`.\n+\n+### `gettemplate`\n+\n+1. The `gettemplate` message is defined as a message with `pchCommand ==\n+\"gettemplate\"`.\n+2. No payload data should be provided.\n+3. If the node received a `sendtemplate` message, it may send a\n+`gettemplate` message at any time after `verack`, in order\n+to request a new template.\n+3. A `gettemplate` message must not be sent if a `sendtemplate` message\n+was not already received.\n+4. Upon receipt of a `gettemplate` message, a node may reply with a\n+`template` message.\n+\n+### `template`\n+\n+1. The `template` message is defined as a message with `pchCommand ==\n+\"template\"` and a payload of a serialized `HeaderAndShortIDs` message\n+(see [BIP-152][BIP-152]) containing a recent template.\n+2. A `template` message may only be sent in response to a `gettemplate`\n+message.\n+3. The `header` hash included in the payload must be a unique hash,\n+and should be the hash of a block made up of those transactions.\n+4. The transactions making up the payload of the template should be\n+valid for block inclusion -- for example all unconfirmed parents of a\n+transaction should be included before the transaction, and consensus\n+limits should be respected.\n+5. The cumulative weight of the transactions making up the\n+payload must not exceed eight million weight units as defined in\n+[BIP-141][BIP-141]. Note that this is twice the block weight limit, and\n+does not include the overhead that assembling those transactions into\n+a block would involve (header, coinbase and tx count serialization),\n+so this can be slightly more than two blocks' worth of transactions.\n+6. After sending a `template` message, a node should accept a\n+`sendblocktxns` message that specify the template's `header` hash, and\n+respond with a `blocktxns` message including the appropriate transaction\n+data, exactly as if it had sent a `cmpctblock` message with the same\n+payload as the `template` message. It should be able to provide such\n+transactions for a moderate amount of time after sending a template\n+(eg, five minutes). If it cannot provide a correct `blocktxns` response,\n+it should ignore the request.\n+\n+## Rationale\n+\n+### Protocol design\n+\n+This design closely follows the \"low-bandwidth mode\" specified in\n+[BIP-152][BIP-152], providing a negotiation message, the ability for\n+a peer to request data, and a response encoding the data via shortids.\n+This is designed to be relatively low bandwidth, but importantly also\n+to be simple to implement and deploy in any software that has already\n+implemented compact block relay.\n+\n+### Template size\n+\n+This BIP specifies a maximum template size equivalent to two blocks'\n+worth of transactions. This is chosen so that even if two blocks are\n+mined in quick succession, prior templates that were shared using this\n+protocol are likely to have included the transactions from both blocks.\n+\n+If blocks are found randomly, it is expected that 5% of blocks will\n+be found within 30 seconds of the previous block, which is about 7 per\n+day; so this seems frequent enough to address explicitly. In contrast,\n+the chances of finding two blocks within 30 seconds of a block is only\n+0.12%, so even in ideal circumstances, is only expected to occur about\n+once per week, and thus further optimisation does not seem warranted.\n+\n+### Forward compatibility\n+\n+It is likely that improvements can be made to this design, particularly\n+to further reduce the bandwidth needed for updating templates. This\n+could be achieved by:\n+\n+  * defining a new payload for the `template` message with a new, more\n+    efficient encoding of (changes to) the template data\n+  * adding a payload to the `gettemplate` message so that peers can\n+    indicate they will accept a new encoding of the template\n+  * adding a payload to the `sendtemplate` message to indicate that the\n+    `gettemplate` payload will be accepted\n+\n+## Recommendations",
+      "path": "bip-0153.md",
+      "position": 129,
+      "original_position": 129,
+      "commit_id": "86d20db638c7b2f1e29f2f3072eab005f5b811d5",
+      "original_commit_id": "86d20db638c7b2f1e29f2f3072eab005f5b811d5",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Roasbeef",
+        "id": 998190,
+        "node_id": "MDQ6VXNlcjk5ODE5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Roasbeef",
+        "html_url": "https://github.com/Roasbeef",
+        "followers_url": "https://api.github.com/users/Roasbeef/followers",
+        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
+        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
+        "repos_url": "https://api.github.com/users/Roasbeef/repos",
+        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Perhaps this could use some recommendations re privacy implications? \n\nIIRC, there was some push back augments devs re [BIP 35 (`mempool` message)](https://github.com/bitcoin/bips/blob/master/bip-0035.mediawiki), as it can be used to implement relay correlation and tagging attacks against peers. As the message enables a peer to obtain the entire mempool of another peer, it can feasibly be used by an adversary to figure out: who relayed what, which transactions may have originated directly from the node, etc. \n\nSome related PRs from the bitcoind repo:\n  * https://github.com/bitcoin/bitcoin/pull/27426 -- an attempt to remove the command all together, but was later abandoned. \n  * https://github.com/bitcoin/bitcoin/pull/7840 -- restrcited the type of peers that bitcoind will respond to w/ responses to the `mempool` message (white list applied), the start of some of the inv trickle/batch re address privacy concerns \n\nAlso pool operators may want to filter out transactions that they received via out of band transaction submission.  ",
+      "created_at": "2025-09-18T00:20:46Z",
+      "updated_at": "2025-09-18T00:20:50Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1937#discussion_r2357112288",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2357112288"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1937"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 129,
+      "original_line": 129,
       "side": "RIGHT"
     }
   ]
