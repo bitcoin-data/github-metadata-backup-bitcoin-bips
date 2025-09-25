@@ -51,11 +51,11 @@
       }
     ],
     "created_at": "2025-09-24T15:40:51Z",
-    "updated_at": "2025-09-24T15:52:52Z",
+    "updated_at": "2025-09-25T21:38:48Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "3e0688530e514d2c236c1fd6efc005525189c5dc",
+    "merge_commit_sha": "8ad52cadcc3ae1c41e26195a09aca17bde859816",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -161,7 +161,7 @@
         "forks_count": 1,
         "stargazers_count": 2,
         "watchers_count": 2,
-        "size": 16785,
+        "size": 16787,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -281,9 +281,9 @@
         "forks_count": 5745,
         "stargazers_count": 10209,
         "watchers_count": 10209,
-        "size": 16654,
+        "size": 16700,
         "default_branch": "master",
-        "open_issues_count": 52,
+        "open_issues_count": 54,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -294,9 +294,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-09-24T15:20:30Z",
+        "pushed_at": "2025-09-24T22:49:24Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-09-24T15:20:43Z",
+        "updated_at": "2025-09-25T11:25:16Z",
         "allow_forking": true
       }
     },
@@ -311,7 +311,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 5,
     "comments": 0
   },
   "events": [
@@ -388,7 +388,311 @@
         "name": "New BIP",
         "color": "5319e7"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 3269486942,
+      "node_id": "PRR_kwDOAN28mc7C4Gle",
+      "url": null,
+      "actor": null,
+      "commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-09-25T21:38:48Z",
+      "author_association": "MEMBER",
+      "body": "Quick first pass.",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1982#pullrequestreview-3269486942",
+      "submitted_at": "2025-09-25T21:38:48Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1982"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380340543",
+      "pull_request_review_id": 3269486942,
+      "id": 2380340543,
+      "node_id": "PRRC_kwDOAN28mc6N4R0_",
+      "diff_hunk": "@@ -0,0 +1,76 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Pay To Anchor (P2A)\n+  Author: Gregory Sanders <gsanders87@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Informational\n+  Created: 2025-09-23\n+  License: BSD-3-Clause\n+  Post-History: 2024-06-27: https://github.com/bitcoin/bitcoin/pull/30352 Github PR\n+                2024-10-10: https://bitcoinops.org/en/bitcoin-core-28-wallet-integration-guide/ wallet integration guide\n+</pre>\n+\n+==Abstract==\n+\n+This document describes a new standard output script called PayToAnchor (P2A) and prescribes making spending of this output type standard.\n+\n+This output is \"keyless\" meaning no signature or witness data at all are required to spend this output typea.\n+\n+==Motivation==\n+\n+The \"anchor\" output type is a commonly used pattern in Bitcoin layer 2 systems such as Lightning Network and beyond. This pattern allows transactions which are presigned far in advance to leave a \"hook\" for CPFP fee bumping later, when prevailing feerates for block inclusion are better known.\n+\n+When the wallet user is unconcerned by *who* is able to bump the transaction fees as long as someone does, this output type may confer a couple of advantages:\n+\n+1. Using an output type with minimal output and spending input footprint saves fees on average\n+2. Keyless operation aids in interoperability of services like watchtowers as there is no privelaged key material for bumping",
+      "path": "bip-paytoanchor.mediawiki",
+      "position": 28,
+      "original_position": 28,
+      "commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "original_commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "```suggestion\n2. Keyless operation aids in interoperability of services like watchtowers, as there is no privileged key material for bumping,\n```",
+      "created_at": "2025-09-25T21:13:48Z",
+      "updated_at": "2025-09-25T21:38:48Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1982#discussion_r2380340543",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380340543"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1982"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 28,
+      "original_line": 28,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380353801",
+      "pull_request_review_id": 3269486942,
+      "id": 2380353801,
+      "node_id": "PRRC_kwDOAN28mc6N4VEJ",
+      "diff_hunk": "@@ -0,0 +1,76 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Pay To Anchor (P2A)\n+  Author: Gregory Sanders <gsanders87@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Informational\n+  Created: 2025-09-23\n+  License: BSD-3-Clause\n+  Post-History: 2024-06-27: https://github.com/bitcoin/bitcoin/pull/30352 Github PR\n+                2024-10-10: https://bitcoinops.org/en/bitcoin-core-28-wallet-integration-guide/ wallet integration guide\n+</pre>\n+\n+==Abstract==\n+\n+This document describes a new standard output script called PayToAnchor (P2A) and prescribes making spending of this output type standard.\n+\n+This output is \"keyless\" meaning no signature or witness data at all are required to spend this output typea.\n+\n+==Motivation==\n+\n+The \"anchor\" output type is a commonly used pattern in Bitcoin layer 2 systems such as Lightning Network and beyond. This pattern allows transactions which are presigned far in advance to leave a \"hook\" for CPFP fee bumping later, when prevailing feerates for block inclusion are better known.\n+\n+When the wallet user is unconcerned by *who* is able to bump the transaction fees as long as someone does, this output type may confer a couple of advantages:\n+\n+1. Using an output type with minimal output and spending input footprint saves fees on average\n+2. Keyless operation aids in interoperability of services like watchtowers as there is no privelaged key material for bumping\n+\n+with the drawback that selection of this output type could result in griefing if anti-pinning measures are not taken.\n+\n+===Specification===\n+\n+A P2A output is defined as one with the exact witness output script\n+\n+<code>OP_1 <0x4e73></code>\n+\n+corresponding to the address <code>bc1pfeessrawgf</code> on Bitcoin mainnet.\n+\n+P2A inputs are considered standard for spending if no witness data is attached. This avoids meaningless witness padding. Consensus meaning is unchanged.\n+\n+====Implementation====\n+\n+* https://github.com/bitcoin/bitcoin/pull/30352\n+\n+====Related Work====\n+\n+There are a number of related but separate historical concepts:\n+\n+[https://github.com/bitcoin/bitcoin/pull/30239 Ephemeral Dust]: Relay policies allowing a single dust output as long as it is spent in a transaction package. As an implementation detail, dust for P2A is set at 240 satoshis by default, others dust levels remain unchanged, and the dust-having transaction must be zero fee.",
+      "path": "bip-paytoanchor.mediawiki",
+      "position": 50,
+      "original_position": 50,
+      "commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "original_commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "```suggestion\n[https://github.com/bitcoin/bitcoin/pull/30239 Ephemeral Dust]: Relay policies allowing a single dust output as long as it is spent in a transaction package. As an implementation detail, dust for P2A is set at 240 satoshis by default, other dust levels remain unchanged, and the dust-having transaction must be zero fee.\n```",
+      "created_at": "2025-09-25T21:21:30Z",
+      "updated_at": "2025-09-25T21:38:48Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1982#discussion_r2380353801",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380353801"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1982"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 50,
+      "original_line": 50,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380359908",
+      "pull_request_review_id": 3269486942,
+      "id": 2380359908,
+      "node_id": "PRRC_kwDOAN28mc6N4Wjk",
+      "diff_hunk": "@@ -0,0 +1,76 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Pay To Anchor (P2A)\n+  Author: Gregory Sanders <gsanders87@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Informational\n+  Created: 2025-09-23\n+  License: BSD-3-Clause\n+  Post-History: 2024-06-27: https://github.com/bitcoin/bitcoin/pull/30352 Github PR\n+                2024-10-10: https://bitcoinops.org/en/bitcoin-core-28-wallet-integration-guide/ wallet integration guide\n+</pre>\n+\n+==Abstract==\n+\n+This document describes a new standard output script called PayToAnchor (P2A) and prescribes making spending of this output type standard.\n+\n+This output is \"keyless\" meaning no signature or witness data at all are required to spend this output typea.\n+\n+==Motivation==\n+\n+The \"anchor\" output type is a commonly used pattern in Bitcoin layer 2 systems such as Lightning Network and beyond. This pattern allows transactions which are presigned far in advance to leave a \"hook\" for CPFP fee bumping later, when prevailing feerates for block inclusion are better known.\n+\n+When the wallet user is unconcerned by *who* is able to bump the transaction fees as long as someone does, this output type may confer a couple of advantages:\n+\n+1. Using an output type with minimal output and spending input footprint saves fees on average\n+2. Keyless operation aids in interoperability of services like watchtowers as there is no privelaged key material for bumping\n+\n+with the drawback that selection of this output type could result in griefing if anti-pinning measures are not taken.\n+\n+===Specification===\n+\n+A P2A output is defined as one with the exact witness output script\n+\n+<code>OP_1 <0x4e73></code>",
+      "path": "bip-paytoanchor.mediawiki",
+      "position": 36,
+      "original_position": 36,
+      "commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "original_commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Perhaps add a footnote describing \"what is the `0x4e73` for?\" per your answer in https://github.com/bitcoin/bitcoin/pull/30352#issuecomment-2215089061",
+      "created_at": "2025-09-25T21:24:19Z",
+      "updated_at": "2025-09-25T21:38:48Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1982#discussion_r2380359908",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380359908"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1982"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 36,
+      "original_line": 36,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380373038",
+      "pull_request_review_id": 3269486942,
+      "id": 2380373038,
+      "node_id": "PRRC_kwDOAN28mc6N4Zwu",
+      "diff_hunk": "@@ -0,0 +1,76 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Pay To Anchor (P2A)\n+  Author: Gregory Sanders <gsanders87@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Informational\n+  Created: 2025-09-23\n+  License: BSD-3-Clause\n+  Post-History: 2024-06-27: https://github.com/bitcoin/bitcoin/pull/30352 Github PR\n+                2024-10-10: https://bitcoinops.org/en/bitcoin-core-28-wallet-integration-guide/ wallet integration guide\n+</pre>\n+\n+==Abstract==\n+\n+This document describes a new standard output script called PayToAnchor (P2A) and prescribes making spending of this output type standard.\n+\n+This output is \"keyless\" meaning no signature or witness data at all are required to spend this output typea.\n+\n+==Motivation==\n+\n+The \"anchor\" output type is a commonly used pattern in Bitcoin layer 2 systems such as Lightning Network and beyond. This pattern allows transactions which are presigned far in advance to leave a \"hook\" for CPFP fee bumping later, when prevailing feerates for block inclusion are better known.\n+\n+When the wallet user is unconcerned by *who* is able to bump the transaction fees as long as someone does, this output type may confer a couple of advantages:\n+\n+1. Using an output type with minimal output and spending input footprint saves fees on average\n+2. Keyless operation aids in interoperability of services like watchtowers as there is no privelaged key material for bumping\n+\n+with the drawback that selection of this output type could result in griefing if anti-pinning measures are not taken.\n+\n+===Specification===\n+\n+A P2A output is defined as one with the exact witness output script\n+\n+<code>OP_1 <0x4e73></code>\n+\n+corresponding to the address <code>bc1pfeessrawgf</code> on Bitcoin mainnet.\n+\n+P2A inputs are considered standard for spending if no witness data is attached. This avoids meaningless witness padding. Consensus meaning is unchanged.\n+\n+====Implementation====\n+\n+* https://github.com/bitcoin/bitcoin/pull/30352\n+\n+====Related Work====\n+\n+There are a number of related but separate historical concepts:\n+\n+[https://github.com/bitcoin/bitcoin/pull/30239 Ephemeral Dust]: Relay policies allowing a single dust output as long as it is spent in a transaction package. As an implementation detail, dust for P2A is set at 240 satoshis by default, others dust levels remain unchanged, and the dust-having transaction must be zero fee.\n+\n+[https://bitcoinops.org/en/topics/ephemeral-anchors/ Ephemeral Anchors]: Historically the union of P2A output type and ephemeral dust. Keyed anchors along with ephemeral dust are also an accepted pattern and as such they remain separate concepts.\n+\n+[bip-0431.mediawiki TRUC transactions]: TRUC transactions bound the topology including child transaction size, which aids in anti-pinning for the P2A output, as anyone can attach a child transaction including an oversized, low feerate one. There is no ineherent dependency on this concept and P2A.\n+\n+====Backward Compatibility====\n+\n+Creation of P2A outputs has been considered standard since the deployment of Segwit softfork on the network.\n+\n+Transactions with P2A inputs were previously nonstandard, reserved as an upgrade hook.\n+\n+There are no known conflicts with previous usage.\n+\n+==Acknowledgements==\n+\n+Thanks to collaborators who helped focus the historical ideas into deployed ones:\n+Suhas Daftuar,\n+Gloria Zhao,\n+Pieter Wuille,\n+Jeremy Rubin,\n+and Bastien Teinturier.\n+\n+==References and Rationale==",
+      "path": "bip-paytoanchor.mediawiki",
+      "position": 73,
+      "original_position": 73,
+      "commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "original_commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "TBD, or remove this header?",
+      "created_at": "2025-09-25T21:30:45Z",
+      "updated_at": "2025-09-25T21:38:48Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1982#discussion_r2380373038",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380373038"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1982"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 73,
+      "original_line": 73,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380376330",
+      "pull_request_review_id": 3269486942,
+      "id": 2380376330,
+      "node_id": "PRRC_kwDOAN28mc6N4akK",
+      "diff_hunk": "@@ -0,0 +1,76 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Pay To Anchor (P2A)\n+  Author: Gregory Sanders <gsanders87@gmail.com>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Informational\n+  Created: 2025-09-23\n+  License: BSD-3-Clause\n+  Post-History: 2024-06-27: https://github.com/bitcoin/bitcoin/pull/30352 Github PR\n+                2024-10-10: https://bitcoinops.org/en/bitcoin-core-28-wallet-integration-guide/ wallet integration guide\n+</pre>\n+\n+==Abstract==\n+\n+This document describes a new standard output script called PayToAnchor (P2A) and prescribes making spending of this output type standard.\n+\n+This output is \"keyless\" meaning no signature or witness data at all are required to spend this output typea.\n+\n+==Motivation==\n+\n+The \"anchor\" output type is a commonly used pattern in Bitcoin layer 2 systems such as Lightning Network and beyond. This pattern allows transactions which are presigned far in advance to leave a \"hook\" for CPFP fee bumping later, when prevailing feerates for block inclusion are better known.\n+\n+When the wallet user is unconcerned by *who* is able to bump the transaction fees as long as someone does, this output type may confer a couple of advantages:\n+\n+1. Using an output type with minimal output and spending input footprint saves fees on average\n+2. Keyless operation aids in interoperability of services like watchtowers as there is no privelaged key material for bumping\n+\n+with the drawback that selection of this output type could result in griefing if anti-pinning measures are not taken.\n+\n+===Specification===\n+\n+A P2A output is defined as one with the exact witness output script\n+\n+<code>OP_1 <0x4e73></code>\n+\n+corresponding to the address <code>bc1pfeessrawgf</code> on Bitcoin mainnet.\n+\n+P2A inputs are considered standard for spending if no witness data is attached. This avoids meaningless witness padding. Consensus meaning is unchanged.\n+\n+====Implementation====\n+\n+* https://github.com/bitcoin/bitcoin/pull/30352\n+\n+====Related Work====\n+\n+There are a number of related but separate historical concepts:\n+\n+[https://github.com/bitcoin/bitcoin/pull/30239 Ephemeral Dust]: Relay policies allowing a single dust output as long as it is spent in a transaction package. As an implementation detail, dust for P2A is set at 240 satoshis by default, others dust levels remain unchanged, and the dust-having transaction must be zero fee.\n+\n+[https://bitcoinops.org/en/topics/ephemeral-anchors/ Ephemeral Anchors]: Historically the union of P2A output type and ephemeral dust. Keyed anchors along with ephemeral dust are also an accepted pattern and as such they remain separate concepts.\n+\n+[bip-0431.mediawiki TRUC transactions]: TRUC transactions bound the topology including child transaction size, which aids in anti-pinning for the P2A output, as anyone can attach a child transaction including an oversized, low feerate one. There is no ineherent dependency on this concept and P2A.\n+\n+====Backward Compatibility====\n+\n+Creation of P2A outputs has been considered standard since the deployment of Segwit softfork on the network.",
+      "path": "bip-paytoanchor.mediawiki",
+      "position": 58,
+      "original_position": 58,
+      "commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "original_commit_id": "490aa62c7145c254ba792090126c4cd463e41bad",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Maybe link here to the SegWit BIP section making them standard.",
+      "created_at": "2025-09-25T21:33:04Z",
+      "updated_at": "2025-09-25T21:38:48Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1982#discussion_r2380376330",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380376330"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1982"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 58,
+      "original_line": 58,
+      "side": "RIGHT"
+    }
+  ]
 }
