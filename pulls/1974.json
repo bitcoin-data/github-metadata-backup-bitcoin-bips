@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-09-19T13:41:19Z",
-    "updated_at": "2025-09-25T23:33:15Z",
+    "updated_at": "2025-09-26T12:35:54Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -278,9 +278,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5745,
-        "stargazers_count": 10209,
-        "watchers_count": 10209,
+        "forks_count": 5748,
+        "stargazers_count": 10208,
+        "watchers_count": 10208,
         "size": 16700,
         "default_branch": "master",
         "open_issues_count": 54,
@@ -296,7 +296,7 @@
         "visibility": "public",
         "pushed_at": "2025-09-24T22:49:24Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-09-25T11:25:16Z",
+        "updated_at": "2025-09-26T10:20:12Z",
         "allow_forking": true
       }
     },
@@ -311,7 +311,7 @@
     "deletions": 0,
     "changed_files": 5,
     "commits": 1,
-    "review_comments": 1,
+    "review_comments": 2,
     "comments": 11
   },
   "events": [
@@ -1355,6 +1355,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2380527896"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1974"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 97,
+      "original_line": 97,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2382281313",
+      "pull_request_review_id": 3272053829,
+      "id": 2382281313,
+      "node_id": "PRRC_kwDOAN28mc6N_rph",
+      "diff_hunk": "@@ -0,0 +1,171 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_TEMPLATEHASH\n+  Author: Gregory Sanders <gsanders87@gmail.com>\n+          Antoine Poinsot <mail@antoinep.com>\n+          Steven Roose <steven@stevenroose.org>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: ?\n+  License: CC0-1.0\n+```\n+\n+## Abstract\n+\n+This document proposes a new operation for [Tapscript][tapscript-bip]: `OP_TEMPLATEHASH`. It introduces the ability to\n+push on the stack a hash of the transaction spending an output.\n+\n+## Motivation\n+\n+`OP_TEMPLATEHASH` can be used to commit to the transaction spending an output[^commit-exact-tx]. This capability\n+can replace the use of pre-signed transactions in second-layer protocols. By reducing interactivity it makes such\n+protocols simpler, safer, and sometimes notably more efficient. For instance it can remove the need to share HTLC\n+signatures in the Lightning Network protocol's [`commitment_signed` message][ln-commit-signed][^ln-second-stage], make\n+receiving an Ark \"VTXO\" [non-interactive][ark-case-ctv], and [reduces roundtrips][symmetric-greg] in the implementation\n+of LN-Symmetry. It is also a [significant optimisation][fournier-ctv-dlcs] for [Discreet Log Contracts][optech-dlcs].\n+\n+## Specification\n+\n+`OP_TEMPLATEHASH` redefines `OP_SUCCESS187` (0xbb) in the Tapscript execution context with further restrictions.\n+\n+Upon execution of the opcode, the template hash of the transaction in context is pushed onto the stack as defined below,\n+and script execution continues.\n+\n+The template hash uses a tagged hash as introduced by [BIP340][schnorr-bip] and [BIP341][taproot-bip]. We use a new tag\n+for this purpose: *TemplateHash*.\n+\n+The template hash re-uses the *sha_sequences*, *sha_outputs* and *sha_annex* pre-computed transaction data introduced in\n+BIP341. Numerical values in 4-byte are encoded in little-endian.\n+\n+The template hash is the *hash<sub>TemplateHash</sub>* of the following transaction fields concatenated:\n+\n+- Transaction data:\n+    - *nVersion* (4): the version of the transaction.\n+    - *nLockTime* (4): the locktime of the transaction.\n+    - *sha_sequences* (32): the SHA256 of the serialization of all input sequence, as per BIP341.\n+    - *sha_outputs* (32): the SHA256 of the serialization of all outputs in `CTxOut` format, as per BIP341.\n+- Data about this input:\n+    - *annex_present* (1): as defined in BIP341 (0 if no annex is present, or 1 otherwise).\n+    - *input_index* (4): index of this input in the transaction input vector. Index of the first input is 0.\n+    - If an annex is present:\n+        - *sha_annex* (32): the SHA256 of the annex, as per BIP341.\n+\n+## Rationale\n+\n+The template hash follows BIP341's signature message format, with minimal necessary deviations. This reuses a\n+tried-and-proven approach to hashed messages, and importantly makes it possible to reuse the pre-computed subfields\n+introduced by BIP341 to prevent quadratic hashing. Besides the hash tags, this results in at most 109 bytes being hashed\n+upon execution of the operation[^hashed-msg-max-size]. This is strictly less hashing than is necessary for other\n+existing operations.\n+\n+The specific fields from the BIP341 signature message that are ommitted when computing the template hash are the\n+following:\n+- *hash_type*: this is the sighash type identifier. Only a single hash type is supported by `OP_TEMPLATEHASH`, so there\n+  is no need to commit to such an identifier.\n+- *spend_type*: this value is defined by BIP341 as *2\\*ext_flag + annex_present*. Since no extension is appended to the\n+  signature message, *ext_flag* is set to 0. Therefore we commit directly to *annex_present*.\n+- *sha_prevouts* / *sha_scriptpubkeys*: committing to these fields as is would introduce a hash cycle when the hash is\n+  committed in the output itself. Committing to all other prevouts or scriptpubkeys would introduce hashing a quantity\n+  of data quadratic in the number of inputs. It would also prevent spending two coins encumbered by a template hash\n+  check in the same transaction. Finally, the flexibility of not committing to the specific coins spent is also\n+  desirable to recover from mistakes[^no-commit-other-coins].\n+- *sha_amounts*: the BIP341 rationale for committing to the amounts of all spent coins is to be able to prove to an offline\n+  signer the fees of a transaction. Although `OP_TEMPLATEHASH` can be used as a building block for rebindable\n+  signatures, the utility of committing to spent amounts but not spent scriptpubkeys [is\n+  limited][greg-attack-input-ownership]. Still for rebindable signatures, committing to spent amounts can be justified\n+  as defense-in-depth against implementation mistakes[^commit-spent-amounts]. However, the lack of flexibility this\n+  introduces also makes it harder to recover from a mistake in committing to the next\n+  transaction[^no-commit-other-coins]. Furthermore, committing to all spent amounts also makes overcommitting funds to\n+  such a script result in the output being forever unspendable instead of the excess just going to fees at spend time.\n+\n+The design of `OP_TEMPLATEHASH` was inspired by the design of [BIP119][ctv-bip] `OP_CHECKTEMPLATEVERIFY` but differs in\n+several important ways.\n+\n+First of all, `OP_TEMPLATEHASH` is only defined for Tapscript, as modifying legacy Script comes with an unnecessarily\n+increased risk surface. In addition, sticking to Tapscript allows leveraging more powerful upgrade hooks (`OP_SUCCESS`s\n+instead of `OP_NOP`s) which make it possible to push the template hash on the stack instead of being constrained to\n+strict assertions with no stack modification. Pushing the template hash on the stack substantially improves the\n+efficiency of using `OP_TEMPLATEHASH` as a building block for rebindable signatures.\n+\n+Unlike `OP_TEMPLATEHASH`, `OP_CHECKTEMPLATEVERIFY` also commits to the scriptSig of all inputs of the spending\n+transaction. `OP_CHECKTEMPLATEVERIFY` gives txid stability when the committed spending transaction has a single input,\n+and when the scriptSig of this single input has been committed by the hash.\n+Taproot scriptSigs must be empty and therefore under the single input case `OP_TEMPLATEHASH` has no requirement\n+to commit to scriptSigs to achieve txid stability.",
+      "path": "bip-templatehash.md",
+      "position": 97,
+      "original_position": 97,
+      "commit_id": "aa790efee91f56b123d679f6fdef4c955903b2b4",
+      "original_commit_id": "aa790efee91f56b123d679f6fdef4c955903b2b4",
+      "in_reply_to_id": 2380527896,
+      "user": {
+        "login": "instagibbs",
+        "id": 5767891,
+        "node_id": "MDQ6VXNlcjU3Njc4OTE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/5767891?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/instagibbs",
+        "html_url": "https://github.com/instagibbs",
+        "followers_url": "https://api.github.com/users/instagibbs/followers",
+        "following_url": "https://api.github.com/users/instagibbs/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/instagibbs/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/instagibbs/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/instagibbs/subscriptions",
+        "organizations_url": "https://api.github.com/users/instagibbs/orgs",
+        "repos_url": "https://api.github.com/users/instagibbs/repos",
+        "events_url": "https://api.github.com/users/instagibbs/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/instagibbs/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "1. the input is segwit, so it already explicitly commits to its own scriptSig being blank\r\n2. the purported benefit to committing to *other* scriptSigs in addition was to ensure txid stability, but without fixing the other inputs' prevout ahead of time, this cannot be achieved in general. (The \"BitVM Trick\" was to ensure this was actually possible, but I consider this not an intentional design decision; I'd rather the \"sibling input commitment\" be done properly if that's what we want!) \r\n\r\nGiven that it doesn't ensure the \"next transaction\" commitment we are aiming for which includes additional hashing on top of taproot hashes already existing, it was not added to the proposal.",
+      "created_at": "2025-09-26T12:35:54Z",
+      "updated_at": "2025-09-26T12:35:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1974#discussion_r2382281313",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2382281313"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/1974"
