@@ -52,11 +52,11 @@
       }
     ],
     "created_at": "2025-08-10T09:54:50Z",
-    "updated_at": "2025-09-09T13:42:13Z",
+    "updated_at": "2025-09-29T11:19:52Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "f600c3aabf2a5761264dd124db72658c98f29841",
+    "merge_commit_sha": "7094a12ae147f4eef8a6b46424238b50afacff9b",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -301,12 +301,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5728,
-        "stargazers_count": 10179,
-        "watchers_count": 10179,
-        "size": 16633,
+        "forks_count": 5749,
+        "stargazers_count": 10215,
+        "watchers_count": 10215,
+        "size": 16700,
         "default_branch": "master",
-        "open_issues_count": 43,
+        "open_issues_count": 56,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -317,9 +317,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-09-05T15:46:37Z",
+        "pushed_at": "2025-09-24T22:49:24Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-09-09T13:12:59Z",
+        "updated_at": "2025-09-29T11:53:41Z",
         "allow_forking": true
       }
     },
@@ -334,7 +334,7 @@
     "deletions": 5,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 2
   },
   "events": [
@@ -693,7 +693,98 @@
         "site_admin": false,
         "patch_url": null
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 3279194492,
+      "node_id": "PRR_kwDOAN28mc7DdIl8",
+      "url": null,
+      "actor": null,
+      "commit_id": "fb7c7223c47f3235baa16560fa1c43a74c3fc0c7",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-09-29T11:19:52Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "katesalazar",
+        "id": 52637275,
+        "node_id": "MDQ6VXNlcjUyNjM3Mjc1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/52637275?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/katesalazar",
+        "html_url": "https://github.com/katesalazar",
+        "followers_url": "https://api.github.com/users/katesalazar/followers",
+        "following_url": "https://api.github.com/users/katesalazar/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/katesalazar/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/katesalazar/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/katesalazar/subscriptions",
+        "organizations_url": "https://api.github.com/users/katesalazar/orgs",
+        "repos_url": "https://api.github.com/users/katesalazar/repos",
+        "events_url": "https://api.github.com/users/katesalazar/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/katesalazar/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1924#pullrequestreview-3279194492",
+      "submitted_at": "2025-09-29T11:19:52Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1924"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2387578833",
+      "pull_request_review_id": 3279194492,
+      "id": 2387578833,
+      "node_id": "PRRC_kwDOAN28mc6OT4_R",
+      "diff_hunk": "@@ -1,10 +1,22 @@\n #!/bin/bash\n \n-scripts/buildtable.pl >/tmp/table.mediawiki 2> /dev/null\n-diff README.mediawiki /tmp/table.mediawiki | grep '^[<>] |' >/tmp/after.diff || true\n-if git checkout HEAD^ && scripts/buildtable.pl >/tmp/table.mediawiki 2>/dev/null; then\n-    diff README.mediawiki /tmp/table.mediawiki | grep '^[<>] |' >/tmp/before.diff || true\n-    newdiff=$(diff -s /tmp/before.diff /tmp/after.diff -u | grep '^+')\n+# Create secure temporary directories and ensure cleanup\n+tmp_dir=\"$(mktemp -d)\"; prev_dir=\"$(mktemp -d)\"; trap 'rm -rf \"$tmp_dir\" \"$prev_dir\"' EXIT\n+\n+# Paths for current commit artifacts\n+table_file=\"$tmp_dir/table.mediawiki\"\n+after_diff=\"$tmp_dir/after.diff\"\n+before_diff=\"$tmp_dir/before.diff\"\n+table_prev_file=\"$tmp_dir/table_prev.mediawiki\"\n+\n+# Build table from current working tree and compute diff\n+scripts/buildtable.pl >\"$table_file\" 2>/dev/null\n+diff README.mediawiki \"$table_file\" | grep '^[<>] |' >\"$after_diff\" || true\n+\n+# Build table from previous commit without altering the working tree\n+if git archive --format=tar HEAD^ | tar -x -C \"$prev_dir\" && perl \"$prev_dir/scripts/buildtable.pl\" >\"$table_prev_file\" 2>/dev/null; then",
+      "path": "scripts/diffcheck.sh",
+      "position": 22,
+      "original_position": 22,
+      "commit_id": "fb7c7223c47f3235baa16560fa1c43a74c3fc0c7",
+      "original_commit_id": "fb7c7223c47f3235baa16560fa1c43a74c3fc0c7",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "katesalazar",
+        "id": 52637275,
+        "node_id": "MDQ6VXNlcjUyNjM3Mjc1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/52637275?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/katesalazar",
+        "html_url": "https://github.com/katesalazar",
+        "followers_url": "https://api.github.com/users/katesalazar/followers",
+        "following_url": "https://api.github.com/users/katesalazar/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/katesalazar/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/katesalazar/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/katesalazar/subscriptions",
+        "organizations_url": "https://api.github.com/users/katesalazar/orgs",
+        "repos_url": "https://api.github.com/users/katesalazar/repos",
+        "events_url": "https://api.github.com/users/katesalazar/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/katesalazar/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Does this run the previous rev script with the current rev contents?\r\n",
+      "created_at": "2025-09-29T11:19:51Z",
+      "updated_at": "2025-09-29T11:19:52Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1924#discussion_r2387578833",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2387578833"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1924"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 17,
+      "original_line": 17,
+      "side": "RIGHT"
+    }
+  ]
 }
