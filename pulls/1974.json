@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2025-09-19T13:41:19Z",
-    "updated_at": "2025-10-07T17:29:37Z",
+    "updated_at": "2025-10-07T18:10:13Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -320,7 +320,7 @@
     "deletions": 0,
     "changed_files": 5,
     "commits": 1,
-    "review_comments": 24,
+    "review_comments": 26,
     "comments": 14
   },
   "events": [
@@ -2982,6 +2982,112 @@
       "start_side": "RIGHT",
       "line": 67,
       "original_line": 67,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2411470713",
+      "pull_request_review_id": 3311310157,
+      "id": 2411470713,
+      "node_id": "PRRC_kwDOAN28mc6PvB95",
+      "diff_hunk": "@@ -0,0 +1,171 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_TEMPLATEHASH\n+  Author: Gregory Sanders <gsanders87@gmail.com>\n+          Antoine Poinsot <mail@antoinep.com>\n+          Steven Roose <steven@stevenroose.org>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: ?\n+  License: CC0-1.0\n+```\n+\n+## Abstract\n+\n+This document proposes a new operation for [Tapscript][tapscript-bip]: `OP_TEMPLATEHASH`. It introduces the ability to\n+push on the stack a hash of the transaction spending an output.\n+\n+## Motivation\n+\n+`OP_TEMPLATEHASH` can be used to commit to the transaction spending an output[^commit-exact-tx]. This capability\n+can replace the use of pre-signed transactions in second-layer protocols. By reducing interactivity it makes such\n+protocols simpler, safer, and sometimes notably more efficient. For instance it can remove the need to share HTLC\n+signatures in the Lightning Network protocol's [`commitment_signed` message][ln-commit-signed][^ln-second-stage], make\n+receiving an Ark \"VTXO\" [non-interactive][ark-case-ctv], and [reduces roundtrips][symmetric-greg] in the implementation\n+of LN-Symmetry. It is also a [significant optimisation][fournier-ctv-dlcs] for [Discreet Log Contracts][optech-dlcs].\n+\n+## Specification\n+\n+`OP_TEMPLATEHASH` redefines `OP_SUCCESS187` (0xbb) in the Tapscript execution context with further restrictions.\n+\n+Upon execution of the opcode, the template hash of the transaction in context is pushed onto the stack as defined below,\n+and script execution continues.\n+\n+The template hash uses a tagged hash as introduced by [BIP340][schnorr-bip] and [BIP341][taproot-bip]. We use a new tag\n+for this purpose: *TemplateHash*.\n+\n+The template hash re-uses the *sha_sequences*, *sha_outputs* and *sha_annex* pre-computed transaction data introduced in\n+BIP341. Numerical values in 4-byte are encoded in little-endian.\n+\n+The template hash is the *hash<sub>TemplateHash</sub>* of the following transaction fields concatenated:\n+\n+- Transaction data:\n+    - *nVersion* (4): the version of the transaction.\n+    - *nLockTime* (4): the locktime of the transaction.\n+    - *sha_sequences* (32): the SHA256 of the serialization of all input sequence, as per BIP341.\n+    - *sha_outputs* (32): the SHA256 of the serialization of all outputs in `CTxOut` format, as per BIP341.\n+- Data about this input:\n+    - *annex_present* (1): as defined in BIP341 (0 if no annex is present, or 1 otherwise).\n+    - *input_index* (4): index of this input in the transaction input vector. Index of the first input is 0.\n+    - If an annex is present:\n+        - *sha_annex* (32): the SHA256 of the annex, as per BIP341.\n+\n+## Rationale\n+\n+The template hash follows BIP341's signature message format, with minimal necessary deviations. This reuses a\n+tried-and-proven approach to hashed messages, and importantly makes it possible to reuse the pre-computed subfields\n+introduced by BIP341 to prevent quadratic hashing. Besides the hash tags, this results in at most 109 bytes being hashed\n+upon execution of the operation[^hashed-msg-max-size]. This is strictly less hashing than is necessary for other\n+existing operations.\n+\n+The specific fields from the BIP341 signature message that are ommitted when computing the template hash are the\n+following:\n+- *hash_type*: this is the sighash type identifier. Only a single hash type is supported by `OP_TEMPLATEHASH`, so there\n+  is no need to commit to such an identifier.",
+      "path": "bip-templatehash.md",
+      "position": 67,
+      "original_position": 67,
+      "commit_id": "d359ceb09e1c3097f3a895a76c2bd1a10e88a700",
+      "original_commit_id": "aa790efee91f56b123d679f6fdef4c955903b2b4",
+      "in_reply_to_id": 2407468421,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Ah, I see. The phrase “only a single hash type is supported by `OP_TEMPLATEHASH`” confused me in the context of `hash_type` being omitted, and I think the context could be made clearer. Perhaps something like:\r\n\r\n```suggestion\r\n- *hash_type*: refers to the sighash type identifier in the context of BIP341 signatures. The input for `OP_TEMPLATEHASH` is fixed, so there\r\n  is no need for a mechanism to modify the hash composition.\r\n```",
+      "created_at": "2025-10-07T18:00:38Z",
+      "updated_at": "2025-10-07T18:00:38Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1974#discussion_r2411470713",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2411470713"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1974"
+        }
+      },
+      "start_line": 66,
+      "original_start_line": 66,
+      "start_side": "RIGHT",
+      "line": 67,
+      "original_line": 67,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2411492080",
+      "pull_request_review_id": 3311339915,
+      "id": 2411492080,
+      "node_id": "PRRC_kwDOAN28mc6PvHLw",
+      "diff_hunk": "@@ -0,0 +1,171 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_TEMPLATEHASH\n+  Author: Gregory Sanders <gsanders87@gmail.com>\n+          Antoine Poinsot <mail@antoinep.com>\n+          Steven Roose <steven@stevenroose.org>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: ?\n+  License: CC0-1.0\n+```\n+\n+## Abstract\n+\n+This document proposes a new operation for [Tapscript][tapscript-bip]: `OP_TEMPLATEHASH`. It introduces the ability to\n+push on the stack a hash of the transaction spending an output.\n+\n+## Motivation\n+\n+`OP_TEMPLATEHASH` can be used to commit to the transaction spending an output[^commit-exact-tx]. This capability\n+can replace the use of pre-signed transactions in second-layer protocols. By reducing interactivity it makes such\n+protocols simpler, safer, and sometimes notably more efficient. For instance it can remove the need to share HTLC\n+signatures in the Lightning Network protocol's [`commitment_signed` message][ln-commit-signed][^ln-second-stage], make\n+receiving an Ark \"VTXO\" [non-interactive][ark-case-ctv], and [reduces roundtrips][symmetric-greg] in the implementation\n+of LN-Symmetry. It is also a [significant optimisation][fournier-ctv-dlcs] for [Discreet Log Contracts][optech-dlcs].\n+\n+## Specification\n+\n+`OP_TEMPLATEHASH` redefines `OP_SUCCESS187` (0xbb) in the Tapscript execution context with further restrictions.\n+\n+Upon execution of the opcode, the template hash of the transaction in context is pushed onto the stack as defined below,\n+and script execution continues.\n+\n+The template hash uses a tagged hash as introduced by [BIP340][schnorr-bip] and [BIP341][taproot-bip]. We use a new tag\n+for this purpose: *TemplateHash*.\n+\n+The template hash re-uses the *sha_sequences*, *sha_outputs* and *sha_annex* pre-computed transaction data introduced in\n+BIP341. Numerical values in 4-byte are encoded in little-endian.\n+\n+The template hash is the *hash<sub>TemplateHash</sub>* of the following transaction fields concatenated:\n+\n+- Transaction data:\n+    - *nVersion* (4): the version of the transaction.\n+    - *nLockTime* (4): the locktime of the transaction.\n+    - *sha_sequences* (32): the SHA256 of the serialization of all input sequence, as per BIP341.\n+    - *sha_outputs* (32): the SHA256 of the serialization of all outputs in `CTxOut` format, as per BIP341.\n+- Data about this input:\n+    - *annex_present* (1): as defined in BIP341 (0 if no annex is present, or 1 otherwise).\n+    - *input_index* (4): index of this input in the transaction input vector. Index of the first input is 0.\n+    - If an annex is present:\n+        - *sha_annex* (32): the SHA256 of the annex, as per BIP341.\n+\n+## Rationale\n+\n+The template hash follows BIP341's signature message format, with minimal necessary deviations. This reuses a\n+tried-and-proven approach to hashed messages, and importantly makes it possible to reuse the pre-computed subfields\n+introduced by BIP341 to prevent quadratic hashing. Besides the hash tags, this results in at most 109 bytes being hashed\n+upon execution of the operation[^hashed-msg-max-size]. This is strictly less hashing than is necessary for other\n+existing operations.\n+\n+The specific fields from the BIP341 signature message that are ommitted when computing the template hash are the\n+following:\n+- *hash_type*: this is the sighash type identifier. Only a single hash type is supported by `OP_TEMPLATEHASH`, so there\n+  is no need to commit to such an identifier.\n+- *spend_type*: this value is defined by BIP341 as *2\\*ext_flag + annex_present*. Since no extension is appended to the\n+  signature message, *ext_flag* is set to 0. Therefore we commit directly to *annex_present*.\n+- *sha_prevouts* / *sha_scriptpubkeys*: committing to these fields as is would introduce a hash cycle when the hash is\n+  committed in the output itself. Committing to all other prevouts or scriptpubkeys would introduce hashing a quantity\n+  of data quadratic in the number of inputs. It would also prevent spending two coins encumbered by a template hash\n+  check in the same transaction. Finally, the flexibility of not committing to the specific coins spent is also\n+  desirable to recover from mistakes[^no-commit-other-coins].",
+      "path": "bip-templatehash.md",
+      "position": 74,
+      "original_position": 74,
+      "commit_id": "d359ceb09e1c3097f3a895a76c2bd1a10e88a700",
+      "original_commit_id": "aa790efee91f56b123d679f6fdef4c955903b2b4",
+      "in_reply_to_id": 2407502750,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "On second reading, I do see what you mean. It seems to me that this could be discussed more explicitly than such a subtle footnote.",
+      "created_at": "2025-10-07T18:10:13Z",
+      "updated_at": "2025-10-07T18:10:13Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1974#discussion_r2411492080",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2411492080"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1974"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 74,
+      "original_line": 74,
       "side": "RIGHT"
     }
   ]
