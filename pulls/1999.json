@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-10-04T05:15:55Z",
-    "updated_at": "2025-10-11T05:45:13Z",
+    "updated_at": "2025-10-13T18:07:36Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -161,7 +161,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 16697,
+        "size": 16656,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -279,8 +279,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5784,
-        "stargazers_count": 10249,
-        "watchers_count": 10249,
+        "stargazers_count": 10256,
+        "watchers_count": 10256,
         "size": 16703,
         "default_branch": "master",
         "open_issues_count": 54,
@@ -296,7 +296,7 @@
         "visibility": "public",
         "pushed_at": "2025-10-11T00:12:07Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-10-11T05:42:13Z",
+        "updated_at": "2025-10-13T18:01:30Z",
         "allow_forking": true
       }
     },
@@ -311,7 +311,7 @@
     "deletions": 0,
     "changed_files": 3,
     "commits": 18,
-    "review_comments": 0,
+    "review_comments": 2,
     "comments": 0
   },
   "events": [
@@ -1098,7 +1098,152 @@
         "date": "2025-10-11T05:45:08Z"
       },
       "sha": "b206e08554cb70bd1c23d1245f29d18e3d3bff27"
+    },
+    {
+      "event": "reviewed",
+      "id": 3332477151,
+      "node_id": "PRR_kwDOAN28mc7GoZDf",
+      "url": null,
+      "actor": null,
+      "commit_id": "b206e08554cb70bd1c23d1245f29d18e3d3bff27",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-10-13T18:07:36Z",
+      "author_association": "NONE",
+      "body": "In this review, since there are no code changes, I will refer to the code in the following repository:\r\nhttps://github.com/emojiseed/bip-emojiseed/tree/testing\r\n\r\nIf a simple list of word-to-emote-pair correlations is considered sufficient, then there isn’t much to do. However, for easier usage and better maintainability, it would be beneficial to implement this as a library that provides:\r\n\r\nAn API to retrieve pairs of emotes\r\n\r\nSupport for importing translations, custom sets, and themes\r\n\r\nFunctionality for searching through the data\r\n\r\nRegarding the website used to view emojis:\r\n\r\nafter uploading csv it only displays question marks instead of emojis\r\n\r\nIt lacks filtering options — ideally, it should allow filtering by meaning or selecting specific emotes for which we want to view the corresponding pairs\r\n\r\ntext is too small\r\n\r\nInside of tests is node_modules directory which should be added to .gitignore and removed",
+      "user": {
+        "login": "Adriano1324",
+        "id": 44467938,
+        "node_id": "MDQ6VXNlcjQ0NDY3OTM4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44467938?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Adriano1324",
+        "html_url": "https://github.com/Adriano1324",
+        "followers_url": "https://api.github.com/users/Adriano1324/followers",
+        "following_url": "https://api.github.com/users/Adriano1324/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Adriano1324/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Adriano1324/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Adriano1324/subscriptions",
+        "organizations_url": "https://api.github.com/users/Adriano1324/orgs",
+        "repos_url": "https://api.github.com/users/Adriano1324/repos",
+        "events_url": "https://api.github.com/users/Adriano1324/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Adriano1324/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1999#pullrequestreview-3332477151",
+      "submitted_at": "2025-10-13T18:07:36Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1999"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2426931701",
+      "pull_request_review_id": 3332477151,
+      "id": 2426931701,
+      "node_id": "PRRC_kwDOAN28mc6QqAn1",
+      "diff_hunk": "@@ -0,0 +1,70 @@\n+# Wordlists\n+\n+* [Emoji](emoji.txt)\n+\n+## Wordlists (Special Considerations)\n+\n+### Emoji\n+\n+Credits: @EmojiSeedDevTeam\n+\n+The Emoji wordlist is a deterministic mapping of the 2048 special words into\n+2048 unique pairs of emoji. It enables mnemonic phrases to be displayed visually\n+while remaining fully compatible with existing semantic seeds.\n+\n+Emojis are chosen using the following rules:\n+\n+1. Direct Match: if a word has a clear, universal emoji, duplicate it.\n+2. Months and holidays use seasonal/holiday symbols.\n+3. Numeric words map to keycap digits.\n+4. Abstract and Action Words use a primary metaphor plus a clarifier emoji.\n+5. Nouns: object clarifier. Verbs/participles: action clarifier.\n+6. Duplicate only for strong iconic matches; add clarifiers for ambiguity; if unresolved, fall back deterministically.\n+7. All 2048 pairs MUST be unique. If a collision occurs, rotate clarifier, then primary, and finally apply the fallback.\n+8. Use only fully-qualified Unicode emoji graphemes (per Unicode TR51). Avoid variation selectors and platform-specific implementations.\n+9. All curation rules are available here: https://emojiseed.com#readme\n+\n+==== Security Notes ====\n+\n+* No protocol changes: entropy, checksum, and  wordlists are unchanged.\n+* Rendering differences across platforms exist; compare by code points (not rasterized glyphs).\n+* Wallets that do not support Emoji can ignore this wordlist without impact.\n+\n+==== License ====\n+\n+This addition inherits the MIT license.# Wordlists\n+\n+* [Emoji](emoji.txt)\n+\n+## Wordlists (Special Considerations)",
+      "path": "bip-XYZ/bip-XYZ-wordlists.md",
+      "position": 39,
+      "original_position": 39,
+      "commit_id": "b206e08554cb70bd1c23d1245f29d18e3d3bff27",
+      "original_commit_id": "b206e08554cb70bd1c23d1245f29d18e3d3bff27",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Adriano1324",
+        "id": 44467938,
+        "node_id": "MDQ6VXNlcjQ0NDY3OTM4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44467938?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Adriano1324",
+        "html_url": "https://github.com/Adriano1324",
+        "followers_url": "https://api.github.com/users/Adriano1324/followers",
+        "following_url": "https://api.github.com/users/Adriano1324/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Adriano1324/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Adriano1324/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Adriano1324/subscriptions",
+        "organizations_url": "https://api.github.com/users/Adriano1324/orgs",
+        "repos_url": "https://api.github.com/users/Adriano1324/repos",
+        "events_url": "https://api.github.com/users/Adriano1324/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Adriano1324/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "lines 1:36 and 37:70 are mostly identical",
+      "created_at": "2025-10-13T17:26:30Z",
+      "updated_at": "2025-10-13T18:07:37Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1999#discussion_r2426931701",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2426931701"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1999"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 39,
+      "original_line": 39,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2426977359",
+      "pull_request_review_id": 3332477151,
+      "id": 2426977359,
+      "node_id": "PRRC_kwDOAN28mc6QqLxP",
+      "diff_hunk": "@@ -0,0 +1,2047 @@\n+🏃😶",
+      "path": "bip-XYZ/emoji.txt",
+      "position": 1,
+      "original_position": 1,
+      "commit_id": "b206e08554cb70bd1c23d1245f29d18e3d3bff27",
+      "original_commit_id": "b206e08554cb70bd1c23d1245f29d18e3d3bff27",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Adriano1324",
+        "id": 44467938,
+        "node_id": "MDQ6VXNlcjQ0NDY3OTM4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44467938?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Adriano1324",
+        "html_url": "https://github.com/Adriano1324",
+        "followers_url": "https://api.github.com/users/Adriano1324/followers",
+        "following_url": "https://api.github.com/users/Adriano1324/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Adriano1324/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Adriano1324/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Adriano1324/subscriptions",
+        "organizations_url": "https://api.github.com/users/Adriano1324/orgs",
+        "repos_url": "https://api.github.com/users/Adriano1324/repos",
+        "events_url": "https://api.github.com/users/Adriano1324/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Adriano1324/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "The list lacks support for skin tones.\r\nIt should be structured in a way that allows everyone to easily find the correct place when adding new pairs of emotes.\r\n\r\nI'm not sure if there's a specific reason for keeping the list in a .txt format, but this might lead to issues if the offset shifts. A better solution would be to use a key-value structure, where the key is the base language (probably English), and the value is the pair of emotes. This would allow mapping multiple foreign words with the same meaning to a single emote pair.\r\n\r\nFor example:\r\naccident → 🚗💥\r\nThis could be translated into Polish as wypadek or stłuczka, so we would map it as:\r\nwypadek: accident\r\nstłuczka: accident\r\nand then retrieve the correct pair of emotes.\r\n\r\nAnother issue is when a word doesn't exist in a certain language. In that case, leaving an empty row might look like a mistake.",
+      "created_at": "2025-10-13T17:51:18Z",
+      "updated_at": "2025-10-13T18:07:37Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1999#discussion_r2426977359",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2426977359"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1999"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 1,
+      "original_line": 1,
+      "side": "RIGHT"
+    }
+  ]
 }
