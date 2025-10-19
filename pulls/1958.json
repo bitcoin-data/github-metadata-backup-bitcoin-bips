@@ -39,7 +39,7 @@
       "site_admin": false,
       "patch_url": null
     },
-    "body": "This allows wallets to derive codex32 secrets and codex32 shares from BIP-0032 master keys.\r\n\r\n**Summary of changes**\r\n- Add codex32 application\r\n- Add [BIP-0093](https://github.com/bitcoin/bips/blob/master/bip-0093.mediawiki) to references\r\n- Bump version number to 1.4.0\r\n- Add 1.4.0 [reference implementation](https://github.com/benwestgate/bip85)\r\n\r\n**Rationale**\r\n\r\n- Mirrors the existing BIP-85 application for BIP-39.\r\n- Codex32 offers error correction, hand verification, identifiers, and secret sharing improvements vs BIP-39.\r\n- Deterministic generation produces auditable backups by avoiding reliance on local RNG, helping users who distrust device entropy.\r\n\r\n**Specification**\r\n\r\n- Adds **Application 93'** to BIP-0085 using derivation path:\r\n```matlab\r\nm/83696968'/93'/{hrp}'/{threshold}'/{n}'/{byte_length}'/{id0}'/{id1}'/{id2}'/{id3}'/{index}'\r\n```\r\n- Uses the BIP-85 DRNG\r\n- Unspecified identifiers default to BIP-32 master seed fingerprint\r\n\r\n**Tests**\r\nReference tests and new vectors are included in the reference implementation:\r\nhttps://github.com/ethankosakovsky/bip85/compare/master...BenWestgate:bip85:master\r\n\r\n**Mailing List**\r\nDiscussion: https://groups.google.com/g/bitcoindev/c/--lHTAtq0Qc\r\n\r\n**Status**\r\nReady for editorial review. This change is additive and does not modify existing BIP-85 behaviour.",
+    "body": "This allows wallets to derive codex32 secrets and codex32 shares from BIP-0032 master keys.\r\n\r\n**Summary of changes**\r\n- Add codex32 application\r\n- Add [BIP-0093](https://github.com/bitcoin/bips/blob/master/bip-0093.mediawiki) to references\r\n- Bump version number to 1.4.0\r\n- Add 1.4.0 [reference implementation](https://github.com/benwestgate/bip85)\r\n\r\n**Rationale**\r\n\r\n- Mirrors the existing BIP-85 application for BIP-39.\r\n- Codex32 offers error correction, hand verification, identifiers, and secret sharing improvements vs BIP-39.\r\n- Deterministic generation produces auditable backups by avoiding reliance on local RNG, helping users who distrust device entropy.\r\n\r\n**Specification**\r\n\r\n- Adds **Application 93'** to BIP-0085 using derivation path:\r\n```matlab\r\nm/83696968'/93'/{hrp || threshold}'/{byte_length}'/{index}'\r\n```\r\n- Uses the BIP-85 DRNG\r\n- Unspecified identifiers default to child's BIP-32 master seed fingerprint\r\n\r\n**Tests**\r\nReference tests and new vectors will be included in the reference bipsea implementation:\r\nhttps://github.com/benwestgate/bipsea/compare/master...BenWestgate:bipsea:master\r\n\r\n**Mailing List**\r\nDiscussion: https://groups.google.com/g/bitcoindev/c/--lHTAtq0Qc\r\n\r\n**Status**\r\nReady for conceptual and approach review. This change is additive and does not modify existing BIP-85 behavior.",
     "labels": [
       {
         "id": 275846070,
@@ -69,7 +69,7 @@
       }
     ],
     "created_at": "2025-09-07T23:40:39Z",
-    "updated_at": "2025-10-19T14:59:48Z",
+    "updated_at": "2025-10-19T15:28:49Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -179,7 +179,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 16611,
+        "size": 16722,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -297,8 +297,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5789,
-        "stargazers_count": 10269,
-        "watchers_count": 10269,
+        "stargazers_count": 10270,
+        "watchers_count": 10270,
         "size": 16702,
         "default_branch": "master",
         "open_issues_count": 60,
@@ -314,7 +314,7 @@
         "visibility": "public",
         "pushed_at": "2025-10-16T11:02:23Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-10-19T11:06:02Z",
+        "updated_at": "2025-10-19T15:06:31Z",
         "allow_forking": true
       }
     },
