@@ -40,9 +40,28 @@
       "patch_url": null
     },
     "body": "Problem: In GenerateProof step 85 the self-check calls VerifyProof(A, B, C, proof) without G and m, but VerifyProof is defined as VerifyProof(A, B, C, proof, G, m). This omission breaks self-check when a non-empty message m is used or when a non-default generator G is passed.\r\n\r\nEvidence:\r\nSpec definition requires G and m:\r\n\r\n    The algorithm ''VerifyProof(A, B, C, proof, G, m)'' is defined as:\r\n    * Fail if any of ''is_infinite(A)'', ''is_infinite(B)'', ''is_infinite(C)'', ''is_infinite(G)''\r\n    * Let ''e = int(proof[0:32])''.\r\n    * Let ''s = int(proof[32:64])''; fail if ''s &ge; n''.\r\n    \r\nReference implementation passes G and m in the self-check:\r\nbip-0374/reference.py\r\n\r\n    proof = e.to_bytes(32, \\\"big\\\") + s.to_bytes(32, \\\"big\\\")\r\n    if not dleq_verify_proof(A, B, C, proof, G=G, m=m):\r\n        return None\r\n        \r\nGenerateProof includes m in challenge derivation and treats G as an input, so omitting them in VerifyProof recomputes a different challenge and will fail for non-empty m and non-default G.",
-    "labels": [],
+    "labels": [
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
+      },
+      {
+        "id": 7257303965,
+        "node_id": "LA_kwDOAN28mc8AAAABsJGrnQ",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Bug%20fix",
+        "name": "Bug fix",
+        "description": "",
+        "color": "b60205",
+        "default": false
+      }
+    ],
     "created_at": "2025-10-19T10:23:00Z",
-    "updated_at": "2025-10-19T10:23:31Z",
+    "updated_at": "2025-10-21T14:00:23Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -152,7 +171,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 16589,
+        "size": 16708,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -269,12 +288,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5789,
-        "stargazers_count": 10268,
-        "watchers_count": 10268,
+        "forks_count": 5788,
+        "stargazers_count": 10274,
+        "watchers_count": 10274,
         "size": 16702,
         "default_branch": "master",
-        "open_issues_count": 60,
+        "open_issues_count": 62,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -287,7 +306,7 @@
         "visibility": "public",
         "pushed_at": "2025-10-16T11:02:23Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-10-19T10:10:16Z",
+        "updated_at": "2025-10-21T02:25:27Z",
         "allow_forking": true
       }
     },
@@ -345,6 +364,74 @@
         "date": "2025-10-19T10:21:14Z"
       },
       "sha": "1bb1aee5b0b6f5e0d2ca2c72970cc6de727df1bf"
+    },
+    {
+      "event": "labeled",
+      "id": 20405983231,
+      "node_id": "LE_lADOAN28mc7SZorIzwAAAATASpf_",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/20405983231",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-10-21T14:00:23Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 20405983260,
+      "node_id": "LE_lADOAN28mc7SZorIzwAAAATASpgc",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/20405983260",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-10-21T14:00:23Z",
+      "label": {
+        "name": "Bug fix",
+        "color": "b60205"
+      }
     }
   ],
   "comments": []
