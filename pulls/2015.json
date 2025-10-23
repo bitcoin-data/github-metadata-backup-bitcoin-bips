@@ -51,11 +51,11 @@
       }
     ],
     "created_at": "2025-10-21T12:56:29Z",
-    "updated_at": "2025-10-22T08:37:58Z",
+    "updated_at": "2025-10-23T08:24:42Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "201ea545e45f6faef28012ef04cbc3ca3c6b909a",
+    "merge_commit_sha": "c6883fedde164686331cb694b93b3acb4af02793",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -277,12 +277,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5789,
-        "stargazers_count": 10277,
-        "watchers_count": 10277,
-        "size": 16710,
+        "forks_count": 5792,
+        "stargazers_count": 10282,
+        "watchers_count": 10282,
+        "size": 16720,
         "default_branch": "master",
-        "open_issues_count": 60,
+        "open_issues_count": 58,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -293,9 +293,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-10-22T07:24:37Z",
+        "pushed_at": "2025-10-23T08:13:11Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-10-22T07:24:50Z",
+        "updated_at": "2025-10-23T08:13:16Z",
         "allow_forking": true
       }
     },
@@ -310,7 +310,7 @@
     "deletions": 1,
     "changed_files": 6,
     "commits": 3,
-    "review_comments": 3,
+    "review_comments": 4,
     "comments": 0
   },
   "events": [
@@ -693,6 +693,59 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2450936314"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2015"
+        }
+      },
+      "start_line": 86,
+      "original_start_line": 86,
+      "start_side": "RIGHT",
+      "line": 88,
+      "original_line": 88,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2454323565",
+      "pull_request_review_id": 3368774585,
+      "id": 2454323565,
+      "node_id": "PRRC_kwDOAN28mc6SSgFt",
+      "diff_hunk": "@@ -0,0 +1,102 @@\n+## BIP54 test vectors\n+\n+This folder contains a set of test vectors for each mitigation introduced in the BIP. This document\n+presents them in more details.\n+\n+The code used to generate half of the test vectors is included with the implementation and available\n+[here][other-vectors]. The other half requires mining mainnet blocks and is [published\n+separately][bip54-miner]. In both cases it is implemented as a regular Bitcoin Core unit test, and\n+the test vectors are persisted as a JSON file if the `UPDATE_JSON_TESTS` preprocessor directive is\n+set (off by default).\n+\n+To compile the [header][header-miner] and [block][block-miner] miners you may have to link to\n+libatomic explicitly. This can be achieved like so:\n+```\n+cmake -B atomicbuild -DAPPEND_LDFLAGS=\"-latomic\"\n+cmake --build atomicbuild/ -j $(nproc)\n+```\n+\n+[Premined headers][premined-headers] are also provided along with the header miner to allow changing\n+some of the last headers without having to re-generate the whole chain.\n+\n+\n+### Difficulty adjustment exploits\n+\n+The [`timestamps.json`](./timestamps.json) test vectors exercise the two constraints on block header\n+timestamps introduced by BIP54 to mitigate the Timewarp and Murch-Zawy attacks. Each test case\n+features a chain of mainnet headers starting from the genesis block, and whether this header chain\n+is valid by BIP54 rules. Each test case also contains a comment describing why this particular chain\n+is (in)valid according to BIP54.  All test cases are valid according to current Bitcoin consensus\n+rules. It is intended to be used to test a BIP54 implementation by feeding the header chain to a\n+Bitcoin node implementation, enforcing the BIP54 rules on this chain from genesis.\n+\n+The test vector file features a JSON array of JSON objects, each corresponding to a test case. Each\n+JSON object features the following entries:\n+- `header_chain`: a JSON array of strings. An ordered list of hex-encoded mainnet block headers.\n+- `valid`: a JSON boolean. Whether this chain of headers is valid according to BIP54.\n+- `comment`: a JSON string. Description of the test case.\n+\n+For the purpose of testing a Timewarp fix, a Timewarp attack was included early on in the history of\n+testnet3. An implementer of BIP54 may want to ensure that syncing testnet3 by enforcing BIP54 since\n+genesis will treat block `00000000118da1e2165a19307b86f87eba814845e8a0f99734dce279ca3fb029` as\n+invalid.\n+\n+\n+### Long block validation time\n+\n+The [`sigops.json`](sigops.json) file contains test vectors for the limit on the number of\n+potentially-executed legacy signature operations in a single transaction, introduced by BIP54 in\n+order to mitigate long block validation times. Each test case represents a transaction and whether a\n+block containing it would be valid according to BIP54. The test cases feature an extensive set of\n+combinations of inputs and output types, ways to run into the limit, historical violations and some\n+pathological transactions exhibiting the specific implementation details. All test cases but those\n+belonging to this last category feature transactions that are valid under current Bitcoin consensus\n+rules. Each test case also features a comment describing why the transaction is (in)valid according\n+to BIP54.\n+\n+The test vector file features a JSON array of JSON objects, each corresponding to a test case. Each\n+JSON object features the following entries:\n+- `spent_outputs`: a JSON array of strings. An ordered list of hex-encoded Bitcoin-serialized\n+  transaction outputs spent by each input of this test case's transaction.\n+- `tx`: a JSON string. A hex-encoded Bitcoin-serialized transaction to be evaluated.\n+- `valid`: a JSON boolean. Whether this transaction is valid according to current consensus rules\n+  supplemented by BIP54.\n+- `comment`: a JSON string. Description of the test case.\n+\n+\n+### Merkle tree malleability with 64-byte transactions\n+\n+The [`txsize.json`](./txsize.json) file contains test cases exercising the new constraint on\n+non-witness transaction size introduced in BIP54. Each test case contains a transaction and whether\n+it would be valid according to BIP54, as well as a comment describing why it is (in)valid. All test\n+cases are otherwise valid according to current Bitcoin consensus rules.\n+\n+The test vector file features a JSON array of JSON objects, each corresponding to a test case. Each\n+JSON object features the following entries:\n+- `tx`: a JSON string. A hex-encoded Bitcoin-serialized transaction to be evaluated.\n+- `valid`: a JSON boolean. Whether this transaction is valid according to BIP54.\n+- `comment`: a JSON string. Description of the test case.\n+\n+\n+### Possibility of duplicate coinbase transactions\n+\n+The [`coinbases.json`](./coinbases.json) file contains test cases exercising the new restrictions on\n+coinbase transactions introduced in BIP54 to prevent duplicate coinbase transactions without\n+resorting to BIP30 validation. Each test case contains a chain of mainnet blocks (including the\n+genesis block), and whether this block chain is valid according to BIP54. All test cases are valid\n+according to current Bitcoin's consensus rules, except one that features a block containing a\n+coinbase transaction timelocked to a future block height.",
+      "path": "bip-0054/test_vectors/README.md",
+      "position": 88,
+      "original_position": 88,
+      "commit_id": "2fead0c179f32656f338f05aceb979558ae8025b",
+      "original_commit_id": "2fead0c179f32656f338f05aceb979558ae8025b",
+      "in_reply_to_id": 2450759000,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "Just to be clear, I was just looking at the description, I did not check the test vectors, so it might just be the description that is off.",
+      "created_at": "2025-10-23T08:24:41Z",
+      "updated_at": "2025-10-23T08:24:42Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2015#discussion_r2454323565",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2454323565"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2015"
