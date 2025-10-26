@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-10-24T21:28:07Z",
-    "updated_at": "2025-10-26T09:40:23Z",
+    "updated_at": "2025-10-26T10:38:08Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -278,8 +278,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5795,
-        "stargazers_count": 10292,
-        "watchers_count": 10292,
+        "stargazers_count": 10291,
+        "watchers_count": 10291,
         "size": 16690,
         "default_branch": "master",
         "open_issues_count": 58,
@@ -295,7 +295,7 @@
         "visibility": "public",
         "pushed_at": "2025-10-24T11:23:31Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-10-26T09:24:24Z",
+        "updated_at": "2025-10-26T10:12:01Z",
         "allow_forking": true
       }
     },
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 57,
+    "review_comments": 58,
     "comments": 3
   },
   "events": [
@@ -2821,9 +2821,9 @@
         "site_admin": false,
         "patch_url": null
       },
-      "body": "_\"no legitimate uses have ever been found\"_ for OP_RETURN, but also this BIP doesn't want to break _\"legacy protocols that still include such outputs\"_. Why the contradiction?\r\n\r\nSo the \"legacy protocols\" are accepted as a \"legitimate use\" of OP_RETURN?\r\n\r\n",
+      "body": "_\"no legitimate uses have ever been found\"_ for OP_RETURN, but also this BIP doesn't want to break _\"legacy protocols that still include such outputs\"_. Why the contradiction?\r\n\r\nSo the \"legacy protocols\" are accepted as a \"legitimate use\" of OP_RETURN?\r\n\r\n**PS:** there are multiple clearly-monetary \"legitimate uses\" of OP_RETURNs, contradicting the false claim in this section\r\n\r\n",
       "created_at": "2025-10-26T06:25:14Z",
-      "updated_at": "2025-10-26T06:26:25Z",
+      "updated_at": "2025-10-26T10:54:34Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2017#discussion_r2463216414",
       "author_association": "NONE",
       "_links": {
@@ -3846,6 +3846,59 @@
       "start_side": null,
       "line": 73,
       "original_line": 73,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2463704764",
+      "pull_request_review_id": 3380973927,
+      "id": 2463704764,
+      "node_id": "PRRC_kwDOAN28mc6S2Sa8",
+      "diff_hunk": "@@ -0,0 +1,437 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reduced Data Temporary Softfork\n+  Author: Dathon Ohm <dathonohm+bip@proton.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-10-24\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aN_u-xB2ogn2D834@erisian.com.au/T/#mb71350c5dfb119efeb92c5ee738b6c8225bf15b6\n+</pre>\n+\n+==Abstract==\n+\n+Temporarily limit the size of data fields at the consensus level.\n+\n+==Copyright==\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+==Specification==\n+\n+Blocks with a height from (TBD) until and including 987424 are checked with these additional rules:\n+\n+# New output scriptPubKeys exceeding 34 bytes are invalid, unless the first opcode is OP_RETURN, in which case up to 83 bytes are valid.\n+# OP_PUSHDATA* with payloads larger than 256 bytes are invalid, except for the redeemScript push in BIP16 scriptSigs.\n+# Spending undefined witness (or Tapleaf) versions (ie, not Witness v0/BIP 141 nor Taproot/BIP 341) is invalid.\n+# Witness stacks with a Taproot annex are invalid.\n+# Taproot control blocks larger than 257 bytes (a merkle tree with 128 script leaves) are invalid.\n+# Tapscripts including OP_SUCCESS* opcodes anywhere (even unexecuted) are invalid.\n+# Tapscripts executing the OP_IF or OP_NOTIF instruction (regardless of result) are invalid.\n+\n+==Motivation==\n+\n+The recent release of Bitcoin Core 30 presents a severe threat to Bitcoin's viability.\n+By formally standardizing rules for large-scale data storage (ie, 100kB OP_RETURNs), it proposes to redefine this behavior from an abuse of the system into a supported use case.\n+The true danger lies not merely in the release existing, but in its adoption.\n+The adoption of this release, even if by a minority of users, risks establishing this harmful redefinition as a new de facto standard for the entire network.\n+\n+This official sanction creates an immediate and severe threat.\n+The threat here is distinct from general spam or economic costs, which are typically handled with policy and the fee market.\n+It allows a malicious actor to mine a single transaction with illegal or universally abhorrent content and credibly claim that Bitcoin itself is a system for distributing it, rather than a system that was merely abused.",
+      "path": "bip-????.mediawiki",
+      "position": 44,
+      "original_position": 44,
+      "commit_id": "3c718237072c107ced8c3531a487354fbdae55df",
+      "original_commit_id": "3c718237072c107ced8c3531a487354fbdae55df",
+      "in_reply_to_id": 2463178595,
+      "user": {
+        "login": "ArmanTheParman",
+        "id": 77603167,
+        "node_id": "MDQ6VXNlcjc3NjAzMTY3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/77603167?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ArmanTheParman",
+        "html_url": "https://github.com/ArmanTheParman",
+        "followers_url": "https://api.github.com/users/ArmanTheParman/followers",
+        "following_url": "https://api.github.com/users/ArmanTheParman/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ArmanTheParman/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ArmanTheParman/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ArmanTheParman/subscriptions",
+        "organizations_url": "https://api.github.com/users/ArmanTheParman/orgs",
+        "repos_url": "https://api.github.com/users/ArmanTheParman/repos",
+        "events_url": "https://api.github.com/users/ArmanTheParman/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ArmanTheParman/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "How about... There should be no subjective assessment of arbitrary data's content/meaning, all arbitrary data (extra data not contributing to the movement of sats on layer 1) can just be rejected indiscriminately based on some limit, eg zero.\r\n\r\nI acknowledge not all arbitrary data can be, or needs to be, eliminated, but the principle is objective, and rules based off that can be made. If some arbitrary data cannot be interpreted as being arbitrary, then so be it, it gets on chain. \r\n\r\nBut having a FIELD dedicated to arbitrary data can easily be objectively blocked.",
+      "created_at": "2025-10-26T10:38:08Z",
+      "updated_at": "2025-10-26T10:43:11Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2017#discussion_r2463704764",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2463704764"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2017"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 44,
+      "original_line": 44,
       "side": "RIGHT"
     }
   ]
