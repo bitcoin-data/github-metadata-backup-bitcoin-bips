@@ -51,7 +51,7 @@
       }
     ],
     "created_at": "2025-10-24T21:28:07Z",
-    "updated_at": "2025-10-26T23:38:40Z",
+    "updated_at": "2025-10-27T00:30:05Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -157,7 +157,7 @@
         "hooks_url": "https://api.github.com/repos/dathonohm/bips/hooks",
         "svn_url": "https://github.com/dathonohm/bips",
         "homepage": "",
-        "forks_count": 0,
+        "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
         "size": 16699,
@@ -277,7 +277,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5798,
+        "forks_count": 5799,
         "stargazers_count": 10293,
         "watchers_count": 10293,
         "size": 16713,
@@ -310,7 +310,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 169,
+    "review_comments": 170,
     "comments": 11
   },
   "events": [
@@ -1976,7 +1976,7 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-10-26T23:38:40Z",
-      "updated_at": "2025-10-26T23:38:40Z",
+      "updated_at": "2025-10-27T00:15:17Z",
       "author_association": "NONE",
       "body": "Bitcoin is money!",
       "user": {
@@ -10801,6 +10801,59 @@
       "start_side": null,
       "line": 298,
       "original_line": 298,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2464195671",
+      "pull_request_review_id": 3381525752,
+      "id": 2464195671,
+      "node_id": "PRRC_kwDOAN28mc6S4KRX",
+      "diff_hunk": "@@ -0,0 +1,437 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reduced Data Temporary Softfork\n+  Author: Dathon Ohm <dathonohm+bip@proton.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-10-24\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aN_u-xB2ogn2D834@erisian.com.au/T/#mb71350c5dfb119efeb92c5ee738b6c8225bf15b6\n+</pre>\n+\n+==Abstract==\n+\n+Temporarily limit the size of data fields at the consensus level.\n+\n+==Copyright==\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+==Specification==\n+\n+Blocks with a height from (TBD) until and including 987424 are checked with these additional rules:\n+\n+# New output scriptPubKeys exceeding 34 bytes are invalid, unless the first opcode is OP_RETURN, in which case up to 83 bytes are valid.\n+# OP_PUSHDATA* with payloads larger than 256 bytes are invalid, except for the redeemScript push in BIP16 scriptSigs.\n+# Spending undefined witness (or Tapleaf) versions (ie, not Witness v0/BIP 141 nor Taproot/BIP 341) is invalid.\n+# Witness stacks with a Taproot annex are invalid.\n+# Taproot control blocks larger than 257 bytes (a merkle tree with 128 script leaves) are invalid.",
+      "path": "bip-????.mediawiki",
+      "position": 31,
+      "original_position": 31,
+      "commit_id": "3c718237072c107ced8c3531a487354fbdae55df",
+      "original_commit_id": "3c718237072c107ced8c3531a487354fbdae55df",
+      "in_reply_to_id": 2463846177,
+      "user": {
+        "login": "bitcoin-eagle",
+        "id": 72296314,
+        "node_id": "MDQ6VXNlcjcyMjk2MzE0",
+        "avatar_url": "https://avatars.githubusercontent.com/u/72296314?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bitcoin-eagle",
+        "html_url": "https://github.com/bitcoin-eagle",
+        "followers_url": "https://api.github.com/users/bitcoin-eagle/followers",
+        "following_url": "https://api.github.com/users/bitcoin-eagle/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bitcoin-eagle/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bitcoin-eagle/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bitcoin-eagle/subscriptions",
+        "organizations_url": "https://api.github.com/users/bitcoin-eagle/orgs",
+        "repos_url": "https://api.github.com/users/bitcoin-eagle/repos",
+        "events_url": "https://api.github.com/users/bitcoin-eagle/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bitcoin-eagle/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "body": "@dathonohm  Multisig 6-of-11 or greater implemented as 462 seperate 6-of-6 scripts (all combinations of 6 key subsets from 11 quorum). Which is the efficient way of doing multisig in taproot to save number of checksig operations and to avoid publishing unused pubkeys\r\n\r\nI find it a bit ironic to confiscate bitcoin specifically from people that use script in a way to minimize spamming the chain with unused pubkeys in a big multisig",
+      "created_at": "2025-10-27T00:30:05Z",
+      "updated_at": "2025-10-27T00:45:13Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2017#discussion_r2464195671",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2464195671"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2017"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 31,
+      "original_line": 31,
       "side": "RIGHT"
     }
   ]
