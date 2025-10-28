@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2025-09-07T23:40:39Z",
-    "updated_at": "2025-10-27T01:53:14Z",
+    "updated_at": "2025-10-28T13:29:15Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -287,12 +287,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5799,
-        "stargazers_count": 10293,
-        "watchers_count": 10293,
+        "forks_count": 5797,
+        "stargazers_count": 10309,
+        "watchers_count": 10309,
         "size": 16713,
         "default_branch": "master",
-        "open_issues_count": 59,
+        "open_issues_count": 60,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -305,7 +305,7 @@
         "visibility": "public",
         "pushed_at": "2025-10-26T21:54:14Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-10-26T21:54:19Z",
+        "updated_at": "2025-10-28T13:22:53Z",
         "allow_forking": true
       }
     },
@@ -321,7 +321,7 @@
     "changed_files": 1,
     "commits": 2,
     "review_comments": 0,
-    "comments": 5
+    "comments": 6
   },
   "events": [
     {
@@ -1319,6 +1319,62 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1958#issuecomment-3449193897",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1958"
+    },
+    {
+      "event": "commented",
+      "id": 3456472326,
+      "node_id": "IC_kwDOAN28mc7OBZUG",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3456472326",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-10-28T13:29:15Z",
+      "updated_at": "2025-10-28T13:29:15Z",
+      "author_association": "NONE",
+      "body": "> While your approach creates multiple shares. Same as if I would create multiple 12 words seeds from 16 bytes of entropy.\r\n\r\nI would not say these are quite the same. Both the initial k shares and 12 word seeds need entropy to create but a set of k shares _does_ represent a _single_ seed. `< k` can **not** recover a seed or define a specific backup set of shares. All other bip85 applications recover a _specific secret_ at each bip85 index so that it can be recovered later. If the app generates \"loose\" shares, this is not possible, bip85 does not know which initial shares generated, if at all, a master seed. And were that desired, users can discard some output. \r\n\r\n> only `k=0` is within scope (imho)\r\n\r\nThis can't generate shares because {share_idx} must be \"S\" for `k=0`. Of course, I like the simplicity of this small scope but it leaves users and wallets tasked with generating the randomness needed to securely secret share that BIP85 derived codex32 secret.\r\n\r\nIf the purpose of BIP85 is deterministic randomness from bip32 keychains, why suddenly stop short of providing the additional randomness needed to do SSS for an SSS-aware format?\r\n\r\nPath: ```m/83696968'/93'/{hrp}'/{byte_length}'/{index}'```\r\nWe could drop the bip93 interpolation and directly encode threshold strings at _fixed_ indices, using default bip32 fingerprint identifier.  BIP85 app output would be:\r\n`k=0`: a codex32 secret.\r\n`k=2`: same codex32 secret and share \"A\".\r\n`k=3`: same codex32 secret, a new share \"A\", and share \"C\".\r\n`k=4`: same codex32 secret, new shares \"A\" and \"C\", and share \"D\".\r\netc...\r\n\r\nNow each {bip85 index} derives a single seed as with bip39 but we also give deterministic entropy for secret sharing. Leaving wallets to interpolate any remaining shares.\r\n\r\n> My understanding is that each line in below snippet, generates just one share?\r\n\r\nYes, it was an example of part 2 of your proposal:\r\n\r\n>    2. way to generate **any** non-secret share from BIP32 root seed. This ... would allow users to generate share[s] deterministically via BIP85, and not via RNG.\r\n\r\nThe disadvantages I saw with it for the same {bip85 index}:\r\n\r\n1. Different arbitrary {share_idx} combinations of bip85 derived shares recover different seeds, which is unexpected bip85 behavior and less interoperable.\r\n   - Solution: fix the indices, only output:\r\n     1. \"S\", [\"A\", \"C\"] or, [\"A\", \"C\", \"D\"] for `k=0`, `k=2` and `k=3` respectively.  Or\r\n     1. \"S\", [\"S\", \"A\"] or, [\"S\", \"A\", \"C\"], etc\r\n   - Whichever is preferred, a is more usable by humans. Avoids mistakenly writing the secret. b avoids our bip85 app needing interpolation logic as it outputs direct entropy encodings.\r\n1. Different thresholds recover different seeds.\r\n   - Fix: Remove k from the derivation path and always encode seed as the first {bytes_length} from the DRNG\r\n     - Or use HMAC(derived_entropy, identifier) and truncate.\r\n1. {threshold} doesn't affect share payloads so they might be reused across backups.\r\n    - Seeds may be \"reshared\" but shares should be fresh.\r\n    - e.g. a 2-of-n and 3-of-n and accidentally use the same {bip85 index} then both backups have the same share 'A' payload. \r\n    - Fix: After generating the seed, reseed the DRNG with HMAC(derived_entropy, k) and then derive `k - 1` independent share payloads with {bytes_length} reads from the DRNG.\r\n      - Could also reseed with HMAC(derived_entropy, k + identifier) which would support resharing an existing master seed at the same threshold with a unique identifier.\r\n      - Or use HMAC(derived_entropy, k + identifier + share_idx) directly and truncate for each share payload.\r\n\r\n> I'm only trying to figure out why is this needed...\r\n\r\nTo support deterministic generation of **_initial strings_** for users/wallets intending to do SSS, we should output a threshold quantity of strings to avoid these 3 interoperability and recovery problems.\r\n\r\nHowever this isn't necessary for a minimum viable PR, as `k=0` is useful on its own. And I can break this into two PRs one for codex32 secrets and another for `k >= 2` which output a codex32 secret and `k-1` codex32 shares.\r\n\r\nHow should I proceed?",
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1958#issuecomment-3456472326",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1958"
     }
   ],
