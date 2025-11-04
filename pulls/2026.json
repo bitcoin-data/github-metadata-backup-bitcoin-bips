@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-01T05:25:15Z",
-    "updated_at": "2025-11-04T10:17:49Z",
+    "updated_at": "2025-11-04T13:13:57Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -173,7 +173,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 16725,
+        "size": 16750,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -297,7 +297,7 @@
         "watchers_count": 10332,
         "size": 16713,
         "default_branch": "master",
-        "open_issues_count": 68,
+        "open_issues_count": 69,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -325,7 +325,7 @@
     "deletions": 1,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 3,
+    "review_comments": 5,
     "comments": 0
   },
   "events": [
@@ -679,6 +679,44 @@
         "date": "2025-11-04T10:17:20Z"
       },
       "sha": "ae9cd401dfe6d82c4759975fe5c6ecc31376d253"
+    },
+    {
+      "event": "reviewed",
+      "id": 3416403890,
+      "node_id": "PRR_kwDOAN28mc7Loi-y",
+      "url": null,
+      "actor": null,
+      "commit_id": "ae9cd401dfe6d82c4759975fe5c6ecc31376d253",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-11-04T13:11:23Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "nymius",
+        "id": 155548262,
+        "node_id": "U_kgDOCUV6Zg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155548262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nymius",
+        "html_url": "https://github.com/nymius",
+        "followers_url": "https://api.github.com/users/nymius/followers",
+        "following_url": "https://api.github.com/users/nymius/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nymius/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nymius/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nymius/subscriptions",
+        "organizations_url": "https://api.github.com/users/nymius/orgs",
+        "repos_url": "https://api.github.com/users/nymius/repos",
+        "events_url": "https://api.github.com/users/nymius/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nymius/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2026#pullrequestreview-3416403890",
+      "submitted_at": "2025-11-04T13:11:23Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2026"
     }
   ],
   "comments": [
@@ -842,6 +880,114 @@
       "start_side": null,
       "line": null,
       "original_line": 255,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2490471410",
+      "pull_request_review_id": 3416403890,
+      "id": 2490471410,
+      "node_id": "PRRC_kwDOAN28mc6UcZPy",
+      "diff_hunk": "@@ -269,11 +273,13 @@ The full wallet encoding allows the holder to:\n \n ==== Label handling ====\n \n-Both ''spscan'' and ''spspend'' encodings support appending zero or more label integers to the payload. Labels are encoded as 4-byte unsigned integers (''ser<sub>32</sub>(m<sub>i</sub>)'') and appended sequentially after the birthday field. \n+Both ''spscan'' and ''spspend'' encodings support encoding a ''max_label'' value to indicate the highest label that has been distributed. The ''max_label'' is encoded as a single 4-byte unsigned integer (''ser<sub>32</sub>(max_label)'') after the birthday field and if set to 0, no labels have been distributed. (0 should not be distributed as a label, as it is reserved for change outputs.)\n \n-When scanning for payments, wallets MUST always check for label ''m = 0'' (the change label), even if it is not explicitly included in the list of appended labels. This ensures compatibility across different wallet implementations and prevents loss of funds if the wallet has generated change outputs using the reserved change label.\n+When scanning for payments, wallets MUST always check for label ''m = 0'' (the change label), regardless of the ''max_label'' value. This ensures compatibility across different wallet implementations and prevents loss of funds if the wallet has generated change outputs using the reserved change label.\n \n-Wallet implementations SHOULD include all labels that have been distributed or used when exporting the wallet key material. However, wallets recovering from an ''spscan'' or ''spspend'' encoding SHOULD be prepared to scan for additional labels beyond those included in the encoding, as users may have shared additional labeled addresses.\n+When a ''max_label'' value is present in the encoding, wallets MUST scan for all labels in the range [0, ''max_label''], inclusive. This design encourages users to use a dense range of labels (e.g., 1, 2, 3, 4, 5) rather than sparse labels (e.g., 1, 100, 1000), resulting in more efficient scanning and a fixed-size encoding.",
+      "path": "bip-0352.mediawiki",
+      "position": 39,
+      "original_position": 39,
+      "commit_id": "ae9cd401dfe6d82c4759975fe5c6ecc31376d253",
+      "original_commit_id": "ae9cd401dfe6d82c4759975fe5c6ecc31376d253",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "nymius",
+        "id": 155548262,
+        "node_id": "U_kgDOCUV6Zg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155548262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nymius",
+        "html_url": "https://github.com/nymius",
+        "followers_url": "https://api.github.com/users/nymius/followers",
+        "following_url": "https://api.github.com/users/nymius/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nymius/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nymius/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nymius/subscriptions",
+        "organizations_url": "https://api.github.com/users/nymius/orgs",
+        "repos_url": "https://api.github.com/users/nymius/repos",
+        "events_url": "https://api.github.com/users/nymius/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nymius/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I wouldn't say the scanning is more efficient with a dense range, what is more efficient is the backup of the label information.\r\nFor scanning on fully fledged scanners, the use of any number of labels is as performant as the use of no labels.\r\nFor light clients the cost of checking N labels is equal to N times the use of no labels. Additionally, the bandwidth consumption is also equal to N times the use of no labels.",
+      "created_at": "2025-11-04T13:11:23Z",
+      "updated_at": "2025-11-04T13:11:23Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2026#discussion_r2490471410",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2490471410"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2026"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 280,
+      "original_line": 280,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2490479090",
+      "pull_request_review_id": 3416413566,
+      "id": 2490479090,
+      "node_id": "PRRC_kwDOAN28mc6UcbHy",
+      "diff_hunk": "@@ -269,11 +273,13 @@ The full wallet encoding allows the holder to:\n \n ==== Label handling ====\n \n-Both ''spscan'' and ''spspend'' encodings support appending zero or more label integers to the payload. Labels are encoded as 4-byte unsigned integers (''ser<sub>32</sub>(m<sub>i</sub>)'') and appended sequentially after the birthday field. \n+Both ''spscan'' and ''spspend'' encodings support encoding a ''max_label'' value to indicate the highest label that has been distributed. The ''max_label'' is encoded as a single 4-byte unsigned integer (''ser<sub>32</sub>(max_label)'') after the birthday field and if set to 0, no labels have been distributed. (0 should not be distributed as a label, as it is reserved for change outputs.)\n \n-When scanning for payments, wallets MUST always check for label ''m = 0'' (the change label), even if it is not explicitly included in the list of appended labels. This ensures compatibility across different wallet implementations and prevents loss of funds if the wallet has generated change outputs using the reserved change label.\n+When scanning for payments, wallets MUST always check for label ''m = 0'' (the change label), regardless of the ''max_label'' value. This ensures compatibility across different wallet implementations and prevents loss of funds if the wallet has generated change outputs using the reserved change label.\n \n-Wallet implementations SHOULD include all labels that have been distributed or used when exporting the wallet key material. However, wallets recovering from an ''spscan'' or ''spspend'' encoding SHOULD be prepared to scan for additional labels beyond those included in the encoding, as users may have shared additional labeled addresses.\n+When a ''max_label'' value is present in the encoding, wallets MUST scan for all labels in the range [0, ''max_label''], inclusive. This design encourages users to use a dense range of labels (e.g., 1, 2, 3, 4, 5) rather than sparse labels (e.g., 1, 100, 1000), resulting in more efficient scanning and a fixed-size encoding.",
+      "path": "bip-0352.mediawiki",
+      "position": 39,
+      "original_position": 39,
+      "commit_id": "ae9cd401dfe6d82c4759975fe5c6ecc31376d253",
+      "original_commit_id": "ae9cd401dfe6d82c4759975fe5c6ecc31376d253",
+      "in_reply_to_id": 2490471410,
+      "user": {
+        "login": "nymius",
+        "id": 155548262,
+        "node_id": "U_kgDOCUV6Zg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155548262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nymius",
+        "html_url": "https://github.com/nymius",
+        "followers_url": "https://api.github.com/users/nymius/followers",
+        "following_url": "https://api.github.com/users/nymius/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nymius/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nymius/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nymius/subscriptions",
+        "organizations_url": "https://api.github.com/users/nymius/orgs",
+        "repos_url": "https://api.github.com/users/nymius/repos",
+        "events_url": "https://api.github.com/users/nymius/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nymius/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "To clarify my original point, the reason I would do it like this is to `produce a shorter, fixed size encoding` and have a compact backup format.",
+      "created_at": "2025-11-04T13:13:57Z",
+      "updated_at": "2025-11-04T13:13:57Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2026#discussion_r2490479090",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2490479090"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2026"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 280,
+      "original_line": 280,
       "side": "RIGHT"
     }
   ]
