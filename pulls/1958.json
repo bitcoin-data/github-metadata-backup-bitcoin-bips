@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-09-07T23:40:39Z",
-    "updated_at": "2025-11-06T02:14:24Z",
+    "updated_at": "2025-11-06T12:59:19Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -292,9 +292,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5812,
-        "stargazers_count": 10335,
-        "watchers_count": 10335,
+        "forks_count": 5813,
+        "stargazers_count": 10336,
+        "watchers_count": 10336,
         "size": 16713,
         "default_branch": "master",
         "open_issues_count": 66,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2025-10-26T21:54:14Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-06T00:28:38Z",
+        "updated_at": "2025-11-06T08:05:49Z",
         "allow_forking": true
       }
     },
@@ -814,9 +814,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-09-12T15:24:41Z",
-      "updated_at": "2025-09-19T16:31:34Z",
+      "updated_at": "2025-11-06T12:59:19Z",
       "author_association": "NONE",
-      "body": "> Documenting recent discussions: @BenWestgate Please see my mailing list comments to your thread with suggestions and simplifications (path, byte extraction, idx, etc.). Regarding 1.4.0 the main thing is we want to warrant full compatibility (all features) up to the prior version and (just saw you reopened [68](https://github.com/akarve/bipsea/pull/68)) a PR to the 1.3.0 client is probably the easiest way to achieve that. Lmk if anything is unclear.\r\n\r\n\r\nIt seems you'd like to consolidate some of the paths. There's a few ways to do this, if you have a favorite or one that immediately stands out as obvious let me know.\r\n\r\nI think <code>`m/83696968'/93'/{hrp}'/{cat({n} {threshold} {byte_length}}'/{index}'</code>\r\n\r\n`hrp` is alone as it's unknown how many future human-readable prefixes there may be.\r\n\r\n`n` will always be ''1'' through ''31'', `t` ''0'', or ''2'' through ''9'', `byte_length` ''16'' through ''64''.  So we can decimal concatenate them with the max value being: `31` `9` `64` -> 31964'\r\n\r\nI'm thinking the identifier could be the bech32 encoding of the _bip85_ index, as the purpose of incrementing the index is to get new seeds, and BIP93 says \"...the identifier **SHOULD** be distinct for all master seeds the user may need to disambiguate.\"\r\n\r\nindex = 0 -> identifier = qqqq, index = 1 -> identifier qqqp, and so on.  A particular identifier can be selected by converting it to an integer {index} once index reaches 32^4, it can fall back to the default BIP-0032 fingerprint.\r\n\r\nOn byte extraction: I agree we should draw `byte_length` bytes and pad to a multiple of 5 bits with a CRC. The polynomials `(1 << crc_len) | 3` is optimal for 1-4 bits. Output share indices still can use the current read one byte at a time method. ",
+      "body": "> Documenting recent discussions: @BenWestgate Please see my mailing list comments to your thread with suggestions and simplifications (path, byte extraction, idx, etc.). Regarding 1.4.0 the main thing is we want to warrant full compatibility (all features) up to the prior version and (just saw you reopened [68](https://github.com/akarve/bipsea/pull/68)) a PR to the 1.3.0 client is probably the easiest way to achieve that. Lmk if anything is unclear.\r\n\r\n\r\nIt seems you'd like to consolidate some of the paths. There's a few ways to do this, if you have a favorite or one that immediately stands out as obvious let me know.\r\n\r\nI'm thinking the identifier could be the bech32 encoding of the _bip85_ index, as the purpose of incrementing the index is to get new seeds, and BIP93 says \"...the identifier **SHOULD** be distinct for all master seeds the user may need to disambiguate.\"\r\n\r\nindex = 0 -> identifier = qqqq, index = 1 -> identifier qqqp, and so on.  A particular identifier could be selected by converting it to an integer {index} once index reaches 32^4, it can fall back to the default BIP-0032 fingerprint or roll over.\r\n\r\nOn byte extraction: I agree we should draw `byte_length` bytes and pad to a multiple of 5 bits with a CRC. The polynomials `(1 << crc_len) | 3` is optimal for 1-4 bits.\n\nIf we output share indices still can use the current read one byte at a time method.",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
