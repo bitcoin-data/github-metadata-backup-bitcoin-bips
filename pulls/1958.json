@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-09-07T23:40:39Z",
-    "updated_at": "2025-11-04T21:32:07Z",
+    "updated_at": "2025-11-06T02:14:24Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -292,9 +292,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5807,
-        "stargazers_count": 10334,
-        "watchers_count": 10334,
+        "forks_count": 5812,
+        "stargazers_count": 10335,
+        "watchers_count": 10335,
         "size": 16713,
         "default_branch": "master",
         "open_issues_count": 66,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2025-10-26T21:54:14Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-04T18:54:26Z",
+        "updated_at": "2025-11-06T00:28:38Z",
         "allow_forking": true
       }
     },
@@ -326,7 +326,7 @@
     "changed_files": 1,
     "commits": 2,
     "review_comments": 0,
-    "comments": 8
+    "comments": 9
   },
   "events": [
     {
@@ -1653,6 +1653,64 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-11-04T21:31:08Z"
+    },
+    {
+      "event": "commented",
+      "id": 3494507181,
+      "node_id": "IC_kwDOAN28mc7QSfKt",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3494507181",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-11-06T02:04:07Z",
+      "updated_at": "2025-11-06T02:14:24Z",
+      "author_association": "NONE",
+      "body": "> Protocol designs can go in this thread.\r\n\r\nEach app should define a function to take parameters and derived entropy, truncate as needed (or seed a DNRG) and format it.\r\n\r\n>Each application SHOULD use up to the required number of bits necessary for their operation, and truncate the rest. \r\n\r\n```python\r\ndef entropy_to_output(entropy, parameters):\r\n    # Logic to produce output based on provided entropy and parameters\r\n    return formatted_output\r\n```\r\nDerivation paths have a semantic application number, end with an `/{index}'` to produce unique secrets. If there is a length quantity for the output that **SHOULD** precede `{index}` in the derivation path.\r\n\r\nMany applications also need to define a function to generate the BIP85 derivation path based on their parameters.\r\n\r\n```python\r\ndef parameters_to_path(parameters, index):\r\n    # Logic to produce the BIP85 derivation path\r\n    return bip85_derivation_path\r\n```\r\n\r\nIf codex32 follows that advice, it would use something like:\r\n\r\n- **Codex32 secret** <code>m/83696968'/93'/{hrp+'0'+'seed'+'s'}'/{byte_length}'/{index}'</code>\r\n  - Identifier is BIP32 fingerprint(seed); `k` is ignored and doesn't affect derivation; `share_idx = 's'`.\r\n  - Custom headers are out of scope, as recalculating the codex32 checksum requires no deterministic entropy.\r\n    - Adding custom headers could break the recommendation to maintain unique identifiers per master seed.\r\n- **Codex32 share** <code>m/83696968'/93'/{hrp+k+identifier+share_idx}'/{byte_length}'/{index}'</code>\r\n  - Only the first `k-1` share indices are valid such as \"A\" if `k=2`, or \"A\" and \"C\" if `k=3`.\r\n  - `k` and `identifier` affect the derivation.\r\n\r\nDerived entropy is truncated to `{byte_length}` and encoded as a codex32 string.\r\n\r\nI will write a separate, easy-to-review PR that implements generating a single deterministic codex32 secret (seed) per BIP85 `{index}` as mentioned above. This PR can be rebased on that submission to add deterministic initial-share generation to produce SSS-aware outputs in backwards-compatible fashion.\r\n\r\nWallets will make `k` calls to the BIP85 `{93}` app to produce an initial set, using the `identifier` from the codex32 secret output for the `k-1` codex32 share(s) call(s).\r\n\r\nThis separation simplifies review, supports custom `identifier` on shares and allows resharing existing master seeds if `identifier` is changed.\r\n\r\nTo maximize future HRP enum capacity, the header is compressed into an integer.\r\n\r\nThe complete codex32 application protocol follows: \r\n\r\n```python\r\nCANONICAL_INDICES = \"sacdefghj\"\r\nVALID_HRP = {\r\n    \"ms\": 0,\r\n    \"cl\": 1\r\n}\r\n\r\ndef bip93_parameters_to_path(hrp, k, identifier, share_idx, byte_length, index):\r\n    if CANONICAL_INDICES.index(share_idx) > threshold - 1:\r\n        raise InvalidShareIndex()\r\n    if share_idx == \"s\":\r\n        threshold = 1\r\n        identifier = \"seed\"\r\n    elif not identifier or not k:\r\n        raise MissingParams()\r\n    else:\r\n        threshold = k\r\n\r\n    header_path_int = (\r\n                        VALID_HRP[hrp] << 26 \r\n                        + int.from_bytes(bech32_decode(identifier), 'big') << 6\r\n                        + (threshold - 1.5) ^ 2 // 2 \r\n                        + CANONICAL_INDICES.index(share_idx)\r\n                      )\r\n    return f\"m/83696968'/93'/{header_path_int}'/{byte_length}'/{index}'\"\r\n\r\ndef entropy_to_codex32(entropy, hrp, k, identifier, share_idx, byte_length):\r\n    seed = entropy[:byte_length]\r\n    if share_idx == \"s\":\r\n        identifier = bech32_encode(bip32_fingerprint(seed))[:4]\r\n    return Codex32String.from_seed(seed, hrp, k, identifier, share_idx).s\r\n```",
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1958#issuecomment-3494507181",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1958"
     }
   ],
   "comments": []
