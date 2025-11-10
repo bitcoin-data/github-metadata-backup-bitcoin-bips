@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2025-10-24T21:28:07Z",
-    "updated_at": "2025-11-09T16:05:52Z",
+    "updated_at": "2025-11-10T07:58:30Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -282,9 +282,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5818,
-        "stargazers_count": 10344,
-        "watchers_count": 10344,
+        "forks_count": 5820,
+        "stargazers_count": 10347,
+        "watchers_count": 10347,
         "size": 16713,
         "default_branch": "master",
         "open_issues_count": 67,
@@ -300,7 +300,7 @@
         "visibility": "public",
         "pushed_at": "2025-10-26T21:54:14Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-09T16:17:13Z",
+        "updated_at": "2025-11-10T07:30:51Z",
         "allow_forking": true
       }
     },
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 224,
+    "review_comments": 225,
     "comments": 61
   },
   "events": [
@@ -6907,6 +6907,44 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-11-09T09:40:06Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 3441410238,
+      "node_id": "PRR_kwDOAN28mc7NH8C-",
+      "url": null,
+      "actor": null,
+      "commit_id": "df3ca79c6a27cadf33244cd2019bd5098070548d",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-11-10T07:58:30Z",
+      "author_association": "NONE",
+      "user": {
+        "login": "knocte",
+        "id": 331303,
+        "node_id": "MDQ6VXNlcjMzMTMwMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/331303?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/knocte",
+        "html_url": "https://github.com/knocte",
+        "followers_url": "https://api.github.com/users/knocte/followers",
+        "following_url": "https://api.github.com/users/knocte/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/knocte/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/knocte/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/knocte/subscriptions",
+        "organizations_url": "https://api.github.com/users/knocte/orgs",
+        "repos_url": "https://api.github.com/users/knocte/repos",
+        "events_url": "https://api.github.com/users/knocte/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/knocte/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2017#pullrequestreview-3441410238",
+      "submitted_at": "2025-11-10T07:58:30Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2017"
     }
   ],
   "comments": [
@@ -18659,6 +18697,60 @@
       "start_side": null,
       "line": 3,
       "original_line": 3,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2509170569",
+      "pull_request_review_id": 3441410238,
+      "id": 2509170569,
+      "node_id": "PRRC_kwDOAN28mc6VjueJ",
+      "diff_hunk": "@@ -0,0 +1,242 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reduced Data Temporary Softfork\n+  Author: Dathon Ohm <dathonohm+bip@proton.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-10-24\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aN_u-xB2ogn2D834@erisian.com.au/T/#mb71350c5dfb119efeb92c5ee738b6c8225bf15b6\n+</pre>\n+\n+==Abstract==\n+\n+Temporarily limit the size of data fields at the consensus level.\n+\n+==Copyright==\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+==Specification==\n+\n+Blocks with a height from 934864 until and including 987424 are checked with these additional rules:\n+\n+# New output scriptPubKeys exceeding 34 bytes are invalid, unless the first opcode is OP_RETURN, in which case up to 83 bytes are valid.\n+# OP_PUSHDATA* with payloads larger than 256 bytes are invalid, except for the redeemScript push in BIP16 scriptSigs.\n+# Spending undefined witness (or Tapleaf) versions (ie, not Witness v0/BIP 141 nor Taproot/BIP 341) is invalid.\n+# Witness stacks with a Taproot annex are invalid.\n+# Taproot control blocks larger than 257 bytes (a merkle tree with 128 script leaves) are invalid.\n+# Tapscripts including OP_SUCCESS* opcodes anywhere (even unexecuted) are invalid.\n+# Tapscripts executing the OP_IF or OP_NOTIF instruction (regardless of result) are invalid.\n+\n+Inputs spending UTXOs that were created before the activation height are exempt from the new rules.\n+Once the softfork expires, UTXOs of all heights are once again unrestricted.\n+\n+==Motivation==\n+\n+To reduce arbitrary data stored on nodes, and to reject the standardization of data storage as a supported use case at the consensus level.\n+\n+==Rationale==\n+\n+===Specification nuance===",
+      "path": "bip-????.mediawiki",
+      "position": 44,
+      "original_position": 44,
+      "commit_id": "df3ca79c6a27cadf33244cd2019bd5098070548d",
+      "original_commit_id": "df3ca79c6a27cadf33244cd2019bd5098070548d",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "knocte",
+        "id": 331303,
+        "node_id": "MDQ6VXNlcjMzMTMwMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/331303?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/knocte",
+        "html_url": "https://github.com/knocte",
+        "followers_url": "https://api.github.com/users/knocte/followers",
+        "following_url": "https://api.github.com/users/knocte/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/knocte/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/knocte/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/knocte/subscriptions",
+        "organizations_url": "https://api.github.com/users/knocte/orgs",
+        "repos_url": "https://api.github.com/users/knocte/repos",
+        "events_url": "https://api.github.com/users/knocte/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/knocte/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "@dathonohm I like this faq-style ample section, thanks for adding it; can you add two more questions to it? I would love to have a \"Why not rather eliminate the witness discount?\" (so that this BIP still acknowledges that spam in the UTXO set is worse than OPRETURN-based one) and a \"Why not make OPRETURN transactions cheaper but not contiguous, to make them at least more attractive to spammers than UTXO bloat, but mitigating a contiguous-objectionable-data risk?\". These are not disingenuous requests; as I genuinely want to understand the trade-offs that this BIP is choosing, in order for me to ACK or NACK it. Thanks",
+      "created_at": "2025-11-10T07:58:30Z",
+      "updated_at": "2025-11-10T07:58:30Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2017#discussion_r2509170569",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2509170569"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2017"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 44,
+      "original_line": 44,
       "side": "RIGHT"
     }
   ]
