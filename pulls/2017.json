@@ -52,9 +52,9 @@
       }
     ],
     "created_at": "2025-10-24T21:28:07Z",
-    "updated_at": "2025-11-11T03:53:26Z",
+    "updated_at": "2025-11-11T12:49:49Z",
     "mergeable": true,
-    "mergeable_state": "unstable",
+    "mergeable_state": "clean",
     "merged": false,
     "merge_commit_sha": "57fefefe6605d99b458985bb9e4eab076d0ee011",
     "assignees": [],
@@ -283,8 +283,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5823,
-        "stargazers_count": 10350,
-        "watchers_count": 10350,
+        "stargazers_count": 10354,
+        "watchers_count": 10354,
         "size": 16724,
         "default_branch": "master",
         "open_issues_count": 67,
@@ -300,7 +300,7 @@
         "visibility": "public",
         "pushed_at": "2025-11-10T16:20:07Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-11T03:35:15Z",
+        "updated_at": "2025-11-11T11:32:54Z",
         "allow_forking": true
       }
     },
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 256,
+    "review_comments": 258,
     "comments": 61
   },
   "events": [
@@ -20666,6 +20666,114 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2512742945"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2017"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 44,
+      "original_line": 44,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2514074776",
+      "pull_request_review_id": 3447861182,
+      "id": 2514074776,
+      "node_id": "PRRC_kwDOAN28mc6V2byY",
+      "diff_hunk": "@@ -0,0 +1,242 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reduced Data Temporary Softfork\n+  Author: Dathon Ohm <dathonohm+bip@proton.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-10-24\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aN_u-xB2ogn2D834@erisian.com.au/T/#mb71350c5dfb119efeb92c5ee738b6c8225bf15b6\n+</pre>\n+\n+==Abstract==\n+\n+Temporarily limit the size of data fields at the consensus level.\n+\n+==Copyright==\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+==Specification==\n+\n+Blocks with a height from 934864 until and including 987424 are checked with these additional rules:\n+\n+# New output scriptPubKeys exceeding 34 bytes are invalid, unless the first opcode is OP_RETURN, in which case up to 83 bytes are valid.\n+# OP_PUSHDATA* with payloads larger than 256 bytes are invalid, except for the redeemScript push in BIP16 scriptSigs.\n+# Spending undefined witness (or Tapleaf) versions (ie, not Witness v0/BIP 141 nor Taproot/BIP 341) is invalid.\n+# Witness stacks with a Taproot annex are invalid.\n+# Taproot control blocks larger than 257 bytes (a merkle tree with 128 script leaves) are invalid.\n+# Tapscripts including OP_SUCCESS* opcodes anywhere (even unexecuted) are invalid.\n+# Tapscripts executing the OP_IF or OP_NOTIF instruction (regardless of result) are invalid.\n+\n+Inputs spending UTXOs that were created before the activation height are exempt from the new rules.\n+Once the softfork expires, UTXOs of all heights are once again unrestricted.\n+\n+==Motivation==\n+\n+To reduce arbitrary data stored on nodes, and to reject the standardization of data storage as a supported use case at the consensus level.\n+\n+==Rationale==\n+\n+===Specification nuance===",
+      "path": "bip-????.mediawiki",
+      "position": 44,
+      "original_position": 44,
+      "commit_id": "df3ca79c6a27cadf33244cd2019bd5098070548d",
+      "original_commit_id": "df3ca79c6a27cadf33244cd2019bd5098070548d",
+      "in_reply_to_id": 2509170569,
+      "user": {
+        "login": "ArmchairCryptologist",
+        "id": 73581993,
+        "node_id": "MDQ6VXNlcjczNTgxOTkz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73581993?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ArmchairCryptologist",
+        "html_url": "https://github.com/ArmchairCryptologist",
+        "followers_url": "https://api.github.com/users/ArmchairCryptologist/followers",
+        "following_url": "https://api.github.com/users/ArmchairCryptologist/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ArmchairCryptologist/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ArmchairCryptologist/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ArmchairCryptologist/subscriptions",
+        "organizations_url": "https://api.github.com/users/ArmchairCryptologist/orgs",
+        "repos_url": "https://api.github.com/users/ArmchairCryptologist/repos",
+        "events_url": "https://api.github.com/users/ArmchairCryptologist/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ArmchairCryptologist/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "> But I disagree on the way this goal was pursued, because if OPRETURN is still more expensive than UTXO bloat, what is the point? You didn’t incentivize spammers to move out from UTXO-bloat, you just created a new avenue for spam.\r\n\r\nThe point is that there are protocols that rely on including data that is on the order of hundreds of bytes; that is, larger than the old OP_RETURN limit of 80 bytes, but not at the \"embedding JPEGs on the blockchain\" levels of data. One example is Citrea's [Clementine bridge](https://docs.citrea.xyz/technical-specs/characteristics/clementine-trust-minimized-bitcoin-bridge), which uses a 144-byte ZKP-based fraud proof. Such protocols may also rely on the data to be included *in that transaction*, so they cannot use the commit-reveal scheme required for storing it in discounted segwit data like inscriptions do. So the only practical solution with the old OP_RETURN limit would be to encode this data as unspendable (and unprunable) UTXOs, which all nodes would then have to store in perpetuity - unlike OP_RETURN data, which can be pruned by all non-archiving nodes.\r\n\r\nCore v30 specifically fixes this by removing the OP_RETURN limit so this type of data can be stored in a sane and pruneable way, with transactions that can be reliably broadcast. And since it is completely pointless to bikeshed on the exact value of a limit that can be bypassed anyway by delivering a transaction directly to a miner (which is bad for the network for several reasons), and which specifically does not enable storing more data than could already be stored in discounted segwit data, and that also is not \"more contiguous\" than such data for whatever that is worth, it was instead set to be practically unlimited - the 100KB limit should never be reachable without hitting the overall transaction size limit.",
+      "created_at": "2025-11-11T12:33:32Z",
+      "updated_at": "2025-11-11T12:38:35Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2017#discussion_r2514074776",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2514074776"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2017"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 44,
+      "original_line": 44,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2514124769",
+      "pull_request_review_id": 3447923622,
+      "id": 2514124769,
+      "node_id": "PRRC_kwDOAN28mc6V2n_h",
+      "diff_hunk": "@@ -0,0 +1,242 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reduced Data Temporary Softfork\n+  Author: Dathon Ohm <dathonohm+bip@proton.me>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-10-24\n+  License: BSD-3-Clause\n+  Post-History: https://gnusha.org/pi/bitcoindev/aN_u-xB2ogn2D834@erisian.com.au/T/#mb71350c5dfb119efeb92c5ee738b6c8225bf15b6\n+</pre>\n+\n+==Abstract==\n+\n+Temporarily limit the size of data fields at the consensus level.\n+\n+==Copyright==\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+==Specification==\n+\n+Blocks with a height from 934864 until and including 987424 are checked with these additional rules:\n+\n+# New output scriptPubKeys exceeding 34 bytes are invalid, unless the first opcode is OP_RETURN, in which case up to 83 bytes are valid.\n+# OP_PUSHDATA* with payloads larger than 256 bytes are invalid, except for the redeemScript push in BIP16 scriptSigs.\n+# Spending undefined witness (or Tapleaf) versions (ie, not Witness v0/BIP 141 nor Taproot/BIP 341) is invalid.\n+# Witness stacks with a Taproot annex are invalid.\n+# Taproot control blocks larger than 257 bytes (a merkle tree with 128 script leaves) are invalid.\n+# Tapscripts including OP_SUCCESS* opcodes anywhere (even unexecuted) are invalid.\n+# Tapscripts executing the OP_IF or OP_NOTIF instruction (regardless of result) are invalid.\n+\n+Inputs spending UTXOs that were created before the activation height are exempt from the new rules.\n+Once the softfork expires, UTXOs of all heights are once again unrestricted.\n+\n+==Motivation==\n+\n+To reduce arbitrary data stored on nodes, and to reject the standardization of data storage as a supported use case at the consensus level.\n+\n+==Rationale==\n+\n+===Specification nuance===",
+      "path": "bip-????.mediawiki",
+      "position": 44,
+      "original_position": 44,
+      "commit_id": "df3ca79c6a27cadf33244cd2019bd5098070548d",
+      "original_commit_id": "df3ca79c6a27cadf33244cd2019bd5098070548d",
+      "in_reply_to_id": 2509170569,
+      "user": {
+        "login": "knocte",
+        "id": 331303,
+        "node_id": "MDQ6VXNlcjMzMTMwMw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/331303?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/knocte",
+        "html_url": "https://github.com/knocte",
+        "followers_url": "https://api.github.com/users/knocte/followers",
+        "following_url": "https://api.github.com/users/knocte/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/knocte/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/knocte/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/knocte/subscriptions",
+        "organizations_url": "https://api.github.com/users/knocte/orgs",
+        "repos_url": "https://api.github.com/users/knocte/repos",
+        "events_url": "https://api.github.com/users/knocte/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/knocte/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "If that was the sole point, then finding a compromise limit instead of just removing it (which effectively creates a new avenue for spam as a result) would have made more sense. Like 256bytes for example? Enough for Citrea or similar companies while not allowing transactions with big blobs to be standard. And yes, before you throw again your wisdom about the other acclaimed reason to have policy align with consensus here in order to have fee estimations be more accurate, I'm also aware of that nitpick. But those are just nitpicks that don't deserve the risk that these changes introduced IMHO. Again, I say that reducing UTXO-set bloat in favour of prunable blobs is a sensible goal (and addressing those 2 nitpicks too), but before doing a change like this, maybe finding a way to make OPRETURN cheaper and non-contiguous would have been better to address first. So I think this BIP should try to do things properly and not just take the diametral opposite stance by trying to filter everything while curtailing script capabilities or risking confiscation.",
+      "created_at": "2025-11-11T12:49:49Z",
+      "updated_at": "2025-11-11T12:49:49Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2017#discussion_r2514124769",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2514124769"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2017"
