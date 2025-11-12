@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-09-07T23:40:39Z",
-    "updated_at": "2025-11-11T23:12:44Z",
+    "updated_at": "2025-11-12T02:17:02Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -293,8 +293,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5823,
-        "stargazers_count": 10356,
-        "watchers_count": 10356,
+        "stargazers_count": 10357,
+        "watchers_count": 10357,
         "size": 16724,
         "default_branch": "master",
         "open_issues_count": 68,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2025-11-10T16:20:07Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-11T23:31:57Z",
+        "updated_at": "2025-11-12T00:35:00Z",
         "allow_forking": true
       }
     },
@@ -1684,9 +1684,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-11-06T02:04:07Z",
-      "updated_at": "2025-11-11T23:12:44Z",
+      "updated_at": "2025-11-12T02:13:30Z",
       "author_association": "NONE",
-      "body": "> Protocol designs can go in this thread.\r\n\r\nEach app should define a function to take parameters and derived entropy, truncate as needed (or seed a DNRG) and format it.\r\n\r\n>Each application SHOULD use up to the required number of bits necessary for their operation, and truncate the rest. \r\n\r\n```python\r\ndef entropy_to_output(entropy, parameters):\r\n    # Logic to produce output based on provided entropy and parameters\r\n    return formatted_output\r\n```\r\nDerivation paths have a semantic application number, end with an `/{index}'` to produce unique secrets. If there is a length quantity for the output that **SHOULD** precede `{index}` in the derivation path.\r\n\r\nMany applications also need to define a function to generate the BIP85 derivation path based on their parameters.\r\n\r\n```python\r\ndef parameters_to_path(parameters, index):\r\n    # Logic to produce the BIP85 derivation path\r\n    return bip85_derivation_path\r\n```\r\n\r\nIf codex32 follows that advice, it would use something like:\r\n\r\n- **Codex32 secret** <code>m/83696968'/93'/{hrp+'0'+'s'}'/{byte_length}'/{index}'</code>\r\n  - Identifier is BIP32 fingerprint(seed); `k` is ignored and doesn't affect derivation; `share_idx = 's'`.\r\n  - Custom headers are out of scope, as recalculating the codex32 checksum requires no deterministic entropy.\r\n- **Codex32 share** <code>m/83696968'/93'/{hrp+k+share_idx}'/{byte_length}'/{index=identifier}'</code>\r\n  - Only the first `k` share indices are valid such as \"A\", and \"C\" if `k=2`, or \"A\", \"C\", and \"D\" if `k=3`.\r\n  - `k` and `identifier` affect the derivation. Use of index is discouraged to avoid identifier reuse across seeds/share sets.\r\n\r\nDerived entropy is truncated to `{byte_length}` and encoded as a codex32 string.\r\n\r\nUpdated this PR to implement generating a single deterministic codex32 secret (seed) per BIP85 `{index}` as mentioned above.\r\n\r\nWallets may make up to `k` calls to the BIP85 `{93}` app to produce an initial set, using the `identifier` from the codex32 secret output for the `k-1` codex32 share(s) call(s).\r\n\r\nThis separation simplifies review, supports custom `identifier` on shares and allows resharing existing master seeds if `identifier` is changed.\r\n\r\nTo maximize future HRP enum capacity, the header is concatenated into an integer.\r\n\r\nThe complete codex32 application protocol is in the new BIP85 text. ",
+      "body": "> Protocol designs can go in this thread.\r\n\r\nEach app should define a function to take parameters and derived entropy, truncate as needed (or seed a DNRG) and format it.\r\n\r\n>Each application SHOULD use up to the required number of bits necessary for their operation, and truncate the rest. \r\n\r\n```python\r\ndef entropy_to_output(entropy, parameters):\r\n    # Logic to produce output based on provided entropy and parameters\r\n    return formatted_output\r\n```\r\nDerivation paths have a semantic application number, end with an `/{index}'` to produce unique secrets. If there is a length quantity for the output that **SHOULD** precede `{index}` in the derivation path.\r\n\r\nMany applications also need to define a function to generate the BIP85 derivation path based on their parameters.\r\n\r\n```python\r\ndef parameters_to_path(parameters, index):\r\n    # Logic to produce the BIP85 derivation path\r\n    return bip85_derivation_path\r\n```\r\n\r\nI updated this PR to generate single codex32 strings per BIP85 `{index}`.",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
@@ -1934,9 +1934,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-11-11T23:08:49Z",
-      "updated_at": "2025-11-11T23:08:49Z",
+      "updated_at": "2025-11-12T02:17:02Z",
       "author_association": "NONE",
-      "body": "> What I imagined BIP85 application should looks like after reading BIP93:\r\n> \r\n>     1. way to generate secret share `s` from BIP-32 root seed (so that you can load other wallets with derived entropy). Something like this: m/83696968'/93'/{b93_index mapped to int -> `s` in this case}'/{byte_length}'/{index}'\r\n> \r\n>     2. way to generate any non-secret share from BIP32 root seed. This, as per rationale, would allow users to generate 2nd (and only 2nd) share deterministically via BIP85, and not via RNG. All other shares should be derived according to BIP93 via interpolation. m/83696968'/93'/{b93_index mapped to int -> `not s` in this case}'/{byte_length}'/{index}'\r\n> \r\n> \r\n> ** maybe even threshold should be part of the BIP32 derivation path, BUT I think not as it has no effect to the actual secret generated (it only affects checksum)\r\n\r\nAfter Heavy thinking, I concur the best solution is to generate single codex32 strings in a manner very similar to @scgbckbone proposed.\r\n\r\nSo I have rewritten the BIP text to match this design, it is a fraction of the original's length so that's another win.\r\n\r\nI look forward to updated feedback and will be re-writing the reference implementation in the coming weeks.\r\n\r\nThe use-case that sold me on single share outputs was:\r\n\r\n> I have two trusted friends Alice and Bob. I want a master seed I can recover by asking Alice and Bob for derived shares but that neither one knows (unless they collude). So Alice derives and gives me a threshold=2 share A with identifier \"help\", and Bob derives and gives me a threshold=2 share C with identifier \"help\" and I can recover the secret MS12HELPS..., and derive other shares such as \"M\", \"Y\", etc that will allow me to recover my seed without Alice or Bob. But even if I lose every share, I can still recover from Alice and Bob in the same manner as my seed was created.\r\n\r\nBy limiting the shares to the first threshold indicies and including the identifier in share entropy derivation, it avoids the issue of there being multiple seeds recoverable at a given threshold and identifier, at least from a single bip85 root key.",
+      "body": "> What I imagined BIP85 application should looks like after reading BIP93:\r\n> \r\n>     1. way to generate secret share `s` from BIP-32 root seed (so that you can load other wallets with derived entropy). Something like this: m/83696968'/93'/{b93_index mapped to int -> `s` in this case}'/{byte_length}'/{index}'\r\n> \r\n>     2. way to generate any non-secret share from BIP32 root seed. This, as per rationale, would allow users to generate 2nd (and only 2nd) share deterministically via BIP85, and not via RNG. All other shares should be derived according to BIP93 via interpolation. m/83696968'/93'/{b93_index mapped to int -> `not s` in this case}'/{byte_length}'/{index}'\r\n> \r\n> \r\n> ** maybe even threshold should be part of the BIP32 derivation path, BUT I think not as it has no effect to the actual secret generated (it only affects checksum)\r\n\r\nAfter Heavy thinking, I concur the best solution is to generate single codex32 strings in a manner very similar to what @scgbckbone proposed.\r\n\r\nI have rewritten the BIP text to match this design, it is a fraction of the original's length so that's another win.\r\n\r\nI look forward to updated feedback and will be re-writing the reference implementation in the coming weeks.\r\n\r\nThe use-case that sold me on single share outputs was:\r\n\r\n> I have two trusted friends Alice and Bob. I want a master seed neither friend knows (unless they collude) that I can recover by asking Alice and Bob for derived shares. So Alice derives my threshold=2 share A with identifier \"help\", and Bob derives my threshold=2 share C with identifier \"help\" and I can recover the secret MS12HELPS..., and derive other shares such as \"M\", \"Y\", etc that will allow me to recover my seed without Alice or Bob. But even if I lose every share, I can still recover in the same manner as my seed was created.\r\n\r\nBy limiting the shares to the first threshold indicies and including the identifier in share entropy derivation, it avoids the issue of there being multiple seeds recoverable at a given threshold and identifier, at least from a single bip85 root key.",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
