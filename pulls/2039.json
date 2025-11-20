@@ -43,7 +43,7 @@
     "body": "This BIP adds a length limit for new scriptPubKeys in transactions at or above the activation height.\r\n\r\nhttps://github.com/bitcoin/bips/pull/2017 (\"Reduced Data Temporary Softfork\") includes a similar mechanism among many other, more complex, and, in my opinion, more risky changes. It would be valuable to consider a scriptPubKey length limit in isolation. This BIP would be a permanent change, and the same limit would apply to OP_RETURN and non-OP_RETURN outputs.\r\n\r\nThank you in advance for your feedback.\r\n",
     "labels": [],
     "created_at": "2025-11-19T16:47:12Z",
-    "updated_at": "2025-11-20T02:23:47Z",
+    "updated_at": "2025-11-20T11:51:48Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -307,7 +307,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 4,
+    "review_comments": 7,
     "comments": 2
   },
   "events": [
@@ -756,6 +756,168 @@
       "start_side": null,
       "line": 24,
       "original_line": 24,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2545658112",
+      "pull_request_review_id": 3487346541,
+      "id": 2545658112,
+      "node_id": "PRRC_kwDOAN28mc6Xu6kA",
+      "diff_hunk": "@@ -0,0 +1,89 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Consensus ScriptPubKey Length Limit\n+  Author: billymcbip@proton.me\n+  Status: Draft\n+  Type: Specification\n+  License: MIT\n+  Version: 1.0.0\n+</pre>\n+\n+==Abstract==\n+\n+Limit the size of new ScriptPubKeys at the consensus level (including OP_RETURN outputs).\n+\n+==Specification==\n+\n+Transactions in blocks at or above the activation height (''tbd'') cannot include outputs with ScriptPubKeys that are longer than 260 bytes.\n+\n+==Motivation==\n+\n+Bitcoin is money. Transactions embedding arbitrary data compete with financial transactions for block space, and many node operators clearly do not want to process, relay or store arbitrary data.\n+\n+The motivation of this BIP is to reduce the amount of arbitrary data that can be embedded in transactions and in the UTXO set.",
+      "path": "bip-????.mediawiki",
+      "position": 24,
+      "original_position": 24,
+      "commit_id": "676d78fdd8aac0de9d4397fb43564fe5d29f9abe",
+      "original_commit_id": "676d78fdd8aac0de9d4397fb43564fe5d29f9abe",
+      "in_reply_to_id": 2544130304,
+      "user": {
+        "login": "billymcbip",
+        "id": 245003547,
+        "node_id": "U_kgDODpp1Gw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/245003547?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/billymcbip",
+        "html_url": "https://github.com/billymcbip",
+        "followers_url": "https://api.github.com/users/billymcbip/followers",
+        "following_url": "https://api.github.com/users/billymcbip/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/billymcbip/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/billymcbip/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/billymcbip/subscriptions",
+        "organizations_url": "https://api.github.com/users/billymcbip/orgs",
+        "repos_url": "https://api.github.com/users/billymcbip/repos",
+        "events_url": "https://api.github.com/users/billymcbip/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/billymcbip/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "@portlandhodl I mostly agree - the effect is marginal. I think the ROI of this BIP is attractive because it can be implemented in very few LOC that are easy to reason about.\r\n\r\nNit: It might make more sense to split data into `.size()/255 + .size()%255 ? 1 : 0` chunks to avoid having to use `OP_PUSHDATA2` (2 length bytes).\r\n\r\n> There is a reduction in the total usable space for arbitrary data by 5.625% with 9 bytes of overhead against 160 bytes of payload.\r\n\r\nNot following you here. I think the overhead is 14 bytes per chunk:\r\n- value: 8 bytes\r\n- scriptSize: 3 bytes\r\n- in-script overhead: 3 bytes (OP_RETURN, OP_PUSHDATA1, 0xff)",
+      "created_at": "2025-11-20T11:37:41Z",
+      "updated_at": "2025-11-20T11:37:42Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2039#discussion_r2545658112",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2545658112"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2039"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 24,
+      "original_line": 24,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2545701666",
+      "pull_request_review_id": 3487400836,
+      "id": 2545701666,
+      "node_id": "PRRC_kwDOAN28mc6XvFMi",
+      "diff_hunk": "@@ -0,0 +1,89 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Consensus ScriptPubKey Length Limit\n+  Author: billymcbip@proton.me\n+  Status: Draft\n+  Type: Specification\n+  License: MIT\n+  Version: 1.0.0\n+</pre>\n+\n+==Abstract==\n+\n+Limit the size of new ScriptPubKeys at the consensus level (including OP_RETURN outputs).\n+\n+==Specification==\n+\n+Transactions in blocks at or above the activation height (''tbd'') cannot include outputs with ScriptPubKeys that are longer than 260 bytes.\n+\n+==Motivation==\n+\n+Bitcoin is money. Transactions embedding arbitrary data compete with financial transactions for block space, and many node operators clearly do not want to process, relay or store arbitrary data.\n+\n+The motivation of this BIP is to reduce the amount of arbitrary data that can be embedded in transactions and in the UTXO set.\n+\n+A system with N independent bits of freedom can carry at most N bits of information. Limiting the length of ScriptPubKeys reduces independent bits of freedom within a block. More non-arbitrary bytes would have to wrap arbitrary bytes embedded in ScriptPubKeys.\n+\n+==Rationale==\n+\n+'''Why limit OP_RETURN at all? Why not block OP_RETURN completely?'''\n+\n+It is impossible to completely prevent arbitrary data in blocks. Therefore, it makes sense to continue offering a less harmful way to embed data, i.e. OP_RETURN.\n+\n+However, OP_RETURN should only be ''marginally'' more attractive for data embedding than methods leading to arbitrary data in the UTXO set.\n+\n+'''Why 260 bytes?'''\n+\n+The length of ScriptPubKeys for all standard outputs is well below 260 bytes:\n+* P2PKH: 25 bytes\n+* P2SH: 23 bytes\n+* P2WPKH: 22 bytes\n+* P2WSH: 34 bytes\n+* P2TR: 34 bytes\n+\n+Even x-of-3 bare multisig scriptPubKeys are smaller than 260 bytes.\n+\n+A 260 byte limit allows 256 bytes of data in OP_RETURN outputs:",
+      "path": "bip-????.mediawiki",
+      "position": 47,
+      "original_position": 47,
+      "commit_id": "676d78fdd8aac0de9d4397fb43564fe5d29f9abe",
+      "original_commit_id": "676d78fdd8aac0de9d4397fb43564fe5d29f9abe",
+      "in_reply_to_id": 2544119492,
+      "user": {
+        "login": "billymcbip",
+        "id": 245003547,
+        "node_id": "U_kgDODpp1Gw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/245003547?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/billymcbip",
+        "html_url": "https://github.com/billymcbip",
+        "followers_url": "https://api.github.com/users/billymcbip/followers",
+        "following_url": "https://api.github.com/users/billymcbip/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/billymcbip/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/billymcbip/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/billymcbip/subscriptions",
+        "organizations_url": "https://api.github.com/users/billymcbip/orgs",
+        "repos_url": "https://api.github.com/users/billymcbip/repos",
+        "events_url": "https://api.github.com/users/billymcbip/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/billymcbip/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Correct, but a ~11 byte overhead per chunk would remain (see my other comment).",
+      "created_at": "2025-11-20T11:48:55Z",
+      "updated_at": "2025-11-20T11:48:55Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2039#discussion_r2545701666",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2545701666"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2039"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 47,
+      "original_line": 47,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2545713897",
+      "pull_request_review_id": 3487414863,
+      "id": 2545713897,
+      "node_id": "PRRC_kwDOAN28mc6XvILp",
+      "diff_hunk": "@@ -0,0 +1,89 @@\n+<pre>\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Consensus ScriptPubKey Length Limit\n+  Author: billymcbip@proton.me\n+  Status: Draft\n+  Type: Specification\n+  License: MIT\n+  Version: 1.0.0\n+</pre>\n+\n+==Abstract==\n+\n+Limit the size of new ScriptPubKeys at the consensus level (including OP_RETURN outputs).\n+\n+==Specification==\n+\n+Transactions in blocks at or above the activation height (''tbd'') cannot include outputs with ScriptPubKeys that are longer than 260 bytes.\n+\n+==Motivation==\n+\n+Bitcoin is money. Transactions embedding arbitrary data compete with financial transactions for block space, and many node operators clearly do not want to process, relay or store arbitrary data.\n+\n+The motivation of this BIP is to reduce the amount of arbitrary data that can be embedded in transactions and in the UTXO set.\n+\n+A system with N independent bits of freedom can carry at most N bits of information. Limiting the length of ScriptPubKeys reduces independent bits of freedom within a block. More non-arbitrary bytes would have to wrap arbitrary bytes embedded in ScriptPubKeys.\n+\n+==Rationale==\n+\n+'''Why limit OP_RETURN at all? Why not block OP_RETURN completely?'''\n+\n+It is impossible to completely prevent arbitrary data in blocks. Therefore, it makes sense to continue offering a less harmful way to embed data, i.e. OP_RETURN.\n+\n+However, OP_RETURN should only be ''marginally'' more attractive for data embedding than methods leading to arbitrary data in the UTXO set.\n+\n+'''Why 260 bytes?'''\n+\n+The length of ScriptPubKeys for all standard outputs is well below 260 bytes:\n+* P2PKH: 25 bytes\n+* P2SH: 23 bytes\n+* P2WPKH: 22 bytes\n+* P2WSH: 34 bytes\n+* P2TR: 34 bytes\n+\n+Even x-of-3 bare multisig scriptPubKeys are smaller than 260 bytes.",
+      "path": "bip-????.mediawiki",
+      "position": 45,
+      "original_position": 45,
+      "commit_id": "676d78fdd8aac0de9d4397fb43564fe5d29f9abe",
+      "original_commit_id": "676d78fdd8aac0de9d4397fb43564fe5d29f9abe",
+      "in_reply_to_id": 2544082546,
+      "user": {
+        "login": "billymcbip",
+        "id": 245003547,
+        "node_id": "U_kgDODpp1Gw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/245003547?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/billymcbip",
+        "html_url": "https://github.com/billymcbip",
+        "followers_url": "https://api.github.com/users/billymcbip/followers",
+        "following_url": "https://api.github.com/users/billymcbip/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/billymcbip/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/billymcbip/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/billymcbip/subscriptions",
+        "organizations_url": "https://api.github.com/users/billymcbip/orgs",
+        "repos_url": "https://api.github.com/users/billymcbip/repos",
+        "events_url": "https://api.github.com/users/billymcbip/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/billymcbip/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Yes, I know. The reason I added that is because `IsStandard` includes x-of-3 bare multisigs (as you have indicated in your other comment). My point is that the rule would not affect any standard spendable outputs.",
+      "created_at": "2025-11-20T11:51:48Z",
+      "updated_at": "2025-11-20T11:51:48Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2039#discussion_r2545713897",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2545713897"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2039"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 45,
+      "original_line": 45,
       "side": "RIGHT"
     }
   ]
