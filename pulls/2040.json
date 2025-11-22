@@ -41,9 +41,27 @@
       "patch_url": null
     },
     "body": "**Summary of Changes:**\r\nDescribe codex32 format for arbitrary human-readable parts not just \"ms\", specify master seed encoding standard, add new test vectors and enhance readability. This makes the document more like BIP-0173: proposing an encoding \"codex32\", then defining a standard for something using it.\r\n\r\nSee discussion on https://github.com/bitcoin/bips/pull/2023#issuecomment-3538570493.\r\n\r\n**Spec:**\r\n- fixed the threshold mistake in the abstract\r\n- replaced \"master seed\" with \"secret\", prior to the \"Master seed format\" section and made descriptions hrp general\r\n- updated the checksum reference code to produce valid checksums for any `hrp`\r\n- change _t_ to _k_ to match the test vectors and book\r\n- defined \"ms\" codex32 secrets:\r\n  - using terms \"secret seed\" (as the book does) and \"codex32-encoded master seed\" to refer to \"ms\" codex32 secrets\r\n  - recommended using first 4 characters of the bech32-encoded fingerprint as the identifier\r\n  - recommended the padding bits be set with a CRC code for extra error detection. Provided reference code for this checksum.\r\n\r\n**Test Vectors:**\r\n\r\n- Fixed the cornucopia of naming conventions in the Test vectors \r\n  - used mostly \"secret seed\", \"codex32 secret\", and \"codex32-encoded X\".\r\n- Fixed test vector 5 which did not actually append a long checksum to \"random\" data as the text said it would.\r\n- Added vector 6 encoding a \"cl\" prefix codex32-encoded HSM secret, then relabels the identifier (producing a new checksum and codex32-encoded HSM secret)\r\n- Added vector 7 which parses a \"cl\" prefix codex32 secret and decodes the HSM secret\r\n- Clarified why invalid prefix test vectors were bad (their checksum is for \"ms\" but their prefix is not \"ms\")\r\n- We might want to add one that uses \"cl\" with the old \"ms\" checksum code as that will now fail with the updated `ms32_verify_checksum` function\r\n\r\n",
-    "labels": [],
+    "labels": [
+      {
+        "id": 275846070,
+        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
+        "name": "Proposed BIP modification",
+        "color": "5319e7",
+        "default": false
+      },
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
+      }
+    ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-22T06:48:32Z",
+    "updated_at": "2025-11-22T15:17:02Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -275,8 +293,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5824,
-        "stargazers_count": 10373,
-        "watchers_count": 10373,
+        "stargazers_count": 10375,
+        "watchers_count": 10375,
         "size": 16756,
         "default_branch": "master",
         "open_issues_count": 68,
@@ -292,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2025-11-20T20:10:54Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-22T04:27:57Z",
+        "updated_at": "2025-11-22T10:14:10Z",
         "allow_forking": true
       }
     },
@@ -390,6 +408,76 @@
         "date": "2025-11-22T06:42:45Z"
       },
       "sha": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617"
+    },
+    {
+      "event": "labeled",
+      "id": 21115636144,
+      "node_id": "LE_lADOAN28mc7ZzDLFzwAAAATqlwmw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/21115636144",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-11-22T15:17:02Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 21115636149,
+      "node_id": "LE_lADOAN28mc7ZzDLFzwAAAATqlwm1",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/21115636149",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-11-22T15:17:02Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
     }
   ],
   "comments": []
