@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-25T18:54:09Z",
+    "updated_at": "2025-11-25T20:49:19Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "deletions": 68,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 26,
+    "review_comments": 29,
     "comments": 0
   },
   "events": [
@@ -2035,6 +2035,168 @@
       "start_side": null,
       "line": 140,
       "original_line": 140,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2561347116",
+      "pull_request_review_id": 3506741192,
+      "id": 2561347116,
+      "node_id": "PRRC_kwDOAN28mc6Yqw4s",
+      "diff_hunk": "@@ -59,32 +58,41 @@ However, BIP-0039 has no error-correcting ability, cannot sensibly be extended t\n \n ==Specification==\n \n+We first describe the general checksummed base32<ref>'''Why use base32 at all?''' The lack of mixed case makes it more\n+efficient to read out loud, write, type or to put into QR codes.</ref> format called\n+''codex32'' and then define the BIP-0032 master seed encoding using it.\n+\n ===codex32===\n \n A codex32 string is similar to a bech32 string defined in [https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki BIP-0173].\n It reuses the base-32 character set from BIP-0173, and consists of:\n-\n-* A human-readable part, which is the string \"ms\" (or \"MS\").\n-* A separator, which is always \"1\".\n+* A human-readable part, which is intended to convey the type of data, or anything else that is relevant to the reader. This part MUST contain 1 to 83 US-ASCII characters, with each character having a value in the range [33-126]. HRP validity may be further restricted by specific applications.\n+* A separator, which is always \"1\". In case \"1\" is allowed inside the human-readable part, the last one in the string is the separator<ref>'''Why include a separator in codex32 strings?''' That way the human-readable\n+part is unambiguously separated from the data part, avoiding potential\n+collisions with other human-readable parts that share a prefix. It also\n+allows us to avoid having character-set restrictions on the human-readable part.</ref>.\n * A data part which is in turn subdivided into:\n ** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n *** If the threshold parameter is \"0\" then the share index, defined below, MUST have a value of \"s\" (or \"S\").\n ** An identifier consisting of 4 bech32 characters.\n ** A share index, which is any bech32 character. Note that a share index value of \"s\" (or \"S\") is special and denotes the unshared secret (see section \"Unshared Secret\").\n-** A payload which is a sequence of up to 74 bech32 characters. (However, see '''Long codex32 Strings''' below for an exception to this limit.)\n+** A payload which is a sequence of up to 74 bech32 characters. (However, see '''Long codex32''' below for an exception to this limit.)\n ** A checksum which consists of 13 bech32 characters as described below.\n \n As with bech32 strings, a codex32 string MUST be entirely uppercase or entirely lowercase.\n For presentation, lowercase is usually preferable, but uppercase SHOULD be used for handwritten codex32 strings.\n If a codex32 string is encoded in a QR code, it SHOULD use the uppercase form, as this is encoded more compactly.\n+The lowercase form is used when determining a character's value for checksum purposes.",
+      "path": "bip-0093.mediawiki",
+      "position": 48,
+      "original_position": 48,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557146292,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "\"When constructing or verifying a checksum, the human-readable part MUST be interpreted in lowercase, as specified in BIP-0173.\"",
+      "created_at": "2025-11-25T20:41:53Z",
+      "updated_at": "2025-11-25T20:41:53Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2561347116",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2561347116"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 85,
+      "original_line": 85,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2561357060",
+      "pull_request_review_id": 3506752779,
+      "id": 2561357060,
+      "node_id": "PRRC_kwDOAN28mc6YqzUE",
+      "diff_hunk": "@@ -481,10 +548,49 @@ The payload contains 103 bech32 characters, which corresponds to 515 bits. The l\n \n This is an example of a '''Long codex32 String'''.\n \n-* Secret share with index <code>S</code>: <code>MS100C8VSM32ZXFGUHPCHTLUPZRY9X8GF2TVDW0S3JN54KHCE6MUA7LQPZYGSFJD6AN074RXVCEMLH8WU3TK925ACDEFGHJKLMNPQRSTUVWXY06FHPV80UNDVARHRAK</code>\n-* Master secret (hex): <code>dc5423251cb87175ff8110c8531d0952d8d73e1194e95b5f19d6f9df7c01111104c9baecdfea8cccc677fb9ddc8aec5553b86e528bcadfdcc201c17c638c47e9</code>\n+unchecksummed string (bech32): <code>MS10C8VSM32ZXFGUHPCHTLUPZRY9X8GF2TVDW0S3JN54KHCE6MUA7LQPZYGSFJD6AN074RXVCEMLH8WU3TK925ACDEFGHJKLMNPQRSTUVWXY06F</code>",
+      "path": "bip-0093.mediawiki",
+      "position": 379,
+      "original_position": 379,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557171793,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Would you rather just change V5 text to match master's vectors?\n\nFrom:\n> This example shows generating a new 512-bit master seed using \"random\" codex32 characters and appending a checksum.\n\nTo:\n\nThis example shows the long codex32 format, when used without splitting the secret into any shares.",
+      "created_at": "2025-11-25T20:46:08Z",
+      "updated_at": "2025-11-25T20:46:09Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2561357060",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2561357060"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 551,
+      "original_line": 551,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2561364297",
+      "pull_request_review_id": 3506761147,
+      "id": 2561364297,
+      "node_id": "PRRC_kwDOAN28mc6Yq1FJ",
+      "diff_hunk": "@@ -402,29 +469,29 @@ Master secret (hex): <code>318c6318c6318c6318c6318c6318c631</code>\n \n ===Test vector 2===\n \n-This example shows generating a new master seed using \"random\" codex32 shares, as well as deriving an additional codex32 share, using ''k''=2 and an identifier of <code>NAME</code>.\n+This example shows generating a new master seed using \"random\" shares, as well as deriving an additional share, using a human-readable part of <code>MS</code>, ''k''=2, and an identifier of <code>NAME</code>.\n Although codex32 strings are canonically all lowercase, it's also valid to use all uppercase.\n \n Share with index <code>A</code>: <code>MS12NAMEA320ZYXWVUTSRQPNMLKJHGFEDCAXRPP870HKKQRM</code>\n \n Share with index <code>C</code>: <code>MS12NAMECACDEFGHJKLMNPQRSTUVWXYZ023FTR2GDZMPY6PN</code>\n \n * Derived share with index <code>D</code>: <code>MS12NAMEDLL4F8JLH4E5VDVULDLFXU2JHDNLSM97XVENRXEG</code>\n-* Secret share with index <code>S</code>: <code>MS12NAMES6XQGUZTTXKEQNJSJZV4JV3NZ5K3KWGSPHUH6EVW</code>\n-* Master secret (hex): <code>d1808e096b35b209ca12132b264662a5</code>\n+* Recovered secret seed with index <code>S</code>: <code>MS12NAMES6XQGUZTTXKEQNJSJZV4JV3NZ5K3KWGSPHUH6EVW</code>\n+* Master seed (hex): <code>d1808e096b35b209ca12132b264662a5</code>\n * master node xprv: <code>xprv9s21ZrQH143K2NkobdHxXeyFDqE44nJYvzLFtsriatJNWMNKznGoGgW5UMTL4fyWtajnMYb5gEc2CgaKhmsKeskoi9eTimpRv2N11THhPTU</code>\n \n Note that per BIP-0173, the lowercase form is used when determining a character's value for checksum purposes.",
+      "path": "bip-0093.mediawiki",
+      "position": 338,
+      "original_position": 338,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2560995482,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I removed it and added wording like this to the end of the codex32 Spec section.",
+      "created_at": "2025-11-25T20:49:19Z",
+      "updated_at": "2025-11-25T20:49:19Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2561364297",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2561364297"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 484,
+      "original_line": 484,
       "side": "RIGHT"
     }
   ]
