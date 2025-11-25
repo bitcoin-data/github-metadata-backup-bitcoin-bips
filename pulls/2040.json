@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-25T06:19:02Z",
+    "updated_at": "2025-11-25T16:53:18Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -293,8 +293,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5828,
-        "stargazers_count": 10379,
-        "watchers_count": 10379,
+        "stargazers_count": 10380,
+        "watchers_count": 10380,
         "size": 16756,
         "default_branch": "master",
         "open_issues_count": 70,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2025-11-20T20:10:54Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-24T22:10:45Z",
+        "updated_at": "2025-11-25T15:49:33Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 68,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 12,
+    "review_comments": 17,
     "comments": 0
   },
   "events": [
@@ -1203,6 +1203,276 @@
       "start_side": null,
       "line": 334,
       "original_line": 334,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2560673322",
+      "pull_request_review_id": 3505931854,
+      "id": 2560673322,
+      "node_id": "PRRC_kwDOAN28mc6YoMYq",
+      "diff_hunk": "@@ -97,29 +105,42 @@ def ms32_polymod(values):\n         0x1739640bdeee3fdad,\n         0x07729a039cfc75f5a,\n     ]\n-    residue = 0x23181b3\n+    residue = 1\n     for v in values:\n         b = (residue >> 60)\n         residue = (residue & 0x0fffffffffffffff) << 5 ^ v\n         for i in range(5):\n             residue ^= GEN[i] if ((b >> i) & 1) else 0\n     return residue\n \n-def ms32_verify_checksum(data):\n+def bech32_hrp_expand(s):\n+  return [ord(x) >> 5 for x in s] + [0] + [ord(x) & 31 for x in s]\n+\n+def ms32_verify_checksum(hrp, data):\n     if len(data) >= 96:                      # See Long codex32 Strings\n-        return ms32_verify_long_checksum(data)\n+        return ms32_verify_long_checksum(bech32_hrp_expand(hrp) + data)\n     if len(data) <= 93:\n-        return ms32_polymod(data) == MS32_CONST\n+        return ms32_polymod(bech32_hrp_expand(hrp) + data) == MS32_CONST\n     return False\n \n-def ms32_create_checksum(data):\n+def ms32_create_checksum(hrp, data):\n+    values = bech32_hrp_expand(hrp) + data\n     if len(data) > 80:                       # See Long codex32 Strings\n-        return ms32_create_long_checksum(data)\n-    values = data\n+        return ms32_create_long_checksum(values)\n     polymod = ms32_polymod(values + [0] * 13) ^ MS32_CONST\n     return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\n </source>\n \n+This implements a [https://en.wikipedia.org/wiki/BCH_code BCH code] that\n+guarantees detection of '''any error affecting at most 8 characters'''\n+and has less than a 3 in 10<sup>19</sup> chance of failing to detect more\n+errors. The human-readable part is processed by first\n+feeding the higher bits of each character's US-ASCII value into the\n+checksum calculation followed by a zero and then the lower bits of each<ref>'''Why are the high bits of the human-readable part processed first?'''\n+This results in the actually checksummed data being ''[high hrp] 0 [low hrp] [data]''. This means that under the assumption that errors to the",
+      "path": "bip-0093.mediawiki",
+      "position": 107,
+      "original_position": 107,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557120796,
+      "user": {
+        "login": "roconnor",
+        "id": 852967,
+        "node_id": "MDQ6VXNlcjg1Mjk2Nw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/852967?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/roconnor",
+        "html_url": "https://github.com/roconnor",
+        "followers_url": "https://api.github.com/users/roconnor/followers",
+        "following_url": "https://api.github.com/users/roconnor/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/roconnor/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/roconnor/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/roconnor/subscriptions",
+        "organizations_url": "https://api.github.com/users/roconnor/orgs",
+        "repos_url": "https://api.github.com/users/roconnor/repos",
+        "events_url": "https://api.github.com/users/roconnor/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/roconnor/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This text was certainly the design goal of BIP-173, but we are not using their checksum, and we haven't realized this part of their design in codex32 in part because our 13 character checksum unfortunately works only on relatively short strings.\r\n\r\nInstead we process this HRP in this way because that is what BIP-173 does, and we still want the HRP to change the residue to catch random errors, so me might as well do it in the standard way.\r\n\r\n> Unless covering the HRP exceeds the max length at HD=9, 2 subsitutions in the HRP will always be detected by every format.\r\n\r\nThe problem is that our particular 13 character checksum's max length for its error detection and correction properties is limited to 93 bech32 characters.  That's why our payload is limited to 74 characters add in 13 character checksum and 6 characters for the header and we get 93 bech32 characters, with nothing left over to detect or correct errors in the HRP.  Yes, in cases where the payload is 72 characters or less, our error correction / detection properties extend to the low 5 bits of the ascii characters of a 2 character prefix, but that doesn't apply to 73 or 74 character payloads.\r\n\r\nI don't know if we really want to get into these subtleties.  I'm not even sure correcting and detecting errors in the HRP is useful to begin.  If you are a hardware wallet expecting a master seed and someone gives you a \"cl\" codex32 string, you don't need a fancy error correction algorithm to detect the \"cl\" prefix is wrong; if it is a expecting a master seed then the \"cl\" prefix must be wrong.",
+      "created_at": "2025-11-25T16:35:00Z",
+      "updated_at": "2025-11-25T16:35:00Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2560673322",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2560673322"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 140,
+      "original_line": 140,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2560684327",
+      "pull_request_review_id": 3505944357,
+      "id": 2560684327,
+      "node_id": "PRRC_kwDOAN28mc6YoPEn",
+      "diff_hunk": "@@ -59,32 +58,41 @@ However, BIP-0039 has no error-correcting ability, cannot sensibly be extended t\n \n ==Specification==\n \n+We first describe the general checksummed base32<ref>'''Why use base32 at all?''' The lack of mixed case makes it more\n+efficient to read out loud, write, type or to put into QR codes.</ref> format called\n+''codex32'' and then define the BIP-0032 master seed encoding using it.\n+\n ===codex32===\n \n A codex32 string is similar to a bech32 string defined in [https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki BIP-0173].\n It reuses the base-32 character set from BIP-0173, and consists of:\n-\n-* A human-readable part, which is the string \"ms\" (or \"MS\").\n-* A separator, which is always \"1\".\n+* A human-readable part, which is intended to convey the type of data, or anything else that is relevant to the reader. This part MUST contain 1 to 83 US-ASCII characters, with each character having a value in the range [33-126]. HRP validity may be further restricted by specific applications.\n+* A separator, which is always \"1\". In case \"1\" is allowed inside the human-readable part, the last one in the string is the separator<ref>'''Why include a separator in codex32 strings?''' That way the human-readable\n+part is unambiguously separated from the data part, avoiding potential\n+collisions with other human-readable parts that share a prefix. It also\n+allows us to avoid having character-set restrictions on the human-readable part.</ref>.\n * A data part which is in turn subdivided into:\n ** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n *** If the threshold parameter is \"0\" then the share index, defined below, MUST have a value of \"s\" (or \"S\").\n ** An identifier consisting of 4 bech32 characters.\n ** A share index, which is any bech32 character. Note that a share index value of \"s\" (or \"S\") is special and denotes the unshared secret (see section \"Unshared Secret\").\n-** A payload which is a sequence of up to 74 bech32 characters. (However, see '''Long codex32 Strings''' below for an exception to this limit.)\n+** A payload which is a sequence of up to 74 bech32 characters. (However, see '''Long codex32''' below for an exception to this limit.)\n ** A checksum which consists of 13 bech32 characters as described below.\n \n As with bech32 strings, a codex32 string MUST be entirely uppercase or entirely lowercase.\n For presentation, lowercase is usually preferable, but uppercase SHOULD be used for handwritten codex32 strings.\n If a codex32 string is encoded in a QR code, it SHOULD use the uppercase form, as this is encoded more compactly.\n+The lowercase form is used when determining a character's value for checksum purposes.",
+      "path": "bip-0093.mediawiki",
+      "position": 48,
+      "original_position": 48,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557146292,
+      "user": {
+        "login": "roconnor",
+        "id": 852967,
+        "node_id": "MDQ6VXNlcjg1Mjk2Nw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/852967?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/roconnor",
+        "html_url": "https://github.com/roconnor",
+        "followers_url": "https://api.github.com/users/roconnor/followers",
+        "following_url": "https://api.github.com/users/roconnor/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/roconnor/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/roconnor/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/roconnor/subscriptions",
+        "organizations_url": "https://api.github.com/users/roconnor/orgs",
+        "repos_url": "https://api.github.com/users/roconnor/repos",
+        "events_url": "https://api.github.com/users/roconnor/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/roconnor/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I guess we should reword this to make it more clear that the relevance is for the HRP.",
+      "created_at": "2025-11-25T16:38:15Z",
+      "updated_at": "2025-11-25T16:38:15Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2560684327",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2560684327"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 85,
+      "original_line": 85,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2560692274",
+      "pull_request_review_id": 3505953733,
+      "id": 2560692274,
+      "node_id": "PRRC_kwDOAN28mc6YoRAy",
+      "diff_hunk": "@@ -481,10 +548,49 @@ The payload contains 103 bech32 characters, which corresponds to 515 bits. The l\n \n This is an example of a '''Long codex32 String'''.\n \n-* Secret share with index <code>S</code>: <code>MS100C8VSM32ZXFGUHPCHTLUPZRY9X8GF2TVDW0S3JN54KHCE6MUA7LQPZYGSFJD6AN074RXVCEMLH8WU3TK925ACDEFGHJKLMNPQRSTUVWXY06FHPV80UNDVARHRAK</code>\n-* Master secret (hex): <code>dc5423251cb87175ff8110c8531d0952d8d73e1194e95b5f19d6f9df7c01111104c9baecdfea8cccc677fb9ddc8aec5553b86e528bcadfdcc201c17c638c47e9</code>\n+unchecksummed string (bech32): <code>MS10C8VSM32ZXFGUHPCHTLUPZRY9X8GF2TVDW0S3JN54KHCE6MUA7LQPZYGSFJD6AN074RXVCEMLH8WU3TK925ACDEFGHJKLMNPQRSTUVWXY06F</code>",
+      "path": "bip-0093.mediawiki",
+      "position": 379,
+      "original_position": 379,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557171793,
+      "user": {
+        "login": "roconnor",
+        "id": 852967,
+        "node_id": "MDQ6VXNlcjg1Mjk2Nw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/852967?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/roconnor",
+        "html_url": "https://github.com/roconnor",
+        "followers_url": "https://api.github.com/users/roconnor/followers",
+        "following_url": "https://api.github.com/users/roconnor/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/roconnor/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/roconnor/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/roconnor/subscriptions",
+        "organizations_url": "https://api.github.com/users/roconnor/orgs",
+        "repos_url": "https://api.github.com/users/roconnor/repos",
+        "events_url": "https://api.github.com/users/roconnor/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/roconnor/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "That would be better.",
+      "created_at": "2025-11-25T16:40:45Z",
+      "updated_at": "2025-11-25T16:40:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2560692274",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2560692274"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 551,
+      "original_line": 551,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2560697846",
+      "pull_request_review_id": 3505961549,
+      "id": 2560697846,
+      "node_id": "PRRC_kwDOAN28mc6YoSX2",
+      "diff_hunk": "@@ -294,11 +316,56 @@ A long codex32 string follows the same specification as a regular codex32 string\n \n A codex32 string with a data part of 94 or 95 characters is never legal as a regular codex32 string is limited to 93 data characters and a long codex32 string is at least 96 characters.\n \n-Generation of long shares and recovery of the master seed from long shares proceeds in exactly the same way as for regular shares with the <code>ms32_interpolate</code> function.\n+Generation of long shares and recovery of the long secret from long shares proceeds in exactly the same way as for regular shares with the <code>ms32_interpolate</code> function.\n \n The long checksum is designed to be an error correcting code that can correct up to 4 character substitutions, up to 8 unreadable characters (called erasures), or up to 15 consecutive erasures.\n As with regular checksums we do not specify how an implementation should implement error correction, and all our recommendations for error correction of regular codex32 strings also apply to long codex32 strings.\n \n+===Master seed format===\n+\n+When the human-readable part of a valid codex32 secret (converted to lowercase) is the string \"ms\", we call it a codex32-encoded master seed or secret seed. The payload in this case is a direct encoding of a BIP-0032 HD master seed.\n+\n+A secret seed is a codex32 encoding of:\n+\n+* The human-readable part \"ms\" for master seed.\n+* The data-part values:\n+** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n+** An identifier consisting of 4 bech32 characters.\n+*** We recommend the first 4 characters of the bech32-encoded BIP-0032 key fingerprint.\n+** The share index, which is \"s\".\n+** A conversion of the 16-to-64-byte BIP-0032 HD master seed to bech32:\n+*** Start with the bits of the master seed, most significant bit per byte first.\n+*** Re-arrange those bits into groups of 5, and pad with arbitrary bits at the end if needed.\n+*** Translate those bits to characters using the bech32 character table from BIP-0173.\n+\n+When padding bits are needed they should be generated using CRC polynomial <code>(1 << pad_len) | 3</code> with an initial value of <code>0</code> and appended to the master seed bits. Note that unlike the codex32 checksums, we do NOT include the header data.",
+      "path": "bip-0093.mediawiki",
+      "position": 279,
+      "original_position": 279,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557141517,
+      "user": {
+        "login": "roconnor",
+        "id": 852967,
+        "node_id": "MDQ6VXNlcjg1Mjk2Nw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/852967?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/roconnor",
+        "html_url": "https://github.com/roconnor",
+        "followers_url": "https://api.github.com/users/roconnor/followers",
+        "following_url": "https://api.github.com/users/roconnor/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/roconnor/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/roconnor/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/roconnor/subscriptions",
+        "organizations_url": "https://api.github.com/users/roconnor/orgs",
+        "repos_url": "https://api.github.com/users/roconnor/repos",
+        "events_url": "https://api.github.com/users/roconnor/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/roconnor/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I'd still rather this be in a separate PR and in a separate section on recommendations for determinisitic generation. ",
+      "created_at": "2025-11-25T16:42:28Z",
+      "updated_at": "2025-11-25T16:42:28Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2560697846",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2560697846"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 341,
+      "original_line": 341,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2560739047",
+      "pull_request_review_id": 3506008594,
+      "id": 2560739047,
+      "node_id": "PRRC_kwDOAN28mc6Yocbn",
+      "diff_hunk": "@@ -294,11 +316,56 @@ A long codex32 string follows the same specification as a regular codex32 string\n \n A codex32 string with a data part of 94 or 95 characters is never legal as a regular codex32 string is limited to 93 data characters and a long codex32 string is at least 96 characters.\n \n-Generation of long shares and recovery of the master seed from long shares proceeds in exactly the same way as for regular shares with the <code>ms32_interpolate</code> function.\n+Generation of long shares and recovery of the long secret from long shares proceeds in exactly the same way as for regular shares with the <code>ms32_interpolate</code> function.\n \n The long checksum is designed to be an error correcting code that can correct up to 4 character substitutions, up to 8 unreadable characters (called erasures), or up to 15 consecutive erasures.\n As with regular checksums we do not specify how an implementation should implement error correction, and all our recommendations for error correction of regular codex32 strings also apply to long codex32 strings.\n \n+===Master seed format===\n+\n+When the human-readable part of a valid codex32 secret (converted to lowercase) is the string \"ms\", we call it a codex32-encoded master seed or secret seed. The payload in this case is a direct encoding of a BIP-0032 HD master seed.\n+\n+A secret seed is a codex32 encoding of:\n+\n+* The human-readable part \"ms\" for master seed.\n+* The data-part values:\n+** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n+** An identifier consisting of 4 bech32 characters.\n+*** We recommend the first 4 characters of the bech32-encoded BIP-0032 key fingerprint.\n+** The share index, which is \"s\".\n+** A conversion of the 16-to-64-byte BIP-0032 HD master seed to bech32:\n+*** Start with the bits of the master seed, most significant bit per byte first.\n+*** Re-arrange those bits into groups of 5, and pad with arbitrary bits at the end if needed.\n+*** Translate those bits to characters using the bech32 character table from BIP-0173.\n+\n+When padding bits are needed they should be generated using CRC polynomial <code>(1 << pad_len) | 3</code> with an initial value of <code>0</code> and appended to the master seed bits. Note that unlike the codex32 checksums, we do NOT include the header data.",
+      "path": "bip-0093.mediawiki",
+      "position": 279,
+      "original_position": 279,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557141517,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Should it be a PR to this BIP93 document or to [BlockstreamResearch/codex32 wallets.md](https://github.com/BlockstreamResearch/codex32/blob/master/docs/wallets.md.)?",
+      "created_at": "2025-11-25T16:53:18Z",
+      "updated_at": "2025-11-25T16:53:18Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2560739047",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2560739047"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 341,
+      "original_line": 341,
       "side": "RIGHT"
     }
   ]
