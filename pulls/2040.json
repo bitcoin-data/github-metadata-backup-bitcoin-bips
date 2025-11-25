@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-25T04:29:21Z",
+    "updated_at": "2025-11-25T06:19:02Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "deletions": 68,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 11,
+    "review_comments": 12,
     "comments": 0
   },
   "events": [
@@ -1149,6 +1149,60 @@
       "start_side": null,
       "line": 119,
       "original_line": 119,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2558680888",
+      "pull_request_review_id": 3503422421,
+      "id": 2558680888,
+      "node_id": "PRRC_kwDOAN28mc6Ygl84",
+      "diff_hunk": "@@ -294,11 +316,56 @@ A long codex32 string follows the same specification as a regular codex32 string\n \n A codex32 string with a data part of 94 or 95 characters is never legal as a regular codex32 string is limited to 93 data characters and a long codex32 string is at least 96 characters.\n \n-Generation of long shares and recovery of the master seed from long shares proceeds in exactly the same way as for regular shares with the <code>ms32_interpolate</code> function.\n+Generation of long shares and recovery of the long secret from long shares proceeds in exactly the same way as for regular shares with the <code>ms32_interpolate</code> function.\n \n The long checksum is designed to be an error correcting code that can correct up to 4 character substitutions, up to 8 unreadable characters (called erasures), or up to 15 consecutive erasures.\n As with regular checksums we do not specify how an implementation should implement error correction, and all our recommendations for error correction of regular codex32 strings also apply to long codex32 strings.\n \n+===Master seed format===\n+\n+When the human-readable part of a valid codex32 secret (converted to lowercase) is the string \"ms\", we call it a codex32-encoded master seed or secret seed. The payload in this case is a direct encoding of a BIP-0032 HD master seed.\n+\n+A secret seed is a codex32 encoding of:\n+\n+* The human-readable part \"ms\" for master seed.\n+* The data-part values:\n+** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n+** An identifier consisting of 4 bech32 characters.\n+*** We recommend the first 4 characters of the bech32-encoded BIP-0032 key fingerprint.",
+      "path": "bip-0093.mediawiki",
+      "position": 272,
+      "original_position": 272,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557214387,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This is a good case for BIP85 derive codex32 application to avoid trusting or generating randomness for this.\n\nIf we want a default identifier for \"reshares\" too:\n\n```python\nidentifier = fingerprint(master_seed)[:2] + fingerprint(false_seed)[2:4]\n```\nWhere `false_seed` is recovered from _fresh_ initial shares (reducing `k` if needed).\n\nDuring the first generation with k fresh shares; the two slices together produce the full fingerprint. If the identifier is unspecified, recommend this default for master seeds. Or if that collides, the next higher.\n\n> Again, maybe put this recommendation into a separate PR, perhaps including more details and test vectors.\n\nAlready done here. Agreed wrt details and vectors.\n\nhttps://github.com/BenWestgate/bips/blob/a8f8e98d05a2183aba395f8f8ff479b4fb764f95/bip-0085.mediawiki#unshared-secret\n\nhttps://github.com/bitcoin/bips/pull/1958\n\nI can move this recommendation (and the padding rec) into a separate BIP93 PR pending the final BIP85 codex32 design (needs finishing touches feedback). I’ll remove it from this PR so it remains focused on typos and general HRP support.",
+      "created_at": "2025-11-25T06:19:02Z",
+      "updated_at": "2025-11-25T06:19:02Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2558680888",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2558680888"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 334,
+      "original_line": 334,
       "side": "RIGHT"
     }
   ]
