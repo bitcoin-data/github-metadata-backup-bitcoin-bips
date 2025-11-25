@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-09-07T23:40:39Z",
-    "updated_at": "2025-11-23T12:10:58Z",
+    "updated_at": "2025-11-24T20:14:26Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -292,12 +292,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5825,
-        "stargazers_count": 10376,
-        "watchers_count": 10376,
+        "forks_count": 5827,
+        "stargazers_count": 10379,
+        "watchers_count": 10379,
         "size": 16756,
         "default_branch": "master",
-        "open_issues_count": 68,
+        "open_issues_count": 70,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2025-11-20T20:10:54Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-23T11:28:29Z",
+        "updated_at": "2025-11-24T22:10:45Z",
         "allow_forking": true
       }
     },
@@ -326,7 +326,7 @@
     "changed_files": 1,
     "commits": 5,
     "review_comments": 0,
-    "comments": 12
+    "comments": 13
   },
   "events": [
     {
@@ -2177,6 +2177,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1958#issuecomment-3567885932",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1958"
+    },
+    {
+      "event": "commented",
+      "id": 3572480464,
+      "node_id": "IC_kwDOAN28mc7U77nQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3572480464",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-11-24T19:54:43Z",
+      "updated_at": "2025-11-24T20:14:26Z",
+      "author_association": "NONE",
+      "body": "> Now I think we should just have a proper index ((2**31) -1) at the end.\r\n\r\nWe have index 0 through 2**32-1 for secrets (_k_= 0, `share_idx = \"s\"`) if `id = fingerprint()` or if `id` (identifier -> int) is packed in the first derivation level with `hrp`, `k` and `share_idx`.\r\n\r\nIn codex32 and bip85, `id` and child index mean the same thing: \"unique\" outputs. So in various iterations, I've either set the child index `index = id`, or serialized them together `index = index << 20 | id` since one has 31 bits and the other 20.  From a UX perspective it's better to choose 4 bech32 characters and decode it into the child index than to chose an integer child index that produces the desired 4 character identifier.\r\n\r\nFor identifier collision resistance, `index = id` is best, followed by `index = index << 20 | id`  as the first 2^20 child indexes all have unique identifiers before it rolls over. While the fingerprint likely begins to collide (birthday problem) after ~2^10 child indexes used. But the master pubkey fingerprint is far more _useful_ for identifying what the secret is for and harder to accidentally reuse on different child secrets. That practical benefit seems to outweigh the risk of identifier reuse in the first 2**20 child indices.\r\n\r\nSince only `hrp = \"ms\"` secrets represent a BIP-0032 master seed with an associated master key pair and master pubkey fingerprint perhaps we drop the fingerprint default?  Or (my preference) use it only in the `ms10` case?\r\n\r\n> Key identifiers\r\n> \r\n> Extended keys can be identified by the Hash160 of the public key, ignoring the chain code. This corresponds exactly to the data used in traditional Bitcoin addresses.\r\n> \r\n> The first 32 bits of the identifier are called the key fingerprint.\r\n\r\n`hrp = \"cl\"` secrets are a 32-byte private key so they technically don't have a key fingerprint, and at any rate this means custom per `hrp` identifier derivation logic.\r\n\r\n> I like the idea of using master pubkey fingerprint, but is it even possible for bech32 charset where we do not have number `1`? \r\n\r\nWe can bech32-encode the 20-MSB of master pubkey fingerprint into the 4-character identifier instead of 16-bits if we mapped hex characters, which we can't since `b, 1` are missing. It's easy to convert it to hex without electronics using the BIP-0173 table.\r\n \r\n> > f\"m/83696968'/93'/{header_int}'/{byte_len}'/{index}'\"\r\n> \r\n> like this path (imo we should not use more than 5 derivation steps)\r\n\r\nAgreed, this simplifies implementations assumptions about path lengths.\r\n \r\n> that leaves us with the need to encode all the res to the header byte, which would not scale...\r\n\r\nThere are 45 `k` and `share_idx` combos so they consume 6-bits (compressed) and `id` 20-bits, leaving 2^5 `hrp` codes, 30 remaining, a narrow margin. BIP-0173 has 288 registered prefixes but codex32 will never have as many since it is for private, not public data.\r\n \r\n> as I said, I'm now more inclined to use proper BIP85 index (2**31-1) without any more data encoded in it (but unsure)\r\n\r\nHere is an example path encoding that uses the 20-LSB of the identifier parameter as the 20-LSB of the child index derivation level, and left-shifts any optional \"index\" parameter 20-bits to not mangle the identifier part.\r\n\r\n> I your encoding two-way? can you get back to header used from int ?\r\n\r\nYes.\r\n\r\n```python3\r\nCHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\r\nIDX_ORDER = sorted(CHARSET, key=lambda c: (c != 's', c.isdigit(), c))  # \"s\" then alphabetical order\r\nVALID_HRP = [\"ms\", \"cl\"]\r\n\r\ndef bip93_parameters_to_path(hrp, k, share_idx, byte_len, ident=\"\", index=0):\r\n    if k == 1 or not (0 <= k <= 9):\r\n        raise ValueError(\"Invalid threshold parameter\")\r\n    if share_idx not in IDX_ORDER[min(1, k) : k + 1]:\r\n        raise ValueError(\"Invalid share index\")\r\n    if len(ident) != 4:\r\n        raise ValueError(\"Missing unique 4-character bech32 identifier\")\r\n    if index > 2**11 - 1:\r\n        raise ValueError(\"maximum index 2047 allowed for codex32 shares\")\r\n    \r\n    header_path_int = VALID_HRP.index(hrp) * 100 + k * 10 + IDX_ORDER.index(share_idx)\r\n    for char in ident:\r\n        index = index << 5 | CHARSET.find(char)\r\n\r\n    return f\"m/83696968'/93'/{header_path_int}'/{byte_len}'/{index}'\"\r\n\r\n\r\ndef bip93_path_to_parameters(path=''):\r\n    header_int, byte_len, index = [int(segment[:-1]) for segment in path.split(\"/\")[3:]]\r\n    hrp = VALID_HRP[header_int // 100]\r\n    k = header_int // 10 % 10\r\n    share_idx = IDX_ORDER[header_int % 10]\r\n    ident = \"\".join([CHARSET[(index >> s) & 31] for s in (15, 10, 5, 0)])\r\n\r\n    return hrp, k, share_idx, byte_len, ident, index >> 20\r\n\r\n\r\n```\r\n\r\nI left out the custom rule for `hrp=\"ms\"` and `k=0` which would have defaulted the identifier to fingerprint for simplicity.\r\n\r\nHere are some test vectors:\r\n```python3\r\n\r\nassert bip93_path_to_parameters(\"m/83696968'/93'/0'/16'/0'\") == ('ms', 0, 's', 16, 'qqqq', 0)\r\nassert bip93_path_to_parameters(\"m/83696968'/93'/199'/32'/999999999'\") == ('cl', 9, 'k', 32, '4j0l', 953)\r\nassert bip93_path_to_parameters(\"m/83696968'/93'/199'/64'/2147483647'\") == ('cl', 9, 'k', 64, 'llll', 2047)\r\n\r\nassert bip93_parameters_to_path(\"ms\", 0, \"s\", 16, 'test', 0) == \"m/83696968'/93'/0'/16'/386571'\"\r\nassert bip93_parameters_to_path(\"ms\", 3, \"a\", 16, 'cash', 0) == \"m/83696968'/93'/31'/16'/816663'\"\r\nassert bip93_parameters_to_path(\"ms\", 3, \"c\", 16, 'cash', 0) == \"m/83696968'/93'/32'/16'/816663'\"\r\n\r\nassert bip93_parameters_to_path(\"ms\", 2, \"a\", 16, 'qqqq', 0) == \"m/83696968'/93'/21'/16'/0'\"\r\nassert bip93_parameters_to_path(\"ms\", 2, \"c\", 32, 'qqqp', 0) == \"m/83696968'/93'/22'/32'/1'\"\r\nassert bip93_parameters_to_path(\"ms\", 3, \"a\", 16, 'llll', 0) == \"m/83696968'/93'/31'/16'/1048575'\"\r\nassert bip93_parameters_to_path(\"ms\", 3, \"c\", 64, 'qqqq', 1) == \"m/83696968'/93'/32'/64'/1048576'\"\r\nassert bip93_parameters_to_path(\"ms\", 3, \"d\", 16, 'qqqp', 1) == \"m/83696968'/93'/33'/16'/1048577'\"\r\n\r\n```\r\nThis `header_path_int` encoding is very human-readable as 100s place is the hrp value, 10s is `k` and 1s the alphabetical order share index. The last index digit must be <= the `k` digit to be valid (our limitation discussed last week on valid share indexes to derive).\r\n\r\nIf we cram identifier into `header_int` as suggested: we lose this decimal readability AND 20-bits of hrp codes. So I am convinced the identifier needs to set the child index derivation level or, less preferably, be set by the child index value.\r\nEspecially given they have a purpose in common: a public _label_ for a _unique secret_.\r\n\r\n> Both BIP85 child indices and the codex32 identifier aim to disambiguate or label derived/encoded secrets so you can tell one master seed apart from another.\r\n\r\nThey're not the same thing but they're close enough we should handle them together for derivation purposes.",
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1958#issuecomment-3572480464",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1958"
     }
   ],
