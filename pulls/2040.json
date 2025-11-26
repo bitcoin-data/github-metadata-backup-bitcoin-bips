@@ -61,11 +61,11 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-25T23:19:16Z",
+    "updated_at": "2025-11-26T05:06:05Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "7c818b363d88d5ea134f078dbfeabb72805c570d",
+    "merge_commit_sha": "112cbf587581957a4ac3ad0a56887b0de5d31fc7",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -295,9 +295,9 @@
         "forks_count": 5828,
         "stargazers_count": 10380,
         "watchers_count": 10380,
-        "size": 18452,
+        "size": 18434,
         "default_branch": "master",
-        "open_issues_count": 71,
+        "open_issues_count": 70,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -308,9 +308,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-11-25T17:56:13Z",
+        "pushed_at": "2025-11-26T00:58:17Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-25T17:56:19Z",
+        "updated_at": "2025-11-26T00:58:22Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 89,
     "changed_files": 1,
     "commits": 3,
-    "review_comments": 39,
+    "review_comments": 40,
     "comments": 0
   },
   "events": [
@@ -2957,6 +2957,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2561887002"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 85,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2563141674",
+      "pull_request_review_id": 3508740520,
+      "id": 2563141674,
+      "node_id": "PRRC_kwDOAN28mc6YxnAq",
+      "diff_hunk": "@@ -59,32 +58,41 @@ However, BIP-0039 has no error-correcting ability, cannot sensibly be extended t\n \n ==Specification==\n \n+We first describe the general checksummed base32<ref>'''Why use base32 at all?''' The lack of mixed case makes it more\n+efficient to read out loud, write, type or to put into QR codes.</ref> format called\n+''codex32'' and then define the BIP-0032 master seed encoding using it.\n+\n ===codex32===\n \n A codex32 string is similar to a bech32 string defined in [https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki BIP-0173].\n It reuses the base-32 character set from BIP-0173, and consists of:\n-\n-* A human-readable part, which is the string \"ms\" (or \"MS\").\n-* A separator, which is always \"1\".\n+* A human-readable part, which is intended to convey the type of data, or anything else that is relevant to the reader. This part MUST contain 1 to 83 US-ASCII characters, with each character having a value in the range [33-126]. HRP validity may be further restricted by specific applications.\n+* A separator, which is always \"1\". In case \"1\" is allowed inside the human-readable part, the last one in the string is the separator<ref>'''Why include a separator in codex32 strings?''' That way the human-readable\n+part is unambiguously separated from the data part, avoiding potential\n+collisions with other human-readable parts that share a prefix. It also\n+allows us to avoid having character-set restrictions on the human-readable part.</ref>.\n * A data part which is in turn subdivided into:\n ** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n *** If the threshold parameter is \"0\" then the share index, defined below, MUST have a value of \"s\" (or \"S\").\n ** An identifier consisting of 4 bech32 characters.\n ** A share index, which is any bech32 character. Note that a share index value of \"s\" (or \"S\") is special and denotes the unshared secret (see section \"Unshared Secret\").\n-** A payload which is a sequence of up to 74 bech32 characters. (However, see '''Long codex32 Strings''' below for an exception to this limit.)\n+** A payload which is a sequence of up to 74 bech32 characters. (However, see '''Long codex32''' below for an exception to this limit.)\n ** A checksum which consists of 13 bech32 characters as described below.\n \n As with bech32 strings, a codex32 string MUST be entirely uppercase or entirely lowercase.\n For presentation, lowercase is usually preferable, but uppercase SHOULD be used for handwritten codex32 strings.\n If a codex32 string is encoded in a QR code, it SHOULD use the uppercase form, as this is encoded more compactly.\n+The lowercase form is used when determining a character's value for checksum purposes.",
+      "path": "bip-0093.mediawiki",
+      "position": 1,
+      "original_position": 48,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557146292,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "That seems to imply mutating the string when verifying a checksum.\r\n\r\nSomething BIP-93 omitted was that encoders should always emit lower-case strings.  Did we relax that requirement?\r\n\r\nCurrently I have the sentence as: \r\n\"Encoders MUST emit lowercase; decoders MUST reject mixed-case and MUST lowercase the human-readable part during checksum verification.\"\r\n\r\nAnd I am adding a section with a `codex32_encode` and `codex32_decode` definitions as I think it's easier to see these rules in code than english.\r\n\r\n> **Uppercase/lowercase**\r\n> \r\n> The lowercase form is used when determining a character's value for checksum purposes.\r\n> \r\n> Encoders MUST always output an all lowercase Bech32 string. If an uppercase version of the encoding result is desired, (e.g.- for presentation purposes, or QR code use), then an uppercasing procedure can be performed external to the encoding process.\r\n> \r\n> Decoders MUST NOT accept strings where some characters are uppercase and some are lowercase (such strings are referred to as mixed case strings).\r\n> \r\n> For presentation, lowercase is usually preferable, but inside QR codes uppercase SHOULD be used, as those permit the use of [alphanumeric mode](http://www.thonky.com/qr-code-tutorial/alphanumeric-mode-encoding), which is 45% more compact than the normal [byte mode](http://www.thonky.com/qr-code-tutorial/byte-mode-encoding).",
+      "created_at": "2025-11-26T05:06:05Z",
+      "updated_at": "2025-11-26T05:06:05Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2563141674",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2563141674"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
