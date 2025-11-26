@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-26T05:06:05Z",
+    "updated_at": "2025-11-26T09:42:57Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "deletions": 89,
     "changed_files": 1,
     "commits": 3,
-    "review_comments": 40,
+    "review_comments": 41,
     "comments": 0
   },
   "events": [
@@ -3021,6 +3021,60 @@
       "start_side": null,
       "line": null,
       "original_line": 85,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2564267959",
+      "pull_request_review_id": 3510057488,
+      "id": 2564267959,
+      "node_id": "PRRC_kwDOAN28mc6Y15-3",
+      "diff_hunk": "@@ -97,29 +105,42 @@ def ms32_polymod(values):\n         0x1739640bdeee3fdad,\n         0x07729a039cfc75f5a,\n     ]\n-    residue = 0x23181b3\n+    residue = 1\n     for v in values:\n         b = (residue >> 60)\n         residue = (residue & 0x0fffffffffffffff) << 5 ^ v\n         for i in range(5):\n             residue ^= GEN[i] if ((b >> i) & 1) else 0\n     return residue\n \n-def ms32_verify_checksum(data):\n+def bech32_hrp_expand(s):\n+  return [ord(x) >> 5 for x in s] + [0] + [ord(x) & 31 for x in s]\n+\n+def ms32_verify_checksum(hrp, data):\n     if len(data) >= 96:                      # See Long codex32 Strings\n-        return ms32_verify_long_checksum(data)\n+        return ms32_verify_long_checksum(bech32_hrp_expand(hrp) + data)\n     if len(data) <= 93:\n-        return ms32_polymod(data) == MS32_CONST\n+        return ms32_polymod(bech32_hrp_expand(hrp) + data) == MS32_CONST\n     return False\n \n-def ms32_create_checksum(data):\n+def ms32_create_checksum(hrp, data):\n+    values = bech32_hrp_expand(hrp) + data\n     if len(data) > 80:                       # See Long codex32 Strings\n-        return ms32_create_long_checksum(data)\n-    values = data\n+        return ms32_create_long_checksum(values)\n     polymod = ms32_polymod(values + [0] * 13) ^ MS32_CONST\n     return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\n </source>\n \n+This implements a [https://en.wikipedia.org/wiki/BCH_code BCH code] that\n+guarantees detection of '''any error affecting at most 8 characters'''\n+and has less than a 3 in 10<sup>19</sup> chance of failing to detect more\n+errors. The human-readable part is processed by first\n+feeding the higher bits of each character's US-ASCII value into the\n+checksum calculation followed by a zero and then the lower bits of each<ref>'''Why are the high bits of the human-readable part processed first?'''\n+This results in the actually checksummed data being ''[high hrp] 0 [low hrp] [data]''. This means that under the assumption that errors to the",
+      "path": "bip-0093.mediawiki",
+      "position": 1,
+      "original_position": 107,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557120796,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I ran the numbers here and we must further restrict HRP lengths to 72 or 74 (same maximum as the payload).  At `len(hrp) = 74` two header characters two header characters aren't checked but what does a threshold or share index even mean for a 0 byte payload?\r\n\r\nI also explicitly stated the maximum length for a codex32 string is 96.  Although perhaps at length = 96 the HRP we assume \"ms\" while the max length for all other prefixes is 94?",
+      "created_at": "2025-11-26T09:42:57Z",
+      "updated_at": "2025-11-26T09:42:57Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2564267959",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2564267959"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 140,
       "side": "RIGHT"
     }
   ]
