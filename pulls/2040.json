@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-26T09:42:57Z",
+    "updated_at": "2025-11-26T16:24:09Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -293,8 +293,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5828,
-        "stargazers_count": 10380,
-        "watchers_count": 10380,
+        "stargazers_count": 10381,
+        "watchers_count": 10381,
         "size": 18434,
         "default_branch": "master",
         "open_issues_count": 70,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2025-11-26T00:58:17Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-26T00:58:22Z",
+        "updated_at": "2025-11-26T14:22:39Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 89,
     "changed_files": 1,
     "commits": 3,
-    "review_comments": 41,
+    "review_comments": 43,
     "comments": 0
   },
   "events": [
@@ -3065,6 +3065,114 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2564267959"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 140,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2565548036",
+      "pull_request_review_id": 3511630610,
+      "id": 2565548036,
+      "node_id": "PRRC_kwDOAN28mc6Y6ygE",
+      "diff_hunk": "@@ -59,32 +58,41 @@ However, BIP-0039 has no error-correcting ability, cannot sensibly be extended t\n \n ==Specification==\n \n+We first describe the general checksummed base32<ref>'''Why use base32 at all?''' The lack of mixed case makes it more\n+efficient to read out loud, write, type or to put into QR codes.</ref> format called\n+''codex32'' and then define the BIP-0032 master seed encoding using it.\n+\n ===codex32===\n \n A codex32 string is similar to a bech32 string defined in [https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki BIP-0173].\n It reuses the base-32 character set from BIP-0173, and consists of:\n-\n-* A human-readable part, which is the string \"ms\" (or \"MS\").\n-* A separator, which is always \"1\".\n+* A human-readable part, which is intended to convey the type of data, or anything else that is relevant to the reader. This part MUST contain 1 to 83 US-ASCII characters, with each character having a value in the range [33-126]. HRP validity may be further restricted by specific applications.\n+* A separator, which is always \"1\". In case \"1\" is allowed inside the human-readable part, the last one in the string is the separator<ref>'''Why include a separator in codex32 strings?''' That way the human-readable\n+part is unambiguously separated from the data part, avoiding potential\n+collisions with other human-readable parts that share a prefix. It also\n+allows us to avoid having character-set restrictions on the human-readable part.</ref>.\n * A data part which is in turn subdivided into:\n ** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n *** If the threshold parameter is \"0\" then the share index, defined below, MUST have a value of \"s\" (or \"S\").\n ** An identifier consisting of 4 bech32 characters.\n ** A share index, which is any bech32 character. Note that a share index value of \"s\" (or \"S\") is special and denotes the unshared secret (see section \"Unshared Secret\").\n-** A payload which is a sequence of up to 74 bech32 characters. (However, see '''Long codex32 Strings''' below for an exception to this limit.)\n+** A payload which is a sequence of up to 74 bech32 characters. (However, see '''Long codex32''' below for an exception to this limit.)\n ** A checksum which consists of 13 bech32 characters as described below.\n \n As with bech32 strings, a codex32 string MUST be entirely uppercase or entirely lowercase.\n For presentation, lowercase is usually preferable, but uppercase SHOULD be used for handwritten codex32 strings.\n If a codex32 string is encoded in a QR code, it SHOULD use the uppercase form, as this is encoded more compactly.\n+The lowercase form is used when determining a character's value for checksum purposes.",
+      "path": "bip-0093.mediawiki",
+      "position": 1,
+      "original_position": 48,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557146292,
+      "user": {
+        "login": "roconnor",
+        "id": 852967,
+        "node_id": "MDQ6VXNlcjg1Mjk2Nw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/852967?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/roconnor",
+        "html_url": "https://github.com/roconnor",
+        "followers_url": "https://api.github.com/users/roconnor/followers",
+        "following_url": "https://api.github.com/users/roconnor/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/roconnor/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/roconnor/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/roconnor/subscriptions",
+        "organizations_url": "https://api.github.com/users/roconnor/orgs",
+        "repos_url": "https://api.github.com/users/roconnor/repos",
+        "events_url": "https://api.github.com/users/roconnor/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/roconnor/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "As far as I'm concerned both all lowercase and all uppercase strings are valid, so encoders can produce either format with lowercase is generally preferred.  I'm not really sure what BIP-173 thinks it is achieving by talking about encoders being somewhat different from a post-processing step.  Maybe they are just trying to say that when creating a checksum, of course, a lowercase HRP must be used. \r\n\r\n> That seems to imply mutating the string when verifying a checksum.\r\n\r\nThis is exactly what the BIP-173 reference python decoder does:\r\n\r\nhttps://github.com/sipa/bech32/blob/master/ref/python/segwit_addr.py#L78\r\n\r\nHowever, \"The lowercase form is used …\" is also fine wording though.",
+      "created_at": "2025-11-26T15:52:25Z",
+      "updated_at": "2025-11-26T15:52:25Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2565548036",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2565548036"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 85,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2565654406",
+      "pull_request_review_id": 3511757121,
+      "id": 2565654406,
+      "node_id": "PRRC_kwDOAN28mc6Y7MeG",
+      "diff_hunk": "@@ -97,29 +105,42 @@ def ms32_polymod(values):\n         0x1739640bdeee3fdad,\n         0x07729a039cfc75f5a,\n     ]\n-    residue = 0x23181b3\n+    residue = 1\n     for v in values:\n         b = (residue >> 60)\n         residue = (residue & 0x0fffffffffffffff) << 5 ^ v\n         for i in range(5):\n             residue ^= GEN[i] if ((b >> i) & 1) else 0\n     return residue\n \n-def ms32_verify_checksum(data):\n+def bech32_hrp_expand(s):\n+  return [ord(x) >> 5 for x in s] + [0] + [ord(x) & 31 for x in s]\n+\n+def ms32_verify_checksum(hrp, data):\n     if len(data) >= 96:                      # See Long codex32 Strings\n-        return ms32_verify_long_checksum(data)\n+        return ms32_verify_long_checksum(bech32_hrp_expand(hrp) + data)\n     if len(data) <= 93:\n-        return ms32_polymod(data) == MS32_CONST\n+        return ms32_polymod(bech32_hrp_expand(hrp) + data) == MS32_CONST\n     return False\n \n-def ms32_create_checksum(data):\n+def ms32_create_checksum(hrp, data):\n+    values = bech32_hrp_expand(hrp) + data\n     if len(data) > 80:                       # See Long codex32 Strings\n-        return ms32_create_long_checksum(data)\n-    values = data\n+        return ms32_create_long_checksum(values)\n     polymod = ms32_polymod(values + [0] * 13) ^ MS32_CONST\n     return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\n </source>\n \n+This implements a [https://en.wikipedia.org/wiki/BCH_code BCH code] that\n+guarantees detection of '''any error affecting at most 8 characters'''\n+and has less than a 3 in 10<sup>19</sup> chance of failing to detect more\n+errors. The human-readable part is processed by first\n+feeding the higher bits of each character's US-ASCII value into the\n+checksum calculation followed by a zero and then the lower bits of each<ref>'''Why are the high bits of the human-readable part processed first?'''\n+This results in the actually checksummed data being ''[high hrp] 0 [low hrp] [data]''. This means that under the assumption that errors to the",
+      "path": "bip-0093.mediawiki",
+      "position": 1,
+      "original_position": 107,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557120796,
+      "user": {
+        "login": "roconnor",
+        "id": 852967,
+        "node_id": "MDQ6VXNlcjg1Mjk2Nw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/852967?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/roconnor",
+        "html_url": "https://github.com/roconnor",
+        "followers_url": "https://api.github.com/users/roconnor/followers",
+        "following_url": "https://api.github.com/users/roconnor/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/roconnor/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/roconnor/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/roconnor/subscriptions",
+        "organizations_url": "https://api.github.com/users/roconnor/orgs",
+        "repos_url": "https://api.github.com/users/roconnor/repos",
+        "events_url": "https://api.github.com/users/roconnor/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/roconnor/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Since we are excluding the HRP from the error-correction and detection routine, the HRP can be as long as folks want.  The HRP just adds a \"random\" factor to the checksum as a function of the HRP text and the number of characters in the data.  And by \"random\" I really mean deterministic.\r\n\r\nThe way the error correction algorithm works is that it finds locations of errors starting from the end of the string (i.e. the end of the checksum) going back as far as but no further than 93 characters.  So when the hrp-expanded segement + the data segment is longer than 93 characters, the algorithm simply fails to locate errors at any location beyond the last 93 characters.\r\n\r\nWhen the hrp-expanded segement + the data segment is longer than 93 characters the hamming distance property still holds on the last 93 characters.  That is if you only change the last 93 characters you must change at least 9 characters in order to get another valid string.",
+      "created_at": "2025-11-26T16:24:09Z",
+      "updated_at": "2025-11-26T16:24:09Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2565654406",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2565654406"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
