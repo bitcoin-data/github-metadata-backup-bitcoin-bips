@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-27T20:41:14Z",
+    "updated_at": "2025-11-27T21:30:39Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -326,7 +326,7 @@
     "changed_files": 1,
     "commits": 5,
     "review_comments": 78,
-    "comments": 8
+    "comments": 9
   },
   "events": [
     {
@@ -1832,6 +1832,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2040#issuecomment-3587130262",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2040"
+    },
+    {
+      "event": "commented",
+      "id": 3587315890,
+      "node_id": "IC_kwDOAN28mc7V0hiy",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3587315890",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-11-27T21:30:39Z",
+      "updated_at": "2025-11-27T21:30:39Z",
+      "author_association": "NONE",
+      "body": "- Can we keep BIP-0173 behavior of only guaranteeing detection in the lower 5 hrp character bits?\r\n- Does Error correction make us need to \" double count plus 1\" hrp so the upper bits are in range?\r\n- Or can we correct errors in the lower bits only, leaving the upper uncertain?\r\n\r\nThis table shows the undetectable errors, each row has 2-3 characters which cannot be distinguished since they differ only in the upper bits.\r\n<img width=\"324\" height=\"565\" alt=\"image\" src=\"https://github.com/user-attachments/assets/20ec9cdd-c65a-4b6c-aed9-9b7ef3825033\" />\r\n\r\n>[^](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#cite_ref-5-0) Why are the high bits of the human-readable part processed first? This results in the actually checksummed data being [high] 0 [low] [data]. This means that under the assumption that errors to the human readable part only change the low 5 bits (like changing an alphabetical character into another), errors are restricted to the [low] [data] part, which is at most 89 characters, and thus all error detection properties (see appendix) remain applicable.\r\n\r\nThe lack of detection on the high bits seems like it can be remedied with a statement:\r\n\r\n> valid human readable parts must all differ from one another in the lower 5 bits for all error detection properties to remain applicable.\r\n\r\nFor example the hrp \"-3\" MUST NOT be registered because it collides with \"ms\" and likewise \"#,\" MUST NOT be registered as it collides with \"cl\"\r\n\r\nThen using a valid HRP list, error correcting decoders could always correct the HRP portion like any other character.",
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#issuecomment-3587315890",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2040"
     }
   ],
