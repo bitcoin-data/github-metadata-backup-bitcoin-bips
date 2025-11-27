@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-27T17:55:28Z",
+    "updated_at": "2025-11-27T19:54:43Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -292,7 +292,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5830,
+        "forks_count": 5829,
         "stargazers_count": 10379,
         "watchers_count": 10379,
         "size": 18434,
@@ -326,7 +326,7 @@
     "changed_files": 1,
     "commits": 5,
     "review_comments": 77,
-    "comments": 7
+    "comments": 8
   },
   "events": [
     {
@@ -1774,6 +1774,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2040#issuecomment-3586929781",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2040"
+    },
+    {
+      "event": "commented",
+      "id": 3587130262,
+      "node_id": "IC_kwDOAN28mc7Vz0OW",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3587130262",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-11-27T19:45:51Z",
+      "updated_at": "2025-11-27T19:54:43Z",
+      "author_association": "NONE",
+      "body": "> > It is unsafe to child derive shares from the secret they recover. They should be independently random.\r\n> \r\n> I do not want to use randomness here, as I want to split existing secret, and I require the \"split\" to be deterministic, so that if user is splitting the exact same secret, uses same hrp, same threshold, same id, and same number of shares - application always produces the exact same shares. I could add an option to to choose, if random, or deterministic split, but deterministic is a hard requirement.\r\n\r\nThe best you could do here if you insist, is perform a KDF on the secret data to harden it before deriving child shares from that derived key. But it still reduces security from information theoretic to computational.\r\n\r\n> ...also it is 5 hardened derivation steps plus hmac_sha512\r\n\r\nStill significantly faster than address checking. The EC mult is the bottleneck for address checking is what Andrew told me.\r\n\r\n> > When part of the secret is compromised and an attacker tries to brute force the rest: the dependent relation between the secret and share A allows an attacker with k-1 shares or share A to check his guesses against this. This is far faster than checking an address.\r\n> \r\n> there are plenty other brute-force options if attacker has part of secret, I do not consider this scenario of yours to be something I should optimize for\r\n\r\nMy point is your standard should be harder to exploit than all other options or we lose security for nothing. Simply deriving child shares from an argon2id or scrypt derived key is probably enough protection.\r\n\r\n> That is why I dismissed the idea of doing testnet/mainnet differentiation as I consider my 64bytes to be the \"secret\"\r\n\r\nIt seems better to encode the recovery words and wordlist with a `bip39_12w` or `bip39_24w` human-readable part encoding standard than encode the resulting private key and chaincode bytes. A full bip32 codex32 encoding standard would be more useful than a neutered master xprv only edition.",
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#issuecomment-3587130262",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2040"
     }
   ],
@@ -5916,9 +5974,9 @@
         "name": null,
         "patch_url": null
       },
-      "body": "Below is untested code that is approximately what I'm thinking\r\n\r\n```\r\ndef bech32_hrp_expand(s):\r\n  return [ord(x) >> 5 for x in s] + [0] + [ord(x) & 31 for x in s]\r\n\r\nCODEX32_CONST = 0x10ce0795c2fd1e62a\r\n  \r\ndef codex32_polymod(residue, values):\r\n    if len(values) > 93:\r\n        return False\r\n    GEN = [\r\n        0x19dc500ce73fde210,\r\n        0x1bfae00def77fe529,\r\n        0x1fbd920fffe7bee52,\r\n        0x1739640bdeee3fdad,\r\n        0x07729a039cfc75f5a,\r\n    ]\r\n    for v in values:\r\n        b = (residue >> 60)\r\n        residue = (residue & 0x0fffffffffffffff) << 5 ^ v\r\n        for i in range(5):\r\n            residue ^= GEN[i] if ((b >> i) & 1) else 0\r\n    return residue\r\n\r\nCODEX32_LONG_CONST = 0x43381e570bf4798ab26\r\n    \r\ndef codex32_long_polymod(residue, values):\r\n    if len(values) > 1023:\r\n        return False\r\n    GEN = [\r\n        0x3d59d273535ea62d897,\r\n        0x7a9becb6361c6c51507,\r\n        0x543f9b7e6c38d8a2a0e,\r\n        0x0c577eaeccf1990d13c,\r\n        0x1887f74f8dc71b10651,\r\n    ]\r\n    for v in values:\r\n        b = (residue >> 70)\r\n        residue = (residue & 0x3fffffffffffffffff) << 5 ^ v\r\n        for i in range(5):\r\n            residue ^= GEN[i] if ((b >> i) & 1) else 0\r\n    return residue\r\n\r\ndef codex32_verify_checksum(hrp, data):\r\n    return codex32_polymod(1, bech32_hrp_expand(hrp) + data) == CODEX32_CONST\r\n    \r\ndef codex32_verify_long_checksum(hrp, data):\r\n    return codex32_long_polymod(1, bech32_hrp_expand(hrp) + data) == CODEX32_CONST\r\n\r\ndef codex32_create_checksum(hrp, data):\r\n    polymod = codex32_polymod(1, bech32_hrp_expand(hrp) + data + [0] * 13)\r\n    if polymod:\r\n        polymod = polymod ^ MS32_CONST\r\n        return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\r\n    return False\r\n\r\ndef codex32_create_long_checksum(hrp, data):\r\n    polymod = codex32_long_polymod(1, bech32_hrp_expand(hrp) + data + [0] * 15)\r\n    if polymod:\r\n        polymod = polymod ^ MS32_LONG_CONST\r\n        return [(polymod >> 5 * (14 - i)) & 31 for i in range(15)]\r\n    return False\r\n\r\ndef ms32_verify_checksum(data):\r\n    if len(data) >= 96:\r\n        return codex32_verify_long_checksum(\"ms\", data)\r\n    return codex32_polymod(codex32_polymod(1, bech32_hrp_expand(\"ms\")), data) == CODEX32_CONST\r\n\r\ndef ms32_create_checksum(data):\r\n    if len(data) > 80:\r\n        return codex32_create_long_checksum(\"ms\", data)\r\n    polymod = codex32_polymod(codex32_polymod(1, bech32_hrp_expand(\"ms\")), data + [0] * 13)\r\n    polymod = polymod ^ MS32_CONST\r\n    return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\r\n```\r\n\r\nAs you can see, I think it is up to the particular application to handle switching between the long codex32 format and the regular codex32 format.  ",
+      "body": "Below is untested code that is approximately what I'm thinking\r\n\r\n```\r\ndef bech32_hrp_expand(s):\r\n  return [ord(x) >> 5 for x in s] + [0] + [ord(x) & 31 for x in s]\r\n\r\nCODEX32_CONST = 0x10ce0795c2fd1e62a\r\n  \r\ndef codex32_polymod(residue, values):\r\n    if len(values) > 93:\r\n        return False\r\n    GEN = [\r\n        0x19dc500ce73fde210,\r\n        0x1bfae00def77fe529,\r\n        0x1fbd920fffe7bee52,\r\n        0x1739640bdeee3fdad,\r\n        0x07729a039cfc75f5a,\r\n    ]\r\n    for v in values:\r\n        b = (residue >> 60)\r\n        residue = (residue & 0x0fffffffffffffff) << 5 ^ v\r\n        for i in range(5):\r\n            residue ^= GEN[i] if ((b >> i) & 1) else 0\r\n    return residue\r\n\r\nCODEX32_LONG_CONST = 0x43381e570bf4798ab26\r\n    \r\ndef codex32_long_polymod(residue, values):\r\n    if len(values) > 1023:\r\n        return False\r\n    GEN = [\r\n        0x3d59d273535ea62d897,\r\n        0x7a9becb6361c6c51507,\r\n        0x543f9b7e6c38d8a2a0e,\r\n        0x0c577eaeccf1990d13c,\r\n        0x1887f74f8dc71b10651,\r\n    ]\r\n    for v in values:\r\n        b = (residue >> 70)\r\n        residue = (residue & 0x3fffffffffffffffff) << 5 ^ v\r\n        for i in range(5):\r\n            residue ^= GEN[i] if ((b >> i) & 1) else 0\r\n    return residue\r\n\r\ndef codex32_verify_checksum(hrp, data):\r\n    return codex32_polymod(1, bech32_hrp_expand(hrp) + data) == CODEX32_CONST\r\n    \r\ndef codex32_verify_long_checksum(hrp, data):\r\n    return codex32_long_polymod(1, bech32_hrp_expand(hrp) + data) == CODEX32_LONG_CONST\r\n\r\ndef codex32_create_checksum(hrp, data):\r\n    polymod = codex32_polymod(1, bech32_hrp_expand(hrp) + data + [0] * 13)\r\n    if polymod:\r\n        polymod = polymod ^ MS32_CONST\r\n        return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\r\n    return False\r\n\r\ndef codex32_create_long_checksum(hrp, data):\r\n    polymod = codex32_long_polymod(1, bech32_hrp_expand(hrp) + data + [0] * 15)\r\n    if polymod:\r\n        polymod = polymod ^ MS32_LONG_CONST\r\n        return [(polymod >> 5 * (14 - i)) & 31 for i in range(15)]\r\n    return False\r\n\r\ndef ms32_verify_checksum(data):\r\n    if len(data) >= 96:\r\n        return codex32_verify_long_checksum(\"ms\", data)\r\n    return codex32_polymod(codex32_polymod(1, bech32_hrp_expand(\"ms\")), data) == CODEX32_CONST\r\n\r\ndef ms32_create_checksum(data):\r\n    if len(data) > 80:\r\n        return codex32_create_long_checksum(\"ms\", data)\r\n    polymod = codex32_polymod(codex32_polymod(1, bech32_hrp_expand(\"ms\")), data + [0] * 13)\r\n    polymod = polymod ^ CODEX32_CONST\r\n    return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\r\n```\r\n\r\nAs you can see, I think it is up to the particular application to handle switching between the long codex32 format and the regular codex32 format.  ",
       "created_at": "2025-11-27T17:55:27Z",
-      "updated_at": "2025-11-27T17:59:07Z",
+      "updated_at": "2025-11-27T18:04:53Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2569665206",
       "author_association": "NONE",
       "_links": {
