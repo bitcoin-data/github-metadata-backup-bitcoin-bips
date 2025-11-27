@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-27T19:54:43Z",
+    "updated_at": "2025-11-27T20:41:14Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "deletions": 95,
     "changed_files": 1,
     "commits": 5,
-    "review_comments": 77,
+    "review_comments": 78,
     "comments": 8
   },
   "events": [
@@ -5982,6 +5982,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2569665206"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": 119,
+      "original_start_line": 119,
+      "start_side": "RIGHT",
+      "line": 124,
+      "original_line": 124,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2569931236",
+      "pull_request_review_id": 3516870732,
+      "id": 2569931236,
+      "node_id": "PRRC_kwDOAN28mc6ZLgnk",
+      "diff_hunk": "@@ -59,67 +59,83 @@ However, BIP-0039 has no error-correcting ability, cannot sensibly be extended t\n \n ==Specification==\n \n+We first describe the general checksummed base32<ref>'''Why use base32 at all?''' The lack of mixed case makes it more\n+efficient to read out loud, write, type or to put into QR codes.</ref> format called\n+''codex32'' and then define a BIP-0032 master seed encoding using it.\n+\n ===codex32===\n \n A codex32 string is similar to a bech32 string defined in [https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki BIP-0173].\n-It reuses the base-32 character set from BIP-0173, and consists of:\n-\n-* A human-readable part, which is the string \"ms\" (or \"MS\").\n-* A separator, which is always \"1\".\n-* A data part which is in turn subdivided into:\n-** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n+It reuses the base-32 character set from BIP-0173, is at most 96 characters long, and consists of:\n+* The '''human-readable part''', as specified in BIP-0173, which is further restricted by this specification to 1–74 US-ASCII characters.\n+**Strings of total length 95 or 96 MUST use the HRP \"ms\" (or \"MS\").\n+* The '''separator''', as specified in BIP-0173, which is always \"1\".\n+* The '''data part''', which is at least 19 bech32 characters long and is in turn subdivided into:\n+** The '''threshold parameter''', which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n *** If the threshold parameter is \"0\" then the share index, defined below, MUST have a value of \"s\" (or \"S\").\n-** An identifier consisting of 4 bech32 characters.\n-** A share index, which is any bech32 character. Note that a share index value of \"s\" (or \"S\") is special and denotes the unshared secret (see section \"Unshared Secret\").\n-** A payload which is a sequence of up to 74 bech32 characters. (However, see '''Long codex32 Strings''' below for an exception to this limit.)\n-** A checksum which consists of 13 bech32 characters as described below.\n+** The '''identifier''', which consists of 4 bech32 characters.\n+** The '''share index''', which is any bech32 character.\n+***Note that a share index value of \"s\" (or \"S\") is special and denotes the unshared secret (see section \"Unshared Secret\").\n+** The '''payload''', which is a sequence of 0 to 74 bech32 characters. (However, see '''Long codex32''' below for an exception to this limit.)\n+** The '''checksum''', which consists of 13 bech32 characters as described below.\n \n As with bech32 strings, a codex32 string MUST be entirely uppercase or entirely lowercase.\n+Decoders MUST use the lowercase form of the human-readable part during checksum verification.\n For presentation, lowercase is usually preferable, but uppercase SHOULD be used for handwritten codex32 strings.\n If a codex32 string is encoded in a QR code, it SHOULD use the uppercase form, as this is encoded more compactly.\n \n ===Checksum===\n \n The last thirteen characters of the data part form a checksum and contain no information.\n Valid strings MUST pass the criteria for validity specified by the Python 3 code snippet below.\n-The function <code>ms32_verify_checksum</code> must return true when its argument is the data part as a list of integers representing the characters converted using the bech32 character table from BIP-0173.\n+The function <code>codex32_verify_checksum</code> must return true when its arguments are:\n+* <tt>hrp</tt>: the human-readable part as a string\n+* <tt>data</tt>: the data part as a list of integers representing the characters converted using the bech32 character table from BIP-0173\n \n-To construct a valid checksum given the data-part characters (excluding the checksum), the <code>ms32_create_checksum</code> function can be used.\n+To construct a valid checksum given the human-readable part and data-part characters (excluding the checksum), the <code>codex32_create_checksum</code> function can be used.\n \n <source lang=\"python\">\n-MS32_CONST = 0x10ce0795c2fd1e62a\n+CODEX32_CONST = 0x10ce0795c2fd1e62a\n \n-def ms32_polymod(values):\n+def codex32_polymod(values):\n     GEN = [\n         0x19dc500ce73fde210,\n         0x1bfae00def77fe529,\n         0x1fbd920fffe7bee52,\n         0x1739640bdeee3fdad,\n         0x07729a039cfc75f5a,\n     ]\n-    residue = 0x23181b3\n+    residue = 1\n     for v in values:\n         b = (residue >> 60)\n         residue = (residue & 0x0fffffffffffffff) << 5 ^ v\n         for i in range(5):\n             residue ^= GEN[i] if ((b >> i) & 1) else 0\n     return residue\n \n-def ms32_verify_checksum(data):\n+def bech32_hrp_expand(s):\n+  return [ord(x) >> 5 for x in s] + [0] + [ord(x) & 31 for x in s]\n+\n+def codex32_verify_checksum(hrp, data):\n     if len(data) >= 96:                      # See Long codex32 Strings\n-        return ms32_verify_long_checksum(data)\n+        return codex32_verify_long_checksum(bech32_hrp_expand(hrp) + data)\n     if len(data) <= 93:\n-        return ms32_polymod(data) == MS32_CONST\n+        return codex32_polymod(bech32_hrp_expand(hrp) + data) == CODEX32_CONST\n     return False",
+      "path": "bip-0093.mediawiki",
+      "position": 101,
+      "original_position": 101,
+      "commit_id": "3123cead1d0d92edbc9e3e89814bd57ee1d1467d",
+      "original_commit_id": "3123cead1d0d92edbc9e3e89814bd57ee1d1467d",
+      "in_reply_to_id": 2567413699,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "We can't assume \"ms\" to know which checksum to verify.\r\n\r\nIf there's an `hrp` substitution error, we need to know which checksum is being used to detect/correct it, but if which checksum depends on which `hrp` application, instead of just codex32 string length, then we're stuck.\r\n\r\nThat made our length 96 exception a bug, as how can a decoder know this rule applies if it can't detect the integrity of what determines its applicability?\r\n\r\nWe also should keep BIP-0173's decision to error detect guarantee only the lower 5 bits of HRP characters.  As the swaps that produce an upper bit change only are very unlikely.\r\n\r\nThis also lets us say short codex32 for up to string length 94 and long codex for 98 and longer and be done with it.  And avoid weirdness where long codex could be a shorter string than short codex due to hrp double counting.",
+      "created_at": "2025-11-27T20:41:13Z",
+      "updated_at": "2025-11-27T20:42:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2569931236",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2569931236"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
