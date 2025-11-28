@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-27T22:41:29Z",
+    "updated_at": "2025-11-27T23:58:33Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "deletions": 95,
     "changed_files": 1,
     "commits": 5,
-    "review_comments": 80,
+    "review_comments": 82,
     "comments": 11
   },
   "events": [
@@ -1980,9 +1980,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-11-27T22:24:39Z",
-      "updated_at": "2025-11-27T22:24:39Z",
+      "updated_at": "2025-11-27T23:58:33Z",
       "author_association": "NONE",
-      "body": "> I'm this close to throwing in the towel. BIP-93's design was never intended to be generalized to arbitrary HRP, and it shows. If people want to reuse our polynomial for their own schemes, then more power to them. They can make their own BIP.\r\n\r\nHigh bits of HRP characters were never intended to have detection guarantees. Restrict the HRP registry so they all differ in the lower bits. Now HRP can be checked and corrected (with the help of the valid HRP table) like bech32 data characters. Max length 94 for short checksum. short/long switch over is based on string length, no funny formula. Problem solved and looping debates averted.\r\n\r\nI'll rewrite the code and text if you agree with this decision.",
+      "body": "> I'm this close to throwing in the towel. BIP-93's design was never intended to be generalized to arbitrary HRP, and it shows. If people want to reuse our polynomial for their own schemes, then more power to them. They can make their own BIP.\r\n\r\nHigh bits of HRP characters were never intended to have detection guarantees. Restrict the HRP registry so they all differ in the lower bits. Now HRP can be checked like bech32 data characters. Max length 94 for short checksum. short/long switch over is by string length, no funny formula. \n\nI prefer this to restricting the length so that the expanded HRP has correction guarantees.\n\nAlthough we'll have to add to the Rationale: We guarantee detecting 8 errors affecting the data and low bits of the HRP. Our error correction guarantees apply when the HRP is valid. To guarantee correcting 2 HRP character errors or detecting 4 requires a reducing the maximum data part length by `2 * len(hrp) + 1`.\n\nThis maximizes application freedom and has simple encode/decode logic. If the app wants errors detected in its HRP then it must store less data.\r\n\r\nI'll rewrite the code and text if you agree with this decision.",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
@@ -6318,6 +6318,114 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2570060471"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 140,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2570087842",
+      "pull_request_review_id": 3517064987,
+      "id": 2570087842,
+      "node_id": "PRRC_kwDOAN28mc6ZMG2i",
+      "diff_hunk": "@@ -97,29 +105,42 @@ def ms32_polymod(values):\n         0x1739640bdeee3fdad,\n         0x07729a039cfc75f5a,\n     ]\n-    residue = 0x23181b3\n+    residue = 1\n     for v in values:\n         b = (residue >> 60)\n         residue = (residue & 0x0fffffffffffffff) << 5 ^ v\n         for i in range(5):\n             residue ^= GEN[i] if ((b >> i) & 1) else 0\n     return residue\n \n-def ms32_verify_checksum(data):\n+def bech32_hrp_expand(s):\n+  return [ord(x) >> 5 for x in s] + [0] + [ord(x) & 31 for x in s]\n+\n+def ms32_verify_checksum(hrp, data):\n     if len(data) >= 96:                      # See Long codex32 Strings\n-        return ms32_verify_long_checksum(data)\n+        return ms32_verify_long_checksum(bech32_hrp_expand(hrp) + data)\n     if len(data) <= 93:\n-        return ms32_polymod(data) == MS32_CONST\n+        return ms32_polymod(bech32_hrp_expand(hrp) + data) == MS32_CONST\n     return False\n \n-def ms32_create_checksum(data):\n+def ms32_create_checksum(hrp, data):\n+    values = bech32_hrp_expand(hrp) + data\n     if len(data) > 80:                       # See Long codex32 Strings\n-        return ms32_create_long_checksum(data)\n-    values = data\n+        return ms32_create_long_checksum(values)\n     polymod = ms32_polymod(values + [0] * 13) ^ MS32_CONST\n     return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\n </source>\n \n+This implements a [https://en.wikipedia.org/wiki/BCH_code BCH code] that\n+guarantees detection of '''any error affecting at most 8 characters'''\n+and has less than a 3 in 10<sup>19</sup> chance of failing to detect more\n+errors. The human-readable part is processed by first\n+feeding the higher bits of each character's US-ASCII value into the\n+checksum calculation followed by a zero and then the lower bits of each<ref>'''Why are the high bits of the human-readable part processed first?'''\n+This results in the actually checksummed data being ''[high hrp] 0 [low hrp] [data]''. This means that under the assumption that errors to the",
+      "path": "bip-0093.mediawiki",
+      "position": 1,
+      "original_position": 107,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557120796,
+      "user": {
+        "login": "roconnor",
+        "id": 852967,
+        "node_id": "MDQ6VXNlcjg1Mjk2Nw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/852967?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/roconnor",
+        "html_url": "https://github.com/roconnor",
+        "followers_url": "https://api.github.com/users/roconnor/followers",
+        "following_url": "https://api.github.com/users/roconnor/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/roconnor/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/roconnor/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/roconnor/subscriptions",
+        "organizations_url": "https://api.github.com/users/roconnor/orgs",
+        "repos_url": "https://api.github.com/users/roconnor/repos",
+        "events_url": "https://api.github.com/users/roconnor/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/roconnor/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "mistaking a 5 for an S in the HRP counts as two errors.",
+      "created_at": "2025-11-27T23:18:44Z",
+      "updated_at": "2025-11-27T23:18:44Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2570087842",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2570087842"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 140,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2570104655",
+      "pull_request_review_id": 3517083570,
+      "id": 2570104655,
+      "node_id": "PRRC_kwDOAN28mc6ZMK9P",
+      "diff_hunk": "@@ -97,29 +105,42 @@ def ms32_polymod(values):\n         0x1739640bdeee3fdad,\n         0x07729a039cfc75f5a,\n     ]\n-    residue = 0x23181b3\n+    residue = 1\n     for v in values:\n         b = (residue >> 60)\n         residue = (residue & 0x0fffffffffffffff) << 5 ^ v\n         for i in range(5):\n             residue ^= GEN[i] if ((b >> i) & 1) else 0\n     return residue\n \n-def ms32_verify_checksum(data):\n+def bech32_hrp_expand(s):\n+  return [ord(x) >> 5 for x in s] + [0] + [ord(x) & 31 for x in s]\n+\n+def ms32_verify_checksum(hrp, data):\n     if len(data) >= 96:                      # See Long codex32 Strings\n-        return ms32_verify_long_checksum(data)\n+        return ms32_verify_long_checksum(bech32_hrp_expand(hrp) + data)\n     if len(data) <= 93:\n-        return ms32_polymod(data) == MS32_CONST\n+        return ms32_polymod(bech32_hrp_expand(hrp) + data) == MS32_CONST\n     return False\n \n-def ms32_create_checksum(data):\n+def ms32_create_checksum(hrp, data):\n+    values = bech32_hrp_expand(hrp) + data\n     if len(data) > 80:                       # See Long codex32 Strings\n-        return ms32_create_long_checksum(data)\n-    values = data\n+        return ms32_create_long_checksum(values)\n     polymod = ms32_polymod(values + [0] * 13) ^ MS32_CONST\n     return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\n </source>\n \n+This implements a [https://en.wikipedia.org/wiki/BCH_code BCH code] that\n+guarantees detection of '''any error affecting at most 8 characters'''\n+and has less than a 3 in 10<sup>19</sup> chance of failing to detect more\n+errors. The human-readable part is processed by first\n+feeding the higher bits of each character's US-ASCII value into the\n+checksum calculation followed by a zero and then the lower bits of each<ref>'''Why are the high bits of the human-readable part processed first?'''\n+This results in the actually checksummed data being ''[high hrp] 0 [low hrp] [data]''. This means that under the assumption that errors to the",
+      "path": "bip-0093.mediawiki",
+      "position": 1,
+      "original_position": 107,
+      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
+      "in_reply_to_id": 2557120796,
+      "user": {
+        "login": "roconnor",
+        "id": 852967,
+        "node_id": "MDQ6VXNlcjg1Mjk2Nw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/852967?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/roconnor",
+        "html_url": "https://github.com/roconnor",
+        "followers_url": "https://api.github.com/users/roconnor/followers",
+        "following_url": "https://api.github.com/users/roconnor/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/roconnor/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/roconnor/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/roconnor/subscriptions",
+        "organizations_url": "https://api.github.com/users/roconnor/orgs",
+        "repos_url": "https://api.github.com/users/roconnor/repos",
+        "events_url": "https://api.github.com/users/roconnor/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/roconnor/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "BIP-0173 error detection doesn't tell you where the errors are.  In particular it doesn't tell whether the HRP is correct or not.  You need to invoke the error correction to find locations.  ",
+      "created_at": "2025-11-27T23:34:07Z",
+      "updated_at": "2025-11-27T23:34:08Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2570104655",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2570104655"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
