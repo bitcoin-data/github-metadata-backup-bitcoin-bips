@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-11-27T23:58:33Z",
+    "updated_at": "2025-11-28T00:06:59Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -1980,9 +1980,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-11-27T22:24:39Z",
-      "updated_at": "2025-11-27T23:58:33Z",
+      "updated_at": "2025-11-28T00:06:59Z",
       "author_association": "NONE",
-      "body": "> I'm this close to throwing in the towel. BIP-93's design was never intended to be generalized to arbitrary HRP, and it shows. If people want to reuse our polynomial for their own schemes, then more power to them. They can make their own BIP.\r\n\r\nHigh bits of HRP characters were never intended to have detection guarantees. Restrict the HRP registry so they all differ in the lower bits. Now HRP can be checked like bech32 data characters. Max length 94 for short checksum. short/long switch over is by string length, no funny formula. \n\nI prefer this to restricting the length so that the expanded HRP has correction guarantees.\n\nAlthough we'll have to add to the Rationale: We guarantee detecting 8 errors affecting the data and low bits of the HRP. Our error correction guarantees apply when the HRP is valid. To guarantee correcting 2 HRP character errors or detecting 4 requires a reducing the maximum data part length by `2 * len(hrp) + 1`.\n\nThis maximizes application freedom and has simple encode/decode logic. If the app wants errors detected in its HRP then it must store less data.\r\n\r\nI'll rewrite the code and text if you agree with this decision.",
+      "body": "> I'm this close to throwing in the towel. BIP-93's design was never intended to be generalized to arbitrary HRP, and it shows. If people want to reuse our polynomial for their own schemes, then more power to them. They can make their own BIP.\r\n\r\nHigh bits of HRP characters were never intended to have detection guarantees. Restrict the HRP registry so they all differ in the lower bits. Now HRP is checked like data characters. Max length 94 for short checksum. short/long switch over is by string length, no funny formula.\n\nI prefer this to restricting max length by formula to ensure the expanded HRP always has correction guarantees.\n\nRationale: We guarantee detecting 8 errors affecting the combined data and low bits of the HRP. Our error correction guarantees, on the other hand, apply only when the HRP is valid. To guarantee correcting 2 HRP character errors or detecting 4 requires a reducing the maximum data part length by `2 * len(hrp) + 1`. Specific applications may choose to restrict their data length to achieve this or not.\n\nThis maximizes application freedom and has simple encode/decode logic. If the app wants errors detected in its HRP then it must store less data.\r\n\r\nI'll rewrite the code and text if you agree with this decision.",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
