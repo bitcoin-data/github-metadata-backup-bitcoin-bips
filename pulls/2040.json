@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-12-01T05:31:54Z",
+    "updated_at": "2025-12-01T06:34:35Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "deletions": 95,
     "changed_files": 1,
     "commits": 5,
-    "review_comments": 84,
+    "review_comments": 83,
     "comments": 10
   },
   "events": [
@@ -3338,7 +3338,7 @@
       },
       "body": "Plenty of room to long codex32 encode extended keys with covered human-readable parts \"xpub\", \"xprv\", \"tprv\" and \"tpub\" someday.  They're horrible to handle and type in base58. Is this something we should think about in a separate PR?",
       "created_at": "2025-11-25T18:54:08Z",
-      "updated_at": "2025-11-25T18:54:09Z",
+      "updated_at": "2025-12-01T06:26:29Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2561073066",
       "author_association": "NONE",
       "_links": {
@@ -4094,7 +4094,7 @@
       },
       "body": "I ran the numbers here and we must further restrict HRP lengths to 72 or 74 (same maximum as the payload).  At `len(hrp) = 74` two header characters two header characters aren't checked but what does a threshold or share index even mean for a 0 byte payload?\r\n\r\nI also explicitly stated the maximum length for a codex32 string is 96.  Although perhaps at length = 96 the HRP we assume \"ms\" while the max length for all other prefixes is 94?",
       "created_at": "2025-11-26T09:42:57Z",
-      "updated_at": "2025-11-26T09:42:57Z",
+      "updated_at": "2025-12-01T06:26:59Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2564267959",
       "author_association": "NONE",
       "_links": {
@@ -4256,7 +4256,7 @@
       },
       "body": "The HRP _is_ included in the error detection routine.  That's why I've restricted the length to 94 characters if hrp != \"ms\".  In the 96 length case we assume it's \"ms\"\r\n\r\nWould you like to not have any length restriction and not promise to detect errors in the HRP?\r\n\r\nThat sounds strictly worse, since we don't have to support any length of HRP, we can restrict it to ones that do get covered by the 13 character checksum, and that is better if a lot of them proliferate and some future application needs to disambiguate two short checksums.",
       "created_at": "2025-11-26T19:03:54Z",
-      "updated_at": "2025-11-26T19:03:54Z",
+      "updated_at": "2025-12-01T06:28:45Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2566180182",
       "author_association": "NONE",
       "_links": {
@@ -4904,7 +4904,7 @@
       },
       "body": "Why don't we keep it as is: a maximum length of 96 and then say that HRP's may further restrict length. For example how \"ms\" restricts to 16-64 bytes or \"cl\" 32.\n\nBecause the two current applications do not need to disambiguate HRP's, but future ones may need to, in which case they should shorten the max length to 94 to cover HRP.",
       "created_at": "2025-11-26T21:53:54Z",
-      "updated_at": "2025-11-26T21:53:54Z",
+      "updated_at": "2025-12-01T06:31:16Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2566578378",
       "author_association": "NONE",
       "_links": {
@@ -5066,7 +5066,7 @@
       },
       "body": "Speaking of those multi-hrp applications, my reviewer on the bip85 codex app is working on one such application (BIP32 encodings) https://github.com/bitcoin/bips/pull/1958#issuecomment-3581306205",
       "created_at": "2025-11-26T22:25:29Z",
-      "updated_at": "2025-11-26T22:25:29Z",
+      "updated_at": "2025-12-01T06:33:21Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2566632749",
       "author_association": "NONE",
       "_links": {
@@ -5234,60 +5234,6 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2566724945"
-        },
-        "pull_request": {
-          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
-        }
-      },
-      "start_line": null,
-      "original_start_line": null,
-      "start_side": null,
-      "line": null,
-      "original_line": 140,
-      "side": "RIGHT"
-    },
-    {
-      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2566728839",
-      "pull_request_review_id": 3513039442,
-      "id": 2566728839,
-      "node_id": "PRRC_kwDOAN28mc6Y_SyH",
-      "diff_hunk": "@@ -97,29 +105,42 @@ def ms32_polymod(values):\n         0x1739640bdeee3fdad,\n         0x07729a039cfc75f5a,\n     ]\n-    residue = 0x23181b3\n+    residue = 1\n     for v in values:\n         b = (residue >> 60)\n         residue = (residue & 0x0fffffffffffffff) << 5 ^ v\n         for i in range(5):\n             residue ^= GEN[i] if ((b >> i) & 1) else 0\n     return residue\n \n-def ms32_verify_checksum(data):\n+def bech32_hrp_expand(s):\n+  return [ord(x) >> 5 for x in s] + [0] + [ord(x) & 31 for x in s]\n+\n+def ms32_verify_checksum(hrp, data):\n     if len(data) >= 96:                      # See Long codex32 Strings\n-        return ms32_verify_long_checksum(data)\n+        return ms32_verify_long_checksum(bech32_hrp_expand(hrp) + data)\n     if len(data) <= 93:\n-        return ms32_polymod(data) == MS32_CONST\n+        return ms32_polymod(bech32_hrp_expand(hrp) + data) == MS32_CONST\n     return False\n \n-def ms32_create_checksum(data):\n+def ms32_create_checksum(hrp, data):\n+    values = bech32_hrp_expand(hrp) + data\n     if len(data) > 80:                       # See Long codex32 Strings\n-        return ms32_create_long_checksum(data)\n-    values = data\n+        return ms32_create_long_checksum(values)\n     polymod = ms32_polymod(values + [0] * 13) ^ MS32_CONST\n     return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\n </source>\n \n+This implements a [https://en.wikipedia.org/wiki/BCH_code BCH code] that\n+guarantees detection of '''any error affecting at most 8 characters'''\n+and has less than a 3 in 10<sup>19</sup> chance of failing to detect more\n+errors. The human-readable part is processed by first\n+feeding the higher bits of each character's US-ASCII value into the\n+checksum calculation followed by a zero and then the lower bits of each<ref>'''Why are the high bits of the human-readable part processed first?'''\n+This results in the actually checksummed data being ''[high hrp] 0 [low hrp] [data]''. This means that under the assumption that errors to the",
-      "path": "bip-0093.mediawiki",
-      "position": 1,
-      "original_position": 107,
-      "commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
-      "original_commit_id": "aedb912bd17c0736b21accd84c3f5ce3e0b7d617",
-      "in_reply_to_id": 2557120796,
-      "user": {
-        "login": "BenWestgate",
-        "id": 73506583,
-        "node_id": "MDQ6VXNlcjczNTA2NTgz",
-        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/BenWestgate",
-        "html_url": "https://github.com/BenWestgate",
-        "followers_url": "https://api.github.com/users/BenWestgate/followers",
-        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
-        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
-        "repos_url": "https://api.github.com/users/BenWestgate/repos",
-        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
-        "type": "User",
-        "site_admin": false,
-        "name": null,
-        "patch_url": null
-      },
-      "body": "Pinging @scgbckbone who may have some feedback from working on a BIP32 codex32 encoding application which needs several HRP (main and test net, public and private)",
-      "created_at": "2025-11-26T23:39:45Z",
-      "updated_at": "2025-11-26T23:39:45Z",
-      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2566728839",
-      "author_association": "NONE",
-      "_links": {
-        "self": {
-          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2566728839"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
@@ -5498,7 +5444,7 @@
       },
       "body": "> The situation is actually much worse than the 1/(2^65) sort.\r\n\r\nAh yes, I forgot how fragile ECC is when pushed beyond it's capacity.\r\n\r\n> \r\n> (...The point is that for the 93 character data part, mistaking the ms prefix for a cl prefix is the same as making a two character error in the checksum.)\r\n\r\nWell \"cl\" fortunately has a 32-byte length requirement (and we should probably start talking about length limits as payload bytes unless we want to support pure u5 secrets that do not need conversion to bytes) but we do need to plan for the eventual case of detecting HRP errors at the maximum 13 character checksum length.\r\n \r\n> Ugh, I'm starting to think you are right. The total length of strings must be 94 characters or less, with an exception that an ms string can be 96 characters.\r\n\r\n95 characters has an incomplete group decoding to bytes so I can remove the \"95 or\" 96.\r\n\r\n>Even a length restriction of 94 characters isn't going to be enough unless we also restrict the HRP to use only letters and disallow numbers (we could also accept underscores and perhaps a very small handful of carefully selected special ASCII characters).\r\n\r\nWhat do we need to restrict it to in order to allow every US-ASCII character?  Keeping in mind it expands to two 5 bit values but only the upper 2 bits can change so we should have better detection ability than 10 bits per character.\r\n\r\nie 5 US-ASCII characters should be similar to 7 data part characters.\r\n\r\nDoes that mean 52 US-ASCII character limit on the hrp for short codex32 strings?  That sounds fine. Although now we get a maximum length formula like strings can't exceed `(len(hrp) + 4) * 7 // 5 + len(payload) <= 74`\r\n\r\nWe also have restrictions within our own codex32 header that can be exploited to lend slightly more correction power to the human-readable part:\r\n9 out of 32 values for threshold. Threshold 0 only has 1/32 share indices.\r\n\r\nThat might get it to 53 US-ASCII, I didn't run the numbers.\r\n \r\n> And maybe (in a separate PR) we should outlaw unusual sized master seed strings too to get rid of even that \"ms\" exception if we can agree on a definition of unusual sized.\r\n\r\nI gave a very [good argument](https://github.com/BlockstreamResearch/codex32/pull/71#issuecomment-3445066181) to justify outlawing lengths besides 128, 192, 256, 512, or put another looser way, lengths not divisible by 64 bits.  Any closer has input lengths within the insert/delete correctable distance of two valid lengths and causes ambiguity.\r\n\r\nThis can be an \"ms\" specific recommendation (or requirement) I don't think every codex32 application needs to be as strict on lengths if they have a good reason to support variable length encodings. Although it would be worth recommending this 64 bit spacing to all applications in case their developers are unaware of the harm it causes insert/delete correction.\r\n\r\nThe final concern on this topic is that the maximum hrp length is really a derivative of the maximum checksummed payload length, which is 370 bits.  If we spend 70 bits on a 10 US-ASCII HRP, there's only 300 bits, 60 bech32 characters left for the secret.  or a 50 character HRP supports a payload length of 4 bech32 characters (2 bytes).\r\n\r\nThis is making me want to roll the HRP into the CRC, then we get an extra 1-4 bits of error detection on it, which in some cases will extend the permitted HRP length by 1.  OTOH for pure secret data recovery purposes, it's stronger if it just checksums the seed, although it barely matters since it can't correct any bit errors at the 128 or 256 bitlengths\r\n\r\n",
       "created_at": "2025-11-27T00:24:21Z",
-      "updated_at": "2025-11-27T00:24:21Z",
+      "updated_at": "2025-12-01T06:35:58Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2566777855",
       "author_association": "NONE",
       "_links": {
@@ -5552,7 +5498,7 @@
       },
       "body": "> Given how length constrained our 13 character checksum is, I think we should restrict the HRP character set. I'd go for \"a-z\" and special characters `@_[|]~`, but the choice of special characters is debatable (but our options are limited). However, we will have to pick some.\r\n\r\nThis is too breaking of BIP-0173 spec, just allow the entire range and accept a shorter string.  If an application needs a super long HRP then either we don't allow it (83 maximum in BIP-0173, although must be lower here for short codex32) or they use the long codex32 checksum which is good for 730 HRP characters.\r\n\r\nDo we want to avoid a situation where strings of the same length and different HRP may be using different checksums, or if we don't care (i don't care)  we can choose the checksum according to combined length:\r\n\r\nWe pack the `bech32_hrp_expand(hrp) + data` and then use that to determine `checksum_len`, that would eliminate our HRP length requirement being smaller than BIP-0173's, do you agree with this solution?\r\n\r\nI'm sure there's some \"hrp insert/delete\" correction assumption nightmares for error correcting decoders but applications that need to disambiguate SHOULD at least make all the HRP's they must consider the same length to avoid this mess.\r\n\r\nI'm also fine with treating each HRP character as two bech32 characters for maximum length purposes, even though we can probably do better than that (even using `bech32_hrp_expand()`) due to each character only being a 7-bit value.",
       "created_at": "2025-11-27T00:32:58Z",
-      "updated_at": "2025-11-27T00:35:09Z",
+      "updated_at": "2025-12-01T06:37:28Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2566787113",
       "author_association": "NONE",
       "_links": {
@@ -5606,7 +5552,7 @@
       },
       "body": "> Okay I guess the total length of a string + the length of the hrp (.i.e. double counting the hrp) must be less than or equal to 93 should be the rule for using the 13 character checksum.\r\n\r\nI like this.  Can we do better than double counting the HRP since each US-ASCII is 7- not 10 bits?  Or will our detection guarantees begin to break down (not able to correct any 2 HRP substitutions or detect any 4 HRP errors if its length exceed 37s, with an empty data part)?\r\n\r\nI guess the pure 7-bit character translation of our guarantees is: correct any 2 hrp errors, detect any 5 errors, 9 if contiguous for short codex32 (10 if contiguous on long codex32)\r\n\r\nCan we achieve this property simply?  We should if we can.",
       "created_at": "2025-11-27T00:41:02Z",
-      "updated_at": "2025-11-27T00:41:02Z",
+      "updated_at": "2025-12-01T06:37:44Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2566795329",
       "author_association": "NONE",
       "_links": {
