@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-12-01T04:03:10Z",
+    "updated_at": "2025-12-01T05:31:54Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "deletions": 95,
     "changed_files": 1,
     "commits": 5,
-    "review_comments": 85,
+    "review_comments": 84,
     "comments": 10
   },
   "events": [
@@ -1949,44 +1949,6 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2040#issuecomment-3587393796",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2040"
-    },
-    {
-      "event": "reviewed",
-      "id": 3523071189,
-      "node_id": "PRR_kwDOAN28mc7R_czV",
-      "url": null,
-      "actor": null,
-      "commit_id": "3123cead1d0d92edbc9e3e89814bd57ee1d1467d",
-      "commit_url": null,
-      "created_at": null,
-      "updated_at": "2025-12-01T04:03:10Z",
-      "author_association": "NONE",
-      "user": {
-        "login": "BenWestgate",
-        "id": 73506583,
-        "node_id": "MDQ6VXNlcjczNTA2NTgz",
-        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/BenWestgate",
-        "html_url": "https://github.com/BenWestgate",
-        "followers_url": "https://api.github.com/users/BenWestgate/followers",
-        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
-        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
-        "repos_url": "https://api.github.com/users/BenWestgate/repos",
-        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
-        "type": "User",
-        "site_admin": false,
-        "name": null,
-        "patch_url": null
-      },
-      "html_url": "https://github.com/bitcoin/bips/pull/2040#pullrequestreview-3523071189",
-      "submitted_at": "2025-12-01T04:03:10Z",
-      "state": "COMMENTED",
-      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
     }
   ],
   "comments": [
@@ -5806,7 +5768,7 @@
       },
       "body": "Likewise, this needs to become:\n\n```python3\ndef codex32_create_checksum(hrp, data):\n    values = bech32_hrp_expand(hrp) + data\n    if len(values) > 80:                       # See Long codex32 Strings\n        return codex32_create_long_checksum(values)\n    polymod = codex32_polymod(values + [0] * 13) ^ CODEX32_CONST",
       "created_at": "2025-11-27T07:21:37Z",
-      "updated_at": "2025-11-27T07:21:37Z",
+      "updated_at": "2025-12-01T05:27:06Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2567420813",
       "author_association": "NONE",
       "_links": {
@@ -6454,7 +6416,7 @@
       },
       "body": "This needs the \"ms\" exception unless we're calling it deprecated, so new encodings will use the long checksum at \"ms\" and len(payload) >= 69",
       "created_at": "2025-11-30T17:17:02Z",
-      "updated_at": "2025-11-30T17:17:02Z",
+      "updated_at": "2025-12-01T05:23:58Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2574265172",
       "author_association": "NONE",
       "_links": {
@@ -6470,60 +6432,6 @@
       "start_side": null,
       "line": 128,
       "original_line": 128,
-      "side": "RIGHT"
-    },
-    {
-      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2575546961",
-      "pull_request_review_id": 3523071189,
-      "id": 2575546961,
-      "node_id": "PRRC_kwDOAN28mc6Zg7pR",
-      "diff_hunk": "@@ -59,67 +59,83 @@ However, BIP-0039 has no error-correcting ability, cannot sensibly be extended t\n \n ==Specification==\n \n+We first describe the general checksummed base32<ref>'''Why use base32 at all?''' The lack of mixed case makes it more\n+efficient to read out loud, write, type or to put into QR codes.</ref> format called\n+''codex32'' and then define a BIP-0032 master seed encoding using it.\n+\n ===codex32===\n \n A codex32 string is similar to a bech32 string defined in [https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki BIP-0173].\n-It reuses the base-32 character set from BIP-0173, and consists of:\n-\n-* A human-readable part, which is the string \"ms\" (or \"MS\").\n-* A separator, which is always \"1\".\n-* A data part which is in turn subdivided into:\n-** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n+It reuses the base-32 character set from BIP-0173, is at most 96 characters long, and consists of:\n+* The '''human-readable part''', as specified in BIP-0173, which is further restricted by this specification to 1–74 US-ASCII characters.\n+**Strings of total length 95 or 96 MUST use the HRP \"ms\" (or \"MS\").\n+* The '''separator''', as specified in BIP-0173, which is always \"1\".\n+* The '''data part''', which is at least 19 bech32 characters long and is in turn subdivided into:\n+** The '''threshold parameter''', which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n *** If the threshold parameter is \"0\" then the share index, defined below, MUST have a value of \"s\" (or \"S\").\n-** An identifier consisting of 4 bech32 characters.\n-** A share index, which is any bech32 character. Note that a share index value of \"s\" (or \"S\") is special and denotes the unshared secret (see section \"Unshared Secret\").\n-** A payload which is a sequence of up to 74 bech32 characters. (However, see '''Long codex32 Strings''' below for an exception to this limit.)\n-** A checksum which consists of 13 bech32 characters as described below.\n+** The '''identifier''', which consists of 4 bech32 characters.\n+** The '''share index''', which is any bech32 character.\n+***Note that a share index value of \"s\" (or \"S\") is special and denotes the unshared secret (see section \"Unshared Secret\").\n+** The '''payload''', which is a sequence of 0 to 74 bech32 characters. (However, see '''Long codex32''' below for an exception to this limit.)",
-      "path": "bip-0093.mediawiki",
-      "position": 48,
-      "original_position": 48,
-      "commit_id": "3123cead1d0d92edbc9e3e89814bd57ee1d1467d",
-      "original_commit_id": "3123cead1d0d92edbc9e3e89814bd57ee1d1467d",
-      "in_reply_to_id": null,
-      "user": {
-        "login": "BenWestgate",
-        "id": 73506583,
-        "node_id": "MDQ6VXNlcjczNTA2NTgz",
-        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/BenWestgate",
-        "html_url": "https://github.com/BenWestgate",
-        "followers_url": "https://api.github.com/users/BenWestgate/followers",
-        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
-        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
-        "repos_url": "https://api.github.com/users/BenWestgate/repos",
-        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
-        "type": "User",
-        "site_admin": false,
-        "name": null,
-        "patch_url": null
-      },
-      "body": "```suggestion\n** The '''payload''', which is a sequence of 0 to 71 bech32 characters. (However, see '''Long codex32''' below for an exception to this limit.)\n```\nSince the shortest HRP is 1 and we guarantee to be able to correct it, 71 is the maximum payload length.",
-      "created_at": "2025-12-01T04:03:10Z",
-      "updated_at": "2025-12-01T04:03:10Z",
-      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2575546961",
-      "author_association": "NONE",
-      "_links": {
-        "self": {
-          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2575546961"
-        },
-        "pull_request": {
-          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
-        }
-      },
-      "start_line": null,
-      "original_start_line": null,
-      "start_side": null,
-      "line": 79,
-      "original_line": 79,
       "side": "RIGHT"
     }
   ]
