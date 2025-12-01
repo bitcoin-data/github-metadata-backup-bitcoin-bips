@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2025-10-21T12:56:29Z",
-    "updated_at": "2025-11-25T23:19:31Z",
+    "updated_at": "2025-12-01T04:48:57Z",
     "closed_at": "2025-11-25T17:56:13Z",
     "mergeable_state": "unknown",
     "merged": true,
@@ -185,7 +185,7 @@
         "forks_count": 0,
         "stargazers_count": 1,
         "watchers_count": 1,
-        "size": 18480,
+        "size": 18461,
         "default_branch": "master",
         "open_issues_count": 1,
         "is_template": false,
@@ -304,10 +304,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5828,
-        "stargazers_count": 10380,
-        "watchers_count": 10380,
-        "size": 18452,
+        "forks_count": 5829,
+        "stargazers_count": 10391,
+        "watchers_count": 10391,
+        "size": 18434,
         "default_branch": "master",
         "open_issues_count": 71,
         "is_template": false,
@@ -320,9 +320,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-11-25T17:56:13Z",
+        "pushed_at": "2025-11-26T00:58:17Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-25T17:56:19Z",
+        "updated_at": "2025-12-01T00:29:00Z",
         "allow_forking": true
       }
     },
@@ -337,7 +337,7 @@
     "deletions": 1,
     "changed_files": 6,
     "commits": 3,
-    "review_comments": 18,
+    "review_comments": 21,
     "comments": 4
   },
   "events": [
@@ -1995,6 +1995,168 @@
       "start_side": null,
       "line": 8,
       "original_line": 8,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2575578535",
+      "pull_request_review_id": 3523103198,
+      "id": 2575578535,
+      "node_id": "PRRC_kwDOAN28mc6ZhDWn",
+      "diff_hunk": "@@ -0,0 +1,102 @@\n+## BIP54 test vectors\n+\n+This folder contains a set of test vectors for each mitigation introduced in the BIP. This document\n+presents them in more detail.\n+\n+The code used to generate half of the test vectors is included with the implementation and available\n+[here][other-vectors]. The other half requires mining mainnet blocks and is [published\n+separately][bip54-miner]. In both cases it is implemented as a regular Bitcoin Core unit test, and\n+the test vectors are persisted as a JSON file if the `UPDATE_JSON_TESTS` preprocessor directive is\n+set (off by default).\n+\n+To compile the [header][header-miner] and [block][block-miner] miners you may have to link to\n+libatomic explicitly. This can be achieved like so:\n+```\n+cmake -B atomicbuild -DAPPEND_LDFLAGS=\"-latomic\"\n+cmake --build atomicbuild/ -j $(nproc)\n+```\n+\n+[Premined headers][premined-headers] are also provided along with the header miner to allow changing\n+some of the last headers without having to re-generate the whole chain.\n+\n+\n+### Difficulty adjustment exploits\n+\n+The [`timestamps.json`](./timestamps.json) test vectors exercise the two constraints on block header\n+timestamps introduced by BIP54 to mitigate the Timewarp and Murch-Zawy attacks. Each test case\n+features a chain of mainnet headers starting from the genesis block, and whether this header chain\n+is valid by BIP54 rules. Each test case also contains a comment describing why this particular chain\n+is (in)valid according to BIP54.  All test cases are valid according to current Bitcoin consensus\n+rules. It is intended to be used to test a BIP54 implementation by feeding the header chain to a\n+Bitcoin node implementation, enforcing the BIP54 rules on this chain from genesis.\n+\n+The test vector file features a JSON array of JSON objects, each corresponding to a test case. Each\n+JSON object features the following entries:\n+- `header_chain`: a JSON array of strings. An ordered list of hex-encoded mainnet block headers.\n+- `valid`: a JSON boolean. Whether this chain of headers is valid according to BIP54.\n+- `comment`: a JSON string. Description of the test case.\n+\n+For the purpose of testing a Timewarp fix, a Timewarp attack was included early on in the history of\n+testnet3. An implementer of BIP54 may want to ensure that syncing testnet3 by enforcing BIP54 since\n+genesis will treat block `00000000118da1e2165a19307b86f87eba814845e8a0f99734dce279ca3fb029` as\n+invalid.\n+\n+\n+### Long block validation time\n+\n+The [`sigops.json`](sigops.json) file contains test vectors for the limit on the number of\n+potentially-executed legacy signature operations in a single transaction, introduced by BIP54 in\n+order to mitigate long block validation times. Each test case represents a transaction and whether a\n+block containing it would be valid according to BIP54. The test cases feature an extensive set of\n+combinations of inputs and output types, ways to run into the limit, historical violations and some\n+pathological transactions exhibiting the specific implementation details. All test cases but those\n+belonging to this last category feature transactions that are valid under current Bitcoin consensus\n+rules. Each test case also features a comment describing why the transaction is (in)valid according\n+to BIP54.\n+\n+The test vector file features a JSON array of JSON objects, each corresponding to a test case. Each\n+JSON object features the following entries:\n+- `spent_outputs`: a JSON array of strings. An ordered list of hex-encoded Bitcoin-serialized\n+  transaction outputs spent by each input of this test case's transaction.\n+- `tx`: a JSON string. A hex-encoded Bitcoin-serialized transaction to be evaluated.\n+- `valid`: a JSON boolean. Whether this transaction is valid according to current consensus rules\n+  supplemented by BIP54.\n+- `comment`: a JSON string. Description of the test case.\n+\n+\n+### Merkle tree malleability with 64-byte transactions\n+\n+The [`txsize.json`](./txsize.json) file contains test cases exercising the new constraint on\n+non-witness transaction size introduced in BIP54. Each test case contains a transaction and whether\n+it would be valid according to BIP54, as well as a comment describing why it is (in)valid. All test\n+cases are otherwise valid according to current Bitcoin consensus rules.\n+\n+The test vector file features a JSON array of JSON objects, each corresponding to a test case. Each\n+JSON object features the following entries:\n+- `tx`: a JSON string. A hex-encoded Bitcoin-serialized transaction to be evaluated.\n+- `valid`: a JSON boolean. Whether this transaction is valid according to BIP54.\n+- `comment`: a JSON string. Description of the test case.",
+      "path": "bip-0054/test_vectors/README.md",
+      "position": 78,
+      "original_position": 78,
+      "commit_id": "0777a81367e36dd16af101fb264af141f199e86a",
+      "original_commit_id": "0777a81367e36dd16af101fb264af141f199e86a",
+      "in_reply_to_id": 2508436000,
+      "user": {
+        "login": "ariard",
+        "id": 23310655,
+        "node_id": "MDQ6VXNlcjIzMzEwNjU1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/23310655?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ariard",
+        "html_url": "https://github.com/ariard",
+        "followers_url": "https://api.github.com/users/ariard/followers",
+        "following_url": "https://api.github.com/users/ariard/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ariard/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ariard/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ariard/subscriptions",
+        "organizations_url": "https://api.github.com/users/ariard/orgs",
+        "repos_url": "https://api.github.com/users/ariard/repos",
+        "events_url": "https://api.github.com/users/ariard/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ariard/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I know it’s a bit overkill…on the same time the `CheckSigopsBIP54` parser it's consensus. Maybe it’s worthwhile to add it in a follow-up when there are more test coverage vectors worthy to add.",
+      "created_at": "2025-12-01T04:31:03Z",
+      "updated_at": "2025-12-01T04:31:03Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2015#discussion_r2575578535",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2575578535"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2015"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 78,
+      "original_line": 78,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2575597947",
+      "pull_request_review_id": 3523123060,
+      "id": 2575597947,
+      "node_id": "PRRC_kwDOAN28mc6ZhIF7",
+      "diff_hunk": "@@ -0,0 +1,62 @@\n+[\n+    {\n+        \"tx\": \"0200000001827da3d85a6547d6b03662d2cb86982d655a6f390547285a3bf9ec9f28e0c8831500000000ffffffff0100000000000000000300515200000000\",\n+        \"valid\": true,\n+        \"comment\": \"A 63-byte legacy transaction.\"\n+    },\n+    {\n+        \"tx\": \"02000000000101827da3d85a6547d6b03662d2cb86982d655a6f390547285a3bf9ec9f28e0c8831500000000ffffffff01000000000000000000010000000000\",\n+        \"valid\": true,\n+        \"comment\": \"A 61-byte legacy transaction with a witness.\"\n+    },\n+    {\n+        \"tx\": \"0200000001827da3d85a6547d6b03662d2cb86982d655a6f390547285a3bf9ec9f28e0c8831500000000ffffffff010000000000000000040051525400000000\",\n+        \"valid\": false,\n+        \"comment\": \"A 64-byte legacy transaction (4 bytes in spk).\"\n+    },\n+    {\n+        \"tx\": \"0200000001827da3d85a6547d6b03662d2cb86982d655a6f390547285a3bf9ec9f28e0c883150000000403424242ffffffff010040075af07507000000000000\",\n+        \"valid\": false,\n+        \"comment\": \"A 64-byte legacy transaction (4 bytes in scriptsig).\"\n+    },\n+    {\n+        \"tx\": \"0200000001827da3d85a6547d6b03662d2cb86982d655a6f390547285a3bf9ec9f28e0c8831500000000ffffffff01000000000000000005005152545800000000\",\n+        \"valid\": true,\n+        \"comment\": \"A 65-byte legacy transaction.\"\n+    },\n+    {\n+        \"tx\": \"02000000000101827da3d85a6547d6b03662d2cb86982d655a6f390547285a3bf9ec9f28e0c8831500000000ffffffff01000000000000000004005152540108213245576281941200000000\",\n+        \"valid\": false,\n+        \"comment\": \"A 64-byte Segwit transaction.\"",
+      "path": "bip-0054/test_vectors/txsize.json",
+      "position": 30,
+      "original_position": 30,
+      "commit_id": "0777a81367e36dd16af101fb264af141f199e86a",
+      "original_commit_id": "0777a81367e36dd16af101fb264af141f199e86a",
+      "in_reply_to_id": 2508430708,
+      "user": {
+        "login": "ariard",
+        "id": 23310655,
+        "node_id": "MDQ6VXNlcjIzMzEwNjU1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/23310655?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ariard",
+        "html_url": "https://github.com/ariard",
+        "followers_url": "https://api.github.com/users/ariard/followers",
+        "following_url": "https://api.github.com/users/ariard/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ariard/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ariard/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ariard/subscriptions",
+        "organizations_url": "https://api.github.com/users/ariard/orgs",
+        "repos_url": "https://api.github.com/users/ariard/repos",
+        "events_url": "https://api.github.com/users/ariard/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ariard/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "> There is coverage for a 64-byte Taproot transaction, see the test case just below your comment:\r\n\r\nAh yes, seen the test case for Taproot “1 pt2r output input, 1 p2a output.\r\n\r\n> The annex is just another witness stack element, so i'm not sure it would add more value,\r\n\r\nIt’s indeed another witness stack element, so a priori I don’t see why it would raise issues. But iirc, it’s pop up and processed differently than other stack elements, so it’s more to check there is no unintended interactions.\r\n\r\nWhat if a 65-byte Taproot transaction is stripped of its 1-byte annex at the p2p-level, normally the annex is committed in the taproot signature so it should fail at signature verification, but the tx should be now rejected early due to its 64-byte size. I’m not sure if you can make 64-byte tx that is not a _key spend-path_, so the annex should be always covered by the annex, but it’s more interactions with p2p that might be interesting to check (— which is strictly outside the scope of this BIP, I know).",
+      "created_at": "2025-12-01T04:47:36Z",
+      "updated_at": "2025-12-01T04:47:37Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2015#discussion_r2575597947",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2575597947"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2015"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 30,
+      "original_line": 30,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2575599544",
+      "pull_request_review_id": 3523124703,
+      "id": 2575599544,
+      "node_id": "PRRC_kwDOAN28mc6ZhIe4",
+      "diff_hunk": "@@ -0,0 +1,102 @@\n+## BIP54 test vectors\n+\n+This folder contains a set of test vectors for each mitigation introduced in the BIP. This document\n+presents them in more detail.\n+\n+The code used to generate half of the test vectors is included with the implementation and available\n+[here][other-vectors]. The other half requires mining mainnet blocks and is [published\n+separately][bip54-miner]. In both cases it is implemented as a regular Bitcoin Core unit test, and\n+the test vectors are persisted as a JSON file if the `UPDATE_JSON_TESTS` preprocessor directive is\n+set (off by default).\n+\n+To compile the [header][header-miner] and [block][block-miner] miners you may have to link to\n+libatomic explicitly. This can be achieved like so:\n+```\n+cmake -B atomicbuild -DAPPEND_LDFLAGS=\"-latomic\"\n+cmake --build atomicbuild/ -j $(nproc)\n+```\n+\n+[Premined headers][premined-headers] are also provided along with the header miner to allow changing\n+some of the last headers without having to re-generate the whole chain.\n+\n+\n+### Difficulty adjustment exploits\n+\n+The [`timestamps.json`](./timestamps.json) test vectors exercise the two constraints on block header\n+timestamps introduced by BIP54 to mitigate the Timewarp and Murch-Zawy attacks. Each test case\n+features a chain of mainnet headers starting from the genesis block, and whether this header chain\n+is valid by BIP54 rules. Each test case also contains a comment describing why this particular chain\n+is (in)valid according to BIP54.  All test cases are valid according to current Bitcoin consensus\n+rules. It is intended to be used to test a BIP54 implementation by feeding the header chain to a\n+Bitcoin node implementation, enforcing the BIP54 rules on this chain from genesis.\n+\n+The test vector file features a JSON array of JSON objects, each corresponding to a test case. Each\n+JSON object features the following entries:\n+- `header_chain`: a JSON array of strings. An ordered list of hex-encoded mainnet block headers.\n+- `valid`: a JSON boolean. Whether this chain of headers is valid according to BIP54.\n+- `comment`: a JSON string. Description of the test case.\n+\n+For the purpose of testing a Timewarp fix, a Timewarp attack was included early on in the history of\n+testnet3. An implementer of BIP54 may want to ensure that syncing testnet3 by enforcing BIP54 since\n+genesis will treat block `00000000118da1e2165a19307b86f87eba814845e8a0f99734dce279ca3fb029` as\n+invalid.",
+      "path": "bip-0054/test_vectors/README.md",
+      "position": 42,
+      "original_position": 42,
+      "commit_id": "0777a81367e36dd16af101fb264af141f199e86a",
+      "original_commit_id": "0777a81367e36dd16af101fb264af141f199e86a",
+      "in_reply_to_id": 2476407516,
+      "user": {
+        "login": "ariard",
+        "id": 23310655,
+        "node_id": "MDQ6VXNlcjIzMzEwNjU1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/23310655?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ariard",
+        "html_url": "https://github.com/ariard",
+        "followers_url": "https://api.github.com/users/ariard/followers",
+        "following_url": "https://api.github.com/users/ariard/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ariard/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ariard/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ariard/subscriptions",
+        "organizations_url": "https://api.github.com/users/ariard/orgs",
+        "repos_url": "https://api.github.com/users/ariard/repos",
+        "events_url": "https://api.github.com/users/ariard/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ariard/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Yeah, I’m reading back the computational cost estimations for a Murch-Zawy attack. Always interesting to have coverage for edge case, even if it’s only to test more the novel code logic.",
+      "created_at": "2025-12-01T04:48:57Z",
+      "updated_at": "2025-12-01T04:48:57Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2015#discussion_r2575599544",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2575599544"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2015"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 42,
+      "original_line": 42,
       "side": "RIGHT"
     }
   ]
