@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-12-01T06:34:35Z",
+    "updated_at": "2025-12-05T17:37:55Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -293,11 +293,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5829,
-        "stargazers_count": 10391,
-        "watchers_count": 10391,
+        "stargazers_count": 10407,
+        "watchers_count": 10407,
         "size": 18434,
         "default_branch": "master",
-        "open_issues_count": 71,
+        "open_issues_count": 72,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2025-11-26T00:58:17Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-12-01T00:29:00Z",
+        "updated_at": "2025-12-05T09:24:55Z",
         "allow_forking": true
       }
     },
@@ -326,7 +326,7 @@
     "changed_files": 1,
     "commits": 5,
     "review_comments": 83,
-    "comments": 10
+    "comments": 11
   },
   "events": [
     {
@@ -1948,6 +1948,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2040#issuecomment-3587393796",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2040"
+    },
+    {
+      "event": "commented",
+      "id": 3617849434,
+      "node_id": "IC_kwDOAN28mc7XpABa",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3617849434",
+      "actor": {
+        "login": "apoelstra",
+        "id": 1351933,
+        "node_id": "MDQ6VXNlcjEzNTE5MzM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1351933?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/apoelstra",
+        "html_url": "https://github.com/apoelstra",
+        "followers_url": "https://api.github.com/users/apoelstra/followers",
+        "following_url": "https://api.github.com/users/apoelstra/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/apoelstra/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/apoelstra/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/apoelstra/subscriptions",
+        "organizations_url": "https://api.github.com/users/apoelstra/orgs",
+        "repos_url": "https://api.github.com/users/apoelstra/repos",
+        "events_url": "https://api.github.com/users/apoelstra/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/apoelstra/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-12-05T17:37:55Z",
+      "updated_at": "2025-12-05T17:37:55Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Sorry for being late to the party. I have read through this whole discussion except for the digression about deterministic share derivation and except for Russell's detailed code. As I understand it there are a few issues at play:\r\n\r\n* Ben wants the HRP to be covered by the checksum, which has multiple problems\r\n   * if you don't know the HRP you arguably don't know the checksum so how can you correct it?\r\n   * but conversely Ben points out that we likely want `xpub`/`xprv` HRPs which are easy to mess up and would share a checksum\r\n   * each HRP character contributes two characters to the checksum plus an extra \"separator\" character so length n takes away 2n+1 from your total length, which is surprising and weird\r\n   * (There was a long discussion about restricting the character set of HRPs. As you have observed, I've already violated this with my `bip32_24w` HRPs. I'm skeptical this matters. If there is anybody except me doing this, they would have needed to do a comparable amount of insane off-spec work to accomplish it and \"protecting them\" by extending the spec to include them should not be a priority.)\r\n* How do we determine the threshold at which to switch to \"long codex32\" which is a totally different checksum\r\n   * Ben would like there to only be a few allowable lengths of long codex32 strings, which I directionally agree with, but I also note that I have violated this (I have 264-bit strings which are converted directly from BIP39 seed words).\r\n* Some discussion on what the allowable HRPs should be. BIP-173 allows any ASCII string up to 83 characters.\r\n   *  ...but if you look at the registered list of BIP-173 prefixes, despite there being some pretty crazy crap in there, every single prefix is less than 12 characters, and except for one using `:` and one using `@` every single one is alphanumeric\r\n   * Ben initially proposed restricting the set of characters to ones that all have distinct low bits so that we could \"ignore the high bits\". But as seen in his above table, this is impossible if we allow both numbers and letters.\r\n\r\n**In the interest of moving forward I would kinda like Ben to make a new PR with the non-HRP changes, which it seems like everyone agrees with and would reduce the size of the diff of this one.**\r\n\r\nThen my opinions on the above:\r\n\r\nI agree with Russell that in general we should not attempt to correct the HRP. This was outside of the design space for our codex32 SSSS application and among other things we (ab)used this fact to distinguish codex32 from long codex32 on length alone and not HRP. Having said this, if Ben wants to try to error-correct HRPs all the power to him and we should take some effort to avoid undermining that goal.\r\n\r\nSo for *this BIP* we should say:\r\n\r\n* Users can register their own HRPs at [link] but they are only allowed to use ASCII 96 to 126, and their length can be at most 8, say. (These are the tightest restrictions I would support, and I'd also accept any looser ones up to the \"83 ascii characters free for all\" of BIP 173.) This gives us `{` `|` `}` and `~` as well as letters. People who want a separator should be happy to use `~`.\r\n* The HRP defines the checksum and SHOULD NOT be error-corrected, *unless* there is a separate specification describing how to do this. `xpub`/`xprv` I think needs to have its own BIP for this. Maybe there could be a general-purpose \"bip93 with HRP correction\" BIP that covers questions like \"what if the user has a character outside of the allowable set\" or \"should we preferentially try to correct `_` and `-` to `~` or just try random things\" or \"should we have a fixed set of supported HRPs and just try all of these\". It seems that different answers make sense in different contexts.\r\n* I'm happy with whatever length threshold we want for switching between codex32 and long codex32. I think \"93 - length of HRP\" is fine, along with an exception for `ms`. We should specify the maximum length in the table of registered HRPs so people don't have to know the formula if they don't want to.\r\n\r\nI think this should make everyone happy, except that it leaves HRP correction underspecified and delegated to another future BIP. (I would also be open to bringing more text into BIP 93 itself, but let's try to accomplish the above before we do that.)",
+      "user": {
+        "login": "apoelstra",
+        "id": 1351933,
+        "node_id": "MDQ6VXNlcjEzNTE5MzM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1351933?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/apoelstra",
+        "html_url": "https://github.com/apoelstra",
+        "followers_url": "https://api.github.com/users/apoelstra/followers",
+        "following_url": "https://api.github.com/users/apoelstra/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/apoelstra/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/apoelstra/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/apoelstra/subscriptions",
+        "organizations_url": "https://api.github.com/users/apoelstra/orgs",
+        "repos_url": "https://api.github.com/users/apoelstra/repos",
+        "events_url": "https://api.github.com/users/apoelstra/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/apoelstra/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#issuecomment-3617849434",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2040"
     }
   ],
