@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2048/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2048/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/90bc8ab5f499494d2973cba3fcb3f210398a0951",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/99e0f1e4f7e06c0dba0f3bbf02381440965738a4",
     "number": 2048,
     "state": "open",
     "locked": false,
@@ -40,14 +40,14 @@
       "name": null,
       "patch_url": null
     },
-    "body": "This PR proposes a new consensus (soft fork) BIP called \"The Cat: Non-Monetary UTXO Cleanup\".\r\n\r\nThe proposal:\r\n- Defines NMUSet_snap as a snapshot-based set of Non-Monetary UTXOs (NMUs), derived solely from fully deterministic Ord 0.24.0 and Stamps-style classification rules applied to on-chain data, while nodes only need the resulting NMU_DATA blob and its hash to enforce the rule.\r\n- Makes those NMUs permanently unspendable by consensus and permits their removal from the UTXO set.\r\n- Uses a Binary Fuse Filter plus a false-positive exclusion list (NMU_DATA) to encode NMUSet_snap without requiring nodes to reindex.\r\n- Targets dust-sized inscription/stamp UTXOs in a fixed height window, with a hard value threshold (< 1,000 sats), leaving ordinary monetary UTXOs untouched.\r\n\r\nThe draft is written in Markdown as `bip-the-cat.md`.  \r\nThe `Discussions-To:` header points to the repository where the draft was initially developed and where additional charts and analysis live:\r\nhttps://github.com/ostromcode/TheCat\r\n\r\nI attempted to submit an earlier version of this text to the Bitcoin-dev mailing list but the messages did not appear on the list. Until that is resolved, this PR and the linked repository are the primary venues for public review.\r\n\r\nI welcome feedback in particular on:\r\n\r\n- The economic/incentive framing of permanently disabling dust NMUs as a way to remove demand for inscription-style use of the UTXO set.\r\n- The snapshot design and NMU_DATA construction (height window, Ord/Stamps pinning, Binary Fuse Filter + exclusion list), including any better alternatives for encoding NMUSet_snap.\r\n- Consensus and deployment risks: edge cases I may have missed, reorg behavior around H_snap, and any compatibility concerns with existing node implementations.\r\n",
+    "body": "This PR proposes a new consensus (soft fork) BIP called \"The Cat: Non-Monetary UTXO Cleanup\".\r\n\r\nThe proposal:\r\n- Defines NMUSet_snap as a snapshot-based set of Non-Monetary UTXOs (NMUs), derived solely from fully deterministic Ord 0.24.0 and Stamps-style classification rules applied to on-chain data, while nodes only need the resulting NMU_DATA blob and its hash to enforce the rule.\r\n- Makes those NMUs permanently unspendable by consensus and permits their removal from the UTXO set.\r\n- Uses a Binary Fuse Filter plus a false-positive exclusion list (NMU_DATA) to encode NMUSet_snap without requiring nodes to reindex.\r\n- Targets dust-sized inscription/stamp UTXOs in a fixed height window, with a hard value threshold (< 1,000 sats), leaving ordinary monetary UTXOs untouched.\r\n\r\nThe draft is written in Markdown as `bip-the-cat.md`.  \r\nThe `Discussions-To:` header points to the repository where the draft was initially developed and where additional charts and analysis live:\r\nhttps://github.com/ostromcode/The-Cat\r\n\r\nI attempted to submit an earlier version of this text to the Bitcoin-dev mailing list but the messages did not appear on the list. Until that is resolved, this PR and the linked repository are the primary venues for public review.\r\n\r\nI welcome feedback in particular on:\r\n\r\n- The economic/incentive framing of permanently disabling dust NMUs as a way to remove demand for inscription-style use of the UTXO set.\r\n- The snapshot design and NMU_DATA construction (height window, Ord/Stamps pinning, Binary Fuse Filter + exclusion list), including any better alternatives for encoding NMUSet_snap.\r\n- Consensus and deployment risks: edge cases I may have missed, reorg behavior around H_snap, and any compatibility concerns with existing node implementations.\r\n",
     "labels": [],
     "created_at": "2025-12-06T23:24:01Z",
-    "updated_at": "2025-12-06T23:24:01Z",
+    "updated_at": "2025-12-07T04:46:02Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
-    "merge_commit_sha": "97b9ad3b766fcba8b256ac5e7248fa080ed20eec",
+    "merge_commit_sha": "b25d8febb6ef1fd1468b15bd82994488d7cddd9e",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -55,7 +55,7 @@
     "head": {
       "label": "ostromcode:the-cat-bip",
       "ref": "the-cat-bip",
-      "sha": "90bc8ab5f499494d2973cba3fcb3f210398a0951",
+      "sha": "99e0f1e4f7e06c0dba0f3bbf02381440965738a4",
       "user": {
         "login": "ostromcode",
         "id": 248215801,
@@ -167,7 +167,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-12-06T23:01:39Z",
+        "pushed_at": "2025-12-07T04:46:01Z",
         "created_at": "2025-12-06T22:48:54Z",
         "updated_at": "2025-12-06T22:48:54Z",
         "allow_forking": true
@@ -273,12 +273,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5831,
-        "stargazers_count": 10406,
-        "watchers_count": 10406,
+        "forks_count": 5832,
+        "stargazers_count": 10405,
+        "watchers_count": 10405,
         "size": 18434,
         "default_branch": "master",
-        "open_issues_count": 73,
+        "open_issues_count": 74,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -291,7 +291,7 @@
         "visibility": "public",
         "pushed_at": "2025-11-26T00:58:17Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-12-06T04:15:52Z",
+        "updated_at": "2025-12-07T02:06:16Z",
         "allow_forking": true
       }
     },
@@ -305,7 +305,7 @@
     "additions": 424,
     "deletions": 0,
     "changed_files": 1,
-    "commits": 1,
+    "commits": 2,
     "review_comments": 0,
     "comments": 0
   },
@@ -349,6 +349,46 @@
         "date": "2025-12-06T23:01:39Z"
       },
       "sha": "90bc8ab5f499494d2973cba3fcb3f210398a0951"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDk5ZTBmMWU0ZjdlMDZjMGRiYTBmM2JiZjAyMzgxNDQwOTY1NzM4YTQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/99e0f1e4f7e06c0dba0f3bbf02381440965738a4",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/99e0f1e4f7e06c0dba0f3bbf02381440965738a4",
+      "tree": {
+        "sha": "6310649ca3e70868e0ffc60f03b6e83a9b8423c7",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/6310649ca3e70868e0ffc60f03b6e83a9b8423c7"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 6310649ca3e70868e0ffc60f03b6e83a9b8423c7\nparent 90bc8ab5f499494d2973cba3fcb3f210398a0951\nauthor ostromcode <ostromclairehome@gmail.com> 1765082760 -0500\ncommitter GitHub <noreply@github.com> 1765082760 -0500\n\nUpdate bip-the-cat.md",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpNQaJCRC1aQ7uu5UhlAAAfEAQAKH/R0/ymFGMs61UMI20BXLr\n+yr8uFWLLbKbXW3z9OMNl4USU6Pku2zs6UH9EOPoxBoWFmq3/ADG7h0KSm0fIosS\n50mDtmhvG/I4K+rePP5SE8VlwuValhl1Pkig0+/cPtBkAF7WtU9zTp7piir2Vq7U\ns4itWhqN0t9N6xTU0o4NJ0RLpM2580A9+BCSpScvBDACB/GkjzmnK186Yek9nfMp\nJs+DY6PGFCBYw4oMHNW7pDrsHAX+pgFITrvzfuRkvm3rRbpgaC+913Fi000CPafI\nQGEZQsD6WfIetjclTpFqcgS5SgN1c/6SSTfi2vJJP2CJ/m7bgNhd6cpvwKAcsRkl\n8L51t2eSTRaGv8Q3Z0RtLhCb7DAYMtR0Vcg+zpqlF1WzhYcHKLOtw3JzcVGg0ABb\nilIec5A0cwneIt42ClhtmF5epWkuDARiVkYKS2ci7WVPsNTzHVbK4T6rwVoMaArs\nuUytQa6YgRboQpaW5OsQyuu8tcmQqRbsJH7r+JoqTVASgqWneoEhel0IdSAITq6/\nKCGuVe8dENvXaM6GYdM4f7suNcn+sT3bbFjlVb9aPRjPKFwv/RPIKYCu/N890s46\n1dl4t6TeevMQzO+HwYNuikzLJUcSlCH+4ZY+spayv5482yF2+dWOYaL0YDEyEcAL\nqZ7wbj2TmVrYOis7s2CV\n=qRjB\n-----END PGP SIGNATURE-----\n"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/90bc8ab5f499494d2973cba3fcb3f210398a0951",
+          "sha": "90bc8ab5f499494d2973cba3fcb3f210398a0951",
+          "html_url": "https://github.com/bitcoin/bips/commit/90bc8ab5f499494d2973cba3fcb3f210398a0951"
+        }
+      ],
+      "message": "Update bip-the-cat.md",
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2025-12-07T04:46:00Z"
+      },
+      "author": {
+        "name": "ostromcode",
+        "email": "ostromclairehome@gmail.com",
+        "date": "2025-12-07T04:46:00Z"
+      },
+      "sha": "99e0f1e4f7e06c0dba0f3bbf02381440965738a4"
     }
   ],
   "comments": []
