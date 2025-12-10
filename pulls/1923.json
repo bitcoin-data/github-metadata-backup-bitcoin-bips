@@ -61,11 +61,11 @@
       }
     ],
     "created_at": "2025-08-10T06:56:50Z",
-    "updated_at": "2025-11-30T17:34:02Z",
+    "updated_at": "2025-12-10T02:31:52Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "6e6265744b2405b01ad04f1d25aceab82bd11932",
+    "merge_commit_sha": "bf6bcd73353a2183a6374a1cfae1673fb051125a",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -291,12 +291,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5829,
-        "stargazers_count": 10390,
-        "watchers_count": 10390,
-        "size": 18434,
+        "forks_count": 5831,
+        "stargazers_count": 10407,
+        "watchers_count": 10407,
+        "size": 18482,
         "default_branch": "master",
-        "open_issues_count": 71,
+        "open_issues_count": 69,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -307,9 +307,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-11-26T00:58:17Z",
+        "pushed_at": "2025-12-09T16:33:04Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-29T22:59:30Z",
+        "updated_at": "2025-12-09T16:33:09Z",
         "allow_forking": true
       }
     },
@@ -324,7 +324,7 @@
     "deletions": 0,
     "changed_files": 14,
     "commits": 4,
-    "review_comments": 203,
+    "review_comments": 204,
     "comments": 22
   },
   "events": [
@@ -3361,6 +3361,44 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-11-30T17:34:02Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 3560461559,
+      "node_id": "PRR_kwDOAN28mc7UOFT3",
+      "url": null,
+      "actor": null,
+      "commit_id": "bd1e2425872450b4b9d80cdcb47874d9659a3bda",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-12-10T02:31:52Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1923#pullrequestreview-3560461559",
+      "submitted_at": "2025-12-10T02:31:52Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1923"
     }
   ],
   "comments": [
@@ -14324,6 +14362,60 @@
       "start_side": "RIGHT",
       "line": 55,
       "original_line": 55,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2604971971",
+      "pull_request_review_id": 3560461559,
+      "id": 2604971971,
+      "node_id": "PRRC_kwDOAN28mc6bRLfD",
+      "diff_hunk": "@@ -0,0 +1,570 @@\n+```\n+  BIP: 183\n+  Layer: Peer Services\n+  Title: Utreexo - Peer Services\n+  Author: Tadge Dryja <rx@awsomnet.org>\n+          Calvin Kim <bip@calvinkim.info>\n+          Davidson Souza <bip@dlsouza.dev>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0183\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2024-08-08\n+  License: BSD-3-Clause\n+  Requires: 181, 182\n+```\n+\n+## Abstract\n+\n+Utreexo creates a compact representation of the UTXO set that only takes a couple of kilobytes.\n+When spending a transaction, one must provide an inclusion proof for the UTXOs being spent.\n+This BIP defines the networking-layer changes needed to allow nodes to exchange the inclusion proofs.\n+This document **does not** describe how to validate blocks and transactions using the provided data, see [BIP-0182](bip-0182.md) for more details.\n+\n+## Motivation\n+\n+Utreexo nodes require the inclusion proof to fully validate blocks and transactions.\n+Each block has a corresponding inclusion proof with it and this inclusion proof for blocks up to height 906,937 requires an additional 631.85GB, which is roughly 40GB less than the size of the block data.\n+Each transaction also has a corresponding inclusion proof with it and for normal transaction relay, the proof is roughly 3 times the size of the transaction.\n+It's still reasonable for a single node to download this extra data but a little caching goes a long way in reducing the amount of data that one has to download.\n+We define the new P2P messages for the inclusion proofs to support caching to reduce bandwidth while also allowing a high bandwidth, low-latency usage.\n+\n+## License\n+\n+This BIP is licensed under the BSD-3-Clause license.\n+\n+## Overview\n+\n+### Requirements and Compatibility\n+\n+Nodes implementing Utreexo can choose which messages to support.\n+There are a number of configurations possible, and this BIP does not restrict nodes to any subsets of messages.\n+\n+That said, there are three likely types of nodes:\n+1. Compact State Nodes (CSNs)\n+2. Bridge nodes\n+3. Archive nodes\n+\n+CSNs have the goal of minimizing data storage and download while performing block validation.\n+Archive and bridge nodes store more data and provide this data to CSNs.\n+\n+Bridge nodes are nodes that can add inclusion proofs to mempool transactions, support the same set of messages as CSNs, and should in fact be indistinguishable from CSNs on the network.\n+Archive nodes are able to serve the blocks and the inclusion proofs. However, they are not able to generate the inclusion proofs as they do not keep the full UTXO set.\n+\n+Note that the archive and bridge capabilities of a node are separate; a bridge node can be bridge only, without previous block proof data, and an archive node doesn't need to be able to bridge.\n+\n+The one exception to this flexibility is that archive nodes must provide both the blocks and the inclusion proofs.\n+While theoretically possible to split these two resources, the blocks are quite small relative to the block proofs, and it simplifies clients to be able to rely on being able to request both over the same connection.\n+\n+### Pre-P2P: Bridge Building\n+\n+When introducing Utreexo into an existing network, there are two things needed before CSNs can operate.\n+First, archive nodes need to build proofs for old blocks to serve during the initial block download (IBD).\n+Second, nodes need to build and maintain the UTXO merkle forest, and an index of outpoints to leaves of that forest, so that they can build proofs for new transactions.\n+Both of these processes happen without any p2p messages by taking an already existing, synchronized archive full node and going through its stored block data.\n+\n+Once an archive and bridge node have been established, CSNs download blocks and inclusion proofs to IBD and maintain sync with the bitcoin network. \n+\n+### Initial Block Download\n+\n+Conventionally, IBD is done by a headers-first block download, in which the node downloads all the Bitcoin block headers, verifies that they connect, and follows up by by downloading the block data for validation.\n+\n+Below image illustrates how a non-Utreexo node would perform the IBD.\n+\n+![Non-Utreexo IBD](bip-0183/non-utreexo-initial-block-download.png)\n+\n+Utreexo nodes still perform the headers-first phase.\n+However, in addition to blocks, they also require the inclusion proof for UTXOs spent in that block.\n+Hence, a Utreexo node will send a `getutreexoproof` message along with the `getdata` message for a given block.\n+This flow is the simplest change and allows a Utreexo node to validate and perform IBD but this method does require downloading about two times as much data as a conventional node due to the inclusion proof for a block being roughly the same size as the block itself.\n+\n+Below image illustrates how a Utreexo node would perform the IBD.\n+\n+![Utreexo node IBD](bip-0183/utreexo-initial-block-download.png)\n+\n+For Utreexo nodes with memory to spare, we introduce a `TTL` message that will have a time-to-live value for each of the outputs in a given block.\n+\n+With these TTL values, a node receiving the `TTL` message will be able to determine which output to cache with the Clairvoyant algorithm[^1] which allows the IBD-ing node to reduce the bandwidth required in syncing the node in the most efficient way possible.\n+\n+The node will have the block and the TTLs for the outputs of the given block which it can then use to cache parts of the inclusion proof and only request the needed parts of an inclusion proof for future blocks.\n+\n+We note that it is feasible for a node to receive incorrect TTL values from malicious nodes and this can negatively impact the bandwidth savings.\n+This can be mitigated by either:\n+\n+1. Avoiding downloading TTL values for blocks too far into the future since the damage done will be greater.\n+2. Rely on the pre-committed *TTL accumulator* in the node software.\n+   The TTL accumulator has TTLs for each of the blocks accumulated.\n+   With this accumulator, the node can check if the received TTL value is valid or invalid by checking for its existence in the TTL accumulator.\n+\n+The TTL accumulator is described in detail in the section [Commitment scheme for TTL messages](#commitment-scheme-for-ttl-messages) below.\n+\n+Below image illustrates how a Utreexo node would perform a bandwidth efficient IBD.\n+\n+![Bandwidth efficient Utreexo node IBD](bip-0183/bandwidth-efficient-utreexo-initial-block-download.png)\n+\n+### Transaction relay\n+\n+Non-Utreexo transaction relay is done by sending an inv message with the hash of the transaction and a type field that denotes that this hash represents a transaction.\n+If the node receiving the inv does not have a transaction matching that hash, the node then requests the transaction using a getdata message.\n+\n+Below image illustrates how a non-Utreexo node would relay transactions.\n+\n+![Non-Utreexo TX relay](bip-0183/non-utreexo-tx-relay.png)\n+\n+The transaction relay for Utreexo nodes doesn't add any extra round trips.\n+However, it does include extra inventory vectors in the inv message.\n+\n+We introduce a new inventory vector type called `utreexoproofhash`, which makes up the extra information that a Utreexo node will receive.\n+\n+A hash with the type `utreexoproofhash` represents four Utreexo merkle tree positions, each of them little-endian serialized and taking up 8 bytes in the 32-byte hash.\n+When sending an inv message to a Utreexo node for a transaction, we append `utreexoproofhash` inventory vectors to represent the merkle tree positions for each of the UTXOs being referenced in the inputs of the transaction.\n+The Utreexo merkle tree positions are explained in detail in [Utreexo Accumulator Specification](bip-0181#Merkle Forest).\n+Since the hash in an inventory vector is always 32 bytes, any unused space will be padded with the max uint64 value of 18446744073709551615.\n+\n+With these merkle tree positions for the UTXOs referenced in the inputs, we can calculate the needed positions of the merkle hashes to them.\n+These positions are then sent over in the `getdata` message as an another inventory vector.\n+\n+Below image illustrates how a Utreexo node would relay transactions.\n+\n+![Utreexo TX relay](bip-0183/utreexo-tx-relay.png)\n+\n+There may be cases where the transaction is referencing more than 4 merkle positions.\n+In this case, the extra positions are added as another inventory vector.\n+There can be as many additional inventory vectors for the `utreexoproofhash`es as needed.\n+An inventory vector of type `utreexoproofhash` will be ignored if it's not prepended with an inventory vector of type `transaction`.\n+\n+Below image illustrates how a Utreexo node would relay transactions with multiple inventory vectors of the type `utreexoproofhash`.\n+\n+![Utreexo TX relay multiple Utreexo proof hash vectors](bip-0183/utreexo-tx-relay-with-multiple-proofhash-inventory-vectors.png)\n+\n+It's possible to have an inv message with multiple txs as well.\n+Note that an inventory vector of type `utreexoproofhash` MUST be appended to the `tx` inventory vector.\n+\n+Below image illustrates how a Utreexo node would relay multiple transactions.\n+\n+![Utreexo TX relay with multiple txs](bip-0183/utreexo-tx-relay-with-multiple-txs.png)\n+\n+### Block Propagation\n+\n+Legacy block propagation without Compact Blocks comprises of three steps:\n+\n+1. Node A sends an inv message or a block header to Node B.\n+2. Node B makes a getdata request for the block.\n+3. Node A sends the block data to Node B.\n+\n+Below image illustrates how a non-Utreexo node would relay blocks without using Compact Blocks.\n+\n+![Non-Compact-Block Block Propagation](bip-0183/non-compact-block-block-propagation.png)\n+\n+The same block propagation with Utreexo nodes will look like so:\n+\n+1. Node A sends an inv message or a block header to Node B.\n+2. Node B makes a getdata request for the block.\n+3. Node B makes a getutreexoproof request for the block.\n+4. Node A sends the block data to Node B.\n+5. Node A sends the inclusion proof to Node B.\n+\n+Note that while Node A sent the inv or the blockhash to Node B, Node B is free to ask for the Utreexo proof from a node other than Node A.\n+This allows a Utreexo node to be notified of new blocks from non-Utreexo nodes.\n+\n+Since there's no PoW required for the inclusion proof, the block may be valid and the proof may be invalid.\n+If the block header validation passed while the full block validation fails, Node B should request the inclusion proof from a different peer.\n+If the new proof and the block pass validation, we can conclude that Node A is malicious and ban the peer.\n+\n+Below image illustrates how a Utreexo node would relay blocks without using Compact Blocks.\n+\n+![Non-Compact-Block Block Propagation with Utreexo Nodes](bip-0183/non-compact-block-utreexo-block-propagation.png)\n+\n+Since the inclusion proof is cached for each of the transaction in the mempool, it's possible to omit the proof hashes for the input UTXOs that we can already prove on our own.\n+This method looks like so:\n+\n+1. Node A sends an inv message or a block header to Node B.\n+2. Node B makes a getdata request (MSG_UTREEXO_SUMMARY) for the given blockhash.\n+3. Node A sends the utreexoblocksummary message to Node B.\n+4. Node B calculates which proof hashes and leafdatas it needs to prove this block.\n+5. Node B makes a getdata request for the block to Node A.\n+6. Node B makes a getutreexoproof request for the block to Node A.\n+7. Node A sends the block data to Node B.\n+8. Node A sends the requested inclusion proof data to Node B.\n+\n+As with the getutreexoproof message, Node B is free to ask for the utreexoblocksummary message from a node other than Node A.\n+Since there's no commitment to anything in a utreexoblocksummary message, the information given in it can be false.\n+Should the block fail to validate with this propagation, Node B should request the full proof from a different peer.\n+Should the proof and the block pass validation, we can conclude that Node A is malicious and ban the peer.\n+\n+All of the above propagation works the same with Compact Block propagation as well.\n+The requester would need to send a getdata request (MSG_UTREEXO_SUMMARY) after the Compact Block propagation has concluded for high-bandwidth Compact Block propagation and after the header/inv message was received from the broadcasting peer.\n+\n+Below image illustrates how a Utreexo node would relay blocks in a bandwidth efficient manner without using Compact Blocks.\n+\n+![Bandwidth Saving Non-Compact-Block Block Propagation with Utreexo Nodes](bip-0183/bandwidth-saving-non-compact-block-utreexo-block-propagation.png)\n+\n+## Specification\n+\n+Several new data structures and messages are introduced to make the IBD and tx relay possible.\n+All structures are little-endian encoded unless otherwise noted.\n+\n+### New data structures\n+\n+#### Compact leaf data\n+\n+For a CSN to learn the data associated with a UTXO, it must ask for it from a peer that has it.\n+To authenticate this data, it is committed into the accumulator, and therefore cannot be changed by the peer.\n+The committed data is defined in [Utreexo - Transaction and block validation](bip-0182#UTXO Hash Preimages), but for some information in the leaf data, the receiving peer might already have it, so sending it again is a waste of bandwidth.\n+To save that bandwidth, we only send a Compact Leaf Data, that contains all missing information for the receiving peer to reconstruct the full leaf data.\n+A compact leaf data is defined as:\n+\n+| Field        | type                         | Description     |\n+|--------------|------------------------------|-----------------|\n+| header code  | uint32                       | This is a value obtained by left shifting the block height that confirmed this transaction, and then OR-ing it with 1, only if this transaction is a coinbase. |\n+| amount       | int64                        | The amount in sats locked on this output |\n+| scriptPubkey | reconstructable scriptPubkey | The scriptPubkey in a reconstructable format, see [Reconstructable Script](#Reconstructable-Script) for more details |\n+\n+#### Reconstructable Script\n+\n+For some script types (e.g. `ScriptHash`, `PubkeyHash`, `WitnessScriptHash`, `WitnessPubkeyHash`) the actual locking condition is not in the scriptPubkey, but a hash of it.\n+The script which is evaluated is provided as an element of the scriptSig or witness data.\n+\n+Therefore, we can safely omit the locking script hash from the UTXO data and reconstruct it from the witness or scriptSig.\n+\n+A Reconstructable Script is a tagged union that lets nodes recreate the script without necessarily providing redundant information.\n+If we can reconstruct the committed hash from the transaction data, we just say which type should we expect.\n+Only if the actual script cannot be reconstructed from transaction data, like in the case of taproot outputs, we send the actual script.\n+\n+The serialization and tag values are given below:\n+\n+| Field   | Type                    | Description       | Required                 |\n+|---------|-------------------------|-------------------|--------------------------|\n+| tag     | 1-byte unsigned integer | Script type       | yes                      |\n+| length  | varint                  | The script length | only if tag type is 0x00 |\n+| script  | variable-length vector  | The actual script | only if tag type is 0x00 |\n+\n+The possible values for the tag are:\n+\n+| Value | Script Type         |\n+|-------|---------------------|\n+| 0x00  | Other               |\n+| 0x01  | Pubkey Hash         |\n+| 0x02  | WitnessV0PubkeyHash |\n+| 0x03  | ScriptHash          |\n+| 0x04  | WitnessV0ScriptHash |\n+\n+#### TTL Info\n+\n+For all UTXOs that get added to the Utreexo merkle forest, a TTL info exists for it and includes information necessary for efficiently caching and requesting proofs.\n+The TTL value provides information to determine which leaves should be cached and the death position is used to calculate which positions in the merkle forest we need to prove a block.\n+\n+| Field          | Type   | Description                                                                                                                                                          |\n+|----------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n+| TTL            | varint | The time-to-live value of a leaf in the Utreexo merkle forest. The value is determined by the amount of leaves that were added to the accumulator since its creation |\n+| death position | varint | The position in the Utreexo merkle forest when the leaf was removed                                                                                                  |\n+\n+#### Utreexo TTL\n+\n+| Field        | Type                | Description                                                                                                                                                                                                                                                    |\n+|--------------|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n+| block height | uint32              | The time-to-live value of a leaf in the Utreexo merkle forest. The value is determined by the amount of leaves that were added to the accumulator since its creation                                                                                           |\n+| length       | varint              | The length of the TTLs                                                                                                                                                                                                                                         |\n+| TTLs         | vector of TTL infos | The TTL Info for the UTXOs that are added to the Utreexo merkle forest in blockchain ordering. See [BIP-0182](bip-0182.md#excluded-utxos-from-the-accumulator) for the UTXOs that are not added to the Utreexo merkle forest |\n+\n+### New Messages\n+\n+#### MSG_UTREEXO_PROOF\n+\n+`MSG_UTREEXO_PROOF` is all the data required for a CSN or archive node using the Utreexo accumulators to validate a Bitcoin block.\n+\n+Its `cmdString` for P2PV1 is `uproof`.\n+Its [BIP324 P2PV2](https://github.com/bitcoin/bips/blob/master/bip-0324.mediawiki#user-content-v2_Bitcoin_P2P_message_structure) message type is `29`.",
+      "path": "bip-0183.md",
+      "position": 276,
+      "original_position": 276,
+      "commit_id": "bd1e2425872450b4b9d80cdcb47874d9659a3bda",
+      "original_commit_id": "bd1e2425872450b4b9d80cdcb47874d9659a3bda",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I think these values should be reserved in bip 324 before being added to other bips, to help avoid conflicts. (At worst, perhaps bip-324 could be updated in this PR)",
+      "created_at": "2025-12-10T02:31:52Z",
+      "updated_at": "2025-12-10T02:31:52Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1923#discussion_r2604971971",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2604971971"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1923"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 276,
+      "original_line": 276,
       "side": "RIGHT"
     }
   ]
