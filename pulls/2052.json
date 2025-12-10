@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-12-10T02:37:25Z",
-    "updated_at": "2025-12-10T17:42:18Z",
+    "updated_at": "2025-12-10T18:58:24Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "deletions": 61,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 28,
+    "review_comments": 30,
     "comments": 1
   },
   "events": [
@@ -2303,6 +2303,114 @@
       "line": 62,
       "original_line": 62,
       "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2607836264",
+      "pull_request_review_id": 3564024634,
+      "id": 2607836264,
+      "node_id": "PRRC_kwDOAN28mc6bcGxo",
+      "diff_hunk": "@@ -286,19 +324,40 @@ def ms32_create_long_checksum(data):\n     polymod = ms32_long_polymod(values + [0] * 15) ^ MS32_LONG_CONST\n     return [(polymod >> 5 * (14 - i)) & 31 for i in range(15)]\n </source>\n+This implements a [https://en.wikipedia.org/wiki/BCH_code BCH code] that\n+guarantees detection of '''any error affecting at most 8 characters'''\n+and has less than a 3 in 10<sup>23</sup> chance of failing to detect more\n+errors.\n \n A long codex32 string follows the same specification as a regular codex32 string with the following changes.\n \n * The payload is a sequence of between 75 and 103 bech32 characters.\n * The checksum consists of 15 bech32 characters as defined above.\n \n-A codex32 string with a data part of 94 or 95 characters is never legal as a regular codex32 string is limited to 93 data characters and a long codex32 string is at least 96 characters.\n+A codex32 string with a data part of 94 or 95 characters is never legal as a regular codex32 string is limited to 93 data characters and a long codex32 string is at least 96 data characters.\n \n-Generation of long shares and recovery of the master seed from long shares proceeds in exactly the same way as for regular shares with the <code>ms32_interpolate</code> function.\n+Generation of long shares and recovery of the long secret from long shares proceeds in exactly the same way as for regular shares with the <code>ms32_interpolate</code> function.\n \n The long checksum is designed to be an error correcting code that can correct up to 4 character substitutions, up to 8 unreadable characters (called erasures), or up to 15 consecutive erasures.\n As with regular checksums we do not specify how an implementation should implement error correction, and all our recommendations for error correction of regular codex32 strings also apply to long codex32 strings.\n \n+===Master seed format===\n+\n+When the human-readable part of a valid codex32 secret (converted to lowercase) is the string \"ms\", we call it a codex32-encoded master seed or secret seed. The payload in this case is a direct encoding of a BIP-0032 HD master seed.\n+\n+A secret seed is a codex32 encoding of:\n+\n+* The human-readable part \"ms\" for master seed.\n+* The data-part values:\n+** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n+** An identifier consisting of 4 bech32 characters.\n+*** We do not define how to choose the identifier, beyond noting that it SHOULD be distinct for every master seed and share set the user may need to disambiguate.\n+** The share index \"s\".\n+** A conversion of the 16-to-64-byte BIP-0032 HD master seed to bech32:\n+*** Start with the bits of the master seed, most significant bit per byte first.\n+*** Re-arrange those bits into groups of 5, and pad with arbitrary bits at the end if needed.\n+*** Translate those bits to characters using the bech32 character table from BIP-0173.",
+      "path": "bip-0093.mediawiki",
+      "position": 258,
+      "original_position": 258,
+      "commit_id": "aa06616060d1af376092664d2cb6c728a21067e9",
+      "original_commit_id": "aa06616060d1af376092664d2cb6c728a21067e9",
+      "in_reply_to_id": 2606757826,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I moved the new \"Master seed format\" to be below \"Unshared Secret\". The \"direct encoding of ... master seed\" sentence could hop down from \"Unshared\" leaving it HRP pure (no diff when #2040 is rebased on this.)\r\n\r\nLooks better to me. I left \"existing secret\" as in https://github.com/bitcoin/bips/commit/aa06616060d1af376092664d2cb6c728a21067e9.",
+      "created_at": "2025-12-10T18:48:24Z",
+      "updated_at": "2025-12-10T18:48:24Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2052#discussion_r2607836264",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2607836264"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2052"
+        }
+      },
+      "start_line": 348,
+      "original_start_line": 348,
+      "start_side": "RIGHT",
+      "line": 359,
+      "original_line": 359,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2607865633",
+      "pull_request_review_id": 3564061463,
+      "id": 2607865633,
+      "node_id": "PRRC_kwDOAN28mc6bcN8h",
+      "diff_hunk": "@@ -479,10 +535,17 @@ Note that the choice to append four zero bits was arbitrary, and any of the foll\n This example shows generating a new 512-bit master seed using \"random\" codex32 characters and appending a checksum.\n The payload contains 103 bech32 characters, which corresponds to 515 bits. The last three bits are discarded when converting to a 512-bit master seed.\n \n-This is an example of a '''Long codex32 String'''.\n+This is an example of a '''Long codex32''' string.\n+\n+k value (bech32): <code>0</code>\n+\n+identifier (bech32): <code>0C8V</code>\n+\n+payload (bech32): <code>M32ZXFGUHPCHTLUPZRY9X8GF2TVDW0S3JN54KHCE6MUA7LQPZYGSFJD6AN074RXVCEMLH8WU3TK925ACDEFGHJKLMNPQRSTUVWXY06F</code>\n \n-* Secret share with index <code>S</code>: <code>MS100C8VSM32ZXFGUHPCHTLUPZRY9X8GF2TVDW0S3JN54KHCE6MUA7LQPZYGSFJD6AN074RXVCEMLH8WU3TK925ACDEFGHJKLMNPQRSTUVWXY06FHPV80UNDVARHRAK</code>\n-* Master secret (hex): <code>dc5423251cb87175ff8110c8531d0952d8d73e1194e95b5f19d6f9df7c01111104c9baecdfea8cccc677fb9ddc8aec5553b86e528bcadfdcc201c17c638c47e9</code>",
+      "path": "bip-0093.mediawiki",
+      "position": 358,
+      "original_position": 358,
+      "commit_id": "aa06616060d1af376092664d2cb6c728a21067e9",
+      "original_commit_id": "aa06616060d1af376092664d2cb6c728a21067e9",
+      "in_reply_to_id": 2606824547,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Nowhere do we label a result string (bech32). (hex) seems to be used everywhere because it looks more like bech32 than the reverse.\r\n\r\nChecksum is 150% too long to be Bech32.\r\n\r\nSo I have Vector 5 like this:\r\n\r\n> k value (bech32): <code>0</code>\r\n> \r\n> identifier (bech32): <code>0C8V</code>\r\n> \r\n> payload (bech32): <code>M32ZXFGUHPCHTLUPZRY9X8GF2TVDW0S3JN54KHCE6MUA7LQPZYGSFJD6AN074RXVCEMLH8WU3TK925ACDEFGHJKLMNPQRSTUVWXY06F</code>\r\n> \r\n> * checksum: <code>HPV80UNDVARHRAK</code>\r\n> * codex32 secret: <code>MS100C8VSM32ZXFGUHPCHTLUPZRY9X8GF2TVDW0S3JN54KHCE6MUA7LQPZYGSFJD6AN074RXVCEMLH8WU3TK925ACDEFGHJKLMNPQRSTUVWXY06FHPV80UNDVARHRAK</code>\r\n> * Master seed (hex): <code>dc5423251cb87175ff8110c8531d0952d8d73e1194e95b5f19d6f9df7c01111104c9baecdfea8cccc677fb9ddc8aec5553b86e528bcadfdcc201c17c638c47e9</code>\r\n> * master node xprv: <code>xprv9s21ZrQH143K4UYT4rP3TZVKKbmRVmfRqTx9mG2xCy2JYipZbkLV8rwvBXsUbEv9KQiUD7oED1Wyi9evZzUn2rqK9skRgPkNaAzyw3YrpJN</code>\r\n",
+      "created_at": "2025-12-10T18:58:24Z",
+      "updated_at": "2025-12-10T18:58:24Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2052#discussion_r2607865633",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2607865633"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2052"
+        }
+      },
+      "start_line": 479,
+      "original_start_line": 479,
+      "start_side": "LEFT",
+      "line": 485,
+      "original_line": 485,
+      "side": "LEFT"
     }
   ]
 }
