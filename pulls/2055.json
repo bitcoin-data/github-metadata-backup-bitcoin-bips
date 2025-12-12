@@ -61,9 +61,9 @@
       }
     ],
     "created_at": "2025-12-12T18:03:29Z",
-    "updated_at": "2025-12-12T18:09:36Z",
+    "updated_at": "2025-12-12T19:21:58Z",
     "mergeable": true,
-    "mergeable_state": "unstable",
+    "mergeable_state": "clean",
     "merged": false,
     "merge_commit_sha": "c012091375b56defa435df3a78ddfdd94f319d88",
     "assignees": [],
@@ -325,7 +325,7 @@
     "deletions": 1,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 1
   },
   "events": [
@@ -620,7 +620,101 @@
         "name": "Pending acceptance",
         "color": "fbca04"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 3573291274,
+      "node_id": "PRR_kwDOAN28mc7U_BkK",
+      "url": null,
+      "actor": null,
+      "commit_id": "3795b711cb614d288e80fd41adf5e4e76e6c87b9",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2025-12-12T19:21:58Z",
+      "author_association": "MEMBER",
+      "body": "ACK 3795b711cb614d288e80fd41adf5e4e76e6c87b9",
+      "user": {
+        "login": "furszy",
+        "id": 5377650,
+        "node_id": "MDQ6VXNlcjUzNzc2NTA=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/5377650?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/furszy",
+        "html_url": "https://github.com/furszy",
+        "followers_url": "https://api.github.com/users/furszy/followers",
+        "following_url": "https://api.github.com/users/furszy/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/furszy/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/furszy/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/furszy/subscriptions",
+        "organizations_url": "https://api.github.com/users/furszy/orgs",
+        "repos_url": "https://api.github.com/users/furszy/repos",
+        "events_url": "https://api.github.com/users/furszy/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/furszy/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2055#pullrequestreview-3573291274",
+      "submitted_at": "2025-12-12T19:21:58Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2055"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2615327948",
+      "pull_request_review_id": 3573291274,
+      "id": 2615327948,
+      "node_id": "PRRC_kwDOAN28mc6b4rzM",
+      "diff_hunk": "@@ -188,6 +188,7 @@ Future silent payments versions will use the following scheme:\n For silent payments v0 a transaction MUST be scanned if and only if all of the following are true:\n \n * The transaction contains at least one BIP341 taproot output (note: spent transactions optionally can be skipped by only considering transactions with at least one unspent taproot output)\n+* The transaction does not contain more than 4294967295 (2<sup>32</sup>-1) taproot outputs<ref name=\"maximum_recipients\">'''Why specify a limit of recipients, if the maximum number of possible transaction outputs is practically constrained by Bitcoin's consensus rules (block weight limit) anyway?''' Specifying an explicit limit improves clarity and ensures that implementations can safely choose compatible data types without the risk of becoming non-compliant. The limit matches the maximum possible value for ''k'' in the course of the shared secret scalar calculation ''t<sub>k</sub>'', where ''k'' is serialized as a 4-bytes sequence.</ref>",
+      "path": "bip-0352.mediawiki",
+      "position": 4,
+      "original_position": 4,
+      "commit_id": "3795b711cb614d288e80fd41adf5e4e76e6c87b9",
+      "original_commit_id": "3795b711cb614d288e80fd41adf5e4e76e6c87b9",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "furszy",
+        "id": 5377650,
+        "node_id": "MDQ6VXNlcjUzNzc2NTA=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/5377650?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/furszy",
+        "html_url": "https://github.com/furszy",
+        "followers_url": "https://api.github.com/users/furszy/followers",
+        "following_url": "https://api.github.com/users/furszy/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/furszy/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/furszy/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/furszy/subscriptions",
+        "organizations_url": "https://api.github.com/users/furszy/orgs",
+        "repos_url": "https://api.github.com/users/furszy/repos",
+        "events_url": "https://api.github.com/users/furszy/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/furszy/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "nit: I think it would be clearer and harder to misinterpret to state directly that both `k` and the number of recipients are unsigned 32-bit integers.",
+      "created_at": "2025-12-12T19:21:41Z",
+      "updated_at": "2025-12-12T19:21:58Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2055#discussion_r2615327948",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2615327948"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2055"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 191,
+      "original_line": 191,
+      "side": "RIGHT"
+    }
+  ]
 }
