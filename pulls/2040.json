@@ -61,11 +61,11 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2025-12-17T07:43:39Z",
+    "updated_at": "2025-12-21T00:13:21Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "556d0d3bf021316e8112a67a10b7566d68e6494c",
+    "merge_commit_sha": "25ca412a052a8dcad662ec99f0d10c563a9cd826",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -292,12 +292,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5840,
-        "stargazers_count": 10425,
-        "watchers_count": 10425,
-        "size": 18522,
+        "forks_count": 5847,
+        "stargazers_count": 10438,
+        "watchers_count": 10438,
+        "size": 18524,
         "default_branch": "master",
-        "open_issues_count": 68,
+        "open_issues_count": 69,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -308,9 +308,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-12-17T01:59:57Z",
+        "pushed_at": "2025-12-20T03:18:41Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-12-17T06:41:41Z",
+        "updated_at": "2025-12-20T17:50:09Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 71,
     "changed_files": 1,
     "commits": 7,
-    "review_comments": 91,
+    "review_comments": 92,
     "comments": 16
   },
   "events": [
@@ -7314,7 +7314,7 @@
       },
       "body": "I'm working on a list of BIP-0173 style valid and invalid vectors and will add them when complete.",
       "created_at": "2025-12-16T09:10:56Z",
-      "updated_at": "2025-12-16T09:20:36Z",
+      "updated_at": "2025-12-19T23:10:17Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2622428122",
       "author_association": "CONTRIBUTOR",
       "_links": {
@@ -7366,14 +7366,68 @@
         "name": null,
         "patch_url": null
       },
-      "body": "here's what I have so far:\r\n```python3\r\nVALID_CODEX32 = [\r\n    \"A12UEL5LLGCHJ4UJCQVHG\",\r\n    \"a12uel5llgchj4ujcqvhg\",\r\n    \"a74characterlonghumanreadablepartcontainingnumber1andexcludedcharactersbio15tttgsdupy3h58nvmja\",\r\n    \"abcdef13qpzry9x8gf2tvdw0s3jn54khce6mua7lclc606q3t75r4\",\r\n    \"1199999999999999999999999999999999999999999999999999999999999999999999999999999997f7ekwq8dq7tm\",\r\n    \"split12checkupstagehandshakeupstreamerranterredcaperred75pe8uz2kh9ey\",\r\n    \"?13zyfclf624rkvjcl35t\",\r\n]\r\n\r\nVALID_CODEX32_LONG = [\r\n    'A12UEL5LQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQV3RR8ZLCK96GTC3',\r\n    'a12uel5lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv3rr8zlck96gtc3',\r\n    \"an83characterlonghumanreadablepartthatcontainsthenumber1andtheexcludedcharactersbio15ttgtsd4qxteuztzfqcxh\",\r\n]\r\n```",
+      "body": "I will be adding these as test vectors for hrp generalized codex32 decode.\r\n```python3\r\nVALID_CODEX32 = [\r\n    \"A12UEL5LLGCHJ4UJCQVHG\",\r\n    \"a12uel5llgchj4ujcqvhg\",\r\n    \"a74characterlonghumanreadablepartcontainingnumber1andexcludedcharactersbio15tttgsdupy3h58nvmja\",\r\n    \"abcdef13qpzry9x8gf2tvdw0s3jn54khce6mua7lclc606q3t75r4\",\r\n    \"1199999999999999999999999999999999999999999999999999999999999999999999999999999997f7ekwq8dq7tm\",\r\n    \"split12checkupstagehandshakeupstreamerranterredcaperred75pe8uz2kh9ey\",\r\n    \"?13zyfclf624rkvjcl35t\",\r\n]\r\n\r\nVALID_CODEX32_LONG = [\r\n    \"A12UEL5LQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQV3RR8ZLCK96GTC3\",\r\n    \"a12uel5lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv3rr8zlck96gtc3\",\r\n    \"a1002characterlonghumanreadablepartthatcontainsthenumber1,theexcludedcharactersbio,andeveryus-asciicharacterin[33-126]!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~15ttgtscr3gvktxamm8mzt\",\r\n    \"abcdef12l7aum6echk45nj3s0wdvt2fg8x9yrzpql7aum6echk45nj3s0wdvt2fg8x9yrzpql7aum6echk45nj3s0wdvt2fg8x9yrzpqp9evrmhc52umqew\",\r\n    \"1177777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777fn0jxg9gc35xwa8\",\r\n    \"split13checkupstagehandshakeupstreamerranterredcaperredscatteredsusurrantplunderedqsp5ws8r2klm66l\",\r\n    \"?17v59aaqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq2uwygewx4t4gps0\",\r\n]\r\nINVALID_CODEX32 = {\r\n    \" 12fauxxpgjxu9gyqhql4\",  # HRP character out of range\r\n    \"\\x7f\" + \"12fauxxk7kd7xqlns9mj\",  # HRP character out of range\r\n    \"\\x80\" + \"12fauxxgqp5ecwf5kzg3\",  # HRP character out of range\r\n    # overall max length exceeded\r\n    \"a75characterslonghumanreadablepartcontainingnumber1andexcludedcharactersbio12fauxxau7wnkdhzp90r\",\r\n    \"x12fauxbhf2k7v7ay7ua5\",  # Invalid data character\r\n    \"li12fauxxz4pdg55uwav3\",  # Too short checksum\r\n    \"de12fauxxrmt7mj886swl\" + \"\\xff\",  # Invalid character in checksum\r\n    \"A12FAUXXMRQDLRATCD0WJ\",  # Checksum calculated with uppercase form of HRP\r\n}\r\n\r\nINVALID_CODEX32_LONG = {\r\n    \" 12fauxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx8qt67zg4n9sqylv\",  # HRP character out of range\r\n    \"\\x7f\"\r\n    + \"12fauxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx836hdd09mhkhkhx\",  # HRP character out of range\r\n    \"\\x80\"\r\n    + \"12fauxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxlhf5ywnkmk4r3tc\",  # HRP character out of range\r\n    # overall max length exceeded\r\n    \"a1003characterslonghumanreadablepartthatcontainsthenumber1,theexcludedcharactersbio,andeveryus-asciicharacterin[33-126]!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\\\"#$%&'()*+,-./0123456789:;<=>?@[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~12fauxxru38cppmlpu0t6l\",\r\n    \"y12bfauxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxt3y5fewy4gnw2hs\",  # Invalid data character\r\n    \"lt12ifauxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxjxd0ehq868vm3zl\",  # Invalid data character\r\n    \"in12fauxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxvgegljrsvs5w9q\",  # Too short checksum\r\n    \"mm12fauxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxbz9tqm7y53swfaw\",  # Invalid character in checksum\r\n    \"au12fauxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxoqz9gl44za2owxc\",  # Invalid character in checksum\r\n    \"M12FAUXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX4DZ47P062DVJUNM\",  # Checksum calculated with uppercase form of HRP\r\n}\r\n```",
       "created_at": "2025-12-17T06:54:59Z",
-      "updated_at": "2025-12-17T06:55:00Z",
+      "updated_at": "2025-12-19T23:10:05Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2625828686",
       "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2625828686"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 610,
+      "original_line": 627,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2637449653",
+      "pull_request_review_id": 3601378947,
+      "id": 2637449653,
+      "node_id": "PRRC_kwDOAN28mc6dNEm1",
+      "diff_hunk": "@@ -548,6 +589,41 @@ payload (bech32): <code>M32ZXFGUHPCHTLUPZRY9X8GF2TVDW0S3JN54KHCE6MUA7LQPZYGSFJD6\n * Master seed (hex): <code>dc5423251cb87175ff8110c8531d0952d8d73e1194e95b5f19d6f9df7c01111104c9baecdfea8cccc677fb9ddc8aec5553b86e528bcadfdcc201c17c638c47e9</code>\n * master node xprv: <code>xprv9s21ZrQH143K4UYT4rP3TZVKKbmRVmfRqTx9mG2xCy2JYipZbkLV8rwvBXsUbEv9KQiUD7oED1Wyi9evZzUn2rqK9skRgPkNaAzyw3YrpJN</code>\n \n+===Test vector 6===\n+\n+This example shows converting an existing 256-bit Core Lightning HSM secret into a codex32 secret using a human-readable part of <code>cl</code> and an identifier of <code>luea</code> and then relabeling the secret. Four zero bits are appended in order to obtain 52 bech32 payload characters (260 bits of data) from the 256-bit HSM secret.\n+\n+Core Lightning HSM secret (hex): <code>83634b3b43a3734b73396989980000000000000000000000000000000000000000</code>\n+\n+* payload: <code>d35kw6r5de5kueedxyesqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq</code>\n+* checksum: <code>anvrktzhlhusz</code>\n+* codex32-encoded HSM secret: <code>cl10lueasd35kw6r5de5kueedxyesqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqanvrktzhlhusz</code>\n+\n+Note the identifier choice is arbitrary, any identifier would have been valid; however a different identifier produces a different checksum. For example:\n+\n+* identifier: <code>cln2</code>\n+* checksum: <code>n9lcvcu7cez4s</code>\n+* codex32-encoded HSM secret: <code>cl10cln2sd35kw6r5de5kueedxyesqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqn9lcvcu7cez4s</code>\n+\n+===Test vector 7===\n+\n+This example shows the codex32 format, when used with a different human-readable part.\n+The payload contains 52 bech32 characters, which corresponds to 260 bits. We truncate the last four bits in order to obtain a 256-bit HSM secret.\n+\n+codex32-encoded HSM secret (bech32): <code>cl10peevst6cqh0wu7p5ssjyf4z4ez42ks9jlt3zneju9uuypr2hddak6tlqsjhsks4laxts8q</code>\n+\n+* human-readable part: <code>cl</code>\n+* separator: <code>1</code>\n+* k value: <code>0</code> (no secret splitting)\n+* identifier: <code>peev</code>\n+* share index: <code>s</code> (the secret)\n+* payload: <code>t6cqh0wu7p5ssjyf4z4ez42ks9jlt3zneju9uuypr2hddak6tlqs</code>\n+* checksum: <code>jhsks4laxts8q</code>\n+* HSM secret (hex): <code>82f5805deee7834842444d455c8aaab40b2fae229e65c2f38408d576b7b6d2fe08</code>\n+\n+\n+\n+\n ===Invalid test vectors===",
+      "path": "bip-0093.mediawiki",
+      "position": 379,
+      "original_position": 400,
+      "commit_id": "ca09f9bd0c9c0248b7bbf632bd394a3525e98767",
+      "original_commit_id": "8e4256807d81dde5531dc9593667c86700050dfc",
+      "in_reply_to_id": 2622428122,
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "My implementation is passing these test vectors and Bech32/Bech32m vectors:\r\n\r\n```python3\r\n\"\"\"Reference implementation for codex32/Long codex32 and codex32-encoded master seeds.\"\"\"\r\n\r\nfrom enum import Enum\r\n\r\nCHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\r\n\r\nCODEX32_GEN = [\r\n    0x19DC500CE73FDE210,\r\n    0x1BFAE00DEF77FE529,\r\n    0x1FBD920FFFE7BEE52,\r\n    0x1739640BDEEE3FDAD,\r\n    0x07729A039CFC75F5A,\r\n]\r\nCODEX32_LONG_GEN = [\r\n    0x3D59D273535EA62D897,\r\n    0x7A9BECB6361C6C51507,\r\n    0x543F9B7E6C38D8A2A0E,\r\n    0x0C577EAECCF1990D13C,\r\n    0x1887F74F8DC71B10651,\r\n]\r\n\r\nclass Encoding(Enum):\r\n    \"\"\"Enumeration type to list the various supported encodings.\"\"\"\r\n\r\n    CODEX32 = (CODEX32_GEN, 13, 0x10CE0795C2FD1E62A)\r\n    CODEX32_LONG = (CODEX32_LONG_GEN, 15, 0x43381E570BF4798AB26)\r\n    BECH32 = (BECH32_GEN, 6, 1)\r\n    BECH32M = (BECH32_GEN, 6, 0x2BC830A3)\r\n\r\n    def __init__(self, gen, cs_len, const):\r\n        self.gen = gen\r\n        self.cs_len = cs_len\r\n        self.shift = len(self.gen) * (self.cs_len - 1)\r\n        self.const = const\r\n        self.mask = (1 << self.shift) - 1\r\n\r\n    def polymod(self, values: list[int], residue=1):\r\n        \"\"\"Internal function that computes the Codex32 checksums.\"\"\"\r\n        for value in values:\r\n            top = residue >> self.shift\r\n            residue = (residue & self.mask) << len(self.gen) ^ value\r\n            for i, g in enumerate(self.gen):\r\n                residue ^= g if ((top >> i) & 1) else 0\r\n        return residue\r\n\r\ndef bech32_hrp_expand(hrp):\r\n    \"\"\"Expand the HRP into values for checksum computation.\"\"\"\r\n    return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 31 for x in hrp]\r\n\r\ndef codex32_verify_checksum(hrp, data):\r\n    \"\"\"Verify a checksum given HRP and converted data characters.\"\"\"\r\n    if len(hrp) + len(data) >= 96:  # See Long codex32 Strings\r\n        spec = Encoding.CODEX32_LONG\r\n    elif len(hrp) + len(data) <= 93:\r\n        spec = Encoding.CODEX32\r\n    else:\r\n        raise InvalidLength(f\"{len(hrp) + len(data)} characters not valid for Codex32\")\r\n    if spec.polymod(bech32_hrp_expand(hrp) + data) == spec.const:\r\n        return spec\r\n    raise InvalidChecksum(spec.name)\r\n\r\ndef bech32_create_checksum(values, spec: Encoding):\r\n    \"\"\"Compute the checksum values given HRP and data.\"\"\"\r\n    polymod = spec.polymod(values + [0] * spec.cs_len) ^ spec.const\r\n    return [(polymod >> 5 * (spec.cs_len - 1 - i)) & 31 for i in range(spec.cs_len)]\r\n\r\ndef bech32_encode(hrp, data, spec):\r\n    \"\"\"Compute a Bech32 string given HRP and data values.\"\"\"\r\n    combined = data + bech32_create_checksum(bech32_hrp_expand(hrp) + data, spec)\r\n    return hrp + \"1\" + \"\".join(CHARSET[d] for d incombined)\r\n\r\ndef codex32_encode(hrp, data):\r\n    \"\"\"Compute a Codex32/Codex32 Long string given HRP and data values.\"\"\"\r\n    spec = Encoding.CODEX32_LONG if len(hrp) + len(data) > 80 else Encoding.CODEX32\r\n    return bech32_encode(hrp, data, spec)\r\n\r\ndef bech32_to_u5(bech: str):\r\n    \"\"\"Map bech32 data-part string -> list of 5-bit integers (0-31).\"\"\"\r\n    for i, ch in enumerate(bech.lower()):\r\n        if ch not in CHARSET:\r\n            raise InvalidChar(f\"{ch!r} at pos={i} in data part\")\r\n    return [CHARSET.find(x) for x in bech.lower()]\r\n\r\ndef _decode(bech: str):\r\n    \"\"\"Decode a Bech32/Bech32m string, and determine HRP and data.\"\"\"\r\n    for i, ch in enumerate(bech):\r\n        if ord(ch) < 33 or ord(ch) > 126:\r\n            raise InvalidChar(f\"non-printable U+{ord(ch):04X} at pos={i}\")\r\n    if bech.lower() != bech and bech.upper() != bech:\r\n        raise InvalidCase\r\n    bech = bech.lower()\r\n    pos = bech.rfind(\"1\")\r\n    hrp = bech[:pos]\r\n    data = bech32_to_u5(bech[pos + 1 :])\r\n    return pos, hrp, data\r\n\r\ndef codex32_decode(codex: str):\r\n    \"\"\"Validate a Codex32/Codex32 Long string, and determine HRP and data.\"\"\"\r\n    pos, hrp, data = _decode(codex)\r\n    if pos < 1 or pos + 20 > len(codex) or len(codex) > 1024:\r\n        raise InvalidLength(f\"{len(codex)-1}\")\r\n    if not codex[pos + 1].isdigit():\r\n        raise InvalidThreshold\r\n    if data[0] == 15 and data[5] != 16:\r\n        raise InvalidShareIndex\r\n    spec = codex32_verify_checksum(hrp, data)\r\n    return hrp, data[: -spec.cs_len], spec\r\n```",
+      "created_at": "2025-12-21T00:13:21Z",
+      "updated_at": "2025-12-21T00:13:21Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#discussion_r2637449653",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2637449653"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2040"
