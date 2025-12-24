@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2023-09-30T11:40:55Z",
-    "updated_at": "2025-12-24T15:16:36Z",
+    "updated_at": "2025-12-24T16:17:58Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -2978,9 +2978,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-12-24T10:46:34Z",
-      "updated_at": "2025-12-24T10:46:34Z",
+      "updated_at": "2025-12-24T16:17:58Z",
       "author_association": "NONE",
-      "body": "Not sure this is the best place to report this, but I tried to copy the `ref-impl` and use it to test the test vectors here https://github.com/Nuhvi/sake/blob/142b4fb099a4253979549193ae2dfc09ce4caf12/src/exec/sake_opcodes/op_ctv.rs#L99 and I noticed that most of the test vectors that tests the 3rd input (index 2, a taproot input) fail:\r\n```\r\n[\r\n    \"0:18 (10000000 #2)\",\r\n    \"0:34 (ff000080 #2)\",\r\n    \"0:38 (ff400040 #2)\",\r\n    \"0:41 (ff800040 #2)\",\r\n    \"0:44 (ffc00040 #2)\",\r\n    \"0:47 (ff40003f #2)\",\r\n    \"0:51 (ff80003f #2)\",\r\n    \"0:55 (ffc0003f #2)\",\r\n    \"0:59 (ff4000c0 #2)\",\r\n    \"0:62 (ff8000c0 #2)\",\r\n    \"0:65 (ffc000c0 #2)\",\r\n    \"0:68 (ff4000bf #2)\",\r\n    \"0:72 (ff8000bf #2)\",\r\n    \"0:76 (ffc000bf #2)\",\r\n    \"0:80 (ff0080 #2)\",\r\n    \"0:84 (ff0140 #2)\",\r\n    \"0:88 (ff0240 #2)\",\r\n    \"0:92 (ff0440 #2)\",\r\n    \"0:96 (ff0840 #2)\",\r\n    \"0:100 (ff1040 #2)\",\r\n    \"0:104 (ff2040 #2)\",\r\n    \"0:108 (ff3f40 #2)\",\r\n    \"0:112 (ff013f #2)\",\r\n    \"0:116 (ff023f #2)\",\r\n    \"0:120 (ff043f #2)\",\r\n    \"0:124 (ff083f #2)\",\r\n    \"0:128 (ff103f #2)\",\r\n    \"0:132 (ff203f #2)\",\r\n    \"0:136 (ff3f3f #2)\",\r\n    \"0:140 (ff01c0 #2)\",\r\n    \"0:144 (ff02c0 #2)\",\r\n    \"0:148 (ff04c0 #2)\",\r\n    \"0:152 (ff08c0 #2)\",\r\n    \"0:156 (ff10c0 #2)\",\r\n    \"0:160 (ff20c0 #2)\",\r\n    \"0:164 (ff3fc0 #2)\",\r\n    \"0:168 (ff01bf #2)\",\r\n    \"0:172 (ff02bf #2)\",\r\n    \"0:176 (ff04bf #2)\",\r\n    \"0:180 (ff08bf #2)\",\r\n    \"0:184 (ff10bf #2)\",\r\n    \"0:188 (ff20bf #2)\",\r\n    \"0:192 (ff3fbf #2)\",\r\n    \"0:196 (ffff3f3f #2)\",\r\n    \"0:200 (ffff4040 #2)\",\r\n    \"0:203 (ff008080 #2)\",\r\n    \"0:207 (ffffbfbf #2)\",\r\n    \"0:211 (ffffc0c0 #2)\",\r\n    \"0:214 (ffff403f #2)\",\r\n    \"0:218 (ffff3f40 #2)\",\r\n    \"0:221 (ffff0182 #2)\",\r\n    \"0:225 (ffffc002 #2)\",\r\n    \"0:228 (ffff4101420002 #2)\",\r\n    \"0:232 (ffffc101c20002 #2)\",\r\n    \"0:235 (ffff617f627f00 #2)\",\r\n    \"0:237 (ffffe17fe27f00 #2)\",\r\n    \"0:244 (ff #2)\",\r\n    \"0:248 (f7 #2)\",\r\n    \"0:251 (f3 #2)\",\r\n    \"0:255 (fd #2)\",\r\n    \"0:259 (f5 #2)\",\r\n    \"0:262 (f1 #2)\",\r\n    \"0:266 (ed #2)\",\r\n    \"0:270 (e5 #2)\",\r\n    \"0:273 (e1 #2)\",\r\n    \"0:277 (cd #2)\",\r\n    \"0:281 (c5 #2)\",\r\n    \"0:284 (c1 #2)\",\r\n]\r\n```",
+      "body": "Not sure this is the best place to report this, but I tried to copy the `ref-impl` and use it to test the test vectors here https://github.com/Nuhvi/sake/blob/142b4fb099a4253979549193ae2dfc09ce4caf12/src/exec/sake_opcodes/op_ctv.rs#L99 and I noticed that most of the test vectors that tests the 3rd input (index 2, a taproot input) fail.\r\n\r\nEdit: Reference implementation doesn't match the bip at least in one place:\r\n```rust\r\npub const TXFS_CURRENT_INPUT_SPENTSCRIPT: u8 = 1 << 3;\r\npub const TXFS_CURRENT_INPUT_CONTROL_BLOCK: u8 = 1 << 4;\r\n```\r\n\r\n```md\r\n4: current input control block (or empty) (TXFS_CURRENT_INPUT_CONTROL_BLOCK)\r\n5: current input spent script (i.e. witness script or tapscript) (TXFS_CURRENT_INPUT_SPENTSCRIPT)\r\n```",
       "user": {
         "login": "Nuhvi",
         "id": 40009100,
