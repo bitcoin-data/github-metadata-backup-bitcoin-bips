@@ -43,7 +43,7 @@
     "body": "This BIP describes a new tapscript opcode (`OP_AMOUNT`) which pushes the amount of the selected input or output to the stack.",
     "labels": [],
     "created_at": "2026-01-01T16:50:41Z",
-    "updated_at": "2026-01-01T16:50:41Z",
+    "updated_at": "2026-01-01T18:58:22Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -154,7 +154,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 18528,
+        "size": 18526,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -306,7 +306,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 2,
     "comments": 0
   },
   "events": [
@@ -349,7 +349,155 @@
         "date": "2026-01-01T16:49:33Z"
       },
       "sha": "4d40a47bc81e85299dc34049dff797b823a106e9"
+    },
+    {
+      "event": "reviewed",
+      "id": 3622005937,
+      "node_id": "PRR_kwDOAN28mc7X42yx",
+      "url": null,
+      "actor": null,
+      "commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-01-01T18:58:22Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Hi @Nuhvi :-). Excited to see more proposals about implementing amount locks in Script. I'm short on time at the moment so hopefully this bit of review is useful. I'll take a look in detail later.",
+      "user": {
+        "login": "Christewart",
+        "id": 3514957,
+        "node_id": "MDQ6VXNlcjM1MTQ5NTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3514957?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Christewart",
+        "html_url": "https://github.com/Christewart",
+        "followers_url": "https://api.github.com/users/Christewart/followers",
+        "following_url": "https://api.github.com/users/Christewart/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Christewart/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Christewart/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Christewart/subscriptions",
+        "organizations_url": "https://api.github.com/users/Christewart/orgs",
+        "repos_url": "https://api.github.com/users/Christewart/repos",
+        "events_url": "https://api.github.com/users/Christewart/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Christewart/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2069#pullrequestreview-3622005937",
+      "submitted_at": "2026-01-01T18:58:22Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2069"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2656544379",
+      "pull_request_review_id": 3622005937,
+      "id": 2656544379,
+      "node_id": "PRRC_kwDOAN28mc6eV6Z7",
+      "diff_hunk": "@@ -0,0 +1,127 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_AMOUNT\n+  Author: Nuh <nuh@nuh.dev>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-op_amount\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2026-01-01\n+  License: BSD-3-Clause\n+```\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode (`OP_AMOUNT`) which pushes the amount of the selected input or output to the stack.\n+\n+## Motivation\n+\n+Many soft fork proposals are in the form of a bundle of other BIPs, each introducing a single capability at a time with one or more opcodes. \n+\n+Most capabilities have simple self-contained proposals addressing them sufficiently with good ergonomics (Vector commitments [BIP 347], State-carrying UTXOs [BIP 443], Commitment to transactions [OP_TEMPLATEHASH], Signatures [BIP 348]).\n+\n+Amount introspection on the other hand, can either be achieved by unergonomic work arounds (OP_CAT and schnorr tricks), or with much more comprehensive introspections opcodes ([OP_TXHASH], or [OP_TX] from the great script restoration proposal), or they expect support for 64 bit arithmetics in tapscript with novel tapleaf version ([OP_INOUT_AMOUNT]).\n+\n+This proposal aims to remedy that, by offering a simple amount introspection opcode, that covers introspection of inputs and outputs, without requiring any more introspection or 64 bit arithmetics or any other behavior, so that proposal could be bundled with other proposals offering other capabilities, together considered a good balance between ergonomicity and implementation complexity.\n+\n+## Specification\n+\n+When verifying taproot script path spends having leaf version `0xc0` (as defined in [BIP 342]), `OP_AMOUNT` replaces `OP_SUCCESS228` (0xe4). \n+\n+**Execution:**\n+\n+1. Pop the top stack element and interpret it as a signed integer called `op_amount_selector` or the script fails otherwise.\n+2. Determine the target input or output based on the selector value:\n+   - **selector = 0**: Use the current input being validated\n+   - **selector < 0**: Use input at index `abs(selector) - 1`\n+   - **selector > 0**: Use output at index `selector - 1`\n+3. Retrieve the amount value from the determined input or output\n+4. Push the resulting amount onto the stack as a signed 64 bit integer\n+\n+**Examples:**\n+- Selector `0` → amount of current input\n+- Selector `-1` → amount of input 0\n+- Selector `-2` → amount of input 1\n+- Selector `1` → amount of output 0\n+- Selector `2` → amount of output \n+\n+If the selected input or output are out of bound, the script should fail.\n+\n+## Reference Implementation\n+\n+A reference implementation is provided [here](https://github.com/Nuhvi/sake/blob/c3243f000b7ade3b7649a3b3c67b3801b8c12215/src/exec/sake_opcodes/op_amount.rs).",
+      "path": "bip-op-amount.md",
+      "position": 52,
+      "original_position": 52,
+      "commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "original_commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Christewart",
+        "id": 3514957,
+        "node_id": "MDQ6VXNlcjM1MTQ5NTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3514957?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Christewart",
+        "html_url": "https://github.com/Christewart",
+        "followers_url": "https://api.github.com/users/Christewart/followers",
+        "following_url": "https://api.github.com/users/Christewart/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Christewart/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Christewart/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Christewart/subscriptions",
+        "organizations_url": "https://api.github.com/users/Christewart/orgs",
+        "repos_url": "https://api.github.com/users/Christewart/repos",
+        "events_url": "https://api.github.com/users/Christewart/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Christewart/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "It would be very cool to see an implementation of this op code in conjunction with [`OP_VAULT`](https://delvingbitcoin.org/t/op-inout-amount/549/5?u=chris_stewart_5), [OP_CCV](https://delvingbitcoin.org/t/op-inout-amount/549/5?u=chris_stewart_5), and [OP_CTV](https://delvingbitcoin.org/t/op-inout-amount/549/9?u=chris_stewart_5) to verify this op code proposals satisfies the requirements of these other opcodes proposals that require amount locks.\r\n\r\nI received a lot of useful feedback for my proposals and I think you will receive the same with yours :-). ",
+      "created_at": "2026-01-01T18:42:26Z",
+      "updated_at": "2026-01-01T18:58:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2069#discussion_r2656544379",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2656544379"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2069"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 52,
+      "original_line": 52,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2656551429",
+      "pull_request_review_id": 3622005937,
+      "id": 2656551429,
+      "node_id": "PRRC_kwDOAN28mc6eV8IF",
+      "diff_hunk": "@@ -0,0 +1,127 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_AMOUNT\n+  Author: Nuh <nuh@nuh.dev>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-op_amount\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2026-01-01\n+  License: BSD-3-Clause\n+```\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode (`OP_AMOUNT`) which pushes the amount of the selected input or output to the stack.\n+\n+## Motivation\n+\n+Many soft fork proposals are in the form of a bundle of other BIPs, each introducing a single capability at a time with one or more opcodes. \n+\n+Most capabilities have simple self-contained proposals addressing them sufficiently with good ergonomics (Vector commitments [BIP 347], State-carrying UTXOs [BIP 443], Commitment to transactions [OP_TEMPLATEHASH], Signatures [BIP 348]).\n+\n+Amount introspection on the other hand, can either be achieved by unergonomic work arounds (OP_CAT and schnorr tricks), or with much more comprehensive introspections opcodes ([OP_TXHASH], or [OP_TX] from the great script restoration proposal), or they expect support for 64 bit arithmetics in tapscript with novel tapleaf version ([OP_INOUT_AMOUNT]).\n+\n+This proposal aims to remedy that, by offering a simple amount introspection opcode, that covers introspection of inputs and outputs, without requiring any more introspection or 64 bit arithmetics or any other behavior, so that proposal could be bundled with other proposals offering other capabilities, together considered a good balance between ergonomicity and implementation complexity.\n+\n+## Specification\n+\n+When verifying taproot script path spends having leaf version `0xc0` (as defined in [BIP 342]), `OP_AMOUNT` replaces `OP_SUCCESS228` (0xe4). \n+\n+**Execution:**\n+\n+1. Pop the top stack element and interpret it as a signed integer called `op_amount_selector` or the script fails otherwise.\n+2. Determine the target input or output based on the selector value:\n+   - **selector = 0**: Use the current input being validated\n+   - **selector < 0**: Use input at index `abs(selector) - 1`\n+   - **selector > 0**: Use output at index `selector - 1`\n+3. Retrieve the amount value from the determined input or output\n+4. Push the resulting amount onto the stack as a signed 64 bit integer",
+      "path": "bip-op-amount.md",
+      "position": 39,
+      "original_position": 39,
+      "commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "original_commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Christewart",
+        "id": 3514957,
+        "node_id": "MDQ6VXNlcjM1MTQ5NTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3514957?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Christewart",
+        "html_url": "https://github.com/Christewart",
+        "followers_url": "https://api.github.com/users/Christewart/followers",
+        "following_url": "https://api.github.com/users/Christewart/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Christewart/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Christewart/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Christewart/subscriptions",
+        "organizations_url": "https://api.github.com/users/Christewart/orgs",
+        "repos_url": "https://api.github.com/users/Christewart/repos",
+        "events_url": "https://api.github.com/users/Christewart/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Christewart/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Its probably worth noting somewhere in this BIP that a limitation of this proposals is that this result cannot be used with any existing numeric opcodes such as [`OP_ADD`, `OP_SUB`, `OP_LESSTHAN`, `OP_GREATERTHAN`, etc](https://github.com/bitcoin/bitcoin/blob/adbb4b320834516dc97fa33aaa853a45cbabca67/src/script/interpreter.cpp#L962).\r\n\r\nIts worth noting that since this op code is using [`OP_SUCCESS` semantics](https://github.com/bitcoin/bips/blob/master/bip-0342.mediawiki#cite_note-1), it gives us the opportunity to expand precision of these opcodes.",
+      "created_at": "2026-01-01T18:57:53Z",
+      "updated_at": "2026-01-01T18:58:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2069#discussion_r2656551429",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2656551429"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2069"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 39,
+      "original_line": 39,
+      "side": "RIGHT"
+    }
+  ]
 }
