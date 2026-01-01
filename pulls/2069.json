@@ -43,7 +43,7 @@
     "body": "This BIP describes a new tapscript opcode (`OP_AMOUNT`) which pushes the amount of the selected input or output to the stack.",
     "labels": [],
     "created_at": "2026-01-01T16:50:41Z",
-    "updated_at": "2026-01-01T18:58:22Z",
+    "updated_at": "2026-01-01T19:48:49Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -274,8 +274,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5855,
-        "stargazers_count": 10461,
-        "watchers_count": 10461,
+        "stargazers_count": 10462,
+        "watchers_count": 10462,
         "size": 18528,
         "default_branch": "master",
         "open_issues_count": 71,
@@ -291,7 +291,7 @@
         "visibility": "public",
         "pushed_at": "2025-12-26T15:24:58Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-01-01T15:23:12Z",
+        "updated_at": "2026-01-01T19:35:12Z",
         "allow_forking": true
       }
     },
@@ -306,7 +306,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 2,
+    "review_comments": 4,
     "comments": 0
   },
   "events": [
@@ -487,6 +487,114 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2656551429"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2069"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 39,
+      "original_line": 39,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2656571281",
+      "pull_request_review_id": 3622024684,
+      "id": 2656571281,
+      "node_id": "PRRC_kwDOAN28mc6eWA-R",
+      "diff_hunk": "@@ -0,0 +1,127 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_AMOUNT\n+  Author: Nuh <nuh@nuh.dev>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-op_amount\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2026-01-01\n+  License: BSD-3-Clause\n+```\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode (`OP_AMOUNT`) which pushes the amount of the selected input or output to the stack.\n+\n+## Motivation\n+\n+Many soft fork proposals are in the form of a bundle of other BIPs, each introducing a single capability at a time with one or more opcodes. \n+\n+Most capabilities have simple self-contained proposals addressing them sufficiently with good ergonomics (Vector commitments [BIP 347], State-carrying UTXOs [BIP 443], Commitment to transactions [OP_TEMPLATEHASH], Signatures [BIP 348]).\n+\n+Amount introspection on the other hand, can either be achieved by unergonomic work arounds (OP_CAT and schnorr tricks), or with much more comprehensive introspections opcodes ([OP_TXHASH], or [OP_TX] from the great script restoration proposal), or they expect support for 64 bit arithmetics in tapscript with novel tapleaf version ([OP_INOUT_AMOUNT]).\n+\n+This proposal aims to remedy that, by offering a simple amount introspection opcode, that covers introspection of inputs and outputs, without requiring any more introspection or 64 bit arithmetics or any other behavior, so that proposal could be bundled with other proposals offering other capabilities, together considered a good balance between ergonomicity and implementation complexity.\n+\n+## Specification\n+\n+When verifying taproot script path spends having leaf version `0xc0` (as defined in [BIP 342]), `OP_AMOUNT` replaces `OP_SUCCESS228` (0xe4). \n+\n+**Execution:**\n+\n+1. Pop the top stack element and interpret it as a signed integer called `op_amount_selector` or the script fails otherwise.\n+2. Determine the target input or output based on the selector value:\n+   - **selector = 0**: Use the current input being validated\n+   - **selector < 0**: Use input at index `abs(selector) - 1`\n+   - **selector > 0**: Use output at index `selector - 1`\n+3. Retrieve the amount value from the determined input or output\n+4. Push the resulting amount onto the stack as a signed 64 bit integer\n+\n+**Examples:**\n+- Selector `0` → amount of current input\n+- Selector `-1` → amount of input 0\n+- Selector `-2` → amount of input 1\n+- Selector `1` → amount of output 0\n+- Selector `2` → amount of output \n+\n+If the selected input or output are out of bound, the script should fail.\n+\n+## Reference Implementation\n+\n+A reference implementation is provided [here](https://github.com/Nuhvi/sake/blob/c3243f000b7ade3b7649a3b3c67b3801b8c12215/src/exec/sake_opcodes/op_amount.rs).",
+      "path": "bip-op-amount.md",
+      "position": 52,
+      "original_position": 52,
+      "commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "original_commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "in_reply_to_id": 2656544379,
+      "user": {
+        "login": "Nuhvi",
+        "id": 40009100,
+        "node_id": "MDQ6VXNlcjQwMDA5MTAw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/40009100?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Nuhvi",
+        "html_url": "https://github.com/Nuhvi",
+        "followers_url": "https://api.github.com/users/Nuhvi/followers",
+        "following_url": "https://api.github.com/users/Nuhvi/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Nuhvi/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Nuhvi/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Nuhvi/subscriptions",
+        "organizations_url": "https://api.github.com/users/Nuhvi/orgs",
+        "repos_url": "https://api.github.com/users/Nuhvi/repos",
+        "events_url": "https://api.github.com/users/Nuhvi/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Nuhvi/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Hi @Christewart thanks for taking the time to review this and thanks for your work on OP_INOUT_AMOUNT.\r\n\r\nThis is a fair thing to ask for, I mostly bet on the \"Script Army Knife\"'s assertion that simple amount introspection with exact values comparisons is enough, and I don't have specifics in mind yet, especially because I am more focused on L2s than vaults.\r\n\r\nHowever my hope is that my work on [SAKE](https://github.com/Nuhvi/sake) might encourage developers to either prove or disprove the \"Script Army Knife\"'s thesis in practice and evidently with observable on-chain emulated scripts.\r\n\r\nOf course, if you have a good argument that this proposal is not sufficient for some important application, I am happy to read these.\r\n\r\nStill, it is only fair that I do some of the work demonstrating how would this work with at least `CCV` and `TH`, I will try.",
+      "created_at": "2026-01-01T19:39:58Z",
+      "updated_at": "2026-01-01T19:39:58Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2069#discussion_r2656571281",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2656571281"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2069"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 52,
+      "original_line": 52,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2656575241",
+      "pull_request_review_id": 3622027365,
+      "id": 2656575241,
+      "node_id": "PRRC_kwDOAN28mc6eWB8J",
+      "diff_hunk": "@@ -0,0 +1,127 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_AMOUNT\n+  Author: Nuh <nuh@nuh.dev>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-op_amount\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2026-01-01\n+  License: BSD-3-Clause\n+```\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode (`OP_AMOUNT`) which pushes the amount of the selected input or output to the stack.\n+\n+## Motivation\n+\n+Many soft fork proposals are in the form of a bundle of other BIPs, each introducing a single capability at a time with one or more opcodes. \n+\n+Most capabilities have simple self-contained proposals addressing them sufficiently with good ergonomics (Vector commitments [BIP 347], State-carrying UTXOs [BIP 443], Commitment to transactions [OP_TEMPLATEHASH], Signatures [BIP 348]).\n+\n+Amount introspection on the other hand, can either be achieved by unergonomic work arounds (OP_CAT and schnorr tricks), or with much more comprehensive introspections opcodes ([OP_TXHASH], or [OP_TX] from the great script restoration proposal), or they expect support for 64 bit arithmetics in tapscript with novel tapleaf version ([OP_INOUT_AMOUNT]).\n+\n+This proposal aims to remedy that, by offering a simple amount introspection opcode, that covers introspection of inputs and outputs, without requiring any more introspection or 64 bit arithmetics or any other behavior, so that proposal could be bundled with other proposals offering other capabilities, together considered a good balance between ergonomicity and implementation complexity.\n+\n+## Specification\n+\n+When verifying taproot script path spends having leaf version `0xc0` (as defined in [BIP 342]), `OP_AMOUNT` replaces `OP_SUCCESS228` (0xe4). \n+\n+**Execution:**\n+\n+1. Pop the top stack element and interpret it as a signed integer called `op_amount_selector` or the script fails otherwise.\n+2. Determine the target input or output based on the selector value:\n+   - **selector = 0**: Use the current input being validated\n+   - **selector < 0**: Use input at index `abs(selector) - 1`\n+   - **selector > 0**: Use output at index `selector - 1`\n+3. Retrieve the amount value from the determined input or output\n+4. Push the resulting amount onto the stack as a signed 64 bit integer",
+      "path": "bip-op-amount.md",
+      "position": 39,
+      "original_position": 39,
+      "commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "original_commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "in_reply_to_id": 2656551429,
+      "user": {
+        "login": "Nuhvi",
+        "id": 40009100,
+        "node_id": "MDQ6VXNlcjQwMDA5MTAw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/40009100?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Nuhvi",
+        "html_url": "https://github.com/Nuhvi",
+        "followers_url": "https://api.github.com/users/Nuhvi/followers",
+        "following_url": "https://api.github.com/users/Nuhvi/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Nuhvi/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Nuhvi/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Nuhvi/subscriptions",
+        "organizations_url": "https://api.github.com/users/Nuhvi/orgs",
+        "repos_url": "https://api.github.com/users/Nuhvi/repos",
+        "events_url": "https://api.github.com/users/Nuhvi/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Nuhvi/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Both are fair points, and I am happy to include a section for that, feel free to suggest the copy if you want.\r\n\r\nI would have used `OP_INOUT_AMOUNT` instead of introducing a new proposal, even though it requires two stack elements and even though it doesn't have equivalent to the `CURRENT_INPUT_SELECTOR`, but I figured, having a proposal without the requirement of an extra tapleaf version is a variant worth having.\r\n\r\nI would support GSR or even Simplicity soft fork if I can have it, but scrutiny for soft forks being as it is, I wanted `SAKE` to demonstrate what can be done with the least changes possible (except for CAT only), so it can also have a good chance of happening before it is too late (I am concerned about low fees, fiat stablecoins, and treasury companies trends).\r\n\r\nTo that goal, if trustless L2s with fraud proofs can happen without `OP_AMOUNT` at all, I can live with a version of \"Script Army Knife\" that doesn't have the amounts introspection capability at all.\r\n\r\nWriting all of that just to explain that I am not opposed to OP_INOUT_AMOUNT or its push for 64 bit arithmetics at all.",
+      "created_at": "2026-01-01T19:48:49Z",
+      "updated_at": "2026-01-01T19:48:49Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2069#discussion_r2656575241",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2656575241"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2069"
