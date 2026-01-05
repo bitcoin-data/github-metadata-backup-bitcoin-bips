@@ -61,11 +61,11 @@
       }
     ],
     "created_at": "2026-01-01T16:50:41Z",
-    "updated_at": "2026-01-02T19:51:11Z",
+    "updated_at": "2026-01-05T19:59:54Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "08f9e64cfeb92dfcb91da2b72f25ba719fd698cd",
+    "merge_commit_sha": "4726333f51200214d538abc16490360dd6303f99",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -291,12 +291,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5856,
-        "stargazers_count": 10463,
-        "watchers_count": 10463,
-        "size": 18528,
+        "forks_count": 5861,
+        "stargazers_count": 10472,
+        "watchers_count": 10472,
+        "size": 18534,
         "default_branch": "master",
-        "open_issues_count": 71,
+        "open_issues_count": 72,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -307,9 +307,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-12-26T15:24:58Z",
+        "pushed_at": "2026-01-05T18:23:11Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-01-01T23:59:30Z",
+        "updated_at": "2026-01-05T19:24:45Z",
         "allow_forking": true
       }
     },
@@ -324,7 +324,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 5,
+    "review_comments": 6,
     "comments": 0
   },
   "events": [
@@ -852,6 +852,60 @@
       "start_side": null,
       "line": 113,
       "original_line": 113,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2662649099",
+      "pull_request_review_id": 3628239929,
+      "id": 2662649099,
+      "node_id": "PRRC_kwDOAN28mc6etM0L",
+      "diff_hunk": "@@ -0,0 +1,127 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_AMOUNT\n+  Author: Nuh <nuh@nuh.dev>\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-op_amount\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2026-01-01\n+  License: BSD-3-Clause\n+```\n+\n+## Abstract\n+\n+This BIP describes a new tapscript opcode (`OP_AMOUNT`) which pushes the amount of the selected input or output to the stack.\n+\n+## Motivation\n+\n+Many soft fork proposals are in the form of a bundle of other BIPs, each introducing a single capability at a time with one or more opcodes. \n+\n+Most capabilities have simple self-contained proposals addressing them sufficiently with good ergonomics (Vector commitments [BIP 347], State-carrying UTXOs [BIP 443], Commitment to transactions [OP_TEMPLATEHASH], Signatures [BIP 348]).\n+\n+Amount introspection on the other hand, can either be achieved by unergonomic work arounds (OP_CAT and schnorr tricks), or with much more comprehensive introspections opcodes ([OP_TXHASH], or [OP_TX] from the great script restoration proposal), or they expect support for 64 bit arithmetics in tapscript with novel tapleaf version ([OP_INOUT_AMOUNT]).\n+\n+This proposal aims to remedy that, by offering a simple amount introspection opcode, that covers introspection of inputs and outputs, without requiring any more introspection or 64 bit arithmetics or any other behavior, so that proposal could be bundled with other proposals offering other capabilities, together considered a good balance between ergonomicity and implementation complexity.\n+\n+## Specification\n+\n+When verifying taproot script path spends having leaf version `0xc0` (as defined in [BIP 342]), `OP_AMOUNT` replaces `OP_SUCCESS228` (0xe4). \n+\n+**Execution:**\n+\n+1. Pop the top stack element and interpret it as a signed integer called `op_amount_selector` or the script fails otherwise.\n+2. Determine the target input or output based on the selector value:\n+   - **selector = 0**: Use the current input being validated\n+   - **selector < 0**: Use input at index `abs(selector) - 1`\n+   - **selector > 0**: Use output at index `selector - 1`\n+3. Retrieve the amount value from the determined input or output\n+4. Push the resulting amount onto the stack as a signed 64 bit integer",
+      "path": "bip-op-amount.md",
+      "position": 39,
+      "original_position": 39,
+      "commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "original_commit_id": "4d40a47bc81e85299dc34049dff797b823a106e9",
+      "in_reply_to_id": 2656551429,
+      "user": {
+        "login": "Christewart",
+        "id": 3514957,
+        "node_id": "MDQ6VXNlcjM1MTQ5NTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3514957?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Christewart",
+        "html_url": "https://github.com/Christewart",
+        "followers_url": "https://api.github.com/users/Christewart/followers",
+        "following_url": "https://api.github.com/users/Christewart/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Christewart/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Christewart/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Christewart/subscriptions",
+        "organizations_url": "https://api.github.com/users/Christewart/orgs",
+        "repos_url": "https://api.github.com/users/Christewart/repos",
+        "events_url": "https://api.github.com/users/Christewart/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Christewart/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": ">OP_INOUT_AMOUNT instead of introducing a new proposal, even though it requires two stack elements and even though it doesn't have equivalent to the CURRENT_INPUT_SELECTOR\r\n\r\nFWIW, [one of my learnings](https://delvingbitcoin.org/t/op-inout-amount/549/4) from doing the PoC's with various op code types is that OP_INOUT_AMOUNT should be broken into 2 opcodes \r\n\r\n- `OP_IN_AMOUNT` which pushes the amounts associated with inputs onto the stack \r\n- `OP_OUT_AMOUNT` which pushes amounts associated with outputs onto the stack. \r\n\r\n[Here were the results from breaking `OP_INOUT_AMOUNT` into 2 opcodes](https://delvingbitcoin.org/t/op-inout-amount/549/5#p-4956-separating-op_inout_amount-into-two-opcodes-op_in_amount-op_out_amount-13). That is why I recommend prototyping against other opcodes - from hard earned experienced myself :-). \r\n\r\n>Writing all of that just to explain that I am not opposed to OP_INOUT_AMOUNT or its push for 64 bit arithmetics at all.\r\n\r\nI feel the same way about OP_AMOUNT, and think the prototyping work could be useful to make sure we aren't missing any obvious features or failing to see any problematic design patterns.",
+      "created_at": "2026-01-05T19:59:53Z",
+      "updated_at": "2026-01-05T19:59:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2069#discussion_r2662649099",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2662649099"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2069"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 39,
+      "original_line": 39,
       "side": "RIGHT"
     }
   ]
