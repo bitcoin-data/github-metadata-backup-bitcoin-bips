@@ -37,6 +37,7 @@
       "received_events_url": "https://api.github.com/users/theStack/received_events",
       "type": "User",
       "site_admin": false,
+      "name": null,
       "patch_url": null
     },
     "body": "This PR integrates the recently released [secp256k1lab ](https://github.com/secp256k1lab/secp256k1lab) prototyping library as a subtree [1] and uses it in the BIP-374 reference code as a drop-in replacement of the currently used secp256k1.py file (copied in from the Bitcoin Core functional test framework in 0c7e54d780d059ebbab345946d7c6adbc61fef15). This is intended to serve as a showcase in the hope of triggering a discussion with BIP maintainers and authors on how to best integrate current and future BIPs reference implementations that take use secp256k1 curve operations.\r\n\r\nI chose to demo this on BIP-374 since that's the BIP reference implementation I'm most familiar with, and as one can see in the last commit, the interface is fully compatible, i.e. there were no actual changes in the code logic needed. In order to find the vendored copy of secp256k1lab, Python's `sys.path` is extended [2]. Similar integrations have been done in the [bip-frost-dkg](https://github.com/BlockstreamResearch/bip-frost-dkg) (https://github.com/BlockstreamResearch/bip-frost-dkg/pull/83) and [bip-frost-signing](https://github.com/siv2r/bip-frost-signing) (https://github.com/siv2r/bip-frost-signing/pull/23, still WIP) repos.\r\n\r\nSee also related mailing list threads:\r\n* first mentioning of a secp256k1 prototyping library in the ChillDKG thread: https://groups.google.com/g/bitcoindev/c/HE3HSnGTpoQ/m/Y2VhaMCrCAAJ (back then it was called \"secp256k1proto\")\r\n* secp256k1lab announcement: https://groups.google.com/g/bitcoindev/c/f3MQRO-yxEw/m/cEi6Sd7LBwAJ\r\n\r\n[1] added via the command `$ git subtree add --prefix=python/secp256k1lab --squash https://github.com/secp256k1lab/secp256k1lab v1.0.0`\r\n[2] see e.g. https://github.com/BlockstreamResearch/bip-frost-dkg/pull/81 for an earlier uglier approach; extending `sys.path` also seems to be a bit hacky, but seems to be the typical way to achieve the goal",
@@ -60,10 +61,11 @@
       }
     ],
     "created_at": "2025-05-20T21:25:46Z",
-    "updated_at": "2025-06-20T22:28:06Z",
-    "mergeable_state": "unknown",
+    "updated_at": "2026-01-06T11:44:51Z",
+    "mergeable": true,
+    "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "b0bdc0b788e2d590c93a9df7b1bcbe4502408690",
+    "merge_commit_sha": "4d654f36827adcf022c5d6dab2dcaf523bfb1894",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -85,10 +87,12 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       }
     ],
     "requested_teams": [],
+    "rebaseable": false,
     "head": {
       "label": "theStack:showcase-use_secp256k1lab_for_bip374",
       "ref": "showcase-use_secp256k1lab_for_bip374",
@@ -112,6 +116,7 @@
         "received_events_url": "https://api.github.com/users/theStack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "repo": {
@@ -138,6 +143,7 @@
           "received_events_url": "https://api.github.com/users/theStack/received_events",
           "type": "User",
           "site_admin": false,
+          "name": null,
           "patch_url": null
         },
         "private": false,
@@ -188,9 +194,9 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 0,
-        "stargazers_count": 2,
-        "watchers_count": 2,
-        "size": 16224,
+        "stargazers_count": 0,
+        "watchers_count": 0,
+        "size": 18489,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -203,9 +209,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-05-20T20:17:07Z",
+        "pushed_at": "2026-01-04T13:39:37Z",
         "created_at": "2020-05-06T16:35:59Z",
-        "updated_at": "2025-04-19T22:11:17Z",
+        "updated_at": "2025-11-19T10:24:11Z",
         "allow_forking": true
       }
     },
@@ -232,6 +238,7 @@
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "repo": {
@@ -258,6 +265,7 @@
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
           "site_admin": false,
+          "name": null,
           "patch_url": null
         },
         "private": false,
@@ -307,12 +315,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5647,
-        "stargazers_count": 10003,
-        "watchers_count": 10003,
-        "size": 16483,
+        "forks_count": 5862,
+        "stargazers_count": 10473,
+        "watchers_count": 10473,
+        "size": 18534,
         "default_branch": "master",
-        "open_issues_count": 31,
+        "open_issues_count": 74,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -323,9 +331,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-06-20T22:40:07Z",
+        "pushed_at": "2026-01-05T18:23:11Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-06-20T22:40:12Z",
+        "updated_at": "2026-01-05T20:04:56Z",
         "allow_forking": true
       }
     },
@@ -527,6 +535,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -561,6 +570,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -595,6 +605,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -619,6 +630,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       }
     },
@@ -646,6 +658,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -670,6 +683,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       }
     },
@@ -697,6 +711,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -721,6 +736,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "review_requester": {
@@ -742,6 +758,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       }
     }
