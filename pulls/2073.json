@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-01-05T21:07:39Z",
-    "updated_at": "2026-01-06T22:28:37Z",
+    "updated_at": "2026-01-08T19:54:23Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -292,12 +292,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5861,
-        "stargazers_count": 10476,
-        "watchers_count": 10476,
+        "forks_count": 5862,
+        "stargazers_count": 10479,
+        "watchers_count": 10479,
         "size": 18534,
         "default_branch": "master",
-        "open_issues_count": 73,
+        "open_issues_count": 75,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2026-01-05T18:23:11Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-01-06T21:38:45Z",
+        "updated_at": "2026-01-08T12:41:25Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 5,
-    "review_comments": 8,
+    "review_comments": 9,
     "comments": 0
   },
   "events": [
@@ -1195,6 +1195,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2666490582"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2073"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 62,
+      "original_line": 62,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2673684394",
+      "pull_request_review_id": 3641019037,
+      "id": 2673684394,
+      "node_id": "PRRC_kwDOAN28mc6fXS-q",
+      "diff_hunk": "@@ -0,0 +1,116 @@\n+<pre>\n+  BIP: TBD\n+  Layer: Consensus (soft fork)\n+  Title: 64-bit arithmetic in Script\n+  Author: Chris Stewart <stewart.chris1234@gmail.com>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: 2025-03-17\n+  License: CC0-1.0\n+</pre>\n+\n+==Abstract==\n+\n+This BIP proposes to extend the range of numeric operands in Script from -2^<sup>31</sup>+1 to 2^<sup>31</sup>-1, to -2^<sup>63</sup>+1 to 2^<sup>63</sup>-1.\n+It further expands the result range for arithmetic operations from -2^<sup>63</sup> to 2^<sup>63</sup>-1, to -2^<sup>127</sup> to 2^<sup>127</sup>-1.\n+\n+All existing opcodes<ref name=\"numeric-opcodes\">[https://github.com/bitcoin/bitcoin/blob/223fc24c4ebc8dbaecf59ccd36e49193b58d422b/src/script/interpreter.cpp#L944 List of opcodes interpreting stack elements as numbers: OP_ADD, OP_SUB, OP_BOOLAND, OP_BOOLOR, OP_NUMEQUAL, OP_NUMEQUALVERIFY, OP_NUMNOTEQUAL, OP_LESSTHAN, OP_GREATERTHAN, OP_LESSTHANOREQUAL, OP_GREATERTHANOREQUAL, OP_MIN, OP_MAX, OP_1ADD, OP_1SUB, OP_NEGATE, OP_ABS, OP_NOT, OP_0NOTEQUAL, OP_DEPTH, OP_SIZE, OP_WITHIN, OP_CHECKLOCKTIMEVERIFY, OP_CHECKSEQUENCEVERIFY]</ref> \n+that interpret stack elements as numbers are upgraded to support 64-bit parameters.\n+\n+The existing number encoding format<ref>[https://delvingbitcoin.org/t/64-bit-arithmetic-soft-fork/397/6?u=chris_stewart_5 The original Script number encoding: minimal-length little-endian, sign-magnitude format]</ref> \n+and arithmetic semantics<ref>[https://github.com/bitcoin/bitcoin/blob/257fd27e4bb7dfd71e5f9f4dd2db34ff5a7ad957/src/script/script.h#L231 Handling of overflows in Script: CScriptNum stores results as int64, permitting out-of-range values until further arithmetic is performed]</ref> \n+from the original Bitcoin implementation are preserved, while enhancing the supported precision.\n+\n+==Motivation==\n+\n+Several soft fork proposals require support for at least 51 bits of precision in Script to accurately represent satoshi values.\n+While it is technically possible<ref>[https://rusty.ozlabs.org/2023/10/22/amounts-in-script.html A proof of concept demonstrating how to circumvent the precision limits in the original Bitcoin protocol]</ref>\n+to operate on such values within the original Script design, doing so is inefficient and error-prone.\n+\n+===OP_IN_AMOUNT, OP_OUT_AMOUNT===\n+\n+OP_IN_AMOUNT, OP_OUT_AMOUNT<ref>[https://delvingbitcoin.org/t/op-inout-amount/549/3 OP_IN_AMOUNT, OP_OUT_AMOUNT]</ref> is proposed as part of the OP_TAPLEAFUPDATEVERIFY<ref>[https://gnusha.org/pi/bitcoindev/20210909064138.GA22496@erisian.com.au/ OP_TAPLEAFUPDATEVERIFY]</ref> soft fork.\n+This opcode pushes two values onto the stack, corresponding to the sum of input values and output values of the transaction being validated.\n+\n+Because UTXO values may reach up to 51 bits, supporting 64-bit arithmetic operations is necessary to enable correct manipulation of these values.\n+\n+===OP_CHECKCONTRACTVERIFY===\n+\n+OP_CHECKCONTRACTVERIFY<ref>[https://github.com/bitcoin/bips/pull/1793 OP_CHECKCONTRACTVERIFY]</ref> enables the creation of UTXOs that commit to dynamic pieces of data.\n+When spending an OP_CCV output, it is necessary to verify that the UTXO's value is properly allocated among the transaction outputs.\n+\n+Given that UTXO values may span up to 51 bits, OP_CHECKCONTRACTVERIFY would benefit from 64-bit arithmetic support to perform such verifications.<ref>[https://delvingbitcoin.org/t/op-inout-amount/549/5?u=chris_stewart_5 A case study on how OP_CHECKCONTRACTVERIFY can use 64-bith arithmetic]</ref>\n+\n+===OP_VAULT===\n+\n+OP_VAULT<ref>[https://github.com/bitcoin/bips/blob/master/bip-0345.mediawiki OP_VAULT]</ref> introduces a mechanism to enforce a delay period before designated coins may be spent to arbitrary destinations, except along a predefined \"recovery\" path.\n+This opcode requires reading the output’s value from the stack for validation.<ref>[https://github.com/bitcoin-inquisition/bitcoin/pull/21/files#diff-a0337ffd7259e8c7c9a7786d6dbd420c80abfa1afdb34ebae3261109d9ae3c19R1377 Where OP_VAULT extends CScriptNum's precision to 7 bytes to correctly interpret the revault amount from the stack]</ref>\n+\n+Since UTXO values may reach 51 bits, OP_VAULT would also benefit from expanded 64-bit arithmetic.<ref>[https://delvingbitcoin.org/t/op-inout-amount/549/4 A case study on how OP_VAULT can use 64-bit arithmetic.]</ref>\n+\n+===OP_CHECKTEMPLATEVERIFY===\n+\n+OP_CHECKTEMPLATEVERIFY (CTV)<ref>[https://github.com/bitcoin/bips/blob/master/bip-0119.mediawiki#user-content-OP_AMOUNTVERIFY BIP119]</ref> is a proposed covenant opcode that enables limited forms of transaction pre-commitment.\n+A future extension, OP_AMOUNTVERIFY, would allow for verification of the total amount spent, the fee paid, or the amounts assigned to specific outputs.\n+\n+Given that Bitcoin amounts can occupy up to 51 bits, OP_AMOUNTVERIFY and related CTV enhancements would benefit from support for 64-bit arithmetic operations.\n+\n+==Specification==\n+\n+All existing opcodes<ref name=\"numeric-opcodes\" /> that interpret stack elements as numbers are modified to support 64-bit operands.",
+      "path": "bip-XXXX.mediawiki",
+      "position": 62,
+      "original_position": 62,
+      "commit_id": "b6af62fb56d6edc3334c9998ee106148a30bd345",
+      "original_commit_id": "b6af62fb56d6edc3334c9998ee106148a30bd345",
+      "in_reply_to_id": 2666490582,
+      "user": {
+        "login": "Christewart",
+        "id": 3514957,
+        "node_id": "MDQ6VXNlcjM1MTQ5NTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3514957?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Christewart",
+        "html_url": "https://github.com/Christewart",
+        "followers_url": "https://api.github.com/users/Christewart/followers",
+        "following_url": "https://api.github.com/users/Christewart/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Christewart/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Christewart/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Christewart/subscriptions",
+        "organizations_url": "https://api.github.com/users/Christewart/orgs",
+        "repos_url": "https://api.github.com/users/Christewart/repos",
+        "events_url": "https://api.github.com/users/Christewart/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Christewart/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I intended the reconciliation to happen in the [deployment section](https://github.com/Christewart/bips/blob/2025-03-17-64bit-pt2/bip-XXXX.mediawiki#deployment).\r\n\r\nI think the most optimal deployment story is this BIP gets bundled with a wider set of BIPs that actually allocate a new opcode - ideally any of the 4 BIPs cited in the motivation section. Multiple BIPs were deployed as part of Taproot and segwit so I don't think this would be a problem.\r\n\r\nAn alternative that has been discussed is an [`OP_ENABLE64BIT`](https://delvingbitcoin.org/t/64-bit-arithmetic-soft-fork/397/4?u=chris_stewart_5) opcode that uses the OP_SUCCESS semantics if this proposal was deployed on its own. I would advocate for taking the former path rather than allocating a speicific opcode like `OP_ENABLE64BIT` though.\r\n\r\nWith that being said, if you think this can be reworded to be clearer, or perhaps deleting parts that are confusing, I'm interested in hearing your thoughts.",
+      "created_at": "2026-01-08T19:54:23Z",
+      "updated_at": "2026-01-08T19:54:23Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2073#discussion_r2673684394",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2673684394"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2073"
