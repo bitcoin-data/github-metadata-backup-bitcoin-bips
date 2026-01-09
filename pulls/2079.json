@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-01-09T20:37:53Z",
-    "updated_at": "2026-01-09T20:54:46Z",
+    "updated_at": "2026-01-09T21:41:37Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -164,7 +164,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 18532,
+        "size": 18538,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -317,7 +317,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 0
+    "comments": 1
   },
   "events": [
     {
@@ -433,6 +433,64 @@
         "name": "New BIP",
         "color": "5319e7"
       }
+    },
+    {
+      "event": "commented",
+      "id": 3730662740,
+      "node_id": "IC_kwDOAN28mc7eXWVU",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3730662740",
+      "actor": {
+        "login": "EntropyMaBoyy",
+        "id": 220534372,
+        "node_id": "U_kgDODSUWZA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/220534372?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/EntropyMaBoyy",
+        "html_url": "https://github.com/EntropyMaBoyy",
+        "followers_url": "https://api.github.com/users/EntropyMaBoyy/followers",
+        "following_url": "https://api.github.com/users/EntropyMaBoyy/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/EntropyMaBoyy/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/EntropyMaBoyy/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/EntropyMaBoyy/subscriptions",
+        "organizations_url": "https://api.github.com/users/EntropyMaBoyy/orgs",
+        "repos_url": "https://api.github.com/users/EntropyMaBoyy/repos",
+        "events_url": "https://api.github.com/users/EntropyMaBoyy/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/EntropyMaBoyy/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-01-09T21:41:37Z",
+      "updated_at": "2026-01-09T21:41:37Z",
+      "author_association": "NONE",
+      "body": "Hi Murch,\r\n\r\nThanks for the quick feedback. You're absolutely right to flag the\r\ndisconnect with PR #1923. I've reviewed Calvin Kim's proposal and can now\r\narticulate the technical friction clearly:\r\n\r\nCore Difference: Implicit vs. Explicit Path Encoding\r\n\r\n- #1923 (Utreexo Standard): Uses implicit path derivation. The verifier\r\ncalculates traversal order from leaf indices and `num_leaves`, saving\r\nbandwidth by deducing structure mathematically. This is optimal for full\r\nUtreexo nodes that maintain the accumulator state (`Stump`).\r\n\r\n- My Proposal (BIP-XXXX): Uses an explicit bitmap. The verifier follows a\r\nsimple FIFO stack algorithm with no index calculations. This costs 1 bit\r\nper internal node but eliminates the need for `num_leaves` or tree topology\r\nawareness.\r\n\r\nThe \"Stateless Verifier\" Use Case\r\n\r\nMy target is ultra-light clients that want to verify a single proof without\r\nsyncing the accumulator. For example:\r\n- Hardware wallets receiving a one-off payment proof.\r\n- Cross-protocol bridges where the verifier doesn't track Bitcoin's UTXO\r\nset state.\r\n- Environments where even small indexing logic is a security/complexity\r\nrisk (e.g., firmware).\r\n\r\nIn these cases, transmitting a small bitmap is a deliberate trade-off:\r\nbandwidth for verifier simplicity and zero state.\r\n\r\nProcess Question\r\n\r\nI now realize I may have jumped the gun. I haven't posted to the Bitcoin\r\nmailing list yet—should I initiate discussion there first, even if this is\r\npositioned as a complementary (not competing) format? Or would it be more\r\nproductive to propose this as an optional \"stateless mode\" extension within\r\n#1923's framework?\r\n\r\nCleaned Pseudocode for Reference\r\n\r\nBelow is the final, tested implementation that aligns with the BIP's\r\nsecurity model (SHA256, exact consumption, no malleability):\r\n\r\n```python\r\nimport hashlib\r\nfrom collections import deque\r\nfrom typing import List, Deque\r\n\r\n#\r\n-----------------------------------------------------------------------------\r\n# Constants & Hash Function\r\n#\r\n-----------------------------------------------------------------------------\r\n\r\nBIT_LEFT = 0 # Bitmap 0: H(a || b)\r\nBIT_RIGHT = 1 # Bitmap 1: H(b || a)\r\n\r\ndef sha256(data: bytes) -> bytes:\r\n    \"\"\"Cryptographic hash function as specified by BIP.\"\"\"\r\n    return hashlib.sha256(data).digest()\r\n\r\n#\r\n-----------------------------------------------------------------------------\r\n# Single Tree Proof Verification\r\n#\r\n-----------------------------------------------------------------------------\r\n\r\ndef verify_single_tree_proof(\r\n    leaves: List[bytes],\r\n    hashes: List[bytes],\r\n    bitmap: List[int],\r\n    expected_root: bytes\r\n) -> bool:\r\n    \"\"\"\r\n    Verifies a deterministic batch proof for one Merkle tree.\r\n\r\n    Args:\r\n        leaves: Leaf hashes to prove (target nodes).\r\n        hashes: Canonical sibling hashes (deduplicated, height-sorted).\r\n        bitmap: Explicit L/R composition instructions (0=Left, 1=Right).\r\n        expected_root: Known tree root for validation.\r\n\r\n    Returns:\r\n        True iff proof is valid and consumes all elements exactly.\r\n    \"\"\"\r\n    if not leaves:\r\n        return False\r\n\r\n    # Initialize FIFO queue (not a stack) for sequential composition\r\n    queue: Deque[bytes] = deque(leaves)\r\n    hash_idx = 0\r\n    bit_idx = 0\r\n\r\n    # Reconstruct root until one element remains\r\n    while len(queue) > 1:\r\n        # Exhaustion check: must have exactly enough elements\r\n        if hash_idx >= len(hashes) or bit_idx >= len(bitmap):\r\n            return False\r\n\r\n        a = queue.popleft() # Current accumulated hash\r\n        b = hashes[hash_idx] # Next sibling hash\r\n\r\n        # Compose based on explicit bitmap direction\r\n        if bitmap[bit_idx] == BIT_LEFT:\r\n            c = sha256(a + b)\r\n        else: # BIT_RIGHT\r\n            c = sha256(b + a)\r\n\r\n        queue.append(c)\r\n        hash_idx += 1\r\n        bit_idx += 1\r\n\r\n    # Exact consumption is mandatory for non-malleability\r\n    if hash_idx != len(hashes) or bit_idx != len(bitmap):\r\n        return False\r\n\r\n    # Final root equality check\r\n    return queue[0] == expected_root\r\n\r\n#\r\n-----------------------------------------------------------------------------\r\n# Forest Batch Proof Verification\r\n#\r\n-----------------------------------------------------------------------------\r\n\r\nclass TreeProof:\r\n    \"\"\"Container for per-tree proof elements.\"\"\"\r\n    def __init__(self, leaves, hashes, bitmap, expected_root):\r\n        self.leaves = leaves\r\n        self.hashes = hashes\r\n        self.bitmap = bitmap\r\n        self.expected_root = expected_root\r\n\r\ndef verify_forest_batch_proof(forest_proofs: List[TreeProof]) -> bool:\r\n    \"\"\"\r\n    Verifies independence of proofs across a Utreexo forest.\r\n    Each tree is validated in isolation; no cross-tree replay allowed.\r\n    \"\"\"\r\n    for tree_proof in forest_proofs:\r\n        if not verify_single_tree_proof(\r\n            tree_proof.leaves,\r\n            tree_proof.hashes,\r\n            tree_proof.bitmap,\r\n            tree_proof.expected_root\r\n        ):\r\n            return False\r\n    return True\r\n```\r\n\r\nEl vie, 9 de ene de 2026, 5:54 p. m., murchandamus ***@***.***>\r\nescribió:\r\n\r\n> ***@***.**** commented on this pull request.\r\n>\r\n> Hello Lucas,\r\n>\r\n> I don’t think I have seen this idea discussed on the Bitcoin mailing list.\r\n> Could you please provide the link to the thread where your idea was\r\n> previously discussed?\r\n> The document has various formatting issues, and at first glance, the text\r\n> doesn’t seem to align well with the Utreexo proposals that are being\r\n> discussed in #1923 <https://github.com/bitcoin/bips/pull/1923>. Could you\r\n> please tell us a little more about your process and how your proposal fits\r\n> into the bigger picture regarding Utreexo?\r\n>\r\n> —\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/bitcoin/bips/pull/2079#pullrequestreview-3645542856>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/BUSRMZC2XA3O3C3XR7ZE2HT4GAIPLAVCNFSM6AAAAACRHFG7NOVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZTMNBVGU2DEOBVGY>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+      "user": {
+        "login": "EntropyMaBoyy",
+        "id": 220534372,
+        "node_id": "U_kgDODSUWZA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/220534372?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/EntropyMaBoyy",
+        "html_url": "https://github.com/EntropyMaBoyy",
+        "followers_url": "https://api.github.com/users/EntropyMaBoyy/followers",
+        "following_url": "https://api.github.com/users/EntropyMaBoyy/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/EntropyMaBoyy/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/EntropyMaBoyy/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/EntropyMaBoyy/subscriptions",
+        "organizations_url": "https://api.github.com/users/EntropyMaBoyy/orgs",
+        "repos_url": "https://api.github.com/users/EntropyMaBoyy/repos",
+        "events_url": "https://api.github.com/users/EntropyMaBoyy/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/EntropyMaBoyy/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2079#issuecomment-3730662740",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2079"
     }
   ],
   "comments": []
