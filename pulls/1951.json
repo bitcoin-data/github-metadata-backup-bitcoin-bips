@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2025-09-04T06:47:33Z",
-    "updated_at": "2026-01-10T07:56:59Z",
+    "updated_at": "2026-01-10T08:45:17Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -315,8 +315,8 @@
     "deletions": 0,
     "changed_files": 8,
     "commits": 1,
-    "review_comments": 44,
-    "comments": 12
+    "review_comments": 45,
+    "comments": 13
   },
   "events": [
     {
@@ -2430,6 +2430,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1951#issuecomment-3732122963",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1951"
+    },
+    {
+      "event": "commented",
+      "id": 3732166354,
+      "node_id": "IC_kwDOAN28mc7edFbS",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3732166354",
+      "actor": {
+        "login": "pythcoiner",
+        "id": 124568858,
+        "node_id": "U_kgDOB2zFGg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/124568858?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/pythcoiner",
+        "html_url": "https://github.com/pythcoiner",
+        "followers_url": "https://api.github.com/users/pythcoiner/followers",
+        "following_url": "https://api.github.com/users/pythcoiner/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/pythcoiner/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/pythcoiner/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/pythcoiner/subscriptions",
+        "organizations_url": "https://api.github.com/users/pythcoiner/orgs",
+        "repos_url": "https://api.github.com/users/pythcoiner/repos",
+        "events_url": "https://api.github.com/users/pythcoiner/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/pythcoiner/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-01-10T08:45:17Z",
+      "updated_at": "2026-01-10T08:45:17Z",
+      "author_association": "NONE",
+      "body": ">  no need to torture yourself\r\n\r\nnot felt the torture part :smile: \r\n\r\nthe idea was more, all languages can bind to C, it's not always the case for c++ (or at least less easy) and maybe it worth to have a single implem to maintain",
+      "user": {
+        "login": "pythcoiner",
+        "id": 124568858,
+        "node_id": "U_kgDOB2zFGg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/124568858?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/pythcoiner",
+        "html_url": "https://github.com/pythcoiner",
+        "followers_url": "https://api.github.com/users/pythcoiner/followers",
+        "following_url": "https://api.github.com/users/pythcoiner/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/pythcoiner/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/pythcoiner/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/pythcoiner/subscriptions",
+        "organizations_url": "https://api.github.com/users/pythcoiner/orgs",
+        "repos_url": "https://api.github.com/users/pythcoiner/repos",
+        "events_url": "https://api.github.com/users/pythcoiner/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/pythcoiner/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1951#issuecomment-3732166354",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1951"
     }
   ],
@@ -4808,6 +4866,60 @@
       "start_side": null,
       "line": 132,
       "original_line": 132,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2678459620",
+      "pull_request_review_id": 3646603300,
+      "id": 2678459620,
+      "node_id": "PRRC_kwDOAN28mc6fpgzk",
+      "diff_hunk": "@@ -0,0 +1,306 @@\n+```\n+BIP: ?  \n+Title: Compact encryption scheme for non-seed wallet data  \n+Author: Pyth <pyth@pythcoiner.dev>  \n+Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-xxxx  \n+Status: Draft  \n+Type: Specification  \n+Created: 2025-08-22  \n+License: BSD-2-Clause  \n+Post-History: https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts/1607/31  \n+              https://groups.google.com/g/bitcoindev/c/5NgJbpVDgEc  \n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines a compact encryption scheme for **wallet descriptors** (BIP-0380),\n+**wallet policies** (BIP-0388), **labels** (BIP-0329), and **wallet backup metadata** (json).\n+The payload must not contain any private key material.  \n+\n+Users can store encrypted backups on untrusted media or cloud services without leaking\n+addresses, script structures, or cosigner counts. The encryption key derives from the\n+lexicographically-sorted public keys in the descriptor, allowing any keyholder to decrypt\n+without additional secrets.  \n+\n+Though designed for descriptors and policies, the scheme works equally well for labels\n+and backup metadata.  \n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+Losing the **wallet descriptor** (or **wallet policy**) is just as catastrophic as\n+losing the seed itself. The seed lets you sign, but the descriptor maps you to your coins.\n+For multisig or miniscript wallets, keys alone won't help—without the descriptor, you\n+can't reconstruct the script.\n+\n+Offline storage of descriptors has two practical obstacles:\n+\n+1. **Descriptors are hard to store offline.**  \n+   Descriptors can be much longer than a 12/24-word seed. Paper and steel backups\n+   become impractical or error-prone.  \n+\n+2. **Online redundancy carries privacy risk.**  \n+   USB drives, phones, and cloud storage solve the length problem but expose your\n+   wallet structure. Plaintext descriptors leak your pubkeys and script details.\n+   Cloud encryption doesn't help against subpoenas or provider breaches, and each\n+   copy increases attack surface.  \n+\n+These constraints lead to an acute need for an **encrypted**, and\n+ideally compact backup format that:\n+\n+* can be **safely stored in multiple places**, including untrusted on-line services,  \n+* can be **decrypted only by intended holders** of specified public keys,  \n+\n+See the original [Delving post](https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts/1607/31)\n+for more background.\n+\n+### Expected properties\n+\n+* **Encrypted**: safe to store with untrusted cloud providers or backup services  \n+* **Access controlled**: only designated cosigners can decrypt  \n+* **Easy to implement**: it should not require any sophisticated tools/libraries.  \n+* **Vendor-neutral**: works with any hardware signer  \n+\n+### Scope\n+\n+This proposal targets wallet descriptors (BIP-0380) and policies (BIP-0388), but the\n+scheme also works for labels (BIP-0329) and other wallet metadata like\n+[wallet backup](https://github.com/pythcoiner/wallet_backup).  \n+\n+Private key material MUST be removed before encrypting any payload.  \n+\n+## Specification\n+\n+Note: in the followings sections, the operator ⊕  refers to the bitwise XOR operation.\n+\n+### Secret generation\n+\n+- Let $p_1, p_2, \\dots, p_n$, be the public keys in the descriptor/wallet policy, in increasing lexicographical order\n+- Let $s$ = sha256(\"BEB_BACKUP_DECRYPTION_SECRET\" | $p_1$ | $p_2$ | ... | $p_n$)\n+- Let $s_i$ = sha256(\"BEB_BACKUP_INDIVIDUAL_SECRET\" | $p_i$)\n+- Let $c_i$ = $s$ ⊕  $s_i$\n+\n+**Note:** To prevent attackers from decrypting the backup using publicly known\n+keys, explicitly exclude any public keys with x coordinate\n+`50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0` (the BIP341 NUMS\n+point, used as a taproot internal key in some applications). Additionally, exclude any\n+other publicly known keys. In some cases, it may be possible to exclude certain keys\n+from this process for customs applications or user needs, it is recommended to document\n+such decision.\n+\n+### Key Normalization\n+\n+Before computing the encryption secret, all public keys in the descriptor/wallet policy MUST be normalized to **33-byte compressed public key format** (SEC format with 0x02 or 0x03 prefix).",
+      "path": "bip-encrypted-backup.md",
+      "position": 101,
+      "original_position": 101,
+      "commit_id": "ab5d450f96c7ad413ddb127584d8f3d627aaf5bd",
+      "original_commit_id": "bfdf6f72a3042ba2c8dcec2a69d29bf6c4cb08e6",
+      "in_reply_to_id": 2675426803,
+      "user": {
+        "login": "pythcoiner",
+        "id": 124568858,
+        "node_id": "U_kgDOB2zFGg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/124568858?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/pythcoiner",
+        "html_url": "https://github.com/pythcoiner",
+        "followers_url": "https://api.github.com/users/pythcoiner/followers",
+        "following_url": "https://api.github.com/users/pythcoiner/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/pythcoiner/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/pythcoiner/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/pythcoiner/subscriptions",
+        "organizations_url": "https://api.github.com/users/pythcoiner/orgs",
+        "repos_url": "https://api.github.com/users/pythcoiner/repos",
+        "events_url": "https://api.github.com/users/pythcoiner/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/pythcoiner/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "yeah if we're gonna \"break\" things from what we have actually in Liana, I'm happy with x-only also",
+      "created_at": "2026-01-10T08:40:14Z",
+      "updated_at": "2026-01-10T08:40:14Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1951#discussion_r2678459620",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2678459620"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1951"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 101,
+      "original_line": 101,
       "side": "RIGHT"
     }
   ]
