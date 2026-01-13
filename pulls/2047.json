@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2025-12-03T11:13:10Z",
-    "updated_at": "2026-01-13T01:19:03Z",
+    "updated_at": "2026-01-13T09:15:51Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -284,8 +284,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5867,
-        "stargazers_count": 10488,
-        "watchers_count": 10488,
+        "stargazers_count": 10489,
+        "watchers_count": 10489,
         "size": 18532,
         "default_branch": "master",
         "open_issues_count": 74,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-01-09T03:18:06Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-01-12T19:24:29Z",
+        "updated_at": "2026-01-13T07:36:05Z",
         "allow_forking": true
       }
     },
@@ -317,7 +317,7 @@
     "changed_files": 1,
     "commits": 3,
     "review_comments": 2,
-    "comments": 14
+    "comments": 15
   },
   "events": [
     {
@@ -1783,6 +1783,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2047#issuecomment-3741330405",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2047"
+    },
+    {
+      "event": "commented",
+      "id": 3743102352,
+      "node_id": "IC_kwDOAN28mc7fGzWQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3743102352",
+      "actor": {
+        "login": "craigraw",
+        "id": 862166,
+        "node_id": "MDQ6VXNlcjg2MjE2Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/862166?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/craigraw",
+        "html_url": "https://github.com/craigraw",
+        "followers_url": "https://api.github.com/users/craigraw/followers",
+        "following_url": "https://api.github.com/users/craigraw/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/craigraw/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/craigraw/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/craigraw/subscriptions",
+        "organizations_url": "https://api.github.com/users/craigraw/orgs",
+        "repos_url": "https://api.github.com/users/craigraw/repos",
+        "events_url": "https://api.github.com/users/craigraw/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/craigraw/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-01-13T09:15:51Z",
+      "updated_at": "2026-01-13T09:15:51Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> I also don't see why spspend and spscan need to be the spend and scan keys concatenated for the encoding.\r\n\r\nI think that fundamentally we disagree because we are coming from different points of view. I see output descriptors as part of the user interface of the wallet and thus should consider the practical benefits to the non-technical user. Reading your feedback, I see a more developer-centric view. While this view may reflect the original design goals of output descriptors, I question whether it is reflective of the actual usage of output descriptors in the real world today.\r\n\r\n> BIP 352 also defines [derivation paths](https://github.com/bitcoin/bips/blob/master/bip-0352.mediawiki#key-derivation) and not allowing other KEY expressions would preclude the use of those derivation paths.\r\n\r\nI would rather say it precludes using unrelated derivation paths outside the BIP352 recommendations. The examples provided in this proposal do include derivation paths.\r\n\r\n> In other discussions, possibly not transcribed, I have suggested that the scan key be instead called scan entropy and that the descriptor should store it as hex rather than a KEY expression.\r\n\r\nPerhaps I misunderstand what you are proposing, but it does not seem to make identification of the type and sensitivity of the key expression any clearer to non-developers (re the comment you were responding to). \r\n\r\n> IIRC this is actually one of the reasons that bech32 was never proposed for private keys since the error detection and correction has the possibility of false negatives and/or correcting to the wrong key if there are enough errors.\r\n\r\nThis seems a weak reason to avoid Bech32m. IMO automatic error correction should be avoided in production anyway. Hex-encoded public keys have no error detection at all and are strictly worse.\r\n\r\n> The purpose is to have descriptors that are fairly human readable. Concatenating multiple fields together to be encoded as a single element is antithetical to that.\r\n\r\nTo a developer familiar with BIP352, perhaps you are right. But I am fairly certain the majority of people actually using these descriptors will find that the type and sensitivity of the expressions\r\n```\r\nsp(spscan1qg3pk34hd8hkz2cq9kp30zqv6lz9nm06u2dazmrmq4rgfp84kemwsyxh6vlx0970ker49fqxx492gujl3y65uxp6dwd3lvngcgu9t5fljfww3ah)\r\nsp(spspend1qg3pk34hd8hkz2cq9kp30zqv6lz9nm06u2dazmrmq4rgfp84kemwspy0n42kc0memf6zahf94p9xzc73au4c9v5g2dufq6u3xfr0fyqc82kukk)\r\n```\r\nare more human readable in type and sensitivity than\r\n```\r\nsp(L4rK1yDtCWekvXuE6oXD9jCYfFNV2cWRpVuPLBcCU2z8TrisoyY1, 0260b2003c386519fc9eadf2b5cf124dd8eea4c4e68d5e154050a9346ea98ce600)\r\nsp(L4rK1yDtCWekvXuE6oXD9jCYfFNV2cWRpVuPLBcCU2z8TrisoyY1, L5EZftvrYaSudiozVRzTqLcHLNDoVn7H5HSfM9BAN6tMJX8oTWz6)\r\n```\r\n\r\n> In an ideal world, descriptors would not have supported xpubs. Rather there would have been a key expression like bip32(key, chaincode) rather than this single element mashing multiple things together. It is only because of the prevalence of extended keys that they needed to be supported.\r\n\r\nAnd yet the single element has proven to be one of the most well known and usable elements in bitcoin wallets, where the type and sensitivity of the key expression is immediately identifiable. I think a world where `bip32(key, chaincode)` was used to represent both xpubs and xprvs would be have been in general less usable, and practically less secure.\r\n\r\nPerhaps the best way to resolve this difference of opinion is to include both approaches of specifying the keys for a silent payments descriptor? This has the benefit of allowing full derivation path flexibility if desired, while maintaining a user-centric recommended approach for most cases.\r\n\r\n> WIF is already required in order to be compliant with BIP 380.\r\n\r\nYes, but full BIP 380 compliance is typically not a goal - wallets just support the parts that reflect the wallets they can actually create.\r\n\r\n> The philosophy behind descriptors is providing the data required to compute and spend an output script. A birthday is purely metadata in that regard - it does not provide any necessary information to generate the output scripts or the private keys required to spend them. That necessary information lives in the blockchain.\r\n\r\nI would simply argue, again, that if it is practically impossible to recover a wallet without it, the birthday is necessary data. Ignoring this seems to favour one implementation approach over another. The checksum on an output descriptor also \"does not provide any necessary information to generate the output scripts or the private keys required to spend them\" yet obviously it is a reasonable and practical addition that recognises real world conditions are not ideal, and that accommodation must be made for this.\r\n\r\n> This leads to a property where the silent payments descriptor is variable, and I find this property to also be antithetical to the purpose of descriptors. If \"choose a range\" must be documented, that it can be done in a revision to BIP 352 or as a new BIP. I don't think that putting it in the descriptor itself is the correct place.\r\n\r\nI actually misspoke - there is some reference to \"choose a range\" in [Backup and Recovery](https://github.com/bitcoin/bips/blob/master/bip-0352.mediawiki#backup-and-recovery). It is however completely impractical for light clients to scan 100k labels, so I don't find it of much value. Personally I dislike labels beyond the very specific exchange use case, and I think BIP32 accounts are a much better approach. I am only including labels here because others seem to see value, so if the consensus is to leave them out I will be happy to do so. I would encourage others to weigh in on this if they feel strongly either way.\r\n\r\n\r\n\r\n",
+      "user": {
+        "login": "craigraw",
+        "id": 862166,
+        "node_id": "MDQ6VXNlcjg2MjE2Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/862166?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/craigraw",
+        "html_url": "https://github.com/craigraw",
+        "followers_url": "https://api.github.com/users/craigraw/followers",
+        "following_url": "https://api.github.com/users/craigraw/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/craigraw/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/craigraw/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/craigraw/subscriptions",
+        "organizations_url": "https://api.github.com/users/craigraw/orgs",
+        "repos_url": "https://api.github.com/users/craigraw/repos",
+        "events_url": "https://api.github.com/users/craigraw/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/craigraw/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2047#issuecomment-3743102352",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2047"
     }
   ],
