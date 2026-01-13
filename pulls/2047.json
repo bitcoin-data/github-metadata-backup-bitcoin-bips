@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2025-12-03T11:13:10Z",
-    "updated_at": "2026-01-12T11:40:13Z",
+    "updated_at": "2026-01-13T01:19:03Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -283,7 +283,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5866,
+        "forks_count": 5867,
         "stargazers_count": 10488,
         "watchers_count": 10488,
         "size": 18532,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-01-09T03:18:06Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-01-12T02:13:06Z",
+        "updated_at": "2026-01-12T19:24:29Z",
         "allow_forking": true
       }
     },
@@ -317,7 +317,7 @@
     "changed_files": 1,
     "commits": 3,
     "review_comments": 2,
-    "comments": 13
+    "comments": 14
   },
   "events": [
     {
@@ -1725,6 +1725,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2047#issuecomment-3738145017",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2047"
+    },
+    {
+      "event": "commented",
+      "id": 3741330405,
+      "node_id": "IC_kwDOAN28mc7fACvl",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3741330405",
+      "actor": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-01-13T01:19:03Z",
+      "updated_at": "2026-01-13T01:19:03Z",
+      "author_association": "MEMBER",
+      "body": "I also don't see why `spspend` and `spscan` need to be the spend and scan keys concatenated for the encoding. This feels like something that was specified outside of descriptors beings shoehorned into descriptors (that's why WIF and extended keys are like that) when they can really just be 2 arguments to a single `sp()`.\r\n\r\nBIP 352 also defines [derivation paths](https://github.com/bitcoin/bips/blob/master/bip-0352.mediawiki#key-derivation) and not allowing other KEY expressions would preclude the use of those derivation paths.\r\n\r\n> Easy identification of the type and sensitivity of the key expression. Differentiating between a WIF and hex-encoded public key is not simple for non-developers.\r\n\r\nIn other discussions, possibly not transcribed, I have suggested that the scan key be instead called scan entropy and that the descriptor should store it as hex rather than a KEY expression. However, this does still somewhat conflict with the derivation path recommendation in BIP 352.\r\n\r\n> The advantages of Bech32m encoding, including error detection and unambiguous characters. This is particularly important for written backups, or those recorded on durable media.\r\n\r\nIIRC this is actually one of the reasons that bech32 was never proposed for private keys since the error detection and correction has the possibility of false negatives and/or correcting to the wrong key if there are enough errors.\r\n\r\n> The use of a single element that is simpler to understand with reduced user error from accidental or misguided mixing of keys.\r\n\r\nTo me, this moves away from the ethos of descriptors. The purpose is to have descriptors that are fairly human readable. Concatenating multiple fields together to be encoded as a single element is antithetical to that.\r\n\r\n> A similar structure and appearance to xpubs, which are a commonly understood concept and user interface element making things simpler for users and developers alike.\r\n\r\nIn an ideal world, descriptors would not have supported xpubs. Rather there would have been a key expression like `bip32(key, chaincode)` rather than this single element mashing multiple things together. It is only because of the prevalence of extended keys that they needed to be supported.\r\n\r\n> WIF encoding/decoding is an additional requirement to support, as Bech32m is already required by BIP352.\r\n\r\nWIF is already required in order to be compliant with BIP 380.\r\n\r\n> This is an odd objection, since output descriptors are already metadata - data describing data.\r\n\r\nThe philosophy behind descriptors is providing the data required to compute and spend an output script. A birthday is purely metadata in that regard - it does not provide any necessary information to generate the output scripts or the private keys required to spend them. That necessary information lives in the blockchain.\r\n\r\n> I believe the responsible approach must be to explicitly define which labels are in use.\r\n\r\nThis leads to a property where the silent payments descriptor is variable, and I find this property to also be antithetical to the purpose of descriptors.\r\n\r\nIf \"choose a range\" must be documented, that it can be done in a revision to BIP 352 or as a new BIP. I don't think that putting it in the descriptor itself is the correct place.",
+      "user": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2047#issuecomment-3741330405",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2047"
     }
   ],
