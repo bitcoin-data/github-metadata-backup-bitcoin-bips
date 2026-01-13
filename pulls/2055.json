@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-12-12T18:03:29Z",
-    "updated_at": "2026-01-13T20:58:24Z",
+    "updated_at": "2026-01-13T21:45:02Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -295,7 +295,7 @@
         "forks_count": 5868,
         "stargazers_count": 10489,
         "watchers_count": 10489,
-        "size": 18532,
+        "size": 18540,
         "default_branch": "master",
         "open_issues_count": 73,
         "is_template": false,
@@ -325,7 +325,7 @@
     "deletions": 1,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 5,
+    "review_comments": 7,
     "comments": 1
   },
   "events": [
@@ -1106,6 +1106,114 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2688101375"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2055"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 191,
+      "original_line": 191,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2688212952",
+      "pull_request_review_id": 3658049456,
+      "id": 2688212952,
+      "node_id": "PRRC_kwDOAN28mc6gOt_Y",
+      "diff_hunk": "@@ -188,6 +188,7 @@ Future silent payments versions will use the following scheme:\n For silent payments v0 a transaction MUST be scanned if and only if all of the following are true:\n \n * The transaction contains at least one BIP341 taproot output (note: spent transactions optionally can be skipped by only considering transactions with at least one unspent taproot output)\n+* The number of taproot outputs in the transaction fits within an unsigned 32-bit integer<ref name=\"maximum_recipients\">'''Why specify a limit of recipients, if the maximum number of possible transaction outputs is practically constrained by Bitcoin's consensus rules (block weight limit) anyway?''' Specifying an explicit limit improves clarity and ensures that implementations can safely choose compatible data types without the risk of becoming non-compliant. The limit is inferred from the data type of ''k'', which is serialized as a 4-bytes sequence in the course of the shared secret scalar calculation ''t<sub>k</sub>''.</ref>",
+      "path": "bip-0352.mediawiki",
+      "position": 4,
+      "original_position": 4,
+      "commit_id": "14e04e0e0999e88f9bb8c704c49b7690571d59e8",
+      "original_commit_id": "14e04e0e0999e88f9bb8c704c49b7690571d59e8",
+      "in_reply_to_id": 2687839532,
+      "user": {
+        "login": "nymius",
+        "id": 155548262,
+        "node_id": "U_kgDOCUV6Zg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155548262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nymius",
+        "html_url": "https://github.com/nymius",
+        "followers_url": "https://api.github.com/users/nymius/followers",
+        "following_url": "https://api.github.com/users/nymius/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nymius/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nymius/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nymius/subscriptions",
+        "organizations_url": "https://api.github.com/users/nymius/orgs",
+        "repos_url": "https://api.github.com/users/nymius/repos",
+        "events_url": "https://api.github.com/users/nymius/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nymius/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I wasn't trying to. Maybe I'm going too far with the implications of the sentence, I just want to avoid someone thinking there is a magic number besides which you can ignore the transaction and don't have to scan more outputs, and later suggest we can avoid the worst performing scanning case by lowering this number again.\r\nI'm saying `The number of taproot outputs in the transaction fits within an unsigned 32-bit integer` is an arbitrary limit that can be dropped without harm, because is not there where the problem lies.\r\nFrom following the referenced comments above, I understood the original idea of this change was to drop checks on the recipients side (while creating sp outputs), not on the receiving side (while scanning sp outputs).\r\n",
+      "created_at": "2026-01-13T21:41:03Z",
+      "updated_at": "2026-01-13T21:41:03Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2055#discussion_r2688212952",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2688212952"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2055"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 191,
+      "original_line": 191,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2688222882",
+      "pull_request_review_id": 3658061285,
+      "id": 2688222882,
+      "node_id": "PRRC_kwDOAN28mc6gOwai",
+      "diff_hunk": "@@ -188,6 +188,7 @@ Future silent payments versions will use the following scheme:\n For silent payments v0 a transaction MUST be scanned if and only if all of the following are true:\n \n * The transaction contains at least one BIP341 taproot output (note: spent transactions optionally can be skipped by only considering transactions with at least one unspent taproot output)\n+* The number of taproot outputs in the transaction fits within an unsigned 32-bit integer<ref name=\"maximum_recipients\">'''Why specify a limit of recipients, if the maximum number of possible transaction outputs is practically constrained by Bitcoin's consensus rules (block weight limit) anyway?''' Specifying an explicit limit improves clarity and ensures that implementations can safely choose compatible data types without the risk of becoming non-compliant. The limit is inferred from the data type of ''k'', which is serialized as a 4-bytes sequence in the course of the shared secret scalar calculation ''t<sub>k</sub>''.</ref>",
+      "path": "bip-0352.mediawiki",
+      "position": 4,
+      "original_position": 4,
+      "commit_id": "14e04e0e0999e88f9bb8c704c49b7690571d59e8",
+      "original_commit_id": "14e04e0e0999e88f9bb8c704c49b7690571d59e8",
+      "in_reply_to_id": 2687839532,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I see. From my cursory following along here, it seemed like you were joking about the large numbers involved. I’ll leave it up to the author to reply then.",
+      "created_at": "2026-01-13T21:45:02Z",
+      "updated_at": "2026-01-13T21:45:03Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2055#discussion_r2688222882",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2688222882"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2055"
