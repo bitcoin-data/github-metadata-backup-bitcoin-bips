@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-11-26T21:09:05Z",
-    "updated_at": "2026-01-14T19:38:18Z",
+    "updated_at": "2026-01-14T20:58:34Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -291,7 +291,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5868,
+        "forks_count": 5869,
         "stargazers_count": 10493,
         "watchers_count": 10493,
         "size": 17977,
@@ -324,7 +324,7 @@
     "deletions": 0,
     "changed_files": 8,
     "commits": 7,
-    "review_comments": 2,
+    "review_comments": 3,
     "comments": 0
   },
   "events": [
@@ -1063,6 +1063,44 @@
       "submitted_at": "2026-01-14T19:38:18Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2046"
+    },
+    {
+      "event": "reviewed",
+      "id": 3662748681,
+      "node_id": "PRR_kwDOAN28mc7aURwJ",
+      "url": null,
+      "actor": null,
+      "commit_id": "45106322ef3b809e61a13d9b817eb38193fa19fa",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-01-14T20:58:34Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "nymius",
+        "id": 155548262,
+        "node_id": "U_kgDOCUV6Zg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155548262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nymius",
+        "html_url": "https://github.com/nymius",
+        "followers_url": "https://api.github.com/users/nymius/followers",
+        "following_url": "https://api.github.com/users/nymius/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nymius/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nymius/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nymius/subscriptions",
+        "organizations_url": "https://api.github.com/users/nymius/orgs",
+        "repos_url": "https://api.github.com/users/nymius/repos",
+        "events_url": "https://api.github.com/users/nymius/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nymius/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2046#pullrequestreview-3662748681",
+      "submitted_at": "2026-01-14T20:58:34Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2046"
     }
   ],
   "comments": [
@@ -1172,6 +1210,60 @@
       "start_side": null,
       "line": 61,
       "original_line": 61,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2692028848",
+      "pull_request_review_id": 3662748681,
+      "id": 2692028848,
+      "node_id": "PRRC_kwDOAN28mc6gdRmw",
+      "diff_hunk": "@@ -0,0 +1,320 @@\n+#!/usr/bin/env python3\n+\"\"\"\n+BIP 375: PSBT Validator\n+\n+Complete BIP 375 validation for PSBTs with silent payment outputs.\n+\"\"\"\n+\n+import hashlib\n+import struct\n+from typing import Tuple, List, Dict, Optional\n+\n+from constants import PSBTFieldType\n+from dleq import validate_global_dleq_proof, validate_input_dleq_proof\n+from inputs import validate_input_eligibility, check_invalid_segwit_version\n+from parser import parse_psbt_structure\n+# External references bip-0374\n+from secp256k1 import GE, G\n+\n+\n+def validate_bip375_psbt(\n+    psbt_data: bytes,\n+    input_keys: Optional[List[Dict]] = None,\n+) -> Tuple[bool, str]:\n+    \"\"\"Validate a PSBT according to BIP 375 rules\n+\n+    Args:\n+        psbt_data: Raw PSBT bytes\n+        input_keys: Optional list of input key material for BIP-352 validation\n+    \"\"\"\n+\n+    # Basic PSBT structure validation\n+    if len(psbt_data) < 5 or psbt_data[:5] != b\"psbt\\xff\":\n+        return False, \"Invalid PSBT magic\"\n+\n+    # Parse PSBT fields\n+    global_fields, input_maps, output_maps = parse_psbt_structure(psbt_data)\n+\n+    # Check if silent payment outputs exist\n+    # Either SP_V0_INFO or SP_V0_LABEL indicates silent payment intent\n+    has_silent_outputs = any(\n+        PSBTFieldType.PSBT_OUT_SP_V0_INFO in output_fields\n+        or PSBTFieldType.PSBT_OUT_SP_V0_LABEL in output_fields\n+        for output_fields in output_maps\n+    )\n+\n+    if not has_silent_outputs:\n+        # If no silent payment outputs, this is just a regular PSBT v2\n+        return True, \"Valid PSBT v2 (no silent payments)\"\n+\n+    # Critical structural validation - SP_V0_INFO field sizes and PSBT_OUT_SCRIPT requirements\n+    for i, output_fields in enumerate(output_maps):\n+        # BIP375: Each output must have either PSBT_OUT_SCRIPT or PSBT_OUT_SP_V0_INFO (or both)\n+        has_script = PSBTFieldType.PSBT_OUT_SCRIPT in output_fields\n+        has_sp_info = PSBTFieldType.PSBT_OUT_SP_V0_INFO in output_fields\n+        has_sp_label = PSBTFieldType.PSBT_OUT_SP_V0_LABEL in output_fields\n+\n+        if not has_script and not has_sp_info:\n+            return (\n+                False,\n+                f\"Output {i} must have either PSBT_OUT_SCRIPT or PSBT_OUT_SP_V0_INFO\",\n+            )\n+\n+        # PSBT_OUT_SP_V0_LABEL requires PSBT_OUT_SP_V0_INFO\n+        if has_sp_label and not has_sp_info:\n+            return (\n+                False,\n+                f\"Output {i} has PSBT_OUT_SP_V0_LABEL but missing PSBT_OUT_SP_V0_INFO\",\n+            )\n+\n+        if has_sp_info:\n+            sp_info = output_fields[PSBTFieldType.PSBT_OUT_SP_V0_INFO]\n+            if len(sp_info) != 66:  # 33 + 33 bytes for scan_key + spend_key\n+                return (\n+                    False,\n+                    f\"Output {i} SP_V0_INFO has wrong size ({len(sp_info)} bytes, expected 66)\",\n+                )\n+\n+    # ECDH shares must exist\n+    has_global_ecdh = PSBTFieldType.PSBT_GLOBAL_SP_ECDH_SHARE in global_fields\n+    has_input_ecdh = any(\n+        PSBTFieldType.PSBT_IN_SP_ECDH_SHARE in input_fields\n+        for input_fields in input_maps\n+    )\n+\n+    if not has_global_ecdh and not has_input_ecdh:\n+        return False, \"Silent payment outputs present but no ECDH shares found\"\n+\n+    # Cannot have both global and per-input ECDH shares for same scan key\n+    if has_global_ecdh and has_input_ecdh:\n+        # Extract scan key from global ECDH share\n+        global_ecdh_field = global_fields[PSBTFieldType.PSBT_GLOBAL_SP_ECDH_SHARE]\n+        global_scan_key = global_ecdh_field[\"key\"]\n+\n+        # Check if any input has ECDH share for the same scan key\n+        for i, input_fields in enumerate(input_maps):\n+            if PSBTFieldType.PSBT_IN_SP_ECDH_SHARE in input_fields:\n+                input_ecdh_field = input_fields[PSBTFieldType.PSBT_IN_SP_ECDH_SHARE]\n+                input_scan_key = input_ecdh_field[\"key\"]\n+                if input_scan_key == global_scan_key:\n+                    return (\n+                        False,\n+                        \"Cannot have both global and per-input ECDH shares for same scan key\",\n+                    )\n+\n+    # DLEQ proofs must exist for ECDH shares\n+    if has_global_ecdh:\n+        has_global_dleq = PSBTFieldType.PSBT_GLOBAL_SP_DLEQ in global_fields\n+        if not has_global_dleq:\n+            return False, \"Global ECDH share present but missing DLEQ proof\"\n+\n+    if has_input_ecdh:\n+        for i, input_fields in enumerate(input_maps):\n+            if PSBTFieldType.PSBT_IN_SP_ECDH_SHARE in input_fields:\n+                if PSBTFieldType.PSBT_IN_SP_DLEQ not in input_fields:\n+                    return False, f\"Input {i} has ECDH share but missing DLEQ proof\"\n+\n+    # Verify DLEQ proofs\n+    if has_global_ecdh:\n+        if not validate_global_dleq_proof(global_fields, input_maps):\n+            return False, \"Global DLEQ proof verification failed\"\n+\n+    if has_input_ecdh:\n+        for i, input_fields in enumerate(input_maps):\n+            if PSBTFieldType.PSBT_IN_SP_ECDH_SHARE in input_fields:\n+                if not validate_input_dleq_proof(input_fields, None, i):\n+                    return False, f\"Input {i} DLEQ proof verification failed\"\n+\n+    # Segwit version restrictions\n+    for i, input_fields in enumerate(input_maps):\n+        if PSBTFieldType.PSBT_IN_WITNESS_UTXO in input_fields:\n+            witness_utxo = input_fields[PSBTFieldType.PSBT_IN_WITNESS_UTXO]\n+            if check_invalid_segwit_version(witness_utxo):\n+                return False, f\"Input {i} uses segwit version > 1 with silent payments\"\n+\n+    # Eligible input type requirement\n+    # When silent payment outputs exist, ALL inputs must be eligible types",
+      "path": "bip-0375/validator.py",
+      "position": 136,
+      "original_position": 136,
+      "commit_id": "45106322ef3b809e61a13d9b817eb38193fa19fa",
+      "original_commit_id": "45106322ef3b809e61a13d9b817eb38193fa19fa",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "nymius",
+        "id": 155548262,
+        "node_id": "U_kgDOCUV6Zg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155548262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nymius",
+        "html_url": "https://github.com/nymius",
+        "followers_url": "https://api.github.com/users/nymius/followers",
+        "following_url": "https://api.github.com/users/nymius/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nymius/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nymius/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nymius/subscriptions",
+        "organizations_url": "https://api.github.com/users/nymius/orgs",
+        "repos_url": "https://api.github.com/users/nymius/repos",
+        "events_url": "https://api.github.com/users/nymius/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nymius/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "What does `ALL inputs must be eligible types` means in this context?",
+      "created_at": "2026-01-14T20:58:34Z",
+      "updated_at": "2026-01-14T20:58:34Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2046#discussion_r2692028848",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2692028848"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2046"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 136,
+      "original_line": 136,
       "side": "RIGHT"
     }
   ]
