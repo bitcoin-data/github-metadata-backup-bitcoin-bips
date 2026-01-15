@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "This PR adds a BIP for the FROST (Flexible Round-Optimized Schnorr Threshold) signing protocol. The development repository is at https://github.com/siv2r/bip-frost-signing.\r\n\r\nThere already exists [RFC 9591](https://www.rfc-editor.org/rfc/rfc9591.html), which standardizes the two-round FROST signing protocol, but it is incompatible with Bitcoin's BIP340 X-only public keys. This BIP bridges that gap by providing a BIP340-compatible variant of FROST.\r\n\r\nThis BIP standardizes the FROST3 variant (Section 2.3 of the [ROAST paper](https://eprint.iacr.org/2022/550.pdf)). This variant shares significant similarities with the MuSig2 signing protocol (BIP327). Accordingly, this BIP follows the core design principles of [BIP327](https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki), and many sections have been directly adapted from it.\r\n\r\nFROST key generation is out of scope for this BIP. There are sister BIPs such as [ChillDKG](https://github.com/BlockstreamResearch/bip-frost-dkg) and [Trusted Dealer Generation](https://github.com/BEULAHEVANJALIN/bip-frost-trusted-dealer) that specify key generation mechanisms. This BIP must be used in conjunction with either of those for the full workflow from key generation to signature creation. Careful consideration has been taken to ensure the terminology in this BIP matches that of ChillDKG.\r\n\r\nThere are multiple (experimental) implementations of this specification:\r\n- The reference Python implementation included in this PR\r\n- [secp256k1-zkp FROST module](https://github.com/BlockstreamResearch/secp256k1-zkp/pull/278)\r\n- [FROST-BIP340](https://github.com/jesseposner/FROST-BIP340)\r\n- ~[secp256kfun](https://github.com/LLFourn/secp256kfun/blob/master/schnorr_fun/src/frost/session.rs) (implements ChillDKG with FROST signing)~ TODO: verify if secp256k1fun passes our test vectors\r\n\r\n**Disclosure:** AI has been used to rephrase paragraphs for clarity, refactor certain sections of the reference code, and review pull requests made to the development repository. \r\n\r\nFeedback is appreciated! Please comment on this pull request or open an issue at https://github.com/siv2r/bip-frost-signing for any feedback. Thank you!\r\n\r\ncc @jonasnick @real-or-random @jesseposner",
+    "body": "This PR adds a BIP for the FROST (Flexible Round-Optimized Schnorr Threshold) signing protocol. The development repository is at https://github.com/siv2r/bip-frost-signing.\r\n\r\nThere already exists [RFC 9591](https://www.rfc-editor.org/rfc/rfc9591.html), which standardizes the two-round FROST signing protocol, but it is incompatible with Bitcoin's BIP340 X-only public keys. This BIP bridges that gap by providing a BIP340-compatible variant of FROST.\r\n\r\nThis BIP standardizes the FROST3 variant (Section 2.3 of the [ROAST paper](https://eprint.iacr.org/2022/550.pdf)). This variant shares significant similarities with the MuSig2 signing protocol (BIP327). Accordingly, this BIP follows the core design principles of [BIP327](https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki), and many sections have been directly adapted from it.\r\n\r\nFROST key generation is out of scope for this BIP. There are sister BIPs such as [ChillDKG](https://github.com/BlockstreamResearch/bip-frost-dkg) and [Trusted Dealer Generation](https://github.com/BEULAHEVANJALIN/bip-frost-trusted-dealer) that specify key generation mechanisms. This BIP must be used in conjunction with either of those for the full workflow from key generation to signature creation. Careful consideration has been taken to ensure the terminology in this BIP matches that of ChillDKG.\r\n\r\nThere are multiple (experimental) implementations of this specification:\r\n- The reference Python implementation included in this PR\r\n- [secp256k1-zkp FROST module](https://github.com/BlockstreamResearch/secp256k1-zkp/pull/278) (yet to implement the test vectors)\r\n- [FROST-BIP340](https://github.com/jesseposner/FROST-BIP340)\r\n- ~[secp256kfun](https://github.com/LLFourn/secp256kfun/blob/master/schnorr_fun/src/frost/session.rs) (implements ChillDKG with FROST signing)~ TODO: verify if secp256k1fun passes our test vectors\r\n\r\n**Disclosure:** AI has been used to rephrase paragraphs for clarity, refactor certain sections of the reference code, and review pull requests made to the development repository. \r\n\r\nFeedback is appreciated! Please comment on this pull request or open an issue at https://github.com/siv2r/bip-frost-signing for any feedback. Thank you!\r\n\r\ncc @jonasnick @real-or-random @jesseposner",
     "labels": [
       {
         "id": 275845989,
@@ -52,11 +52,11 @@
       }
     ],
     "created_at": "2026-01-03T18:00:46Z",
-    "updated_at": "2026-01-14T13:45:15Z",
+    "updated_at": "2026-01-15T02:07:45Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "c52b88a8e97381dca747267954900785ebb4eb62",
+    "merge_commit_sha": "a31a36cd7f1ab00ae9f41a2047aa182523186896",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -283,12 +283,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5868,
-        "stargazers_count": 10490,
-        "watchers_count": 10490,
-        "size": 18540,
+        "forks_count": 5869,
+        "stargazers_count": 10494,
+        "watchers_count": 10494,
+        "size": 18029,
         "default_branch": "master",
-        "open_issues_count": 72,
+        "open_issues_count": 70,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -299,9 +299,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-01-13T20:50:52Z",
+        "pushed_at": "2026-01-14T21:44:18Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-01-14T06:04:04Z",
+        "updated_at": "2026-01-14T22:21:42Z",
         "allow_forking": true
       }
     },
