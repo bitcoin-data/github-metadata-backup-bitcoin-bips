@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2023-09-30T11:40:55Z",
-    "updated_at": "2026-01-21T21:54:18Z",
+    "updated_at": "2026-01-21T22:14:50Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 1,
-    "review_comments": 90,
+    "review_comments": 91,
     "comments": 14
   },
   "events": [
@@ -3647,6 +3647,45 @@
         "name": "PR Author action required",
         "color": "e99695"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 3689614453,
+      "node_id": "PRR_kwDOAN28mc7b6wx1",
+      "url": null,
+      "actor": null,
+      "commit_id": "f44b87f0f95fd04eb4b978ef48c7c468d527f821",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-01-21T22:14:50Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "I skimmed it quickly for completeness, it looks to me like all the sections are present at this point. My understanding is that there will be at least one more review in the next few days, so I’m going to revisit afterwards.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#pullrequestreview-3689614453",
+      "submitted_at": "2026-01-21T22:14:50Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
     }
   ],
   "comments": [
@@ -7698,6 +7737,60 @@
       "start_side": null,
       "line": 68,
       "original_line": 68,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2714519402",
+      "pull_request_review_id": 3689614453,
+      "id": 2714519402,
+      "node_id": "PRRC_kwDOAN28mc6hzEdq",
+      "diff_hunk": "@@ -0,0 +1,444 @@\n+```\n+  BIP: 346\n+  Layer: Consensus (soft fork)\n+  Title: OP_TXHASH\n+  Authors: Steven Roose <steven@roose.io>\n+           Brandon Black <freedom@reardencode.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2024-04-24\n+  License: BSD-3-Clause\n+```\n+\n+# Abstract\n+\n+This BIP proposes a new opcode `OP_TXHASH`, to be activated as a change to the\n+semantics of `OP_SUCCESS189` in tapscript contexts.\n+\n+This opcode provides a generalized method for introspecting certain details of\n+the spending transaction, which enables non-interactive enforcement of certain\n+properties of the transaction spending a certain UTXO.\n+\n+Together with an opcode like `OP_CHECKSIGFROMSTACK`, this opcode effectively\n+provides a fully generalized signature hash construction, fully supporting\n+all existing SIGHASH flags, the proposed sighash flags from\n+[BIP-118](bip-0118.mediawiki) (`SIGHASH_ANYPREVOUT`) and many other new signature hash\n+combinations.\n+\n+The constructions specified in this BIP also open up the way for other\n+potential updates; see Motivation section for more details.\n+\n+As mentioned in the Deployment section, alternatively, the `OP_TXHASH` semantics\n+could be used to upgrade an existing deployment of the\n+`OP_CHECKTEMPLATEVERIFY` opcode.\n+\n+\n+# Specification\n+\n+\n+## OP_TXHASH\n+\n+`OP_TXHASH` redefines the `OP_SUCCESS189` tapscript opcode (`0xbd`) as a soft\n+fork upgrade. This opcode is only active in tapscript contexts. Note that\n+`OP_SUCCESS187` and `OP_SUCCESS188` are used by BIP-345 (OP_VAULT), making",
+      "path": "bip-0346.md",
+      "position": 43,
+      "original_position": 43,
+      "commit_id": "f44b87f0f95fd04eb4b978ef48c7c468d527f821",
+      "original_commit_id": "f44b87f0f95fd04eb4b978ef48c7c468d527f821",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Nit: OP_VAULT was withdrawn, so it no longer lays claim to those. However, BIP443: OP_CHECKCONTRACTVERIFY now claims OP_SUCCESS187.",
+      "created_at": "2026-01-21T22:04:39Z",
+      "updated_at": "2026-01-21T22:14:50Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#discussion_r2714519402",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2714519402"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 43,
+      "original_line": 43,
       "side": "RIGHT"
     }
   ]
