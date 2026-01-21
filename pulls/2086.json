@@ -70,7 +70,7 @@
       }
     ],
     "created_at": "2026-01-16T00:36:58Z",
-    "updated_at": "2026-01-21T12:57:23Z",
+    "updated_at": "2026-01-21T16:58:30Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -334,7 +334,7 @@
     "deletions": 10,
     "changed_files": 1,
     "commits": 3,
-    "review_comments": 5,
+    "review_comments": 6,
     "comments": 4
   },
   "events": [
@@ -1534,6 +1534,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2712465612"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2086"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 575,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2713493213",
+      "pull_request_review_id": 3688359668,
+      "id": 2713493213,
+      "node_id": "PRRC_kwDOAN28mc6hvJ7d",
+      "diff_hunk": "@@ -541,35 +544,37 @@ The following table lists currently defined message type IDs:\n !3\n |-\n !+0\n-|(12 bytes follow)||<code>ADDR</code>||<code>BLOCK</code>||<code>BLOCKTXN</code>\n+|(12 bytes follow)||<code>addr</code>||<code>block</code>||<code>blocktxn</code>\n |-\n !+4\n-|<code>CMPCTBLOCK</code>||<code>FEEFILTER</code>||<code>FILTERADD</code>||<code>FILTERCLEAR</code>\n+|<code>cmpctblock</code>||<code>feefilter</code>||<code>filteradd</code>||<code>filterclear</code>\n |-\n !+8\n-|<code>FILTERLOAD</code>||<code>GETBLOCKS</code>||<code>GETBLOCKTXN</code>||<code>GETDATA</code>\n+|<code>filterload</code>||<code>getblocks</code>||<code>getblocktxn</code>||<code>getdata</code>\n |-\n !+12\n-|<code>GETHEADERS</code>||<code>HEADERS</code>||<code>INV</code>||<code>MEMPOOL</code>\n+|<code>getheaders</code>||<code>headers</code>||<code>inv</code>||<code>mempool</code>\n |-\n !+16\n-|<code>MERKLEBLOCK</code>||<code>NOTFOUND</code>||<code>PING</code>||<code>PONG</code>\n+|<code>merkleblock</code>||<code>notfound</code>||<code>ping</code>||<code>pong</code>\n |-\n !+20\n-|<code>SENDCMPCT</code>||<code>TX</code>||<code>GETCFILTERS</code>||<code>CFILTER</code>\n+|<code>sendcmpct</code>||<code>tx</code>||<code>getcfilters</code>||<code>cfilter</code>\n |-\n !+24\n-|<code>GETCFHEADERS</code>||<code>CFHEADERS</code>||<code>GETCFCHECKPT</code>||<code>CFCHECKPT</code>\n+|<code>getcfheaders</code>||<code>cfheaders</code>||<code>getcfcheckpt</code>||<code>cfcheckpt</code>\n |-\n !+28\n-|<code>ADDRV2</code>\n+|<code>addrv2</code>\n |-\n !&geq;29\n || colspan=\"4\" | (undefined)\n |}\n \n \n-Additional message types may be added separately after BIP finalization.\n+Peers that support a message type ID should also support the same message when encoded with the equivalent 12 byte ASCII message type (eg, if the one byte <code>message_type = b'\\x0a'</code> is supported, then the 13 byte <code>message_type = b'\\x00getblocktxn\\x00'</code> should also be supported and behave identically).",
+      "path": "bip-0324.mediawiki",
+      "position": 1,
+      "original_position": 60,
+      "commit_id": "e4b180d68ad44b3677d2f876c5abbd4ccbb698fb",
+      "original_commit_id": "aeb79971afb8f878f31c5200057eb811966d738e",
+      "in_reply_to_id": 2711807400,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "\r\n> \"Unless otherwise negotiated, nodes implementing this BIP must treat the following short and long message types as equivalent\" or something, maybe?\r\n\r\nI'm a bit reluctant to take into account possible future extensions that don't exist yet. This just adds complexity to the language now, and without the background knowledge, it may be confusing to readers because negotation isn't mentioned at all in the BIP. (\"Negotiated? How? Over a beer?\") If you write this BIP and it gets merged, I'll be happy to amend BIP324 and add a note.\r\n\r\nHere's a suggestion that expresses both directions:\r\n\"If a message type ID for a certain message type exists, peers that support receiving messages of that type should accept both the 1-byte encoding and the 13-byte encoding (e.g., the 1-byte <code>message_type = b'\\x0a'</code> should be accepted if and only if the 13-byte <code>message_type = b'\\x00getblocktxn\\x00'</code> is accepted, and behavior should not depend on which of the two encodings is received).\"\r\n\r\n",
+      "created_at": "2026-01-21T16:58:30Z",
+      "updated_at": "2026-01-21T16:58:31Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2086#discussion_r2713493213",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2713493213"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2086"
