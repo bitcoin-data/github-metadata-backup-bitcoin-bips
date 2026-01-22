@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2023-09-30T11:40:55Z",
-    "updated_at": "2026-01-21T22:14:50Z",
+    "updated_at": "2026-01-22T19:58:42Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -282,9 +282,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5877,
-        "stargazers_count": 10514,
-        "watchers_count": 10514,
+        "forks_count": 5876,
+        "stargazers_count": 10513,
+        "watchers_count": 10513,
         "size": 18017,
         "default_branch": "master",
         "open_issues_count": 73,
@@ -300,7 +300,7 @@
         "visibility": "public",
         "pushed_at": "2026-01-17T04:35:04Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-01-21T21:30:10Z",
+        "updated_at": "2026-01-22T19:51:43Z",
         "allow_forking": true
       }
     },
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 1,
-    "review_comments": 91,
+    "review_comments": 92,
     "comments": 14
   },
   "events": [
@@ -3684,6 +3684,45 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1500#pullrequestreview-3689614453",
       "submitted_at": "2026-01-21T22:14:50Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+    },
+    {
+      "event": "reviewed",
+      "id": 3694297258,
+      "node_id": "PRR_kwDOAN28mc7cMoCq",
+      "url": null,
+      "actor": null,
+      "commit_id": "f44b87f0f95fd04eb4b978ef48c7c468d527f821",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-01-22T19:58:42Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "One suggestion. Otherwise LGTM.",
+      "user": {
+        "login": "reardencode",
+        "id": 730881,
+        "node_id": "MDQ6VXNlcjczMDg4MQ==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/730881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/reardencode",
+        "html_url": "https://github.com/reardencode",
+        "followers_url": "https://api.github.com/users/reardencode/followers",
+        "following_url": "https://api.github.com/users/reardencode/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/reardencode/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/reardencode/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/reardencode/subscriptions",
+        "organizations_url": "https://api.github.com/users/reardencode/orgs",
+        "repos_url": "https://api.github.com/users/reardencode/repos",
+        "events_url": "https://api.github.com/users/reardencode/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/reardencode/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#pullrequestreview-3694297258",
+      "submitted_at": "2026-01-22T19:58:42Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
     }
@@ -7791,6 +7830,60 @@
       "start_side": null,
       "line": 43,
       "original_line": 43,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2718392413",
+      "pull_request_review_id": 3694297258,
+      "id": 2718392413,
+      "node_id": "PRRC_kwDOAN28mc6iB2Bd",
+      "diff_hunk": "@@ -0,0 +1,444 @@\n+```\n+  BIP: 346\n+  Layer: Consensus (soft fork)\n+  Title: OP_TXHASH\n+  Authors: Steven Roose <steven@roose.io>\n+           Brandon Black <freedom@reardencode.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2024-04-24\n+  License: BSD-3-Clause\n+```\n+\n+# Abstract\n+\n+This BIP proposes a new opcode `OP_TXHASH`, to be activated as a change to the\n+semantics of `OP_SUCCESS189` in tapscript contexts.\n+\n+This opcode provides a generalized method for introspecting certain details of\n+the spending transaction, which enables non-interactive enforcement of certain\n+properties of the transaction spending a certain UTXO.\n+\n+Together with an opcode like `OP_CHECKSIGFROMSTACK`, this opcode effectively\n+provides a fully generalized signature hash construction, fully supporting\n+all existing SIGHASH flags, the proposed sighash flags from\n+[BIP-118](bip-0118.mediawiki) (`SIGHASH_ANYPREVOUT`) and many other new signature hash\n+combinations.\n+\n+The constructions specified in this BIP also open up the way for other\n+potential updates; see Motivation section for more details.\n+\n+As mentioned in the Deployment section, alternatively, the `OP_TXHASH` semantics\n+could be used to upgrade an existing deployment of the\n+`OP_CHECKTEMPLATEVERIFY` opcode.",
+      "path": "bip-0346.md",
+      "position": 33,
+      "original_position": 33,
+      "commit_id": "f44b87f0f95fd04eb4b978ef48c7c468d527f821",
+      "original_commit_id": "f44b87f0f95fd04eb4b978ef48c7c468d527f821",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "reardencode",
+        "id": 730881,
+        "node_id": "MDQ6VXNlcjczMDg4MQ==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/730881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/reardencode",
+        "html_url": "https://github.com/reardencode",
+        "followers_url": "https://api.github.com/users/reardencode/followers",
+        "following_url": "https://api.github.com/users/reardencode/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/reardencode/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/reardencode/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/reardencode/subscriptions",
+        "organizations_url": "https://api.github.com/users/reardencode/orgs",
+        "repos_url": "https://api.github.com/users/reardencode/repos",
+        "events_url": "https://api.github.com/users/reardencode/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/reardencode/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "```suggestion\r\n```\r\nShould remove this now that the BIP doesn't include OP_TXHASHVERIFY.",
+      "created_at": "2026-01-22T19:53:19Z",
+      "updated_at": "2026-01-22T19:58:42Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1500#discussion_r2718392413",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2718392413"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1500"
+        }
+      },
+      "start_line": 31,
+      "original_start_line": 31,
+      "start_side": "RIGHT",
+      "line": 33,
+      "original_line": 33,
       "side": "RIGHT"
     }
   ]
