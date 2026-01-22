@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2025-12-03T11:13:10Z",
-    "updated_at": "2026-01-20T06:12:08Z",
+    "updated_at": "2026-01-22T00:39:01Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -283,12 +283,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5876,
-        "stargazers_count": 10512,
-        "watchers_count": 10512,
+        "forks_count": 5877,
+        "stargazers_count": 10514,
+        "watchers_count": 10514,
         "size": 18017,
         "default_branch": "master",
-        "open_issues_count": 74,
+        "open_issues_count": 73,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-01-17T04:35:04Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-01-20T02:42:22Z",
+        "updated_at": "2026-01-21T21:30:10Z",
         "allow_forking": true
       }
     },
@@ -317,7 +317,7 @@
     "changed_files": 1,
     "commits": 3,
     "review_comments": 2,
-    "comments": 26
+    "comments": 27
   },
   "events": [
     {
@@ -2510,6 +2510,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2047#issuecomment-3771205044",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2047"
+    },
+    {
+      "event": "commented",
+      "id": 3781874476,
+      "node_id": "IC_kwDOAN28mc7hatMs",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3781874476",
+      "actor": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-01-22T00:36:19Z",
+      "updated_at": "2026-01-22T00:39:01Z",
+      "author_association": "MEMBER",
+      "body": "> Implementers will support whatever subset of output descriptors suits their application, as they have always done.\r\n\r\nIf you're suggesting that implementers can choose which variant they want to implement, I think that would be a terrible idea. That would lead to user confusion and fragmentation if some wallets support `sp(key, key)` while others support `sp(key)`. This needs to be all or nothing - either everyone who implements `sp()` implements everything, or they do not implement `sp()` at all. This is true for all of the other descriptor BIPs too.\r\n\r\nI guess the hangup that I have with the single key expression, even in a world with both types, is that it fundamentally doesn't fit into the descriptor paradigm at all. The fact that it is spscan and spspend is already enough information that it's for silent payments. It's a bespoke thing for silent payments only, which seems antithetical to the purpose of descriptors. This is in much the same way as `wpkh(zpub)` would be redundant, and was specifically not included in descriptors. As you point out, making an easy and unambiguous string is great for users, but why go down the route of descriptors if that's the goal? Why aren't we just sticking everything into single opaque strings with easy to identify prefixes? After all, we already had `ypub` and `zpub` before. To me, this construction feels like it's a descriptor in name only as it has none of the properties that actually make descriptors useful. In the original discussion, sppub and spprv were specifically not part of the descriptor but rather as a separate bespoke thing for silent payments only that would be easy for users to pass around.\r\n\r\nI also have concerns about using bech32m for these strings. bech32m is specifically designed for strings up to 89 characters in length. After that, it's error detection and correction properties begin to drop off. The single key expression would be well over that limit. According to Pieter, that makes it checksum only capable of guaranteeing detection of up to 3 errors. For a string that contains private keys and will be over 100 characters in length, that does not seem like enough. As much as we hate Base58Check, the checksum it uses can cover many errors, even if the character set sucks and it can't tell you where the error might be.",
+      "user": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2047#issuecomment-3781874476",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2047"
     }
   ],
