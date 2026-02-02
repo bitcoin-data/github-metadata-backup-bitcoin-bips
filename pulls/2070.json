@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-01-03T18:00:46Z",
-    "updated_at": "2026-02-01T10:39:03Z",
+    "updated_at": "2026-02-02T20:15:29Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -292,12 +292,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5887,
-        "stargazers_count": 10526,
-        "watchers_count": 10526,
+        "forks_count": 5888,
+        "stargazers_count": 10528,
+        "watchers_count": 10528,
         "size": 18880,
         "default_branch": "master",
-        "open_issues_count": 72,
+        "open_issues_count": 73,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2026-01-29T18:18:01Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-02-01T03:25:59Z",
+        "updated_at": "2026-02-02T19:26:13Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 0,
     "changed_files": 40,
     "commits": 7,
-    "review_comments": 97,
+    "review_comments": 98,
     "comments": 8
   },
   "events": [
@@ -1988,6 +1988,44 @@
       "commit_id": "289286c95bd719cdd0fb3c2d3ad19a64193d614c",
       "commit_url": "https://api.github.com/repos/siv2r/bips/commits/289286c95bd719cdd0fb3c2d3ad19a64193d614c",
       "created_at": "2026-02-01T10:29:01Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 3741555342,
+      "node_id": "PRR_kwDOAN28mc7fA5qO",
+      "url": null,
+      "actor": null,
+      "commit_id": "289286c95bd719cdd0fb3c2d3ad19a64193d614c",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-02-02T20:15:29Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "Christewart",
+        "id": 3514957,
+        "node_id": "MDQ6VXNlcjM1MTQ5NTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3514957?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Christewart",
+        "html_url": "https://github.com/Christewart",
+        "followers_url": "https://api.github.com/users/Christewart/followers",
+        "following_url": "https://api.github.com/users/Christewart/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Christewart/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Christewart/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Christewart/subscriptions",
+        "organizations_url": "https://api.github.com/users/Christewart/orgs",
+        "repos_url": "https://api.github.com/users/Christewart/repos",
+        "events_url": "https://api.github.com/users/Christewart/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Christewart/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#pullrequestreview-3741555342",
+      "submitted_at": "2026-02-02T20:15:29Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
     }
   ],
   "comments": [
@@ -6885,9 +6923,9 @@
         "name": null,
         "patch_url": null
       },
-      "body": "Yes, the value is not a valid scalar, but it's the BIP text is incorrect here. `rand` doesn't need to be a scalar, it can be any 32-byte array. I'll update the text. Good catch, thanks!\r\n\r\nIn `DeterministicSign`, `rand` is XORed with `sk` and supplied to a hash function for generating the nonce. We never convert it to a scalar, so it should be okay to allow any 32-byte array.",
+      "body": "Yes, the value is not a valid scalar, but it's the BIP text that is incorrect here. `rand` doesn't need to be a scalar, it can be any 32-byte array. I'll update the text. Good catch, thanks!\r\n\r\nIn `DeterministicSign`, `rand` is XORed with `sk` and supplied to a hash function for generating the nonce. We never convert it to a scalar, so it should be okay to allow any 32-byte array.",
       "created_at": "2026-02-01T08:21:49Z",
-      "updated_at": "2026-02-01T09:12:44Z",
+      "updated_at": "2026-02-01T16:21:19Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2070#discussion_r2750737152",
       "author_association": "CONTRIBUTOR",
       "_links": {
@@ -7227,6 +7265,60 @@
       "start_side": null,
       "line": null,
       "original_line": 4,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2755999062",
+      "pull_request_review_id": 3741555342,
+      "id": 2755999062,
+      "node_id": "PRRC_kwDOAN28mc6kRTVW",
+      "diff_hunk": "@@ -0,0 +1,825 @@\n+```\n+  BIP: 445\n+  Title: FROST Signing Protocol for BIP340 Signatures\n+  Authors: Sivaram Dhakshinamoorthy <siv2ram@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2026-01-30\n+  License: CC0-1.0\n+  Discussion: 2024-07-31: https://groups.google.com/g/bitcoindev/c/PeMp2HQl-H4/m/AcJtK0aKAwAJ\n+  Requires: 340\n+```\n+\n+## Abstract\n+\n+This document proposes a standard for the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol. The standard is compatible with [BIP340][bip340] public keys and signatures. It supports *tweaking*, which allows deriving [BIP32][bip32] child keys from the threshold public key and creating [BIP341][bip341] Taproot outputs with key and script paths.\n+\n+## Copyright\n+\n+This document is made available under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).\n+The accompanying source code is licensed under the [MIT license](https://opensource.org/license/mit).\n+\n+## Motivation\n+\n+The FROST signature scheme enables threshold Schnorr signatures. In a *t-of-n* threshold configuration, any *t*[^t-edge-cases] participants can cooperatively produce a Schnorr signature that is indistinguishable from a signature produced by a single signer. FROST signatures are unforgeable as long as fewer than *t* participants are corrupted. The signing protocol remains functional provided that at least *t* honest participants retain access to their secret key shares.\n+\n+[^t-edge-cases]: While *t = n* and *t = 1* are in principle supported, simpler alternatives are available in these cases. In the case *t = n*, using a dedicated *n-of-n* multi-signature scheme such as MuSig2 (see [BIP327][bip327]) instead of FROST avoids the need for an interactive DKG. The case *t = 1* can be realized by letting one signer generate an ordinary [BIP340][bip340] key pair and transmitting the key pair to every other signer, who can check its consistency and then simply use the ordinary [BIP340][bip340] signing algorithm. Signers still need to ensure that they agree on a key pair.\n+\n+The IRTF has published [RFC 9591][rfc9591], which specifies the FROST signing protocol for several elliptic curve and hash function combinations, including secp256k1 with SHA-256, the cryptographic primitives used in Bitcoin. However, the signatures produced by RFC 9591 are incompatible with BIP340 Schnorr signatures due to the X-only public keys introduced in BIP340. Additionally, RFC 9591 does not specify key tweaking mechanisms, which are essential for Bitcoin applications such as [BIP32][bip32] key derivation and [BIP341][bip341] Taproot. This document addresses these limitations by specifying a BIP340-compatible variant of FROST signing protocol that supports key tweaking.",
+      "path": "bip-0445.md",
+      "position": 28,
+      "original_position": 28,
+      "commit_id": "289286c95bd719cdd0fb3c2d3ad19a64193d614c",
+      "original_commit_id": "289286c95bd719cdd0fb3c2d3ad19a64193d614c",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Christewart",
+        "id": 3514957,
+        "node_id": "MDQ6VXNlcjM1MTQ5NTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3514957?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Christewart",
+        "html_url": "https://github.com/Christewart",
+        "followers_url": "https://api.github.com/users/Christewart/followers",
+        "following_url": "https://api.github.com/users/Christewart/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Christewart/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Christewart/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Christewart/subscriptions",
+        "organizations_url": "https://api.github.com/users/Christewart/orgs",
+        "repos_url": "https://api.github.com/users/Christewart/repos",
+        "events_url": "https://api.github.com/users/Christewart/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Christewart/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I'm not sure where to best recommend putting this (here, or the tweaking section?) but I think it could be a good idea to mention that this BIP (AFAICT) follows the [tweak handling of BIP327](https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki#applying-tweaks). \r\n\r\nThis would give people a heads up that you may be able to reuse code from your existing MuSig implementation if you have one.\r\n\r\nWe call it the [\"Tweak Context\"](https://github.com/bitcoin/bips/blob/ec46a20323840b1a6aba83bc2d18b34dd0811245/bip-frost-signing.md#tweak-context) in this BIP. In BIP327, they call it the [\"KeyAgg Context\"](https://github.com/bitcoin/bips/blob/master/bip-0327.mediawiki#keyagg-context). At minimum, it seems preferable to use the same nomenclature. \r\n\r\nI would guess that this data structure is gonna become more popular as taproot native protocols will have to handle x-only keys - perhaps its worth having a BIP of its own 🤷‍♂️ .",
+      "created_at": "2026-02-02T20:15:29Z",
+      "updated_at": "2026-02-02T20:20:06Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#discussion_r2755999062",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2755999062"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 28,
+      "original_line": 28,
       "side": "RIGHT"
     }
   ]
