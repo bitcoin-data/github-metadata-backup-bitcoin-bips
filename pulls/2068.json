@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2025-12-29T08:51:40Z",
-    "updated_at": "2026-02-03T20:08:04Z",
+    "updated_at": "2026-02-03T22:05:41Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "changed_files": 1,
     "commits": 13,
     "review_comments": 24,
-    "comments": 0
+    "comments": 1
   },
   "events": [
     {
@@ -855,7 +855,7 @@
       "commit_url": null,
       "created_at": null,
       "updated_at": "2026-01-27T02:40:10Z",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "body": "Hi Oren, thanks for your submission. I did a first quick pass. From the formatting, this seems already a good start. I left a few comments and questions.",
       "user": {
         "login": "murchandamus",
@@ -1426,7 +1426,7 @@
       "commit_url": null,
       "created_at": null,
       "updated_at": "2026-01-28T18:43:27Z",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "user": {
         "login": "murchandamus",
         "id": 4060799,
@@ -1792,7 +1792,7 @@
       "commit_url": null,
       "created_at": null,
       "updated_at": "2026-02-03T20:07:55Z",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "body": "I just looked this over again. From an editorial perspective this looks like it’s getting close to publication. Please consider whether your document introduces any potential incompabilities, and if so, add a Backwards Compatibility section.\n\nOther than that, what are the next steps from your perspective? Are you working with any Bitcoin projects that are working on implementing this scheme? Are you expecting any other reviewers to take a look?",
       "user": {
         "login": "murchandamus",
@@ -1890,6 +1890,64 @@
         "name": "Needs number assignment",
         "color": "eb6420"
       }
+    },
+    {
+      "event": "commented",
+      "id": 3843916757,
+      "node_id": "IC_kwDOAN28mc7lHYPV",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3843916757",
+      "actor": {
+        "login": "oren-z0",
+        "id": 115847146,
+        "node_id": "U_kgDOBuev6g",
+        "avatar_url": "https://avatars.githubusercontent.com/u/115847146?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/oren-z0",
+        "html_url": "https://github.com/oren-z0",
+        "followers_url": "https://api.github.com/users/oren-z0/followers",
+        "following_url": "https://api.github.com/users/oren-z0/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/oren-z0/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/oren-z0/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/oren-z0/subscriptions",
+        "organizations_url": "https://api.github.com/users/oren-z0/orgs",
+        "repos_url": "https://api.github.com/users/oren-z0/repos",
+        "events_url": "https://api.github.com/users/oren-z0/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/oren-z0/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-02-03T22:03:30Z",
+      "updated_at": "2026-02-03T22:05:41Z",
+      "author_association": "NONE",
+      "body": "> I just looked this over again. From an editorial perspective this looks like it’s getting close to publication. Please consider whether your document introduces any potential incompabilities, and if so, add a Backwards Compatibility section.\r\n> \r\n> Other than that, what are the next steps from your perspective? Are you working with any Bitcoin projects that are working on implementing this scheme? Are you expecting any other reviewers to take a look?\r\n\r\nThanks again for the thorough review. The current implementation in Electrum matches the BIP description. I also developed a similar plugin for Specter Desktop [here](https://github.com/cryptoadvance/specter-desktop/pull/2489), which I don't think matches exactly the BIP - but AFAIK Specter Desktop is not being maintained anymore (except for bug fixes).\r\n\r\nA friend and I founded https://ritrek.com based exactly on the BIP idea, and soon we'll release our Android app where users could create/upload recovery-plans and later initiate them, monitor them (get push-notifications on their status, or if the wallet \"double-spent\" them), and set a dead-man-switch to initiate them automatically after X months if the app hasn't been opened.\r\nI think we have a small market of less-technical Bitcoiners who don't want to switch to a multisig wallet and use one of the \"collaborative custody\" solutions. It's also more secure in my opinion (no 3rd party key that could leak), but with the downside of not being able to touch that wallet (without re-signing new transactions).\r\n\r\nI think the BIP is fine as is and doesn't need more reviewers. I have a small doubt whether we should add the Alert Transaction's inputs' amounts - and allow validating the segwit transaction without querying those UTXOs. On the other hand, any service that accepts such JSON should call `testmempoolaccept` anyways.\r\n\r\nIn any case, if there will be major changes in the future to the json format, we can always add a \"version\" field, or change the \"kind\" from \"timelock-recovery-plan\" to \"timelock-recovery-plan-v2\".",
+      "user": {
+        "login": "oren-z0",
+        "id": 115847146,
+        "node_id": "U_kgDOBuev6g",
+        "avatar_url": "https://avatars.githubusercontent.com/u/115847146?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/oren-z0",
+        "html_url": "https://github.com/oren-z0",
+        "followers_url": "https://api.github.com/users/oren-z0/followers",
+        "following_url": "https://api.github.com/users/oren-z0/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/oren-z0/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/oren-z0/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/oren-z0/subscriptions",
+        "organizations_url": "https://api.github.com/users/oren-z0/orgs",
+        "repos_url": "https://api.github.com/users/oren-z0/repos",
+        "events_url": "https://api.github.com/users/oren-z0/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/oren-z0/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2068#issuecomment-3843916757",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2068"
     }
   ],
   "comments": [
@@ -1931,7 +1989,7 @@
       "created_at": "2026-01-16T22:13:03Z",
       "updated_at": "2026-01-27T02:40:10Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2700137893",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2700137893"
@@ -1985,7 +2043,7 @@
       "created_at": "2026-01-27T02:05:49Z",
       "updated_at": "2026-01-27T02:40:10Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2729951288",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2729951288"
@@ -2039,7 +2097,7 @@
       "created_at": "2026-01-27T02:11:06Z",
       "updated_at": "2026-01-27T02:40:10Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2729959868",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2729959868"
@@ -2093,7 +2151,7 @@
       "created_at": "2026-01-27T02:14:10Z",
       "updated_at": "2026-01-27T21:43:56Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2729965003",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2729965003"
@@ -2147,7 +2205,7 @@
       "created_at": "2026-01-27T02:22:02Z",
       "updated_at": "2026-01-27T02:40:10Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2729978766",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2729978766"
@@ -2201,7 +2259,7 @@
       "created_at": "2026-01-27T02:26:49Z",
       "updated_at": "2026-01-27T02:40:10Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2729987050",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2729987050"
@@ -2255,7 +2313,7 @@
       "created_at": "2026-01-27T02:28:15Z",
       "updated_at": "2026-01-27T02:40:10Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2729989532",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2729989532"
@@ -2309,7 +2367,7 @@
       "created_at": "2026-01-27T02:33:58Z",
       "updated_at": "2026-01-27T02:40:10Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2729999566",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2729999566"
@@ -2363,7 +2421,7 @@
       "created_at": "2026-01-27T02:35:12Z",
       "updated_at": "2026-01-27T02:40:10Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2730001589",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2730001589"
@@ -2525,7 +2583,7 @@
       "created_at": "2026-01-27T21:43:05Z",
       "updated_at": "2026-01-27T21:43:05Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2733943002",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2733943002"
@@ -2903,7 +2961,7 @@
       "created_at": "2026-01-28T18:35:08Z",
       "updated_at": "2026-01-28T18:43:27Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2737979426",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2737979426"
@@ -2957,7 +3015,7 @@
       "created_at": "2026-01-28T18:43:19Z",
       "updated_at": "2026-01-28T18:43:27Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2738013106",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2738013106"
@@ -3011,7 +3069,7 @@
       "created_at": "2026-01-29T21:59:46Z",
       "updated_at": "2026-01-29T21:59:46Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2743732911",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2743732911"
@@ -3065,7 +3123,7 @@
       "created_at": "2026-01-29T22:00:43Z",
       "updated_at": "2026-01-29T22:00:43Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2743735476",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2743735476"
