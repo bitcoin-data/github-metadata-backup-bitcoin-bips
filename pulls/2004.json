@@ -14,9 +14,9 @@
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2004/comments",
     "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/71fbd4f3685ae7f0988e6d9753657d6b48812bdf",
     "number": 2004,
-    "state": "open",
+    "state": "closed",
     "locked": false,
-    "maintainer_can_modify": true,
+    "maintainer_can_modify": false,
     "title": "BIP 89: Chain Code Delegation for Private Collaborative Custody",
     "user": {
       "login": "jurvis",
@@ -61,15 +61,37 @@
       }
     ],
     "created_at": "2025-10-15T03:28:50Z",
-    "updated_at": "2026-02-04T10:44:28Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
-    "merged": false,
-    "merge_commit_sha": "fc13bebca257a5918691b3fd137bfef6ed00f259",
+    "updated_at": "2026-02-04T20:58:08Z",
+    "closed_at": "2026-02-04T20:58:08Z",
+    "mergeable_state": "unknown",
+    "merged": true,
+    "merged_at": "2026-02-04T20:58:08Z",
+    "merged_by": {
+      "login": "murchandamus",
+      "id": 4060799,
+      "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/murchandamus",
+      "html_url": "https://github.com/murchandamus",
+      "followers_url": "https://api.github.com/users/murchandamus/followers",
+      "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+      "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+      "repos_url": "https://api.github.com/users/murchandamus/repos",
+      "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
+    "merge_commit_sha": "57869d524abb9143ba96aa9f53fab906ec309383",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
     "head": {
       "label": "jurvis:master",
       "ref": "master",
@@ -292,7 +314,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5890,
+        "forks_count": 5891,
         "stargazers_count": 10529,
         "watchers_count": 10529,
         "size": 18886,
@@ -308,9 +330,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-02-03T05:01:55Z",
+        "pushed_at": "2026-02-04T20:58:08Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-02-03T14:10:00Z",
+        "updated_at": "2026-02-04T20:58:22Z",
         "allow_forking": true
       }
     },
@@ -319,7 +341,7 @@
         "href": "https://api.github.com/repos/bitcoin/bips/pulls/2004"
       }
     },
-    "author_association": "NONE",
+    "author_association": "CONTRIBUTOR",
     "draft": false,
     "additions": 2385,
     "deletions": 0,
@@ -600,7 +622,7 @@
       "commit_url": null,
       "created_at": "2025-11-30T23:39:17Z",
       "updated_at": "2025-11-30T23:39:17Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "@arminsabouri @jonatack thank you for taking the time to review! I've gone ahead and addressed your comments in \r\n9a47c29",
       "user": {
         "login": "jurvis",
@@ -984,7 +1006,7 @@
       "commit_url": null,
       "created_at": "2025-12-03T22:48:02Z",
       "updated_at": "2025-12-03T22:48:02Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "thanks @jonatack! i think i got everything!",
       "user": {
         "login": "jurvis",
@@ -1224,7 +1246,7 @@
       "commit_url": null,
       "created_at": "2025-12-06T18:11:49Z",
       "updated_at": "2025-12-06T18:11:49Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "hi @jonatack, happy to help. does the scan run through the sample code as well? the sample code contains a lot of boilerplate that we leveraged LLMs to help us with, and may be the reason why it registers high. \r\n\r\nHowever, the contents of the mediawiki itself should be ~90% original. We leaned on LLM use in the mediawiki mostly to  ensure that our formatting was aligned with existing conventions (heavily referencing BIP 340, BIP 352, BIP 32, and BIP 3), and to convert it from Markdown, which we had originally used to write our draft. \r\n\r\nFor example, we wrote out our original one of the algorithms in the following format originally:\r\n```\r\nSigning\r\n======\r\nWhen the counterparty requests that the collaborative custodian sign a transaction, it derives the BIP32 scalar tweak from the xpub (i.e. the value `parse_256(I_L)` from BIP32) and provides it to the custodian:\r\n\r\n# Inputs:\r\n#   chain_code : 32-byte chain code (hidden from custodian)\r\n#   P_par      : custodian’s parent public key (compressed)\r\n#   i          : child index for spending\r\n\r\nI   = HMAC-SHA512(key = chain_code,\r\n                 data = serP(P_par) || ser32(i))\r\nI_L = I[0:32]            # left half\r\nt_i = parse256(I_L)      # scalar tweak mod n\r\n# (I_R would be the child chain code—discarded here.)\r\n\r\n# Counterparty → Custodian: send t_i\r\n```\r\n\r\nWhich we got ultimately turned into this, to align with how BIP 32 reads:\r\n\r\n\r\n```\r\n=== Tweak Calculation ===\r\nTo produce CCD tweak data, a delegatee computes a per-participant scalar that aggregates the non-hardened derivation tweaks along the remaining path. Let the extended key retained by the delegatee be P at depth d, and let the target index vector be I = (i<sub>d+1</sub>, …, i<sub>n</sub>) with each i<sub>k</sub> < 2<sup>31</sup>.\r\n\r\n<div>\r\nAlgorithm ''ComputeBIP32Tweak(P, I)'':\r\n* Inputs:\r\n** ''P'': base public key at depth ''d''\r\n** ''I = (i<sub>d+1</sub>, …, i<sub>n</sub>)'': ordered sequence of non-hardened child indices\r\n* Let ''t = 0'' and ''E = P''.\r\n* For each index ''i'' in ''I'' (from left to right):\r\n** Run the BIP32 non-hardened derivation ''CKDpub'' on ''E'' with child index ''i'', yielding the child extended key ''P<sub>child</sub>'' and its scalar tweak ''δ'' (the parse<sub>256</sub>(''I<sub>L</sub>'') term from BIP32).\r\n** Let ''t = (t + δ) mod n''.\r\n** Let ''E = P<sub>child</sub>''.\r\n* If ''I'' is empty, let ''P′ = P''; otherwise let ''P′ = P<sub>child</sub>'' from the final iteration.\r\n* Return ''(t, P′)''.\r\n</div>\r\n```\r\n\r\nHope that helps.",
       "user": {
         "login": "jurvis",
@@ -1464,7 +1486,7 @@
       "commit_url": null,
       "created_at": "2025-12-18T22:33:16Z",
       "updated_at": "2025-12-18T22:33:16Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "hi @jonatack just following up to see if there's anything I can do here to move things along. thanks!",
       "user": {
         "login": "jurvis",
@@ -2130,7 +2152,7 @@
       "commit_url": null,
       "created_at": "2026-01-07T19:52:56Z",
       "updated_at": "2026-01-07T19:52:56Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "@murchandamus Thanks for the detailed review, I will revise accordingly. I agree that delegatee/delgator is confusing, but I'm not sure what the better terminology is.\r\n\r\n@real-or-random I'll make sure to include the copyright and permission notice which I believe will satisfy the license requirements for secp256k1lab.",
       "user": {
         "login": "jesseposner",
@@ -3376,7 +3398,7 @@
       "commit_url": null,
       "created_at": "2026-02-03T23:21:33Z",
       "updated_at": "2026-02-03T23:21:33Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "@murchandamus: All review items have now been addressed. I got an error when I tried to resolve the comments, but I posted the commit hash to show it has been resolved.",
       "user": {
         "login": "jesseposner",
@@ -3496,7 +3518,7 @@
       "commit_url": null,
       "created_at": "2026-02-03T23:22:13Z",
       "updated_at": "2026-02-03T23:22:13Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "@Christewart My bandwidth is limited, but I think it's a good idea and happy to support any efforts to make this happen.",
       "user": {
         "login": "jesseposner",
@@ -3743,6 +3765,68 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-02-04T10:44:30Z"
+    },
+    {
+      "event": "merged",
+      "id": 22540289400,
+      "node_id": "ME_lADOAN28mc7RlPKJzwAAAAU_gYV4",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/22540289400",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "57869d524abb9143ba96aa9f53fab906ec309383",
+      "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/57869d524abb9143ba96aa9f53fab906ec309383",
+      "created_at": "2026-02-04T20:58:08Z"
+    },
+    {
+      "event": "closed",
+      "id": 22540289439,
+      "node_id": "CE_lADOAN28mc7RlPKJzwAAAAU_gYWf",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/22540289439",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-02-04T20:58:08Z"
     }
   ],
   "comments": [
@@ -4864,7 +4948,7 @@
       "created_at": "2026-01-07T19:23:32Z",
       "updated_at": "2026-01-07T19:23:33Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2669793840",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2669793840"
@@ -4918,7 +5002,7 @@
       "created_at": "2026-01-07T19:28:59Z",
       "updated_at": "2026-01-07T19:29:15Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2669808174",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2669808174"
@@ -4972,7 +5056,7 @@
       "created_at": "2026-01-07T19:32:36Z",
       "updated_at": "2026-01-07T19:32:37Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2669819937",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2669819937"
@@ -5026,7 +5110,7 @@
       "created_at": "2026-01-07T19:35:15Z",
       "updated_at": "2026-01-07T19:35:15Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2669826502",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2669826502"
@@ -5080,7 +5164,7 @@
       "created_at": "2026-01-07T19:38:55Z",
       "updated_at": "2026-01-07T19:38:55Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2669836145",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2669836145"
@@ -5134,7 +5218,7 @@
       "created_at": "2026-01-07T19:49:13Z",
       "updated_at": "2026-01-07T19:49:13Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2669863156",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2669863156"
@@ -5242,7 +5326,7 @@
       "created_at": "2026-02-03T23:04:34Z",
       "updated_at": "2026-02-03T23:04:34Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2761409652",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2761409652"
@@ -5296,7 +5380,7 @@
       "created_at": "2026-02-03T23:05:07Z",
       "updated_at": "2026-02-03T23:05:08Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2761411964",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2761411964"
@@ -5350,7 +5434,7 @@
       "created_at": "2026-02-03T23:07:04Z",
       "updated_at": "2026-02-03T23:07:05Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2761420553",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2761420553"
@@ -5404,7 +5488,7 @@
       "created_at": "2026-02-03T23:17:18Z",
       "updated_at": "2026-02-03T23:17:19Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2761459447",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2761459447"
@@ -5458,7 +5542,7 @@
       "created_at": "2026-02-03T23:18:46Z",
       "updated_at": "2026-02-03T23:18:47Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2761463784",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2761463784"
@@ -5512,7 +5596,7 @@
       "created_at": "2026-02-03T23:18:59Z",
       "updated_at": "2026-02-03T23:19:00Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2761464330",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2761464330"
@@ -5566,7 +5650,7 @@
       "created_at": "2026-02-03T23:19:15Z",
       "updated_at": "2026-02-03T23:19:15Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2761465287",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2761465287"
@@ -5620,7 +5704,7 @@
       "created_at": "2026-02-03T23:19:36Z",
       "updated_at": "2026-02-03T23:19:36Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2761466300",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2761466300"
@@ -5674,7 +5758,7 @@
       "created_at": "2026-02-03T23:19:48Z",
       "updated_at": "2026-02-03T23:19:49Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2004#discussion_r2761466890",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2761466890"
