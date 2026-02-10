@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2025-09-19T13:41:19Z",
-    "updated_at": "2026-02-10T16:48:11Z",
+    "updated_at": "2026-02-10T21:35:55Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -164,7 +164,7 @@
         "forks_count": 1,
         "stargazers_count": 2,
         "watchers_count": 2,
-        "size": 19211,
+        "size": 19223,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -283,9 +283,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5893,
-        "stargazers_count": 10560,
-        "watchers_count": 10560,
+        "forks_count": 5894,
+        "stargazers_count": 10559,
+        "watchers_count": 10559,
         "size": 18938,
         "default_branch": "master",
         "open_issues_count": 71,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-02-07T00:28:07Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-02-10T16:19:48Z",
+        "updated_at": "2026-02-10T19:45:43Z",
         "allow_forking": true
       }
     },
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 7,
-    "review_comments": 31,
+    "review_comments": 32,
     "comments": 23
   },
   "events": [
@@ -4662,6 +4662,60 @@
       "start_side": "RIGHT",
       "line": null,
       "original_line": 65,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2790404439",
+      "pull_request_review_id": 3781747315,
+      "id": 2790404439,
+      "node_id": "PRRC_kwDOAN28mc6mUjFX",
+      "diff_hunk": "@@ -0,0 +1,115 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: OP_TEMPLATEHASH + OP_CHECKSIGFROMSTACK + OP_INTERNALKEY\n+  Author: Gregory Sanders <gsanders87@gmail.com>\n+          Antoine Poinsot <mail@antoinep.com>\n+          Steven Roose <steven@stevenroose.org>\n+  Comments-Summary: No comments yet.\n+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-?\n+  Status: Draft\n+  Type: Standards Track\n+  Created: ?\n+  License: CC0-1.0\n+```\n+\n+## Abstract\n+\n+This document proposes bundling three new operations for [Tapscript][tapscript-bip]:\n+[`OP_TEMPLATEHASH`][templatehash-bip], [`OP_CHECKSIGFROMSTACK`][csfs-bip], and [`OP_INTERNALKEY`][internalkey-bip].\n+\n+These minimal operations introduce modular functionalities which improve existing second layer protocols and make new\n+ones possible through plausible interactivity requirements.\n+\n+## Motivation\n+\n+The three proposed operations are simple, well-understood, and enable powerful new capabilities while minimizing the\n+risk of surprising behavior or unintended applications. They improve existing, well-studied protocols and make promising\n+new ones possible, while minimizing the risk of surprising behavior or unintended or undesirable applications.\n+\n+`OP_TEMPLATEHASH` enables commitment to the transaction spending an output. `OP_CHECKSIGFROMSTACK` enables\n+[BIP340][schnorr-bip] signature verification of arbitrary messages. `OP_INTERNALKEY` allows to push the\n+[Taproot][taproot-bip] internal key on the stack.\n+\n+The ability to commit to the future transaction spending an output is useful to reduce interactivity in second-layer\n+protocols. For instance it can [reduce roundtrips][symmetric-greg] in the implementation of [LN-Symmetry][optech-eltoo], or make\n+creating an [Ark][optech-ark] \"VTXO\" [non-interactive][ark-case-ctv]. Additionally, it enables [significant\n+optimizations][fournier-dlc-ctv] in the implementation of [Discreet Log Contracts][optech-dlcs].\n+\n+The ability to verify a signature for an arbitrary message in Tapscript enables delegation and oracle attestations. This capability can\n+for instance [significantly reduce][bitvm-ctv-csfs] the onchain footprint of [BitVM][bitvm-website]. Reducing the onchain\n+footprint of an application is beneficial to users of Bitcoin especially as it reduces economic demand for\n+extremely large transactions that induce further mining centralization pressures[^large-txs-mining-centralization].\n+\n+Together, these features enable rebindable transaction signatures, making possible a new type of payment channel: LN-Symmetry (\"Eltoo\").\n+Its simplicity makes advanced constructs like multiparty channels practical, while also enabling simplifications of 2-party channels such as [Daric][daric-channels]. The same techniques can also substantially improve [statechains][statechains-optech]. Rebindable signatures also enable further interactivity reduction\n+in second layer protocols, as illustrated by the Ark variant \"[Erk][ark-erk]\" or the [dramatic simplification][greg-rebindable-ptlcs]\n+they bring to upgrading today's Lightning to [Point Time Locked Contracts][optech-ptlcs].\n+\n+The ability to push the Taproot internal key on the stack is a natural and extremely simple optimisation for rebindable\n+signatures.\n+",
+      "path": "bip-templatehash-csfs-ik.md",
+      "position": 48,
+      "original_position": 51,
+      "commit_id": "4d4c3e6d2f82cf4dbba83703426f807f633b005e",
+      "original_commit_id": "aa790efee91f56b123d679f6fdef4c955903b2b4",
+      "in_reply_to_id": 2407619345,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Looking at this again, I currently don’t see this document meeting the criteria for a BIP, let alone a Specification BIP.\n\nThis could for example be remedied by adding a Deployment section, even if the content were TBD.\n\nAlternatively, I would still recommend that this document were split off from BIP 446, given that OP_TEMPLATEHASH in itself is basically ready for publication.",
+      "created_at": "2026-02-10T21:35:55Z",
+      "updated_at": "2026-02-10T21:35:56Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1974#discussion_r2790404439",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2790404439"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1974"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 48,
+      "original_line": 48,
       "side": "RIGHT"
     }
   ]
