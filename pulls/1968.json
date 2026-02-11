@@ -37,6 +37,7 @@
       "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
       "type": "User",
       "site_admin": false,
+      "name": null,
       "patch_url": null
     },
     "body": "So I'm doing some work on extending BIP85 functionality on SeedSigner to include GPG key generation, file verification, encrypted messaging, etc, but the resource limitation on low power devices like the Raspberry Pi really makes RSA keys quite painful to use at any useful bit length. (RSA3072 takes 15-20 minutes for a primary key + 3 subs)\r\n\r\nBasically I'm suggesting an expansion of the current functionality to add support for some common ECC curves and provide a bit of a process for future curves to be added in a way that doesn't break existing implementations. (The simplest solution is to just use ECC with key length on the existing RSA derivation, but that doesn't seem very consistent with how BIP85 works for other similar use cases where the derivation path should tell you everything you need to know about the output data/entropy/usage)\r\n\r\nWhile it would have been nice to have a separate derivation level for key_type, that ship has probably sailed, so rather than add that, I am just suggesting a different applicationID for each key type. (Similar to how variations are handled with the existing password application type)\r\n\r\nWhile I'm at it, I'm also suggesting some information about how additional and mixed key types should be handled.\r\n\r\nAnyway, just keen to get some input on a way forward, can add some additional test vectors and stuff once others have provided some input about a preferred way forward.",
@@ -69,15 +70,13 @@
       }
     ],
     "created_at": "2025-09-15T19:28:37Z",
-    "updated_at": "2025-11-02T12:48:23Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
+    "updated_at": "2026-02-11T21:04:47Z",
+    "mergeable_state": "unknown",
     "merged": false,
-    "merge_commit_sha": "f0bb8cd689d64dc7ccda2fd36f2b9e1b4fef98f8",
+    "merge_commit_sha": "ee125caca03256615a0ad5c8996afa4e2547a1fc",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
     "head": {
       "label": "3rdIteration:BIP85-ExpandCurveTypes",
       "ref": "BIP85-ExpandCurveTypes",
@@ -101,6 +100,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "repo": {
@@ -127,6 +127,7 @@
           "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
           "type": "User",
           "site_admin": false,
+          "name": null,
           "patch_url": null
         },
         "private": false,
@@ -201,7 +202,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "abf3bdab2947cad5204b60d298b305adc597f04c",
+      "sha": "eae7d9fc57a5f3a2b0c4853c127cb4d27377dbf3",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -221,6 +222,7 @@
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "repo": {
@@ -247,6 +249,7 @@
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
           "site_admin": false,
+          "name": null,
           "patch_url": null
         },
         "private": false,
@@ -296,12 +299,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5808,
-        "stargazers_count": 10329,
-        "watchers_count": 10329,
-        "size": 16713,
+        "forks_count": 5893,
+        "stargazers_count": 10559,
+        "watchers_count": 10559,
+        "size": 21479,
         "default_branch": "master",
-        "open_issues_count": 66,
+        "open_issues_count": 71,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -312,9 +315,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-10-26T21:54:14Z",
+        "pushed_at": "2026-02-11T21:04:45Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-11-01T21:35:23Z",
+        "updated_at": "2026-02-11T21:04:50Z",
         "allow_forking": true
       }
     },
@@ -397,6 +400,7 @@
         "received_events_url": "https://api.github.com/users/odudex/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -424,6 +428,7 @@
         "received_events_url": "https://api.github.com/users/odudex/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#issuecomment-3293719273",
@@ -453,6 +458,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -483,6 +489,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -513,6 +520,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -540,6 +548,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#issuecomment-3293736462",
@@ -569,6 +578,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -603,6 +613,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -644,6 +655,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#pullrequestreview-3235180290",
@@ -681,6 +693,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#pullrequestreview-3302682961",
@@ -718,6 +731,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#pullrequestreview-3302683480",
@@ -755,6 +769,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#pullrequestreview-3302686074",
@@ -786,6 +801,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -813,6 +829,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#issuecomment-3369671460",
@@ -842,6 +859,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -872,6 +890,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -908,6 +927,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#pullrequestreview-3302690517",
@@ -945,6 +965,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#pullrequestreview-3302690994",
@@ -1056,6 +1077,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1083,6 +1105,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#issuecomment-3402146696",
@@ -1112,6 +1135,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1142,6 +1166,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1172,6 +1197,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1206,6 +1232,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1233,6 +1260,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#issuecomment-3403757527",
@@ -1262,6 +1290,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1289,6 +1318,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#issuecomment-3403832626",
@@ -1318,6 +1348,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1348,6 +1379,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1378,6 +1410,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1408,6 +1441,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1438,6 +1472,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1465,6 +1500,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#issuecomment-3407571885",
@@ -1494,6 +1530,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1521,10 +1558,42 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1968#issuecomment-3477936720",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1968"
+    },
+    {
+      "event": "unsubscribed",
+      "id": 20814959841,
+      "node_id": "UE_lADOAN28mc7LzTx_zwAAAATYqxTh",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/20814959841",
+      "actor": {
+        "login": "alex-fang",
+        "id": 4167973,
+        "node_id": "MDQ6VXNlcjQxNjc5NzM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4167973?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/alex-fang",
+        "html_url": "https://github.com/alex-fang",
+        "followers_url": "https://api.github.com/users/alex-fang/followers",
+        "following_url": "https://api.github.com/users/alex-fang/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/alex-fang/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/alex-fang/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/alex-fang/subscriptions",
+        "organizations_url": "https://api.github.com/users/alex-fang/orgs",
+        "repos_url": "https://api.github.com/users/alex-fang/repos",
+        "events_url": "https://api.github.com/users/alex-fang/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/alex-fang/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2025-11-09T01:12:09Z"
     }
   ],
   "comments": [
@@ -1559,6 +1628,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "```suggestion\r\nThe RSA key generator should use BIP85-DRNG as the input RNG function. Likewise, any ECC key types over 256 bits should use BIP85-DRNG.\r\n```",
@@ -1588,7 +1658,7 @@
       "node_id": "PRRC_kwDOAN28mc6MbfcC",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.\n \n-The derivation path format is: <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n+{|\n+!OpenGPG Key Type\n+!Application Number\n+|-\n+| RSA\n+| 828365'\n+|-\n+| ECC(Curve25519)\n+| 828366'\n+|-\n+| ECC(secp256k1)\n+| 828367'\n+|-\n+| ECC(NIST)\n+| 828368'\n+|-\n+| ECC(Brainpool)\n+| 828369'\n+|-\n+|}\n \n-The RSA key generator should use BIP85-DRNG as the input RNG function.\n+The RSA key generator should use BIP85-DRNG as the input RNG function. Likewise, any ECC key types over 256bit should use BIP85-DRNG.\n \n-===RSA GPG===\n+====Primary Keys and Subkeys====\n \n-Keys allocated for RSA-GPG purposes use the following scheme:\n+Keys allocated for GPG purposes use the following scheme:\n \n- - Main key <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n- - Sub keys:  <code>m/83696968'/828365'/{key_bits}'/{key_index}'/{sub_key}'</code>\n+ - Primary key <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'</code>\n+ - Sub keys:  <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'/{sub_key}'</code>\n \n     - key_index is the parent key for CERTIFY capability\n     - sub_key <code>0'</code> is used as the ENCRYPTION key\n     - sub_key <code>1'</code> is used as the AUTHENTICATION key\n     - sub_key <code>2'</code> is usually used as SIGNATURE key\n \n-Note on timestamps:\n+Additional subkeys can be added to a primary key, including keys of a different key type, following the role pattern defined above, but the key_index MUST be incremented with each subkey.",
       "path": "bip-0085.mediawiki",
-      "position": 52,
+      "position": 74,
       "original_position": 52,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -1612,6 +1682,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "Could this change break anything?",
@@ -1641,7 +1712,7 @@
       "node_id": "PRRC_kwDOAN28mc6McRlF",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.\n \n-The derivation path format is: <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n+{|\n+!OpenGPG Key Type\n+!Application Number\n+|-\n+| RSA\n+| 828365'\n+|-\n+| ECC(Curve25519)\n+| 828366'\n+|-\n+| ECC(secp256k1)\n+| 828367'\n+|-\n+| ECC(NIST)\n+| 828368'\n+|-\n+| ECC(Brainpool)\n+| 828369'\n+|-\n+|}\n \n-The RSA key generator should use BIP85-DRNG as the input RNG function.\n+The RSA key generator should use BIP85-DRNG as the input RNG function. Likewise, any ECC key types over 256bit should use BIP85-DRNG.\n \n-===RSA GPG===\n+====Primary Keys and Subkeys====\n \n-Keys allocated for RSA-GPG purposes use the following scheme:\n+Keys allocated for GPG purposes use the following scheme:\n \n- - Main key <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n- - Sub keys:  <code>m/83696968'/828365'/{key_bits}'/{key_index}'/{sub_key}'</code>\n+ - Primary key <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'</code>\n+ - Sub keys:  <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'/{sub_key}'</code>\n \n     - key_index is the parent key for CERTIFY capability\n     - sub_key <code>0'</code> is used as the ENCRYPTION key\n     - sub_key <code>1'</code> is used as the AUTHENTICATION key\n     - sub_key <code>2'</code> is usually used as SIGNATURE key\n \n-Note on timestamps:\n+Additional subkeys can be added to a primary key, including keys of a different key type, following the role pattern defined above, but the key_index MUST be incremented with each subkey.",
       "path": "bip-0085.mediawiki",
-      "position": 52,
+      "position": 74,
       "original_position": 52,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -1665,6 +1736,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "> Could this change break anything?\r\n\r\nIt doesn't break the existing RSA implementations, but does add the possibility of having something like an RSA primary key and non-RSA subkeys. (Though the overall RSA fingerprint would remain the same) There is actually already ambiguity in BIP85 as to whether the subkeys should/must have the same key bits as the primary key. (Even if it is a general convention that they align)\r\n\r\nThe use-case to consider here is basically that someone might want to revoke a subkey(s) (or have some expire) and create some additional subkeys that they can continue using while preserving the original primary key. (Which is normal in the context of GPG) \r\n\r\nThe question of whether mixing key types should be allowed is a separate matter, but the use-case for this is basically scenarios where someone may want a strong and long-lived primary key that for their identity, but use different keys for the actual signing and stuff. (Whether due to limitations on smartcards, etc) For example, someone may have an ED25119 primary key and have subkeys use something like P256 or RSA subkeys for compatibility reasons.\r\n\r\n",
@@ -1694,7 +1766,7 @@
       "node_id": "PRRC_kwDOAN28mc6PVjAg",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.",
       "path": "bip-0085.mediawiki",
-      "position": 8,
+      "position": 30,
       "original_position": 8,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -1718,6 +1790,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "I would recommend a single application number and then extend the path for different key types. That's more consistent with the rest of BIP85:\r\n```\r\n{same_app_number_for_all}/{key_type}/{key_bits}/{key_index}\r\n```",
@@ -1747,7 +1820,7 @@
       "node_id": "PRRC_kwDOAN28mc6PVjGy",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.\n \n-The derivation path format is: <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n+{|\n+!OpenGPG Key Type\n+!Application Number\n+|-\n+| RSA\n+| 828365'\n+|-\n+| ECC(Curve25519)\n+| 828366'\n+|-\n+| ECC(secp256k1)\n+| 828367'\n+|-\n+| ECC(NIST)\n+| 828368'\n+|-\n+| ECC(Brainpool)\n+| 828369'\n+|-\n+|}\n \n-The RSA key generator should use BIP85-DRNG as the input RNG function.\n+The RSA key generator should use BIP85-DRNG as the input RNG function. Likewise, any ECC key types over 256bit should use BIP85-DRNG.\n \n-===RSA GPG===\n+====Primary Keys and Subkeys====\n \n-Keys allocated for RSA-GPG purposes use the following scheme:\n+Keys allocated for GPG purposes use the following scheme:\n \n- - Main key <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n- - Sub keys:  <code>m/83696968'/828365'/{key_bits}'/{key_index}'/{sub_key}'</code>\n+ - Primary key <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'</code>",
       "path": "bip-0085.mediawiki",
-      "position": 43,
+      "position": 65,
       "original_position": 43,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -1771,6 +1844,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "Here and elsewhere these list nested code blocks don't render as expected (... > View file)",
@@ -1800,7 +1874,7 @@
       "node_id": "PRRC_kwDOAN28mc6PVjVA",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.\n \n-The derivation path format is: <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n+{|\n+!OpenGPG Key Type\n+!Application Number\n+|-\n+| RSA\n+| 828365'\n+|-\n+| ECC(Curve25519)\n+| 828366'\n+|-\n+| ECC(secp256k1)\n+| 828367'\n+|-\n+| ECC(NIST)\n+| 828368'\n+|-\n+| ECC(Brainpool)\n+| 828369'\n+|-\n+|}\n \n-The RSA key generator should use BIP85-DRNG as the input RNG function.\n+The RSA key generator should use BIP85-DRNG as the input RNG function. Likewise, any ECC key types over 256bit should use BIP85-DRNG.\n \n-===RSA GPG===\n+====Primary Keys and Subkeys====\n \n-Keys allocated for RSA-GPG purposes use the following scheme:\n+Keys allocated for GPG purposes use the following scheme:\n \n- - Main key <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n- - Sub keys:  <code>m/83696968'/828365'/{key_bits}'/{key_index}'/{sub_key}'</code>\n+ - Primary key <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'</code>",
       "path": "bip-0085.mediawiki",
-      "position": 43,
+      "position": 65,
       "original_position": 43,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -1824,6 +1898,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "In the description please motivate the need and intent of sub keys.  It's not immediately obvious why this is needed above and beyond the standard key index.",
@@ -1853,7 +1928,7 @@
       "node_id": "PRRC_kwDOAN28mc6PVjrh",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.\n \n-The derivation path format is: <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n+{|\n+!OpenGPG Key Type\n+!Application Number\n+|-\n+| RSA\n+| 828365'\n+|-\n+| ECC(Curve25519)\n+| 828366'\n+|-\n+| ECC(secp256k1)\n+| 828367'\n+|-\n+| ECC(NIST)\n+| 828368'\n+|-\n+| ECC(Brainpool)\n+| 828369'\n+|-\n+|}\n \n-The RSA key generator should use BIP85-DRNG as the input RNG function.\n+The RSA key generator should use BIP85-DRNG as the input RNG function. Likewise, any ECC key types over 256bit should use BIP85-DRNG.\n \n-===RSA GPG===\n+====Primary Keys and Subkeys====\n \n-Keys allocated for RSA-GPG purposes use the following scheme:\n+Keys allocated for GPG purposes use the following scheme:\n \n- - Main key <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n- - Sub keys:  <code>m/83696968'/828365'/{key_bits}'/{key_index}'/{sub_key}'</code>\n+ - Primary key <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'</code>\n+ - Sub keys:  <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'/{sub_key}'</code>\n \n     - key_index is the parent key for CERTIFY capability\n     - sub_key <code>0'</code> is used as the ENCRYPTION key\n     - sub_key <code>1'</code> is used as the AUTHENTICATION key\n     - sub_key <code>2'</code> is usually used as SIGNATURE key\n \n-Note on timestamps:\n+Additional subkeys can be added to a primary key, including keys of a different key type, following the role pattern defined above, but the key_index MUST be incremented with each subkey.",
       "path": "bip-0085.mediawiki",
-      "position": 52,
+      "position": 74,
       "original_position": 52,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -1877,6 +1952,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "As for mixing types I would discourage that unless there's a really good reason. For one thing are we nesting derivation paths at that point? A worked example of mixed subkeys would help.",
@@ -1906,7 +1982,7 @@
       "node_id": "PRRC_kwDOAN28mc6PVkrE",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===",
       "path": "bip-0085.mediawiki",
-      "position": 5,
+      "position": 27,
       "original_position": 5,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -1930,6 +2006,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "Definitely need test vectors and expected outputs for all applications and sub applications. I can also add it to the reference implementation but won't be able to get to that right away. PRs welcome. https://github.com/akarve/bipsea",
@@ -1983,6 +2060,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "```suggestion\n```",
@@ -2012,7 +2090,7 @@
       "node_id": "PRRC_kwDOAN28mc6PVooQ",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.\n \n-The derivation path format is: <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n+{|\n+!OpenGPG Key Type\n+!Application Number\n+|-\n+| RSA\n+| 828365'\n+|-\n+| ECC(Curve25519)\n+| 828366'\n+|-\n+| ECC(secp256k1)\n+| 828367'\n+|-\n+| ECC(NIST)\n+| 828368'\n+|-\n+| ECC(Brainpool)\n+| 828369'\n+|-\n+|}\n \n-The RSA key generator should use BIP85-DRNG as the input RNG function.\n+The RSA key generator should use BIP85-DRNG as the input RNG function. Likewise, any ECC key types over 256bit should use BIP85-DRNG.\n \n-===RSA GPG===\n+====Primary Keys and Subkeys====\n \n-Keys allocated for RSA-GPG purposes use the following scheme:\n+Keys allocated for GPG purposes use the following scheme:\n \n- - Main key <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n- - Sub keys:  <code>m/83696968'/828365'/{key_bits}'/{key_index}'/{sub_key}'</code>\n+ - Primary key <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'</code>\n+ - Sub keys:  <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'/{sub_key}'</code>\n \n     - key_index is the parent key for CERTIFY capability\n     - sub_key <code>0'</code> is used as the ENCRYPTION key\n     - sub_key <code>1'</code> is used as the AUTHENTICATION key\n     - sub_key <code>2'</code> is usually used as SIGNATURE key\n \n-Note on timestamps:\n+Additional subkeys can be added to a primary key, including keys of a different key type, following the role pattern defined above, but the key_index MUST be incremented with each subkey.",
       "path": "bip-0085.mediawiki",
-      "position": 52,
+      "position": 74,
       "original_position": 52,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -2036,6 +2114,7 @@
         "received_events_url": "https://api.github.com/users/akarve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "> the use-case for this is basically scenarios where someone may want a strong and long-lived primary key that for their identity, but use different keys for the actual signing and stuff. (Whether due to limitations on smartcards, etc) For example, someone may have an ED25119 primary key and have subkeys use something like P256 or RSA subkeys for compatibility reasons.\r\n\r\nreasonable enough. at that point why not turtles all the way down, e.g. the following or something like it?\r\n\r\n```\r\n{same_app_number_for_all}/\r\n{key_type}/{key_bits}/key_index}/\r\n{key_type}/{key_bits}/sub_key_index}/\r\n...\r\n```",
@@ -2065,7 +2144,7 @@
       "node_id": "PRRC_kwDOAN28mc6PhWD0",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.\n \n-The derivation path format is: <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n+{|\n+!OpenGPG Key Type\n+!Application Number\n+|-\n+| RSA\n+| 828365'\n+|-\n+| ECC(Curve25519)\n+| 828366'\n+|-\n+| ECC(secp256k1)\n+| 828367'\n+|-\n+| ECC(NIST)\n+| 828368'\n+|-\n+| ECC(Brainpool)\n+| 828369'\n+|-\n+|}\n \n-The RSA key generator should use BIP85-DRNG as the input RNG function.\n+The RSA key generator should use BIP85-DRNG as the input RNG function. Likewise, any ECC key types over 256bit should use BIP85-DRNG.\n \n-===RSA GPG===\n+====Primary Keys and Subkeys====\n \n-Keys allocated for RSA-GPG purposes use the following scheme:\n+Keys allocated for GPG purposes use the following scheme:\n \n- - Main key <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n- - Sub keys:  <code>m/83696968'/828365'/{key_bits}'/{key_index}'/{sub_key}'</code>\n+ - Primary key <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'</code>\n+ - Sub keys:  <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'/{sub_key}'</code>\n \n     - key_index is the parent key for CERTIFY capability\n     - sub_key <code>0'</code> is used as the ENCRYPTION key\n     - sub_key <code>1'</code> is used as the AUTHENTICATION key\n     - sub_key <code>2'</code> is usually used as SIGNATURE key\n \n-Note on timestamps:\n+Additional subkeys can be added to a primary key, including keys of a different key type, following the role pattern defined above, but the key_index MUST be incremented with each subkey.",
       "path": "bip-0085.mediawiki",
-      "position": 52,
+      "position": 74,
       "original_position": 52,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -2089,6 +2168,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "> > the use-case for this is basically scenarios where someone may want a strong and long-lived primary key that for their identity, but use different keys for the actual signing and stuff. (Whether due to limitations on smartcards, etc) For example, someone may have an ED25119 primary key and have subkeys use something like P256 or RSA subkeys for compatibility reasons.\r\n> \r\n> reasonable enough. at that point why not turtles all the way down, e.g. the following or something like it?\r\n> \r\n> ```\r\n> {same_app_number_for_all}/\r\n> {key_type}/{key_bits}/key_index}/\r\n> {key_type}/{key_bits}/sub_key_index}/\r\n> ...\r\n> ```\r\n\r\nI think that would be a better approach overall, to have an app number to signify GPG keys generally and then an additional level of derivation for key type, but this would break compatibility with existing RSA implementations. (Even though it doesn't seem to me that there are any in the wild) The reality is that new key types will likely continue to be added to GPG, so the ability to add more in a neat way would be better long term. (With the rational for different applications for each key type being related to respecting the status of this BIP as 'Final')\r\n",
@@ -2118,7 +2198,7 @@
       "node_id": "PRRC_kwDOAN28mc6PhaiR",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.\n \n-The derivation path format is: <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n+{|\n+!OpenGPG Key Type\n+!Application Number\n+|-\n+| RSA\n+| 828365'\n+|-\n+| ECC(Curve25519)\n+| 828366'\n+|-\n+| ECC(secp256k1)\n+| 828367'\n+|-\n+| ECC(NIST)\n+| 828368'\n+|-\n+| ECC(Brainpool)\n+| 828369'\n+|-\n+|}\n \n-The RSA key generator should use BIP85-DRNG as the input RNG function.\n+The RSA key generator should use BIP85-DRNG as the input RNG function. Likewise, any ECC key types over 256bit should use BIP85-DRNG.\n \n-===RSA GPG===\n+====Primary Keys and Subkeys====\n \n-Keys allocated for RSA-GPG purposes use the following scheme:\n+Keys allocated for GPG purposes use the following scheme:\n \n- - Main key <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n- - Sub keys:  <code>m/83696968'/828365'/{key_bits}'/{key_index}'/{sub_key}'</code>\n+ - Primary key <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'</code>",
       "path": "bip-0085.mediawiki",
-      "position": 43,
+      "position": 65,
       "original_position": 43,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -2142,6 +2222,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "It's mostly about trying to follow the process elsewhere in BIP85 where a given derivation path will always map to a certain use case 1:1. \r\n\r\nOne solution to all of this is to basically just have BIP85 use the same derivation path for both primary keys and subkeys, regardless of the key algo being used.",
@@ -2171,7 +2252,7 @@
       "node_id": "PRRC_kwDOAN28mc6PhbD4",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.",
       "path": "bip-0085.mediawiki",
-      "position": 8,
+      "position": 30,
       "original_position": 8,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -2195,6 +2276,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "This would be the neatest solution",
@@ -2224,7 +2306,7 @@
       "node_id": "PRRC_kwDOAN28mc6PhcuS",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===\n \n-Application number: 828365'\n+Application number is dependant on the key type.\n \n-The derivation path format is: <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n+{|\n+!OpenGPG Key Type\n+!Application Number\n+|-\n+| RSA\n+| 828365'\n+|-\n+| ECC(Curve25519)\n+| 828366'\n+|-\n+| ECC(secp256k1)\n+| 828367'\n+|-\n+| ECC(NIST)\n+| 828368'\n+|-\n+| ECC(Brainpool)\n+| 828369'\n+|-\n+|}\n \n-The RSA key generator should use BIP85-DRNG as the input RNG function.\n+The RSA key generator should use BIP85-DRNG as the input RNG function. Likewise, any ECC key types over 256bit should use BIP85-DRNG.\n \n-===RSA GPG===\n+====Primary Keys and Subkeys====\n \n-Keys allocated for RSA-GPG purposes use the following scheme:\n+Keys allocated for GPG purposes use the following scheme:\n \n- - Main key <code>m/83696968'/828365'/{key_bits}'/{key_index}'</code>\n- - Sub keys:  <code>m/83696968'/828365'/{key_bits}'/{key_index}'/{sub_key}'</code>\n+ - Primary key <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'</code>\n+ - Sub keys:  <code>m/83696968'/{key_type}'/{key_bits}'/{key_index}'/{sub_key}'</code>\n \n     - key_index is the parent key for CERTIFY capability\n     - sub_key <code>0'</code> is used as the ENCRYPTION key\n     - sub_key <code>1'</code> is used as the AUTHENTICATION key\n     - sub_key <code>2'</code> is usually used as SIGNATURE key\n \n-Note on timestamps:\n+Additional subkeys can be added to a primary key, including keys of a different key type, following the role pattern defined above, but the key_index MUST be incremented with each subkey.",
       "path": "bip-0085.mediawiki",
-      "position": 52,
+      "position": 74,
       "original_position": 52,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -2248,6 +2330,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "> As for mixing types I would discourage that unless there's a really good reason. For one thing are we nesting derivation paths at that point? A worked example of mixed subkeys would help.\r\n\r\nEven with that example, it's not really an issue to just assert that mixed key types are beyond the scope of the spec. (As most people will just use the same key type for everything)",
@@ -2277,7 +2360,7 @@
       "node_id": "PRRC_kwDOAN28mc6PhfLw",
       "diff_hunk": "@@ -360,36 +360,58 @@ OUTPUT\n * DERIVED ENTROPY=f7cfe56f63dca2490f65fcbf9ee63dcd85d18f751b6b5e1c1b8733af6459c904a75e82b4a22efff9b9e69de2144b293aa8714319a054b6cb55826a8e51425209\n * DERIVED PWD=_s`{TW89)i4`\n \n-===RSA===\n+===GPG Keys===",
       "path": "bip-0085.mediawiki",
-      "position": 5,
+      "position": 27,
       "original_position": 5,
       "commit_id": "31eea92063a7d6a1ea8054d8d9a29263ee218c2d",
       "original_commit_id": "3728f8e12f63b4f7d8aef8fc2aaf63d5c5a54a42",
@@ -2301,6 +2384,7 @@
         "received_events_url": "https://api.github.com/users/3rdIteration/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "body": "I'm happy to work up some test vectors and a reference implementation once there is some agreement on a general direction :)",
