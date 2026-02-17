@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-01-03T18:00:46Z",
-    "updated_at": "2026-02-17T11:13:40Z",
+    "updated_at": "2026-02-17T14:53:04Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -293,8 +293,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5903,
-        "stargazers_count": 10579,
-        "watchers_count": 10579,
+        "stargazers_count": 10580,
+        "watchers_count": 10580,
         "size": 21480,
         "default_branch": "master",
         "open_issues_count": 74,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2026-02-13T19:18:59Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-02-17T05:16:37Z",
+        "updated_at": "2026-02-17T13:23:08Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 0,
     "changed_files": 40,
     "commits": 7,
-    "review_comments": 102,
+    "review_comments": 104,
     "comments": 11
   },
   "events": [
@@ -2238,6 +2238,44 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2070#issuecomment-3895710514",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2070"
+    },
+    {
+      "event": "reviewed",
+      "id": 3814428250,
+      "node_id": "PRR_kwDOAN28mc7jW45a",
+      "url": null,
+      "actor": null,
+      "commit_id": "289286c95bd719cdd0fb3c2d3ad19a64193d614c",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-02-17T14:53:04Z",
+      "author_association": "NONE",
+      "user": {
+        "login": "disnocen",
+        "id": 44157071,
+        "node_id": "MDQ6VXNlcjQ0MTU3MDcx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44157071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/disnocen",
+        "html_url": "https://github.com/disnocen",
+        "followers_url": "https://api.github.com/users/disnocen/followers",
+        "following_url": "https://api.github.com/users/disnocen/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/disnocen/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/disnocen/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/disnocen/subscriptions",
+        "organizations_url": "https://api.github.com/users/disnocen/orgs",
+        "repos_url": "https://api.github.com/users/disnocen/repos",
+        "events_url": "https://api.github.com/users/disnocen/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/disnocen/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#pullrequestreview-3814428250",
+      "submitted_at": "2026-02-17T14:53:03Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
     }
   ],
   "comments": [
@@ -7747,6 +7785,60 @@
       "start_side": null,
       "line": 28,
       "original_line": 28,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2817463797",
+      "pull_request_review_id": 3814428250,
+      "id": 2817463797,
+      "node_id": "PRRC_kwDOAN28mc6n7xX1",
+      "diff_hunk": "@@ -0,0 +1,499 @@\n+# BIP FROST Signing reference implementation\n+#\n+# It's worth noting that many functions, types, and exceptions were directly\n+# copied or modified from the MuSig2 (BIP 327) reference code, found at:\n+# https://github.com/bitcoin/bips/blob/master/bip-0327/reference.py\n+#\n+# WARNING: This implementation is for demonstration purposes only and _not_ to\n+# be used in production environments. The code is vulnerable to timing attacks,\n+# for example.\n+\n+from typing import List, Optional, Tuple, NewType, NamedTuple, Sequence, Literal\n+import secrets\n+\n+from secp256k1lab.secp256k1 import G, GE, Scalar\n+from secp256k1lab.util import int_from_bytes, tagged_hash, xor_bytes\n+\n+PlainPk = NewType(\"PlainPk\", bytes)\n+XonlyPk = NewType(\"XonlyPk\", bytes)\n+ContribKind = Literal[\n+    \"aggothernonce\", \"aggnonce\", \"psig\", \"pubkey\", \"pubnonce\", \"pubshare\"\n+]\n+\n+# There are two types of exceptions that can be raised by this implementation:\n+#   - ValueError for indicating that an input doesn't conform to some function\n+#     precondition (e.g. an input array is the wrong length, a serialized\n+#     representation doesn't have the correct format).\n+#   - InvalidContributionError for indicating that a signer (or the\n+#     coordinator) is misbehaving in the protocol.\n+#\n+# Assertions are used to (1) satisfy the type-checking system, and (2) check for\n+# inconvenient events that can't happen except with negligible probability (e.g.\n+# output of a hash function is 0) and can't be manually triggered by any\n+# signer.\n+\n+\n+# This exception is raised if a party (signer or nonce coordinator) sends invalid\n+# values. Actual implementations should not crash when receiving invalid\n+# contributions. Instead, they should hold the offending party accountable.\n+class InvalidContributionError(Exception):\n+    def __init__(self, signer_id: Optional[int], contrib: ContribKind) -> None:\n+        # participant identifier of the signer who sent the invalid value\n+        self.id = signer_id\n+        # contrib is one of \"pubkey\", \"pubnonce\", \"aggnonce\", or \"psig\".\n+        self.contrib = contrib\n+\n+\n+def derive_interpolating_value(ids: List[int], my_id: int) -> Scalar:\n+    assert my_id in ids\n+    assert 0 <= my_id < 2**32\n+    assert len(set(ids)) == len(ids)\n+    num = Scalar(1)\n+    deno = Scalar(1)\n+    for curr_id in ids:\n+        if curr_id == my_id:\n+            continue\n+        num *= Scalar(curr_id + 1)\n+        deno *= Scalar(curr_id - my_id)\n+    return num / deno\n+\n+\n+def derive_thresh_pubkey(ids: List[int], pubshares: List[PlainPk]) -> PlainPk:\n+    Q = GE()\n+    for my_id, pubshare in zip(ids, pubshares):\n+        try:\n+            X_i = GE.from_bytes_compressed(pubshare)\n+        except ValueError:\n+            raise InvalidContributionError(my_id, \"pubshare\")\n+        lam_i = derive_interpolating_value(ids, my_id)\n+        Q = Q + lam_i * X_i\n+    # Q is not the point at infinity except with negligible probability.\n+    assert not Q.infinity\n+    return PlainPk(Q.to_bytes_compressed())\n+\n+\n+# REVIEW: should we remove n and t from this struct?\n+class SignersContext(NamedTuple):\n+    n: int\n+    t: int\n+    ids: List[int]\n+    pubshares: List[PlainPk]\n+    thresh_pk: PlainPk\n+\n+\n+def validate_signers_ctx(signers_ctx: SignersContext) -> None:\n+    n, t, ids, pubshares, thresh_pk = signers_ctx\n+    assert t <= n\n+    if not t <= len(ids) <= n:\n+        raise ValueError(\"The number of signers must be between t and n.\")\n+    if len(pubshares) != len(ids):\n+        raise ValueError(\"The pubshares and ids arrays must have the same length.\")\n+    for i, pubshare in zip(ids, pubshares):\n+        if not 0 <= i <= n - 1:\n+            raise ValueError(f\"The participant identifier {i} is out of range.\")\n+        try:\n+            _ = GE.from_bytes_compressed(pubshare)\n+        except ValueError:\n+            raise InvalidContributionError(i, \"pubshare\")\n+    if len(set(ids)) != len(ids):\n+        raise ValueError(\"The participant identifier list contains duplicate elements.\")\n+    if derive_thresh_pubkey(ids, pubshares) != thresh_pk:\n+        raise ValueError(\"The provided key material is incorrect.\")\n+\n+\n+class TweakContext(NamedTuple):\n+    Q: GE\n+    gacc: Scalar\n+    tacc: Scalar\n+\n+\n+def get_xonly_pk(tweak_ctx: TweakContext) -> XonlyPk:\n+    Q, _, _ = tweak_ctx\n+    return XonlyPk(Q.to_bytes_xonly())\n+\n+\n+def get_plain_pk(tweak_ctx: TweakContext) -> PlainPk:\n+    Q, _, _ = tweak_ctx\n+    return PlainPk(Q.to_bytes_compressed())\n+\n+\n+def tweak_ctx_init(thresh_pk: PlainPk) -> TweakContext:\n+    Q = GE.from_bytes_compressed(thresh_pk)\n+    gacc = Scalar(1)\n+    tacc = Scalar(0)\n+    return TweakContext(Q, gacc, tacc)\n+\n+\n+def apply_tweak(tweak_ctx: TweakContext, tweak: bytes, is_xonly: bool) -> TweakContext:\n+    if len(tweak) != 32:\n+        raise ValueError(\"The tweak must be a 32-byte array.\")\n+    Q, gacc, tacc = tweak_ctx\n+    if is_xonly and not Q.has_even_y():\n+        g = Scalar(-1)\n+    else:\n+        g = Scalar(1)\n+    try:\n+        twk = Scalar.from_bytes_checked(tweak)\n+    except ValueError:\n+        raise ValueError(\"The tweak must be less than n.\")\n+    Q_ = g * Q + twk * G\n+    if Q_.infinity:\n+        raise ValueError(\"The result of tweaking cannot be infinity.\")\n+    gacc_ = g * gacc\n+    tacc_ = twk + g * tacc\n+    return TweakContext(Q_, gacc_, tacc_)\n+\n+\n+def nonce_hash(\n+    rand: bytes,\n+    pubshare: PlainPk,\n+    thresh_pk: XonlyPk,\n+    i: int,\n+    msg_prefixed: bytes,\n+    extra_in: bytes,\n+) -> bytes:\n+    buf = b\"\"\n+    buf += rand\n+    buf += len(pubshare).to_bytes(1, \"big\")\n+    buf += pubshare\n+    buf += len(thresh_pk).to_bytes(1, \"big\")\n+    buf += thresh_pk\n+    buf += msg_prefixed\n+    buf += len(extra_in).to_bytes(4, \"big\")\n+    buf += extra_in\n+    buf += i.to_bytes(1, \"big\")\n+    return tagged_hash(\"FROST/nonce\", buf)\n+\n+\n+def nonce_gen_internal(\n+    rand_: bytes,\n+    secshare: Optional[bytes],\n+    pubshare: Optional[PlainPk],\n+    thresh_pk: Optional[XonlyPk],\n+    msg: Optional[bytes],\n+    extra_in: Optional[bytes],\n+) -> Tuple[bytearray, bytes]:\n+    if secshare is not None:\n+        rand = xor_bytes(secshare, tagged_hash(\"FROST/aux\", rand_))\n+    else:\n+        rand = rand_\n+    if pubshare is None:\n+        pubshare = PlainPk(b\"\")\n+    if thresh_pk is None:\n+        thresh_pk = XonlyPk(b\"\")\n+    if msg is None:\n+        msg_prefixed = b\"\\x00\"\n+    else:\n+        msg_prefixed = b\"\\x01\"\n+        msg_prefixed += len(msg).to_bytes(8, \"big\")\n+        msg_prefixed += msg\n+    if extra_in is None:\n+        extra_in = b\"\"\n+    k_1 = Scalar.from_bytes_wrapping(\n+        nonce_hash(rand, pubshare, thresh_pk, 0, msg_prefixed, extra_in)\n+    )\n+    k_2 = Scalar.from_bytes_wrapping(\n+        nonce_hash(rand, pubshare, thresh_pk, 1, msg_prefixed, extra_in)\n+    )\n+    # k_1 == 0 or k_2 == 0 cannot occur except with negligible probability.\n+    assert k_1 != 0\n+    assert k_2 != 0\n+    R1_partial = k_1 * G\n+    R2_partial = k_2 * G\n+    assert not R1_partial.infinity\n+    assert not R2_partial.infinity\n+    pubnonce = R1_partial.to_bytes_compressed() + R2_partial.to_bytes_compressed()\n+    # use mutable `bytearray` since secnonce need to be replaced with zeros during signing.\n+    secnonce = bytearray(k_1.to_bytes() + k_2.to_bytes())\n+    return secnonce, pubnonce\n+\n+\n+# think: can msg & extra_in be of any length here?\n+# think: why doesn't musig2 ref code check for `pk` length here?\n+# REVIEW: Why should thresh_pk be XOnlyPk here? Shouldn't it be PlainPk?\n+def nonce_gen(\n+    secshare: Optional[bytes],\n+    pubshare: Optional[PlainPk],\n+    thresh_pk: Optional[XonlyPk],\n+    msg: Optional[bytes],\n+    extra_in: Optional[bytes],\n+) -> Tuple[bytearray, bytes]:\n+    if secshare is not None and len(secshare) != 32:\n+        raise ValueError(\"The optional byte array secshare must have length 32.\")\n+    if pubshare is not None and len(pubshare) != 33:\n+        raise ValueError(\"The optional byte array pubshare must have length 33.\")\n+    if thresh_pk is not None and len(thresh_pk) != 32:\n+        raise ValueError(\"The optional byte array thresh_pk must have length 32.\")\n+    # bench: will adding individual_pk(secshare) == pubshare check, increase the execution time significantly?\n+    rand_ = secrets.token_bytes(32)\n+    return nonce_gen_internal(rand_, secshare, pubshare, thresh_pk, msg, extra_in)\n+\n+\n+# REVIEW should we raise value errors for:\n+#     (1) duplicate ids\n+#     (2) 0 <= id < max_participants < 2^32\n+# in each function that takes `ids` as argument?\n+\n+\n+# `ids` is typed as Sequence[Optional[int]] so that callers can pass either\n+# List[int] or List[Optional[int]] without triggering mypy invariance errors.\n+# Sequence is read-only and covariant.\n+def nonce_agg(pubnonces: List[bytes], ids: Sequence[Optional[int]]) -> bytes:\n+    if len(pubnonces) != len(ids):\n+        raise ValueError(\"The pubnonces and ids arrays must have the same length.\")\n+    aggnonce = b\"\"\n+    for j in (1, 2):\n+        R_j = GE()\n+        for my_id, pubnonce in zip(ids, pubnonces):\n+            try:\n+                R_ij = GE.from_bytes_compressed(pubnonce[(j - 1) * 33 : j * 33])\n+            except ValueError:\n+                raise InvalidContributionError(my_id, \"pubnonce\")\n+            R_j = R_j + R_ij\n+        aggnonce += R_j.to_bytes_compressed_with_infinity()\n+    return aggnonce\n+\n+\n+class SessionContext(NamedTuple):\n+    aggnonce: bytes\n+    signers_ctx: SignersContext\n+    tweaks: List[bytes]\n+    is_xonly: List[bool]\n+    msg: bytes\n+\n+\n+def thresh_pubkey_and_tweak(\n+    thresh_pk: PlainPk, tweaks: List[bytes], is_xonly: List[bool]\n+) -> TweakContext:\n+    if len(tweaks) != len(is_xonly):\n+        raise ValueError(\"The tweaks and is_xonly arrays must have the same length.\")\n+    tweak_ctx = tweak_ctx_init(thresh_pk)\n+    v = len(tweaks)\n+    for i in range(v):\n+        tweak_ctx = apply_tweak(tweak_ctx, tweaks[i], is_xonly[i])\n+    return tweak_ctx\n+\n+\n+def get_session_values(\n+    session_ctx: SessionContext,\n+) -> Tuple[GE, Scalar, Scalar, List[int], List[PlainPk], Scalar, GE, Scalar]:\n+    (aggnonce, signers_ctx, tweaks, is_xonly, msg) = session_ctx\n+    validate_signers_ctx(signers_ctx)\n+    _, _, ids, pubshares, thresh_pk = signers_ctx\n+    Q, gacc, tacc = thresh_pubkey_and_tweak(thresh_pk, tweaks, is_xonly)\n+    # sort the ids before serializing because ROAST paper considers them as a set\n+    ser_ids = serialize_ids(ids)\n+    b = Scalar.from_bytes_wrapping(\n+        tagged_hash(\"FROST/noncecoef\", ser_ids + aggnonce + Q.to_bytes_xonly() + msg)\n+    )\n+    assert b != 0",
+      "path": "bip-0445/python/frost_ref/signing.py",
+      "position": 289,
+      "original_position": 289,
+      "commit_id": "289286c95bd719cdd0fb3c2d3ad19a64193d614c",
+      "original_commit_id": "289286c95bd719cdd0fb3c2d3ad19a64193d614c",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "disnocen",
+        "id": 44157071,
+        "node_id": "MDQ6VXNlcjQ0MTU3MDcx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44157071?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/disnocen",
+        "html_url": "https://github.com/disnocen",
+        "followers_url": "https://api.github.com/users/disnocen/followers",
+        "following_url": "https://api.github.com/users/disnocen/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/disnocen/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/disnocen/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/disnocen/subscriptions",
+        "organizations_url": "https://api.github.com/users/disnocen/orgs",
+        "repos_url": "https://api.github.com/users/disnocen/repos",
+        "events_url": "https://api.github.com/users/disnocen/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/disnocen/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I reviewed the nonce generation functions (`NonceGen`, `CounterNonceGen`,`DeterministicSign`) and the nonce coefficient computation.\n\n1. Nonce reuse is prevented by `secnonce` zeroing \n2. RNG failures are mitigated by secret share blinding and alternative generation modes\n3. Nonce bias is negligible due to proper modular reduction of hash outputs\n4. Domain separation is thorough via tagged hashing\n5. Multi-user concerns are addressed by including signer-specific inputs in the nonce hash\n6. Nonce aggregation integrity is ensured by binding the nonce coefficient `b` to all session parameters (signer set, aggregate nonce, public key, message), preventing algebraic attacks across signing sessions",
+      "created_at": "2026-02-17T14:53:04Z",
+      "updated_at": "2026-02-17T14:53:04Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#discussion_r2817463797",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2817463797"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 289,
+      "original_line": 289,
       "side": "RIGHT"
     }
   ]
