@@ -43,6 +43,15 @@
     "body": "As previously announced in the [libsecp256k1 `silentpayments` module discussion](https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3842046237) and on the [mailing list](https://groups.google.com/g/bitcoindev/c/tgcAQVqvzVg) ~2 weeks ago, this PR introduces a `K_max` limit to BIP-352 to mitigate worst-case scanning time for adversarial transactions. So far [no objections have been raised](https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3891774608) against that protocol change, which is backwards-incompatible in theory.\r\n\r\nThe Python reference implementation is adapted and test vectors for the following two scenarios are added:\r\n* Sending fails if any recipient group (i.e. recipients that share the same scan public key) exceeds the limit\r\n* Scanning only detects outputs with k values up to K_max (exclusive, i.e. from k=0..999), even if more would be available \r\n\r\nCan be tested by running `$ ./bip-0352/reference.py ./bip-0352/send_and_receive_test_vectors.json`. The test vectors pass the tests in the [libsecp256k1 module](https://github.com/bitcoin-core/secp256k1/pull/1765) as well, see commit https://github.com/theStack/secp256k1/commit/7ae84f8971ce36ab5cb9a7af30c436dd42d34ea2. [1] \r\n\r\nNote that the value K_max=1000 is somewhat arbitrary and can still be debated, it's simply one that came up relatively early in the discussion and is believed to be fine even for very unusual scenarios like \"exchange sends to another exchange\"  (see https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3773155788). An alternative number that was brought up later was K_max=2324, as this is the theoretical maximum for standard-sized (i.e. <= 100_000 kvB) transactions (https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3789112995). Personally I think even a lower limit than K_max=1000 would be fine, like something in the \"lower hundreds\" range, but with 1000 we are still comfortably in the \"seconds\" range for the worst-case on a reasonably modern machine. See benchmark results https://github.com/bitcoin-core/secp256k1/pull/1765#issuecomment-3862265628 for more details.\r\n\r\nAnother suggested BIP change is introducing a [warning about wallet interoperability](https://github.com/bitcoin-core/secp256k1/pull/1765#issuecomment-3910051227) w.r.t. the number of labels created. As I see this as an orthogonal change, I will open a separate PR for this. One slightly related PR is https://github.com/bitcoin/bips/pull/2087, which would standardize the EC parts of the reference code and make it look a bit nicer. It's not strictly necessary, but I'm happy to rebase this PR if #2087 gets in first.\r\n\r\n[1] I haven't included this commit in the secp PR yet as it's unclear to me if we want to bloat the repository with >120k new LOC and several mega-bytes of additional test data, considering a test case for this already exists. Something to be discussed further in https://github.com/bitcoin-core/secp256k1/pull/1765.",
     "labels": [
       {
+        "id": 6924377447,
+        "node_id": "LA_kwDOAN28mc8AAAABnLmdZw",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/PR%20Author%20action%20required",
+        "name": "PR Author action required",
+        "description": "Needs updates, has unaddressed review comments, or is otherwise waiting for PR author",
+        "color": "e99695",
+        "default": false
+      },
+      {
         "id": 9823934454,
         "node_id": "LA_kwDOAN28mc8AAAACSY1X9g",
         "url": "https://api.github.com/repos/bitcoin/bips/labels/BIP%20update%20by%20author",
@@ -53,7 +62,7 @@
       }
     ],
     "created_at": "2026-02-19T20:22:04Z",
-    "updated_at": "2026-02-25T19:06:31Z",
+    "updated_at": "2026-02-25T22:42:29Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -2124,6 +2133,41 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-02-25T19:05:56Z"
+    },
+    {
+      "event": "labeled",
+      "id": 23084301593,
+      "node_id": "LE_lADOAN28mc7sU8z4zwAAAAVf7n0Z",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23084301593",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-02-25T22:42:29Z",
+      "label": {
+        "name": "PR Author action required",
+        "color": "e99695"
+      }
     }
   ],
   "comments": [
