@@ -14,9 +14,9 @@
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2068/comments",
     "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/3bc177f0d4053f6b51aff9103043c861dd5a00c3",
     "number": 2068,
-    "state": "open",
+    "state": "closed",
     "locked": false,
-    "maintainer_can_modify": true,
+    "maintainer_can_modify": false,
     "title": "BIP128: Timelock-Recovery Storage Format",
     "user": {
       "login": "oren-z0",
@@ -52,15 +52,37 @@
       }
     ],
     "created_at": "2025-12-29T08:51:40Z",
-    "updated_at": "2026-02-26T20:50:18Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
-    "merged": false,
-    "merge_commit_sha": "e9900f0016e8bdfc8cfd815fc862090c3231b68c",
+    "updated_at": "2026-02-27T20:24:33Z",
+    "closed_at": "2026-02-27T20:24:33Z",
+    "mergeable_state": "unknown",
+    "merged": true,
+    "merged_at": "2026-02-27T20:24:33Z",
+    "merged_by": {
+      "login": "murchandamus",
+      "id": 4060799,
+      "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/murchandamus",
+      "html_url": "https://github.com/murchandamus",
+      "followers_url": "https://api.github.com/users/murchandamus/followers",
+      "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+      "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+      "repos_url": "https://api.github.com/users/murchandamus/repos",
+      "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
+    "merge_commit_sha": "9ff061f8b95f5afd792a1358992ed753cd083319",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
     "head": {
       "label": "oren-z0:new-bip-timelock-recovery-storage-format",
       "ref": "new-bip-timelock-recovery-storage-format",
@@ -164,7 +186,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 18860,
+        "size": 18842,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -284,11 +306,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5914,
-        "stargazers_count": 10606,
-        "watchers_count": 10606,
+        "stargazers_count": 10609,
+        "watchers_count": 10609,
         "size": 21489,
         "default_branch": "master",
-        "open_issues_count": 74,
+        "open_issues_count": 73,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -299,9 +321,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-02-25T18:22:21Z",
+        "pushed_at": "2026-02-27T20:24:33Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-02-26T17:07:02Z",
+        "updated_at": "2026-02-27T20:24:46Z",
         "allow_forking": true
       }
     },
@@ -310,7 +332,7 @@
         "href": "https://api.github.com/repos/bitcoin/bips/pulls/2068"
       }
     },
-    "author_association": "NONE",
+    "author_association": "CONTRIBUTOR",
     "draft": false,
     "additions": 273,
     "deletions": 0,
@@ -1914,7 +1936,7 @@
       "commit_url": null,
       "created_at": "2026-02-03T22:03:30Z",
       "updated_at": "2026-02-03T22:05:41Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "> I just looked this over again. From an editorial perspective this looks like it’s getting close to publication. Please consider whether your document introduces any potential incompabilities, and if so, add a Backwards Compatibility section.\r\n> \r\n> Other than that, what are the next steps from your perspective? Are you working with any Bitcoin projects that are working on implementing this scheme? Are you expecting any other reviewers to take a look?\r\n\r\nThanks again for the thorough review. The current implementation in Electrum matches the BIP description. I also developed a similar plugin for Specter Desktop [here](https://github.com/cryptoadvance/specter-desktop/pull/2489), which I don't think matches exactly the BIP - but AFAIK Specter Desktop is not being maintained anymore (except for bug fixes).\r\n\r\nA friend and I founded https://ritrek.com based exactly on the BIP idea, and soon we'll release our Android app where users could create/upload recovery-plans and later initiate them, monitor them (get push-notifications on their status, or if the wallet \"double-spent\" them), and set a dead-man-switch to initiate them automatically after X months if the app hasn't been opened.\r\nI think we have a small market of less-technical Bitcoiners who don't want to switch to a multisig wallet and use one of the \"collaborative custody\" solutions. It's also more secure in my opinion (no 3rd party key that could leak), but with the downside of not being able to touch that wallet (without re-signing new transactions).\r\n\r\nI think the BIP is fine as is and doesn't need more reviewers. I have a small doubt whether we should add the Alert Transaction's inputs' amounts - and allow validating the segwit transaction without querying those UTXOs. On the other hand, any service that accepts such JSON should call `testmempoolaccept` anyways.\r\n\r\nIn any case, if there will be major changes in the future to the json format, we can always add a \"version\" field, or change the \"kind\" from \"timelock-recovery-plan\" to \"timelock-recovery-plan-v2\".",
       "user": {
         "login": "oren-z0",
@@ -2220,7 +2242,7 @@
       "commit_url": null,
       "created_at": "2026-02-05T21:47:54Z",
       "updated_at": "2026-02-05T21:47:54Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "@murchandamus Pushed the changes. BIP 2^7 🤓 ",
       "user": {
         "login": "oren-z0",
@@ -2638,7 +2660,7 @@
       "commit_url": null,
       "created_at": "2026-02-26T20:50:18Z",
       "updated_at": "2026-02-26T20:50:18Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "@supertestnet Good points. Fixed.",
       "user": {
         "login": "oren-z0",
@@ -2726,6 +2748,107 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-02-26T20:50:19Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 3868922633,
+      "node_id": "PRR_kwDOAN28mc7mmxMJ",
+      "url": null,
+      "actor": null,
+      "commit_id": "3bc177f0d4053f6b51aff9103043c861dd5a00c3",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-02-27T20:23:45Z",
+      "author_association": "MEMBER",
+      "body": "Okay, looks ready to be published as Draft.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2068#pullrequestreview-3868922633",
+      "submitted_at": "2026-02-27T20:23:45Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2068"
+    },
+    {
+      "event": "merged",
+      "id": 23146162623,
+      "node_id": "ME_lADOAN28mc7ghQihzwAAAAVjnmm_",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23146162623",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "9ff061f8b95f5afd792a1358992ed753cd083319",
+      "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/9ff061f8b95f5afd792a1358992ed753cd083319",
+      "created_at": "2026-02-27T20:24:33Z"
+    },
+    {
+      "event": "closed",
+      "id": 23146162647,
+      "node_id": "CE_lADOAN28mc7ghQihzwAAAAVjnmnX",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23146162647",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-02-27T20:24:33Z"
     }
   ],
   "comments": [
@@ -3253,7 +3376,7 @@
       "created_at": "2026-01-27T21:12:37Z",
       "updated_at": "2026-01-27T21:12:37Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2733846396",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2733846396"
@@ -3307,7 +3430,7 @@
       "created_at": "2026-01-27T21:34:40Z",
       "updated_at": "2026-01-27T22:15:12Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2733918284",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2733918284"
@@ -3415,7 +3538,7 @@
       "created_at": "2026-01-27T22:03:55Z",
       "updated_at": "2026-01-27T22:03:55Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2734006434",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2734006434"
@@ -3469,7 +3592,7 @@
       "created_at": "2026-01-27T22:09:47Z",
       "updated_at": "2026-01-27T22:09:48Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2734022439",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2734022439"
@@ -3523,7 +3646,7 @@
       "created_at": "2026-01-27T22:18:40Z",
       "updated_at": "2026-01-27T22:18:41Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2734047157",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2734047157"
@@ -3577,7 +3700,7 @@
       "created_at": "2026-01-27T22:24:58Z",
       "updated_at": "2026-01-27T22:24:58Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2734063291",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2734063291"
@@ -3631,7 +3754,7 @@
       "created_at": "2026-01-27T22:31:44Z",
       "updated_at": "2026-01-27T22:31:44Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2734081635",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2734081635"
@@ -3685,7 +3808,7 @@
       "created_at": "2026-01-28T13:23:58Z",
       "updated_at": "2026-01-28T13:23:58Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2736626518",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2736626518"
@@ -3955,7 +4078,7 @@
       "created_at": "2026-01-29T22:16:04Z",
       "updated_at": "2026-01-30T00:11:32Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2743776517",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2743776517"
@@ -4009,7 +4132,7 @@
       "created_at": "2026-01-30T12:13:25Z",
       "updated_at": "2026-01-30T12:23:09Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2068#discussion_r2745988740",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2745988740"
