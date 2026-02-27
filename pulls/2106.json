@@ -62,7 +62,7 @@
       }
     ],
     "created_at": "2026-02-19T20:22:04Z",
-    "updated_at": "2026-02-27T10:58:05Z",
+    "updated_at": "2026-02-27T15:25:28Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -293,7 +293,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5915,
+        "forks_count": 5914,
         "stargazers_count": 10608,
         "watchers_count": 10608,
         "size": 21489,
@@ -326,7 +326,7 @@
     "deletions": 7,
     "changed_files": 3,
     "commits": 5,
-    "review_comments": 2,
+    "review_comments": 3,
     "comments": 13
   },
   "events": [
@@ -2434,6 +2434,45 @@
         "from": "BIP-352: introduce per-group recipient limit K_max (=1000)",
         "to": "BIP-352: introduce per-group recipient limit K_max (=2324)"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 3867245547,
+      "node_id": "PRR_kwDOAN28mc7mgXvr",
+      "url": null,
+      "actor": null,
+      "commit_id": "4dac93cfe4bffe299b9eb74a23f11f85f02f0490",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-02-27T15:25:28Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "cACK 311cc661dceb649375e829c7cf8f0afdb1c37c43: I agree with the limit. The increase in scanning time is linear, the performance is still in the same order of magnitude, and decreases the chances of wallet fingerprinting. As I have commented, I would reference the rationale for the chosen number in the spec.\r\n\r\nACK 8f7adfd9451d64a435eaefe9b9432c4ba6f52adb..4dac93cfe4bffe299b9eb74a23f11f85f02f0490:\r\nChecked full test execution: didn't have any issues. It took around 16.78 seconds to complete. The bulk of this time was spend obviously in the new vector.\r\n\r\nI've sorted and compared the differences in sizes of test vectors in the repository, and bip352 vectors are far from the median, but also far from the heaviest files:\r\n\r\nFiles before changes:\r\n```text\r\n[5.2M]  bip-0054/test_vectors/sigops.json\r\n[4.1M]  bip-0054/test_vectors/timestamps.json\r\n[696K]  bip-0119/vectors/ctvhash.json\r\n[404K]  bip-0352/send_and_receive_test_vectors.json\r\n[ 36K]  bip-0346/ref-impl/txhash_vectors.json\r\n```\r\n\r\nFiles after changes:\r\n```text\r\n[5.2M] bip-0054/test_vectors/sigops.json\r\n[4.1M] bip-0054/test_vectors/timestamps.json\r\n[696K] bip-0119/vectors/ctvhash.json\r\n[188K] bip-0352/send_and_receive_test_vectors.json\r\n[ 36K] bip-0346/ref-impl/txhash_vectors.json\r\n```",
+      "user": {
+        "login": "nymius",
+        "id": 155548262,
+        "node_id": "U_kgDOCUV6Zg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155548262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nymius",
+        "html_url": "https://github.com/nymius",
+        "followers_url": "https://api.github.com/users/nymius/followers",
+        "following_url": "https://api.github.com/users/nymius/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nymius/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nymius/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nymius/subscriptions",
+        "organizations_url": "https://api.github.com/users/nymius/orgs",
+        "repos_url": "https://api.github.com/users/nymius/repos",
+        "events_url": "https://api.github.com/users/nymius/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nymius/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2106#pullrequestreview-3867245547",
+      "submitted_at": "2026-02-27T15:24:27Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2106"
     }
   ],
   "comments": [
@@ -2543,6 +2582,60 @@
       "start_side": null,
       "line": null,
       "original_line": 303,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2864613623",
+      "pull_request_review_id": 3867245547,
+      "id": 2864613623,
+      "node_id": "PRRC_kwDOAN28mc6qvoj3",
+      "diff_hunk": "@@ -301,6 +301,8 @@ After the inputs have been selected, the sender can create one or more outputs f\n * Let ''input_hash = hash<sub>BIP0352/Inputs</sub>(outpoint<sub>L</sub> || A)'', where ''outpoint<sub>L</sub>'' is the smallest ''outpoint'' lexicographically used in the transaction<ref name=\"why_smallest_outpoint\"></ref> and ''A = a·G''\n ** If ''input_hash'' is not a valid scalar, i.e., if ''input_hash = 0'' or ''input_hash'' is larger or equal to the secp256k1 group order, fail\n * Group receiver silent payment addresses by ''B<sub>scan</sub>'' (e.g. each group consists of one ''B<sub>scan</sub>'' and one or more ''B<sub>m</sub>'')\n+* If any of the groups exceed the limit of ''K<sub>max</sub>'' (=2324) silent payment addresses, fail.<ref name=\"why_limit_k\">'''Why is the size of groups (i.e. silent payment addresses sharing the same scan public key) limited by ''K<sub>max</sub>''?''' An adversary could construct a large full-block-sized transaction consisting of N=23255 outputs (that's the theoretical maximum under current consensus rules, w.r.t. the block weight limit) that all target the same entity, consisting of one large group. Without a limit on the group size, scanning such a transaction with the algorithm described in this document would have a complexity of ''O(N<sup>2</sup>)'' for that entity, taking several minutes on modern systems. By capping the group size at ''K<sub>max</sub>'', we reduce the inner loop iterations to ''K<sub>max</sub>'', thereby decreasing the complexity to ''O(N·K<sub>max</sub>)''. This cuts down the scanning cost to the order of tens of seconds.</ref>",
+      "path": "bip-0352.mediawiki",
+      "position": 4,
+      "original_position": 4,
+      "commit_id": "311cc661dceb649375e829c7cf8f0afdb1c37c43",
+      "original_commit_id": "311cc661dceb649375e829c7cf8f0afdb1c37c43",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "nymius",
+        "id": 155548262,
+        "node_id": "U_kgDOCUV6Zg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155548262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nymius",
+        "html_url": "https://github.com/nymius",
+        "followers_url": "https://api.github.com/users/nymius/followers",
+        "following_url": "https://api.github.com/users/nymius/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nymius/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nymius/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nymius/subscriptions",
+        "organizations_url": "https://api.github.com/users/nymius/orgs",
+        "repos_url": "https://api.github.com/users/nymius/repos",
+        "events_url": "https://api.github.com/users/nymius/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nymius/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I would add that 2324 was chosen from the limit derived from standard rules (i.e. <= 100_000 kvB) and that this decreases the chances of transaction fingerprinting.",
+      "created_at": "2026-02-27T14:31:01Z",
+      "updated_at": "2026-02-27T15:24:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2106#discussion_r2864613623",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2864613623"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2106"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 304,
+      "original_line": 304,
       "side": "RIGHT"
     }
   ]
