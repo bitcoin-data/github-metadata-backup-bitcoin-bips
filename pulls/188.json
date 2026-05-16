@@ -36,7 +36,9 @@
       "events_url": "https://api.github.com/users/UpalChakraborty/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/UpalChakraborty/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "<pre>\n  BIP: 1xx\n  Title: Dynamically Controlled Bitcoin Block Size Max Cap\n  Author: Upal Chakraborty <bitcoin@upalc.com>\n  Status: Draft\n  Type: Standards Track\n  Created: 2015-08-24\n</pre>\n\n\n==Abstract==\n\nThis BIP proposes replacing the fixed one megabyte maximum block size with a dynamically controlled maximum block size that may increase or decrease with difficulty change depending on various network factors. I have two proposals regarding this...\n\ni. Depending only on previous block size calculation.\n\nii. Depending on previous block size calculation and previous Tx fee collected by miners.\n\n==Motivation==\n\nWith increased adoption, transaction volume on bitcoin network is bound to grow. If the one megabyte max cap is not changed to a flexible one which changes itself with changing network demand, then adoption will hamper and bitcoin's growth may choke up. Following graph shows the change in average block size since inception...\n\nhttps://blockchain.info/charts/avg-block-size?timespan=all&showDataPoints=false&daysAverageString=1&show_header=true&scale=0&address=\n\n==Specification==\n\n===Proposal 1 : Depending only on previous block size calculation===\n\n  If more than 50% of block's size, found in the first 2000 of the last difficulty period, is more than 90% MaxBlockSize\n      Double MaxBlockSize\n  Else if more than 90% of block's size, found in the first 2000 of the last difficulty period, is less than 50% MaxBlockSize\n      Half MaxBlockSize\n  Else\n      Keep the same MaxBlockSize\n\n===Proposal 2 : Depending on previous block size calculation and previous Tx fee collected by miners===\n\n  TotalBlockSizeInLastButOneDifficulty = Sum of all Block size of first 2008 blocks in last 2 difficulty period\n  TotalBlockSizeInLastDifficulty = Sum of all Block size of second 2008 blocks in last 2 difficulty period (This actually includes 8 blocks from last but one difficulty)\n\n  TotalTxFeeInLastButOneDifficulty = Sum of all Tx fees of first 2008 blocks in last 2 difficulty period\n  TotalTxFeeInLastDifficulty = Sum of all Tx fees of second 2008 blocks in last 2 difficulty period (This actually includes 8 blocks from last but one difficulty)\n\n  If ( ( (Sum of first 4016 block size in last 2 difficulty period)/4016 > 50% MaxBlockSize) AND (TotalTxFeeInLastDifficulty > TotalTxFeeInLastButOneDifficulty) AND (TotalBlockSizeInLastDifficulty > TotalBlockSizeInLastButOneDifficulty) )\n      MaxBlockSize = TotalBlockSizeInLastDifficulty \\* MaxBlockSize / TotalBlockSizeInLastButOneDifficulty\n  Else If ( ( (Sum of first 4016 block size in last 2 difficulty period)/4016 < 50% MaxBlockSize) AND (TotalTxFeeInLastDifficulty < TotalTxFeeInLastButOneDifficulty) AND (TotalBlockSizeInLastDifficulty < TotalBlockSizeInLastButOneDifficulty) )\n      MaxBlockSize = TotalBlockSizeInLastDifficulty \\* MaxBlockSize / TotalBlockSizeInLastButOneDifficulty\n  Else\n      Keep the same MaxBlockSize\n\n==Rationale==\n\nThese two proposals have been derived after discussion on [https://bitcointalk.org/index.php?topic=1154536.0 BitcoinTalk] and [http://lists.linuxfoundation.org/pipermail/bitcoin-dev/2015-August/010285.html bitcoin-dev mailing list]. The original idea and its evolution in the light of various arguements can be found [http://upalc.com/maxblocksize.php here].\n\n===Proposal 1 : Depending only on previous block size calculation===\n\nThis solution is derived directly from the indication of the problem. If transaction volume increases, then we will naturally see bigger blocks. On the contrary, if there are not enough transaction volume, but maximum block size is high, then only few blocks may sweep the mempool. Hence, if block size is itself taken into consideration, then maximum block size can most rationally be derived. Moreover, this solution not only increases, but also decreases the maximum block size, just like difficulty.\n\n===Proposal 2 : Depending on previous block size calculation and previous Tx fee collected by miners===\n\nThis solution takes care of stable mining subsidy. It will not increase maximum block size, if Tx fee collection is not increasing and thereby creating a Tx fee pressure on the market. On the other hand, though the block size max cap is dynamically controlled, it is very difficult to game by any party because the increase or decrease of block size max cap will take place in the same ratio of average block size increase or decrease.\n\n==Compatibility==\n\nThis is a hard-forking change to the Bitcoin protocol; anybody running code that fully validates blocks must upgrade before the activation time or they will risk rejecting a chain containing larger-than-one-megabyte blocks.\n\n==Other solutions considered==\n\n[http://gtf.org/garzik/bitcoin/BIP100-blocksizechangeproposal.pdf Making Decentralized Economic Policy] - by Jeff Garzik\n\n[https://bitcointalk.org/index.php?topic=1078521.0 Elastic block cap with rollover penalties] - by Meni Rosenfeld\n\n[https://github.com/bitcoin/bips/blob/master/bip-0101.mediawiki Increase maximum block size] - by Gavin Andresen\n\n[https://gist.github.com/sipa/c65665fc360ca7a176a6 Block size following technological growth] - by Pieter Wuille\n\n[https://lightning.network/lightning-network-paper.pdf The Bitcoin Lightning Network: Scalable Off-Chain Instant Payments] - by Joseph Poon & Thaddeus Dryja\n\n==Deployment==\n\nIf consensus is achieved, deployment can be made at a future block number at which difficulty will change.\n",
     "labels": [],
@@ -45,6 +47,7 @@
     "closed_at": "2015-09-04T12:16:01Z",
     "mergeable": false,
     "mergeable_state": "dirty",
+    "merged": false,
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -71,7 +74,9 @@
         "events_url": "https://api.github.com/users/UpalChakraborty/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UpalChakraborty/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 41317167,
@@ -96,7 +101,9 @@
           "events_url": "https://api.github.com/users/UpalChakraborty/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/UpalChakraborty/received_events",
           "type": "User",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/UpalChakraborty/bips",
@@ -163,7 +170,8 @@
         "visibility": "public",
         "pushed_at": "2015-09-05T20:07:46Z",
         "created_at": "2015-08-24T17:28:18Z",
-        "updated_at": "2016-01-11T09:56:18Z"
+        "updated_at": "2016-01-11T09:56:18Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -188,7 +196,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -213,7 +223,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -262,12 +274,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +290,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -641,7 +654,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -667,7 +682,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/188#issuecomment-137604900",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/188"
@@ -695,7 +712,9 @@
         "events_url": "https://api.github.com/users/gmaxwell/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/gmaxwell/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -724,7 +743,9 @@
         "events_url": "https://api.github.com/users/gmaxwell/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/gmaxwell/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -753,7 +774,9 @@
         "events_url": "https://api.github.com/users/btcdrak/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/btcdrak/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -779,7 +802,9 @@
         "events_url": "https://api.github.com/users/btcdrak/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/btcdrak/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/188#issuecomment-137604930",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/188"
@@ -807,7 +832,9 @@
         "events_url": "https://api.github.com/users/btcdrak/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/btcdrak/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -833,7 +860,9 @@
         "events_url": "https://api.github.com/users/btcdrak/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/btcdrak/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/188#issuecomment-137604993",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/188"
@@ -861,7 +890,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -890,7 +921,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -919,7 +952,9 @@
         "events_url": "https://api.github.com/users/UpalChakraborty/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UpalChakraborty/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -945,7 +980,9 @@
         "events_url": "https://api.github.com/users/UpalChakraborty/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UpalChakraborty/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/188#issuecomment-137606395",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/188"
@@ -973,7 +1010,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1002,7 +1041,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1031,7 +1072,9 @@
         "events_url": "https://api.github.com/users/btcdrak/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/btcdrak/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1057,7 +1100,9 @@
         "events_url": "https://api.github.com/users/btcdrak/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/btcdrak/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/188#issuecomment-137607058",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/188"
@@ -1085,7 +1130,9 @@
         "events_url": "https://api.github.com/users/UpalChakraborty/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UpalChakraborty/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1114,7 +1161,9 @@
         "events_url": "https://api.github.com/users/UpalChakraborty/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UpalChakraborty/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1143,7 +1192,9 @@
         "events_url": "https://api.github.com/users/UpalChakraborty/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UpalChakraborty/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1169,7 +1220,9 @@
         "events_url": "https://api.github.com/users/UpalChakraborty/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UpalChakraborty/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/188#issuecomment-137719794",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/188"
@@ -1197,7 +1250,9 @@
         "events_url": "https://api.github.com/users/UpalChakraborty/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UpalChakraborty/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1226,7 +1281,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "f2d03e707bcc5925f907247d8af45026f48755e6",
       "commit_url": "https://api.github.com/repos/luke-jr/bips/commits/f2d03e707bcc5925f907247d8af45026f48755e6",

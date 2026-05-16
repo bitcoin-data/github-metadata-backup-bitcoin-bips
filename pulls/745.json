@@ -36,7 +36,9 @@
       "events_url": "https://api.github.com/users/harding/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/harding/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "It's been reported that the double negative in rule 2 is confusing people (including myself, on re-read).  This PR revises out both negatives and, I believe, significantly improves clarity.\r\n\r\nFor reference, this document was based on the implementation in Bitcoin Core 0.12.0, which includes [these lines](https://github.com/bitcoin/bitcoin/blob/v0.12.0/src/main.cpp#L1134):\r\n\r\n```cpp\r\n            for (unsigned int j = 0; j < tx.vin.size(); j++)\r\n            {\r\n                // We don't want to accept replacements that require low\r\n                // feerate junk to be mined first. Ideally we'd keep track of\r\n                // the ancestor feerates and make the decision based on that,\r\n                // but for now requiring all new inputs to be confirmed works.\r\n                if (!setConflictsParents.count(tx.vin[j].prevout.hash))\r\n                {\r\n                    // Rather than check the UTXO set - potentially expensive -\r\n                    // it's cheaper to just check if the new input refers to a\r\n                    // tx that's in the mempool.\r\n                    if (pool.mapTx.find(tx.vin[j].prevout.hash) != pool.mapTx.end())\r\n                        return state.DoS(0, error(\"AcceptToMemoryPool: replacement %s adds unconfirmed input, idx %d\",\r\n                                                  hash.ToString(), j),\r\n                                         REJECT_NONSTANDARD, \"replacement-adds-unconfirmed\");\r\n              }\r\n```\r\n\r\nChanging this was suggested by @jnewbery, who also reviewed the code in master with me (which is the same but is moved to `validation.cpp`).\r\n\r\nCC: @petertodd \r\n\r\nRequest to BIP editor @luke-jr: I think your usually policy is to merge policy-acceptable changes to BIPs solely based on the requests of their authors.  As a co-author, I request this be left open for at least one week (December 13th) to give @petertodd a chance to comment if he wants.",
     "labels": [],
@@ -44,7 +46,30 @@
     "updated_at": "2018-12-14T16:41:39Z",
     "closed_at": "2018-12-14T16:41:38Z",
     "mergeable_state": "unknown",
+    "merged": true,
     "merged_at": "2018-12-14T16:41:38Z",
+    "merged_by": {
+      "login": "luke-jr",
+      "id": 1095675,
+      "node_id": "MDQ6VXNlcjEwOTU2NzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1095675?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/luke-jr",
+      "html_url": "https://github.com/luke-jr",
+      "followers_url": "https://api.github.com/users/luke-jr/followers",
+      "following_url": "https://api.github.com/users/luke-jr/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/luke-jr/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/luke-jr/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/luke-jr/subscriptions",
+      "organizations_url": "https://api.github.com/users/luke-jr/orgs",
+      "repos_url": "https://api.github.com/users/luke-jr/repos",
+      "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/luke-jr/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
     "merge_commit_sha": "c1459ff17aa68a7a6e724d6b3b08b6878266e538",
     "assignees": [],
     "requested_reviewers": [],
@@ -71,7 +96,9 @@
         "events_url": "https://api.github.com/users/harding/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/harding/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 18313951,
@@ -96,7 +123,9 @@
           "events_url": "https://api.github.com/users/harding/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/harding/received_events",
           "type": "User",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/harding/bips",
@@ -146,8 +175,8 @@
         "homepage": "bitcoin.org",
         "language": "Protocol Buffer",
         "forks_count": 0,
-        "stargazers_count": 0,
-        "watchers_count": 0,
+        "stargazers_count": 1,
+        "watchers_count": 1,
         "size": 5550,
         "default_branch": "master",
         "open_issues_count": 0,
@@ -163,7 +192,8 @@
         "visibility": "public",
         "pushed_at": "2020-08-20T12:31:04Z",
         "created_at": "2014-04-01T01:28:49Z",
-        "updated_at": "2016-01-11T09:56:16Z"
+        "updated_at": "2023-10-17T07:11:32Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -188,7 +218,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -213,7 +245,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -262,12 +296,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +312,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -361,7 +396,9 @@
         "events_url": "https://api.github.com/users/petertodd/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/petertodd/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -390,7 +427,9 @@
         "events_url": "https://api.github.com/users/petertodd/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/petertodd/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -419,7 +458,9 @@
         "events_url": "https://api.github.com/users/jnewbery/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jnewbery/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -448,7 +489,9 @@
         "events_url": "https://api.github.com/users/jnewbery/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jnewbery/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -477,7 +520,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -506,7 +551,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -535,13 +582,15 @@
         "events_url": "https://api.github.com/users/jnewbery/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jnewbery/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2018-12-04T22:10:49Z",
       "updated_at": "2018-12-04T22:10:49Z",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "ACK af878ab42e8ca4ef1ffa74f7b500ec66e2d91d30",
       "user": {
         "login": "jnewbery",
@@ -561,92 +610,12 @@
         "events_url": "https://api.github.com/users/jnewbery/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jnewbery/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/745#issuecomment-444278544",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/745"
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "jnewbery",
-        "id": 1063656,
-        "node_id": "MDQ6VXNlcjEwNjM2NTY=",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1063656?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/jnewbery",
-        "html_url": "https://github.com/jnewbery",
-        "followers_url": "https://api.github.com/users/jnewbery/followers",
-        "following_url": "https://api.github.com/users/jnewbery/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/jnewbery/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/jnewbery/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/jnewbery/subscriptions",
-        "organizations_url": "https://api.github.com/users/jnewbery/orgs",
-        "repos_url": "https://api.github.com/users/jnewbery/repos",
-        "events_url": "https://api.github.com/users/jnewbery/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/jnewbery/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2018-12-04T22:12:03Z",
-      "updated_at": "2018-12-04T22:12:03Z",
-      "source": {
-        "issue": {
-          "id": 385433841,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0MjM0NDA2MDI5",
-          "url": "https://api.github.com/repos/bitcoinops/scaling-book/issues/5",
-          "repository_url": "https://api.github.com/repos/bitcoinops/scaling-book",
-          "labels_url": "https://api.github.com/repos/bitcoinops/scaling-book/issues/5/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/bitcoinops/scaling-book/issues/5/comments",
-          "events_url": "https://api.github.com/repos/bitcoinops/scaling-book/issues/5/events",
-          "html_url": "https://github.com/bitcoinops/scaling-book/pull/5",
-          "number": 5,
-          "state": "closed",
-          "state_reason": null,
-          "title": "Add intro to RBF",
-          "body": "",
-          "user": {
-            "login": "jnewbery",
-            "id": 1063656,
-            "node_id": "MDQ6VXNlcjEwNjM2NTY=",
-            "avatar_url": "https://avatars.githubusercontent.com/u/1063656?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/jnewbery",
-            "html_url": "https://github.com/jnewbery",
-            "followers_url": "https://api.github.com/users/jnewbery/followers",
-            "following_url": "https://api.github.com/users/jnewbery/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/jnewbery/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/jnewbery/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/jnewbery/subscriptions",
-            "organizations_url": "https://api.github.com/users/jnewbery/orgs",
-            "repos_url": "https://api.github.com/users/jnewbery/repos",
-            "events_url": "https://api.github.com/users/jnewbery/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/jnewbery/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [],
-          "assignees": [],
-          "author_association": "CONTRIBUTOR",
-          "locked": false,
-          "comments": 3,
-          "pull_request": {
-            "url": "https://api.github.com/repos/bitcoinops/scaling-book/pulls/5",
-            "html_url": "https://github.com/bitcoinops/scaling-book/pull/5",
-            "diff_url": "https://github.com/bitcoinops/scaling-book/pull/5.diff",
-            "patch_url": "https://github.com/bitcoinops/scaling-book/pull/5.patch"
-          },
-          "closed_at": "2022-02-02T12:03:53Z",
-          "created_at": "2018-11-28T20:00:34Z",
-          "updated_at": "2022-02-02T12:03:53Z"
-        },
-        "type": "issue"
-      }
     },
     {
       "event": "commented",
@@ -671,7 +640,9 @@
         "events_url": "https://api.github.com/users/petertodd/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/petertodd/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -697,7 +668,9 @@
         "events_url": "https://api.github.com/users/petertodd/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/petertodd/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/745#issuecomment-445604178",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/745"
@@ -725,13 +698,15 @@
         "events_url": "https://api.github.com/users/jnewbery/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jnewbery/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2018-12-10T21:10:17Z",
       "updated_at": "2018-12-10T21:10:17Z",
-      "author_association": "MEMBER",
+      "author_association": "CONTRIBUTOR",
       "body": "@luke-jr : ready for merge. Both BIP authors have now ACKed.",
       "user": {
         "login": "jnewbery",
@@ -751,7 +726,9 @@
         "events_url": "https://api.github.com/users/jnewbery/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jnewbery/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/745#issuecomment-445974231",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/745"
@@ -779,7 +756,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -808,7 +787,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -837,7 +818,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "c1459ff17aa68a7a6e724d6b3b08b6878266e538",
       "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/c1459ff17aa68a7a6e724d6b3b08b6878266e538",
@@ -866,7 +849,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,

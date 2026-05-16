@@ -12,12 +12,12 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2106/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2106/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/4a8ad2cccebb073b8a6ed386e32ae32250afb018",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/b4bc0a88b71330e705a19590a2225fbe53604626",
     "number": 2106,
-    "state": "open",
+    "state": "closed",
     "locked": false,
-    "maintainer_can_modify": true,
-    "title": "BIP-352: introduce per-group recipient limit K_max (=2324)",
+    "maintainer_can_modify": false,
+    "title": "BIP-352: introduce per-group recipient limit K_max (=2323)",
     "user": {
       "login": "theStack",
       "id": 91535,
@@ -40,41 +40,54 @@
       "name": null,
       "patch_url": null
     },
-    "body": "As previously announced in the [libsecp256k1 `silentpayments` module discussion](https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3842046237) and on the [mailing list](https://groups.google.com/g/bitcoindev/c/tgcAQVqvzVg) ~2 weeks ago, this PR introduces a `K_max` limit to BIP-352 to mitigate worst-case scanning time for adversarial transactions. So far [no objections have been raised](https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3891774608) against that protocol change, which is backwards-incompatible in theory.\r\n\r\nThe Python reference implementation is adapted and test vectors for the following two scenarios are added:\r\n* Sending fails if any recipient group (i.e. recipients that share the same scan public key) exceeds the limit\r\n* Scanning only detects outputs with k values up to K_max (exclusive, i.e. from k=0..999), even if more would be available \r\n\r\nCan be tested by running `$ ./bip-0352/reference.py ./bip-0352/send_and_receive_test_vectors.json`. The test vectors pass the tests in the [libsecp256k1 module](https://github.com/bitcoin-core/secp256k1/pull/1765) as well, see commit https://github.com/theStack/secp256k1/commit/65ce62310a27d54784952de41607d10aaab30218. [1] \r\n\r\n~~Note that the value K_max=1000 is somewhat arbitrary and can still be debated, it's simply one that came up relatively early in the discussion and is believed to be fine even for very unusual scenarios like \"exchange sends to another exchange\"  (see https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3773155788). An alternative number that was brought up later was K_max=2324, as this is the theoretical maximum for standard-sized (i.e. <= 100_000 kvB) transactions (https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3789112995). Personally I think even a lower limit than K_max=1000 would be fine, like something in the \"lower hundreds\" range, but with 1000 we are still comfortably in the \"seconds\" range for the worst-case on a reasonably modern machine.~~ // EDIT: the proposed value was raised from 1000 to 2324\r\n\r\nThe chosen value of Kmax = 2324 (suggested earlier in https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3789112995 and in https://github.com/bitcoin/bips/pull/2106#issuecomment-3957817763 below) represents the maximum number of P2TR outputs that can fit into a 100kvB transaction, meaning a transaction that adheres to the current standardness rules is guaranteed to be within the limit. This ensures flexibility and also mitigates potential fingerprinting issues.\r\nSee benchmark results https://github.com/bitcoin-core/secp256k1/pull/1765#issuecomment-3862265628 for more details.\r\n\r\nAnother suggested BIP change is introducing a [warning about wallet interoperability](https://github.com/bitcoin-core/secp256k1/pull/1765#issuecomment-3910051227) w.r.t. the number of labels created. As I see this as an orthogonal change, I will open a separate PR for this. One slightly related PR is https://github.com/bitcoin/bips/pull/2087, which would standardize the EC parts of the reference code and make it look a bit nicer. It's not strictly necessary, but I'm happy to rebase this PR if #2087 gets in first.\r\n\r\n[1] ~~I haven't included this commit in the secp PR yet as it's unclear to me if we want to bloat the repository with >120k new LOC and several mega-bytes of additional test data, considering a test case for this already exists. Something to be discussed further in https://github.com/bitcoin-core/secp256k1/pull/1765.~~ // EDIT: after the test vector encoding improvements as suggested in https://github.com/bitcoin/bips/pull/2106#issuecomment-3957958154, this is not an issue anymore",
+    "body": "As previously announced in the [libsecp256k1 `silentpayments` module discussion](https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3842046237) and on the [mailing list](https://groups.google.com/g/bitcoindev/c/tgcAQVqvzVg) ~2 weeks ago, this PR introduces a `K_max` limit to BIP-352 to mitigate worst-case scanning time for adversarial transactions. So far [no objections have been raised](https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3891774608) against that protocol change, which is backwards-incompatible in theory.\r\n\r\nThe Python reference implementation is adapted and test vectors for the following two scenarios are added:\r\n* Sending fails if any recipient group (i.e. recipients that share the same scan public key) exceeds the limit\r\n* Scanning only detects outputs with k values up to K_max (exclusive, i.e. from k=0..2322), even if more would be available \r\n\r\nCan be tested by running `$ ./bip-0352/reference.py ./bip-0352/send_and_receive_test_vectors.json`. The test vectors pass the tests in the [libsecp256k1 module](https://github.com/bitcoin-core/secp256k1/pull/1765) as well, see commit https://github.com/theStack/secp256k1/commit/65ce62310a27d54784952de41607d10aaab30218. [1] \r\n\r\n~~Note that the value K_max=1000 is somewhat arbitrary and can still be debated, it's simply one that came up relatively early in the discussion and is believed to be fine even for very unusual scenarios like \"exchange sends to another exchange\"  (see https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3773155788). An alternative number that was brought up later was K_max=2324, as this is the theoretical maximum for standard-sized (i.e. <= 100_000 kvB) transactions (https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3789112995). Personally I think even a lower limit than K_max=1000 would be fine, like something in the \"lower hundreds\" range, but with 1000 we are still comfortably in the \"seconds\" range for the worst-case on a reasonably modern machine.~~ // EDIT: the proposed value was raised from 1000 to 2324\r\n\r\nThe chosen value of Kmax = 2323 (2324 was suggested earlier in https://github.com/bitcoin-core/secp256k1/issues/1799#issuecomment-3789112995 and in https://github.com/bitcoin/bips/pull/2106#issuecomment-3957817763 below, corrected to 2323) represents the maximum number of P2TR outputs that can fit into a 100kvB transaction, meaning a transaction that adheres to the current standardness rules is guaranteed to be within the limit. This ensures flexibility and also mitigates potential fingerprinting issues.\r\nSee benchmark results https://github.com/bitcoin-core/secp256k1/pull/1765#issuecomment-3862265628 for more details.\r\n\r\nAnother suggested BIP change is introducing a [warning about wallet interoperability](https://github.com/bitcoin-core/secp256k1/pull/1765#issuecomment-3910051227) w.r.t. the number of labels created. As I see this as an orthogonal change, I will open a separate PR for this. One slightly related PR is https://github.com/bitcoin/bips/pull/2087, which would standardize the EC parts of the reference code and make it look a bit nicer. It's not strictly necessary, but I'm happy to rebase this PR if #2087 gets in first.\r\n\r\n[1] ~~I haven't included this commit in the secp PR yet as it's unclear to me if we want to bloat the repository with >120k new LOC and several mega-bytes of additional test data, considering a test case for this already exists. Something to be discussed further in https://github.com/bitcoin-core/secp256k1/pull/1765.~~ // EDIT: after the test vector encoding improvements as suggested in https://github.com/bitcoin/bips/pull/2106#issuecomment-3957958154, this is not an issue anymore",
     "labels": [
-      {
-        "id": 6924377447,
-        "node_id": "LA_kwDOAN28mc8AAAABnLmdZw",
-        "url": "https://api.github.com/repos/bitcoin/bips/labels/PR%20Author%20action%20required",
-        "name": "PR Author action required",
-        "description": "Needs updates, has unaddressed review comments, or is otherwise waiting for PR author",
-        "color": "e99695",
-        "default": false
-      },
       {
         "id": 9823934454,
         "node_id": "LA_kwDOAN28mc8AAAACSY1X9g",
-        "url": "https://api.github.com/repos/bitcoin/bips/labels/BIP%20update%20by%20author",
-        "name": "BIP update by author",
-        "description": "",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/BIP%20Update%20by%20Owner",
+        "name": "BIP Update by Owner",
+        "description": "PR by Author or Deputy to modify their own BIP",
         "color": "3f9ccf",
         "default": false
       }
     ],
     "created_at": "2026-02-19T20:22:04Z",
-    "updated_at": "2026-02-27T20:44:59Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
-    "merged": false,
-    "merge_commit_sha": "ffe7416138c5a065be84c721f56130da9b8ae2b9",
+    "updated_at": "2026-03-02T17:05:23Z",
+    "closed_at": "2026-03-02T16:54:09Z",
+    "mergeable_state": "unknown",
+    "merged": true,
+    "merged_at": "2026-03-02T16:54:09Z",
+    "merged_by": {
+      "login": "murchandamus",
+      "id": 4060799,
+      "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/murchandamus",
+      "html_url": "https://github.com/murchandamus",
+      "followers_url": "https://api.github.com/users/murchandamus/followers",
+      "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+      "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+      "repos_url": "https://api.github.com/users/murchandamus/repos",
+      "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
+    "merge_commit_sha": "6eb01f01bcb00d1bd31fd0a5b2f62f8358e85f14",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
     "head": {
       "label": "theStack:bip352_limit_max-k-PR",
       "ref": "bip352_limit_max-k-PR",
-      "sha": "4a8ad2cccebb073b8a6ed386e32ae32250afb018",
+      "sha": "b4bc0a88b71330e705a19590a2225fbe53604626",
       "user": {
         "login": "theStack",
         "id": 91535,
@@ -174,7 +187,7 @@
         "forks_count": 0,
         "stargazers_count": 1,
         "watchers_count": 1,
-        "size": 22001,
+        "size": 21991,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -187,7 +200,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-02-27T17:03:15Z",
+        "pushed_at": "2026-03-23T18:40:08Z",
         "created_at": "2020-05-06T16:35:59Z",
         "updated_at": "2026-01-20T15:05:24Z",
         "allow_forking": true
@@ -196,7 +209,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "bd564167864ab293a41f3dad0bb029f5ea9b4467",
+      "sha": "ced24101c703e29ff1bf2576621bf0e8cdd5412a",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -293,12 +306,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5914,
-        "stargazers_count": 10609,
-        "watchers_count": 10609,
-        "size": 21489,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 73,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -309,9 +322,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-02-27T20:24:33Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-02-27T20:24:46Z",
+        "updated_at": "2026-05-15T19:33:05Z",
         "allow_forking": true
       }
     },
@@ -322,12 +335,12 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 2445,
+    "additions": 2444,
     "deletions": 7,
     "changed_files": 3,
     "commits": 5,
-    "review_comments": 4,
-    "comments": 16
+    "review_comments": 5,
+    "comments": 19
   },
   "events": [
     {
@@ -2275,206 +2288,6 @@
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2106"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDQ2NGE2ODQ5YWI2OWU0Y2E0NzEyN2JmZmQ3NTA3ZmNiYTI2NDJjZGI",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/464a6849ab69e4ca47127bffd7507fcba2642cdb",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/464a6849ab69e4ca47127bffd7507fcba2642cdb",
-      "tree": {
-        "sha": "7cd72e6c65fa1687d130bf80524fac3dfe4fefe6",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/7cd72e6c65fa1687d130bf80524fac3dfe4fefe6"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/bd564167864ab293a41f3dad0bb029f5ea9b4467",
-          "sha": "bd564167864ab293a41f3dad0bb029f5ea9b4467",
-          "html_url": "https://github.com/bitcoin/bips/commit/bd564167864ab293a41f3dad0bb029f5ea9b4467"
-        }
-      ],
-      "message": "BIP-352: introduce per-group recipient limit K_max (=2324)\n\nIn theory this is a backwards incompatible protocol change.\nPractically, no existing Silent Payments wallets out there supports\nsending to such a high quantity of recipients (not even in terms of\n_total_ number of recipients), so the K_max limit should be safe to\nintroduce, without any negative effects in the wallet ecosystem.",
-      "committer": {
-        "name": "Sebastian Falbesoner",
-        "email": "sebastian.falbesoner@gmail.com",
-        "date": "2026-02-27T16:19:06Z"
-      },
-      "author": {
-        "name": "Sebastian Falbesoner",
-        "email": "sebastian.falbesoner@gmail.com",
-        "date": "2026-01-30T00:46:35Z"
-      },
-      "sha": "464a6849ab69e4ca47127bffd7507fcba2642cdb"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDYxNzhlM2Q5M2YyNDM1NjBkY2ZmMTJmZGI4MTk3MjAzYmE3NzAzMDE",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6178e3d93f243560dcff12fdb8197203ba770301",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/6178e3d93f243560dcff12fdb8197203ba770301",
-      "tree": {
-        "sha": "3b8202bd8a46d73a297f636238f5c774bd1d220a",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/3b8202bd8a46d73a297f636238f5c774bd1d220a"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/464a6849ab69e4ca47127bffd7507fcba2642cdb",
-          "sha": "464a6849ab69e4ca47127bffd7507fcba2642cdb",
-          "html_url": "https://github.com/bitcoin/bips/commit/464a6849ab69e4ca47127bffd7507fcba2642cdb"
-        }
-      ],
-      "message": "BIP-352: test vectors: allow specifying repeated recipients for sending\n\nIntroduce an optional \"count\" field for recipient objects.\nAlso update the documentation of the fields.",
-      "committer": {
-        "name": "Sebastian Falbesoner",
-        "email": "sebastian.falbesoner@gmail.com",
-        "date": "2026-02-27T16:19:06Z"
-      },
-      "author": {
-        "name": "Sebastian Falbesoner",
-        "email": "sebastian.falbesoner@gmail.com",
-        "date": "2026-02-26T19:14:59Z"
-      },
-      "sha": "6178e3d93f243560dcff12fdb8197203ba770301"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGMwZGNkZTFiZGExZjg2OGVlOTQyMGEzNDM0NzYzYmRhYjU0ZjhlMzk",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c0dcde1bda1f868ee9420a3434763bdab54f8e39",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/c0dcde1bda1f868ee9420a3434763bdab54f8e39",
-      "tree": {
-        "sha": "96d656e9ec8f12d44596ba7bcf7dd227c7c84ebf",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/96d656e9ec8f12d44596ba7bcf7dd227c7c84ebf"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6178e3d93f243560dcff12fdb8197203ba770301",
-          "sha": "6178e3d93f243560dcff12fdb8197203ba770301",
-          "html_url": "https://github.com/bitcoin/bips/commit/6178e3d93f243560dcff12fdb8197203ba770301"
-        }
-      ],
-      "message": "BIP-352: test vectors: allow to check found output count for receiving\n\nIntroduce an optional \"n_outputs\" field as alternative to the detailed\n\"outputs\" objects (the field was already specified, but not used so\nfar). Also update the documentation of the fields.",
-      "committer": {
-        "name": "Sebastian Falbesoner",
-        "email": "sebastian.falbesoner@gmail.com",
-        "date": "2026-02-27T16:19:06Z"
-      },
-      "author": {
-        "name": "Sebastian Falbesoner",
-        "email": "sebastian.falbesoner@gmail.com",
-        "date": "2026-02-26T19:40:33Z"
-      },
-      "sha": "c0dcde1bda1f868ee9420a3434763bdab54f8e39"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGQxMzcwZGY2MTE0ZWQ3YzhiOTMwNWFhOTU1MWUzNTMxMjIwNThkMTQ",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d1370df6114ed7c8b9305aa9551e353122058d14",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/d1370df6114ed7c8b9305aa9551e353122058d14",
-      "tree": {
-        "sha": "8a00d7d56d1a142d179a01cc0975e1dda401c789",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/8a00d7d56d1a142d179a01cc0975e1dda401c789"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c0dcde1bda1f868ee9420a3434763bdab54f8e39",
-          "sha": "c0dcde1bda1f868ee9420a3434763bdab54f8e39",
-          "html_url": "https://github.com/bitcoin/bips/commit/c0dcde1bda1f868ee9420a3434763bdab54f8e39"
-        }
-      ],
-      "message": "BIP-352: add test vector for exceeding K_max limit [sender side]\n\nTest case: as the (only) recipient group contains 2325 addresses and\nthus exceeds the K_max limit by one, sending fails.\n\nCan be tested by\n`$ ./bip-0352/reference.py ./bip-0352/send_and_receive_test_vectors.json`",
-      "committer": {
-        "name": "Sebastian Falbesoner",
-        "email": "sebastian.falbesoner@gmail.com",
-        "date": "2026-02-27T16:19:06Z"
-      },
-      "author": {
-        "name": "Sebastian Falbesoner",
-        "email": "sebastian.falbesoner@gmail.com",
-        "date": "2026-02-26T16:48:06Z"
-      },
-      "sha": "d1370df6114ed7c8b9305aa9551e353122058d14"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDRhOGFkMmNjY2ViYjA3M2I4YTZlZDM4NmUzMmFlMzIyNTBhZmIwMTg",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/4a8ad2cccebb073b8a6ed386e32ae32250afb018",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/4a8ad2cccebb073b8a6ed386e32ae32250afb018",
-      "tree": {
-        "sha": "301ce736c93e387985496b5c5171cc8885e3a04d",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/301ce736c93e387985496b5c5171cc8885e3a04d"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d1370df6114ed7c8b9305aa9551e353122058d14",
-          "sha": "d1370df6114ed7c8b9305aa9551e353122058d14",
-          "html_url": "https://github.com/bitcoin/bips/commit/d1370df6114ed7c8b9305aa9551e353122058d14"
-        }
-      ],
-      "message": "BIP-352: add test vector for exceeding K_max limit [receiver side]\n\nTest case: even though there are 2325 outputs targeted to the recipient,\nonly 2324 are found due to the introduced K_max limit. Any\nimplementation following the new BIP protocol rule wouldn't create such\na transaction in the first place, but an attacker might do.\n\nCan be tested by\n`$ ./bip-0352/reference.py ./bip-0352/send_and_receive_test_vectors.json`",
-      "committer": {
-        "name": "Sebastian Falbesoner",
-        "email": "sebastian.falbesoner@gmail.com",
-        "date": "2026-02-27T16:19:06Z"
-      },
-      "author": {
-        "name": "Sebastian Falbesoner",
-        "email": "sebastian.falbesoner@gmail.com",
-        "date": "2026-02-26T16:52:36Z"
-      },
-      "sha": "4a8ad2cccebb073b8a6ed386e32ae32250afb018"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 23141877256,
       "node_id": "HRFPE_lADOAN28mc7sU8z4zwAAAAVjXQYI",
@@ -2879,6 +2692,706 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-02-27T20:45:00Z"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 23152136210,
+      "node_id": "HRFPE_lADOAN28mc7sU8z4zwAAAAVj-ZAS",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23152136210",
+      "actor": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "10a7bd6abdd110bb6af4a7b4fa174aa2897684a7",
+      "commit_url": "https://api.github.com/repos/theStack/bips/commits/10a7bd6abdd110bb6af4a7b4fa174aa2897684a7",
+      "created_at": "2026-02-28T03:11:20Z"
+    },
+    {
+      "event": "commented",
+      "id": 3976251162,
+      "node_id": "IC_kwDOAN28mc7tAMca",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3976251162",
+      "actor": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-02-28T03:33:23Z",
+      "updated_at": "2026-02-28T03:33:47Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Updated with the suggestion https://github.com/bitcoin/bips/pull/2106#discussion_r2865932469 (thanks!). I tried to determine the limit experimentally using Bitcoin Core's functional test framework (https://github.com/theStack/bitcoin/commit/318241ec0484a8c2ca1316a895d21285cf2eed7d):\r\n\r\n```\r\n$ ./build/test/functional/bip352_pr2106.py\r\n...\r\n1-in-2322-out P2TR tx: vsize = 99916 (allowed=True)\r\n1-in-2323-out P2TR tx: vsize = 99959 (allowed=True)\r\n1-in-2324-out P2TR tx: vsize = 100002 (allowed=False)\r\n```\r\n\r\nI think https://bitcoinops.org/en/tools/calc-size/ doesn't count the two extra overhead vbytes for the output count (being >= 253), that's why it only calculates 100'000 vb for 1-in-2324-out. So it seems we could lower the limit to 2323 (if both the test code is correct, and the Bitcoin Core wallet creates minimally-encoded txs) :stuck_out_tongue:",
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2106#issuecomment-3976251162",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2106"
+    },
+    {
+      "event": "commented",
+      "id": 3976489584,
+      "node_id": "IC_kwDOAN28mc7tBGpw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3976489584",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-02-28T06:14:39Z",
+      "updated_at": "2026-02-28T06:16:57Z",
+      "author_association": "MEMBER",
+      "body": "> @murchandamus I don't think this changes the conclusion, but an empty witness is not the right example. At least one input must be a supported key spend (e.g. regular taproot key spend) for the transaction to be eligible to be evaluated by the protocol (otherwise there is no valid source from which the shared secret can be derived).\r\n\r\nYou’re right, considering that a P2TR keypath input is the smallest eligible input, I was overestimating the output count. It’s actually just barely less than 2324:\r\n\r\n100'000 - 57.5 - 12.5 = 99'930\r\n99'930 / 43 = 2323.953488372\r\n\r\nFunnily enough, it would have been exactly 2324, with the usual 42 weight units for the header, but because of the large number of outputs, the output counter is 3 bytes instead of 1 byte and that shifts it below 2324.\r\n\r\n---\r\n\r\nEdit: Oh, theStack had already scooped it.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2106#issuecomment-3976489584",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2106"
+    },
+    {
+      "event": "mentioned",
+      "id": 23153548654,
+      "node_id": "MEE_lADOAN28mc7sU8z4zwAAAAVkDx1u",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23153548654",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-02-28T06:14:41Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 23153548670,
+      "node_id": "SE_lADOAN28mc7sU8z4zwAAAAVkDx1-",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23153548670",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-02-28T06:14:41Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGY2NjVjMmMxNDI5MTc1NDI3YTk4YTk3YjIzNjM3MWIxMjY0NDg2NmE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f665c2c1429175427a98a97b236371b12644866a",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/f665c2c1429175427a98a97b236371b12644866a",
+      "tree": {
+        "sha": "b79291887cca3a123fba8c16bf9dd872277e4b4d",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/b79291887cca3a123fba8c16bf9dd872277e4b4d"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/bd564167864ab293a41f3dad0bb029f5ea9b4467",
+          "sha": "bd564167864ab293a41f3dad0bb029f5ea9b4467",
+          "html_url": "https://github.com/bitcoin/bips/commit/bd564167864ab293a41f3dad0bb029f5ea9b4467"
+        }
+      ],
+      "message": "BIP-352: introduce per-group recipient limit K_max (=2323)\n\nIn theory this is a backwards incompatible protocol change.\nPractically, no existing Silent Payments wallets out there supports\nsending to such a high quantity of recipients (not even in terms of\n_total_ number of recipients), so the K_max limit should be safe to\nintroduce, without any negative effects in the wallet ecosystem.",
+      "committer": {
+        "name": "Sebastian Falbesoner",
+        "email": "sebastian.falbesoner@gmail.com",
+        "date": "2026-03-02T12:26:25Z"
+      },
+      "author": {
+        "name": "Sebastian Falbesoner",
+        "email": "sebastian.falbesoner@gmail.com",
+        "date": "2026-01-30T00:46:35Z"
+      },
+      "sha": "f665c2c1429175427a98a97b236371b12644866a"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDNhYTE3Y2FhYTMxOTUwZDJmODg3OWU0YzFlMzg0YTlhNzc3NTIzYmE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/3aa17caaa31950d2f8879e4c1e384a9a777523ba",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/3aa17caaa31950d2f8879e4c1e384a9a777523ba",
+      "tree": {
+        "sha": "6c0d214a285d66964be44ac5ed2aa80fd130315c",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/6c0d214a285d66964be44ac5ed2aa80fd130315c"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f665c2c1429175427a98a97b236371b12644866a",
+          "sha": "f665c2c1429175427a98a97b236371b12644866a",
+          "html_url": "https://github.com/bitcoin/bips/commit/f665c2c1429175427a98a97b236371b12644866a"
+        }
+      ],
+      "message": "BIP-352: test vectors: allow specifying repeated recipients for sending\n\nIntroduce an optional \"count\" field for recipient objects.\nAlso update the documentation of the fields.",
+      "committer": {
+        "name": "Sebastian Falbesoner",
+        "email": "sebastian.falbesoner@gmail.com",
+        "date": "2026-03-02T12:26:31Z"
+      },
+      "author": {
+        "name": "Sebastian Falbesoner",
+        "email": "sebastian.falbesoner@gmail.com",
+        "date": "2026-02-26T19:14:59Z"
+      },
+      "sha": "3aa17caaa31950d2f8879e4c1e384a9a777523ba"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGYxNDEzMmZjNzcwMjI3ZGRlNTJhZDJkODEyYjFlZmU4NGI1OWE4OWU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f14132fc770227dde52ad2d812b1efe84b59a89e",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/f14132fc770227dde52ad2d812b1efe84b59a89e",
+      "tree": {
+        "sha": "ecff0b598f2fafb975e32f55ac41d34c23ae9eb6",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/ecff0b598f2fafb975e32f55ac41d34c23ae9eb6"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/3aa17caaa31950d2f8879e4c1e384a9a777523ba",
+          "sha": "3aa17caaa31950d2f8879e4c1e384a9a777523ba",
+          "html_url": "https://github.com/bitcoin/bips/commit/3aa17caaa31950d2f8879e4c1e384a9a777523ba"
+        }
+      ],
+      "message": "BIP-352: test vectors: allow to check found output count for receiving\n\nIntroduce an optional \"n_outputs\" field as alternative to the detailed\n\"outputs\" objects (the field was already specified, but not used so\nfar). Also update the documentation of the fields.",
+      "committer": {
+        "name": "Sebastian Falbesoner",
+        "email": "sebastian.falbesoner@gmail.com",
+        "date": "2026-03-02T12:26:31Z"
+      },
+      "author": {
+        "name": "Sebastian Falbesoner",
+        "email": "sebastian.falbesoner@gmail.com",
+        "date": "2026-02-26T19:40:33Z"
+      },
+      "sha": "f14132fc770227dde52ad2d812b1efe84b59a89e"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDk4MzBmYWQyMTRjNGM5NWZhYTQyNzY4NmMzMTUxMTA4YTU0ODExMDc",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9830fad214c4c95faa427686c3151108a5481107",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/9830fad214c4c95faa427686c3151108a5481107",
+      "tree": {
+        "sha": "b780ad9d534a7d46328bc5a5bddf41e2713cff06",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/b780ad9d534a7d46328bc5a5bddf41e2713cff06"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f14132fc770227dde52ad2d812b1efe84b59a89e",
+          "sha": "f14132fc770227dde52ad2d812b1efe84b59a89e",
+          "html_url": "https://github.com/bitcoin/bips/commit/f14132fc770227dde52ad2d812b1efe84b59a89e"
+        }
+      ],
+      "message": "BIP-352: add test vector for exceeding K_max limit [sender side]\n\nTest case: as the (only) recipient group contains 2324 addresses and\nthus exceeds the K_max limit by one, sending fails.\n\nCan be tested by\n`$ ./bip-0352/reference.py ./bip-0352/send_and_receive_test_vectors.json`",
+      "committer": {
+        "name": "Sebastian Falbesoner",
+        "email": "sebastian.falbesoner@gmail.com",
+        "date": "2026-03-02T12:27:28Z"
+      },
+      "author": {
+        "name": "Sebastian Falbesoner",
+        "email": "sebastian.falbesoner@gmail.com",
+        "date": "2026-02-26T16:48:06Z"
+      },
+      "sha": "9830fad214c4c95faa427686c3151108a5481107"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGI0YmMwYTg4YjcxMzMwZTcwNWExOTU5MGEyMjI1ZmJlNTM2MDQ2MjY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b4bc0a88b71330e705a19590a2225fbe53604626",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/b4bc0a88b71330e705a19590a2225fbe53604626",
+      "tree": {
+        "sha": "0eb6785656269d0dc8b998caba9e0739212e47ea",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/0eb6785656269d0dc8b998caba9e0739212e47ea"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9830fad214c4c95faa427686c3151108a5481107",
+          "sha": "9830fad214c4c95faa427686c3151108a5481107",
+          "html_url": "https://github.com/bitcoin/bips/commit/9830fad214c4c95faa427686c3151108a5481107"
+        }
+      ],
+      "message": "BIP-352: add test vector for exceeding K_max limit [receiver side]\n\nTest case: even though there are 2324 outputs targeted to the recipient,\nonly 2323 are found due to the introduced K_max limit. Any\nimplementation following the new BIP protocol rule wouldn't create such\na transaction in the first place, but an attacker might do.\n\nCan be tested by\n`$ ./bip-0352/reference.py ./bip-0352/send_and_receive_test_vectors.json`",
+      "committer": {
+        "name": "Sebastian Falbesoner",
+        "email": "sebastian.falbesoner@gmail.com",
+        "date": "2026-03-02T12:31:46Z"
+      },
+      "author": {
+        "name": "Sebastian Falbesoner",
+        "email": "sebastian.falbesoner@gmail.com",
+        "date": "2026-02-26T16:52:36Z"
+      },
+      "sha": "b4bc0a88b71330e705a19590a2225fbe53604626"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 23191655105,
+      "node_id": "HRFPE_lADOAN28mc7sU8z4zwAAAAVmVJLB",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23191655105",
+      "actor": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "b4bc0a88b71330e705a19590a2225fbe53604626",
+      "commit_url": "https://api.github.com/repos/theStack/bips/commits/b4bc0a88b71330e705a19590a2225fbe53604626",
+      "created_at": "2026-03-02T12:33:42Z"
+    },
+    {
+      "event": "renamed",
+      "id": 23191658773,
+      "node_id": "RTE_lADOAN28mc7sU8z4zwAAAAVmVKEV",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23191658773",
+      "actor": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-03-02T12:33:51Z",
+      "rename": {
+        "from": "BIP-352: introduce per-group recipient limit K_max (=2324)",
+        "to": "BIP-352: introduce per-group recipient limit K_max (=2323)"
+      }
+    },
+    {
+      "event": "commented",
+      "id": 3984143038,
+      "node_id": "IC_kwDOAN28mc7teTK-",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/3984143038",
+      "actor": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-03-02T12:36:11Z",
+      "updated_at": "2026-03-02T12:36:11Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Alright, updated the limit to K_max=2323 and updated the PR title/description accordingly.",
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2106#issuecomment-3984143038",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2106"
+    },
+    {
+      "event": "reviewed",
+      "id": 3877299652,
+      "node_id": "PRR_kwDOAN28mc7nGuXE",
+      "url": null,
+      "actor": null,
+      "commit_id": "b4bc0a88b71330e705a19590a2225fbe53604626",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-03-02T16:37:50Z",
+      "author_association": "MEMBER",
+      "body": "Looks good to me.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2106#pullrequestreview-3877299652",
+      "submitted_at": "2026-03-02T16:37:50Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2106"
+    },
+    {
+      "event": "unlabeled",
+      "id": 23198968726,
+      "node_id": "UNLE_lADOAN28mc7sU8z4zwAAAAVmxCuW",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23198968726",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-03-02T16:38:06Z",
+      "label": {
+        "name": "PR Author action required",
+        "color": "e99695"
+      }
+    },
+    {
+      "event": "merged",
+      "id": 23199450982,
+      "node_id": "ME_lADOAN28mc7sU8z4zwAAAAVmy4dm",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23199450982",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "6eb01f01bcb00d1bd31fd0a5b2f62f8358e85f14",
+      "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/6eb01f01bcb00d1bd31fd0a5b2f62f8358e85f14",
+      "created_at": "2026-03-02T16:54:09Z"
+    },
+    {
+      "event": "closed",
+      "id": 23199451030,
+      "node_id": "CE_lADOAN28mc7sU8z4zwAAAAVmy4eW",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23199451030",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-03-02T16:54:09Z"
+    },
+    {
+      "event": "head_ref_deleted",
+      "id": 23199788166,
+      "node_id": "HRDE_lADOAN28mc7sU8z4zwAAAAVm0KyG",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/23199788166",
+      "actor": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-03-02T17:05:23Z"
     }
   ],
   "comments": [
@@ -3051,7 +3564,7 @@
       "node_id": "PRRC_kwDOAN28mc6q0qi1",
       "diff_hunk": "@@ -301,6 +301,8 @@ After the inputs have been selected, the sender can create one or more outputs f\n * Let ''input_hash = hash<sub>BIP0352/Inputs</sub>(outpoint<sub>L</sub> || A)'', where ''outpoint<sub>L</sub>'' is the smallest ''outpoint'' lexicographically used in the transaction<ref name=\"why_smallest_outpoint\"></ref> and ''A = a·G''\n ** If ''input_hash'' is not a valid scalar, i.e., if ''input_hash = 0'' or ''input_hash'' is larger or equal to the secp256k1 group order, fail\n * Group receiver silent payment addresses by ''B<sub>scan</sub>'' (e.g. each group consists of one ''B<sub>scan</sub>'' and one or more ''B<sub>m</sub>'')\n+* If any of the groups exceed the limit of ''K<sub>max</sub>'' (=2324) silent payment addresses, fail.<ref name=\"why_limit_k\">'''Why is the size of groups (i.e. silent payment addresses sharing the same scan public key) limited by ''K<sub>max</sub>''?''' An adversary could construct a large full-block-sized transaction consisting of N=23255 outputs (that's the theoretical maximum under current consensus rules, w.r.t. the block weight limit) that all target the same entity, consisting of one large group. Without a limit on the group size, scanning such a transaction with the algorithm described in this document would have a complexity of ''O(N<sup>2</sup>)'' for that entity, taking several minutes on modern systems. By capping the group size at ''K<sub>max</sub>'', we reduce the inner loop iterations to ''K<sub>max</sub>'', thereby decreasing the complexity to ''O(N·K<sub>max</sub>)''. This cuts down the scanning cost to the order of tens of seconds. The chosen value of ''K<sub>max</sub>'' = 2324 represents the maximum number of P2TR outputs that can fit into a 100kvB transaction, meaning a transaction that adheres to the current standardness rules is guaranteed to be within the limit. This ensures flexibility and also mitigates potential fingerprinting issues.</ref>",
       "path": "bip-0352.mediawiki",
-      "position": 4,
+      "position": 1,
       "original_position": 4,
       "commit_id": "4a8ad2cccebb073b8a6ed386e32ae32250afb018",
       "original_commit_id": "4a8ad2cccebb073b8a6ed386e32ae32250afb018",
@@ -3094,7 +3607,61 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 304,
+      "line": null,
+      "original_line": 304,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2866976317",
+      "pull_request_review_id": 3869990494,
+      "id": 2866976317,
+      "node_id": "PRRC_kwDOAN28mc6q4pY9",
+      "diff_hunk": "@@ -301,6 +301,8 @@ After the inputs have been selected, the sender can create one or more outputs f\n * Let ''input_hash = hash<sub>BIP0352/Inputs</sub>(outpoint<sub>L</sub> || A)'', where ''outpoint<sub>L</sub>'' is the smallest ''outpoint'' lexicographically used in the transaction<ref name=\"why_smallest_outpoint\"></ref> and ''A = a·G''\n ** If ''input_hash'' is not a valid scalar, i.e., if ''input_hash = 0'' or ''input_hash'' is larger or equal to the secp256k1 group order, fail\n * Group receiver silent payment addresses by ''B<sub>scan</sub>'' (e.g. each group consists of one ''B<sub>scan</sub>'' and one or more ''B<sub>m</sub>'')\n+* If any of the groups exceed the limit of ''K<sub>max</sub>'' (=2324) silent payment addresses, fail.<ref name=\"why_limit_k\">'''Why is the size of groups (i.e. silent payment addresses sharing the same scan public key) limited by ''K<sub>max</sub>''?''' An adversary could construct a large full-block-sized transaction consisting of N=23255 outputs (that's the theoretical maximum under current consensus rules, w.r.t. the block weight limit) that all target the same entity, consisting of one large group. Without a limit on the group size, scanning such a transaction with the algorithm described in this document would have a complexity of ''O(N<sup>2</sup>)'' for that entity, taking several minutes on modern systems. By capping the group size at ''K<sub>max</sub>'', we reduce the inner loop iterations to ''K<sub>max</sub>'', thereby decreasing the complexity to ''O(N·K<sub>max</sub>)''. This cuts down the scanning cost to the order of tens of seconds. The chosen value of ''K<sub>max</sub>'' = 2324 represents the maximum number of P2TR outputs that can fit into a 100kvB transaction, meaning a transaction that adheres to the current standardness rules is guaranteed to be within the limit. This ensures flexibility and also mitigates potential fingerprinting issues.</ref>",
+      "path": "bip-0352.mediawiki",
+      "position": 1,
+      "original_position": 4,
+      "commit_id": "4a8ad2cccebb073b8a6ed386e32ae32250afb018",
+      "original_commit_id": "4a8ad2cccebb073b8a6ed386e32ae32250afb018",
+      "in_reply_to_id": 2865932469,
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Good point, changed as suggested.",
+      "created_at": "2026-02-28T03:12:16Z",
+      "updated_at": "2026-02-28T03:12:16Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2106#discussion_r2866976317",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/2866976317"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2106"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
       "original_line": 304,
       "side": "RIGHT"
     }

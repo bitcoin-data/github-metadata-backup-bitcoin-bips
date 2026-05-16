@@ -36,15 +36,18 @@
       "events_url": "https://api.github.com/users/officefish/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/officefish/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "missed branch, sorry",
     "labels": [],
     "created_at": "2018-10-29T19:21:02Z",
     "updated_at": "2018-12-15T03:02:17Z",
     "closed_at": "2018-12-14T16:43:08Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
+    "mergeable": false,
+    "mergeable_state": "dirty",
+    "merged": false,
     "merge_commit_sha": "90a8f7feda47444b08dff07a628b6b2fc6978bb9",
     "assignees": [],
     "requested_reviewers": [],
@@ -72,7 +75,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -97,7 +102,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -146,12 +153,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -162,9 +169,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -189,7 +197,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -214,7 +224,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -263,12 +275,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -279,9 +291,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -6014,8 +6027,8 @@
         "url": "https://api.github.com/repos/bitcoin/bips/git/trees/8673b439b1a71b5f51c35dc3389f00673e6a8af5"
       },
       "verification": {
-        "verified": true,
-        "reason": "valid",
+        "verified": false,
+        "reason": "unknown_key",
         "payload": "tree 8673b439b1a71b5f51c35dc3389f00673e6a8af5\nparent 032a5f6136d68238602c8e5f352012c79b9fc5c5\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1522543698 -0700\ncommitter Olaoluwa Osuntokun <laolu32@gmail.com> 1522543698 -0700\n\nBIP158: include the direct pkScript rather than its data pushes\n\nIn this commit, we modify regular filter construction slightly.  Rather\nthan including each pushed data in the script, we instead just include\nthe script directly, which will eventually be hashed. The rationale for\ndoing this is two-fold:\n\n  * Most scripts today and in the foreseeable future will just be a\n    commitment.\n\n  * Including only the script itself and not the hash of the script\n    reduces the worst case filter size. Otherwise, an attacker could\n    include a bunch of 2 byte push datas and blow up the filter size for\n    all nodes.\n",
         "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIcBAABCgAGBQJawCyQAAoJEJZOomPdY3wh1pwQALe2EHRTuHmZgshdJFCaEoPr\nenbBnZZIB42tA3TlMPMCkaMgZlecMakndb3VsHuu8g68C3C0LcqiJu/yTJE99VDz\n/HT0xUDkWJiQp89elQqaW5gRKuPyqMENPyuPkvdtNb8m9bhqkC59SS2bs9kd3pXf\nhivO+6NeaFIPOcnsyaAfMkliFth+LWeYilzGbwUO9FdEN2q5Z5OxIVUv3yHnburW\nxC+19CgPD/71wlA8B7JvxdR+aLfwHA2Mjfxp0OhXYAWWnHTjt5eKam8LA9lUfug3\nwBgnb6oA/QIsk+b0K8/PsFIzZfaamZ9MBHf1rJ5E/o9YURxrkSxyvCU0USC/SHZm\nAMHYhcC6YKSEPzDQHiuzzMDwVcuRCyY2ZD0fs3eGozjBP1BFAJpOrCnGalC6eH2u\nASfP62We9WLLV1Y2SnjmfaRsH0JHSAIHDorEEn6PTsvzApnbtPwi5Ecol/CrBFTA\n3OkthS9Q8SQbEVOa3c4oTdhAQPoT98vL1XKx3eLVJewK2DS+Z9aXQ6OXpyOWYIoP\n8enXLh9ELLpxZGkbPHxeLdt5jZwSAEOJUX+N5Hzh+jzJ72plgDTVgWTcDZ8bD73y\nOJ2kuATlIu3woJy8c1Axpd06UDTcR/LjjCwEgL500jh70eWM3BX27mevNi0jR/nZ\nEVjYe0KIlxZe/hC8ZSdU\n=/PYf\n-----END PGP SIGNATURE-----"
       },
@@ -6944,8 +6957,8 @@
         "url": "https://api.github.com/repos/bitcoin/bips/git/trees/6e13623b8fc4e15a3e3beca19c676addbdf274cd"
       },
       "verification": {
-        "verified": true,
-        "reason": "valid",
+        "verified": false,
+        "reason": "unknown_key",
         "payload": "tree 6e13623b8fc4e15a3e3beca19c676addbdf274cd\nparent 71586487532d832ae4a3b0deae797d86ddebe3fc\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1527725741 -0700\ncommitter Olaoluwa Osuntokun <laolu32@gmail.com> 1527725759 -0700\n\nBIP-0158: remove txid from extended filter\n",
         "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIcBAABCgAGBQJbDz7FAAoJEJZOomPdY3whqVcP/jKkt+zHNcxF5guwiwF5IHXN\nTHCbIfFz07V5DXcOJ2avTNU1lHFn9DslJAbjKU4uKzI9mP5Y9exUHTApDwuHaoLI\nRBSTk1+tCapi4uqwOQYDNUIxIZnep97NILCaTTa/02yZ9CPbK6r3LFWEOY+5k81M\nkiJwlbaJn05k1mcAehX2fZpdn+R388NwL8A1RQaMPmnJM+ZcRmJVinO14VBG9Iaw\n9rCvKfOy8y5zsXeXHoaeVm+BQMOpq353lOfSHFLm1A9GG4CRWV2ajZJ0TMTutVt9\nBKkKy4srSSuuFxdFjg8YY6W5eYBN3utL0UhVEBjsTCdZJwtfc0bKijP6N+tVHNVi\nNT03L7L+SCiPktZuRfWdeys8yR+AmXjJ22diAsQTuPFDip9CNEi+HQWGchctwFCh\nB9H4eLE+xmSzcf8M9dxuHsTGLNHL3FQ9lsbn3iNgPla3blZP4GMHqAL+AdZgNtED\ndOrFdbtjh94fRo096BbuaahYl4crNsBVbtXuL1T/0iMg7E3t1I3zTI92S7Jd23Mi\nmH/6m5L9UutDVz0Wf9SrGlHZjLhiqDCSVV94q4CcEs0gapgyXZmAvEQB18xBt0Qh\n/ORUTvWedTF4ERk0fJYQdPgwg3jetOfzYIFKYwiO4ajDp+h7VOD9fmeHn1tPuD2s\n/Ffn0ynpW1NHC9cglkBE\n=EHEh\n-----END PGP SIGNATURE-----"
       },
@@ -7064,8 +7077,8 @@
         "url": "https://api.github.com/repos/bitcoin/bips/git/trees/f14f5e1813c8183d709d6edf007c94d884a66db6"
       },
       "verification": {
-        "verified": true,
-        "reason": "valid",
+        "verified": false,
+        "reason": "unknown_key",
         "payload": "tree f14f5e1813c8183d709d6edf007c94d884a66db6\nparent 285606ef7a22ba3c470a55f92a3fd0a950e5a506\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1527725785 -0700\ncommitter Olaoluwa Osuntokun <laolu32@gmail.com> 1530736865 -0500\n\nBIP-0158: remove the extended filter type\n",
         "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEZTFxdraFf5iDTtvolk6iY91jfCEFAls9MOEACgkQlk6iY91j\nfCGUtQ//eDQG7C8c2gOVpaUm4H4k9LIDTkrJ9TMRVk7Mt+k2nHUukgKVrYS87HRJ\nnI4X3jSkvIfneuZSYwwTgx6Xj367fQtY3am4FDcFPzpipoBiOm08RkSoiy/whjd3\n5Hh5htdASbW3fXOi69C0Fe0WzMFFTE3ZBQsfbWfh9VkurpnzDeVvjty/7Iejy68o\ndjZj3e9JD0OYHHikRPTY7cop2Au/NxliTeOtfm3zhPak/ZTnzTeeVSsYsJg2wpln\nEo0i3MxgNCvptZf6HOvFK4JZNxt38r3GIxo81gE28JYsdVzmc1fgZDvVw3ElmeVb\nkW0yiWYoFGBtpH1Q113jDMkeoVjbwzfjWwPUiYDV5yCQVGLeAOjmijK/0dFu7tv7\n0JJ8PvlKrtmhaAKQXhtV0lXjYNF3niQDpzMyGodawhXa1STErww3CiDkKiz2pJI2\nL+u6yVFTuDPBZhLDMQjlN66sjxAsUl2DFwYFgR04igAkesCOkasmjyo9t7Xsh9t1\n2NESNW43AZRuELEhbbyiEB9lDlLyqa5PfWoX0vfz203ELH8CveiAaUrBmFX99Rz/\nee0WORlNh7a+76N4A4p4rJEwwYKmd3Y2ShkJWXMtPk9MHlT3/Im6N1qOp41MUDpJ\n4atMaL/+ad2c5m6HNIsi4E7o2GrKJI3gC0RHmyr3m5UTK/DUvuQ=\n=Owpp\n-----END PGP SIGNATURE-----"
       },
@@ -7104,8 +7117,8 @@
         "url": "https://api.github.com/repos/bitcoin/bips/git/trees/81c4a3383cf651213a0a451f9469eff30af42da6"
       },
       "verification": {
-        "verified": true,
-        "reason": "valid",
+        "verified": false,
+        "reason": "unknown_key",
         "payload": "tree 81c4a3383cf651213a0a451f9469eff30af42da6\nparent 4a85759f0229450f4a63b9404dfe8e8c10bdc92e\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1527725904 -0700\ncommitter Olaoluwa Osuntokun <laolu32@gmail.com> 1530736865 -0500\n\nBIP-0158: allow filters to define values for P and M, reparameterize default filter\n",
         "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEZTFxdraFf5iDTtvolk6iY91jfCEFAls9MOEACgkQlk6iY91j\nfCG87RAAtgPkaQU5/JSjluU6LGelqhu1TzXFKqcXtq9Aqey/yDWlu1WwZupU1jsn\nphs0IfCqVK3ucTeWPrNBAw7AXWc3h6t3aJ8bWEoDuEnQc2ktuMWCJimJ9iALdzaE\nM6bqSXGZCQxx/9j2ZJPRR9+v+dfYcQNakfdppu0vzBfbXyW+2b3QAuIcQ+U6rUsL\n7sT4YtcQWQWhRfYdHnYMWxenrdECgbcQrJM//zHagN+51OCQt7VUbttQBvBx/fkT\nuD1ian5Jm20DG4yMRQRlDd4Y7PxoHfvbJtr1AjzcsxwB0VNhtauwgTNAxpr/6v7J\ngbSy5K2y7rzBWn1UL2kuvrjQVCWVHAZKLmjc2rEN+f32RPrHn5bYkXzbC08ZCzjz\nqTai21jZyRycAIaYrUiocL8OpPu2jc+86VSMVDL9TxrvvDs9tU+Pqpb4BBGzcnmF\n+qSium4QPunZl/Z0VcfeqaY0jnwUEH2P172U+Ezzciy5OHV1EYJqlkPEHJwmvu+Z\nxkL+r9FTeyguvtoB6urVe+ScYW6PCubbjR/9em1WjMMePCoiiOXZuLeUPomz8bo6\nHkrxl9mNyZphFxtID7hIzJfpTV5OpCXW78+jXpkjQKtT156Dgxld8CUPMr0PwPmK\n5qe94t7Br9mxG2LsE+Kp147rWMEb6o1MwfHr7G8l6kd/4CVSB6g=\n=NSYr\n-----END PGP SIGNATURE-----"
       },
@@ -7144,8 +7157,8 @@
         "url": "https://api.github.com/repos/bitcoin/bips/git/trees/68694ed6bce33e5aa0772a78d9df5a3d93a8b2a7"
       },
       "verification": {
-        "verified": true,
-        "reason": "valid",
+        "verified": false,
+        "reason": "unknown_key",
         "payload": "tree 68694ed6bce33e5aa0772a78d9df5a3d93a8b2a7\nparent 1c2ed6dce331e81785f9f6e8926c6e023df8e8f3\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1530662801 -0500\ncommitter Olaoluwa Osuntokun <laolu32@gmail.com> 1530764355 -0500\n\nBIP-0158: switch to prev output scripts, skip all OP_RETURN\n",
         "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEZTFxdraFf5iDTtvolk6iY91jfCEFAls9nEMACgkQlk6iY91j\nfCHQKw//X4LKtIuHwrjb2u0b4Per9hr9sAC4w6qW2VjqQ40p3+6zpoMyaL/3u+nf\nBnV1nUvTKN40+mgaHguF2loYRVrrnui9GSxduSYqfVURIyXrvlb4xvhvAnB5ObvJ\nJJrDlD6eufthX6Of56wXeiBTpaM3jsvgrl096PihIhOUAEudqgOdva0Qxg2ihom9\nONlZFIPHMqjso7Pfi0WbeHNSVxTnGaJkW6r2IBzdUsUMTW60lbwRRFWubW9O8Pg7\nfsCSbai6MlwaVDbQK/8zi8NDuq+88cdEyuuMiZ2mN+2U8EwamERZGVebwRiLIE9i\nMEo0Nt13h4IoYgkBq5JdLr5AGT8rGNEQJv1uGEexUt4hp9Fn8188yI9IGkJLoPaz\njJtOvBDvA2472QfuB586aB4Mqj1NpCfkVCJCYWIGYKimNXkvmjiPptSYSB4lWxVF\nNAgIoCT9ZYBHADt3x4qccFmUyxOjX+IbdOPClcdxq1s37sp7VKYpIRr73rJRZWmz\n5c1SYJ2CCmYZT08mMRzqIu75BB01vmPRb1P4zJ8BD4qNzL/It+vx/N0eqXDlVwmr\nHVO5tZV1iQ2MQ/EBO8ZaVZg7yluU5YXX641M6xkYJJKry8+DCSunQBPXXYJ+Ua/b\nULVWKp8viftMCfdFhFS2rYLWjzYLAJOM3imdtKUhwJY8YYvaz9A=\n=wsm1\n-----END PGP SIGNATURE-----"
       },
@@ -7184,8 +7197,8 @@
         "url": "https://api.github.com/repos/bitcoin/bips/git/trees/2478bc8b8ff695bfe6697b0faa0f60acf9e8a8ac"
       },
       "verification": {
-        "verified": true,
-        "reason": "valid",
+        "verified": false,
+        "reason": "unknown_key",
         "payload": "tree 2478bc8b8ff695bfe6697b0faa0f60acf9e8a8ac\nparent 6a4e8198295b4ebbe47963362183aa5da53e7b27\nauthor Olaoluwa Osuntokun <laolu32@gmail.com> 1527819129 -0700\ncommitter Olaoluwa Osuntokun <laolu32@gmail.com> 1530764356 -0500\n\nBIP-0158: regenerate test vectors for fp=19, new reg filter, no ext filter\n\nIn this commit, we simplify the code that generates the test vectors to\nonly generate filters for a target fp of 19, and also only for the\nregular filter, as it's the only filter type currently defined.\n\nThe test vectors have also been updated to include the previous output\nscripts for all input within a block as these are now required to\nconstruct the regular filter.\n\nFinally, the generation code has been updated to properly fetch the\nprevious input scripts to the generation code can verify the filter it\ngenerates manually against the end server.\n",
         "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEEZTFxdraFf5iDTtvolk6iY91jfCEFAls9nEQACgkQlk6iY91j\nfCGAYQ//TF6h6VExd/710zz8Kwd/esgAOSGnlurOp/RT/bLquM298OzLm1O7eear\npAxM+Q3K9a83nuQvk2EqUUX3xw4ugZ23CBwKxK11PMqjWNobzOOEgjHWujrejeX+\nCZMv0kEyxkTmdafFnoecba/N39MINN1oIJERgSkGNKV3AaA9kENkUt+0rO5xXwEL\nSI1kNr+1QQ76bdHJxU0xMJWyVGSsuZc5S5K4/KqENdFiPZFoDIti1yBX7b4Kc/K1\nwPT0HdOiFuzjuWCRAGxWgZWeCjnArCdlEtb8cFhbCHAiUkCzSd7sqW6WLYeORgmB\nLhKM6GWyldiuC9TAnGNlyvzTZDt83oL7l+tIRbApbnsIpV8+EWMht9v8H2JZsrH5\noSGf24nZGQNrIgficqeZauGnGaxRcrBJWwZ08cgkHlrrYvh2IHwTdpxZSQi6cJhw\ntD759Mu59iQFfAnqtoYCVSrzktLLGbYGXS4tRu8yr5alaJf+MElFuR+taLtWcrsO\nLKVRhi4rWGqxOQxqDlbDbRyWcXPO45atZ4iYeiSGFrDIsynxxSYX5kwXbxY5esST\nRQa+NK/y7ZL/fjWf8GCHBm4ODBjJcvxWWSQC8LPruug1E/2EC3LP9IFXzyhrP6BS\n5U7RwWWK1KcI896WcsjDnK2es+g7wlClJXL+QrCqnINGzUMXg1o=\n=m7en\n-----END PGP SIGNATURE-----"
       },
@@ -10807,7 +10820,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,

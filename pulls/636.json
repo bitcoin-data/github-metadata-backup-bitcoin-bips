@@ -36,7 +36,9 @@
       "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/jimpo/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "This is a revision of #609 that is intended as a replacement due to the number of substantial changes. Test vectors will be added once the BIP has been reviewed by the community and the reference implementation is updated.\r\n\r\n### Abstract\r\n\r\nThis BIP describes a new light client protocol in Bitcoin that improves upon currently available options. The standard light client protocol in use today, defined in BIP 37, has known flaws that weaken the security and privacy of clients and allow denial-of-service attack vectors on full nodes. The new protocol overcomes these issues by allowing light clients to obtain compact probabilistic filters of block content from full nodes and download full blocks if the filter matches relevant data.\r\n\r\nNew P2P messages empower light clients to securely sync the blockchain without relying on a trusted source. This BIP also defines a filter header, which serves as a commitment to all filters for previous blocks and provides the ability to efficiently detect malicious or faulty peers serving invalid filters. The resulting protocol guarantees that light clients with at least one honest peer are able to identify the correct block filters.\r\n\r\n### State of Implementation\r\n\r\nWe've tested the implementation of both a [light client implementing this BIP](https://github.com/lightninglabs/neutrino), as well as the serving full-node on Bitcoin's testnet over the past several months. Additionally, this new operating mode also serves as the basis for our [light weight Lightning node](https://github.com/lightningnetwork/lnd/). These implementations are based on an earlier version of the spec, and require some updates.",
     "labels": [
@@ -53,7 +55,30 @@
     "updated_at": "2018-03-08T22:19:24Z",
     "closed_at": "2018-01-23T02:42:33Z",
     "mergeable_state": "unknown",
+    "merged": true,
     "merged_at": "2018-01-23T02:42:33Z",
+    "merged_by": {
+      "login": "luke-jr",
+      "id": 1095675,
+      "node_id": "MDQ6VXNlcjEwOTU2NzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1095675?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/luke-jr",
+      "html_url": "https://github.com/luke-jr",
+      "followers_url": "https://api.github.com/users/luke-jr/followers",
+      "following_url": "https://api.github.com/users/luke-jr/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/luke-jr/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/luke-jr/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/luke-jr/subscriptions",
+      "organizations_url": "https://api.github.com/users/luke-jr/orgs",
+      "repos_url": "https://api.github.com/users/luke-jr/repos",
+      "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/luke-jr/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
     "merge_commit_sha": "ec54908e7014cec56009e3ec25a86037307214f4",
     "assignees": [],
     "requested_reviewers": [],
@@ -80,7 +105,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 99873867,
@@ -105,7 +132,9 @@
           "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/jimpo/received_events",
           "type": "User",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/jimpo/bips",
@@ -172,7 +201,8 @@
         "visibility": "public",
         "pushed_at": "2018-12-22T05:07:54Z",
         "created_at": "2017-08-10T02:48:20Z",
-        "updated_at": "2018-07-10T06:42:52Z"
+        "updated_at": "2018-07-10T06:42:52Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -197,7 +227,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -222,7 +254,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -271,12 +305,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -287,9 +321,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -307,88 +342,6 @@
     "comments": 9
   },
   "events": [
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "Roasbeef",
-        "id": 998190,
-        "node_id": "MDQ6VXNlcjk5ODE5MA==",
-        "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/Roasbeef",
-        "html_url": "https://github.com/Roasbeef",
-        "followers_url": "https://api.github.com/users/Roasbeef/followers",
-        "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
-        "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
-        "repos_url": "https://api.github.com/users/Roasbeef/repos",
-        "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2018-01-17T22:26:37Z",
-      "updated_at": "2018-01-17T22:26:37Z",
-      "source": {
-        "issue": {
-          "id": 272769332,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0MTUxNzkyNjI1",
-          "url": "https://api.github.com/repos/bitcoin/bips/issues/609",
-          "repository_url": "https://api.github.com/repos/bitcoin/bips",
-          "labels_url": "https://api.github.com/repos/bitcoin/bips/issues/609/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/609/comments",
-          "events_url": "https://api.github.com/repos/bitcoin/bips/issues/609/events",
-          "html_url": "https://github.com/bitcoin/bips/pull/609",
-          "number": 609,
-          "state": "closed",
-          "state_reason": null,
-          "title": "new bip: compact client side filtering",
-          "body": "This BIP describes a new light client node type for Bitcoin as well as the\r\nmodifications to current full-nodes required to support this new type of light\r\nclient. The light client mode described in this BIP is meant to supersede BIP\r\n37 as it provides a greater degree of privacy, utility, and also reduces the\r\nresources required for full-nodes to service this new light client mode\r\ncompared to BIP 37. The light client mode described in this BIP can be seen as\r\na \"reversal\" of BIP 37: rather than the light clients sending filters to\r\nfull-nodes, full-nodes send filters to light clients. Unlike BIP 37, we don't\r\nutilize bloom filters. Instead, we utilize a compact filter (more efficient\r\nthan bloom filters) which leverages Golomb-Rice coding for compression.\r\nAdditionally, blocks are downloaded as a whole (from any source), rather than\r\ndirectly from peers as fragments with merkle-branches proving their\r\nauthenticity.\r\n\r\nWe've tested the implementation of both [a light client implementing this\r\nBIP](https://github.com/lightninglabs/neutrino), as well as the serving full-node on Bitcoin's testnet over the past several months. Additionally, this new operating mode also serves as the basis for our [light weight Lightning node](https://github.com/lightningnetwork/lnd/).",
-          "user": {
-            "login": "Roasbeef",
-            "id": 998190,
-            "node_id": "MDQ6VXNlcjk5ODE5MA==",
-            "avatar_url": "https://avatars.githubusercontent.com/u/998190?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/Roasbeef",
-            "html_url": "https://github.com/Roasbeef",
-            "followers_url": "https://api.github.com/users/Roasbeef/followers",
-            "following_url": "https://api.github.com/users/Roasbeef/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/Roasbeef/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/Roasbeef/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/Roasbeef/subscriptions",
-            "organizations_url": "https://api.github.com/users/Roasbeef/orgs",
-            "repos_url": "https://api.github.com/users/Roasbeef/repos",
-            "events_url": "https://api.github.com/users/Roasbeef/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/Roasbeef/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [],
-          "assignees": [],
-          "author_association": "CONTRIBUTOR",
-          "locked": false,
-          "comments": 4,
-          "pull_request": {
-            "url": "https://api.github.com/repos/bitcoin/bips/pulls/609",
-            "html_url": "https://github.com/bitcoin/bips/pull/609",
-            "diff_url": "https://github.com/bitcoin/bips/pull/609.diff",
-            "patch_url": "https://github.com/bitcoin/bips/pull/609.patch"
-          },
-          "closed_at": "2018-01-17T22:30:00Z",
-          "created_at": "2017-11-09T23:42:05Z",
-          "updated_at": "2018-01-17T22:30:00Z"
-        },
-        "type": "issue"
-      }
-    },
     {
       "event": "head_ref_force_pushed",
       "id": 1429425547,
@@ -412,144 +365,13 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "1a99f78b8d47c1b2dcbb5b83525b1e764efe3b84",
+      "commit_url": "https://api.github.com/repos/jimpo/bips/commits/1a99f78b8d47c1b2dcbb5b83525b1e764efe3b84",
       "created_at": "2018-01-18T00:07:03Z"
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "jimpo",
-        "id": 881253,
-        "node_id": "MDQ6VXNlcjg4MTI1Mw==",
-        "avatar_url": "https://avatars.githubusercontent.com/u/881253?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/jimpo",
-        "html_url": "https://github.com/jimpo",
-        "followers_url": "https://api.github.com/users/jimpo/followers",
-        "following_url": "https://api.github.com/users/jimpo/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/jimpo/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/jimpo/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/jimpo/subscriptions",
-        "organizations_url": "https://api.github.com/users/jimpo/orgs",
-        "repos_url": "https://api.github.com/users/jimpo/repos",
-        "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/jimpo/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2018-01-18T04:17:47Z",
-      "updated_at": "2018-01-18T04:17:47Z",
-      "source": {
-        "issue": {
-          "id": 280644530,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0MTU3MzUzNTk4",
-          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11857",
-          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
-          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11857/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11857/comments",
-          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11857/events",
-          "html_url": "https://github.com/bitcoin/bitcoin/pull/11857",
-          "number": 11857,
-          "state": "closed",
-          "state_reason": null,
-          "title": "Build tx index in parallel with validation",
-          "body": "This refactors the tx index code to be in it's own class and get built concurrently with validation code. The main benefit is decoupling and moving the txindex into a separate DB. The primary motivation is to lay the groundwork for other indexers that might be desired (such as the [compact filters](https://github.com/bitcoin/bips/pull/636)). The basic idea is that the TxIndex spins up its own thread, which first syncs the txindex to the current block index, then once in sync the BlockConnected ValidationInterface hook writes new blocks.\r\n\r\n### DB changes\r\n\r\nAt the suggestion of some other developers, the txindex has been split out into a separate database. A data migration runs at startup on any nodes with a legacy txindex. Currently the migration blocks node initialization until complete.\r\n\r\n### Open questions\r\n\r\n- Should the migration of txindex data from the old DB to the new DB block in init or should it happen in a background thread? The downside to backgrounding it is that `getrawtransaction` would return an error message saying the txindex is syncing while the migration is running.\r\n\r\n### Impact\r\n\r\nIn a sample size n=1 test where I synced nodes from scratch, the average time [Index writing](https://github.com/bitcoin/bitcoin/blob/master/src/validation.cpp#L1903) was 3.36ms in master and 1.72ms in this branch. The average time between `UpdateTip` log lines for sequential blocks between 400,000 and IBD end on mainnet was 0.297204s in master and 0.286134s in this branch. Most likely this is just variance in IBD times, but I can try with some more trials if people want.",
-          "user": {
-            "login": "jimpo",
-            "id": 881253,
-            "node_id": "MDQ6VXNlcjg4MTI1Mw==",
-            "avatar_url": "https://avatars.githubusercontent.com/u/881253?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/jimpo",
-            "html_url": "https://github.com/jimpo",
-            "followers_url": "https://api.github.com/users/jimpo/followers",
-            "following_url": "https://api.github.com/users/jimpo/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/jimpo/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/jimpo/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/jimpo/subscriptions",
-            "organizations_url": "https://api.github.com/users/jimpo/orgs",
-            "repos_url": "https://api.github.com/users/jimpo/repos",
-            "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/jimpo/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [
-            {
-              "id": 97470796,
-              "node_id": "MDU6TGFiZWw5NzQ3MDc5Ng==",
-              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/UTXO%20Db%20and%20Indexes",
-              "name": "UTXO Db and Indexes",
-              "color": "fbca04",
-              "default": false
-            }
-          ],
-          "assignee": {
-            "login": "laanwj",
-            "id": 126646,
-            "node_id": "MDQ6VXNlcjEyNjY0Ng==",
-            "avatar_url": "https://avatars.githubusercontent.com/u/126646?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/laanwj",
-            "html_url": "https://github.com/laanwj",
-            "followers_url": "https://api.github.com/users/laanwj/followers",
-            "following_url": "https://api.github.com/users/laanwj/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/laanwj/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/laanwj/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/laanwj/subscriptions",
-            "organizations_url": "https://api.github.com/users/laanwj/orgs",
-            "repos_url": "https://api.github.com/users/laanwj/repos",
-            "events_url": "https://api.github.com/users/laanwj/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/laanwj/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "assignees": [
-            {
-              "login": "laanwj",
-              "id": 126646,
-              "node_id": "MDQ6VXNlcjEyNjY0Ng==",
-              "avatar_url": "https://avatars.githubusercontent.com/u/126646?v=4",
-              "gravatar_id": "",
-              "url": "https://api.github.com/users/laanwj",
-              "html_url": "https://github.com/laanwj",
-              "followers_url": "https://api.github.com/users/laanwj/followers",
-              "following_url": "https://api.github.com/users/laanwj/following%7B/other_user%7D",
-              "gists_url": "https://api.github.com/users/laanwj/gists%7B/gist_id%7D",
-              "starred_url": "https://api.github.com/users/laanwj/starred%7B/owner%7D%7B/repo%7D",
-              "subscriptions_url": "https://api.github.com/users/laanwj/subscriptions",
-              "organizations_url": "https://api.github.com/users/laanwj/orgs",
-              "repos_url": "https://api.github.com/users/laanwj/repos",
-              "events_url": "https://api.github.com/users/laanwj/events%7B/privacy%7D",
-              "received_events_url": "https://api.github.com/users/laanwj/received_events",
-              "type": "User",
-              "site_admin": false
-            }
-          ],
-          "author_association": "CONTRIBUTOR",
-          "locked": true,
-          "active_lock_reason": "resolved",
-          "comments": 35,
-          "pull_request": {
-            "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/11857",
-            "html_url": "https://github.com/bitcoin/bitcoin/pull/11857",
-            "diff_url": "https://github.com/bitcoin/bitcoin/pull/11857.diff",
-            "patch_url": "https://github.com/bitcoin/bitcoin/pull/11857.patch"
-          },
-          "closed_at": "2018-04-20T00:12:41Z",
-          "created_at": "2017-12-08T23:12:40Z",
-          "updated_at": "2021-09-08T11:53:20Z"
-        },
-        "type": "issue"
-      }
     },
     {
       "event": "commented",
@@ -574,7 +396,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -600,7 +424,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/636#issuecomment-358539309",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/636"
@@ -628,7 +454,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -661,7 +489,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -694,7 +524,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -720,7 +552,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/636#issuecomment-358540609",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/636"
@@ -748,7 +582,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -777,7 +613,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -806,7 +644,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -832,7 +672,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/636#issuecomment-358542089",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/636"
@@ -860,7 +702,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -886,7 +730,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/636#issuecomment-358542842",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/636"
@@ -914,7 +760,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -940,7 +788,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/636#issuecomment-358542959",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/636"
@@ -968,7 +818,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -994,7 +846,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/636#issuecomment-358543026",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/636"
@@ -1022,7 +876,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1055,10 +911,12 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "5f3e6767188a14b5ca6b75e7156b50407a238705",
+      "commit_url": "https://api.github.com/repos/jimpo/bips/commits/5f3e6767188a14b5ca6b75e7156b50407a238705",
       "created_at": "2018-01-18T06:44:41Z"
     },
     {
@@ -1084,10 +942,12 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "e6b17e41baaf8719e3664b993dae69dbe2251278",
+      "commit_url": "https://api.github.com/repos/jimpo/bips/commits/e6b17e41baaf8719e3664b993dae69dbe2251278",
       "created_at": "2018-01-18T06:53:50Z"
     },
     {
@@ -1113,10 +973,12 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "094f64197eea801169df82d67e4a8361b935faf6",
+      "commit_url": "https://api.github.com/repos/jimpo/bips/commits/094f64197eea801169df82d67e4a8361b935faf6",
       "created_at": "2018-01-18T06:59:40Z"
     },
     {
@@ -1142,10 +1004,12 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "38ed67f130fdc1461219fb52210c1699d4ac67cc",
+      "commit_url": "https://api.github.com/repos/jimpo/bips/commits/38ed67f130fdc1461219fb52210c1699d4ac67cc",
       "created_at": "2018-01-18T07:02:25Z"
     },
     {
@@ -1171,10 +1035,12 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "b7db29881496d06cf6edbf14cb8f2815eda4363c",
+      "commit_url": "https://api.github.com/repos/jimpo/bips/commits/b7db29881496d06cf6edbf14cb8f2815eda4363c",
       "created_at": "2018-01-18T07:05:40Z"
     },
     {
@@ -1200,10 +1066,12 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "0bb7f2b694b4edd58ceaaeececdbcd4b3883ad20",
+      "commit_url": "https://api.github.com/repos/jimpo/bips/commits/0bb7f2b694b4edd58ceaaeececdbcd4b3883ad20",
       "created_at": "2018-01-18T07:08:14Z"
     },
     {
@@ -1229,10 +1097,12 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "5125420e7e85fd213c5d622f4ecf037a70e25690",
+      "commit_url": "https://api.github.com/repos/jimpo/bips/commits/5125420e7e85fd213c5d622f4ecf037a70e25690",
       "created_at": "2018-01-18T17:21:14Z"
     },
     {
@@ -1258,10 +1128,12 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "c9161015aa278a5ca136711cc64bc02cb3be13e3",
+      "commit_url": "https://api.github.com/repos/jimpo/bips/commits/c9161015aa278a5ca136711cc64bc02cb3be13e3",
       "created_at": "2018-01-19T19:25:56Z"
     },
     {
@@ -1287,7 +1159,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1313,7 +1187,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/636#issuecomment-359574157",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/636"
@@ -1341,7 +1217,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1370,7 +1248,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1439,10 +1319,12 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "996c7c8e882b3629d1a06a41536bdda6955c324b",
+      "commit_url": "https://api.github.com/repos/jimpo/bips/commits/996c7c8e882b3629d1a06a41536bdda6955c324b",
       "created_at": "2018-01-22T21:54:11Z"
     },
     {
@@ -1468,7 +1350,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1494,7 +1378,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/636#issuecomment-359655460",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/636"
@@ -1522,7 +1408,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "ec54908e7014cec56009e3ec25a86037307214f4",
       "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/ec54908e7014cec56009e3ec25a86037307214f4",
@@ -1551,7 +1439,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1580,7 +1470,9 @@
         "events_url": "https://api.github.com/users/hkjn/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/hkjn/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1606,7 +1498,9 @@
         "events_url": "https://api.github.com/users/hkjn/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/hkjn/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/636#issuecomment-359768420",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/636"
@@ -1634,7 +1528,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1663,7 +1559,9 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1692,7 +1590,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1721,7 +1621,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1750,103 +1652,13 @@
         "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jimpo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2018-03-08T22:19:24Z"
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "jimpo",
-        "id": 881253,
-        "node_id": "MDQ6VXNlcjg4MTI1Mw==",
-        "avatar_url": "https://avatars.githubusercontent.com/u/881253?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/jimpo",
-        "html_url": "https://github.com/jimpo",
-        "followers_url": "https://api.github.com/users/jimpo/followers",
-        "following_url": "https://api.github.com/users/jimpo/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/jimpo/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/jimpo/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/jimpo/subscriptions",
-        "organizations_url": "https://api.github.com/users/jimpo/orgs",
-        "repos_url": "https://api.github.com/users/jimpo/repos",
-        "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/jimpo/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2018-04-20T00:11:27Z",
-      "updated_at": "2018-04-20T00:11:27Z",
-      "source": {
-        "issue": {
-          "id": 316082387,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0MTgyOTMwMTA4",
-          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/13033",
-          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
-          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/13033/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/13033/comments",
-          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/13033/events",
-          "html_url": "https://github.com/bitcoin/bitcoin/pull/13033",
-          "number": 13033,
-          "state": "closed",
-          "state_reason": null,
-          "title": "Build txindex in parallel with validation",
-          "body": "I'm re-opening #11857 as a new pull request because the last one stopped loading for people\r\n\r\n-------------------------------\r\n\r\nThis refactors the tx index code to be in it's own class and get built concurrently with validation code. The main benefit is decoupling and moving the txindex into a separate DB. The primary motivation is to lay the groundwork for other indexers that might be desired (such as the [compact filters](https://github.com/bitcoin/bips/pull/636)). The basic idea is that the TxIndex spins up its own thread, which first syncs the txindex to the current block index, then once in sync the BlockConnected ValidationInterface hook writes new blocks.\r\n\r\n### DB changes\r\n\r\nAt the suggestion of some other developers, the txindex has been split out into a separate database. A data migration runs at startup on any nodes with a legacy txindex. Currently the migration blocks node initialization until complete.\r\n\r\n### Open questions\r\n\r\n- Should the migration of txindex data from the old DB to the new DB block in init or should it happen in a background thread? The downside to backgrounding it is that `getrawtransaction` would return an error message saying the txindex is syncing while the migration is running.\r\n\r\n### Impact\r\n\r\nIn a sample size n=1 test where I synced nodes from scratch, the average time [Index writing](https://github.com/bitcoin/bitcoin/blob/master/src/validation.cpp#L1903) was 3.36ms in master and 1.72ms in this branch. The average time between `UpdateTip` log lines for sequential blocks between 400,000 and IBD end on mainnet was 0.297204s in master and 0.286134s in this branch. Most likely this is just variance in IBD times, but I can try with some more trials if people want.",
-          "user": {
-            "login": "jimpo",
-            "id": 881253,
-            "node_id": "MDQ6VXNlcjg4MTI1Mw==",
-            "avatar_url": "https://avatars.githubusercontent.com/u/881253?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/jimpo",
-            "html_url": "https://github.com/jimpo",
-            "followers_url": "https://api.github.com/users/jimpo/followers",
-            "following_url": "https://api.github.com/users/jimpo/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/jimpo/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/jimpo/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/jimpo/subscriptions",
-            "organizations_url": "https://api.github.com/users/jimpo/orgs",
-            "repos_url": "https://api.github.com/users/jimpo/repos",
-            "events_url": "https://api.github.com/users/jimpo/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/jimpo/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [
-            {
-              "id": 97470796,
-              "node_id": "MDU6TGFiZWw5NzQ3MDc5Ng==",
-              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/UTXO%20Db%20and%20Indexes",
-              "name": "UTXO Db and Indexes",
-              "color": "fbca04",
-              "default": false
-            }
-          ],
-          "assignees": [],
-          "author_association": "CONTRIBUTOR",
-          "locked": true,
-          "active_lock_reason": "resolved",
-          "comments": 4,
-          "pull_request": {
-            "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/13033",
-            "html_url": "https://github.com/bitcoin/bitcoin/pull/13033",
-            "diff_url": "https://github.com/bitcoin/bitcoin/pull/13033.diff",
-            "patch_url": "https://github.com/bitcoin/bitcoin/pull/13033.patch"
-          },
-          "closed_at": "2018-04-26T01:48:47Z",
-          "created_at": "2018-04-20T00:11:26Z",
-          "updated_at": "2021-12-16T13:56:15Z"
-        },
-        "type": "issue"
-      }
     },
     {
       "event": "referenced",
@@ -1871,228 +1683,13 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "a07e8caa5d5000286604458e6887f57fec7fdcbb",
       "commit_url": "https://api.github.com/repos/bitcoin/bitcoin/commits/a07e8caa5d5000286604458e6887f57fec7fdcbb",
       "created_at": "2018-04-26T01:48:52Z"
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "crwatkins",
-        "id": 11914193,
-        "node_id": "MDQ6VXNlcjExOTE0MTkz",
-        "avatar_url": "https://avatars.githubusercontent.com/u/11914193?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/crwatkins",
-        "html_url": "https://github.com/crwatkins",
-        "followers_url": "https://api.github.com/users/crwatkins/followers",
-        "following_url": "https://api.github.com/users/crwatkins/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/crwatkins/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/crwatkins/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/crwatkins/subscriptions",
-        "organizations_url": "https://api.github.com/users/crwatkins/orgs",
-        "repos_url": "https://api.github.com/users/crwatkins/repos",
-        "events_url": "https://api.github.com/users/crwatkins/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/crwatkins/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2018-06-20T22:01:09Z",
-      "updated_at": "2018-06-20T22:01:09Z",
-      "source": {
-        "issue": {
-          "id": 186956126,
-          "node_id": "MDU6SXNzdWUxODY5NTYxMjY=",
-          "url": "https://api.github.com/repos/OpenBitcoinPrivacyProject/wallet-ratings/issues/137",
-          "repository_url": "https://api.github.com/repos/OpenBitcoinPrivacyProject/wallet-ratings",
-          "labels_url": "https://api.github.com/repos/OpenBitcoinPrivacyProject/wallet-ratings/issues/137/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/OpenBitcoinPrivacyProject/wallet-ratings/issues/137/comments",
-          "events_url": "https://api.github.com/repos/OpenBitcoinPrivacyProject/wallet-ratings/issues/137/events",
-          "html_url": "https://github.com/OpenBitcoinPrivacyProject/wallet-ratings/issues/137",
-          "number": 137,
-          "state": "open",
-          "state_reason": null,
-          "title": "add countermeasure -- do not update blockchain data filters",
-          "body": "attack II.E is:\r\n`Reduce the false positive rate of filters by comparing how the filters received from a single client change over time` (7df9676792e7439f391c641a206ed4505d6bdf7b5c43f4c8b1dcecf4776ebc75)\r\n\r\nIt currently only has one countermeasure, OBPPV3/CM22 (eb0dc1462a3d90740def288f8407a3501032a00d92d8ef1926b60778a6a20d86):\r\n`If a filter requires an update, send the new filter to a different peer than the peer which has the old filter`\r\n\r\nwith one criterion, OBPPV3/CR28 (eaa21085ff84067e245a2f48ed6c6b27c23040163a7b87ea1f0ab93b2d715489):\r\n`A single query for blockchain data may correspond to multiple addresses in a user's wallet, but a separate connection context is used for each query`\r\n\r\nI'd like to add another countermeasure:\r\n> Do not update probabilistic filters sent to peers to query blockchain data\r\n\r\nAnd list OBPPV3/CR25 (e9d26b9622bbc535f5625505cf2e4924847058b97e055323a332f82ed24bf067) under that:\r\n`Blockchain data is obtained from a local copy of the blockchain`\r\n\r\nThe reason for this is that CM22 should have a weighting that reflects its <100% effectiveness against attack II.E, given that the second peer that you send an updated filter to may be colluding with the first peer you sent the old filter to.",
-          "user": {
-            "login": "kristovatlas",
-            "id": 7227529,
-            "node_id": "MDQ6VXNlcjcyMjc1Mjk=",
-            "avatar_url": "https://avatars.githubusercontent.com/u/7227529?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/kristovatlas",
-            "html_url": "https://github.com/kristovatlas",
-            "followers_url": "https://api.github.com/users/kristovatlas/followers",
-            "following_url": "https://api.github.com/users/kristovatlas/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/kristovatlas/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/kristovatlas/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/kristovatlas/subscriptions",
-            "organizations_url": "https://api.github.com/users/kristovatlas/orgs",
-            "repos_url": "https://api.github.com/users/kristovatlas/repos",
-            "events_url": "https://api.github.com/users/kristovatlas/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/kristovatlas/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [
-            {
-              "id": 219202217,
-              "node_id": "MDU6TGFiZWwyMTkyMDIyMTc=",
-              "url": "https://api.github.com/repos/OpenBitcoinPrivacyProject/wallet-ratings/labels/criteria",
-              "name": "criteria",
-              "color": "006b75",
-              "default": false
-            },
-            {
-              "id": 219981762,
-              "node_id": "MDU6TGFiZWwyMTk5ODE3NjI=",
-              "url": "https://api.github.com/repos/OpenBitcoinPrivacyProject/wallet-ratings/labels/countermeasures",
-              "name": "countermeasures",
-              "color": "fef2c0",
-              "default": false
-            },
-            {
-              "id": 437935850,
-              "node_id": "MDU6TGFiZWw0Mzc5MzU4NTA=",
-              "url": "https://api.github.com/repos/OpenBitcoinPrivacyProject/wallet-ratings/labels/PR%20needed",
-              "name": "PR needed",
-              "color": "fbca04",
-              "default": false
-            }
-          ],
-          "assignees": [],
-          "author_association": "MEMBER",
-          "milestone": {
-            "url": "https://api.github.com/repos/OpenBitcoinPrivacyProject/wallet-ratings/milestones/3",
-            "html_url": "https://github.com/OpenBitcoinPrivacyProject/wallet-ratings/milestone/3",
-            "labels_url": "https://api.github.com/repos/OpenBitcoinPrivacyProject/wallet-ratings/milestones/3/labels",
-            "id": 1146467,
-            "node_id": "MDk6TWlsZXN0b25lMTE0NjQ2Nw==",
-            "number": 3,
-            "state": "open",
-            "title": "3rd edition",
-            "description": "",
-            "creator": {
-              "login": "kristovatlas",
-              "id": 7227529,
-              "node_id": "MDQ6VXNlcjcyMjc1Mjk=",
-              "avatar_url": "https://avatars.githubusercontent.com/u/7227529?v=4",
-              "gravatar_id": "",
-              "url": "https://api.github.com/users/kristovatlas",
-              "html_url": "https://github.com/kristovatlas",
-              "followers_url": "https://api.github.com/users/kristovatlas/followers",
-              "following_url": "https://api.github.com/users/kristovatlas/following%7B/other_user%7D",
-              "gists_url": "https://api.github.com/users/kristovatlas/gists%7B/gist_id%7D",
-              "starred_url": "https://api.github.com/users/kristovatlas/starred%7B/owner%7D%7B/repo%7D",
-              "subscriptions_url": "https://api.github.com/users/kristovatlas/subscriptions",
-              "organizations_url": "https://api.github.com/users/kristovatlas/orgs",
-              "repos_url": "https://api.github.com/users/kristovatlas/repos",
-              "events_url": "https://api.github.com/users/kristovatlas/events%7B/privacy%7D",
-              "received_events_url": "https://api.github.com/users/kristovatlas/received_events",
-              "type": "User",
-              "site_admin": false
-            },
-            "open_issues": 32,
-            "closed_issues": 28,
-            "created_at": "2015-06-03T04:12:53Z",
-            "updated_at": "2018-08-15T19:32:09Z"
-          },
-          "locked": false,
-          "comments": 7,
-          "created_at": "2016-11-03T00:35:32Z",
-          "updated_at": "2018-06-20T22:01:09Z"
-        },
-        "type": "issue"
-      }
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "HashUnlimited",
-        "id": 26601261,
-        "node_id": "MDQ6VXNlcjI2NjAxMjYx",
-        "avatar_url": "https://avatars.githubusercontent.com/u/26601261?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/HashUnlimited",
-        "html_url": "https://github.com/HashUnlimited",
-        "followers_url": "https://api.github.com/users/HashUnlimited/followers",
-        "following_url": "https://api.github.com/users/HashUnlimited/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/HashUnlimited/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/HashUnlimited/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/HashUnlimited/subscriptions",
-        "organizations_url": "https://api.github.com/users/HashUnlimited/orgs",
-        "repos_url": "https://api.github.com/users/HashUnlimited/repos",
-        "events_url": "https://api.github.com/users/HashUnlimited/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/HashUnlimited/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2018-09-06T12:47:34Z",
-      "updated_at": "2018-09-06T12:47:34Z",
-      "source": {
-        "issue": {
-          "id": 357639099,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0MjEzNjA1NTY3",
-          "url": "https://api.github.com/repos/chaincoin/chaincoin/issues/266",
-          "repository_url": "https://api.github.com/repos/chaincoin/chaincoin",
-          "labels_url": "https://api.github.com/repos/chaincoin/chaincoin/issues/266/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/chaincoin/chaincoin/issues/266/comments",
-          "events_url": "https://api.github.com/repos/chaincoin/chaincoin/issues/266/events",
-          "html_url": "https://github.com/chaincoin/chaincoin/pull/266",
-          "number": 266,
-          "state": "closed",
-          "state_reason": null,
-          "title": "Build txindex in parallel with validation",
-          "body": "I'm re-opening #11857 as a new pull request because the last one stopped loading for people\r\n\r\n-------------------------------\r\n\r\nThis refactors the tx index code to be in it's own class and get built concurrently with validation code. The main benefit is decoupling and moving the txindex into a separate DB. The primary motivation is to lay the groundwork for other indexers that might be desired (such as the [compact filters](https://github.com/bitcoin/bips/pull/636)). The basic idea is that the TxIndex spins up its own thread, which first syncs the txindex to the current block index, then once in sync the BlockConnected ValidationInterface hook writes new blocks.\r\n\r\n### DB changes\r\n\r\nAt the suggestion of some other developers, the txindex has been split out into a separate database. A data migration runs at startup on any nodes with a legacy txindex. Currently the migration blocks node initialization until complete.\r\n\r\n### Open questions\r\n\r\n- Should the migration of txindex data from the old DB to the new DB block in init or should it happen in a background thread? The downside to backgrounding it is that `getrawtransaction` would return an error message saying the txindex is syncing while the migration is running.\r\n\r\n### Impact\r\n\r\nIn a sample size n=1 test where I synced nodes from scratch, the average time [Index writing](https://github.com/bitcoin/bitcoin/blob/master/src/validation.cpp#L1903) was 3.36ms in master and 1.72ms in this branch. The average time between `UpdateTip` log lines for sequential blocks between 400,000 and IBD end on mainnet was 0.297204s in master and 0.286134s in this branch. Most likely this is just variance in IBD times, but I can try with some more trials if people want.",
-          "user": {
-            "login": "HashUnlimited",
-            "id": 26601261,
-            "node_id": "MDQ6VXNlcjI2NjAxMjYx",
-            "avatar_url": "https://avatars.githubusercontent.com/u/26601261?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/HashUnlimited",
-            "html_url": "https://github.com/HashUnlimited",
-            "followers_url": "https://api.github.com/users/HashUnlimited/followers",
-            "following_url": "https://api.github.com/users/HashUnlimited/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/HashUnlimited/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/HashUnlimited/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/HashUnlimited/subscriptions",
-            "organizations_url": "https://api.github.com/users/HashUnlimited/orgs",
-            "repos_url": "https://api.github.com/users/HashUnlimited/repos",
-            "events_url": "https://api.github.com/users/HashUnlimited/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/HashUnlimited/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [],
-          "assignees": [],
-          "author_association": "MEMBER",
-          "locked": false,
-          "comments": 0,
-          "pull_request": {
-            "url": "https://api.github.com/repos/chaincoin/chaincoin/pulls/266",
-            "html_url": "https://github.com/chaincoin/chaincoin/pull/266",
-            "diff_url": "https://github.com/chaincoin/chaincoin/pull/266.diff",
-            "patch_url": "https://github.com/chaincoin/chaincoin/pull/266.patch"
-          },
-          "closed_at": "2018-09-06T12:47:49Z",
-          "created_at": "2018-09-06T12:47:34Z",
-          "updated_at": "2018-09-06T12:47:49Z"
-        },
-        "type": "issue"
-      }
     },
     {
       "event": "referenced",
@@ -2117,7 +1714,9 @@
         "events_url": "https://api.github.com/users/UdjinM6/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UdjinM6/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "29244249245c4a625a8210b24235a14601d73e7c",
       "commit_url": "https://api.github.com/repos/UdjinM6/dash/commits/29244249245c4a625a8210b24235a14601d73e7c",
@@ -2146,7 +1745,9 @@
         "events_url": "https://api.github.com/users/UdjinM6/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UdjinM6/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "f3ce0156a1edb8378dc4415700b4d0ca25b1ff78",
       "commit_url": "https://api.github.com/repos/UdjinM6/dash/commits/f3ce0156a1edb8378dc4415700b4d0ca25b1ff78",
@@ -2175,7 +1776,9 @@
         "events_url": "https://api.github.com/users/UdjinM6/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UdjinM6/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "7ff6515c8814210010bc4f4f02f32cf22d20e9d6",
       "commit_url": "https://api.github.com/repos/UdjinM6/dash/commits/7ff6515c8814210010bc4f4f02f32cf22d20e9d6",
@@ -2204,7 +1807,9 @@
         "events_url": "https://api.github.com/users/UdjinM6/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/UdjinM6/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "0f9f133f7803bc531341bf7ef5691ce7428c0af2",
       "commit_url": "https://api.github.com/repos/UdjinM6/dash/commits/0f9f133f7803bc531341bf7ef5691ce7428c0af2",
@@ -2233,7 +1838,9 @@
         "events_url": "https://api.github.com/users/gades/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/gades/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "997422aee5a9f8b6741140fbbbd2c33bf595b842",
       "commit_url": "https://api.github.com/repos/cosanta/cosanta-core/commits/997422aee5a9f8b6741140fbbbd2c33bf595b842",
@@ -2262,7 +1869,9 @@
         "events_url": "https://api.github.com/users/malbit/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/malbit/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "7a3fadc36039ffc67a92d4249341202b192d18de",
       "commit_url": "https://api.github.com/repos/malbit/raptoreum/commits/7a3fadc36039ffc67a92d4249341202b192d18de",

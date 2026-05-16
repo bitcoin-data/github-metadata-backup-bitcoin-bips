@@ -36,7 +36,9 @@
       "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/siv2r/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "Two vectors of the `sign_verify` test use different partial signatures even though their signer set, message, and nonces are the same. These are those two vectors:\r\n\r\n**Vector 1 (in `valid_test_ cases`):**\r\n\r\n```json\r\n\"key_indices\": [0, 1, 2],\r\n\"nonce_indices\": [0, 1, 2],\r\n\"aggnonce_index\": 0,\r\n\"msg_index\": 0,\r\n\"signer_index\": 0,\r\n\"expected\": \"012ABBCB52B3016AC03AD82395A1A415C48B93DEF78718E62A7A90052FE224FB\"\r\n```\r\n\r\n**Vector 2 (in `verify_fail_test_cases`):**\r\n\r\n```json\r\n\"sig\": \"68537CC5234E505BD14061F8DA9E90C220A181855FD8BDB7F127BB12403B4D3B\",\r\n\"key_indices\": [0, 1, 2],\r\n\"nonce_indices\": [0, 1, 2],\r\n\"msg_index\": 0,\r\n\"signer_index\": 1,\r\n\"comment\": \"Wrong signer\"\r\n```\r\n\r\nIn Vector 2, if we change the `signer_index` to 0 (the correct index), `partial_sig_verify` will still fail. Therefore, it has the incorrect partial signature. As a result, creating another vector by negating this paritalsig is also incorrect.\r\n\r\nThis PR fixes Vector 2 and the one created by negating Vector 2’s partial signature.\r\n\r\ncc @jonasnick @real-or-random ",
     "labels": [],
@@ -44,7 +46,30 @@
     "updated_at": "2024-05-15T08:19:43Z",
     "closed_at": "2024-05-14T08:59:40Z",
     "mergeable_state": "unknown",
+    "merged": true,
     "merged_at": "2024-05-14T08:59:40Z",
+    "merged_by": {
+      "login": "jonatack",
+      "id": 2415484,
+      "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jonatack",
+      "html_url": "https://github.com/jonatack",
+      "followers_url": "https://api.github.com/users/jonatack/followers",
+      "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+      "organizations_url": "https://api.github.com/users/jonatack/orgs",
+      "repos_url": "https://api.github.com/users/jonatack/repos",
+      "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/jonatack/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
     "merge_commit_sha": "96161aeaf5cef975974c04f9aaf98444f99a2515",
     "assignees": [],
     "requested_reviewers": [],
@@ -71,7 +96,9 @@
         "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/siv2r/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 433631019,
@@ -96,7 +123,9 @@
           "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/siv2r/received_events",
           "type": "User",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/siv2r/bips",
@@ -145,10 +174,10 @@
         "svn_url": "https://github.com/siv2r/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 0,
+        "forks_count": 2,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 13638,
+        "size": 22200,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -161,9 +190,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-14T02:11:40Z",
+        "pushed_at": "2026-04-14T17:09:45Z",
         "created_at": "2021-12-01T00:28:09Z",
-        "updated_at": "2024-02-01T05:30:09Z"
+        "updated_at": "2026-01-03T11:21:21Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -188,7 +218,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -213,7 +245,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -262,12 +296,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5248,
-        "stargazers_count": 9017,
-        "watchers_count": 9017,
-        "size": 14945,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 52,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +312,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-05-15T06:58:12Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-05-15T03:52:46Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -321,7 +356,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -350,7 +387,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -379,7 +418,9 @@
         "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/real-or-random/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -408,7 +449,9 @@
         "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/real-or-random/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -423,6 +466,7 @@
       "commit_id": "0c6aff69d9cf635ae258b50091b84fe67d28aa65",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2024-05-11T14:00:55Z",
       "author_association": "CONTRIBUTOR",
       "body": "Concept ACK, thanks @siv2r \r\n\r\nCan confirm that the comments of vector 1 and 2 of \"verify_fail_test_cases\" are incorrect and that the suggested vector fixes this. Check existing and suggested vector 1 with this script:\r\n\r\n```python\r\ndef parse_hex(x):\r\n    return int.from_bytes(bytes.fromhex(x), byteorder=\"big\")\r\n\r\nwrong_s = parse_hex(\"68537CC5234E505BD14061F8DA9E90C220A181855FD8BDB7F127BB12403B4D3B\")\r\nassert((n - wrong_s) == parse_hex(\"97AC833ADCB1AFA42EBF9E0725616F3C9A0D5B614F6FE283CEAAA37A8FFAF406\"))\r\n\r\ncorr_s = parse_hex(\"012ABBCB52B3016AC03AD82395A1A415C48B93DEF78718E62A7A90052FE224FB\")\r\nassert((n - corr_s) == parse_hex(\"FED54434AD4CFE953FC527DC6A5E5BE8F6234907B7C187559557CE87A0541C46\"))\r\n```\r\n\r\nI doubt it's worth incrementing the patch version of the spec but it would be nice if we could somehow reflect this in the change log, for example by adding a line to the top like\r\n```\r\n* 1.0.0 (2024-05-11):\r\n    * Fix minor issue in two test vectors.\r\n```",
       "user": {
@@ -443,7 +487,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1591#pullrequestreview-2051210631",
       "submitted_at": "2024-05-11T14:00:55Z",
@@ -473,10 +519,12 @@
         "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/siv2r/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "921536b5acae659ecfa0254fb53c5018e679d091",
+      "commit_url": "https://api.github.com/repos/siv2r/bips/commits/921536b5acae659ecfa0254fb53c5018e679d091",
       "created_at": "2024-05-11T14:18:35Z"
     },
     {
@@ -502,7 +550,9 @@
         "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/siv2r/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -528,7 +578,9 @@
         "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/siv2r/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1591#issuecomment-2105852742",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1591"
@@ -556,7 +608,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -589,7 +643,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -612,7 +668,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "review_requester": {
         "login": "jonatack",
@@ -632,7 +690,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       }
     },
     {
@@ -644,6 +704,7 @@
       "commit_id": "921536b5acae659ecfa0254fb53c5018e679d091",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2024-05-13T12:55:56Z",
       "author_association": "CONTRIBUTOR",
       "body": "",
       "user": {
@@ -664,7 +725,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1591#pullrequestreview-2052605385",
       "submitted_at": "2024-05-13T12:55:56Z",
@@ -694,10 +757,12 @@
         "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/siv2r/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "83f831bcbbdcf87b983b013eea248c19498a824f",
+      "commit_url": "https://api.github.com/repos/siv2r/bips/commits/83f831bcbbdcf87b983b013eea248c19498a824f",
       "created_at": "2024-05-13T13:04:41Z"
     },
     {
@@ -723,7 +788,9 @@
         "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/siv2r/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -749,7 +816,9 @@
         "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/siv2r/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1591#issuecomment-2107529044",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1591"
@@ -763,6 +832,7 @@
       "commit_id": "83f831bcbbdcf87b983b013eea248c19498a824f",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2024-05-13T13:19:28Z",
       "author_association": "CONTRIBUTOR",
       "user": {
         "login": "jonasnick",
@@ -782,7 +852,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1591#pullrequestreview-2052684509",
       "submitted_at": "2024-05-13T13:19:28Z",
@@ -798,6 +870,7 @@
       "commit_id": "83f831bcbbdcf87b983b013eea248c19498a824f",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2024-05-13T14:05:43Z",
       "author_association": "CONTRIBUTOR",
       "body": "utACK 83f831bcbbdcf87b983b013eea248c19498a824f -- mod the date change (Yeah, it's better to set it to the commit date, but two days more or less don't make that big of a difference in the end :D \r\n\r\nIt took me a while to understand what's going on, but it all makes sense now. Nice catch!\r\n\r\n",
       "user": {
@@ -818,7 +891,9 @@
         "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/real-or-random/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1591#pullrequestreview-2052809015",
       "submitted_at": "2024-05-13T14:05:43Z",
@@ -848,7 +923,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -881,7 +958,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -954,10 +1033,12 @@
         "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/siv2r/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "508e3a6a40a6e73c73cbfa8a33aa18a2bc7b9d91",
+      "commit_url": "https://api.github.com/repos/siv2r/bips/commits/508e3a6a40a6e73c73cbfa8a33aa18a2bc7b9d91",
       "created_at": "2024-05-14T02:11:41Z"
     },
     {
@@ -969,6 +1050,7 @@
       "commit_id": "508e3a6a40a6e73c73cbfa8a33aa18a2bc7b9d91",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2024-05-14T07:37:57Z",
       "author_association": "CONTRIBUTOR",
       "body": "utACK 508e3a6a40a6e73c73cbfa8a33aa18a2bc7b9d91",
       "user": {
@@ -989,7 +1071,9 @@
         "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/real-or-random/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1591#pullrequestreview-2054523028",
       "submitted_at": "2024-05-14T07:37:57Z",
@@ -1019,7 +1103,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1052,7 +1138,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "96161aeaf5cef975974c04f9aaf98444f99a2515",
       "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/96161aeaf5cef975974c04f9aaf98444f99a2515",
@@ -1081,7 +1169,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1110,7 +1200,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1136,10 +1228,43 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1591#issuecomment-2111871127",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1591"
+    },
+    {
+      "event": "referenced",
+      "id": 15327587271,
+      "node_id": "REFE_lADOAN28mc6IjEa0zwAAAAORmGvH",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/15327587271",
+      "actor": {
+        "login": "azuchi",
+        "id": 1539047,
+        "node_id": "MDQ6VXNlcjE1MzkwNDc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1539047?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/azuchi",
+        "html_url": "https://github.com/azuchi",
+        "followers_url": "https://api.github.com/users/azuchi/followers",
+        "following_url": "https://api.github.com/users/azuchi/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/azuchi/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/azuchi/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/azuchi/subscriptions",
+        "organizations_url": "https://api.github.com/users/azuchi/orgs",
+        "repos_url": "https://api.github.com/users/azuchi/repos",
+        "events_url": "https://api.github.com/users/azuchi/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/azuchi/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "fa3f2bd2a96b9f0a25157806639e639344a95441",
+      "commit_url": "https://api.github.com/repos/chaintope/bip-schnorrrb/commits/fa3f2bd2a96b9f0a25157806639e639344a95441",
+      "created_at": "2024-11-18T02:48:09Z"
     }
   ],
   "comments": [
@@ -1150,7 +1275,7 @@
       "node_id": "PRRC_kwDOAN28mc5fRfur",
       "diff_hunk": "@@ -785,6 +785,8 @@ An exception to this rule is <code>MAJOR</code> version zero (0.y.z) which is fo\n The <code>MINOR</code> version is incremented whenever the inputs or the output of an algorithm changes in a backward-compatible way or new backward-compatible functionality is added.\n The <code>PATCH</code> version is incremented for other changes that are noteworthy (bug fixes, test vectors, important clarifications, etc.).\n \n+* '''1.0.0''' (2024-05-11):",
       "path": "bip-0327.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 4,
       "commit_id": "508e3a6a40a6e73c73cbfa8a33aa18a2bc7b9d91",
       "original_commit_id": "921536b5acae659ecfa0254fb53c5018e679d091",
@@ -1173,7 +1298,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "@real-or-random convinced me that it's better to make this 1.0.1.",
       "created_at": "2024-05-13T12:48:38Z",
@@ -1202,7 +1329,7 @@
       "node_id": "PRRC_kwDOAN28mc5fRiNm",
       "diff_hunk": "@@ -785,6 +785,8 @@ An exception to this rule is <code>MAJOR</code> version zero (0.y.z) which is fo\n The <code>MINOR</code> version is incremented whenever the inputs or the output of an algorithm changes in a backward-compatible way or new backward-compatible functionality is added.\n The <code>PATCH</code> version is incremented for other changes that are noteworthy (bug fixes, test vectors, important clarifications, etc.).\n \n+* '''1.0.0''' (2024-05-11):\n+** Fix minor issue in four test vectors.",
       "path": "bip-0327.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 5,
       "commit_id": "508e3a6a40a6e73c73cbfa8a33aa18a2bc7b9d91",
       "original_commit_id": "921536b5acae659ecfa0254fb53c5018e679d091",
@@ -1225,7 +1352,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "```suggestion\r\n** Fix minor issue in ''PartialSigVerify'' test vectors.\r\n```",
       "created_at": "2024-05-13T12:55:50Z",
@@ -1254,7 +1383,7 @@
       "node_id": "PRRC_kwDOAN28mc5fRqcf",
       "diff_hunk": "@@ -785,6 +785,8 @@ An exception to this rule is <code>MAJOR</code> version zero (0.y.z) which is fo\n The <code>MINOR</code> version is incremented whenever the inputs or the output of an algorithm changes in a backward-compatible way or new backward-compatible functionality is added.\n The <code>PATCH</code> version is incremented for other changes that are noteworthy (bug fixes, test vectors, important clarifications, etc.).\n \n+* '''1.0.1''' (2024-05-11):",
       "path": "bip-0327.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 4,
       "commit_id": "508e3a6a40a6e73c73cbfa8a33aa18a2bc7b9d91",
       "original_commit_id": "83f831bcbbdcf87b983b013eea248c19498a824f",
@@ -1277,7 +1406,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "The date doesn't match the date of the commit. Should be 2024-05-13.",
       "created_at": "2024-05-13T13:19:28Z",
@@ -1306,7 +1437,7 @@
       "node_id": "PRRC_kwDOAN28mc5fUzpc",
       "diff_hunk": "@@ -785,6 +785,8 @@ An exception to this rule is <code>MAJOR</code> version zero (0.y.z) which is fo\n The <code>MINOR</code> version is incremented whenever the inputs or the output of an algorithm changes in a backward-compatible way or new backward-compatible functionality is added.\n The <code>PATCH</code> version is incremented for other changes that are noteworthy (bug fixes, test vectors, important clarifications, etc.).\n \n+* '''1.0.1''' (2024-05-11):",
       "path": "bip-0327.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 4,
       "commit_id": "508e3a6a40a6e73c73cbfa8a33aa18a2bc7b9d91",
       "original_commit_id": "83f831bcbbdcf87b983b013eea248c19498a824f",
@@ -1329,7 +1460,9 @@
         "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/siv2r/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Fixed",
       "created_at": "2024-05-14T02:12:16Z",

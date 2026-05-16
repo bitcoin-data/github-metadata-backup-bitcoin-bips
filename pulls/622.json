@@ -36,7 +36,9 @@
       "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/nym-zone/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "The BIP 39 French wordlist contains two significant technical errors:\r\n\r\n - Byte Order Marker (BOM) U+FEFF at the beginning of the first line, preceding the word “abaisser”.\r\n\r\n - No newline '\\n' char terminating the last line, after “zoologie”.\r\n\r\nThe former may cause user loss of funds.  An implementation which generates a mnemonic phrase and also turns it into a BIP 39 seed value may feed the string \"<U+FEFF>abaisser\" to the KDF, while displaying the word “abaisser” to the user.  Of course, it cannot be expected that the user would enter \"<U+FEFF>abaisser\" upon attempt to restore a wallet.  In the face of a buggy wordlist, whitespace handling and normalization cannot be absolutely relied on to remove a notoriously mischievous character.  Those who provide technical support may be well advised to ask French users with unrestorable wallets, “Did your mnemonic phrase contain the word ‘abaisser’?”\r\n\r\nThe latter broke the shell script I use to massage wordlists into C sources when building [easyseed](https://github.com/nym-zone/easyseed).\r\n\r\nI know of only one commonplace platform where software regularly prepends UTF-8 files with a spurious U+FEFF, and oftentimes omits a line terminator on the last line even when asked to create a Unix ('\\n') text file.  It is RECOMMENDED that new wordlists be examined for correctness using standard shell tools on a sane platform.",
     "labels": [
@@ -45,6 +47,7 @@
         "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
         "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
         "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
         "color": "5319e7",
         "default": false
       }
@@ -53,7 +56,30 @@
     "updated_at": "2018-08-09T18:22:54Z",
     "closed_at": "2018-08-09T18:22:54Z",
     "mergeable_state": "unknown",
+    "merged": true,
     "merged_at": "2018-08-09T18:22:54Z",
+    "merged_by": {
+      "login": "luke-jr",
+      "id": 1095675,
+      "node_id": "MDQ6VXNlcjEwOTU2NzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1095675?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/luke-jr",
+      "html_url": "https://github.com/luke-jr",
+      "followers_url": "https://api.github.com/users/luke-jr/followers",
+      "following_url": "https://api.github.com/users/luke-jr/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/luke-jr/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/luke-jr/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/luke-jr/subscriptions",
+      "organizations_url": "https://api.github.com/users/luke-jr/orgs",
+      "repos_url": "https://api.github.com/users/luke-jr/repos",
+      "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/luke-jr/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
     "merge_commit_sha": "29a8781d78639cb53b10702d2965a798c6545fd7",
     "assignees": [],
     "requested_reviewers": [],
@@ -80,7 +106,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 115899445,
@@ -105,7 +133,9 @@
           "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/nym-zone/received_events",
           "type": "User",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/nym-zone/bips",
@@ -172,7 +202,8 @@
         "visibility": "public",
         "pushed_at": "2018-01-01T05:21:45Z",
         "created_at": "2018-01-01T04:34:36Z",
-        "updated_at": "2023-05-06T00:37:29Z"
+        "updated_at": "2023-05-06T00:37:29Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -197,7 +228,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -222,7 +255,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -271,12 +306,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -287,9 +322,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -370,7 +406,9 @@
         "events_url": "https://api.github.com/users/dabura667/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dabura667/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -396,7 +434,9 @@
         "events_url": "https://api.github.com/users/dabura667/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dabura667/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-354638738",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -424,7 +464,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -453,7 +495,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -482,7 +526,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -508,7 +554,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-354640660",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -536,7 +584,9 @@
         "events_url": "https://api.github.com/users/dabura667/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dabura667/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -565,93 +615,13 @@
         "events_url": "https://api.github.com/users/dabura667/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dabura667/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2018-01-01T07:29:50Z"
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "nym-zone",
-        "id": 33915087,
-        "node_id": "MDQ6VXNlcjMzOTE1MDg3",
-        "avatar_url": "https://avatars.githubusercontent.com/u/33915087?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/nym-zone",
-        "html_url": "https://github.com/nym-zone",
-        "followers_url": "https://api.github.com/users/nym-zone/followers",
-        "following_url": "https://api.github.com/users/nym-zone/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/nym-zone/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/nym-zone/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/nym-zone/subscriptions",
-        "organizations_url": "https://api.github.com/users/nym-zone/orgs",
-        "repos_url": "https://api.github.com/users/nym-zone/repos",
-        "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/nym-zone/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2018-01-05T19:28:40Z",
-      "updated_at": "2018-01-05T19:28:40Z",
-      "source": {
-        "issue": {
-          "id": 263748735,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0MTQ1MzUxNTQw",
-          "url": "https://api.github.com/repos/NovaCrypto/BIP39/issues/4",
-          "repository_url": "https://api.github.com/repos/NovaCrypto/BIP39",
-          "labels_url": "https://api.github.com/repos/NovaCrypto/BIP39/issues/4/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/NovaCrypto/BIP39/issues/4/comments",
-          "events_url": "https://api.github.com/repos/NovaCrypto/BIP39/issues/4/events",
-          "html_url": "https://github.com/NovaCrypto/BIP39/pull/4",
-          "number": 4,
-          "state": "closed",
-          "state_reason": null,
-          "title": "French word list and test vectors",
-          "body": "Add French #1 ",
-          "user": {
-            "login": "westonal",
-            "id": 6041352,
-            "node_id": "MDQ6VXNlcjYwNDEzNTI=",
-            "avatar_url": "https://avatars.githubusercontent.com/u/6041352?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/westonal",
-            "html_url": "https://github.com/westonal",
-            "followers_url": "https://api.github.com/users/westonal/followers",
-            "following_url": "https://api.github.com/users/westonal/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/westonal/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/westonal/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/westonal/subscriptions",
-            "organizations_url": "https://api.github.com/users/westonal/orgs",
-            "repos_url": "https://api.github.com/users/westonal/repos",
-            "events_url": "https://api.github.com/users/westonal/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/westonal/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [],
-          "assignees": [],
-          "author_association": "MEMBER",
-          "locked": false,
-          "comments": 3,
-          "pull_request": {
-            "url": "https://api.github.com/repos/NovaCrypto/BIP39/pulls/4",
-            "html_url": "https://github.com/NovaCrypto/BIP39/pull/4",
-            "diff_url": "https://github.com/NovaCrypto/BIP39/pull/4.diff",
-            "patch_url": "https://github.com/NovaCrypto/BIP39/pull/4.patch"
-          },
-          "closed_at": "2017-10-08T20:26:08Z",
-          "created_at": "2017-10-08T20:23:25Z",
-          "updated_at": "2018-01-05T19:53:20Z"
-        },
-        "type": "issue"
-      }
     },
     {
       "event": "commented",
@@ -676,7 +646,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -702,7 +674,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-355666539",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -730,7 +704,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "3a8dbe99b4be2084794d1191a06eadc38db0917b",
       "commit_url": "https://api.github.com/repos/iancoleman/bip39/commits/3a8dbe99b4be2084794d1191a06eadc38db0917b",
@@ -759,7 +735,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "234c66cd5d3b878ee4df2138fdc5c179e65dc612",
       "commit_url": "https://api.github.com/repos/nym-zone/easyseed/commits/234c66cd5d3b878ee4df2138fdc5c179e65dc612",
@@ -788,193 +766,13 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "ba25dfac566da706cc4811b2545ca5c2394242df",
       "commit_url": "https://api.github.com/repos/nym-zone/easyseed/commits/ba25dfac566da706cc4811b2545ca5c2394242df",
       "created_at": "2018-01-07T22:18:28Z"
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "nym-zone",
-        "id": 33915087,
-        "node_id": "MDQ6VXNlcjMzOTE1MDg3",
-        "avatar_url": "https://avatars.githubusercontent.com/u/33915087?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/nym-zone",
-        "html_url": "https://github.com/nym-zone",
-        "followers_url": "https://api.github.com/users/nym-zone/followers",
-        "following_url": "https://api.github.com/users/nym-zone/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/nym-zone/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/nym-zone/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/nym-zone/subscriptions",
-        "organizations_url": "https://api.github.com/users/nym-zone/orgs",
-        "repos_url": "https://api.github.com/users/nym-zone/repos",
-        "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/nym-zone/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2018-01-08T08:37:44Z",
-      "updated_at": "2018-01-08T08:37:44Z",
-      "source": {
-        "issue": {
-          "id": 170895483,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0ODExMzY2MjE=",
-          "url": "https://api.github.com/repos/bitcoin/bips/issues/432",
-          "repository_url": "https://api.github.com/repos/bitcoin/bips",
-          "labels_url": "https://api.github.com/repos/bitcoin/bips/issues/432/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/432/comments",
-          "events_url": "https://api.github.com/repos/bitcoin/bips/issues/432/events",
-          "html_url": "https://github.com/bitcoin/bips/pull/432",
-          "number": 432,
-          "state": "closed",
-          "state_reason": null,
-          "title": "BIP39: Adds Russian word list",
-          "body": "I've tried to follow guidelines defined in other languages.\n",
-          "user": {
-            "login": "farazdagi",
-            "id": 188194,
-            "node_id": "MDQ6VXNlcjE4ODE5NA==",
-            "avatar_url": "https://avatars.githubusercontent.com/u/188194?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/farazdagi",
-            "html_url": "https://github.com/farazdagi",
-            "followers_url": "https://api.github.com/users/farazdagi/followers",
-            "following_url": "https://api.github.com/users/farazdagi/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/farazdagi/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/farazdagi/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/farazdagi/subscriptions",
-            "organizations_url": "https://api.github.com/users/farazdagi/orgs",
-            "repos_url": "https://api.github.com/users/farazdagi/repos",
-            "events_url": "https://api.github.com/users/farazdagi/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/farazdagi/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [
-            {
-              "id": 275846070,
-              "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
-              "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
-              "name": "Proposed BIP modification",
-              "color": "5319e7",
-              "default": false
-            }
-          ],
-          "assignees": [],
-          "author_association": "NONE",
-          "locked": false,
-          "comments": 18,
-          "pull_request": {
-            "url": "https://api.github.com/repos/bitcoin/bips/pulls/432",
-            "html_url": "https://github.com/bitcoin/bips/pull/432",
-            "diff_url": "https://github.com/bitcoin/bips/pull/432.diff",
-            "patch_url": "https://github.com/bitcoin/bips/pull/432.patch"
-          },
-          "closed_at": "2021-07-02T21:28:51Z",
-          "created_at": "2016-08-12T15:20:26Z",
-          "updated_at": "2021-07-02T21:28:51Z"
-        },
-        "type": "issue"
-      }
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "nym-zone",
-        "id": 33915087,
-        "node_id": "MDQ6VXNlcjMzOTE1MDg3",
-        "avatar_url": "https://avatars.githubusercontent.com/u/33915087?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/nym-zone",
-        "html_url": "https://github.com/nym-zone",
-        "followers_url": "https://api.github.com/users/nym-zone/followers",
-        "following_url": "https://api.github.com/users/nym-zone/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/nym-zone/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/nym-zone/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/nym-zone/subscriptions",
-        "organizations_url": "https://api.github.com/users/nym-zone/orgs",
-        "repos_url": "https://api.github.com/users/nym-zone/repos",
-        "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/nym-zone/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2018-01-08T09:15:24Z",
-      "updated_at": "2018-01-08T09:15:24Z",
-      "source": {
-        "issue": {
-          "id": 203943308,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0MTAzNjg5NTIz",
-          "url": "https://api.github.com/repos/bitcoin/bips/issues/493",
-          "repository_url": "https://api.github.com/repos/bitcoin/bips",
-          "labels_url": "https://api.github.com/repos/bitcoin/bips/issues/493/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/493/comments",
-          "events_url": "https://api.github.com/repos/bitcoin/bips/issues/493/events",
-          "html_url": "https://github.com/bitcoin/bips/pull/493",
-          "number": 493,
-          "state": "closed",
-          "state_reason": null,
-          "title": "Czech wordlist for BIP0039",
-          "body": "Consensus set of words after discussion in czech comunity in facebook group",
-          "user": {
-            "login": "zizelevak",
-            "id": 25297255,
-            "node_id": "MDQ6VXNlcjI1Mjk3MjU1",
-            "avatar_url": "https://avatars.githubusercontent.com/u/25297255?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/zizelevak",
-            "html_url": "https://github.com/zizelevak",
-            "followers_url": "https://api.github.com/users/zizelevak/followers",
-            "following_url": "https://api.github.com/users/zizelevak/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/zizelevak/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/zizelevak/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/zizelevak/subscriptions",
-            "organizations_url": "https://api.github.com/users/zizelevak/orgs",
-            "repos_url": "https://api.github.com/users/zizelevak/repos",
-            "events_url": "https://api.github.com/users/zizelevak/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/zizelevak/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [
-            {
-              "id": 275846070,
-              "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
-              "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
-              "name": "Proposed BIP modification",
-              "color": "5319e7",
-              "default": false
-            }
-          ],
-          "assignees": [],
-          "author_association": "CONTRIBUTOR",
-          "locked": false,
-          "comments": 41,
-          "pull_request": {
-            "url": "https://api.github.com/repos/bitcoin/bips/pulls/493",
-            "html_url": "https://github.com/bitcoin/bips/pull/493",
-            "diff_url": "https://github.com/bitcoin/bips/pull/493.diff",
-            "patch_url": "https://github.com/bitcoin/bips/pull/493.patch"
-          },
-          "closed_at": "2019-09-19T22:05:17Z",
-          "created_at": "2017-01-30T07:34:28Z",
-          "updated_at": "2021-11-16T17:42:31Z"
-        },
-        "type": "issue"
-      }
     },
     {
       "event": "commented",
@@ -999,7 +797,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1025,7 +825,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-356182309",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -1053,7 +855,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1082,7 +886,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1111,7 +917,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1140,7 +948,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1169,7 +979,9 @@
         "events_url": "https://api.github.com/users/vosine/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/vosine/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1198,7 +1010,9 @@
         "events_url": "https://api.github.com/users/vosine/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/vosine/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1227,7 +1041,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1256,7 +1072,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1285,7 +1103,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1311,7 +1131,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-356205295",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -1339,7 +1161,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1368,7 +1192,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1397,7 +1223,9 @@
         "events_url": "https://api.github.com/users/dabura667/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dabura667/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1426,7 +1254,9 @@
         "events_url": "https://api.github.com/users/dabura667/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dabura667/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1455,7 +1285,9 @@
         "events_url": "https://api.github.com/users/voisine/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/voisine/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1484,7 +1316,9 @@
         "events_url": "https://api.github.com/users/voisine/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/voisine/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1513,7 +1347,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "fd14d42752e1ecda74b455f2dc4ea25e92211d0b",
       "commit_url": "https://api.github.com/repos/breadwallet/breadwallet-legacy/commits/fd14d42752e1ecda74b455f2dc4ea25e92211d0b",
@@ -1542,7 +1378,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1568,7 +1406,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-356213136",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -1596,7 +1436,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1625,7 +1467,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1654,7 +1498,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1680,7 +1526,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-356268277",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -1708,7 +1556,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1737,7 +1587,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1766,7 +1618,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1792,7 +1646,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-356508716",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -1820,7 +1676,9 @@
         "events_url": "https://api.github.com/users/slush0/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/slush0/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1849,7 +1707,9 @@
         "events_url": "https://api.github.com/users/slush0/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/slush0/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1878,7 +1738,9 @@
         "events_url": "https://api.github.com/users/prusnak/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/prusnak/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1907,7 +1769,9 @@
         "events_url": "https://api.github.com/users/prusnak/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/prusnak/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1936,7 +1800,9 @@
         "events_url": "https://api.github.com/users/voisine/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/voisine/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1965,7 +1831,9 @@
         "events_url": "https://api.github.com/users/voisine/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/voisine/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1994,7 +1862,9 @@
         "events_url": "https://api.github.com/users/ebfull/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ebfull/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2023,7 +1893,9 @@
         "events_url": "https://api.github.com/users/ebfull/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ebfull/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2052,7 +1924,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2085,7 +1959,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2111,7 +1987,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-356802855",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -2139,7 +2017,9 @@
         "events_url": "https://api.github.com/users/evoskuil/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/evoskuil/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2165,7 +2045,9 @@
         "events_url": "https://api.github.com/users/evoskuil/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/evoskuil/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-356805695",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -2193,7 +2075,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2219,7 +2103,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-356820981",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -2247,7 +2133,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2276,7 +2164,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2305,7 +2195,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2331,7 +2223,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-356826408",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -2359,7 +2253,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2388,7 +2284,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2417,7 +2315,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "45a0ad9e32c95a37ef6b3f0b4151145eaeadd240",
       "commit_url": "https://api.github.com/repos/MetacoSA/NBitcoin/commits/45a0ad9e32c95a37ef6b3f0b4151145eaeadd240",
@@ -2446,7 +2346,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2472,7 +2374,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-357436648",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -2500,7 +2404,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2529,7 +2435,9 @@
         "events_url": "https://api.github.com/users/nym-zone/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/nym-zone/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2558,7 +2466,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "d91fa4ad47edaad242a4b1319b34515b11653776",
       "commit_url": "https://api.github.com/repos/MetacoSA/NBitcoin/commits/d91fa4ad47edaad242a4b1319b34515b11653776",
@@ -2587,7 +2497,9 @@
         "events_url": "https://api.github.com/users/dabura667/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dabura667/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2613,7 +2525,9 @@
         "events_url": "https://api.github.com/users/dabura667/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dabura667/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-357443800",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -2641,7 +2555,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2670,93 +2586,13 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2018-01-13T15:32:27Z"
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "iancoleman",
-        "id": 1281387,
-        "node_id": "MDQ6VXNlcjEyODEzODc=",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1281387?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/iancoleman",
-        "html_url": "https://github.com/iancoleman",
-        "followers_url": "https://api.github.com/users/iancoleman/followers",
-        "following_url": "https://api.github.com/users/iancoleman/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/iancoleman/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/iancoleman/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/iancoleman/subscriptions",
-        "organizations_url": "https://api.github.com/users/iancoleman/orgs",
-        "repos_url": "https://api.github.com/users/iancoleman/repos",
-        "events_url": "https://api.github.com/users/iancoleman/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/iancoleman/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2018-07-04T21:47:13Z",
-      "updated_at": "2018-07-04T21:47:13Z",
-      "source": {
-        "issue": {
-          "id": 338295360,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0MTk5MjY0NTIz",
-          "url": "https://api.github.com/repos/bitcoin/bips/issues/697",
-          "repository_url": "https://api.github.com/repos/bitcoin/bips",
-          "labels_url": "https://api.github.com/repos/bitcoin/bips/issues/697/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/697/comments",
-          "events_url": "https://api.github.com/repos/bitcoin/bips/issues/697/events",
-          "html_url": "https://github.com/bitcoin/bips/pull/697",
-          "number": 697,
-          "state": "closed",
-          "state_reason": null,
-          "title": "Remove erroneous prefix bits from BIP-0039 french wordlist",
-          "body": "This PR seeks to remove a strange prefix found in the french wordlist.\r\n\r\nThis can be confirmed with `hexdump -C -n 8 bip-0039/french.txt`.\r\n\r\n    00000000  ef bb bf 61 62 61 69 73                           |...abais|\r\n\r\nThe first 8 bytes should be the word `abaisser`.\r\n\r\n    00000000  61 62 61 69 73 73 65 72                           |abaisser|",
-          "user": {
-            "login": "cornfeedhobo",
-            "id": 716304,
-            "node_id": "MDQ6VXNlcjcxNjMwNA==",
-            "avatar_url": "https://avatars.githubusercontent.com/u/716304?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/cornfeedhobo",
-            "html_url": "https://github.com/cornfeedhobo",
-            "followers_url": "https://api.github.com/users/cornfeedhobo/followers",
-            "following_url": "https://api.github.com/users/cornfeedhobo/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/cornfeedhobo/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/cornfeedhobo/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/cornfeedhobo/subscriptions",
-            "organizations_url": "https://api.github.com/users/cornfeedhobo/orgs",
-            "repos_url": "https://api.github.com/users/cornfeedhobo/repos",
-            "events_url": "https://api.github.com/users/cornfeedhobo/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/cornfeedhobo/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [],
-          "assignees": [],
-          "author_association": "NONE",
-          "locked": false,
-          "comments": 2,
-          "pull_request": {
-            "url": "https://api.github.com/repos/bitcoin/bips/pulls/697",
-            "html_url": "https://github.com/bitcoin/bips/pull/697",
-            "diff_url": "https://github.com/bitcoin/bips/pull/697.diff",
-            "patch_url": "https://github.com/bitcoin/bips/pull/697.patch"
-          },
-          "closed_at": "2018-07-04T22:39:05Z",
-          "created_at": "2018-07-04T14:22:47Z",
-          "updated_at": "2018-07-04T22:39:05Z"
-        },
-        "type": "issue"
-      }
     },
     {
       "event": "commented",
@@ -2781,7 +2617,9 @@
         "events_url": "https://api.github.com/users/cornfeedhobo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/cornfeedhobo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2807,7 +2645,9 @@
         "events_url": "https://api.github.com/users/cornfeedhobo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/cornfeedhobo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-402567953",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -2835,7 +2675,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2861,7 +2703,9 @@
         "events_url": "https://api.github.com/users/NicolasDorier/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-402697781",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -2889,7 +2733,9 @@
         "events_url": "https://api.github.com/users/voisine/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/voisine/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2915,7 +2761,9 @@
         "events_url": "https://api.github.com/users/voisine/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/voisine/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-402796544",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -2943,7 +2791,9 @@
         "events_url": "https://api.github.com/users/cornfeedhobo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/cornfeedhobo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2969,7 +2819,9 @@
         "events_url": "https://api.github.com/users/cornfeedhobo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/cornfeedhobo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-409409476",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -2997,7 +2849,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -3026,7 +2880,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -3055,7 +2911,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -3081,7 +2939,9 @@
         "events_url": "https://api.github.com/users/Kirvx/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/Kirvx/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-409449753",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -3109,7 +2969,9 @@
         "events_url": "https://api.github.com/users/cornfeedhobo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/cornfeedhobo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -3135,7 +2997,9 @@
         "events_url": "https://api.github.com/users/cornfeedhobo/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/cornfeedhobo/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/622#issuecomment-409743138",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/622"
@@ -3163,7 +3027,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -3192,7 +3058,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -3221,7 +3089,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "29a8781d78639cb53b10702d2965a798c6545fd7",
       "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/29a8781d78639cb53b10702d2965a798c6545fd7",
@@ -3250,7 +3120,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,

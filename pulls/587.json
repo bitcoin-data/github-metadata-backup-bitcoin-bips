@@ -36,7 +36,9 @@
       "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/mruddy/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "* `a12uel5l`: vector added to demonstrate that it and its uppercase version, `A12UEL5L` are both valid and treated as equal. `segwit_addr.bech32_encode('a', [])`\r\n\r\n* `10a06t8`: vector added to demonstrate that a combined empty HRP and empty data encode to a valid Bech32 string. `segwit_addr.bech32_encode('', [])`\r\n\r\n* `1qzzfhee`: vector added to demonstrate that an empty HRP encodes to a valid Bech32 string. `segwit_addr.bech32_encode('', [0])`\r\n\r\n* `pzry9x0s0muk`: vector moved to a new section as it is misleading in the current section because \"No separator character\" can not affect checksum validity because the separator char is not used to compute the checksum.\r\n```\r\n>>> segwit_addr.bech32_create_checksum('', [1,2,3,4,5,6])\r\n[15, 16, 15, 27, 28, 22]\r\n>>> segwit_addr.bech32_verify_checksum('', [1,2,3,4,5,6]+[15, 16, 15, 27, 28, 22])\r\nTrue\r\n```\r\n\r\n* `1pzry9x0s0muk`: vector removed as incorrect because \"Empty HRP\" is Bech32 valid -- HRP validity is application specific. `segwit_addr.bech32_encode('', [1,2,3,4,5,6])`\r\n\r\n* `A1g7sgd8` and `A1G7SGD8`: vectors added to verify that implementations adhere to BIP requirement: \"The lowercase form is used when determining a character's value for checksum purposes.\". Note:\r\n```\r\n>>> segwit_addr.bech32_encode('a', [])\r\n'a12uel5l'\r\n>>> segwit_addr.bech32_encode('A', [])\r\n'A1g7sgd8'  # BUG: violates \"The lowercase form is used when determining a character's value for checksum purposes.\"\r\n```\r\n\r\n* `10a06t8`: test vector added to demonstrate that while a valid Bech32 string, it is segwit application specific invalid.",
     "labels": [
@@ -45,6 +47,7 @@
         "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
         "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
         "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
         "color": "5319e7",
         "default": false
       }
@@ -53,7 +56,30 @@
     "updated_at": "2017-09-24T19:34:45Z",
     "closed_at": "2017-09-24T19:28:32Z",
     "mergeable_state": "unknown",
+    "merged": true,
     "merged_at": "2017-09-24T19:28:32Z",
+    "merged_by": {
+      "login": "luke-jr",
+      "id": 1095675,
+      "node_id": "MDQ6VXNlcjEwOTU2NzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1095675?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/luke-jr",
+      "html_url": "https://github.com/luke-jr",
+      "followers_url": "https://api.github.com/users/luke-jr/followers",
+      "following_url": "https://api.github.com/users/luke-jr/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/luke-jr/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/luke-jr/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/luke-jr/subscriptions",
+      "organizations_url": "https://api.github.com/users/luke-jr/orgs",
+      "repos_url": "https://api.github.com/users/luke-jr/repos",
+      "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/luke-jr/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
     "merge_commit_sha": "249f1e472b40071028241884bd6668d9d1d0e5ae",
     "assignees": [],
     "requested_reviewers": [],
@@ -80,7 +106,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       }
     },
     "base": {
@@ -105,7 +133,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -130,7 +160,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -179,12 +211,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -195,9 +227,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -238,7 +271,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -264,7 +299,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-330735092",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -292,7 +329,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -321,7 +360,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -350,7 +391,9 @@
         "events_url": "https://api.github.com/users/gmaxwell/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/gmaxwell/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -379,7 +422,9 @@
         "events_url": "https://api.github.com/users/gmaxwell/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/gmaxwell/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -408,7 +453,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -441,7 +488,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -474,7 +523,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -507,7 +558,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -533,102 +586,12 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331467844",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "mruddy",
-        "id": 6440430,
-        "node_id": "MDQ6VXNlcjY0NDA0MzA=",
-        "avatar_url": "https://avatars.githubusercontent.com/u/6440430?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/mruddy",
-        "html_url": "https://github.com/mruddy",
-        "followers_url": "https://api.github.com/users/mruddy/followers",
-        "following_url": "https://api.github.com/users/mruddy/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/mruddy/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/mruddy/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/mruddy/subscriptions",
-        "organizations_url": "https://api.github.com/users/mruddy/orgs",
-        "repos_url": "https://api.github.com/users/mruddy/repos",
-        "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/mruddy/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2017-09-22T14:54:42Z",
-      "updated_at": "2017-09-22T14:54:42Z",
-      "source": {
-        "issue": {
-          "id": 253126610,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0MTM3ODEzOTMy",
-          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11167",
-          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
-          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11167/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11167/comments",
-          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/11167/events",
-          "html_url": "https://github.com/bitcoin/bitcoin/pull/11167",
-          "number": 11167,
-          "state": "closed",
-          "state_reason": null,
-          "title": "Full BIP173 (Bech32) support",
-          "body": "Builds on top of #11117.\r\n\r\nThis adds support for:\r\n* Creating BIP173 addresses for testing (through `addwitnessaddress`, though by default it still produces P2SH versions)\r\n* Sending to BIP173 addresses (including non-v0 ones)\r\n* Analysing BIP173 addresses (through `validateaddress`)\r\n\r\nIt includes a reformatted version of the [C++ Bech32 reference code](https://github.com/sipa/bech32/tree/master/ref/c%2B%2B) and an independent implementation of the address encoding/decoding logic (integrated with CTxDestination). All BIP173 test vectors are included.\r\n\r\nNot included (and intended for other PRs):\r\n* Full wallet support for SegWit (which would include automatically adding witness scripts to the wallet during automatic keypool topup, SegWit change outputs, ...) [see #11403]\r\n* Splitting base58.cpp and tests/base58_tests.cpp up into base58-specific code, and \"address encoding\"-code [see #11372]\r\n* Error locating in UI for BIP173 addresses.\r\n",
-          "user": {
-            "login": "sipa",
-            "id": 548488,
-            "node_id": "MDQ6VXNlcjU0ODQ4OA==",
-            "avatar_url": "https://avatars.githubusercontent.com/u/548488?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/sipa",
-            "html_url": "https://github.com/sipa",
-            "followers_url": "https://api.github.com/users/sipa/followers",
-            "following_url": "https://api.github.com/users/sipa/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/sipa/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/sipa/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/sipa/subscriptions",
-            "organizations_url": "https://api.github.com/users/sipa/orgs",
-            "repos_url": "https://api.github.com/users/sipa/repos",
-            "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/sipa/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [
-            {
-              "id": 149424,
-              "node_id": "MDU6TGFiZWwxNDk0MjQ=",
-              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/Wallet",
-              "name": "Wallet",
-              "color": "08a781",
-              "default": false
-            }
-          ],
-          "assignees": [],
-          "author_association": "MEMBER",
-          "locked": true,
-          "active_lock_reason": "resolved",
-          "comments": 32,
-          "pull_request": {
-            "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/11167",
-            "html_url": "https://github.com/bitcoin/bitcoin/pull/11167",
-            "diff_url": "https://github.com/bitcoin/bitcoin/pull/11167.diff",
-            "patch_url": "https://github.com/bitcoin/bitcoin/pull/11167.patch"
-          },
-          "closed_at": "2017-09-29T08:19:46Z",
-          "created_at": "2017-08-26T22:18:27Z",
-          "updated_at": "2021-09-08T12:51:14Z"
-        },
-        "type": "issue"
-      }
     },
     {
       "event": "reviewed",
@@ -639,6 +602,7 @@
       "commit_id": "52e6c12ab4e41822f8833da88ae7bbade454be9a",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2017-09-22T19:07:44Z",
       "author_association": "MEMBER",
       "user": {
         "login": "sipa",
@@ -658,7 +622,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#pullrequestreview-64672264",
       "submitted_at": "2017-09-22T19:07:44Z",
@@ -674,6 +640,7 @@
       "commit_id": "52e6c12ab4e41822f8833da88ae7bbade454be9a",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2017-09-22T22:12:13Z",
       "author_association": "MEMBER",
       "body": "Rejecting mixed case is very intentional. Doing so massively reduces the chance of accepting arbitrary text as valid Bech32.",
       "user": {
@@ -694,7 +661,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#pullrequestreview-64672640",
       "submitted_at": "2017-09-22T22:12:13Z",
@@ -724,7 +693,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -750,7 +721,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331573481",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -778,7 +751,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -804,7 +779,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331574060",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -832,7 +809,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -861,7 +840,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -890,7 +871,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -916,7 +899,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331574118",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -944,7 +929,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -970,7 +957,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331574136",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -998,7 +987,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1024,7 +1015,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331574404",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1052,7 +1045,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1078,7 +1073,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331575112",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1106,7 +1103,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1132,7 +1131,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331575247",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1160,7 +1161,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1186,7 +1189,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331575427",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1214,7 +1219,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1240,7 +1247,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331575620",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1268,7 +1277,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1294,7 +1305,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331576736",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1322,7 +1335,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1348,7 +1363,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331577268",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1376,7 +1393,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1402,7 +1421,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331577904",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1430,7 +1451,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1456,7 +1479,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331581293",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1470,6 +1495,7 @@
       "commit_id": "242698e5a6bdb5c184b4828c9412ec7f5ed2018a",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2017-09-23T18:44:12Z",
       "author_association": "MEMBER",
       "user": {
         "login": "sipa",
@@ -1489,7 +1515,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#pullrequestreview-64745606",
       "submitted_at": "2017-09-23T18:44:12Z",
@@ -1519,7 +1547,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1552,7 +1582,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1578,7 +1610,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331677921",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1646,7 +1680,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1672,7 +1708,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331684505",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1700,7 +1738,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1726,7 +1766,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331685072",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1754,7 +1796,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1780,7 +1824,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331705782",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1808,7 +1854,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1837,7 +1885,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1866,7 +1916,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1892,7 +1944,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331724626",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -1920,7 +1974,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1949,7 +2005,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1978,7 +2036,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2004,7 +2064,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331726395",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -2032,7 +2094,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2058,7 +2122,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331726524",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -2086,7 +2152,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2112,7 +2180,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/587#issuecomment-331729199",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/587"
@@ -2140,7 +2210,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "249f1e472b40071028241884bd6668d9d1d0e5ae",
       "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/249f1e472b40071028241884bd6668d9d1d0e5ae",
@@ -2169,7 +2241,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -2198,93 +2272,13 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2017-09-24T19:34:45Z"
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "mruddy",
-        "id": 6440430,
-        "node_id": "MDQ6VXNlcjY0NDA0MzA=",
-        "avatar_url": "https://avatars.githubusercontent.com/u/6440430?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/mruddy",
-        "html_url": "https://github.com/mruddy",
-        "followers_url": "https://api.github.com/users/mruddy/followers",
-        "following_url": "https://api.github.com/users/mruddy/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/mruddy/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/mruddy/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/mruddy/subscriptions",
-        "organizations_url": "https://api.github.com/users/mruddy/orgs",
-        "repos_url": "https://api.github.com/users/mruddy/repos",
-        "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/mruddy/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2017-10-11T13:18:06Z",
-      "updated_at": "2017-10-11T13:18:06Z",
-      "source": {
-        "issue": {
-          "id": 263808469,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0MTQ1MzkwMDYy",
-          "url": "https://api.github.com/repos/trezor/trezor-crypto/issues/115",
-          "repository_url": "https://api.github.com/repos/trezor/trezor-crypto",
-          "labels_url": "https://api.github.com/repos/trezor/trezor-crypto/issues/115/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/trezor/trezor-crypto/issues/115/comments",
-          "events_url": "https://api.github.com/repos/trezor/trezor-crypto/issues/115/events",
-          "html_url": "https://github.com/trezor/trezor-crypto/pull/115",
-          "number": 115,
-          "state": "closed",
-          "state_reason": null,
-          "title": "Bech32 (BIP173) address support",
-          "body": "Added bech32 (code by Peter Wuille).\r\nAdapted the unit tests to our library.",
-          "user": {
-            "login": "jhoenicke",
-            "id": 897826,
-            "node_id": "MDQ6VXNlcjg5NzgyNg==",
-            "avatar_url": "https://avatars.githubusercontent.com/u/897826?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/jhoenicke",
-            "html_url": "https://github.com/jhoenicke",
-            "followers_url": "https://api.github.com/users/jhoenicke/followers",
-            "following_url": "https://api.github.com/users/jhoenicke/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/jhoenicke/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/jhoenicke/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/jhoenicke/subscriptions",
-            "organizations_url": "https://api.github.com/users/jhoenicke/orgs",
-            "repos_url": "https://api.github.com/users/jhoenicke/repos",
-            "events_url": "https://api.github.com/users/jhoenicke/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/jhoenicke/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [],
-          "assignees": [],
-          "author_association": "CONTRIBUTOR",
-          "locked": true,
-          "comments": 3,
-          "pull_request": {
-            "url": "https://api.github.com/repos/trezor/trezor-crypto/pulls/115",
-            "html_url": "https://github.com/trezor/trezor-crypto/pull/115",
-            "diff_url": "https://github.com/trezor/trezor-crypto/pull/115.diff",
-            "patch_url": "https://github.com/trezor/trezor-crypto/pull/115.patch"
-          },
-          "closed_at": "2017-11-03T17:49:20Z",
-          "created_at": "2017-10-09T07:47:27Z",
-          "updated_at": "2017-11-03T17:49:26Z"
-        },
-        "type": "issue"
-      }
     }
   ],
   "comments": [
@@ -2295,7 +2289,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0MDU3MzU4OQ==",
       "diff_hunk": "@@ -181,12 +181,15 @@ in the string an error might be found, without suggesting the correction\n to make.\n \n '''Uppercase/lowercase'''\n+The lowercase form is used when determining a character's value for checksum purposes.\n \n-Decoders MUST accept both uppercase and lowercase strings, but\n-not mixed case. The lowercase form is used when determining a character's\n-value for checksum purposes. For presentation, lowercase is usually\n-preferable, but inside QR codes uppercase SHOULD be used, as those permit\n-the use of\n+Encoders MUST always output an all lowercase Bech32 string.\n+If an uppercase version of the encoding result is desired, (e.g.- for presentation purposes, or QR code use),\n+then an uppercasing procedure can be performed external to the encoding process.\n+\n+Decoders MUST accept uppercase, lowercase, and mixed-case strings.",
       "path": "bip-0173.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 15,
       "commit_id": "96d39e80255548c5d95f01f577e59bb90f9d88a9",
       "original_commit_id": "52e6c12ab4e41822f8833da88ae7bbade454be9a",
@@ -2318,7 +2312,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Decoders must not accept mixed-case strings?",
       "created_at": "2017-09-22T19:07:44Z",
@@ -2347,7 +2343,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0MDU3Mzg4OA==",
       "diff_hunk": "@@ -273,11 +279,14 @@ The following strings have an invalid Bech32 checksum (with reason for invalidit\n * 0x20 + <tt>1nwldj5</tt>: HRP character out of range\n * 0x7F + <tt>1axkwrx</tt>: HRP character out of range\n * <tt>an84characterslonghumanreadablepartthatcontainsthenumber1andtheexcludedcharactersbio1569pvx</tt>: overall max length exceeded\n-* <tt>pzry9x0s0muk</tt>: No separator character\n-* <tt>1pzry9x0s0muk</tt>: Empty HRP\n * <tt>x1b4n0q5v</tt>: Invalid data character\n * <tt>li1dgmt3</tt>: Too short checksum\n * <tt>de1lg7wt</tt> + 0xFF: Invalid character in checksum\n+* <tt>A1g7sgd8</tt>: The lowercase form is used when determining a character's value for checksum purposes.\n+* <tt>A1G7SGD8</tt>: The lowercase form is used when determining a character's value for checksum purposes.\n+\n+The following are invalid Bech32 strings (with reason for invalidity):\n+* <tt>pzry9x0s0muk</tt>: No separator character",
       "path": "bip-0173.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 44,
       "commit_id": "96d39e80255548c5d95f01f577e59bb90f9d88a9",
       "original_commit_id": "52e6c12ab4e41822f8833da88ae7bbade454be9a",
@@ -2370,7 +2366,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "I think this section can be merged with the 'invalid Bech32 checksum' section.",
       "created_at": "2017-09-22T19:09:12Z",
@@ -2399,7 +2397,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0MDYwNjQ3MA==",
       "diff_hunk": "@@ -181,12 +181,15 @@ in the string an error might be found, without suggesting the correction\n to make.\n \n '''Uppercase/lowercase'''\n+The lowercase form is used when determining a character's value for checksum purposes.\n \n-Decoders MUST accept both uppercase and lowercase strings, but\n-not mixed case. The lowercase form is used when determining a character's\n-value for checksum purposes. For presentation, lowercase is usually\n-preferable, but inside QR codes uppercase SHOULD be used, as those permit\n-the use of\n+Encoders MUST always output an all lowercase Bech32 string.\n+If an uppercase version of the encoding result is desired, (e.g.- for presentation purposes, or QR code use),\n+then an uppercasing procedure can be performed external to the encoding process.\n+\n+Decoders MUST accept uppercase, lowercase, and mixed-case strings.",
       "path": "bip-0173.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 15,
       "commit_id": "96d39e80255548c5d95f01f577e59bb90f9d88a9",
       "original_commit_id": "52e6c12ab4e41822f8833da88ae7bbade454be9a",
@@ -2422,7 +2420,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Not a typo. I think decoders should (and thus \"must\") accept mixed-case. Because of the existing requirement to use the lowercase form to determine a character's value for checksum purposes, there is no difference between upper and lower case characters in any position of the bech32 string. That applies to the HRP because it is also used to compute the checksum. So, on a micro level, I don't see a reason why a decoder should fail the input. On a macro level, I can see where you might be trying to discourage mixed case. But, the other changes I made also push in that direction (in fact fixing this: `segwit_addr.bech32_encode('A', [])`).",
       "created_at": "2017-09-22T22:06:24Z",
@@ -2451,7 +2451,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0MDYwNzQ5OA==",
       "diff_hunk": "@@ -273,11 +279,14 @@ The following strings have an invalid Bech32 checksum (with reason for invalidit\n * 0x20 + <tt>1nwldj5</tt>: HRP character out of range\n * 0x7F + <tt>1axkwrx</tt>: HRP character out of range\n * <tt>an84characterslonghumanreadablepartthatcontainsthenumber1andtheexcludedcharactersbio1569pvx</tt>: overall max length exceeded\n-* <tt>pzry9x0s0muk</tt>: No separator character\n-* <tt>1pzry9x0s0muk</tt>: Empty HRP\n * <tt>x1b4n0q5v</tt>: Invalid data character\n * <tt>li1dgmt3</tt>: Too short checksum\n * <tt>de1lg7wt</tt> + 0xFF: Invalid character in checksum\n+* <tt>A1g7sgd8</tt>: The lowercase form is used when determining a character's value for checksum purposes.\n+* <tt>A1G7SGD8</tt>: The lowercase form is used when determining a character's value for checksum purposes.\n+\n+The following are invalid Bech32 strings (with reason for invalidity):\n+* <tt>pzry9x0s0muk</tt>: No separator character",
       "path": "bip-0173.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 44,
       "commit_id": "96d39e80255548c5d95f01f577e59bb90f9d88a9",
       "original_commit_id": "52e6c12ab4e41822f8833da88ae7bbade454be9a",
@@ -2474,7 +2474,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "That's how it was to start. I moved it to a new section because I thought it was misleading in the current section because \"No separator character\" can not affect checksum validity because the separator char is not used to compute the checksum.",
       "created_at": "2017-09-22T22:14:49Z",
@@ -2503,7 +2505,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0MDYwNzg3Mg==",
       "diff_hunk": "@@ -273,11 +279,14 @@ The following strings have an invalid Bech32 checksum (with reason for invalidit\n * 0x20 + <tt>1nwldj5</tt>: HRP character out of range\n * 0x7F + <tt>1axkwrx</tt>: HRP character out of range\n * <tt>an84characterslonghumanreadablepartthatcontainsthenumber1andtheexcludedcharactersbio1569pvx</tt>: overall max length exceeded\n-* <tt>pzry9x0s0muk</tt>: No separator character\n-* <tt>1pzry9x0s0muk</tt>: Empty HRP\n * <tt>x1b4n0q5v</tt>: Invalid data character\n * <tt>li1dgmt3</tt>: Too short checksum\n * <tt>de1lg7wt</tt> + 0xFF: Invalid character in checksum\n+* <tt>A1g7sgd8</tt>: The lowercase form is used when determining a character's value for checksum purposes.\n+* <tt>A1G7SGD8</tt>: The lowercase form is used when determining a character's value for checksum purposes.\n+\n+The following are invalid Bech32 strings (with reason for invalidity):\n+* <tt>pzry9x0s0muk</tt>: No separator character",
       "path": "bip-0173.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 44,
       "commit_id": "96d39e80255548c5d95f01f577e59bb90f9d88a9",
       "original_commit_id": "52e6c12ab4e41822f8833da88ae7bbade454be9a",
@@ -2526,7 +2528,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Right, but that's to for several of the existing examples in that section (like HRP character out of range, or length exceeded.\r\n\r\nI think they can be combined into a single section with examples of invalid Bech32 strings.",
       "created_at": "2017-09-22T22:17:55Z",
@@ -2555,7 +2559,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0MDYzOTM0MA==",
       "diff_hunk": "@@ -264,6 +267,9 @@ P2PKH addresses can be used.\n \n The following strings have a valid Bech32 checksum.\n * <tt>A12UEL5L</tt>\n+* <tt>a12uel5l</tt>\n+* <tt>10a06t8</tt>",
       "path": "bip-0173.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 26,
       "commit_id": "96d39e80255548c5d95f01f577e59bb90f9d88a9",
       "original_commit_id": "242698e5a6bdb5c184b4828c9412ec7f5ed2018a",
@@ -2578,7 +2582,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "There is a requirement that the HRP is non-empty, so while you're technically right that this has a valid checksum, it's not testable... any correct decoder should fail with that as input.\r\n\r\nSo I think it's maybe better to rename the section to \"The following strings are valid Bech32\" (and the next section to \"The following string are not valid Bech32 (with reason for invalidity)\", and have these two example with empty HRP in that section (with a note that technically their checksum is valid).",
       "created_at": "2017-09-23T18:44:11Z",
@@ -2607,7 +2613,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0MDY0MzE3Mw==",
       "diff_hunk": "@@ -264,6 +267,9 @@ P2PKH addresses can be used.\n \n The following strings have a valid Bech32 checksum.\n * <tt>A12UEL5L</tt>\n+* <tt>a12uel5l</tt>\n+* <tt>10a06t8</tt>",
       "path": "bip-0173.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 26,
       "commit_id": "96d39e80255548c5d95f01f577e59bb90f9d88a9",
       "original_commit_id": "242698e5a6bdb5c184b4828c9412ec7f5ed2018a",
@@ -2630,7 +2636,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "I read the BIP contrary to that. My interpretation was that no such requirement that the HRP is non-empty is in the BIP. The BIP even says that the HRP's validity is application specific (which builds on top of generic Bech32). That's why this works:\r\n```\r\n>>> segwit_addr.bech32_create_checksum('', [])\r\n[15, 29, 15, 26, 11, 7]\r\n>>> segwit_addr.bech32_verify_checksum('', [] + [15, 29, 15, 26, 11, 7])\r\nTrue\r\n```\r\nIt seems odd that we'd encode something that can't be decoded. I think the reference decoder is implementing a phantom requirement right now. If we add a requirement that HRP be non-empty, I think that's OK, just other things need to be updated also. Am I making sense?",
       "created_at": "2017-09-23T22:35:22Z",
@@ -2659,7 +2667,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0MDY0MzQ4Ng==",
       "diff_hunk": "@@ -264,6 +267,9 @@ P2PKH addresses can be used.\n \n The following strings have a valid Bech32 checksum.\n * <tt>A12UEL5L</tt>\n+* <tt>a12uel5l</tt>\n+* <tt>10a06t8</tt>",
       "path": "bip-0173.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 26,
       "commit_id": "96d39e80255548c5d95f01f577e59bb90f9d88a9",
       "original_commit_id": "242698e5a6bdb5c184b4828c9412ec7f5ed2018a",
@@ -2682,7 +2690,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "You're right - it seems the non-empty HRP isn't mentioned in the BIP anywhere, except in the test vectors.\n\nI prefer modifying it so that it does require that, and is uniformly implemented in decoders and encoders.",
       "created_at": "2017-09-23T23:00:20Z",
@@ -2711,7 +2721,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0MDY0MzU2Mw==",
       "diff_hunk": "@@ -264,6 +267,9 @@ P2PKH addresses can be used.\n \n The following strings have a valid Bech32 checksum.\n * <tt>A12UEL5L</tt>\n+* <tt>a12uel5l</tt>\n+* <tt>10a06t8</tt>",
       "path": "bip-0173.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 26,
       "commit_id": "96d39e80255548c5d95f01f577e59bb90f9d88a9",
       "original_commit_id": "242698e5a6bdb5c184b4828c9412ec7f5ed2018a",
@@ -2734,7 +2744,9 @@
         "events_url": "https://api.github.com/users/mruddy/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/mruddy/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "ok, i'll update to that effect.\r\n\r\nbtw, the non-checksum data portion can be empty right now. do you want to keep that as it is now? i think so, just checking.",
       "created_at": "2017-09-23T23:05:03Z",
@@ -2763,7 +2775,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0MDY0MzU5OQ==",
       "diff_hunk": "@@ -264,6 +267,9 @@ P2PKH addresses can be used.\n \n The following strings have a valid Bech32 checksum.\n * <tt>A12UEL5L</tt>\n+* <tt>a12uel5l</tt>\n+* <tt>10a06t8</tt>",
       "path": "bip-0173.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 26,
       "commit_id": "96d39e80255548c5d95f01f577e59bb90f9d88a9",
       "original_commit_id": "242698e5a6bdb5c184b4828c9412ec7f5ed2018a",
@@ -2786,7 +2798,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Yes, sounds good. Thanks!",
       "created_at": "2017-09-23T23:08:07Z",

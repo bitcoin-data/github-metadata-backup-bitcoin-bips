@@ -36,7 +36,9 @@
       "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/ajtowns/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "Prior to this patch bip8 allows for states to go `STARTED -> FAILING -> ACTIVE` in which case the last block of FAILING state signalling or not signalling would change the consensus rules applied to the very next block. This potentially gives very little warning of an upgrade.\r\n\r\nAdditionally, if it is desirable to reduce the timeoutheight for a bip8 deployment (for example from X to Y, Y < X), then activation via lockinontimeout at the shorter height would not result in consistent consensus rules. In particular, implementations  would see:\r\n\r\n * timeoutheight=Y, lockinontimeout=true: height Y-2016: STARTED, height Y: LOCKED_IN, height Y+2016: ACTIVE\r\n * timeoutheight=Y, lockinontimeout=false: height Y-2016: STARTED, height Y: FAILING, height Y+2016: ACTIVE\r\n * timeoutheight=X, lockinontimeout=*: height Y-2016: STARTED, height Y: STARTED, height Y+2016: LOCKED_IN, height Y+4032: ACTIVE\r\n\r\nThis patch also reduces the number of blocks that must signal during the new MUST_SIGNAL phase from the current 100% requirement to the same requirement as needed to trigger from STARTED to LOCKED_IN; this ensures that provided the same threshold is used, if the deployment transitions to LOCKED_IN at height X for any bip8 deployment, it will transition to LOCKED_IN at height X for every bip8 deployment, given the same startheight and timeoutheight > X.\r\n\r\nIt also uses the MUST_SIGNAL state to trigger validation rules checking blocks signal. It would be possible to use these rules for checking if reindexing is necessary -- if you added an \"impossible\" transition from MUST_SIGNAL to INVALID if the threshold isn't met, then reindexing necessary precisely when the current block is INVALID, or MUST_SIGNAL and fails validation, and you need to reindex back to the last STARTED/DEFINED block.",
     "labels": [
@@ -45,6 +47,7 @@
         "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
         "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
         "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
         "color": "5319e7",
         "default": false
       }
@@ -54,6 +57,7 @@
     "closed_at": "2020-10-15T20:38:58Z",
     "mergeable": false,
     "mergeable_state": "dirty",
+    "merged": false,
     "merge_commit_sha": "56874e4131b39b0d173794cf7e4b8b0663726846",
     "assignees": [],
     "requested_reviewers": [],
@@ -81,7 +85,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 158782389,
@@ -106,7 +112,9 @@
           "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/ajtowns/received_events",
           "type": "User",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/ajtowns/bips",
@@ -154,11 +162,11 @@
         "hooks_url": "https://api.github.com/repos/ajtowns/bips/hooks",
         "svn_url": "https://github.com/ajtowns/bips",
         "homepage": "bitcoin.org",
-        "language": "Python",
+        "language": "Wikitext",
         "forks_count": 3,
         "stargazers_count": 3,
         "watchers_count": 3,
-        "size": 14320,
+        "size": 19463,
         "default_branch": "master",
         "open_issues_count": 2,
         "is_template": false,
@@ -171,9 +179,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-03-29T05:11:09Z",
+        "pushed_at": "2026-02-03T17:09:43Z",
         "created_at": "2018-11-23T04:53:50Z",
-        "updated_at": "2022-06-17T10:32:37Z"
+        "updated_at": "2026-01-31T07:59:43Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -198,7 +207,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -223,7 +234,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -272,12 +285,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -288,9 +301,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -317,6 +331,7 @@
       "commit_id": "30a9c1c8f4cc8188e7413fd804c26991e4bbbaa9",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2020-07-27T15:02:11Z",
       "author_association": "CONTRIBUTOR",
       "body": "",
       "user": {
@@ -337,7 +352,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/950#pullrequestreview-455868229",
       "submitted_at": "2020-07-27T15:02:11Z",
@@ -353,6 +370,7 @@
       "commit_id": "30a9c1c8f4cc8188e7413fd804c26991e4bbbaa9",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2020-08-01T02:42:14Z",
       "author_association": "MEMBER",
       "user": {
         "login": "luke-jr",
@@ -372,7 +390,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/950#pullrequestreview-459545212",
       "submitted_at": "2020-08-01T02:42:14Z",
@@ -388,6 +408,7 @@
       "commit_id": "30a9c1c8f4cc8188e7413fd804c26991e4bbbaa9",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2020-08-01T02:43:21Z",
       "author_association": "MEMBER",
       "user": {
         "login": "luke-jr",
@@ -407,7 +428,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/950#pullrequestreview-459545318",
       "submitted_at": "2020-08-01T02:43:21Z",
@@ -423,6 +446,7 @@
       "commit_id": "30a9c1c8f4cc8188e7413fd804c26991e4bbbaa9",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2020-08-01T02:46:52Z",
       "author_association": "MEMBER",
       "user": {
         "login": "luke-jr",
@@ -442,7 +466,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/950#pullrequestreview-459545612",
       "submitted_at": "2020-08-01T02:46:52Z",
@@ -458,6 +484,7 @@
       "commit_id": "30a9c1c8f4cc8188e7413fd804c26991e4bbbaa9",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2020-08-01T02:47:42Z",
       "author_association": "MEMBER",
       "user": {
         "login": "luke-jr",
@@ -477,7 +504,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/950#pullrequestreview-459545676",
       "submitted_at": "2020-08-01T02:47:42Z",
@@ -507,7 +536,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -540,10 +571,12 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "5a152d6543c4732da3132c66ea50b56dd6e74161",
+      "commit_url": "https://api.github.com/repos/ajtowns/bips/commits/5a152d6543c4732da3132c66ea50b56dd6e74161",
       "created_at": "2020-08-06T08:15:33Z"
     },
     {
@@ -569,10 +602,12 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "594460eef1feea7e3e640504c892f8836bbe6aad",
+      "commit_url": "https://api.github.com/repos/ajtowns/bips/commits/594460eef1feea7e3e640504c892f8836bbe6aad",
       "created_at": "2020-08-06T10:01:17Z"
     },
     {
@@ -598,10 +633,12 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "16728c371c0405521e4cfe1a008d1682382d7c23",
+      "commit_url": "https://api.github.com/repos/ajtowns/bips/commits/16728c371c0405521e4cfe1a008d1682382d7c23",
       "created_at": "2020-08-06T10:02:34Z"
     },
     {
@@ -627,10 +664,12 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "d1c8642b8bd1402b2769f09800b3807a4a421f2b",
+      "commit_url": "https://api.github.com/repos/ajtowns/bips/commits/d1c8642b8bd1402b2769f09800b3807a4a421f2b",
       "created_at": "2020-08-06T12:46:45Z"
     },
     {
@@ -656,7 +695,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -682,7 +723,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/950#issuecomment-669906349",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/950"
@@ -710,7 +753,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -739,7 +784,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -888,10 +935,12 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "b019d5fce5c97f88d301397bfc9e1f5bfb63e441",
+      "commit_url": "https://api.github.com/repos/ajtowns/bips/commits/b019d5fce5c97f88d301397bfc9e1f5bfb63e441",
       "created_at": "2020-08-06T12:52:32Z"
     },
     {
@@ -903,6 +952,7 @@
       "commit_id": "b019d5fce5c97f88d301397bfc9e1f5bfb63e441",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2020-10-05T15:55:11Z",
       "author_association": "MEMBER",
       "user": {
         "login": "luke-jr",
@@ -922,7 +972,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/950#pullrequestreview-502197527",
       "submitted_at": "2020-10-05T15:55:11Z",
@@ -952,7 +1004,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -978,135 +1032,12 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/950#issuecomment-709422573",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/950"
-    },
-    {
-      "event": "cross-referenced",
-      "id": null,
-      "node_id": null,
-      "url": null,
-      "actor": {
-        "login": "luke-jr",
-        "id": 1095675,
-        "node_id": "MDQ6VXNlcjEwOTU2NzU=",
-        "avatar_url": "https://avatars.githubusercontent.com/u/1095675?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/luke-jr",
-        "html_url": "https://github.com/luke-jr",
-        "followers_url": "https://api.github.com/users/luke-jr/followers",
-        "following_url": "https://api.github.com/users/luke-jr/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/luke-jr/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/luke-jr/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/luke-jr/subscriptions",
-        "organizations_url": "https://api.github.com/users/luke-jr/orgs",
-        "repos_url": "https://api.github.com/users/luke-jr/repos",
-        "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/luke-jr/received_events",
-        "type": "User",
-        "site_admin": false
-      },
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": "2020-10-15T18:30:28Z",
-      "updated_at": "2020-10-15T18:30:28Z",
-      "source": {
-        "issue": {
-          "id": 664763273,
-          "node_id": "MDExOlB1bGxSZXF1ZXN0NDU1OTUwMTc1",
-          "url": "https://api.github.com/repos/bitcoin/bitcoin/issues/19573",
-          "repository_url": "https://api.github.com/repos/bitcoin/bitcoin",
-          "labels_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/19573/labels%7B/name%7D",
-          "comments_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/19573/comments",
-          "events_url": "https://api.github.com/repos/bitcoin/bitcoin/issues/19573/events",
-          "html_url": "https://github.com/bitcoin/bitcoin/pull/19573",
-          "number": 19573,
-          "state": "closed",
-          "state_reason": null,
-          "title": "Replace unused BIP 9 logic with draft BIP 8",
-          "body": "Since all BIP 9 deployments are buried, we can simply replace it with BIP 8 cleanly.\r\n",
-          "user": {
-            "login": "luke-jr",
-            "id": 1095675,
-            "node_id": "MDQ6VXNlcjEwOTU2NzU=",
-            "avatar_url": "https://avatars.githubusercontent.com/u/1095675?v=4",
-            "gravatar_id": "",
-            "url": "https://api.github.com/users/luke-jr",
-            "html_url": "https://github.com/luke-jr",
-            "followers_url": "https://api.github.com/users/luke-jr/followers",
-            "following_url": "https://api.github.com/users/luke-jr/following%7B/other_user%7D",
-            "gists_url": "https://api.github.com/users/luke-jr/gists%7B/gist_id%7D",
-            "starred_url": "https://api.github.com/users/luke-jr/starred%7B/owner%7D%7B/repo%7D",
-            "subscriptions_url": "https://api.github.com/users/luke-jr/subscriptions",
-            "organizations_url": "https://api.github.com/users/luke-jr/orgs",
-            "repos_url": "https://api.github.com/users/luke-jr/repos",
-            "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
-            "received_events_url": "https://api.github.com/users/luke-jr/received_events",
-            "type": "User",
-            "site_admin": false
-          },
-          "labels": [
-            {
-              "id": 98279177,
-              "node_id": "MDU6TGFiZWw5ODI3OTE3Nw==",
-              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/RPC/REST/ZMQ",
-              "name": "RPC/REST/ZMQ",
-              "color": "0052cc",
-              "default": false
-            },
-            {
-              "id": 118378960,
-              "node_id": "MDU6TGFiZWwxMTgzNzg5NjA=",
-              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/Mining",
-              "name": "Mining",
-              "color": "c7def8",
-              "default": false
-            },
-            {
-              "id": 118379652,
-              "node_id": "MDU6TGFiZWwxMTgzNzk2NTI=",
-              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/Validation",
-              "name": "Validation",
-              "color": "6060aa",
-              "default": false
-            },
-            {
-              "id": 192202000,
-              "node_id": "MDU6TGFiZWwxOTIyMDIwMDA=",
-              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/Consensus",
-              "name": "Consensus",
-              "color": "009800",
-              "default": false
-            },
-            {
-              "id": 955867938,
-              "node_id": "MDU6TGFiZWw5NTU4Njc5Mzg=",
-              "url": "https://api.github.com/repos/bitcoin/bitcoin/labels/Needs%20rebase",
-              "name": "Needs rebase",
-              "description": "",
-              "color": "cccccc",
-              "default": false
-            }
-          ],
-          "assignees": [],
-          "author_association": "MEMBER",
-          "locked": true,
-          "active_lock_reason": "resolved",
-          "comments": 48,
-          "pull_request": {
-            "url": "https://api.github.com/repos/bitcoin/bitcoin/pulls/19573",
-            "html_url": "https://github.com/bitcoin/bitcoin/pull/19573",
-            "diff_url": "https://github.com/bitcoin/bitcoin/pull/19573.diff",
-            "patch_url": "https://github.com/bitcoin/bitcoin/pull/19573.patch"
-          },
-          "closed_at": "2021-04-15T15:20:29Z",
-          "created_at": "2020-07-23T21:01:56Z",
-          "updated_at": "2022-08-16T17:20:29Z"
-        },
-        "type": "issue"
-      }
     },
     {
       "event": "closed",
@@ -1131,7 +1062,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1160,7 +1093,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -1186,7 +1121,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/950#issuecomment-711588630",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/950"
@@ -1223,7 +1160,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "0x2... misses a 0 and the parantheses are wrong (there's at least one opening paranthesis missing). I tested this code a little bit and it seems correct. Nit: Could perhaps be a bit simplified by moving the break condition to the while conditions and moving the `nonsignal + count + threshold > 2016` condition somewhere else because the LHS is constant across loop iterations. Perhaps something like\r\n\r\n```\r\nwalk = block;\r\nif (count + threshold >= 2016) {\r\n    while (count > 0  && nonsignal + threshold <= 2016)  {\r\n        ...\r\n        if ... {\r\n            ++nonsignal;\r\n        }\r\n    }\r\n    if (nonsignal + threshold > 2016) {\r\n        return Invalid;\r\n    }\r\n}\r\n```\r\n\r\nGenerally the suggested changes look very reasonable but I can't speak to the p2p relay issues.\r\n",
       "created_at": "2020-07-27T15:01:44Z",
@@ -1275,7 +1214,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "This drops mandatory signalling in the MASF case. Maybe that's okay, but I'm not sure yet. Can you move it to a separate PR?",
       "created_at": "2020-08-01T02:42:14Z",
@@ -1327,7 +1268,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "I wonder if we should keep FAILING as an alternative here, for UX only (no logic difference from STARTED).",
       "created_at": "2020-08-01T02:43:20Z",
@@ -1356,7 +1299,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ2MzkxMTU0MQ==",
       "diff_hunk": "@@ -169,6 +164,29 @@ And ACTIVE and FAILED are terminal states, which a deployment stays in once they\n         }\n     }\n \n+Note that blocks received while in MUST_SIGNAL must be checked to ensure that the threshold will be reached by the end of the period. For example:\n+\n+    if (GetStateForBlock(block) == MUST_SIGNAL) {\n+        if (block.nVersion & 0xE0000000 != 0x2000000 || block.nVersion >> bit) & 1 != 1) {\n+            nonsignal = 1;\n+            count = block.nHeight % 2016;\n+            walk = block;\n+            while (count > 0 && nonsignal + count + threshold > 2016) {\n+                --count;\n+                walk = walk.parent;\n+                if (walk.nVersion & 0xE0000000 != 0x2000000 || walk.nVersion >> bit) & 1 != 1) {\n+                    ++nonsignal;\n+                    if (nonsignal + threshold > 2016) break;\n+                }\n+            }\n+            if (nonsignal + threshold > 2016) {\n+                return state.Invalid(BlockValidationResult::RECENT_CONSENSUS_CHANGE, \"blk-bip8-must-signal\");\n+            }\n+        }\n+    }\n+\n+Implementations should be careful not to ban peers that send blocks that are invalid due to not signalling (or blocks that build on those blocks), as that would allow an incompatible chain that is only briefly longer than the compliant chain to cause a split of the p2p network. If that occurred, nodes that are not enforcing lockinontimeout may not see new blocks in the compliant chain, and thus not reorg to it at the point when it has more work, and would thus not be following the valid chain with the most work.",
       "path": "bip-0008.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 108,
       "commit_id": "b019d5fce5c97f88d301397bfc9e1f5bfb63e441",
       "original_commit_id": "30a9c1c8f4cc8188e7413fd804c26991e4bbbaa9",
@@ -1379,7 +1322,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "But even more importantly, nodes enforcing `MUST_SIGNAL` need to ensure they remain attached to other such nodes.",
       "created_at": "2020-08-01T02:46:52Z",
@@ -1408,7 +1353,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ2MzkxMTYxMg==",
       "diff_hunk": "@@ -227,7 +245,6 @@ https://github.com/bitcoin/bitcoin/compare/master...luke-jr:bip8\n \n * The '''lockinontimeout''' flag is added. BIP 9 would only transition to the FAILED state when timeout was reached.",
       "path": "bip-0008.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 124,
       "commit_id": "b019d5fce5c97f88d301397bfc9e1f5bfb63e441",
       "original_commit_id": "30a9c1c8f4cc8188e7413fd804c26991e4bbbaa9",
@@ -1431,7 +1376,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Probably should rephrase this",
       "created_at": "2020-08-01T02:47:42Z",
@@ -1483,7 +1430,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "`count` decreases every iteration but `nonsignal` only increases sometimes, so the LHS is decreasing, which lets the loop exit early (if you've only seen 5 nonsignalling blocks, and there's only 95 more blocks to look at, you'll never get 101 nonsignalling blocks so no need to look any further). Not really very useful to include in the spec though. No real need to skip the loop if the current block signals either, I think which might make the spec a bit simpler.",
       "created_at": "2020-08-06T07:07:44Z",
@@ -1535,7 +1484,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Well, it drops mandatory signalling to 95% rather than 100%, but MASF won't happen without 95% signalling, so \"MASF drops mandatory signalling\" is technically saying \"miners did 95% signalling to trigger activation, but they didn't do 95% signalling\" which doesn't make sense to me... I'm not seeing what a 100% signal period buys over a 95% signal period (and it'd cost either miners or users having to immediately react to seeing it, or and extra month between lockin and activation, with states going `STARTED -> PAUSE1 -> ALL_SIGNAL -> PAUSE2 -> ACTIVE` assuming users are meant to react based on `ALL_SIGNAL` rather than the 95% signalling in `STARTED`)",
       "created_at": "2020-08-06T07:18:36Z",
@@ -1587,7 +1538,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "UX only should be in the code, not in the bip, I think?",
       "created_at": "2020-08-06T07:19:21Z",
@@ -1616,7 +1569,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ2NjIxOTgzNA==",
       "diff_hunk": "@@ -169,6 +164,29 @@ And ACTIVE and FAILED are terminal states, which a deployment stays in once they\n         }\n     }\n \n+Note that blocks received while in MUST_SIGNAL must be checked to ensure that the threshold will be reached by the end of the period. For example:\n+\n+    if (GetStateForBlock(block) == MUST_SIGNAL) {\n+        if (block.nVersion & 0xE0000000 != 0x2000000 || block.nVersion >> bit) & 1 != 1) {\n+            nonsignal = 1;\n+            count = block.nHeight % 2016;\n+            walk = block;\n+            while (count > 0 && nonsignal + count + threshold > 2016) {\n+                --count;\n+                walk = walk.parent;\n+                if (walk.nVersion & 0xE0000000 != 0x2000000 || walk.nVersion >> bit) & 1 != 1) {\n+                    ++nonsignal;\n+                    if (nonsignal + threshold > 2016) break;\n+                }\n+            }\n+            if (nonsignal + threshold > 2016) {\n+                return state.Invalid(BlockValidationResult::RECENT_CONSENSUS_CHANGE, \"blk-bip8-must-signal\");\n+            }\n+        }\n+    }\n+\n+Implementations should be careful not to ban peers that send blocks that are invalid due to not signalling (or blocks that build on those blocks), as that would allow an incompatible chain that is only briefly longer than the compliant chain to cause a split of the p2p network. If that occurred, nodes that are not enforcing lockinontimeout may not see new blocks in the compliant chain, and thus not reorg to it at the point when it has more work, and would thus not be following the valid chain with the most work.",
       "path": "bip-0008.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 108,
       "commit_id": "b019d5fce5c97f88d301397bfc9e1f5bfb63e441",
       "original_commit_id": "30a9c1c8f4cc8188e7413fd804c26991e4bbbaa9",
@@ -1639,7 +1592,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "I think the details of that probably need to be left to the bips that want to deploy via bip-8; they could ensure they remain connected to other nodes by making sure lockinontimeout only happens when everybody is happy with it, in which case no special code is needed; or they could allocate a temporary service flag bit for it and preferentially connect to other nodes that way for some period.\r\n\r\nStill worth mentioning, but nothing's coming to mind as to what to say exactly.",
       "created_at": "2020-08-06T08:02:36Z",
@@ -1668,7 +1623,7 @@
       "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ2NjIyNzU3OA==",
       "diff_hunk": "@@ -169,6 +164,29 @@ And ACTIVE and FAILED are terminal states, which a deployment stays in once they\n         }\n     }\n \n+Note that blocks received while in MUST_SIGNAL must be checked to ensure that the threshold will be reached by the end of the period. For example:\n+\n+    if (GetStateForBlock(block) == MUST_SIGNAL) {\n+        if (block.nVersion & 0xE0000000 != 0x2000000 || block.nVersion >> bit) & 1 != 1) {\n+            nonsignal = 1;\n+            count = block.nHeight % 2016;\n+            walk = block;\n+            while (count > 0 && nonsignal + count + threshold > 2016) {\n+                --count;\n+                walk = walk.parent;\n+                if (walk.nVersion & 0xE0000000 != 0x2000000 || walk.nVersion >> bit) & 1 != 1) {\n+                    ++nonsignal;\n+                    if (nonsignal + threshold > 2016) break;\n+                }\n+            }\n+            if (nonsignal + threshold > 2016) {\n+                return state.Invalid(BlockValidationResult::RECENT_CONSENSUS_CHANGE, \"blk-bip8-must-signal\");\n+            }\n+        }\n+    }\n+\n+Implementations should be careful not to ban peers that send blocks that are invalid due to not signalling (or blocks that build on those blocks), as that would allow an incompatible chain that is only briefly longer than the compliant chain to cause a split of the p2p network. If that occurred, nodes that are not enforcing lockinontimeout may not see new blocks in the compliant chain, and thus not reorg to it at the point when it has more work, and would thus not be following the valid chain with the most work.",
       "path": "bip-0008.mediawiki",
-      "position": null,
+      "position": 1,
       "original_position": 108,
       "commit_id": "b019d5fce5c97f88d301397bfc9e1f5bfb63e441",
       "original_commit_id": "30a9c1c8f4cc8188e7413fd804c26991e4bbbaa9",
@@ -1691,7 +1646,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Added a note about this in a separate commit",
       "created_at": "2020-08-06T08:15:58Z",
@@ -1743,7 +1700,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Updated this",
       "created_at": "2020-08-06T08:16:20Z",
@@ -1795,7 +1754,9 @@
         "events_url": "https://api.github.com/users/jonasnick/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonasnick/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Hmm, not sure why I said the LHS would be constant. But what I meant is that you can leave count out of this as I did in my pseudocode.\r\n\r\nAnyway, the new code passes my tests. So ACK that.\r\n\r\n> No real need to skip the loop if the current block signals either,\r\n\r\nFwiw, the updated code still seems to that with the `else if` block.",
       "created_at": "2020-08-06T17:46:30Z",
@@ -1847,7 +1808,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "The 95% is before LOCKED_IN, so fundamentally separate from the mandatory signalling during LOCKED_IN.\r\n\r\nI'm not saying it should definitely be rejected, just that it should be separate from this PR and evaluated independently.",
       "created_at": "2020-08-06T22:16:11Z",
@@ -1899,7 +1862,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Well, the UX side is simply conveying \"deployment status\". It might be cleaner to recognise a status of \"others might be MUST_SIGNAL\".\r\n\r\nBuuut... the point of this change is to make it so that could be arbitrarily earlier. So maybe FAILING would be bad to reintroduce in the end.",
       "created_at": "2020-08-06T22:18:45Z",
@@ -1951,7 +1916,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "The way I'm looking at the fundamentals is that, at present:\r\n * miners need to react instantly when they see 95% signalling during STARTED, and do 100% signalling during LOCKED_IN\r\n * users need to react instantly when they see 100% signalling during FAILING/LOCKED_IN, and start enforcing soft fork rules\r\n * with lockinontimeout, miners need to signal at 100% at a particular time\r\n\r\nAnd after this patch:\r\n * miners don't need to upgrade from 95% signalling to 100% signalling\r\n * users have a retarget period to react when they see 95% signalling during STARTED/MUST_SIGNAL, and then need to  start enforcing the soft fork rules\r\n * with lockinontimeout, miners are required to signal at 95% at a particular time\r\n\r\nThe only reason I can see for \"miners need to upgrade from 95% signalling to 100% signalling\" is if users want to only react when they see 100% signalling (which would make it more plausible to reduce the activation threshold for a deployment I guess), but to preserve the \"don't have to react immediately\" that would look add another two retarget periods, something like:\r\n\r\n```\r\n * STARTED -> THRESHOLD_MET (95% threshold)\r\n * THRESHOLD_MET -> SIGNAL_ALL (always)\r\n * SIGNAL_ALL -> LOCKED_IN (always)\r\n * LOCKED_IN -> ACTIVE (always)\r\n * STARTED -> LOCKED_IN (100% threshold)\r\n\r\n * all blocks must signal during SIGNAL_ALL\r\n * STARTED -> LOCKED_IN transition ensures compatibility with lock in via reduced threshold activation\r\n```\r\n\r\nBut if you want to reduce the activation threshold you can just have another deployment like bip91 that signals on a different bit, so instead of `STARTED -> THREDHOLD_MET -> SIGNAL_ALL -> LOCKED_IN -> ACTIVE` you go `(STARTED,STARTED) -> (STARTED,LOCKED_IN) -> (STARTED,ACTIVE) -> (LOCKED_IN,COMPLETE) -> (ACTIVE,COMPLETE)` which takes the same amount of time, but doesn't complicate deployments that don't need their threshold reduced. And that approach works even if you change the period length as well as the threshold.",
       "created_at": "2020-08-06T23:48:33Z",
@@ -2003,7 +1970,9 @@
         "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/ajtowns/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Maybe ideally you'd somehow track \"there's a lower work header chain where the fork has activated, and the tip is not terribly old\" and alert based on that?",
       "created_at": "2020-08-07T02:15:16Z",
@@ -2055,7 +2024,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "...with STARTED (or MUST_SIGNAL) blocks...",
       "created_at": "2020-10-05T15:55:11Z",
@@ -2107,7 +2078,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Again, I'm not saying we shouldn't make this change, only that it is logically independent from the rest of the changes here, and should be a separate PR.",
       "created_at": "2020-10-05T15:57:58Z",

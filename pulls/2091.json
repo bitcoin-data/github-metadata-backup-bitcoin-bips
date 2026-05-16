@@ -12,12 +12,12 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2091/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2091/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/6899bf4fac76b2600157b98ab9136744d7760400",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/442e9628b3dcca1b65f0df8af2308f8260e00caa",
     "number": 2091,
-    "state": "open",
+    "state": "closed",
     "locked": false,
-    "maintainer_can_modify": true,
-    "title": "Fix broken anchor links in BIP 0342, BIP 0022, BIP 0023",
+    "maintainer_can_modify": false,
+    "title": "Fix broken anchor links",
     "user": {
       "login": "EthanHeilman",
       "id": 274814,
@@ -43,35 +43,51 @@
     "body": "At some point[ github changed how anchor links](https://github.com/gjtorikian/commonmarker/issues/229#issuecomment-1418272363) work. Currently anchor links using the double square bracket format require that the anchor be prepended with `user-content-`.\r\n\r\nThis means that the following link used to work, but doesn't today\r\n\r\n```\r\n [[bip-0341.mediawiki#design|BIP341]]\r\n```\r\n \r\nThe link that works today would be\r\n \r\n```\r\n[[bip-0341.mediawiki#user-content-design|BIP341]]\r\n```\r\n\r\nThe link still resolves to the page, but just not the anchor so I suspect no one noticed.\r\n\r\n\r\nIn addition to this it appears that in the past github anchors could have spaces or punction, but that is no longer valid. Spaces are replaced with `_` and punction appears to be not included in the anchor.\r\n\r\nI fixed this for BIP 0342, BIP 0022, BIP 0023, but it impacts a good chunk of BIPs. If you want I can change this PR to fix for all the BIPs, but I didn't want to put in the time to do that in case an editor wanted to make these changes themselves.\r\n\r\nIf this PR isn't useful or the project isn't interested in fixing this very minor linking issue. Feel free to close this PR.\r\n\r\n",
     "labels": [
       {
-        "id": 275846070,
-        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
-        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
-        "name": "Proposed BIP modification",
-        "color": "5319e7",
-        "default": false
-      },
-      {
-        "id": 7257303965,
-        "node_id": "LA_kwDOAN28mc8AAAABsJGrnQ",
-        "url": "https://api.github.com/repos/bitcoin/bips/labels/Bug%20fix",
-        "name": "Bug fix",
+        "id": 9029110872,
+        "node_id": "LA_kwDOAN28mc8AAAACGi1MWA",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Link%20fix",
+        "name": "Link fix",
         "description": "",
-        "color": "b60205",
+        "color": "5E15D6",
         "default": false
       }
     ],
     "created_at": "2026-01-24T01:09:08Z",
-    "updated_at": "2026-02-27T22:33:55Z",
+    "updated_at": "2026-05-05T20:44:49Z",
+    "closed_at": "2026-05-05T20:44:37Z",
     "mergeable_state": "unknown",
-    "merged": false,
-    "merge_commit_sha": "76ef66e4ff89f6add4d9d4acc3cb24dc615e306f",
+    "merged": true,
+    "merged_at": "2026-05-05T20:44:36Z",
+    "merged_by": {
+      "login": "jonatack",
+      "id": 2415484,
+      "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jonatack",
+      "html_url": "https://github.com/jonatack",
+      "followers_url": "https://api.github.com/users/jonatack/followers",
+      "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+      "organizations_url": "https://api.github.com/users/jonatack/orgs",
+      "repos_url": "https://api.github.com/users/jonatack/repos",
+      "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/jonatack/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
+    "merge_commit_sha": "ca418babb7387e8671006db0f8e7fdbc1b560c72",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
     "head": {
       "label": "EthanHeilman:fixlinks",
       "ref": "fixlinks",
-      "sha": "6899bf4fac76b2600157b98ab9136744d7760400",
+      "sha": "442e9628b3dcca1b65f0df8af2308f8260e00caa",
       "user": {
         "login": "EthanHeilman",
         "id": 274814,
@@ -171,7 +187,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 19236,
+        "size": 24057,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -184,16 +200,16 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-02-27T22:34:58Z",
+        "pushed_at": "2026-04-28T00:30:54Z",
         "created_at": "2022-05-15T18:38:29Z",
-        "updated_at": "2026-01-24T00:36:27Z",
+        "updated_at": "2026-03-02T04:17:49Z",
         "allow_forking": true
       }
     },
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "9ff061f8b95f5afd792a1358992ed753cd083319",
+      "sha": "5253e9a294cd46bd94b505ec544992dacc0f2b98",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -290,12 +306,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5914,
-        "stargazers_count": 10609,
-        "watchers_count": 10609,
-        "size": 21462,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 71,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -306,9 +322,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-02-27T22:52:53Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-02-27T22:53:06Z",
+        "updated_at": "2026-05-15T19:33:05Z",
         "allow_forking": true
       }
     },
@@ -323,50 +339,10 @@
     "deletions": 65,
     "changed_files": 21,
     "commits": 6,
-    "review_comments": 8,
-    "comments": 1
+    "review_comments": 10,
+    "comments": 2
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGY4N2E1YTMxZWNiMGFkYzJhZDQxNGEwMjQwNDFlODFmNzI2Njk1N2I",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f87a5a31ecb0adc2ad414a024041e81f7266957b",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/f87a5a31ecb0adc2ad414a024041e81f7266957b",
-      "tree": {
-        "sha": "bc4f5d540a52700e8f1e80d92085f75fcc80840d",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/bc4f5d540a52700e8f1e80d92085f75fcc80840d"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ecb074d487ac709c6321a5b85a6d081bd20ff30b",
-          "sha": "ecb074d487ac709c6321a5b85a6d081bd20ff30b",
-          "html_url": "https://github.com/bitcoin/bips/commit/ecb074d487ac709c6321a5b85a6d081bd20ff30b"
-        }
-      ],
-      "message": "Fix broken anchor links",
-      "committer": {
-        "name": "Ethan Heilman",
-        "email": "ethan.r.heilman@gmail.com",
-        "date": "2026-01-24T00:55:12Z"
-      },
-      "author": {
-        "name": "Ethan Heilman",
-        "email": "ethan.r.heilman@gmail.com",
-        "date": "2026-01-24T00:55:12Z"
-      },
-      "sha": "f87a5a31ecb0adc2ad414a024041e81f7266957b"
-    },
     {
       "event": "labeled",
       "id": 22278035807,
@@ -645,206 +621,6 @@
       }
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGNiN2Y0YmQwNDg3OTdiMmQxZDAzZjE4MzBmNmVkYjJhY2ZjNjg2MzY",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/cb7f4bd048797b2d1d03f1830f6edb2acfc68636",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/cb7f4bd048797b2d1d03f1830f6edb2acfc68636",
-      "tree": {
-        "sha": "e7e28d38e9991e4cca473ff8fcc55cf9abf6bad6",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/e7e28d38e9991e4cca473ff8fcc55cf9abf6bad6"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree e7e28d38e9991e4cca473ff8fcc55cf9abf6bad6\nparent f87a5a31ecb0adc2ad414a024041e81f7266957b\nauthor Murch <murch@murch.one> 1772225015 -0800\ncommitter Murch <murch@murch.one> 1772225015 -0800\n\nBIP22: fix anchor links\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmmiAf0ACgkQe6A1yluQ\nFxOfGA//c8nPCwSFN/AmrMgirp/dd9VYGWDAVpL6zT1limG5lwqEB5MhU3I+EcL4\nmkMZ2Boi2eQ00bPgHK6kQ3whX5Ew3F9reZvTXC+pRkXm02QSUL7g/wWq6Vd2NQaJ\nJMFSqx+EHDyGgZu3t8NkDSIRB8X83War+tAOpZ9taqey4U22jW1EYNqmmLTXUa6D\nE39EgVBOyAu5r3OHfQ4TlTFxVhtAHVgkiaG8okZ3EEyQTJ5xz3lMmyE99BKO7pEe\nxihu9UJcgt9OnBp26xAf8eb8J1aEHrGa8Txdl7Wj4ALUeDraPn17wYhTMYZU1dWG\nTr1xd12plhOE3NKkxiXSQeztItmFRMFPf2mpA69JmtJt1+Gwwsvy0HrUbl3RCz/z\nxxgS/Zpyby3kV3S3hXo9f49+8LzAzaRKFoCmlWFPKeMY22WK3RrifMGjVLTpbHeX\nBWdBbrjqvssPRxwm0syKbh0Bt2nOrdzwMru3fWxp3IzVivv0ZjlwBfkD5tkNnhmM\nnfogz5TIjxxqIjrSZeGXnfvWizb1Lgan1Kj2U5CR4RFdyW9K/cyOR3AqbGMP1pxT\nrRE3mA8nJqdIrqg/74lwJCLX8ceGLRhPn6b+nhqw/TDaEWBstJR0KkDoLVlRXmaQ\nayn8TAHi+J5pAGXK2Xsbi505kuVtRfXfEsZT3WUVxbDLHgKImWk=\n=4LU+\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f87a5a31ecb0adc2ad414a024041e81f7266957b",
-          "sha": "f87a5a31ecb0adc2ad414a024041e81f7266957b",
-          "html_url": "https://github.com/bitcoin/bips/commit/f87a5a31ecb0adc2ad414a024041e81f7266957b"
-        }
-      ],
-      "message": "BIP22: fix anchor links",
-      "committer": {
-        "name": "Murch",
-        "email": "murch@murch.one",
-        "date": "2026-02-27T20:43:35Z"
-      },
-      "author": {
-        "name": "Murch",
-        "email": "murch@murch.one",
-        "date": "2026-02-27T20:43:35Z"
-      },
-      "sha": "cb7f4bd048797b2d1d03f1830f6edb2acfc68636"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGYxYmFmMmQyOTY4NWY4ZTRhNDIzZmYwNDQxZjljMThjMDViZDQ2ZmE",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f1baf2d29685f8e4a423ff0441f9c18c05bd46fa",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/f1baf2d29685f8e4a423ff0441f9c18c05bd46fa",
-      "tree": {
-        "sha": "6b81b04ce481b11368c91fee60b29562ad7cb14b",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/6b81b04ce481b11368c91fee60b29562ad7cb14b"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 6b81b04ce481b11368c91fee60b29562ad7cb14b\nparent cb7f4bd048797b2d1d03f1830f6edb2acfc68636\nauthor Murch <murch@murch.one> 1772227799 -0800\ncommitter Murch <murch@murch.one> 1772227799 -0800\n\nBIP23: Fix anchor links\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmmiDOIACgkQe6A1yluQ\nFxOi4Q/+L5BrTfNKbX2qREpy7tYBtJyLAtO4LySk8+Qa8mG72fq7hOxqHY0so2I9\nL62q3i3zGO8KNWRmgMFwR6AlbQyfvuFu6t1DbSqpc8gkGhFyrhElyl39y02fYNXb\nXYF3VZmoPSdcqF5+1Eg+QmtzoZDIAh2oykbC2CtZi0/mIOyquz6G603/XpXzTBXx\nrWcfSRjtEbGoA36tIqn6W89v+q6KAiAdGkhGUi28/Q+XVuqPgcRwZGF0sNM0hiCm\nskrmbiNnRlkOMpd7UrTVlaGFwna4Uf1I715D3vz4No7pWup653wYZ5olcRxHEfHt\nzmoVTyBqJITY2gMfM/thWhgbI4uMOKeatM/W1wQKillLSZylWm0/rsGp9RB3Zjp+\nQ9s1ZSkT3uj6T4qXdlxBYouwD/8WR/mxfK5ScNxriVNV5nQFhh2zQ5dI4rSJBJTo\nFqwUBwI5TYVm/Y6WRIXaMfjHaR9Ku/HPrW1MLinp8F3fhmxltO4eU+xj9NqSP4Uk\nVTCDkMvMU83BSkoA/yI+1efv/Hq+BALy3ND8RPLjN/62o4WFoSNxs7TVZTNmOve6\nDxbMd1vlhtxeli1pN+e1OeGG1AXd4nmtwka5uayS3qQtl+714jamTcu10HZoeM11\nc6HZIg7PcxM0HEnQZgNnjvc5ycjgMi6okBXxRTgO3stZlgtAaSA=\n=2lor\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/cb7f4bd048797b2d1d03f1830f6edb2acfc68636",
-          "sha": "cb7f4bd048797b2d1d03f1830f6edb2acfc68636",
-          "html_url": "https://github.com/bitcoin/bips/commit/cb7f4bd048797b2d1d03f1830f6edb2acfc68636"
-        }
-      ],
-      "message": "BIP23: Fix anchor links",
-      "committer": {
-        "name": "Murch",
-        "email": "murch@murch.one",
-        "date": "2026-02-27T21:29:59Z"
-      },
-      "author": {
-        "name": "Murch",
-        "email": "murch@murch.one",
-        "date": "2026-02-27T21:29:59Z"
-      },
-      "sha": "f1baf2d29685f8e4a423ff0441f9c18c05bd46fa"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDZlNjI5ZTYwYzg2Y2I5YTZmNzQ3NTljZmNiYThjZDJmOGY1OTk4ZDU",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6e629e60c86cb9a6f74759cfcba8cd2f8f5998d5",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/6e629e60c86cb9a6f74759cfcba8cd2f8f5998d5",
-      "tree": {
-        "sha": "246013247e4ca21b81807ad690c2e2e607f34fc2",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/246013247e4ca21b81807ad690c2e2e607f34fc2"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 246013247e4ca21b81807ad690c2e2e607f34fc2\nparent f1baf2d29685f8e4a423ff0441f9c18c05bd46fa\nauthor Murch <murch@murch.one> 1772228065 -0800\ncommitter Murch <murch@murch.one> 1772228065 -0800\n\nBIP342: Fix anchor links\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmmiDesACgkQe6A1yluQ\nFxMkVQ//c8EMZm4eb1K5HGub1+Q5hApieTPCrDzb2AwdXC2L69rHd8Vio702ZPGo\n1d5vI6qnvd0v2JSK96XeO/hczYm9y+2KeAYnrWeauDKxr3G4fMgoj5cURjnnG1v3\nFI0g66RJS2ts54JYmIATXM/GT6WSlwMApQL1BQTBHlDPnE5qtPHDwpeJpovWnI/s\nDJf/20ID1+CjTaFKg9QcHz1Fl4jhUryIs9GQ8Z41COV5o61SCPORXVGT2+O2eDER\nbq4kLcuhY3qRujRk5oydRUgOKOhWVnORGn76Il8bc71LTT4ExQJw+IdW1Vym3b5x\nhf9UGQKQk5xtrr7Elkn4GH6XWSbvG4nhJpNUtL2vTefbPII115PklGXcteJc8A6c\nAg5ZH3xRvzIYIFkBbX8r/wfZd4A2i6ea+xvkEaDOqW3Ewjb/7IpBBS3G0o2uIDMj\nR53VJ83pidvL/aUZGWFIV5dG4CSpBkzSnAE0CaT87C5az72ictkuAzkmRe5KitVH\nwogw8l4v0ddjdkJ6KhRV7p4HupOVt2qyQZAgUnJFlCjL8MPRTRfCTufEDyUVPr8b\n8s02ERxyAjV0lpGFVmjVmXDAK1B6qKS3wQGbiCod524Z7YX1i1l9QZr1gc51BKGT\ne+PzlaDIQbB1NLCW197ymNOJ8r6mw5pvJpDuBDYF6zaKZU8CjC8=\n=z2Fn\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f1baf2d29685f8e4a423ff0441f9c18c05bd46fa",
-          "sha": "f1baf2d29685f8e4a423ff0441f9c18c05bd46fa",
-          "html_url": "https://github.com/bitcoin/bips/commit/f1baf2d29685f8e4a423ff0441f9c18c05bd46fa"
-        }
-      ],
-      "message": "BIP342: Fix anchor links",
-      "committer": {
-        "name": "Murch",
-        "email": "murch@murch.one",
-        "date": "2026-02-27T21:34:25Z"
-      },
-      "author": {
-        "name": "Murch",
-        "email": "murch@murch.one",
-        "date": "2026-02-27T21:34:25Z"
-      },
-      "sha": "6e629e60c86cb9a6f74759cfcba8cd2f8f5998d5"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGEwNGY1MTZjYzRlNDVlOTY4YWU3MGZjYjBjNDBiOTcxYTIwMGY3YmE",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a04f516cc4e45e968ae70fcb0c40b971a200f7ba",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/a04f516cc4e45e968ae70fcb0c40b971a200f7ba",
-      "tree": {
-        "sha": "b7500438f25dec8db1989a9f9045b6de67d6030d",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/b7500438f25dec8db1989a9f9045b6de67d6030d"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree b7500438f25dec8db1989a9f9045b6de67d6030d\nparent 6e629e60c86cb9a6f74759cfcba8cd2f8f5998d5\nauthor Murch <murch@murch.one> 1772230361 -0800\ncommitter Murch <murch@murch.one> 1772230627 -0800\n\nFix other broken anchors\n\nUsed the following `sed` command and manually verified the unstaged\nchanges. Special cases that were not committed included external links\nto Wikipedia which are case-sensitive, links specific lines in code, a\nlink to a title with a slash that had to be cleaned up, and links to\ncitations on the BIP repository that contain an underscore.\n\n```\nsed -E -i '\ns/(\\[\\[[^][]*#)([^]|]*)(\\||\\]\\])/\\1\\L\\2\\E\\3/g\n:again\ns/(\\[\\[[^][]*#)([^]|]*)([: _]+)([^]|]*)(\\||\\]\\])/\\1\\2-\\4\\5/g\nt again\n' bip-0*mediawiki\n```\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmmiF/wACgkQe6A1yluQ\nFxO2JQ//UO5ITlnUF5xssCjkq4vvmO0mHy9GFZYqLLuAJapLbhwQWruXXKkrAee9\nrsDJUJ+//OaMGJIkRqkSeYrXYrNtiITlN1O12sr58cXSFHtCPWAXHYosN9LZN3Fi\nj7Q/4T9c0giBCGIqpiSOD2w7eP+m2H7Ci5XaN1yo9tyve8iYYxRh/iKAjKwZIh3c\nWhs8vVIUEvQwcqfk8RvaqW/9auutJnaDyrEr9MKXRw38AA7X0yLP2vWH6Q9nmx5c\nEHW6LdnY8ziWZ01YGQcYE3D9bhe0bEdXgF9DAUDBfzH9dM+LuvAWbUW/eEomNnWw\n/SlO2vR18ub+XYoN0LbifxdGRcsoT7KVr7LRKC+vGPXNEQt9RWo9+xAqLIGPY4wB\neauYLWGNnwnk20zz4JNhxBgYnq1FOoAniijDOhHZMu2vFQ7lhSI+wjLLhbug5tzR\nUdz6jfhQDtLokh16AF/zBdRlW4zjjnj4J8K7KmFqAzL5pLchNrzYdWPitVFDXMj9\nE4Pqeu16ru1iCDpPX6IqyiDM6lzjz27SGZjBilK81/8EwbUt1AJVu+JtTi8++Y2P\nbeXz5WfRULTSUgSIJyB8g3Zg+goq9mT8eF+oSXcYSwOMOxqRIi4f2HgA1PIQmBe0\nU2smJtVgVev5jNmRiNLN54XTXmFIG6eJiEjDqRe2/vvEkZ87ByM=\n=RJna\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6e629e60c86cb9a6f74759cfcba8cd2f8f5998d5",
-          "sha": "6e629e60c86cb9a6f74759cfcba8cd2f8f5998d5",
-          "html_url": "https://github.com/bitcoin/bips/commit/6e629e60c86cb9a6f74759cfcba8cd2f8f5998d5"
-        }
-      ],
-      "message": "Fix other broken anchors\n\nUsed the following `sed` command and manually verified the unstaged\nchanges. Special cases that were not committed included external links\nto Wikipedia which are case-sensitive, links specific lines in code, a\nlink to a title with a slash that had to be cleaned up, and links to\ncitations on the BIP repository that contain an underscore.\n\n```\nsed -E -i '\ns/(\\[\\[[^][]*#)([^]|]*)(\\||\\]\\])/\\1\\L\\2\\E\\3/g\n:again\ns/(\\[\\[[^][]*#)([^]|]*)([: _]+)([^]|]*)(\\||\\]\\])/\\1\\2-\\4\\5/g\nt again\n' bip-0*mediawiki\n```",
-      "committer": {
-        "name": "Murch",
-        "email": "murch@murch.one",
-        "date": "2026-02-27T22:17:07Z"
-      },
-      "author": {
-        "name": "Murch",
-        "email": "murch@murch.one",
-        "date": "2026-02-27T22:12:41Z"
-      },
-      "sha": "a04f516cc4e45e968ae70fcb0c40b971a200f7ba"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDY4OTliZjRmYWM3NmIyNjAwMTU3Yjk4YWI5MTM2NzQ0ZDc3NjA0MDA",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6899bf4fac76b2600157b98ab9136744d7760400",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/6899bf4fac76b2600157b98ab9136744d7760400",
-      "tree": {
-        "sha": "e7de053dbcff8c3428802be00cf3abed5f6d76ab",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/e7de053dbcff8c3428802be00cf3abed5f6d76ab"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree e7de053dbcff8c3428802be00cf3abed5f6d76ab\nparent a04f516cc4e45e968ae70fcb0c40b971a200f7ba\nauthor Murch <murch@murch.one> 1772231221 -0800\ncommitter Murch <murch@murch.one> 1772231221 -0800\n\nEliminate remaining \"user-content\" anchor links\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmmiGkkACgkQe6A1yluQ\nFxO36A/9Hod39IoFVfjIWL9otRIoJJgWsGo0Dub6tRVTJs2BNCqIJ5c6ZXtGGfdq\n+7xlvLYq1mCf178tBWIk+6slJxKh3+RHQlSmdE4g/8TMpsswBl96+q9IJzA3gYMY\nmL5VDwZ2NptFQN1x5oeskyDzrX2H2cqfgdveA32BiuP1DN7npK5rZ7Lj2fAm06Jn\n/w85HxzuM7KBWP893qzAsa/YsVAqYgJz8s6sTk+xSoN/6k/9eePhqDIXJiMk0lQ3\nNhYFHlWYNUB9SixZ0pbqPhFvUdRZGHucHqnEoZ/2HZhKOsme0Znx/zoOuuskyiG5\nyRI7C/OWSJxAmwnSzYcD0ExPrux1XBOXSW6lJ2X2BakISUfmZhPKdBNrBze121WA\nQuq2ROwjMhGCoogY7iQrL7IFWRhjCnTKCIbVtJ+J/WYye+Wo0R1CAvdu4aXUBGaf\nVu7jGBzHnqKcrGhV60luvGGs1dh3o5OxXeciNTx6TRAmU0+UHMccGBp/pCid0EFQ\nFy31O1ClIlLUnLhIG7UPtDEGa+pu6QjkYIP5RyGFh663jppxwkirHVZ8V3jVOQHR\nZf+7uszVJdR4xNMZtXR86nNuX2RSliMSOlc5vYMZMBhuXdc0eO2H9rf094Vki0P/\nwRVAGPLnKni4yhcbKRQlcfEC0dbDceUtwMrDlh89PihbJzqHcUU=\n=Y6F7\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a04f516cc4e45e968ae70fcb0c40b971a200f7ba",
-          "sha": "a04f516cc4e45e968ae70fcb0c40b971a200f7ba",
-          "html_url": "https://github.com/bitcoin/bips/commit/a04f516cc4e45e968ae70fcb0c40b971a200f7ba"
-        }
-      ],
-      "message": "Eliminate remaining \"user-content\" anchor links",
-      "committer": {
-        "name": "Murch",
-        "email": "murch@murch.one",
-        "date": "2026-02-27T22:27:01Z"
-      },
-      "author": {
-        "name": "Murch",
-        "email": "murch@murch.one",
-        "date": "2026-02-27T22:27:01Z"
-      },
-      "sha": "6899bf4fac76b2600157b98ab9136744d7760400"
-    },
-    {
       "event": "reviewed",
       "id": 3869392021,
       "node_id": "PRR_kwDOAN28mc7mojyV",
@@ -948,6 +724,576 @@
       "commit_id": "6899bf4fac76b2600157b98ab9136744d7760400",
       "commit_url": "https://api.github.com/repos/EthanHeilman/bips/commits/6899bf4fac76b2600157b98ab9136744d7760400",
       "created_at": "2026-02-27T22:33:55Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDgzNWU3MTA3Yjg4YzZkYjZjOTY4MGYyZDUxZWE0ZmQwMjVhMDI5NTc",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/835e7107b88c6db6c9680f2d51ea4fd025a02957",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/835e7107b88c6db6c9680f2d51ea4fd025a02957",
+      "tree": {
+        "sha": "949ecb68cb28a5915be065e145832c21c813f3fc",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/949ecb68cb28a5915be065e145832c21c813f3fc"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 949ecb68cb28a5915be065e145832c21c813f3fc\nparent 5253e9a294cd46bd94b505ec544992dacc0f2b98\nauthor Ethan Heilman <ethan.r.heilman@gmail.com> 1769216112 -0500\ncommitter Murch <murch@murch.one> 1777336001 -0700\n\nFix broken anchor links\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmnv/sEACgkQe6A1yluQ\nFxPm0BAAzGMb13d43kFUMdJvkWy36jr7fyp8KLZqnXO8HlWEjAVJbkzChkOjXINt\nI2d/QcB2OkeF1DdTgwUwuiV1TPvKQanf7tUjog4wyfHJHyNPC8aIIoFCslRNjIGq\nq+6YWT4JbEqRH5RT1Wm7w7d4HDIqsJsd/EYKs4ef1lSgX9I41S2pv0LQ63lUo0d8\nmCd29kC4kpVBuiHo5dXY44UFg5s0BFev4xr1vClaDGK+7gQ73zbcy1xFFeZqqAay\nx1ldOyIJMbVDBnllYwq7yjSGTbKJ8Y5jEq1r9GEJyZ/cHxsH8nhSWE9bP/m87fn7\nP/SUY/0HvZ4hsactxK76ZKPg8gJE0HCoF0GAXJLsajIuzrz2XnFnx14cbg5R838I\nB4hZtDd2tSrGxQJg6RPk1HLbAqBYq6MZQpmwtw4m5GeqdjoEgnE7lpYTDwJJr8lj\n0x+Ok7OqPp9hLAqx20vDFbWJYtm33NSveZ06ZnPf5Yy5oCIfB4pJYnAiUyoYsUDX\naiOTS4joJAK2OidX0nzcX9tyr+3D3Vv9dAw7TINk+/mQKxgaQ1k/ERA95qOJe/p7\nSnI0niYIhpTJvsmkKv8uLFYAONEm/lLABzjcm4wCFuJAJ3VFYvsJQgpK+QyR8EJb\npE3zEGp6DJpOBATd0OBV5O+c4HOijAY1b9Hss1YOs/9YwGfr8Ho=\n=ckJ1\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5253e9a294cd46bd94b505ec544992dacc0f2b98",
+          "sha": "5253e9a294cd46bd94b505ec544992dacc0f2b98",
+          "html_url": "https://github.com/bitcoin/bips/commit/5253e9a294cd46bd94b505ec544992dacc0f2b98"
+        }
+      ],
+      "message": "Fix broken anchor links",
+      "committer": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-04-28T00:26:41Z"
+      },
+      "author": {
+        "name": "Ethan Heilman",
+        "email": "ethan.r.heilman@gmail.com",
+        "date": "2026-01-24T00:55:12Z"
+      },
+      "sha": "835e7107b88c6db6c9680f2d51ea4fd025a02957"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDQyMzAzY2JkZjg0NDIzZTk5YjRmOWNjNGQzZjkwY2FkMTRiNmM2ODE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/42303cbdf84423e99b4f9cc4d3f90cad14b6c681",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/42303cbdf84423e99b4f9cc4d3f90cad14b6c681",
+      "tree": {
+        "sha": "2cf64f54f3541144314794682bf5c01928972647",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/2cf64f54f3541144314794682bf5c01928972647"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 2cf64f54f3541144314794682bf5c01928972647\nparent 835e7107b88c6db6c9680f2d51ea4fd025a02957\nauthor Murch <murch@murch.one> 1772225015 -0800\ncommitter Murch <murch@murch.one> 1777336003 -0700\n\nBIP22: fix anchor links\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmnv/sMACgkQe6A1yluQ\nFxPzZA//fXoWXMWRZ7rSXvUMJBf0y3LAQMpJmFtOfuFqp8fuIAmx5dlROXQfgH8W\nqsSLraYafEEaF2dF50MGFT3P0ATpFbt1XuiTwteEdxSPSCdD5T5T4RJseKBqOt1v\n3tD4vtjyNF3DRepX1LxoTugh6zWay/wjRuZcSanhWeR+5w/xb/zxGl+vOLbvbDYZ\ndZYSOJwlXK1ygUbbqCBWxZ9ZDazLwzh4D7WHv2YvmXXCYnD2uiNTE/zDm0wB3ro6\nNLMD7YPVa3RHRovUwMCyAQFUTGvyG3ufDPJQCpiP8nKXsT/qafVIm4WFcOKy4ca+\nv+EcRPmN/5Pz1fvXw7tJND4TyU2KwVk9ZX6L2a6y8YhoHA6QBbvJ08kmXe37zKn7\nSf7vD9jY1vGow9AYK3P2duFbmRto8t3+4uH7KrW54rq1XewPVOWk05Rgmrwk3GuT\nbKDtyCosDr+zRuuitkXJqR6OB+xAQhDGBXpdvrcLN8rSdGN9Hgdz6dZRUv03GDVb\n8KNpZ5zCNJoDQdPylE9FvWMuHvDWqvTqKdPk7NgA58epjhyv7C+748OK8kR7tMSN\nZco3T1t50Spr897xzwAOS/4ke9v/SU8XDqHCb3kmKXvKnkKCnUU7lHpkZZVcDb6N\nn5AX8277bzzh5ZLe6Sd+0vLcSHJi8FIqFVtSt7yTQu/bAsDb6h4=\n=kx3D\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/835e7107b88c6db6c9680f2d51ea4fd025a02957",
+          "sha": "835e7107b88c6db6c9680f2d51ea4fd025a02957",
+          "html_url": "https://github.com/bitcoin/bips/commit/835e7107b88c6db6c9680f2d51ea4fd025a02957"
+        }
+      ],
+      "message": "BIP22: fix anchor links",
+      "committer": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-04-28T00:26:43Z"
+      },
+      "author": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-02-27T20:43:35Z"
+      },
+      "sha": "42303cbdf84423e99b4f9cc4d3f90cad14b6c681"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDUxMzdkNTk0NDIzZjc5YzhiMzE5NDIxNjA1NGI4Yjc1M2RkMzVkMGI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5137d594423f79c8b3194216054b8b753dd35d0b",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/5137d594423f79c8b3194216054b8b753dd35d0b",
+      "tree": {
+        "sha": "b1993f48c1e63faf6eb48d489919ba7169e64170",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/b1993f48c1e63faf6eb48d489919ba7169e64170"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree b1993f48c1e63faf6eb48d489919ba7169e64170\nparent 42303cbdf84423e99b4f9cc4d3f90cad14b6c681\nauthor Murch <murch@murch.one> 1772227799 -0800\ncommitter Murch <murch@murch.one> 1777336005 -0700\n\nBIP23: Fix anchor links\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmnv/sUACgkQe6A1yluQ\nFxNMzA//fRvyi7NM4epOBLDdJ78KWw/GNQLmUMDWVoBF2HI4bXhKEb/1/kdva5W+\nWOAxaiE7lM4FWvqkcuQL7SOwroullJLoHy0NGEsI74d13UGkf/aIQv4cr4gzlX0N\nZNa3NmMkc08uOVFbDiZgPlb4khDGQ/JLL2dCglt0WH8e/3RKqGaZTaJuCfXL+lzi\n74qK0iKgb1tLZmuNH4j9P/MSsfj0wY/FQEYbBaoU5vpDLdOiCI4BaZrHALuAbSFD\nvPmMBeu1i3CWuOKT3aCrAuUm6E6Jbno1iuOdRBqlUQmc755n3qtsa0wYIkgCw4qm\n2WzwfRF5mX3tBgUcfStciDUfiv9uGBtPNuoLlSLdbSVBG7em9WKs8o6u/V3YBMJb\nj1h+Vddssn+yA7sdGtmMmov18p0Jrv4rEFGa3B+vLLjl2+PtWHj1rMScMwYf3pco\nCaN/qA9A6knbNaFwe486CLFPT2rL4Lhh1h4HTDuVSWx1LYwX0m3F5ia6jLxyAyF9\nD0RugZ1R5nhvufn67m9MX6GqAZDoD18f6rfTMLEgXeAL9gIn5HqJCFkBsy3Lb/e/\nYhF1W9Hr9GjPcqKLo2l/3WExMF0rDIS1ofcIoU2DrKP/8uvttM4TuX0hJDxNwvSQ\nrSVFVLsmzkxgcGpsQ6OXWdypWaCFRh1ugfv3iSSnCWBY9ZzcYGM=\n=z2hV\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/42303cbdf84423e99b4f9cc4d3f90cad14b6c681",
+          "sha": "42303cbdf84423e99b4f9cc4d3f90cad14b6c681",
+          "html_url": "https://github.com/bitcoin/bips/commit/42303cbdf84423e99b4f9cc4d3f90cad14b6c681"
+        }
+      ],
+      "message": "BIP23: Fix anchor links",
+      "committer": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-04-28T00:26:45Z"
+      },
+      "author": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-02-27T21:29:59Z"
+      },
+      "sha": "5137d594423f79c8b3194216054b8b753dd35d0b"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDMyYjdhZGY4NDc0YzUxMmZhZTU2Mzk4MTEzZjYyMjc3ZjNjNmYwNGY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/32b7adf8474c512fae56398113f62277f3c6f04f",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/32b7adf8474c512fae56398113f62277f3c6f04f",
+      "tree": {
+        "sha": "db212b9e58901b8cd8ec0ebd5cacd19f8d9cf693",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/db212b9e58901b8cd8ec0ebd5cacd19f8d9cf693"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree db212b9e58901b8cd8ec0ebd5cacd19f8d9cf693\nparent 5137d594423f79c8b3194216054b8b753dd35d0b\nauthor Murch <murch@murch.one> 1772228065 -0800\ncommitter Murch <murch@murch.one> 1777336007 -0700\n\nBIP342: Fix anchor links\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmnv/scACgkQe6A1yluQ\nFxPQwg/9HnyrNOJNo5ltgnEVqpkBM+0DpUw3xaC4cch9UuAmHZ6aCfHBNuRBglgL\nH1ZB2Qe6s8XiQIRvq+ZJZJRX/yE1NmNZ6Ez0XGhw8O4dYA/8Jc+5OOqu3ww2RGAa\nBT+MBfzHURHslelZ2ZKeRh0AnTBHMTFc2RiDFQCBftJ3vI/y36kGIewPLLhU2GOe\nimcecF8fz8P7LW1tD3+f8AHlM2OZ8dIzSt2FTzC65QQ+URR5YAwx9Fy5VSQ9OQUD\n8BOF3xLgIfEHOQGidjrC1h7y2QkZcRworKhhm4JkXtKxfPXXgJ0TI3uxpIl2deWd\nCm0xNhn5ZzTOzNpv2+mg+k8kibpxcT3P4xFVLXUZfBEYULl7Booh9SVVE9dkQwTw\ngdbinP3CmFKQnyYAwIBwG2aMGIWfjYpjNhRcdcBd9UjD1ZCNWgxIpPU06kxlfPd+\n9st6k34bgKBKvpSk+sX+a86fM7li3qY4E8Ew1QlouoyLASWyE9J34Nzkhf9xO7yt\n4jbc/+SaFDQBqbPbh1MiYBdbdTfqTqUb8QEp+E9vXD4etwToOwiothqHqnExXmfp\nzddCJVHRKWzLHmYqXSEHkd7kcUc3scb20youhc7SQ3dTdVMXDmAoErhNMGASctjK\nWQqwkkhyP2CMTmRcEPKcbVimQA5vv0MMVOKdvNKaJGwV9utAL+w=\n=faRr\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5137d594423f79c8b3194216054b8b753dd35d0b",
+          "sha": "5137d594423f79c8b3194216054b8b753dd35d0b",
+          "html_url": "https://github.com/bitcoin/bips/commit/5137d594423f79c8b3194216054b8b753dd35d0b"
+        }
+      ],
+      "message": "BIP342: Fix anchor links",
+      "committer": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-04-28T00:26:47Z"
+      },
+      "author": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-02-27T21:34:25Z"
+      },
+      "sha": "32b7adf8474c512fae56398113f62277f3c6f04f"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGIzYTA2OTQ2NGE4ODc5ZGQ4NThjMzkyYTc4OGM5ZDE5YTlmN2EwNzU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b3a069464a8879dd858c392a788c9d19a9f7a075",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/b3a069464a8879dd858c392a788c9d19a9f7a075",
+      "tree": {
+        "sha": "c589ba4f23331abd1a8867bd448249c94a0c7e86",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/c589ba4f23331abd1a8867bd448249c94a0c7e86"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree c589ba4f23331abd1a8867bd448249c94a0c7e86\nparent 32b7adf8474c512fae56398113f62277f3c6f04f\nauthor Murch <murch@murch.one> 1772230361 -0800\ncommitter Murch <murch@murch.one> 1777336009 -0700\n\nFix other broken anchors\n\nUsed the following `sed` command and manually verified the unstaged\nchanges. Special cases that were not committed included external links\nto Wikipedia which are case-sensitive, links specific lines in code, a\nlink to a title with a slash that had to be cleaned up, and links to\ncitations on the BIP repository that contain an underscore.\n\n```\nsed -E -i '\ns/(\\[\\[[^][]*#)([^]|]*)(\\||\\]\\])/\\1\\L\\2\\E\\3/g\n:again\ns/(\\[\\[[^][]*#)([^]|]*)([: _]+)([^]|]*)(\\||\\]\\])/\\1\\2-\\4\\5/g\nt again\n' bip-0*mediawiki\n```\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmnv/skACgkQe6A1yluQ\nFxP2PBAA2UJ4Jk83LdMSSNSpPWbHi1QSMcvmKDjiDI6oH8POR4F1eyI812B1KUMq\n6Ya0SjX21DePP65SGpcDRHj9nkv+lHBCXt+CZuQjKVocgTyrvWl6qC/JnLcKr7hc\nHL9qykUCJSog9Eh4SpW+mvduLIARCLLoiqlPrLxk17Cf1W87x+4eLBtOXRdAMiXI\nj1TQL9YHqS9T7mlcw1J5Y3nVhfpblbefF/RNVA3e9bS3LDMjE5wcSfWZQL7bjh98\nLU8M+BQ4HbLj/88l9s8a9RcewXWaQ3v8UrIPlwyqx3TFIk9MTUSLpUxIOgNREXH+\nvsdy3EHG8JsR/e5/QqIPIBbJAnL3k7/dw9rWeIDIu5YwDyZ8Dl8+DDxOLy47+wIm\nYj4pDXp9ZzxqbyjMUkMJSiyiV9AFHxQMN8RTtUJVN6mtLPt+c1T0/gffzDbFHLPV\nBUAvogHBV+r0ASu3sPARcjUx+Vh2gQ1UP4HpDT+jE3r1wVjpT+HGhitv4/ZvK94N\nS7tNgPbz5L7lGcnaJ2gPhtyUIOjrZQrQ42Im9ypNKWWdzy15SP5NTk25q9/1xyxx\nOAsVTr6D/j2tqRNEMfGRzV0axGDoMpEghh7uH6CQUYpLqHxjy0KKtnQyw+QvdiF1\nst+doLkTUtVVh6oO3pNeveUxSK7yiGaWq54+CTCt70Y6uZRpTHE=\n=QzLc\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/32b7adf8474c512fae56398113f62277f3c6f04f",
+          "sha": "32b7adf8474c512fae56398113f62277f3c6f04f",
+          "html_url": "https://github.com/bitcoin/bips/commit/32b7adf8474c512fae56398113f62277f3c6f04f"
+        }
+      ],
+      "message": "Fix other broken anchors\n\nUsed the following `sed` command and manually verified the unstaged\nchanges. Special cases that were not committed included external links\nto Wikipedia which are case-sensitive, links specific lines in code, a\nlink to a title with a slash that had to be cleaned up, and links to\ncitations on the BIP repository that contain an underscore.\n\n```\nsed -E -i '\ns/(\\[\\[[^][]*#)([^]|]*)(\\||\\]\\])/\\1\\L\\2\\E\\3/g\n:again\ns/(\\[\\[[^][]*#)([^]|]*)([: _]+)([^]|]*)(\\||\\]\\])/\\1\\2-\\4\\5/g\nt again\n' bip-0*mediawiki\n```",
+      "committer": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-04-28T00:26:49Z"
+      },
+      "author": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-02-27T22:12:41Z"
+      },
+      "sha": "b3a069464a8879dd858c392a788c9d19a9f7a075"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDQ0MmU5NjI4YjNkY2NhMWI2NWYwZGY4YWYyMzA4ZjgyNjBlMDBjYWE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/442e9628b3dcca1b65f0df8af2308f8260e00caa",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/442e9628b3dcca1b65f0df8af2308f8260e00caa",
+      "tree": {
+        "sha": "05bfbe6b09a299dafe7789ede20e7f3bd1b59899",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/05bfbe6b09a299dafe7789ede20e7f3bd1b59899"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 05bfbe6b09a299dafe7789ede20e7f3bd1b59899\nparent b3a069464a8879dd858c392a788c9d19a9f7a075\nauthor Murch <murch@murch.one> 1772231221 -0800\ncommitter Murch <murch@murch.one> 1777336164 -0700\n\nEliminate remaining \"user-content\" anchor links\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEENfStpiPrn+OjvH72e6A1yluQFxMFAmnv/2YACgkQe6A1yluQ\nFxP6Yw//V4QcjYfjbWhcl1+Ete/OanZw15+KzRPgzbOZnVZGKseTjzi7eXYNBYPa\nXbnmgLOoZj3e073AkvbCGUdk6hxNpo7ASRV5XvxMYPkI+XrnLEf09X3kACl01xeX\n1eFzUX1Bu6UYOIxtMUsWYExTOfi2APdp1eu0MC38Ykgtm+HguuIRtEXSMDBffMig\nztl1arh97FcAPaYPup+9hyqxGHn3wolmula+QY4TZcDOna0Qim/rUG7JQO1FYSkv\n6xm+Z+vYS1zLDHfCN5TxeNkwh4O0Ns9O9AvKtUl6TW0twie0zKb+x0FfuGa1F4Yq\n8nfcRAJtH4evnmGsReFvjcrx7oP7LZPfDuyX5ZfNFhnnjf5HHkV1kD9bshBNtKA1\nkqVtrL7sJ8yD301oDQm8KMvHvOLbE6VRN/WSjdK4peB76LkL3BEo482zXmgwV3Ys\no5nRmaXhobNEboJ4eG1sW10jAk9Fn8g9kQxwUn1ddZ5hE4tcZiVYCa8I4eL/6Ny8\nvspxmVBHiVg41J2XWfuL/PC4PCvNbu8fFHL4WQTLxRkl3NFUpg05jN4fOKkLKMnC\nqyW6WqaMr8M33Ufio17cO41FcsvrvpcjUYK3FBOj7haVoi5KO/CVlavaniUo1naE\nle7ZJdHWfkHO4jHW2GaJ2ZUSEowwvX0p6B2jgappkrLmwrUbWD4=\n=kxmw\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b3a069464a8879dd858c392a788c9d19a9f7a075",
+          "sha": "b3a069464a8879dd858c392a788c9d19a9f7a075",
+          "html_url": "https://github.com/bitcoin/bips/commit/b3a069464a8879dd858c392a788c9d19a9f7a075"
+        }
+      ],
+      "message": "Eliminate remaining \"user-content\" anchor links",
+      "committer": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-04-28T00:29:24Z"
+      },
+      "author": {
+        "name": "Murch",
+        "email": "murch@murch.one",
+        "date": "2026-02-27T22:27:01Z"
+      },
+      "sha": "442e9628b3dcca1b65f0df8af2308f8260e00caa"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 24927847775,
+      "node_id": "HRFPE_lADOAN28mc7ld9oQzwAAAAXN0MVf",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/24927847775",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "442e9628b3dcca1b65f0df8af2308f8260e00caa",
+      "commit_url": "https://api.github.com/repos/EthanHeilman/bips/commits/442e9628b3dcca1b65f0df8af2308f8260e00caa",
+      "created_at": "2026-04-28T00:30:56Z"
+    },
+    {
+      "event": "commented",
+      "id": 4331461119,
+      "node_id": "IC_kwDOAN28mc8AAAABAizZ_w",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/4331461119",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-04-28T00:31:17Z",
+      "updated_at": "2026-04-28T00:31:17Z",
+      "author_association": "MEMBER",
+      "body": "Fixed the merge conflict with a recent change to BIP375.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2091#issuecomment-4331461119",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2091"
+    },
+    {
+      "event": "unlabeled",
+      "id": 24927867792,
+      "node_id": "UNLE_lADOAN28mc7ld9oQzwAAAAXN0ROQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/24927867792",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-04-28T00:32:00Z",
+      "label": {
+        "name": "Bug fix",
+        "color": "b60205"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 24927867809,
+      "node_id": "LE_lADOAN28mc7ld9oQzwAAAAXN0ROh",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/24927867809",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-04-28T00:32:00Z",
+      "label": {
+        "name": "Link fix",
+        "color": "5E15D6"
+      }
+    },
+    {
+      "event": "reviewed",
+      "id": 4231479925,
+      "node_id": "PRR_kwDOAN28mc78N0J1",
+      "url": null,
+      "actor": null,
+      "commit_id": "442e9628b3dcca1b65f0df8af2308f8260e00caa",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-05-05T20:42:14Z",
+      "author_association": "MEMBER",
+      "body": "ACK",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2091#pullrequestreview-4231479925",
+      "submitted_at": "2026-05-05T20:42:14Z",
+      "state": "APPROVED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2091"
+    },
+    {
+      "event": "renamed",
+      "id": 25193617501,
+      "node_id": "RTE_lADOAN28mc7ld9oQzwAAAAXdqBhd",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/25193617501",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-05-05T20:42:57Z",
+      "rename": {
+        "from": "Fix broken anchor links in BIP 0342, BIP 0022, BIP 0023",
+        "to": "Fix broken anchor links"
+      }
+    },
+    {
+      "event": "merged",
+      "id": 25193668317,
+      "node_id": "ME_lADOAN28mc7ld9oQzwAAAAXdqN7d",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/25193668317",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "ca418babb7387e8671006db0f8e7fdbc1b560c72",
+      "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/ca418babb7387e8671006db0f8e7fdbc1b560c72",
+      "created_at": "2026-05-05T20:44:36Z"
+    },
+    {
+      "event": "closed",
+      "id": 25193668377,
+      "node_id": "CE_lADOAN28mc7ld9oQzwAAAAXdqN8Z",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/25193668377",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-05-05T20:44:37Z"
+    },
+    {
+      "event": "unlabeled",
+      "id": 25193673953,
+      "node_id": "UNLE_lADOAN28mc7ld9oQzwAAAAXdqPTh",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/25193673953",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-05-05T20:44:49Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
     }
   ],
   "comments": [
@@ -1381,6 +1727,114 @@
       "start_side": null,
       "line": null,
       "original_line": 35,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3191342583",
+      "pull_request_review_id": 4231366831,
+      "id": 3191342583,
+      "node_id": "PRRC_kwDOAN28mc6-OAX3",
+      "diff_hunk": "@@ -24,15 +24,15 @@ This BIP is licensed under the BSD 2-clause license.\n \n A JSON-RPC method is defined, called \"getblocktemplate\".\n It accepts exactly one argument, which MUST be an Object of request parameters.\n-If the request parameters include a \"mode\" key, that is used to explicitly select between the default \"template\" request or a [[bip-0023.mediawiki#Block Proposal|\"proposal\"]].\n+If the request parameters include a \"mode\" key, that is used to explicitly select between the default \"template\" request or a [[bip-0023.mediawiki#user-content-Block_Proposal|\"proposal\"]].",
+      "path": "bip-0022.mediawiki",
+      "position": 1,
+      "original_position": 5,
+      "commit_id": "f87a5a31ecb0adc2ad414a024041e81f7266957b",
+      "original_commit_id": "f87a5a31ecb0adc2ad414a024041e81f7266957b",
+      "in_reply_to_id": 2729679884,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "> Therefore, I would suggest to sanitze the links instead as follows\r\n\r\nI like this approach better -- it is cleaner and is more what am used to seeing.",
+      "created_at": "2026-05-05T20:23:21Z",
+      "updated_at": "2026-05-05T20:23:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2091#discussion_r3191342583",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3191342583"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2091"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 27,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3191406661",
+      "pull_request_review_id": 4231434368,
+      "id": 3191406661,
+      "node_id": "PRRC_kwDOAN28mc6-OQBF",
+      "diff_hunk": "@@ -24,15 +24,15 @@ This BIP is licensed under the BSD 2-clause license.\n \n A JSON-RPC method is defined, called \"getblocktemplate\".\n It accepts exactly one argument, which MUST be an Object of request parameters.\n-If the request parameters include a \"mode\" key, that is used to explicitly select between the default \"template\" request or a [[bip-0023.mediawiki#Block Proposal|\"proposal\"]].\n+If the request parameters include a \"mode\" key, that is used to explicitly select between the default \"template\" request or a [[bip-0023.mediawiki#user-content-Block_Proposal|\"proposal\"]].",
+      "path": "bip-0022.mediawiki",
+      "position": 1,
+      "original_position": 5,
+      "commit_id": "f87a5a31ecb0adc2ad414a024041e81f7266957b",
+      "original_commit_id": "f87a5a31ecb0adc2ad414a024041e81f7266957b",
+      "in_reply_to_id": 2729679884,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "> Inserting user-content- before the anchor into link [[[bip-0023.mediawiki#user-content-Block_Proposal|\"bla\"]]](https://github.com/bitcoin/bips/blob/f87a5a31ecb0adc2ad414a024041e81f7266957b/bip-0023.mediawiki#user-content-Block_Proposal) actually causes the link to open too low in the page for me (either on Firefox and Brave).\r\n\r\nSame for me on Firefox 150.",
+      "created_at": "2026-05-05T20:35:02Z",
+      "updated_at": "2026-05-05T20:35:03Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2091#discussion_r3191406661",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3191406661"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2091"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 27,
       "side": "RIGHT"
     }
   ]

@@ -36,7 +36,9 @@
       "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/theStack/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "While working on the sender side equivalent of #1620 I noticed that the current flow of input hash generation and key summing is a bit redundant and potentially confusing.\r\n\r\nFor both sender and receiver, generating the input hash is currently listed as the first step:\r\nhttps://github.com/bitcoin/bips/blob/85cda4e225b4d5fd7aff403f69d827f23f6afbbc/bip-0352.mediawiki?plain=1#L302-L304\r\nhttps://github.com/bitcoin/bips/blob/85cda4e225b4d5fd7aff403f69d827f23f6afbbc/bip-0352.mediawiki?plain=1#L336-L338\r\n\r\n\r\nThis step already involves summing up the public keys, even though summing up key material (private keys for sender, public keys of inputs for receiver) is then again listed explicitly in later steps. Especially for the sender side, this means that the summing up happens twice -- once for the pubkeys to generate the input hash, then again for the private keys to create the shared secret.\r\n\r\nIt seems to be more obvious and less redundant (and also hopefully less confusing for readers) to reorder the instructions to calculate the input_hash _after_ the key aggregation is done to reuse the result. In case of the sender, the private key sum has to be multiplicated with G in order to the get to the corresponding input pubkey sum.\r\n\r\nThis also corresponds to the current BIP352 implementation in the secp256k1 library (https://github.com/bitcoin-core/secp256k1/pull/1519). The reference implementation in Python here is adapted for the sender side, the receiver side has already generated the input_hash after summing up the pubkeys.",
     "labels": [
@@ -45,6 +47,7 @@
         "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
         "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
         "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
         "color": "5319e7",
         "default": false
       }
@@ -53,7 +56,30 @@
     "updated_at": "2024-07-01T19:46:29Z",
     "closed_at": "2024-06-21T14:03:39Z",
     "mergeable_state": "unknown",
+    "merged": true,
     "merged_at": "2024-06-21T14:03:39Z",
+    "merged_by": {
+      "login": "jonatack",
+      "id": 2415484,
+      "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jonatack",
+      "html_url": "https://github.com/jonatack",
+      "followers_url": "https://api.github.com/users/jonatack/followers",
+      "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+      "organizations_url": "https://api.github.com/users/jonatack/orgs",
+      "repos_url": "https://api.github.com/users/jonatack/repos",
+      "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/jonatack/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
     "merge_commit_sha": "70a714372f3d7b3f68b61e5dcd68eecdcc6c3b41",
     "assignees": [],
     "requested_reviewers": [],
@@ -80,7 +106,9 @@
         "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/theStack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 261818864,
@@ -105,7 +133,9 @@
           "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/theStack/received_events",
           "type": "User",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/theStack/bips",
@@ -157,7 +187,7 @@
         "forks_count": 0,
         "stargazers_count": 1,
         "watchers_count": 1,
-        "size": 13618,
+        "size": 21991,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -170,9 +200,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-06-29T14:13:32Z",
+        "pushed_at": "2026-03-23T18:40:08Z",
         "created_at": "2020-05-06T16:35:59Z",
-        "updated_at": "2024-06-13T03:25:21Z"
+        "updated_at": "2026-01-20T15:05:24Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -197,7 +228,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -222,7 +255,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -271,10 +306,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5298,
-        "stargazers_count": 9091,
-        "watchers_count": 9091,
-        "size": 15087,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
         "open_issues_count": 42,
         "is_template": false,
@@ -287,9 +322,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2024-07-01T18:52:47Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2024-07-01T18:52:54Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -370,10 +406,12 @@
         "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/theStack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
-      "commit_id": null,
-      "commit_url": null,
+      "commit_id": "fe0f83531e35f76d3582813da4cbb518d9bb1d12",
+      "commit_url": "https://api.github.com/repos/theStack/bips/commits/fe0f83531e35f76d3582813da4cbb518d9bb1d12",
       "created_at": "2024-06-19T22:33:47Z"
     },
     {
@@ -399,7 +437,9 @@
         "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/theStack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -432,7 +472,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -465,7 +507,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -498,13 +542,15 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-06-19T22:54:53Z",
       "updated_at": "2024-06-19T22:54:53Z",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "body": "Pinging BIP authors @josibake @RubenSomsen for review/sign-off.",
       "user": {
         "login": "jonatack",
@@ -524,7 +570,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1622#issuecomment-2179544268",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1622"
@@ -552,7 +600,9 @@
         "events_url": "https://api.github.com/users/josibake/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/josibake/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -581,7 +631,9 @@
         "events_url": "https://api.github.com/users/josibake/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/josibake/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -610,7 +662,9 @@
         "events_url": "https://api.github.com/users/RubenSomsen/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/RubenSomsen/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -639,7 +693,9 @@
         "events_url": "https://api.github.com/users/RubenSomsen/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/RubenSomsen/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -654,6 +710,7 @@
       "commit_id": "fe0f83531e35f76d3582813da4cbb518d9bb1d12",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2024-06-21T13:23:56Z",
       "author_association": "MEMBER",
       "body": "ACK https://github.com/bitcoin/bips/pull/1622/commits/fe0f83531e35f76d3582813da4cbb518d9bb1d12\r\n\r\nGood catch, thanks for the PR! For context, in previous iterations of the BIP the input hash did not commit to `A`, but looks like we missed reordering these steps after changing the `input_hash` to also commit to `A`. ",
       "user": {
@@ -674,7 +731,9 @@
         "events_url": "https://api.github.com/users/josibake/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/josibake/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1622#pullrequestreview-2132653707",
       "submitted_at": "2024-06-21T13:23:56Z",
@@ -690,7 +749,8 @@
       "commit_id": "fe0f83531e35f76d3582813da4cbb518d9bb1d12",
       "commit_url": null,
       "created_at": null,
-      "author_association": "CONTRIBUTOR",
+      "updated_at": "2024-06-21T14:03:35Z",
+      "author_association": "MEMBER",
       "body": "Sanity checked that `./reference.py send_and_receive_test_vectors.json` runs correctly with these changes.",
       "user": {
         "login": "jonatack",
@@ -710,7 +770,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1622#pullrequestreview-2132739764",
       "submitted_at": "2024-06-21T14:03:35Z",
@@ -740,7 +802,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "70a714372f3d7b3f68b61e5dcd68eecdcc6c3b41",
       "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/70a714372f3d7b3f68b61e5dcd68eecdcc6c3b41",
@@ -769,7 +833,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -798,7 +864,9 @@
         "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/theStack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -813,6 +881,7 @@
       "commit_id": "fe0f83531e35f76d3582813da4cbb518d9bb1d12",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2024-06-28T14:00:05Z",
       "author_association": "CONTRIBUTOR",
       "user": {
         "login": "andrewtoth",
@@ -832,7 +901,9 @@
         "events_url": "https://api.github.com/users/andrewtoth/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/andrewtoth/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1622#pullrequestreview-2148118318",
       "submitted_at": "2024-06-28T14:00:04Z",
@@ -862,7 +933,9 @@
         "events_url": "https://api.github.com/users/josibake/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/josibake/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "8ac84bd344c2375c4ffc57e65da1527ec191cc5f",
       "commit_url": "https://api.github.com/repos/josibake/bips/commits/8ac84bd344c2375c4ffc57e65da1527ec191cc5f",
@@ -891,7 +964,9 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -933,7 +1008,9 @@
         "events_url": "https://api.github.com/users/andrewtoth/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/andrewtoth/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "One thing about removing this line is that now when reading the spec from top to bottom this section references `A` without any context. Only after reading the below sections does the spec tell the reader to return here with the value for `A`. Perhaps we can move this section below sending and receiving and in those sections tell the reader to see below, or we can add a note here saying `A` is specified below depending on being sender or receiver.",
       "created_at": "2024-06-28T14:00:04Z",
@@ -985,13 +1062,15 @@
         "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Thanks for reviewing, Andrew -- @josibake @theStack WDYT?",
       "created_at": "2024-06-28T17:06:26Z",
       "updated_at": "2024-06-28T17:06:26Z",
       "html_url": "https://github.com/bitcoin/bips/pull/1622#discussion_r1659059722",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/1659059722"
@@ -1037,7 +1116,9 @@
         "events_url": "https://api.github.com/users/josibake/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/josibake/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "body": "Good catch, @andrewtoth . Reading through this again, I think it makes more sense to remove the Input Hash section entirely and just define it inline. I opened https://github.com/bitcoin/bips/pull/1629 for this",
       "created_at": "2024-06-29T12:34:02Z",

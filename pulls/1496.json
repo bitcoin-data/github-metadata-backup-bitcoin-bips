@@ -36,7 +36,9 @@
       "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/sipa/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "Contains 3 small improvements to BIP324:\r\n* Since (in the V1 protocol) message type strings must be followed by only 0 bytes after the first 0, the first 16 bytes of an incoming V1 connection are predictable (network magic + \"version\\x00\\x00\\x00\\x00\\x00\"). The current BIP text states to only compare the first 12 bytes instead of 16. This is in theory a semantics change, but wouldn't be observable except with negligible probability (v2 nodes that use 12 vs 16 can communicate with each other, and each can communicate with v1). However, there are possible future extensions that could make this observable (specifically, see footnote 19), so it seems worthwhile to still switch to 16.\r\n* Related to the previous point, it is also possible to detect incoming v1 connections of the wrong network: if the network magic does not match, but the version message type string after it does. Without this, an incoming connection from a v1 peer will get sent key + garbage, which in turn will almost certainly cause them to disconnect immediately, and changing this should not make much of a difference, but it allows for faster disconnect in this situation.\r\n* Drop the BIP330 message types from the short encodings list in the BIP. It feels like it shouldn't be BIP324's goal to predict future protocol improvements.",
     "labels": [],
@@ -44,7 +46,30 @@
     "updated_at": "2023-09-25T18:46:57Z",
     "closed_at": "2023-09-21T01:31:25Z",
     "mergeable_state": "unknown",
+    "merged": true,
     "merged_at": "2023-09-21T01:31:25Z",
+    "merged_by": {
+      "login": "kallewoof",
+      "id": 250224,
+      "node_id": "MDQ6VXNlcjI1MDIyNA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/250224?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/kallewoof",
+      "html_url": "https://github.com/kallewoof",
+      "followers_url": "https://api.github.com/users/kallewoof/followers",
+      "following_url": "https://api.github.com/users/kallewoof/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/kallewoof/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/kallewoof/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/kallewoof/subscriptions",
+      "organizations_url": "https://api.github.com/users/kallewoof/orgs",
+      "repos_url": "https://api.github.com/users/kallewoof/repos",
+      "events_url": "https://api.github.com/users/kallewoof/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/kallewoof/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
     "merge_commit_sha": "7004ad1a825a0422b78bbf1a96bf748d5e380569",
     "assignees": [],
     "requested_reviewers": [],
@@ -71,7 +96,9 @@
         "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/sipa/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 15477215,
@@ -96,7 +123,9 @@
           "events_url": "https://api.github.com/users/sipa/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/sipa/received_events",
           "type": "User",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/sipa/bips",
@@ -145,12 +174,12 @@
         "svn_url": "https://github.com/sipa/bips",
         "homepage": "bitcoin.org",
         "language": "Wikitext",
-        "forks_count": 45,
-        "stargazers_count": 141,
-        "watchers_count": 141,
-        "size": 13758,
+        "forks_count": 42,
+        "stargazers_count": 143,
+        "watchers_count": 143,
+        "size": 15177,
         "default_branch": "bip-taproot",
-        "open_issues_count": 9,
+        "open_issues_count": 8,
         "is_template": false,
         "topics": [],
         "has_issues": true,
@@ -161,9 +190,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-17T03:28:31Z",
+        "pushed_at": "2024-07-10T18:59:52Z",
         "created_at": "2013-12-27T16:12:37Z",
-        "updated_at": "2023-07-02T01:14:29Z"
+        "updated_at": "2025-08-27T14:46:51Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -188,7 +218,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -213,7 +245,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -262,12 +296,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5573,
-        "stargazers_count": 8336,
-        "watchers_count": 8336,
-        "size": 13657,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 118,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -278,9 +312,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-09-25T13:01:25Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-09-25T18:47:41Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -441,7 +476,9 @@
         "events_url": "https://api.github.com/users/dhruv/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dhruv/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -467,7 +504,9 @@
         "events_url": "https://api.github.com/users/dhruv/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dhruv/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1496#issuecomment-1727562767",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1496"
@@ -495,7 +534,9 @@
         "events_url": "https://api.github.com/users/kallewoof/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/kallewoof/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": "7004ad1a825a0422b78bbf1a96bf748d5e380569",
       "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/7004ad1a825a0422b78bbf1a96bf748d5e380569",
@@ -524,11 +565,75 @@
         "events_url": "https://api.github.com/users/kallewoof/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/kallewoof/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2023-09-21T01:31:25Z"
+    },
+    {
+      "event": "referenced",
+      "id": 10555694222,
+      "node_id": "REFE_lADOAN28mc5xJ6egzwAAAAJ1KxyO",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/10555694222",
+      "actor": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "5b4478418b24422885ae4d5c9a41a45455a72618",
+      "commit_url": "https://api.github.com/repos/bitcoin-core/gui/commits/5b4478418b24422885ae4d5c9a41a45455a72618",
+      "created_at": "2023-10-04T20:57:41Z"
+    },
+    {
+      "event": "referenced",
+      "id": 10646525009,
+      "node_id": "REFE_lADOAN28mc5xJ6egzwAAAAJ6lRRR",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/10646525009",
+      "actor": {
+        "login": "Frank-GER",
+        "id": 87550788,
+        "node_id": "MDQ6VXNlcjg3NTUwNzg4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/87550788?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Frank-GER",
+        "html_url": "https://github.com/Frank-GER",
+        "followers_url": "https://api.github.com/users/Frank-GER/followers",
+        "following_url": "https://api.github.com/users/Frank-GER/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Frank-GER/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Frank-GER/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Frank-GER/subscriptions",
+        "organizations_url": "https://api.github.com/users/Frank-GER/orgs",
+        "repos_url": "https://api.github.com/users/Frank-GER/repos",
+        "events_url": "https://api.github.com/users/Frank-GER/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Frank-GER/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "f74e322c256bdb63d17cb5b4c34417ede5d15190",
+      "commit_url": "https://api.github.com/repos/syscoin/syscoin/commits/f74e322c256bdb63d17cb5b4c34417ede5d15190",
+      "created_at": "2023-10-13T17:03:37Z"
     }
   ],
   "comments": []

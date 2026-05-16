@@ -37,6 +37,7 @@
       "received_events_url": "https://api.github.com/users/DanGould/received_events",
       "type": "User",
       "site_admin": false,
+      "name": null,
       "patch_url": null
     },
     "body": "According to the psbt Input Finalizer spec \"All other data except the UTXO and unknown fields in the input key-value map should be cleared from the PSBT. The UTXO should be kept to allow Transaction Extractors to verify the final network serialized transaction.\" In Bip78, the receiver clears this data after it finalizes its inputs, even if the utxo belongs to the sender which will need that data.\r\n\r\nI ran into a problem where LND's FinalizePsbt gRPC fails when this utxo data is missing. I see no good reason to remove this utxo information from the PSBT. I think LND's RPC should also succeed regardless of this data being present because it can look it up with the unsigned_tx's input outpoint (that's what bitcoind's finalizePsbt rpc does). Still I think LND's RPC is technically BIP-0174 spec-compliant while BIP-0078 seems not to be.\r\n\r\nhttps://github.com/lightningnetwork/lnd/blob/cf9a9864cf253dbbcac5904d360bbbde763e1ebe/lnwallet/rpcwallet/rpcwallet.go#L270-L286\r\nAccording to the psbt Input Finalizer spec \"All other data *except the UTXO and unknown fields* in the input key-value map should be cleared from the PSBT. The UTXO should be kept to allow Transaction Extractors to verify the final network serialized transaction.\"\r\n\r\nI ran into a problem where an LND acting as sender FinalizePsbt gRPC fails when sender utxo information is missing. I see no good reason to remove utxo information from the PSBT.\r\n\r\nEdit Jun 2024: This problem also cropped up in sparrow wallet\r\n\r\n---\r\n\r\n[tagging this issue in the rust-payjoin library](https://github.com/Kixunil/payjoin/issues/39)\r\n\r\n@nickfarrow @kixunil @nicolasdorier",
@@ -46,6 +47,7 @@
         "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
         "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
         "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
         "color": "5319e7",
         "default": false
       }
@@ -54,6 +56,7 @@
     "updated_at": "2025-01-14T14:52:17Z",
     "closed_at": "2025-01-14T14:52:17Z",
     "mergeable_state": "unknown",
+    "merged": true,
     "merged_at": "2025-01-14T14:52:17Z",
     "merged_by": {
       "login": "jonatack",
@@ -74,6 +77,7 @@
       "received_events_url": "https://api.github.com/users/jonatack/received_events",
       "type": "User",
       "site_admin": false,
+      "name": null,
       "patch_url": null
     },
     "merge_commit_sha": "2f862f75d12a35d05fa5e2eae65e49b00f2836a0",
@@ -103,6 +107,7 @@
         "received_events_url": "https://api.github.com/users/DanGould/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "repo": {
@@ -129,6 +134,7 @@
           "received_events_url": "https://api.github.com/users/DanGould/received_events",
           "type": "User",
           "site_admin": false,
+          "name": null,
           "patch_url": null
         },
         "private": false,
@@ -180,7 +186,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 15103,
+        "size": 18977,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -193,7 +199,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-01-14T14:51:07Z",
+        "pushed_at": "2026-01-09T06:07:49Z",
         "created_at": "2022-04-04T03:35:06Z",
         "updated_at": "2022-04-03T20:34:01Z",
         "allow_forking": true
@@ -222,6 +228,7 @@
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "repo": {
@@ -248,6 +255,7 @@
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
           "site_admin": false,
+          "name": null,
           "patch_url": null
         },
         "private": false,
@@ -297,12 +305,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5454,
-        "stargazers_count": 9620,
-        "watchers_count": 9620,
-        "size": 15804,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 35,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -313,9 +321,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2025-01-14T14:52:17Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2025-01-14T14:52:25Z",
+        "updated_at": "2026-05-15T19:33:05Z",
         "allow_forking": true
       }
     },
@@ -358,6 +366,7 @@
         "received_events_url": "https://api.github.com/users/Kixunil/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -388,6 +397,7 @@
         "received_events_url": "https://api.github.com/users/Kixunil/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -418,6 +428,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -448,6 +459,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -478,6 +490,7 @@
         "received_events_url": "https://api.github.com/users/nickfarrow/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -508,6 +521,7 @@
         "received_events_url": "https://api.github.com/users/nickfarrow/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -538,13 +552,14 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-05-01T18:10:52Z",
       "updated_at": "2024-05-01T18:10:52Z",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "body": "Seems reasonable, but needs an endorsement from the original BIP author, @NicolasDorier.",
       "user": {
         "login": "murchandamus",
@@ -565,6 +580,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1396#issuecomment-2088864656",
@@ -594,6 +610,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -624,6 +641,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -654,6 +672,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -688,6 +707,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -722,6 +742,7 @@
         "received_events_url": "https://api.github.com/users/DanGould/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -749,6 +770,7 @@
         "received_events_url": "https://api.github.com/users/DanGould/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1396#issuecomment-2142377965",
@@ -778,6 +800,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -808,6 +831,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -838,13 +862,14 @@
         "received_events_url": "https://api.github.com/users/spacebear21/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-06-05T05:11:22Z",
       "updated_at": "2024-06-05T05:11:22Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "The [reference sender implementation](https://github.com/bitcoin/bips/blob/764e853d20e0249ed660f17d93100d5a91a199fa/bip-0078.mediawiki#reference-senders-implementation) should also be updated to remove this check:\r\n\r\n```\r\n// Verify that <code>non_witness_utxo</code> and <code>witness_utxo</code> are not specified.\r\nif (proposedPSBTInput.NonWitnessUtxo != null || proposedPSBTInput.WitnessUtxo != null)\r\n    throw new PayjoinSenderException(\"The receiver added non_witness_utxo or witness_utxo to one of our inputs\");\r\n```\r\n\r\nThe test vectors should likely be updated as well.",
       "user": {
         "login": "spacebear21",
@@ -865,6 +890,7 @@
         "received_events_url": "https://api.github.com/users/spacebear21/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1396#issuecomment-2148869189",
@@ -894,6 +920,7 @@
         "received_events_url": "https://api.github.com/users/craigraw/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -921,6 +948,7 @@
         "received_events_url": "https://api.github.com/users/craigraw/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1396#issuecomment-2157822110",
@@ -950,6 +978,7 @@
         "received_events_url": "https://api.github.com/users/DanGould/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -977,6 +1006,7 @@
         "received_events_url": "https://api.github.com/users/DanGould/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1396#issuecomment-2158880229",
@@ -1046,6 +1076,7 @@
         "received_events_url": "https://api.github.com/users/DanGould/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": "e4267374fb4642051976ea046ce0aebfb22d36f8",
@@ -1076,6 +1107,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1103,6 +1135,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1396#issuecomment-2181759523",
@@ -1132,6 +1165,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1162,6 +1196,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1177,6 +1212,7 @@
       "commit_id": "e4267374fb4642051976ea046ce0aebfb22d36f8",
       "commit_url": null,
       "created_at": null,
+      "updated_at": "2024-06-29T10:45:38Z",
       "author_association": "NONE",
       "body": "",
       "user": {
@@ -1198,6 +1234,7 @@
         "received_events_url": "https://api.github.com/users/5twelve/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1396#pullrequestreview-2149539853",
@@ -1229,13 +1266,14 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2024-11-14T20:27:33Z",
       "updated_at": "2024-11-14T20:27:33Z",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "MEMBER",
       "body": "Hey, has there been any movement on this PR? @NicolasDorier, I think it might be waiting for your review.",
       "user": {
         "login": "murchandamus",
@@ -1256,6 +1294,7 @@
         "received_events_url": "https://api.github.com/users/murchandamus/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1396#issuecomment-2477347395",
@@ -1285,6 +1324,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1315,6 +1355,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1345,6 +1386,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1372,6 +1414,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1396#issuecomment-2574183922",
@@ -1401,6 +1444,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1431,6 +1475,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1461,6 +1506,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1488,6 +1534,7 @@
         "received_events_url": "https://api.github.com/users/NicolasDorier/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1396#issuecomment-2590034143",
@@ -1517,6 +1564,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
@@ -1596,6 +1644,7 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": "2f862f75d12a35d05fa5e2eae65e49b00f2836a0",
@@ -1626,11 +1675,167 @@
         "received_events_url": "https://api.github.com/users/jonatack/received_events",
         "type": "User",
         "site_admin": false,
+        "name": null,
         "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
       "created_at": "2025-01-14T14:52:17Z"
+    },
+    {
+      "event": "referenced",
+      "id": 15945451686,
+      "node_id": "REFE_lADOAN28mc5ZtRTXzwAAAAO2bEim",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/15945451686",
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "7a64d9558d87ac8d2b8d65cd57f470fd9f4c3753",
+      "commit_url": "https://api.github.com/repos/DanGould/payjoin-client/commits/7a64d9558d87ac8d2b8d65cd57f470fd9f4c3753",
+      "created_at": "2025-01-15T18:40:54Z"
+    },
+    {
+      "event": "referenced",
+      "id": 16038004809,
+      "node_id": "REFE_lADOAN28mc5ZtRTXzwAAAAO78IhJ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/16038004809",
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "bcd91337b588b62869cd16438a1ff2c8147ce504",
+      "commit_url": "https://api.github.com/repos/DanGould/rust-payjoin/commits/bcd91337b588b62869cd16438a1ff2c8147ce504",
+      "created_at": "2025-01-23T04:16:55Z"
+    },
+    {
+      "event": "referenced",
+      "id": 16038010552,
+      "node_id": "REFE_lADOAN28mc5ZtRTXzwAAAAO78J64",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/16038010552",
+      "actor": {
+        "login": "DanGould",
+        "id": 8525467,
+        "node_id": "MDQ6VXNlcjg1MjU0Njc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8525467?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DanGould",
+        "html_url": "https://github.com/DanGould",
+        "followers_url": "https://api.github.com/users/DanGould/followers",
+        "following_url": "https://api.github.com/users/DanGould/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DanGould/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DanGould/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DanGould/subscriptions",
+        "organizations_url": "https://api.github.com/users/DanGould/orgs",
+        "repos_url": "https://api.github.com/users/DanGould/repos",
+        "events_url": "https://api.github.com/users/DanGould/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DanGould/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "5d6460ec16fe71fb95cace24277d379abc52f99c",
+      "commit_url": "https://api.github.com/repos/DanGould/rust-payjoin/commits/5d6460ec16fe71fb95cace24277d379abc52f99c",
+      "created_at": "2025-01-23T04:18:02Z"
+    },
+    {
+      "event": "referenced",
+      "id": 16097405690,
+      "node_id": "REFE_lADOAN28mc5ZtRTXzwAAAAO_eur6",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/16097405690",
+      "actor": {
+        "login": "benalleng",
+        "id": 108441023,
+        "node_id": "U_kgDOBnatvw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/108441023?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/benalleng",
+        "html_url": "https://github.com/benalleng",
+        "followers_url": "https://api.github.com/users/benalleng/followers",
+        "following_url": "https://api.github.com/users/benalleng/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/benalleng/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/benalleng/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/benalleng/subscriptions",
+        "organizations_url": "https://api.github.com/users/benalleng/orgs",
+        "repos_url": "https://api.github.com/users/benalleng/repos",
+        "events_url": "https://api.github.com/users/benalleng/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/benalleng/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "fbf48317144c76de73c57d9183b654795ee4dd8a",
+      "commit_url": "https://api.github.com/repos/benalleng/rust-payjoin/commits/fbf48317144c76de73c57d9183b654795ee4dd8a",
+      "created_at": "2025-01-28T17:57:38Z"
+    },
+    {
+      "event": "referenced",
+      "id": 19967403828,
+      "node_id": "REFE_lADOAN28mc5ZtRTXzwAAAASmJmc0",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/19967403828",
+      "actor": {
+        "login": "node-smithxby72w",
+        "id": 201733845,
+        "node_id": "U_kgDODAY21Q",
+        "avatar_url": "https://avatars.githubusercontent.com/u/201733845?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/node-smithxby72w",
+        "html_url": "https://github.com/node-smithxby72w",
+        "followers_url": "https://api.github.com/users/node-smithxby72w/followers",
+        "following_url": "https://api.github.com/users/node-smithxby72w/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/node-smithxby72w/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/node-smithxby72w/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/node-smithxby72w/subscriptions",
+        "organizations_url": "https://api.github.com/users/node-smithxby72w/orgs",
+        "repos_url": "https://api.github.com/users/node-smithxby72w/repos",
+        "events_url": "https://api.github.com/users/node-smithxby72w/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/node-smithxby72w/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "a575dc80c84f4cade97a4f2aa1aced36c725cc5f",
+      "commit_url": "https://api.github.com/repos/node-smithxby72w/rust-payjoin/commits/a575dc80c84f4cade97a4f2aa1aced36c725cc5f",
+      "created_at": "2025-09-28T14:06:09Z"
     }
   ],
   "comments": []

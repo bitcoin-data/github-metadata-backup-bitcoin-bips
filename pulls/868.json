@@ -36,7 +36,9 @@
       "events_url": "https://api.github.com/users/dgpv/events%7B/privacy%7D",
       "received_events_url": "https://api.github.com/users/dgpv/received_events",
       "type": "User",
-      "site_admin": false
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
     },
     "body": "Key types and proprietary subtypes are now defined as compact size integers.\r\nPreviously compact size integers were used only to encode the size of data.\r\nIt was decided that it would be fine to use compact size integer for extensibility of key types, to allow for types larger than that can be encoded by just one byte. One of the advantages of using compact size integers for key types was that the code to decode them in the implementations that work with PSBT. \r\n\r\nThe problem is, the code that decodes compact size integers, at least in BitcoinCore, limits the upper range of compact size integer to MAX_SIZE = 0x2000000 (see ` ReadCompactSize()` in serialize.h`).  Other implementations might implement the same restrictions, to improve the chances to catch incorrect data.\r\n\r\nI think it should be discussed how this issue can be solved.\r\n\r\nIt can be said that implementations should allow full range representable by compact integer (up to 2**64-1), and then some implementations will need to update their code, to have separate decoding function or add extra parameter to existing decoding function to be able to decode full-range compact size integers and retain the range check where it is needed.\r\n\r\nOr we can say that the range from 0 to 0x2000000 is enough for any key type or subtype, but then this should be spelled out in the BIP. (Note that ranges beyond MAX_SIZE up to 2**32-1 can be represented by straight non-compact-size 32-bit values).\r\n\r\nI'm not sure what is the right approach here, but I favour the second option.  ",
     "labels": [
@@ -45,6 +47,7 @@
         "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
         "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
         "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
         "color": "5319e7",
         "default": false
       }
@@ -52,11 +55,14 @@
     "created_at": "2019-12-10T09:02:09Z",
     "updated_at": "2020-01-17T20:03:35Z",
     "closed_at": "2020-01-17T20:03:35Z",
-    "mergeable_state": "unknown",
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "merged": false,
     "merge_commit_sha": "88849c024f2d488422b52cb904b1a8510d85e743",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
+    "rebaseable": false,
     "head": {
       "label": "dgpv:patch-8",
       "ref": "patch-8",
@@ -79,7 +85,9 @@
         "events_url": "https://api.github.com/users/dgpv/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dgpv/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 152310957,
@@ -104,7 +112,9 @@
           "events_url": "https://api.github.com/users/dgpv/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/dgpv/received_events",
           "type": "User",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/dgpv/bips",
@@ -171,7 +181,8 @@
         "visibility": "public",
         "pushed_at": "2021-05-26T12:35:17Z",
         "created_at": "2018-10-09T19:42:29Z",
-        "updated_at": "2021-05-18T07:44:55Z"
+        "updated_at": "2021-05-18T07:44:55Z",
+        "allow_forking": true
       }
     },
     "base": {
@@ -196,7 +207,9 @@
         "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/bitcoin/received_events",
         "type": "Organization",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "repo": {
         "id": 14531737,
@@ -221,7 +234,9 @@
           "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
           "received_events_url": "https://api.github.com/users/bitcoin/received_events",
           "type": "Organization",
-          "site_admin": false
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
         },
         "private": false,
         "html_url": "https://github.com/bitcoin/bips",
@@ -270,12 +285,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5535,
-        "stargazers_count": 8220,
-        "watchers_count": 8220,
-        "size": 13787,
+        "forks_count": 5948,
+        "stargazers_count": 10765,
+        "watchers_count": 10765,
+        "size": 22032,
         "default_branch": "master",
-        "open_issues_count": 112,
+        "open_issues_count": 42,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -286,9 +301,10 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2023-08-01T12:09:15Z",
+        "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2023-08-01T09:08:43Z"
+        "updated_at": "2026-05-15T19:33:05Z",
+        "allow_forking": true
       }
     },
     "_links": {
@@ -369,7 +385,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -395,7 +413,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/868#issuecomment-570449047",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/868"
@@ -423,7 +443,9 @@
         "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/achow101/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -452,7 +474,9 @@
         "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/achow101/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -481,7 +505,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -514,7 +540,9 @@
         "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/achow101/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -540,7 +568,9 @@
         "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/achow101/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/868#issuecomment-570453947",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/868"
@@ -568,7 +598,9 @@
         "events_url": "https://api.github.com/users/dgpv/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dgpv/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -594,7 +626,9 @@
         "events_url": "https://api.github.com/users/dgpv/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dgpv/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/868#issuecomment-570505518",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/868"
@@ -622,7 +656,9 @@
         "events_url": "https://api.github.com/users/dgpv/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dgpv/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
@@ -648,7 +684,9 @@
         "events_url": "https://api.github.com/users/dgpv/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/dgpv/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/868#issuecomment-570507097",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/868"
@@ -676,7 +714,9 @@
         "events_url": "https://api.github.com/users/luke-jr/events%7B/privacy%7D",
         "received_events_url": "https://api.github.com/users/luke-jr/received_events",
         "type": "User",
-        "site_admin": false
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
       },
       "commit_id": null,
       "commit_url": null,
