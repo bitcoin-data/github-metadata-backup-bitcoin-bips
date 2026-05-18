@@ -43,7 +43,7 @@
     "body": "## Summary\r\n\r\nThis PR submits a new Draft BIP: **Great Wall**, a procedure for deriving a BIP-0032 master seed from a secret that exists only in the user's memory.\r\n\r\nInstead of recording a BIP-0039 mnemonic, the user memorizes a sequence of locations on deterministically rendered Burning Ship fractals. The recalled locations are decoded by a binary bisection algorithm into raw entropy, which is then re-encoded as a BIP-0039 mnemonic and stretched into a seed exactly as in BIP-0039 — so all derived keys and addresses are identical to those a BIP-0039 wallet would produce from the same entropy.\r\n\r\nThe scheme is built around Tacit Knowledge-Based Authentication (TKBA): the secret is held as non-verbalizable procedural memory, and its deployment is gated by a tunable memory-hard KDF, providing coercion-resistance without any physical backup artifact. It is forward- and backward-compatible with BIP-0039 and composes with Formosa (BIP-0450).\r\n\r\n## Process notes\r\n\r\n- Submitted as an unnumbered `bip.mediawiki` with `BIP: ?` and `Assigned: ?` in the preamble.\r\n- No number self-assigned and no README table entry added — left for a BIP Editor to assign and publish, following the same path Formosa (BIP-0450) took.\r\n- Layer: Applications · Type: Specification · Status: Draft · License: BSD-2-Clause · Requires: 32, 39\r\n\r\n## Contents\r\n\r\n- Specification: deterministic I4F60 fixed-point arithmetic; the binary bisection algorithm and the regular binary area tree it induces (cuts alternate along the largest dimension; weighted-median placement + contraction yielding a discarded area / checksum-like effect); the app-canonical fractal (fixed baseline perturbation `p` excluding the degenerate tail of the mathematics-canonical Burning Ship); the KDF-perturbed stage-2 fractal; sizing; recall-to-seed pipeline; computational gating / RSW time-lock; optional inheritance protocol.\r\n- Rationale, Backwards Compatibility, Security Considerations, and Reference Implementation sections.\r\n\r\nReference implementation and documentation: https://github.com/Yuri-SVB/Great-Wallet\r\n\r\n## Checklist\r\n\r\n- [ ] BIP Editor assigns a number and renames `bip.mediawiki` accordingly\r\n- [ ] README.mediawiki table entry added on publication\r\n- [ ] `Discussion:` link updated to the bitcoindev mailing-list thread (if/when available)",
     "labels": [],
     "created_at": "2026-05-17T06:21:45Z",
-    "updated_at": "2026-05-17T06:21:45Z",
+    "updated_at": "2026-05-18T11:29:22Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -155,7 +155,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22098,
+        "size": 22106,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -275,8 +275,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5948,
-        "stargazers_count": 10767,
-        "watchers_count": 10767,
+        "stargazers_count": 10769,
+        "watchers_count": 10769,
         "size": 22032,
         "default_branch": "master",
         "open_issues_count": 43,
@@ -292,7 +292,7 @@
         "visibility": "public",
         "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-05-17T03:51:15Z",
+        "updated_at": "2026-05-17T18:34:22Z",
         "allow_forking": true
       }
     },
@@ -307,7 +307,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 0
   },
   "events": [
@@ -350,7 +350,101 @@
         "date": "2026-05-17T05:59:35Z"
       },
       "sha": "0ae3084f5d3acf604bbdac0ccbdf54fa6295688f"
+    },
+    {
+      "event": "reviewed",
+      "id": 4309727739,
+      "node_id": "PRR_kwDOAN28mc8AAAABAOE5-w",
+      "url": null,
+      "actor": null,
+      "commit_id": "0ae3084f5d3acf604bbdac0ccbdf54fa6295688f",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-05-18T11:29:22Z",
+      "author_association": "MEMBER",
+      "body": "Hey! BIP3 explicitly states that new BIPs should be discussed on the mailing list first:\n\nhttps://github.com/bitcoin/bips/blob/6deafd07ff5d38c7d69b27530ba55a4ee038cde7/bip-0003.md?plain=1#L485-L487\n\nI can't find any thread on the mailing list, so I suggest you post this there before opening a BIP PR :) ",
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2161#pullrequestreview-4309727739",
+      "submitted_at": "2026-05-18T11:29:22Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2161"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3258511832",
+      "pull_request_review_id": 4309727739,
+      "id": 3258511832,
+      "node_id": "PRRC_kwDOAN28mc7COPHY",
+      "diff_hunk": "@@ -0,0 +1,319 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Great Wall—Tacit-knowledge seed derivation by fractal recall\n+  Authors: Yuri S Villas Boas <yuri@t3infosecurity.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-2-Clause\n+  Discussion: https://github.com/Yuri-SVB/Great-Wallet",
+      "path": "bip.mediawiki",
+      "position": 10,
+      "original_position": 10,
+      "commit_id": "0ae3084f5d3acf604bbdac0ccbdf54fa6295688f",
+      "original_commit_id": "0ae3084f5d3acf604bbdac0ccbdf54fa6295688f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This should link to the discussion thread on the ML, not to your own repository (which, as far as I can see, doesn't even have issues/PRs where someone discussed the idea...)",
+      "created_at": "2026-05-18T11:28:26Z",
+      "updated_at": "2026-05-18T11:29:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2161#discussion_r3258511832",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3258511832"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2161"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 10,
+      "original_line": 10,
+      "side": "RIGHT"
+    }
+  ]
 }
