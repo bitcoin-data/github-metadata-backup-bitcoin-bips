@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-04-10T21:54:22Z",
-    "updated_at": "2026-05-17T20:45:08Z",
+    "updated_at": "2026-05-18T04:40:44Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 50,
+    "review_comments": 51,
     "comments": 12
   },
   "events": [
@@ -4785,6 +4785,60 @@
       "start_side": null,
       "line": 91,
       "original_line": 90,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3256384577",
+      "pull_request_review_id": 4307281210,
+      "id": 3256384577,
+      "node_id": "PRRC_kwDOAN28mc7CGHxB",
+      "diff_hunk": "@@ -0,0 +1,228 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: P2P UTXO Set Sharing\n+  Authors: Fabian Jahr <fjahr@protonmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  Discussion: 2026-05-06: https://groups.google.com/g/bitcoindev/c/rThmyI8ZN3Q\n+  Version: 0.2.0\n+  License: BSD-2-Clause\n+```\n+\n+## Abstract\n+\n+This BIP defines a P2P protocol extension for sharing full UTXO sets between peers. It introduces\n+a new service bit `NODE_UTXO_SET`, four new P2P messages (`getutxotree`, `utxotree`, `getutxoset`,\n+`utxoset`), and a chunk-hash list anchored to a Merkle root known to the requesting node, enabling\n+per-chunk verification. This allows nodes to bootstrap from a recent height by obtaining the\n+required UTXO set directly from the P2P network via mechanisms such as assumeutxo.\n+\n+## Motivation\n+\n+The assumeutxo feature (implemented in Bitcoin Core) allows nodes to begin operating from a serialized\n+UTXO set while validating\n+historical blocks in the background. However, there is currently no canonical source for obtaining this\n+data. Users must either generate one themselves from a fully synced node (using `dumptxoutset` in \n+Bitcoin Core), or download one from a third party.\n+\n+By enabling UTXO set sharing over the P2P network, new nodes can obtain the data directly from\n+peers, removing the dependency on external infrastructure.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"SHOULD\", \"SHOULD NOT\", and \"MAY\" in this document are to be\n+interpreted as described in RFC 2119.\n+\n+### Service Bit\n+\n+| Name | Bit | Description |\n+|------|-----|-------------|\n+| `NODE_UTXO_SET` | 12 (0x1000) | The node can serve complete UTXO set data for at least one height. |\n+\n+A node MUST NOT set this bit unless it has at least one full UTXO set available to serve.\n+A node signaling `NODE_UTXO_SET` MUST be capable of responding to `getutxotree` and `getutxoset`\n+requests for every UTXO set it is willing to serve, including the full chunk-hash list and every\n+chunk of those sets.\n+\n+### Data Structures\n+\n+#### Serialized UTXO Set\n+\n+The serialized UTXO set uses the format established by the Bitcoin Core RPC `dumptxoutset` (as of Bitcoin Core v31).\n+\n+**Header (55 bytes):**\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `magic` | `bytes` | 5 | `0x7574786fff` (ASCII `utxo` + `0xff`). |\n+| `version` | `uint16_t` | 2 | Format version. |\n+| `network_magic` | `bytes` | 4 | Network message start bytes. |\n+| `base_height` | `uint32_t` | 4 | Block height of the UTXO set. |\n+| `base_blockhash` | `uint256` | 32 | Block hash of the UTXO set. |\n+| `coins_count` | `uint64_t` | 8 | Total number of coins (UTXOs) in the set. |\n+\n+**Body (coin data):**\n+\n+Coins are grouped by transaction hash. For each group:\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `txid` | `uint256` | 32 | Transaction hash. |\n+| `num_coins` | `compact_size` | 1–9 | Number of outputs for this txid. |\n+\n+For each coin in the group:\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `vout_index` | `compact_size` | 1–9 | Output index. |\n+| `coin` | `Coin` | variable | Serialized coin (varint-encoded code for height/coinbase, then compressed txout). |\n+\n+Coins are ordered lexicographically by outpoint (txid, then vout index), matching the LevelDB iteration\n+order of the coins database.\n+\n+#### Chunk Merkle Tree\n+\n+The serialized UTXO set (header + body) is split into chunks of exactly 3,900,000 bytes (3.9 MB). The\n+last chunk contains the remaining bytes and may be smaller.\n+\n+The leaf hash for each chunk is `SHA256d(chunk_data)`. The tree is built as a balanced binary tree. When\n+the number of nodes at a level is odd, the last node is duplicated before hashing the next level.",
+      "path": "bip-XXXX.md",
+      "position": 1,
+      "original_position": 91,
+      "commit_id": "07e74d26c0c8daf3728c83d9203aa6a7532ca41d",
+      "original_commit_id": "07e74d26c0c8daf3728c83d9203aa6a7532ca41d",
+      "in_reply_to_id": 3230218531,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "The utxotree message include `data_length` which (along with the fixed 3.9MB data sizes) makes the merkle tree structure deterministic. If you make the hardcoded hash identifying the utxo set be the hash of all the data in the utxotree message, that should suffice to prevent messing around with the chunk structure?\r\n\r\nAlso, `num_chunks` is redundant given `data_length` and the 3.9MB constant. If you want to support chunks breaking at sizes other than 3.9MB, it would be better to have `3,900,000` be included in the message rather than `num_chunks` IMO.\r\n\r\nBTW, I don't think you need a tree structure here btw; you could just hash the utxotree message (ie concatenate the chunk hashes) instead.",
+      "created_at": "2026-05-18T04:40:44Z",
+      "updated_at": "2026-05-18T04:42:25Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2137#discussion_r3256384577",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3256384577"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2137"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 91,
       "side": "RIGHT"
     }
   ]
