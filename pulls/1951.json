@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2025-09-04T06:47:33Z",
-    "updated_at": "2026-05-13T16:56:07Z",
+    "updated_at": "2026-05-18T14:24:49Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -283,8 +283,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5948,
-        "stargazers_count": 10765,
-        "watchers_count": 10765,
+        "stargazers_count": 10769,
+        "watchers_count": 10769,
         "size": 22032,
         "default_branch": "master",
         "open_issues_count": 42,
@@ -300,7 +300,7 @@
         "visibility": "public",
         "pushed_at": "2026-05-14T12:26:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-05-15T19:33:05Z",
+        "updated_at": "2026-05-17T18:34:22Z",
         "allow_forking": true
       }
     },
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 9,
     "commits": 2,
-    "review_comments": 65,
+    "review_comments": 66,
     "comments": 26
   },
   "events": [
@@ -4670,6 +4670,44 @@
       "submitted_at": "2026-05-13T16:55:34Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1951"
+    },
+    {
+      "event": "reviewed",
+      "id": 4311011566,
+      "node_id": "PRR_kwDOAN28mc8AAAABAPTQ7g",
+      "url": null,
+      "actor": null,
+      "commit_id": "e9858e8bbee3fbf12510f7af9816772a10a82392",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-05-18T14:24:49Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1951#pullrequestreview-4311011566",
+      "submitted_at": "2026-05-18T14:24:49Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1951"
     }
   ],
   "comments": [
@@ -8181,6 +8219,60 @@
       "start_side": null,
       "line": 76,
       "original_line": 76,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3259651239",
+      "pull_request_review_id": 4311011566,
+      "id": 3259651239,
+      "node_id": "PRRC_kwDOAN28mc7CSlSn",
+      "diff_hunk": "@@ -0,0 +1,373 @@\n+```\n+  BIP: 138\n+  Layer: Applications\n+  Title: Compact encryption scheme for non-seed wallet data\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2026-05-11\n+  License: BSD-2-Clause\n+  Discussion: https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts/1607\n+              https://groups.google.com/g/bitcoindev/c/5NgJbpVDgEc/m/TtGK9sF9BgAJ\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines a compact encryption scheme for **output script descriptors** (BIP-0380),\n+**wallet policies** (BIP-0388), **labels** (BIP-0329), and **wallet backup metadata** (draft [BIP](https://github.com/bitcoin/bips/pull/2130)).\n+The payload must not contain any private key material.\n+\n+Users can store encrypted backups on untrusted media or cloud services without leaking\n+addresses, script structures, or cosigner counts. The encryption key derives from the\n+lexicographically-sorted public keys in the descriptor, allowing any keyholder to decrypt\n+without additional secrets.\n+\n+Though designed for descriptors and policies, the scheme works equally well for labels\n+and backup metadata.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+Losing the **wallet descriptor** (or **wallet policy**) is just as catastrophic as\n+losing the seed itself. The seed lets you sign, but the descriptor maps you to your coins.\n+For multisig or miniscript wallets, keys alone won't help: without the descriptor, you\n+can't reconstruct the script.\n+\n+Offline storage of descriptors has two practical obstacles:\n+\n+1. **Descriptors are hard to store offline.**  \n+   Descriptors can be much longer than a 12/24-word seed. Paper and steel backups\n+   become impractical or error-prone.\n+\n+2. **Online redundancy carries privacy risk.**  \n+   USB drives, phones, and cloud storage solve the length problem but expose your\n+   wallet structure. Plaintext descriptors leak your pubkeys and script details.\n+   Cloud storage is often unencrypted, and even cloud encryption could be compromised,\n+   depending on (often opaque) implementation details. Its security also reduces to\n+   that of the weakest device with cloud access. Each copy increases the attack surface.\n+\n+This BIP therefore proposes an **encrypted**, compact backup format that:\n+\n+* can be **safely stored in multiple places**, including untrusted online services,  \n+* can be **decrypted only by intended holders** of specified public keys,\n+\n+See the original [Delving post](https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts/1607/31)\n+for more background.\n+\n+### Expected properties\n+\n+* **Encrypted**: safe to store with untrusted cloud providers or backup services  \n+* **Access controlled**: only designated cosigners can decrypt  \n+* **Easy to implement**: it should not require any sophisticated tools/libraries.  \n+* **Vendor-neutral**: works with any hardware signer\n+\n+### Scope\n+\n+This proposal targets output script descriptors (BIP-0380) and policies (BIP-0388), but the\n+scheme also works for labels (BIP-0329) and other wallet metadata like\n+[wallet backup metadata](https://github.com/bitcoin/bips/pull/2130).\n+\n+Private key material MUST be removed before encrypting any payload.\n+\n+## Specification\n+\n+Note: in the followings sections, the operator ⊕  refers to the bitwise XOR operation.",
+      "path": "bip-0138.md",
+      "position": 82,
+      "original_position": 82,
+      "commit_id": "e9858e8bbee3fbf12510f7af9816772a10a82392",
+      "original_commit_id": "e9858e8bbee3fbf12510f7af9816772a10a82392",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "bigspider",
+        "id": 6681844,
+        "node_id": "MDQ6VXNlcjY2ODE4NDQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/6681844?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bigspider",
+        "html_url": "https://github.com/bigspider",
+        "followers_url": "https://api.github.com/users/bigspider/followers",
+        "following_url": "https://api.github.com/users/bigspider/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bigspider/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bigspider/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bigspider/subscriptions",
+        "organizations_url": "https://api.github.com/users/bigspider/orgs",
+        "repos_url": "https://api.github.com/users/bigspider/repos",
+        "events_url": "https://api.github.com/users/bigspider/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bigspider/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Extra space\n```suggestion\nNote: in the followings sections, the operator ⊕ refers to the bitwise XOR operation.\n```",
+      "created_at": "2026-05-18T14:24:49Z",
+      "updated_at": "2026-05-18T14:24:49Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1951#discussion_r3259651239",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3259651239"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1951"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 82,
+      "original_line": 82,
       "side": "RIGHT"
     }
   ]
