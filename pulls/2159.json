@@ -53,7 +53,7 @@
       }
     ],
     "created_at": "2026-05-14T13:27:20Z",
-    "updated_at": "2026-05-19T22:57:52Z",
+    "updated_at": "2026-05-20T01:43:24Z",
     "closed_at": "2026-05-19T22:57:52Z",
     "mergeable_state": "unknown",
     "merged": true,
@@ -308,7 +308,7 @@
         "forks_count": 5952,
         "stargazers_count": 10773,
         "watchers_count": 10773,
-        "size": 22026,
+        "size": 22038,
         "default_branch": "master",
         "open_issues_count": 41,
         "is_template": false,
@@ -338,7 +338,7 @@
     "deletions": 22,
     "changed_files": 1,
     "commits": 6,
-    "review_comments": 23,
+    "review_comments": 24,
     "comments": 10
   },
   "events": [
@@ -1675,6 +1675,45 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-05-19T22:57:52Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 4324624680,
+      "node_id": "PRR_kwDOAN28mc8AAAABAcSJKA",
+      "url": null,
+      "actor": null,
+      "commit_id": "f1f1c36ff24157c6c7de698a90fa3fff4ab8b337",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-05-20T01:43:24Z",
+      "author_association": "NONE",
+      "body": "generally i agree with jeremy to be careful with the \"seam\" introduced.",
+      "user": {
+        "login": "ariard",
+        "id": 23310655,
+        "node_id": "MDQ6VXNlcjIzMzEwNjU1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/23310655?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ariard",
+        "html_url": "https://github.com/ariard",
+        "followers_url": "https://api.github.com/users/ariard/followers",
+        "following_url": "https://api.github.com/users/ariard/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ariard/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ariard/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ariard/subscriptions",
+        "organizations_url": "https://api.github.com/users/ariard/orgs",
+        "repos_url": "https://api.github.com/users/ariard/repos",
+        "events_url": "https://api.github.com/users/ariard/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ariard/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2159#pullrequestreview-4324624680",
+      "submitted_at": "2026-05-20T01:43:24Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2159"
     }
   ],
   "comments": [
@@ -2918,6 +2957,60 @@
       "start_side": null,
       "line": null,
       "original_line": 112,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3270752073",
+      "pull_request_review_id": 4324624680,
+      "id": 3270752073,
+      "node_id": "PRRC_kwDOAN28mc7C87dJ",
+      "diff_hunk": "@@ -102,17 +105,16 @@ increases the preparation cost of an attack, making it uneconomical for a miner[\n 2500 was chosen as the tightest value that did not make any non-pathological standard transaction\n invalid[^7].\n \n-In the presence of 64-byte transactions a block header's Merkle root may be valid for different sets\n-of transactions. This is because, in the Merkle tree construction, a 64-byte value may be\n-interpreted either as a transaction or as the concatenation of two 32-byte hashes. The former allows faking a block inclusion proof and the latter makes\n-it such that for a valid block the Merkle root in the block header is not a unique identifier for\n-the corresponding list of valid transactions[^8]. 64-byte transactions can only contain a\n-scriptPubKey that lets anyone spend the funds, or one that burns them. 64-byte transactions have\n-also been non-standard since 2019. It was suggested that the known vulnerabilities could instead be\n-mitigated by committing to the Merkle tree depth in the header's version field[^9]. The authors\n-believe it is preferable to address the root cause by invalidating 64-byte transactions. This\n-approach also fixes the vulnerability without developers of SPV verifiers having to implement the\n-mitigation or to know it is necessary in the first place.\n+64-byte transactions can only contain a scriptPubKey that lets anyone spend the funds, or one that\n+burns them. They have also been non-standard since 2019 and never been used since 2016.  Several\n+alternatives to invalidating them were previously proposed. Some believe the improvements for users\n+of Merkle proofs are too marginal to be worth introducing a discontinuity in the set of valid\n+witness-stripped transaction sizes. Others have suggested instead committing to the Merkle\n+tree depth in the header's version field[^8], which would make one workaround for a known\n+vulnerability easier to deploy. The authors believe it is preferable to address the root cause by\n+invalidating 64-byte transactions, fixing the vulnerability without Merkle proof users having to\n+rely on any workaround or even know one is necessary in the first place. See [this post][64 bytes",
+      "path": "bip-0054.md",
+      "position": 41,
+      "original_position": 41,
+      "commit_id": "f1f1c36ff24157c6c7de698a90fa3fff4ab8b337",
+      "original_commit_id": "f1f1c36ff24157c6c7de698a90fa3fff4ab8b337",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ariard",
+        "id": 23310655,
+        "node_id": "MDQ6VXNlcjIzMzEwNjU1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/23310655?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ariard",
+        "html_url": "https://github.com/ariard",
+        "followers_url": "https://api.github.com/users/ariard/followers",
+        "following_url": "https://api.github.com/users/ariard/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ariard/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ariard/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ariard/subscriptions",
+        "organizations_url": "https://api.github.com/users/ariard/orgs",
+        "repos_url": "https://api.github.com/users/ariard/repos",
+        "events_url": "https://api.github.com/users/ariard/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ariard/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "\"or even know one is necessary in the first place\"\n\ni think this is considering only one viewpoint of the discussion, namely in my understanding the fact that for a SPV verifier with the new 64-byte witness-stripped serialized size transaction rejection rule, there is no more necessary _knowledge_ of the vulnerability in itself or the mitigation. this is correct for _consensus validation_ purpose of chain data.\n\ni don't think it's true for any class of usage leveraging pre-signed transactions among multi-party. for this class of usage, where a transaction malleable by a party with competing interest might have to be cached by a client, the software client for sanity purpose has a clear design requirement to now implement the new rejection rule. while it was indeed a matter of policy check and not consensus ones, failing to do so already provoked issues in the past for some lightning implem (e.g CVE-2020-26895).\n\nso i don't think the statement is correct when it's saying the \"users do not have to know about the vulnerability or its workaround in the first place\". if you've a software client caching pre-signed transactions on top of a SPV client (e.g bip157 + lightning) carefulness about not accepting a transaction input vector turning the result as a 64 byte tx will become necessary, at least in my opinion. e.g influencing the multi-party tx size by playing on the ECDSA signature size.",
+      "created_at": "2026-05-20T01:42:53Z",
+      "updated_at": "2026-05-20T01:43:24Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2159#discussion_r3270752073",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3270752073"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2159"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 116,
+      "original_line": 116,
       "side": "RIGHT"
     }
   ]
