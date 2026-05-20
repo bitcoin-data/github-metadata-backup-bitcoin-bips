@@ -53,7 +53,7 @@
       }
     ],
     "created_at": "2026-05-14T13:27:20Z",
-    "updated_at": "2026-05-20T01:43:24Z",
+    "updated_at": "2026-05-20T13:29:50Z",
     "closed_at": "2026-05-19T22:57:52Z",
     "mergeable_state": "unknown",
     "merged": true,
@@ -199,7 +199,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-05-19T21:22:54Z",
+        "pushed_at": "2026-05-20T13:24:46Z",
         "created_at": "2019-09-16T11:02:25Z",
         "updated_at": "2025-03-27T12:51:10Z",
         "allow_forking": true
@@ -305,7 +305,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5952,
+        "forks_count": 5953,
         "stargazers_count": 10773,
         "watchers_count": 10773,
         "size": 22038,
@@ -338,7 +338,7 @@
     "deletions": 22,
     "changed_files": 1,
     "commits": 6,
-    "review_comments": 24,
+    "review_comments": 25,
     "comments": 10
   },
   "events": [
@@ -1714,6 +1714,37 @@
       "submitted_at": "2026-05-20T01:43:24Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2159"
+    },
+    {
+      "event": "head_ref_deleted",
+      "id": 25759332377,
+      "node_id": "HRDE_lADOAN28mc8AAAABCQSdvM8AAAAF_2A4GQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/25759332377",
+      "actor": {
+        "login": "darosior",
+        "id": 22457751,
+        "node_id": "MDQ6VXNlcjIyNDU3NzUx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22457751?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/darosior",
+        "html_url": "https://github.com/darosior",
+        "followers_url": "https://api.github.com/users/darosior/followers",
+        "following_url": "https://api.github.com/users/darosior/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/darosior/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/darosior/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/darosior/subscriptions",
+        "organizations_url": "https://api.github.com/users/darosior/orgs",
+        "repos_url": "https://api.github.com/users/darosior/repos",
+        "events_url": "https://api.github.com/users/darosior/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/darosior/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-05-20T13:24:46Z"
     }
   ],
   "comments": [
@@ -3001,6 +3032,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3270752073"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2159"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 116,
+      "original_line": 116,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3274304049",
+      "pull_request_review_id": 4328920576,
+      "id": 3274304049,
+      "node_id": "PRRC_kwDOAN28mc7DKeox",
+      "diff_hunk": "@@ -102,17 +105,16 @@ increases the preparation cost of an attack, making it uneconomical for a miner[\n 2500 was chosen as the tightest value that did not make any non-pathological standard transaction\n invalid[^7].\n \n-In the presence of 64-byte transactions a block header's Merkle root may be valid for different sets\n-of transactions. This is because, in the Merkle tree construction, a 64-byte value may be\n-interpreted either as a transaction or as the concatenation of two 32-byte hashes. The former allows faking a block inclusion proof and the latter makes\n-it such that for a valid block the Merkle root in the block header is not a unique identifier for\n-the corresponding list of valid transactions[^8]. 64-byte transactions can only contain a\n-scriptPubKey that lets anyone spend the funds, or one that burns them. 64-byte transactions have\n-also been non-standard since 2019. It was suggested that the known vulnerabilities could instead be\n-mitigated by committing to the Merkle tree depth in the header's version field[^9]. The authors\n-believe it is preferable to address the root cause by invalidating 64-byte transactions. This\n-approach also fixes the vulnerability without developers of SPV verifiers having to implement the\n-mitigation or to know it is necessary in the first place.\n+64-byte transactions can only contain a scriptPubKey that lets anyone spend the funds, or one that\n+burns them. They have also been non-standard since 2019 and never been used since 2016.  Several\n+alternatives to invalidating them were previously proposed. Some believe the improvements for users\n+of Merkle proofs are too marginal to be worth introducing a discontinuity in the set of valid\n+witness-stripped transaction sizes. Others have suggested instead committing to the Merkle\n+tree depth in the header's version field[^8], which would make one workaround for a known\n+vulnerability easier to deploy. The authors believe it is preferable to address the root cause by\n+invalidating 64-byte transactions, fixing the vulnerability without Merkle proof users having to\n+rely on any workaround or even know one is necessary in the first place. See [this post][64 bytes",
+      "path": "bip-0054.md",
+      "position": 41,
+      "original_position": 41,
+      "commit_id": "f1f1c36ff24157c6c7de698a90fa3fff4ab8b337",
+      "original_commit_id": "f1f1c36ff24157c6c7de698a90fa3fff4ab8b337",
+      "in_reply_to_id": 3270752073,
+      "user": {
+        "login": "darosior",
+        "id": 22457751,
+        "node_id": "MDQ6VXNlcjIyNDU3NzUx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/22457751?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/darosior",
+        "html_url": "https://github.com/darosior",
+        "followers_url": "https://api.github.com/users/darosior/followers",
+        "following_url": "https://api.github.com/users/darosior/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/darosior/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/darosior/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/darosior/subscriptions",
+        "organizations_url": "https://api.github.com/users/darosior/orgs",
+        "repos_url": "https://api.github.com/users/darosior/repos",
+        "events_url": "https://api.github.com/users/darosior/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/darosior/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "> there is no more necessary _knowledge_ of the vulnerability in itself or the mitigation. this is correct for _consensus validation_ purpose of chain data.\r\n\r\nYes there is. With the vulnerability in place a user may accept a Merkle proof for an arbitrarily sized transaction that is not part of a block. This is extremely surprising. Regarding the fix, the user cannot receive a payment with a 64-byte transaction in the first place, since it doesn't leave enough output script space. Therefore a user that checks Merkle proofs for transaction that carry any value and does not intend to burn it cannot run into the 64-byte transactions \"seam\".\r\n\r\n> carefulness about not accepting a transaction input vector turning the result as a 64 byte tx will become necessary, at least in my opinion. e.g influencing the multi-party tx size by playing on the ECDSA signature size.\r\n\r\nYou can't turn a transaction that is not burning coins or letting anybody spend them into a 64-byte transactions, including by playing on the ECDSA signature size (which should be part of the witness anyways if the context is presigned transactions protocols).",
+      "created_at": "2026-05-20T13:29:49Z",
+      "updated_at": "2026-05-20T13:33:34Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2159#discussion_r3274304049",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3274304049"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2159"
