@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-04-10T21:54:22Z",
-    "updated_at": "2026-05-21T11:16:33Z",
+    "updated_at": "2026-05-21T12:47:18Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -317,7 +317,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 52,
-    "comments": 20
+    "comments": 21
   },
   "events": [
     {
@@ -2790,6 +2790,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2137#issuecomment-4507651321",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2137"
+    },
+    {
+      "event": "commented",
+      "id": 4508392221,
+      "node_id": "IC_kwDOAN28mc8AAAABDLibHQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/4508392221",
+      "actor": {
+        "login": "fjahr",
+        "id": 1322187,
+        "node_id": "MDQ6VXNlcjEzMjIxODc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322187?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fjahr",
+        "html_url": "https://github.com/fjahr",
+        "followers_url": "https://api.github.com/users/fjahr/followers",
+        "following_url": "https://api.github.com/users/fjahr/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fjahr/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fjahr/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fjahr/subscriptions",
+        "organizations_url": "https://api.github.com/users/fjahr/orgs",
+        "repos_url": "https://api.github.com/users/fjahr/repos",
+        "events_url": "https://api.github.com/users/fjahr/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fjahr/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-05-21T12:47:18Z",
+      "updated_at": "2026-05-21T12:47:18Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> Sure, but then you're implicitly embedding Bitcoin Core implementation and release details in this BIP, and I thought the point was to not do that. Not doing that or making it explicit would both seem like better options.\r\n\r\nFair take, but I just meant to use it as an example. Any similarly low-frequency updating of the shared set would have the same effect. It probably makes more sense to distinguish between low-frequency and high-frequency routes that implementations might take. Low frequency would mean that the utxo set sharing parameters are updated with releases, allowing for AssumeUTXO-style security through embedding the hash etc. I still think discovery for this usage model would work well enough with the BIP as-is due to the lower churn in shared utxo sets.\r\n\r\nThe high-frequency case has different requirements: It would be very helpful to define when exactly the utxo set is generated and shared to have unison. And since this frequency would be much higher than releases it also seems more likely that this would use the comparison of multiple peers to check if the root matches. So this puts pressure on this model to find more peers. But of course it would also be possible to use it with a trusted root that is supplied by the user. I just think the likelihood shifts.\r\n\r\n> Does this BIP need to define the service bit? If not, it can be defined in the optional extension(s)?\r\n\r\nIt seems to me like the BIP then would be much less usable without the extension in any case, so if the BIP doesn't work without the extension what would be the point of separating them this way? This BIP isn't that complex that it would require splitting up (like BIP340/341/342 for example) unless it's splitting off parts that would be considered optional, like I have been laying it out in my suggestion above.\r\n\r\nLooking at other relevant BIP examples (144, 157, 152) it seems like typically we define a service bit together with the wire format.\r\n\r\nSo it seems better to me to directly add what I had in mind for the extension here than remove any discovery mechanism. But if people agree that such a split is an improvement, I can still do it.",
+      "user": {
+        "login": "fjahr",
+        "id": 1322187,
+        "node_id": "MDQ6VXNlcjEzMjIxODc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322187?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fjahr",
+        "html_url": "https://github.com/fjahr",
+        "followers_url": "https://api.github.com/users/fjahr/followers",
+        "following_url": "https://api.github.com/users/fjahr/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fjahr/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fjahr/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fjahr/subscriptions",
+        "organizations_url": "https://api.github.com/users/fjahr/orgs",
+        "repos_url": "https://api.github.com/users/fjahr/repos",
+        "events_url": "https://api.github.com/users/fjahr/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fjahr/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2137#issuecomment-4508392221",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2137"
     }
   ],
