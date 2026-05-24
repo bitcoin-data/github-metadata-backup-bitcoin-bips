@@ -43,7 +43,7 @@
     "body": "## Motivation\r\n\r\n[age](https://age-encryption.org/v1) is a widely-deployed file-encryption format. Both its classic (X25519, since 2021)\r\nand post-quantum (X-Wing / HPKE-MLKEM768-X25519, age v1.3.0+ Dec 2024) identity types take a 32-byte uniform seed as the secret-key material — which is precisely what BIP-85's HEX application at `num_bytes=32` already returns.\r\n\r\nThis PR adds a brief example-use subsection at the end of the HEX application section, documenting how to interpret the existing 32-byte HEX output as an age identity. **No new application number, no normative MUSTs added, no changes required in existing implementations** — the HEX application already produces exactly what age consumes; this PR just records the connection in the spec.\r\n\r\nDocumenting this gives users a single backup story: the same BIP-39 mnemonic that already secures their Bitcoin wallets can deterministically produce age identities, with no additional key-rotation infrastructure on top of what they already do.\r\n\r\nIt also unblocks downstream hardware-wallet firmware integration  maintainers of firmware projects accept \"implement this BIP-85 use case\" much more readily than \"implement a convention from a third-party repo.\" A spec-blessed convention turns the conversation from a bespoke contribution into a standards-conformance issue.\r\n\r\n## What changes\r\n\r\nA new `====Example use: age key derivation====` subsection at\r\nthe end of the `===HEX===` section in `bip-0085.mediawiki`.\r\n\r\nThe subsection:\r\n- Describes the bech32 encoding for both classic and PQ age   identities + their corresponding recipients.\r\n- Adds a worked test vector using the **same master xprv** as  the existing HEX test vector, so a reader can derive both\r\n  side-by-side from one master.\r\n- Links to a reference implementation  ([age-keygen-det](https://github.com/dmonakhov/age-keygen-det)).\r\n\r\n## Test vectors\r\n\r\nDerived from the master xprv already used by the HEX test vector in the same section. Reproducible end-to-end with stock tools:\r\n\r\n```\r\nINPUT:\r\n* MASTER BIP32 ROOT KEY: xprv9s21ZrQH143K2LBWUUQRFXhucrQqBpKdRRxNVq2zBqsx8HVqFk2uYo8kmbaLLHRdqtQpUm98uKfu3vca1LqdGhUtyoFnCNkfmXRyPXLjbKb\r\n* PATH: m/83696968'/128169'/32'/0'\r\n\r\nOUTPUT\r\n* DERIVED ENTROPY=ea3ceb0b02ee8e587779c63f4b7b3a21e950a213f1ec53cab608d13e8796e6dc\r\n\r\n# Classic (X25519):\r\n* DERIVED AGE IDENTITY=AGE-SECRET-KEY-1AG7WKZCZA689SAMECCL5K7E6Y854PGSN78K98J4KPRGNAPUKUMWQWNNT4U\r\n* DERIVED AGE RECIPIENT=age1m0hhzxelxsxnxm4ennvdpk75j8s7mn5w4tt3e4ntug5qx256wslqmdz8e9\r\n\r\n# Post-quantum (X-Wing):\r\n* DERIVED AGE PQ IDENTITY=AGE-SECRET-KEY-PQ-1AG7WKZCZA689SAMECCL5K7E6Y854PGSN78K98J4KPRGNAPUKUMWQ5AN2M5\r\n* DERIVED AGE PQ RECIPIENT (SHA-256)=feecdb11f82478ea4b9dd934965f974e37701d963ac2ec5d4fb120357032641a\r\n```\r\n\r\nThe PQ recipient is a 1959-character bech32 string (it encodes\r\nthe 1216-byte X-Wing public key); only its SHA-256 is shown\r\ninline. The full string is regenerable from the seed via\r\n`X-Wing.NewKeyFromSeed(seed).EncapsulationKey()` and lives in\r\nthe reference implementation's test data.\r\n\r\nEnd-to-end verification path:\r\n\r\n1. `bipsea derive -a hex -n 64 -i 0 -x <MASTER>` reproduces the\r\n   existing HEX64 test vector (sanity check).\r\n2. `bipsea derive -a hex -n 32 -i 0 -x <MASTER>` produces the\r\n   32-byte entropy above.\r\n3. Bech32-encoding with the respective HRPs produces the\r\n   identity strings.\r\n4. Stock `age-keygen -y` (age v1.3.0+) on each identity returns\r\n   the matching recipient byte-for-byte (classic full string;\r\n   PQ full string hashes to the stated SHA-256).\r\n\r\n## Scope\r\n\r\nThis amendment is intentionally minimal:\r\n\r\n- **No new application number** — reuses the existing HEX\r\n  application (128169').\r\n- **No normative MUSTs** added beyond what BIP-85 already says\r\n  about the HEX application.\r\n- **No changes required** in existing implementations\r\n  ([bipsea](https://github.com/akarve/bipsea),\r\n  [bip85-js](https://github.com/hoganri/bip85-js),\r\n  [ethankosakovsky/bip85](https://github.com/ethankosakovsky/bip85)).\r\n\r\nPossible follow-ups (**not** in this PR):\r\n\r\n- A dedicated `AGE` subsection paralleling the existing RSA-GPG  subsection, with full worked examples for each flavour and an   optional index-partition recommendation (e.g. `[0, 1000)` for   PQ identities, `[1000, 2000)` for classic identities, to avoid  producing the same 32 bytes under two different HRPs when the  same master is used for both flavours).\r\n- A dedicated application number for age (e.g. `0x616765'` = hex-pack of ASCII \"age\"), with independent paths per flavour.\r\n\r\nThese are noted only to clarify that this PR deliberately picks the minimal form; they can be raised separately if there is\r\nappetite.\r\n\r\n## Reference implementation\r\n\r\n[**age-keygen-det**](https://github.com/dmonakhov/age-keygen-det)\r\n— single-binary Go tool that converts a 32-byte hex seed into\r\nan age identity file (classic or PQ). The output format mirrors\r\nstock `age-keygen` so existing age tooling (`age-keygen -y`,\r\n`age -d`, `age -r`) works unmodified.\r\n\r\n- BSD-3-Clause licensed.\r\n- Cross-validates byte-for-byte against stock `age-keygen -y` in\r\n  CI for both flavours.\r\n- Reproducible static build (`CGO_ENABLED=0`, `-trimpath`,\r\n  `-buildid=`); same source → byte-identical binary.\r\n\r\nA worked end-to-end example using bipsea + age-keygen-det + the\r\nspec's own master xprv is documented in the project's README\r\nunder \"Worked example: BIP-85 → age\".\r\n\r\n## Open question\r\n\r\nShould the subsection also include the index-range partition guidance (`[0, 1000)` for PQ identities, `[1000, 2000)` for\r\nclassic identities) to avoid producing the same 32 bytes under two different HRPs when both flavours are derived from one master? The reference implementation does NOT enforce this partition — it is a documentation convention, not a crypto contract. Including it would be useful guidance; excluding it keeps the amendment maximally minimal. Open to reviewer preference.\r\n\r\n---\r\n\r\ncc @ethankosakovsky @akarve — original BIP-85 authors per the\r\nBIP header. Happy to revise based on review feedback.",
     "labels": [],
     "created_at": "2026-05-23T17:06:46Z",
-    "updated_at": "2026-05-23T17:06:46Z",
+    "updated_at": "2026-05-24T01:00:12Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -275,8 +275,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5953,
-        "stargazers_count": 10778,
-        "watchers_count": 10778,
+        "stargazers_count": 10779,
+        "watchers_count": 10779,
         "size": 22115,
         "default_branch": "master",
         "open_issues_count": 38,
@@ -292,7 +292,7 @@
         "visibility": "public",
         "pushed_at": "2026-05-23T14:03:54Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-05-23T15:52:21Z",
+        "updated_at": "2026-05-23T18:03:40Z",
         "allow_forking": true
       }
     },
@@ -308,7 +308,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 0
+    "comments": 1
   },
   "events": [
     {
@@ -474,6 +474,64 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-05-23T17:06:47Z"
+    },
+    {
+      "event": "commented",
+      "id": 4526984208,
+      "node_id": "IC_kwDOAN28mc8AAAABDdRMEA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/4526984208",
+      "actor": {
+        "login": "kwest3170-wq",
+        "id": 267660284,
+        "node_id": "U_kgDOD_Qr_A",
+        "avatar_url": "https://avatars.githubusercontent.com/u/267660284?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/kwest3170-wq",
+        "html_url": "https://github.com/kwest3170-wq",
+        "followers_url": "https://api.github.com/users/kwest3170-wq/followers",
+        "following_url": "https://api.github.com/users/kwest3170-wq/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/kwest3170-wq/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/kwest3170-wq/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/kwest3170-wq/subscriptions",
+        "organizations_url": "https://api.github.com/users/kwest3170-wq/orgs",
+        "repos_url": "https://api.github.com/users/kwest3170-wq/repos",
+        "events_url": "https://api.github.com/users/kwest3170-wq/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/kwest3170-wq/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-05-24T01:00:12Z",
+      "updated_at": "2026-05-24T01:00:12Z",
+      "author_association": "NONE",
+      "body": "Thanks i apologies  ",
+      "user": {
+        "login": "kwest3170-wq",
+        "id": 267660284,
+        "node_id": "U_kgDOD_Qr_A",
+        "avatar_url": "https://avatars.githubusercontent.com/u/267660284?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/kwest3170-wq",
+        "html_url": "https://github.com/kwest3170-wq",
+        "followers_url": "https://api.github.com/users/kwest3170-wq/followers",
+        "following_url": "https://api.github.com/users/kwest3170-wq/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/kwest3170-wq/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/kwest3170-wq/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/kwest3170-wq/subscriptions",
+        "organizations_url": "https://api.github.com/users/kwest3170-wq/orgs",
+        "repos_url": "https://api.github.com/users/kwest3170-wq/repos",
+        "events_url": "https://api.github.com/users/kwest3170-wq/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/kwest3170-wq/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2174#issuecomment-4526984208",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2174"
     }
   ],
   "comments": []
