@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2025-09-04T06:47:33Z",
-    "updated_at": "2026-05-26T13:46:31Z",
+    "updated_at": "2026-05-26T14:51:55Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -324,7 +324,7 @@
     "deletions": 0,
     "changed_files": 9,
     "commits": 2,
-    "review_comments": 66,
+    "review_comments": 68,
     "comments": 32
   },
   "events": [
@@ -5379,6 +5379,44 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1951#issuecomment-4544401731",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1951"
+    },
+    {
+      "event": "reviewed",
+      "id": 4364655418,
+      "node_id": "PRR_kwDOAN28mc8AAAABBCdbOg",
+      "url": null,
+      "actor": null,
+      "commit_id": "e9858e8bbee3fbf12510f7af9816772a10a82392",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-05-26T14:36:39Z",
+      "author_association": "MEMBER",
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1951#pullrequestreview-4364655418",
+      "submitted_at": "2026-05-26T14:36:39Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/1951"
     }
   ],
   "comments": [
@@ -8944,6 +8982,114 @@
       "start_side": null,
       "line": 82,
       "original_line": 82,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3304541662",
+      "pull_request_review_id": 4364655418,
+      "id": 3304541662,
+      "node_id": "PRRC_kwDOAN28mc7E903e",
+      "diff_hunk": "@@ -0,0 +1,373 @@\n+```\n+  BIP: 138\n+  Layer: Applications\n+  Title: Compact encryption scheme for non-seed wallet data\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2026-05-11\n+  License: BSD-2-Clause\n+  Discussion: https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts/1607\n+              https://groups.google.com/g/bitcoindev/c/5NgJbpVDgEc/m/TtGK9sF9BgAJ\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines a compact encryption scheme for **output script descriptors** (BIP-0380),\n+**wallet policies** (BIP-0388), **labels** (BIP-0329), and **wallet backup metadata** (draft [BIP](https://github.com/bitcoin/bips/pull/2130)).\n+The payload must not contain any private key material.\n+\n+Users can store encrypted backups on untrusted media or cloud services without leaking\n+addresses, script structures, or cosigner counts. The encryption key derives from the\n+lexicographically-sorted public keys in the descriptor, allowing any keyholder to decrypt\n+without additional secrets.\n+\n+Though designed for descriptors and policies, the scheme works equally well for labels\n+and backup metadata.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+Losing the **wallet descriptor** (or **wallet policy**) is just as catastrophic as\n+losing the seed itself. The seed lets you sign, but the descriptor maps you to your coins.\n+For multisig or miniscript wallets, keys alone won't help: without the descriptor, you\n+can't reconstruct the script.\n+\n+Offline storage of descriptors has two practical obstacles:\n+\n+1. **Descriptors are hard to store offline.**  \n+   Descriptors can be much longer than a 12/24-word seed. Paper and steel backups\n+   become impractical or error-prone.\n+\n+2. **Online redundancy carries privacy risk.**  \n+   USB drives, phones, and cloud storage solve the length problem but expose your\n+   wallet structure. Plaintext descriptors leak your pubkeys and script details.\n+   Cloud storage is often unencrypted, and even cloud encryption could be compromised,\n+   depending on (often opaque) implementation details. Its security also reduces to\n+   that of the weakest device with cloud access. Each copy increases the attack surface.\n+\n+This BIP therefore proposes an **encrypted**, compact backup format that:\n+\n+* can be **safely stored in multiple places**, including untrusted online services,  \n+* can be **decrypted only by intended holders** of specified public keys,\n+\n+See the original [Delving post](https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts/1607/31)\n+for more background.\n+\n+### Expected properties\n+\n+* **Encrypted**: safe to store with untrusted cloud providers or backup services  \n+* **Access controlled**: only designated cosigners can decrypt  \n+* **Easy to implement**: it should not require any sophisticated tools/libraries.  \n+* **Vendor-neutral**: works with any hardware signer\n+\n+### Scope\n+\n+This proposal targets output script descriptors (BIP-0380) and policies (BIP-0388), but the\n+scheme also works for labels (BIP-0329) and other wallet metadata like\n+[wallet backup metadata](https://github.com/bitcoin/bips/pull/2130).\n+\n+Private key material MUST be removed before encrypting any payload.\n+\n+## Specification\n+\n+Note: in the followings sections, the operator ⊕  refers to the bitwise XOR operation.\n+\n+### Secret generation\n+\n+- Let $p_1, p_2, \\dots, p_n$, be the public keys in the descriptor/wallet policy, in\n+  increasing lexicographical order. The scheme is defined for any $n \\geq 1$,\n+  in particular it supports single-signature descriptors ($n = 1$). Each $p_i$\n+  is the x-only-normalized root public key of one *allowed* key expression\n+  (see [Descriptor key requirements](#descriptor-key-requirements)).\n+- Let $s$ = sha256(sha256(\"BIPXXX_DECRYPTION_SECRET\") | sha256(\"BIPXXX_DECRYPTION_SECRET\") | $p_1$ | $p_2$ | ... | $p_n$)\n+- Let $s_i$ = sha256(sha256(\"BIPXXX_INDIVIDUAL_SECRET\") | sha256(\"BIPXXX_INDIVIDUAL_SECRET\") | $p_i$)\n+- Let $c_i$ = $s$ ⊕  $s_i$\n+\n+Because $s$ and $s_i$ use distinct domain-separation tags, $s \\neq s_i$ and\n+therefore $c_i$ is never the all-zero string.\n+\n+**Note:** To prevent attackers from decrypting the backup using publicly known\n+keys, explicitly exclude any public keys with x coordinate\n+`50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0` (the BIP341 NUMS\n+point, used as a taproot internal key in some applications). Additionally, exclude any\n+other publicly known keys.\n+\n+Applications that exclude additional keys SHOULD document this, although decryption\n+using these keys will simply fail. This does not affect decryption with the remaining\n+keys.\n+\n+### Descriptor key requirements\n+\n+Only key expressions of the extended-public-key type with a trailing\n+derivation step or wildcard contribute to $\\{p_1, \\dots, p_n\\}$. Without\n+that derivation, the xpub's root pubkey, used to seed $s$, would also be\n+the on-chain pubkey of every spend, so observing one spend would let\n+anyone recompute $s$ and decrypt the backup.[^trailing-derivation] The\n+rule generalizes to any network prefix (`xpub`/`tpub`/`Vpub`/...).\n+\n+[^trailing-derivation]: **Why require trailing derivation?**\n+    Any trailing derivation step, or the implicit child derivation forced by\n+    a wildcard, breaks the identity between the xpub root pubkey and the\n+    on-chain pubkey. Fixed-derivation expressions like `xpub.../0/5` are\n+    allowed because the on-chain key (`xpub/0/5`) already differs from the\n+    encryption seed (the xpub root). Literal pubkeys and bare xpubs are\n+    disallowed for the same reason: the literal value is exactly what goes\n+    on-chain, so $s$ would become recoverable from a single observed spend.\n+\n+Allowed forms (origin information `[...]` is optional and orthogonal):\n+\n+| Form                                                        | Example           |\n+|-------------------------------------------------------------|-------------------|\n+| `<xpub>/<path>` (fixed derivation, no wildcard)             | `xpub.../0/5`     |\n+| `<xpub>/*` (wildcard only)                                  | `xpub.../*`       |\n+| `<xpub>/<path>/*` (fixed derivation followed by a wildcard) | `xpub.../0/*`     |\n+| `<xpub>/<a;b;...>` (multipath, no wildcard)                 | `xpub.../<0;1>`   |\n+| `<xpub>/<a;b;...>/*` (multipath followed by a wildcard)     | `xpub.../<0;1>/*` |\n+\n+Implementations:\n+\n+- MUST exclude every other form (literal pubkeys, bare xpubs, ...) from\n+  $\\{p_1, \\dots, p_n\\}$.\n+- MUST refuse to encode a backup if the resulting set is empty.\n+- SHOULD make the user aware of each excluded expression, since the\n+  cosigner holding that key will be unable to decrypt the backup with\n+  their key.\n+\n+### Key Normalization\n+\n+For each allowed expression, take the root extended public key (ignoring\n+origin information, the trailing derivation path, the wildcard, and any\n+multipath specifiers) and extract its x-coordinate. The result is the\n+32-byte **x-only public key** $p_i$.[^x-only]\n+\n+[^x-only]: **Why x-only keys?**\n+    X-only public keys are 32 bytes, a natural size for cryptographic operations.\n+    This format is also used in BIP340 (Schnorr signatures) and BIP341 (Taproot).\n+\n+### Encryption\n+\n+The format uses CHACHA20_POLY1305 (RFC 8439) as the encryption algorithm,\n+with a 96-bit random nonce and a 128-bit authentication tag to provide confidentiality\n+and integrity.\n+\n+[^chacha-default]: **Why CHACHA20-POLY1305 ?**\n+    ChaCha20-Poly1305 is already used in Bitcoin Core (e.g., BIP324) and is widely\n+    available in cryptographic libraries. It performs well in software without\n+    hardware acceleration, making it suitable for hardware wallets and embedded devices.\n+\n+* let $nonce$ = random(96 bits)\n+* let $ciphertext$ = encrypt($payload$, $secret$, $nonce$)\n+\n+### Decryption\n+\n+In order to decrypt the payload of a backup, the owner of a certain public key p\n+computes:\n+\n+* let $s_i$ = sha256(sha256(\"BIPXXX_INDIVIDUAL_SECRET\") ‖ sha256(\"BIPXXX_INDIVIDUAL_SECRET\") ‖ $p$)\n+* for each `individual_secret_i` generate `reconstructed_secret_i` =\n+`individual_secret_i` ⊕ `si`\n+* for each `reconstructed_secret_i` process $payload$ =\n+decrypt($ciphertext$, $secret$, $nonce$)\n+\n+Decryption will succeed if and only if **p** was one of the keys in the\n+descriptor/wallet policy.\n+\n+### Encoding\n+\n+The encrypted backup must be encoded as follows:\n+\n+`MAGIC` `VERSION` `DERIVATION_PATHS` `INDIVIDUAL_SECRETS` `ENCRYPTION`\n+`ENCRYPTED_PAYLOAD`\n+\n+#### Magic\n+\n+`MAGIC`: 6 bytes which are ASCII/UTF-8 representation of **BIPXXX** (TBD).\n+\n+#### Version\n+\n+`VERSION`: 1 byte unsigned integer representing the format version. The current\n+specification defines version `0x01`.\n+\n+#### Derivation Paths\n+\n+Note: the derivation-path vector should not contain duplicates.\n+Derivation paths are optional; they can be useful to simplify the recovery process\n+if one has used a non-common derivation path to derive his key.[^derivation-optional]\n+\n+[^derivation-optional]: **Why are derivation paths optional?**\n+    When standard derivation paths are used, they are easily discoverable, making\n+    them straightforward to brute-force. Omitting them enhances privacy by reducing\n+    the information shared publicly about the descriptor scheme.\n+\n+`DERIVATION_PATH` follows this format:\n+\n+`COUNT`  \n+`CHILD_COUNT` `CHILD` `...` `CHILD`  \n+`...`  \n+`CHILD_COUNT` `CHILD` `...` `CHILD`\n+\n+`COUNT`: 1-byte unsigned integer (0–255) indicating how many derivation paths are\n+included.  \n+`CHILD_COUNT`: 1-byte unsigned integer (1–255) indicating how many children are in\n+the current path.  \n+`CHILD`: 4-byte big-endian unsigned integer representing a child index per BIP-32.\n+\n+#### Individual Secrets\n+\n+At least one individual secret must be supplied.[^no-fingerprints]\n+\n+[^no-fingerprints]: **Why no fingerprints in plaintext encoding?**\n+    Including fingerprints would leak direct information about the descriptor\n+    participants, which compromises privacy.\n+\n+The `INDIVIDUAL_SECRETS` section follows this format:\n+\n+`COUNT`  \n+`INDIVIDUAL_SECRET`  \n+`INDIVIDUAL_SECRET`\n+\n+`COUNT`: 1-byte unsigned integer (1–255) indicating how many secrets are included.  \n+`INDIVIDUAL_SECRET`: 32-byte serialization of the derived individual secret.\n+\n+Note: the individual secrets vector should not contain duplicates. Implementations\n+MAY deduplicate secrets during encoding or parsing.\n+\n+#### Encryption\n+\n+`ENCRYPTION`: 1-byte unsigned integer identifying the encryption algorithm.\n+\n+| Value  | Definition                             |\n+|:-------|:---------------------------------------|\n+| 0x00   | Reserved                               |\n+| 0x01   | CHACHA20_POLY1305                      |\n+\n+#### Payload Size Limits\n+\n+CHACHA20_POLY1305 (per RFC 8439) supports plaintext up to 2^38 - 64 bytes.\n+Implementations MAY impose stricter limits based on platform constraints\n+(e.g., limiting to 2^32 - 1 bytes on 32-bit architectures).\n+\n+Implementations MUST reject empty payloads.\n+\n+#### Ciphertext\n+\n+`CIPHERTEXT` is the encrypted data resulting from encryption of `PAYLOAD` with algorithm\n+defined in `ENCRYPTION` where `PAYLOAD` is encoded following this format:\n+\n+`CONTENT` `PLAINTEXT`\n+\n+#### Integer Encodings\n+\n+All variable-length integers are encoded as\n+[compact size](https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer).\n+\n+#### Content\n+\n+`CONTENT` is a variable length field defining the type of `PLAINTEXT` being encrypted,",
+      "path": "bip-0138.md",
+      "position": 275,
+      "original_position": 275,
+      "commit_id": "e9858e8bbee3fbf12510f7af9816772a10a82392",
+      "original_commit_id": "e9858e8bbee3fbf12510f7af9816772a10a82392",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I find the current BIP text unclear about how multiple data blobs are supposed to be encoded. The term `CONTENT` is also too ambiguous.",
+      "created_at": "2026-05-26T14:36:39Z",
+      "updated_at": "2026-05-26T14:37:10Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1951#discussion_r3304541662",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3304541662"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1951"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 275,
+      "original_line": 275,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3304652771",
+      "pull_request_review_id": 4364786581,
+      "id": 3304652771,
+      "node_id": "PRRC_kwDOAN28mc7E-P_j",
+      "diff_hunk": "@@ -0,0 +1,373 @@\n+```\n+  BIP: 138\n+  Layer: Applications\n+  Title: Compact encryption scheme for non-seed wallet data\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2026-05-11\n+  License: BSD-2-Clause\n+  Discussion: https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts/1607\n+              https://groups.google.com/g/bitcoindev/c/5NgJbpVDgEc/m/TtGK9sF9BgAJ\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines a compact encryption scheme for **output script descriptors** (BIP-0380),\n+**wallet policies** (BIP-0388), **labels** (BIP-0329), and **wallet backup metadata** (draft [BIP](https://github.com/bitcoin/bips/pull/2130)).\n+The payload must not contain any private key material.\n+\n+Users can store encrypted backups on untrusted media or cloud services without leaking\n+addresses, script structures, or cosigner counts. The encryption key derives from the\n+lexicographically-sorted public keys in the descriptor, allowing any keyholder to decrypt\n+without additional secrets.\n+\n+Though designed for descriptors and policies, the scheme works equally well for labels\n+and backup metadata.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+Losing the **wallet descriptor** (or **wallet policy**) is just as catastrophic as\n+losing the seed itself. The seed lets you sign, but the descriptor maps you to your coins.\n+For multisig or miniscript wallets, keys alone won't help: without the descriptor, you\n+can't reconstruct the script.\n+\n+Offline storage of descriptors has two practical obstacles:\n+\n+1. **Descriptors are hard to store offline.**  \n+   Descriptors can be much longer than a 12/24-word seed. Paper and steel backups\n+   become impractical or error-prone.\n+\n+2. **Online redundancy carries privacy risk.**  \n+   USB drives, phones, and cloud storage solve the length problem but expose your\n+   wallet structure. Plaintext descriptors leak your pubkeys and script details.\n+   Cloud storage is often unencrypted, and even cloud encryption could be compromised,\n+   depending on (often opaque) implementation details. Its security also reduces to\n+   that of the weakest device with cloud access. Each copy increases the attack surface.\n+\n+This BIP therefore proposes an **encrypted**, compact backup format that:\n+\n+* can be **safely stored in multiple places**, including untrusted online services,  \n+* can be **decrypted only by intended holders** of specified public keys,\n+\n+See the original [Delving post](https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts/1607/31)\n+for more background.\n+\n+### Expected properties\n+\n+* **Encrypted**: safe to store with untrusted cloud providers or backup services  \n+* **Access controlled**: only designated cosigners can decrypt  \n+* **Easy to implement**: it should not require any sophisticated tools/libraries.  \n+* **Vendor-neutral**: works with any hardware signer\n+\n+### Scope\n+\n+This proposal targets output script descriptors (BIP-0380) and policies (BIP-0388), but the\n+scheme also works for labels (BIP-0329) and other wallet metadata like\n+[wallet backup metadata](https://github.com/bitcoin/bips/pull/2130).\n+\n+Private key material MUST be removed before encrypting any payload.\n+\n+## Specification\n+\n+Note: in the followings sections, the operator ⊕  refers to the bitwise XOR operation.\n+\n+### Secret generation\n+\n+- Let $p_1, p_2, \\dots, p_n$, be the public keys in the descriptor/wallet policy, in\n+  increasing lexicographical order. The scheme is defined for any $n \\geq 1$,\n+  in particular it supports single-signature descriptors ($n = 1$). Each $p_i$\n+  is the x-only-normalized root public key of one *allowed* key expression\n+  (see [Descriptor key requirements](#descriptor-key-requirements)).\n+- Let $s$ = sha256(sha256(\"BIPXXX_DECRYPTION_SECRET\") | sha256(\"BIPXXX_DECRYPTION_SECRET\") | $p_1$ | $p_2$ | ... | $p_n$)\n+- Let $s_i$ = sha256(sha256(\"BIPXXX_INDIVIDUAL_SECRET\") | sha256(\"BIPXXX_INDIVIDUAL_SECRET\") | $p_i$)\n+- Let $c_i$ = $s$ ⊕  $s_i$\n+\n+Because $s$ and $s_i$ use distinct domain-separation tags, $s \\neq s_i$ and\n+therefore $c_i$ is never the all-zero string.\n+\n+**Note:** To prevent attackers from decrypting the backup using publicly known\n+keys, explicitly exclude any public keys with x coordinate\n+`50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0` (the BIP341 NUMS\n+point, used as a taproot internal key in some applications). Additionally, exclude any\n+other publicly known keys.\n+\n+Applications that exclude additional keys SHOULD document this, although decryption\n+using these keys will simply fail. This does not affect decryption with the remaining\n+keys.\n+\n+### Descriptor key requirements\n+\n+Only key expressions of the extended-public-key type with a trailing\n+derivation step or wildcard contribute to $\\{p_1, \\dots, p_n\\}$. Without\n+that derivation, the xpub's root pubkey, used to seed $s$, would also be\n+the on-chain pubkey of every spend, so observing one spend would let\n+anyone recompute $s$ and decrypt the backup.[^trailing-derivation] The\n+rule generalizes to any network prefix (`xpub`/`tpub`/`Vpub`/...).\n+\n+[^trailing-derivation]: **Why require trailing derivation?**\n+    Any trailing derivation step, or the implicit child derivation forced by\n+    a wildcard, breaks the identity between the xpub root pubkey and the\n+    on-chain pubkey. Fixed-derivation expressions like `xpub.../0/5` are\n+    allowed because the on-chain key (`xpub/0/5`) already differs from the\n+    encryption seed (the xpub root). Literal pubkeys and bare xpubs are\n+    disallowed for the same reason: the literal value is exactly what goes\n+    on-chain, so $s$ would become recoverable from a single observed spend.\n+\n+Allowed forms (origin information `[...]` is optional and orthogonal):\n+\n+| Form                                                        | Example           |\n+|-------------------------------------------------------------|-------------------|\n+| `<xpub>/<path>` (fixed derivation, no wildcard)             | `xpub.../0/5`     |\n+| `<xpub>/*` (wildcard only)                                  | `xpub.../*`       |\n+| `<xpub>/<path>/*` (fixed derivation followed by a wildcard) | `xpub.../0/*`     |\n+| `<xpub>/<a;b;...>` (multipath, no wildcard)                 | `xpub.../<0;1>`   |\n+| `<xpub>/<a;b;...>/*` (multipath followed by a wildcard)     | `xpub.../<0;1>/*` |\n+\n+Implementations:\n+\n+- MUST exclude every other form (literal pubkeys, bare xpubs, ...) from\n+  $\\{p_1, \\dots, p_n\\}$.\n+- MUST refuse to encode a backup if the resulting set is empty.\n+- SHOULD make the user aware of each excluded expression, since the\n+  cosigner holding that key will be unable to decrypt the backup with\n+  their key.\n+\n+### Key Normalization\n+\n+For each allowed expression, take the root extended public key (ignoring\n+origin information, the trailing derivation path, the wildcard, and any\n+multipath specifiers) and extract its x-coordinate. The result is the\n+32-byte **x-only public key** $p_i$.[^x-only]\n+\n+[^x-only]: **Why x-only keys?**\n+    X-only public keys are 32 bytes, a natural size for cryptographic operations.\n+    This format is also used in BIP340 (Schnorr signatures) and BIP341 (Taproot).\n+\n+### Encryption\n+\n+The format uses CHACHA20_POLY1305 (RFC 8439) as the encryption algorithm,\n+with a 96-bit random nonce and a 128-bit authentication tag to provide confidentiality\n+and integrity.\n+\n+[^chacha-default]: **Why CHACHA20-POLY1305 ?**\n+    ChaCha20-Poly1305 is already used in Bitcoin Core (e.g., BIP324) and is widely\n+    available in cryptographic libraries. It performs well in software without\n+    hardware acceleration, making it suitable for hardware wallets and embedded devices.\n+\n+* let $nonce$ = random(96 bits)\n+* let $ciphertext$ = encrypt($payload$, $secret$, $nonce$)\n+\n+### Decryption\n+\n+In order to decrypt the payload of a backup, the owner of a certain public key p\n+computes:\n+\n+* let $s_i$ = sha256(sha256(\"BIPXXX_INDIVIDUAL_SECRET\") ‖ sha256(\"BIPXXX_INDIVIDUAL_SECRET\") ‖ $p$)\n+* for each `individual_secret_i` generate `reconstructed_secret_i` =\n+`individual_secret_i` ⊕ `si`\n+* for each `reconstructed_secret_i` process $payload$ =\n+decrypt($ciphertext$, $secret$, $nonce$)\n+\n+Decryption will succeed if and only if **p** was one of the keys in the\n+descriptor/wallet policy.\n+\n+### Encoding\n+\n+The encrypted backup must be encoded as follows:\n+\n+`MAGIC` `VERSION` `DERIVATION_PATHS` `INDIVIDUAL_SECRETS` `ENCRYPTION`\n+`ENCRYPTED_PAYLOAD`\n+\n+#### Magic\n+\n+`MAGIC`: 6 bytes which are ASCII/UTF-8 representation of **BIPXXX** (TBD).\n+\n+#### Version\n+\n+`VERSION`: 1 byte unsigned integer representing the format version. The current\n+specification defines version `0x01`.\n+\n+#### Derivation Paths\n+\n+Note: the derivation-path vector should not contain duplicates.\n+Derivation paths are optional; they can be useful to simplify the recovery process\n+if one has used a non-common derivation path to derive his key.[^derivation-optional]\n+\n+[^derivation-optional]: **Why are derivation paths optional?**\n+    When standard derivation paths are used, they are easily discoverable, making\n+    them straightforward to brute-force. Omitting them enhances privacy by reducing\n+    the information shared publicly about the descriptor scheme.\n+\n+`DERIVATION_PATH` follows this format:\n+\n+`COUNT`  \n+`CHILD_COUNT` `CHILD` `...` `CHILD`  \n+`...`  \n+`CHILD_COUNT` `CHILD` `...` `CHILD`\n+\n+`COUNT`: 1-byte unsigned integer (0–255) indicating how many derivation paths are\n+included.  \n+`CHILD_COUNT`: 1-byte unsigned integer (1–255) indicating how many children are in\n+the current path.  \n+`CHILD`: 4-byte big-endian unsigned integer representing a child index per BIP-32.\n+\n+#### Individual Secrets\n+\n+At least one individual secret must be supplied.[^no-fingerprints]\n+\n+[^no-fingerprints]: **Why no fingerprints in plaintext encoding?**\n+    Including fingerprints would leak direct information about the descriptor\n+    participants, which compromises privacy.\n+\n+The `INDIVIDUAL_SECRETS` section follows this format:\n+\n+`COUNT`  \n+`INDIVIDUAL_SECRET`  \n+`INDIVIDUAL_SECRET`\n+\n+`COUNT`: 1-byte unsigned integer (1–255) indicating how many secrets are included.  \n+`INDIVIDUAL_SECRET`: 32-byte serialization of the derived individual secret.\n+\n+Note: the individual secrets vector should not contain duplicates. Implementations\n+MAY deduplicate secrets during encoding or parsing.\n+\n+#### Encryption\n+\n+`ENCRYPTION`: 1-byte unsigned integer identifying the encryption algorithm.\n+\n+| Value  | Definition                             |\n+|:-------|:---------------------------------------|\n+| 0x00   | Reserved                               |\n+| 0x01   | CHACHA20_POLY1305                      |\n+\n+#### Payload Size Limits\n+\n+CHACHA20_POLY1305 (per RFC 8439) supports plaintext up to 2^38 - 64 bytes.\n+Implementations MAY impose stricter limits based on platform constraints\n+(e.g., limiting to 2^32 - 1 bytes on 32-bit architectures).\n+\n+Implementations MUST reject empty payloads.\n+\n+#### Ciphertext\n+\n+`CIPHERTEXT` is the encrypted data resulting from encryption of `PAYLOAD` with algorithm\n+defined in `ENCRYPTION` where `PAYLOAD` is encoded following this format:\n+\n+`CONTENT` `PLAINTEXT`\n+\n+#### Integer Encodings\n+\n+All variable-length integers are encoded as\n+[compact size](https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer).\n+\n+#### Content\n+\n+`CONTENT` is a variable length field defining the type of `PLAINTEXT` being encrypted,",
+      "path": "bip-0138.md",
+      "position": 275,
+      "original_position": 275,
+      "commit_id": "e9858e8bbee3fbf12510f7af9816772a10a82392",
+      "original_commit_id": "e9858e8bbee3fbf12510f7af9816772a10a82392",
+      "in_reply_to_id": 3304541662,
+      "user": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Something like this would be better I think:\n\n```diff\ndiff --git a/bip-0138.md b/bip-0138.md\nindex 2fbb2b2..1ed60bd 100644\n--- a/bip-0138.md\n+++ b/bip-0138.md\n@@ -264,5 +264,5 @@ Implementations MUST reject empty payloads.\n defined in `ENCRYPTION` where `PAYLOAD` is encoded following this format:\n\n-`CONTENT` `PLAINTEXT`\n+`CONTENT` `CONTENT` `...`\n\n #### Integer Encodings\n@@ -273,8 +273,8 @@ All variable-length integers are encoded as\n #### Content\n\n-`CONTENT` is a variable length field defining the type of `PLAINTEXT` being encrypted,\n+`CONTENT` is a variable length field containing one piece of encrypted content,\n it follows this format:\n\n-`TYPE` (`LENGTH`) `DATA`\n+`TYPE` `LENGTH` `DATA`\n\n `TYPE`: 1-byte unsigned integer identifying how to interpret `DATA`.\n@@ -288,16 +288,13 @@ it follows this format:\n `LENGTH`: variable-length integer representing the length of `DATA` in bytes.\n\n-For all `TYPE` values except `0x01`, `LENGTH` MUST be present.\n-\n `DATA`: variable-length field whose encoding depends on `TYPE`.\n\n For `TYPE` values defined above:\n - 0x00: parsers MUST reject the payload.\n-- 0x01: `LENGTH` MUST be omitted and `DATA` is a 2-byte big-endian unsigned integer\n-  representing the BIP number that defines it.\n+- 0x01: `DATA` MUST be at least 2 bytes. Its first two bytes are a big-endian unsigned\n+  integer representing the BIP number that defines the remaining `DATA` bytes.\n - 0x02: `DATA` MUST be `LENGTH` bytes of opaque, vendor-specific data.\n\n-For all `TYPE` values except `0x01`, parsers MUST reject `CONTENT` if `LENGTH` exceeds\n-the remaining payload bytes.\n+Parsers MUST reject `CONTENT` if `LENGTH` exceeds the remaining payload bytes.\n\n Parsers MUST skip unknown `TYPE` values less than `0x80`, by consuming `LENGTH` bytes\n@@ -305,5 +302,5 @@ of `DATA`.\n\n For unknown `TYPE` values greater than or equal to `0x80`, parsers MUST stop parsing\n-`CONTENT`.[^type-upgrade]\n+content items.[^type-upgrade]\n\n [^type-upgrade]: **Why the 0x80 threshold?**\n@@ -314,6 +311,7 @@ For unknown `TYPE` values greater than or equal to `0x80`, parsers MUST stop par\n #### BIP380 Descriptor Backup Content\n\n-When `CONTENT` is `TYPE = 0x01` with `DATA = 0x017c` (BIP380), `PLAINTEXT`\n-is UTF-8 encoded BIP380 descriptor backup content. It is either:\n+When `CONTENT` is `TYPE = 0x01` and `DATA` begins with `0x017c` (BIP380),\n+the remaining `DATA` bytes are UTF-8 encoded BIP380 descriptor backup content.\n+It is either:\n\n - A text descriptor backup document.\n```",
+      "created_at": "2026-05-26T14:51:55Z",
+      "updated_at": "2026-05-26T14:51:56Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1951#discussion_r3304652771",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3304652771"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1951"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 275,
+      "original_line": 275,
       "side": "RIGHT"
     }
   ]
