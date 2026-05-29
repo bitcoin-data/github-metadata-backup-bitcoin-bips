@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-05-29T05:35:32Z",
-    "updated_at": "2026-05-29T08:11:57Z",
+    "updated_at": "2026-05-29T13:18:41Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -283,9 +283,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5957,
-        "stargazers_count": 10786,
-        "watchers_count": 10786,
+        "forks_count": 5958,
+        "stargazers_count": 10787,
+        "watchers_count": 10787,
         "size": 22117,
         "default_branch": "master",
         "open_issues_count": 41,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-05-28T19:15:54Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-05-28T19:16:26Z",
+        "updated_at": "2026-05-29T10:20:29Z",
         "allow_forking": true
       }
     },
@@ -316,7 +316,7 @@
     "deletions": 17,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 1
   },
   "events": [
@@ -576,7 +576,101 @@
         "name": "BIP Update by Owner",
         "color": "3f9ccf"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 4389820652,
+      "node_id": "PRR_kwDOAN28mc8AAAABBadY7A",
+      "url": null,
+      "actor": null,
+      "commit_id": "18ff6bb77b921e6952c11895c203bf1b4e0eaf2f",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-05-29T13:18:41Z",
+      "author_association": "MEMBER",
+      "body": "LGTM, one nit",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2181#pullrequestreview-4389820652",
+      "submitted_at": "2026-05-29T13:18:41Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2181"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3324555571",
+      "pull_request_review_id": 4389820652,
+      "id": 3324555571,
+      "node_id": "PRRC_kwDOAN28mc7GKLEz",
+      "diff_hunk": "@@ -127,16 +127,26 @@ The payload of the `feature` message contains exactly the following data:\n \n The `featureid` is encoded in the usual way, that is, as a `CompactSize`\n specifying the string length, followed by that many bytes. The string\n-length MUST be between 4 and 80, inclusive. The string SHOULD include\n-only printable ASCII characters (ie, each byte should have a value\n-between 32 and 126, inclusive).\n+length MUST be between 4[^feature-id-min] and 80[^feature-payload-max],\n+inclusive. The string SHOULD include only printable ASCII characters\n+(ie, each byte should have a value between 32 and 126, inclusive).\n \n Likewise, `featuredata` is encoded as a `CompactSize` specifying the\n byte-vector size, followed by that many bytes. How these bytes are\n-interpreted is part of the feature's specification. The byte-vector size\n-MUST NOT be more than 512 bytes. Note that the `featuredata` field is not\n-optional, so if no data is required, an empty vector should be provided,\n-ie serialized as `CompactSize` of 0.\n+interpreted is part of the feature's specification. The byte-vector\n+size MUST NOT be more than 512 bytes[^feature-payload-max]. Note that\n+the `featuredata` field is not optional, so if no data is required,\n+an empty vector should be provided, ie serialized as `CompactSize` of 0.\n+\n+The `featureid` MUST be a globally unique identifier for the feature.\n+\n+For features published as a BIP, the `featureid` SHOULD be the assigned\n+BIP number, eg \"BIP434\", or be based on the BIP number (eg, \"BIP434v2\"\n+where the \"v2\" suffix covers versioning, or \"BIP434.3\" where the \".3\"",
+      "path": "bip-0434.md",
+      "position": 26,
+      "original_position": 26,
+      "commit_id": "18ff6bb77b921e6952c11895c203bf1b4e0eaf2f",
+      "original_commit_id": "18ff6bb77b921e6952c11895c203bf1b4e0eaf2f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Maybe use a semantic versioning style in the version example, since activation of BIP3.",
+      "created_at": "2026-05-29T13:15:24Z",
+      "updated_at": "2026-05-29T13:18:41Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2181#discussion_r3324555571",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3324555571"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2181"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 145,
+      "original_line": 145,
+      "side": "RIGHT"
+    }
+  ]
 }
