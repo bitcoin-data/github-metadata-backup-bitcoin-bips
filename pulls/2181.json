@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-05-29T05:35:32Z",
-    "updated_at": "2026-05-29T17:07:31Z",
+    "updated_at": "2026-05-30T09:49:59Z",
     "closed_at": "2026-05-29T17:07:18Z",
     "mergeable_state": "unknown",
     "merged": true,
@@ -305,12 +305,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5958,
+        "forks_count": 5959,
         "stargazers_count": 10789,
         "watchers_count": 10789,
-        "size": 22117,
+        "size": 22139,
         "default_branch": "master",
-        "open_issues_count": 40,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -321,9 +321,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-05-29T17:07:18Z",
+        "pushed_at": "2026-05-29T23:22:11Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-05-29T17:08:10Z",
+        "updated_at": "2026-05-30T07:21:43Z",
         "allow_forking": true
       }
     },
@@ -338,7 +338,7 @@
     "deletions": 17,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 1,
+    "review_comments": 2,
     "comments": 1
   },
   "events": [
@@ -783,6 +783,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3324555571"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2181"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 145,
+      "original_line": 145,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3328531055",
+      "pull_request_review_id": 4395123741,
+      "id": 3328531055,
+      "node_id": "PRRC_kwDOAN28mc7GZVpv",
+      "diff_hunk": "@@ -127,16 +127,26 @@ The payload of the `feature` message contains exactly the following data:\n \n The `featureid` is encoded in the usual way, that is, as a `CompactSize`\n specifying the string length, followed by that many bytes. The string\n-length MUST be between 4 and 80, inclusive. The string SHOULD include\n-only printable ASCII characters (ie, each byte should have a value\n-between 32 and 126, inclusive).\n+length MUST be between 4[^feature-id-min] and 80[^feature-payload-max],\n+inclusive. The string SHOULD include only printable ASCII characters\n+(ie, each byte should have a value between 32 and 126, inclusive).\n \n Likewise, `featuredata` is encoded as a `CompactSize` specifying the\n byte-vector size, followed by that many bytes. How these bytes are\n-interpreted is part of the feature's specification. The byte-vector size\n-MUST NOT be more than 512 bytes. Note that the `featuredata` field is not\n-optional, so if no data is required, an empty vector should be provided,\n-ie serialized as `CompactSize` of 0.\n+interpreted is part of the feature's specification. The byte-vector\n+size MUST NOT be more than 512 bytes[^feature-payload-max]. Note that\n+the `featuredata` field is not optional, so if no data is required,\n+an empty vector should be provided, ie serialized as `CompactSize` of 0.\n+\n+The `featureid` MUST be a globally unique identifier for the feature.\n+\n+For features published as a BIP, the `featureid` SHOULD be the assigned\n+BIP number, eg \"BIP434\", or be based on the BIP number (eg, \"BIP434v2\"\n+where the \"v2\" suffix covers versioning, or \"BIP434.3\" where the \".3\"",
+      "path": "bip-0434.md",
+      "position": 26,
+      "original_position": 26,
+      "commit_id": "18ff6bb77b921e6952c11895c203bf1b4e0eaf2f",
+      "original_commit_id": "18ff6bb77b921e6952c11895c203bf1b4e0eaf2f",
+      "in_reply_to_id": 3324555571,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "[semver style](https://semver.org/) is:\r\n\r\n>     MAJOR version when you make incompatible API changes\r\n>     MINOR version when you add functionality in a backward compatible manner\r\n>     PATCH version when you make backward compatible bug fixes\r\n\r\nThe featureid should only be updated for incompatible API changes -- if your change is compatible, you keep advertising the same featureid so you can operate unchanged with older peers. So only including a single MAJOR version number (\"2\" here) seems already a match for semver to me.",
+      "created_at": "2026-05-30T09:49:59Z",
+      "updated_at": "2026-05-30T09:49:59Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2181#discussion_r3328531055",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3328531055"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2181"
