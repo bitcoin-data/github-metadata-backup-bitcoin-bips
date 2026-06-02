@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2024-05-23T12:44:31Z",
-    "updated_at": "2026-06-02T06:25:00Z",
+    "updated_at": "2026-06-02T08:24:20Z",
     "closed_at": "2024-07-12T12:15:48Z",
     "mergeable_state": "unknown",
     "merged": true,
@@ -310,7 +310,7 @@
         "watchers_count": 10794,
         "size": 22195,
         "default_branch": "master",
-        "open_issues_count": 38,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -339,7 +339,7 @@
     "changed_files": 2,
     "commits": 25,
     "review_comments": 18,
-    "comments": 21
+    "comments": 22
   },
   "events": [
     {
@@ -4854,6 +4854,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/1599#issuecomment-4599324715",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1599"
+    },
+    {
+      "event": "commented",
+      "id": 4600212845,
+      "node_id": "IC_kwDOAN28mc8AAAABEjGtbQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/4600212845",
+      "actor": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-06-02T08:24:20Z",
+      "updated_at": "2026-06-02T08:24:20Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> One idea: Taproot fidelity bonds. They are \"trickier\" to verify, and I couldn't think of any advantage. Is there? Coming to the conclusion that there isn't would also be interesting.\r\n\r\nI guess there are two questions, here: 1/ can everything here 'port over' to a taproot wallet, without problems? And 2/ can taproot add anything to the functionality, either within the narrow scope of the algorithm here, or outside it.\r\n\r\nFor 1/ : the first obvious point that crops up is this doesn't fit BIP86, right: this would need script-only i.e. NUMS internal key. So the approach taken here, of \"construct a standard wallet, then use a custom BIP32 derivation inside that standard wallet to \"house\" the special timelock addresses\" doesn't work. I suppose, though, it does work: the BIP32 derivation tells you the pubkey that is used inside the script. And when I say \"the\" script I'm of course thinking: a script tree with only one leaf, because we obviously don't want alternative spending paths. I guess this is the way to do it that makes sense, because the main thing is just to have the set of addresses rederivable.\r\n\r\nNot sure if I'm right there, but if I am, it \"works\" but obviously would need a separately written algorithm in the standard.\r\n\r\nFor 2/ I also struggled to think of any extra value of taproot in this context; the normal concern of 'if there is a script tree it means you need to know all spending paths' crops up, so in the simplest concept, it's a hindrance rather than a help. And as already mentioned, NUMS is required.\r\n\r\nThe best I could come up with is: if the utxo has a complex ownership structure you might want to express the sacrifice across all the \"access structures\", and you might not want a very weighty script (i.e. the standard MAST advantage of taproot). So like, spendable by Alice or Bob and Carol or Carol and Dave, but all having the same timelock in each leaf. Can't imagine that this weird edge case would occur or is worth the enormous amount of extra mess to support it; it, naturally, was not considered in BIP46 here.",
+      "user": {
+        "login": "AdamISZ",
+        "id": 4278257,
+        "node_id": "MDQ6VXNlcjQyNzgyNTc=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4278257?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/AdamISZ",
+        "html_url": "https://github.com/AdamISZ",
+        "followers_url": "https://api.github.com/users/AdamISZ/followers",
+        "following_url": "https://api.github.com/users/AdamISZ/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/AdamISZ/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/AdamISZ/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/AdamISZ/subscriptions",
+        "organizations_url": "https://api.github.com/users/AdamISZ/orgs",
+        "repos_url": "https://api.github.com/users/AdamISZ/repos",
+        "events_url": "https://api.github.com/users/AdamISZ/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/AdamISZ/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/1599#issuecomment-4600212845",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/1599"
     }
   ],
