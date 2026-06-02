@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2188/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2188/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/91c66857ae3601297e3cd642f90a48dc1c2da4fb",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/23ce8faeae906ae1af8ecb34d8dcbf8dc63d4938",
     "number": 2188,
     "state": "open",
     "locked": false,
@@ -43,11 +43,11 @@
     "body": "This is cleaning up an artifact that was left over from #1352.\r\nThe alternative to removing the optionality of the address would be to assume `OP_TRUE` in case of an empty address.\r\nBut that sounds like it could open up any number of potential vulnerabilities.\r\nAnd a user still has the ability to use an `OP_TRUE` script in a p2wsh or p2tr address.",
     "labels": [],
     "created_at": "2026-06-02T07:27:17Z",
-    "updated_at": "2026-06-02T07:27:17Z",
+    "updated_at": "2026-06-02T11:59:30Z",
     "mergeable": true,
-    "mergeable_state": "clean",
+    "mergeable_state": "unstable",
     "merged": false,
-    "merge_commit_sha": "53459fef44e87ee524738f64fff39b89fa665b86",
+    "merge_commit_sha": "67980035de891673b651bd1420f53fe693afff6d",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -55,7 +55,7 @@
     "head": {
       "label": "guggero:bip322-fix",
       "ref": "bip322-fix",
-      "sha": "91c66857ae3601297e3cd642f90a48dc1c2da4fb",
+      "sha": "23ce8faeae906ae1af8ecb34d8dcbf8dc63d4938",
       "user": {
         "login": "guggero",
         "id": 1008879,
@@ -155,7 +155,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 25049,
+        "size": 25229,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -168,7 +168,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-06-02T07:26:31Z",
+        "pushed_at": "2026-06-02T11:58:27Z",
         "created_at": "2022-04-20T12:20:26Z",
         "updated_at": "2026-06-02T07:23:27Z",
         "allow_forking": true
@@ -275,8 +275,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5960,
-        "stargazers_count": 10794,
-        "watchers_count": 10794,
+        "stargazers_count": 10795,
+        "watchers_count": 10795,
         "size": 22195,
         "default_branch": "master",
         "open_issues_count": 39,
@@ -292,7 +292,7 @@
         "visibility": "public",
         "pushed_at": "2026-06-02T00:56:46Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-06-02T06:28:04Z",
+        "updated_at": "2026-06-02T09:45:30Z",
         "allow_forking": true
       }
     },
@@ -303,12 +303,12 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 1,
+    "additions": 3,
     "deletions": 1,
     "changed_files": 1,
-    "commits": 1,
+    "commits": 2,
     "review_comments": 0,
-    "comments": 0
+    "comments": 1
   },
   "events": [
     {
@@ -350,6 +350,104 @@
         "date": "2026-06-01T07:39:44Z"
       },
       "sha": "91c66857ae3601297e3cd642f90a48dc1c2da4fb"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDIzY2U4ZmFlYWU5MDZhZTFhZjhlY2IzNGQ4ZGNiZjhkYzYzZDQ5Mzg",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/23ce8faeae906ae1af8ecb34d8dcbf8dc63d4938",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/23ce8faeae906ae1af8ecb34d8dcbf8dc63d4938",
+      "tree": {
+        "sha": "1e2fa85fbee85fa2277f8763f4990e6ad5a93261",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/1e2fa85fbee85fa2277f8763f4990e6ad5a93261"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 1e2fa85fbee85fa2277f8763f4990e6ad5a93261\nparent 91c66857ae3601297e3cd642f90a48dc1c2da4fb\nauthor Oli <gugger@gmail.com> 1780401256 +0200\ncommitter Oli <gugger@gmail.com> 1780401256 +0200\n\nBIP-0322: clarify sequence semantics for Proof of Funds\n\nThis commit clarifies that even for Proof of Funds signatures the\nsequence of the first input is considered as \"age S\".\nThe reasoning behind this is that only the first input is a synthetic\none that doesn't reference a real transaction to which the height could\nbe compared against. Even though the Proof of Funds inputs could have\nhigher sequence values, those heights might have already been long\nreached and would make the sequence values irrelevant compared to the potential\nrestrictions in the challenge script.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEE9Pxw8HMQAoQk78IKjkJWWT8XdyAFAmoexV4ACgkQjkJWWT8X\ndyBhERAAzDB0s7Hf6EUaw5hDLU0GB51ZtiYyg9+5GJekOysguQ95PQvG2qbwWOku\nJUDHeE7gQPHdy55WauYHdqoYehkNUgWETTVFzDs5tF8+SM5fo9blL3dxdS2kqosW\nphNemIrYW9oRI/jegtyn3jd0UKoWpAOqyLxkdIT31RrHhH369M7VGVdgfKhLHZtV\n03b7dZ84Z/VEUF10IuM5rNOH+yRmOxObSN6RTdihTLhoOI72EZO3oUTtt8D7nV5L\npaPmbhAQjWPGvv9kzfebJi+gxVxZfw1xbR8G3pqZU7uDT5OvtSK//0icTLaQ/jhv\nhfVMs0EqPdJNlqFn2BmR6NXki2/NucTNyTJaVwSflM7Vxl9cZRw/0VA21w/6EjhC\n2D8zuvmSRyVZeInJ0YRq+lZ1yHCEphrMWKdpXIkkhsfWPXLHOiWSwMsBLbp2IOnG\n2TjfjILnPR80ygcch7NcgO1PXW9D9xKoe1gEbhENFWvnTVt6+Ru31roxpj1jU/EL\nTpgaVzHaqUVJOxax6APJ5d/sw3+7VbVTLIPFegqa7J+nOD8uhdCEBU/1rJfk2opD\nKippyURcJrX9Bj2BKQB90ua2owtn+PW+8HRYqXsrPw2VlgU08t2g23ZTxQcoJJWa\n/FSCNQawieLd1n3jtBw2ISyF7vmrRrS6WL34fbTXvu/qaVoTC4g=\n=zO23\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/91c66857ae3601297e3cd642f90a48dc1c2da4fb",
+          "sha": "91c66857ae3601297e3cd642f90a48dc1c2da4fb",
+          "html_url": "https://github.com/bitcoin/bips/commit/91c66857ae3601297e3cd642f90a48dc1c2da4fb"
+        }
+      ],
+      "message": "BIP-0322: clarify sequence semantics for Proof of Funds\n\nThis commit clarifies that even for Proof of Funds signatures the\nsequence of the first input is considered as \"age S\".\nThe reasoning behind this is that only the first input is a synthetic\none that doesn't reference a real transaction to which the height could\nbe compared against. Even though the Proof of Funds inputs could have\nhigher sequence values, those heights might have already been long\nreached and would make the sequence values irrelevant compared to the potential\nrestrictions in the challenge script.",
+      "committer": {
+        "name": "Oli",
+        "email": "gugger@gmail.com",
+        "date": "2026-06-02T11:54:16Z"
+      },
+      "author": {
+        "name": "Oli",
+        "email": "gugger@gmail.com",
+        "date": "2026-06-02T11:54:16Z"
+      },
+      "sha": "23ce8faeae906ae1af8ecb34d8dcbf8dc63d4938"
+    },
+    {
+      "event": "commented",
+      "id": 4602162365,
+      "node_id": "IC_kwDOAN28mc8AAAABEk9svQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/4602162365",
+      "actor": {
+        "login": "guggero",
+        "id": 1008879,
+        "node_id": "MDQ6VXNlcjEwMDg4Nzk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1008879?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/guggero",
+        "html_url": "https://github.com/guggero",
+        "followers_url": "https://api.github.com/users/guggero/followers",
+        "following_url": "https://api.github.com/users/guggero/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/guggero/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/guggero/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/guggero/subscriptions",
+        "organizations_url": "https://api.github.com/users/guggero/orgs",
+        "repos_url": "https://api.github.com/users/guggero/repos",
+        "events_url": "https://api.github.com/users/guggero/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/guggero/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-06-02T11:59:30Z",
+      "updated_at": "2026-06-02T11:59:30Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Also pushed a commit that clarifies that even for Proof of Funds signatures the\r\nsequence of the first input is considered as \"age S\".\r\nThe reasoning behind this is that only the first input is a synthetic\r\none that doesn't reference a real transaction to which the height could\r\nbe compared against. Even though the Proof of Funds inputs could have\r\nhigher sequence values, those heights might have already been long\r\nreached and would make the sequence values irrelevant compared to the potential\r\nrestrictions in the challenge script.\r\n\r\nRelevance: https://github.com/btcsuite/btcd/pull/2521#discussion_r3328301531",
+      "user": {
+        "login": "guggero",
+        "id": 1008879,
+        "node_id": "MDQ6VXNlcjEwMDg4Nzk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1008879?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/guggero",
+        "html_url": "https://github.com/guggero",
+        "followers_url": "https://api.github.com/users/guggero/followers",
+        "following_url": "https://api.github.com/users/guggero/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/guggero/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/guggero/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/guggero/subscriptions",
+        "organizations_url": "https://api.github.com/users/guggero/orgs",
+        "repos_url": "https://api.github.com/users/guggero/repos",
+        "events_url": "https://api.github.com/users/guggero/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/guggero/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2188#issuecomment-4602162365",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2188"
     }
   ],
   "comments": []
