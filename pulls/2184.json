@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-05-31T07:07:10Z",
-    "updated_at": "2026-06-01T14:13:55Z",
+    "updated_at": "2026-06-02T13:18:20Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -292,12 +292,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5959,
-        "stargazers_count": 10792,
-        "watchers_count": 10792,
-        "size": 22160,
+        "forks_count": 5960,
+        "stargazers_count": 10794,
+        "watchers_count": 10794,
+        "size": 22195,
         "default_branch": "master",
-        "open_issues_count": 40,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -308,9 +308,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-05-31T15:45:50Z",
+        "pushed_at": "2026-06-02T00:56:46Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-06-01T11:33:31Z",
+        "updated_at": "2026-06-02T12:55:51Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 2,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 7,
+    "review_comments": 8,
     "comments": 2
   },
   "events": [
@@ -917,6 +917,45 @@
       "commit_id": "f36c8d04aa62d612504d813e632449924819107d",
       "commit_url": "https://api.github.com/repos/ajtowns/bips/commits/f36c8d04aa62d612504d813e632449924819107d",
       "created_at": "2026-06-01T14:13:55Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 4409825424,
+      "node_id": "PRR_kwDOAN28mc8AAAABBtiYkA",
+      "url": null,
+      "actor": null,
+      "commit_id": "f36c8d04aa62d612504d813e632449924819107d",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-06-02T13:18:20Z",
+      "author_association": "MEMBER",
+      "body": "I think it's slightly cleaner to have shortcomings in the BIP itself rather than having comments in the wiki, but I don't have a strong opinion either way.\n\nWhile doing some research on why Core doesn't implement BIP39 I found [this stackexchange answer](https://bitcoin.stackexchange.com/a/88244) from Ava:\n\n> Also, more generally, many Bitcoin Core contributors don't consider BIP 39 to be secure. It uses PBKDF2 which is generally regarded to be a fairly weak KDF so it isn't considered to be good for the secure storage of all of your Bitcoin. Some software (such as Electrum) use their own mnemonic algorithm because of this weakness in BIP 39.\n\nShould this be in the shortcomings as well?",
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2184#pullrequestreview-4409825424",
+      "submitted_at": "2026-06-02T13:18:20Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2184"
     }
   ],
   "comments": [
@@ -1296,6 +1335,60 @@
       "start_side": "RIGHT",
       "line": null,
       "original_line": 146,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3341323944",
+      "pull_request_review_id": 4409825424,
+      "id": 3341323944,
+      "node_id": "PRRC_kwDOAN28mc7HKI6o",
+      "diff_hunk": "@@ -138,6 +136,22 @@ Also see https://github.com/bip32JP/bip32JP.github.io/blob/master/test_JP_BIP39.\n \n (Japanese wordlist test with heavily normalized symbols as passphrase)\n \n+==Shortcomings==\n+\n+Some shortcomings have been identified with this proposal:\n+\n+* Generated seed depends on the wordlist that was used for the mnemonic. Because the \"mnemonic to seed\" process uses the mnemonic sentence directly rather than the original entropy, translating the mnemonic to a different wordlist necessary creates a completely different seed.  This is not an issue if you only support the English wordlist, as recommended above.",
+      "path": "bip-0039.mediawiki",
+      "position": 17,
+      "original_position": 17,
+      "commit_id": "f36c8d04aa62d612504d813e632449924819107d",
+      "original_commit_id": "f36c8d04aa62d612504d813e632449924819107d",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "nit: Here and a couple of lines below, there are double spaces after periods. Are those intentional?\n\n- `completely different seed.  This is not an issue`\n- `for a BIP-0039 key.  This is now largely mitigated`",
+      "created_at": "2026-06-02T12:58:14Z",
+      "updated_at": "2026-06-02T13:18:20Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2184#discussion_r3341323944",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3341323944"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2184"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 143,
+      "original_line": 143,
       "side": "RIGHT"
     }
   ]
