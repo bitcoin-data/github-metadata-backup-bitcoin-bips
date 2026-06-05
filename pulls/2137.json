@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-04-10T21:54:22Z",
-    "updated_at": "2026-06-05T06:56:07Z",
+    "updated_at": "2026-06-05T10:58:46Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -283,7 +283,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5959,
+        "forks_count": 5960,
         "stargazers_count": 10795,
         "watchers_count": 10795,
         "size": 22185,
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 65,
+    "review_comments": 66,
     "comments": 28
   },
   "events": [
@@ -3597,6 +3597,44 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2137#pullrequestreview-4434001980",
       "submitted_at": "2026-06-05T06:56:06Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2137"
+    },
+    {
+      "event": "reviewed",
+      "id": 4435705017,
+      "node_id": "PRR_kwDOAN28mc8AAAABCGN8uQ",
+      "url": null,
+      "actor": null,
+      "commit_id": "23c4b35ce902095005ac8cd03b75e102a0cf8c9b",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-06-05T10:58:46Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2137#pullrequestreview-4435705017",
+      "submitted_at": "2026-06-05T10:58:46Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2137"
     }
@@ -7110,6 +7148,60 @@
       "start_side": null,
       "line": 148,
       "original_line": 148,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3362181356",
+      "pull_request_review_id": 4435705017,
+      "id": 3362181356,
+      "node_id": "PRRC_kwDOAN28mc7IZtDs",
+      "diff_hunk": "@@ -0,0 +1,296 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: P2P UTXO Set Sharing\n+  Authors: Fabian Jahr <fjahr@protonmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-2-Clause\n+  Discussion: 2026-05-06: https://groups.google.com/g/bitcoindev/c/rThmyI8ZN3Q\n+  Version: 0.5.0\n+  Requires: 434\n+```\n+\n+## Abstract\n+\n+This BIP defines a P2P protocol extension for sharing full UTXO sets between peers. It introduces\n+a new service bit `NODE_UTXO_SET` advertising a deterministic schedule of served heights, four new\n+P2P messages (`getutxotree`, `utxotree`, `getutxoset`, `utxoset`) negotiated via a BIP 434 feature,\n+and a chunk-hash list anchored to a Merkle root known to the requesting node, enabling per-chunk\n+verification. This allows bootstrapping nodes to leapfrog to a recent height by obtaining the\n+required UTXO set directly from the P2P network via mechanisms such as assumeutxo.\n+\n+## Motivation\n+\n+The assumeutxo feature (implemented in Bitcoin Core) allows nodes to begin operating from a serialized\n+UTXO set while validating\n+historical blocks in the background. However, there is currently no canonical source for obtaining this\n+data. Users must either generate one themselves from a fully synced node (using `dumptxoutset` in \n+Bitcoin Core), or download one from a third party.\n+\n+By enabling UTXO set sharing over the P2P network, new nodes can obtain the data directly from\n+peers, removing the dependency on external infrastructure.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"SHOULD\", \"SHOULD NOT\", and \"MAY\" in this document are to be\n+interpreted as described in RFC 2119.\n+\n+### Service Bit\n+\n+| Name | Bit | Description |\n+|------|-----|-------------|\n+| `NODE_UTXO_SET` | 14 (0x4000) | The node serves complete UTXO set data for the scheduled heights (see [Scheduled UTXO Set Heights](#scheduled-utxo-set-heights)). |",
+      "path": "bip-XXXX.md",
+      "position": 44,
+      "original_position": 44,
+      "commit_id": "23c4b35ce902095005ac8cd03b75e102a0cf8c9b",
+      "original_commit_id": "23c4b35ce902095005ac8cd03b75e102a0cf8c9b",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Should setting this bit also indicate that you are able to serve blocks between H2 and the tip? That is up to ~30k blocks which might be 60GGB to 120GB vs NODE_NETWORK_LIMITED which only guarantees 288 blocks. Or will nodes just need to find NODE_NETWORK peers to finish IBD in general?\n\n(At height N=961631, H2 is 931392 which is 30,239 blocks earlier)",
+      "created_at": "2026-06-05T10:58:46Z",
+      "updated_at": "2026-06-05T10:58:46Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2137#discussion_r3362181356",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3362181356"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2137"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 44,
+      "original_line": 44,
       "side": "RIGHT"
     }
   ]
