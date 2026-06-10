@@ -61,11 +61,11 @@
       }
     ],
     "created_at": "2026-01-03T18:00:46Z",
-    "updated_at": "2026-05-28T16:11:52Z",
+    "updated_at": "2026-06-10T11:56:31Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "e08423b5b893d372765cef2f0a4a242b7e2c2940",
+    "merge_commit_sha": "76d6ae329a6732f258f6badc13d0a331e494b71c",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -292,10 +292,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5956,
-        "stargazers_count": 10786,
-        "watchers_count": 10786,
-        "size": 22115,
+        "forks_count": 5963,
+        "stargazers_count": 10800,
+        "watchers_count": 10800,
+        "size": 22180,
         "default_branch": "master",
         "open_issues_count": 39,
         "is_template": false,
@@ -308,9 +308,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-05-23T14:03:54Z",
+        "pushed_at": "2026-06-09T01:22:17Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-05-28T14:34:17Z",
+        "updated_at": "2026-06-09T15:44:44Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 0,
     "changed_files": 41,
     "commits": 11,
-    "review_comments": 166,
+    "review_comments": 167,
     "comments": 15
   },
   "events": [
@@ -12022,6 +12022,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3319155225"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 102,
+      "original_line": 102,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3388042229",
+      "pull_request_review_id": 4467500813,
+      "id": 3388042229,
+      "node_id": "PRRC_kwDOAN28mc7J8Wv1",
+      "diff_hunk": "@@ -0,0 +1,486 @@\n+# BIP FROST Signing reference implementation\n+#\n+# It's worth noting that many functions, types, and exceptions were directly\n+# copied or modified from the MuSig2 (BIP 327) reference code, found at:\n+# https://github.com/bitcoin/bips/blob/master/bip-0327/reference.py\n+#\n+# WARNING: This implementation is for demonstration purposes only and _not_ to\n+# be used in production environments. The code is vulnerable to timing attacks,\n+# for example.\n+\n+from typing import List, Optional, Tuple, NewType, NamedTuple, Literal\n+import secrets\n+\n+from secp256k1lab.secp256k1 import G, GE, Scalar\n+from secp256k1lab.util import tagged_hash, xor_bytes\n+\n+PlainPk = NewType(\"PlainPk\", bytes)\n+XonlyPk = NewType(\"XonlyPk\", bytes)\n+ContribKind = Literal[\"aggothernonce\", \"aggnonce\", \"psig\", \"pubnonce\", \"pubshare\"]\n+\n+# Tagged hash domain-separation tags. The challenge tag is inherited from\n+# BIP340 for signature compatibility; the rest are specific to this BIP.\n+FROST_TAG_AUX = \"BIP0445/aux\"\n+FROST_TAG_NONCE = \"BIP0445/nonce\"\n+FROST_TAG_NONCECOEF = \"BIP0445/noncecoef\"\n+FROST_TAG_DETERMINISTIC_NONCE = \"BIP0445/deterministic/nonce\"\n+BIP340_TAG_CHALLENGE = \"BIP0340/challenge\"\n+\n+# There are two types of exceptions that can be raised by this implementation:\n+#   - ValueError for indicating that an input doesn't conform to some function\n+#     precondition (e.g. an input array is the wrong length, a serialized\n+#     representation doesn't have the correct format).\n+#   - InvalidContributionError for indicating that a signer (or the\n+#     coordinator) is misbehaving in the protocol.\n+#\n+# Assertions are used to (1) satisfy the type-checking system, and (2) check for\n+# inconvenient events that can't happen except with negligible probability (e.g.\n+# output of a hash function is 0) and can't be manually triggered by any\n+# signer.\n+\n+\n+# This exception is raised if a party (signer or nonce coordinator) sends invalid\n+# values. Actual implementations should not crash when receiving invalid\n+# contributions. Instead, they should hold the offending party accountable.\n+class InvalidContributionError(Exception):\n+    def __init__(self, signer_index: Optional[int], contrib: ContribKind) -> None:\n+        # index of the signer who sent the invalid value, or None for coordinator\n+        self.signer_index = signer_index\n+        self.contrib = contrib\n+\n+\n+def derive_interpolating_value(ids: List[int], my_id: int) -> Scalar:\n+    assert my_id in ids\n+    assert 0 <= my_id < 2**32\n+    assert len(set(ids)) == len(ids)\n+    num = Scalar(1)\n+    deno = Scalar(1)\n+    for curr_id in ids:\n+        if curr_id == my_id:\n+            continue\n+        num *= Scalar(curr_id + 1)\n+        deno *= Scalar(curr_id - my_id)\n+    return num / deno\n+\n+\n+def derive_thresh_pubkey(ids: List[int], pubshares: List[GE]) -> PlainPk:\n+    assert len(ids) == len(pubshares)\n+    Q = GE()\n+    for my_id, X_i in zip(ids, pubshares):\n+        lam_i = derive_interpolating_value(ids, my_id)\n+        Q += lam_i * X_i\n+    # Q is not the point at infinity except with negligible probability.\n+    assert not Q.infinity\n+    return PlainPk(Q.to_bytes_compressed())\n+\n+\n+class SignersContext(NamedTuple):\n+    n: int\n+    t: int\n+    ids: List[int]\n+    pubshares: List[PlainPk]\n+    thresh_pk: PlainPk\n+\n+\n+def validate_signers_ctx(signers_ctx: SignersContext) -> None:\n+    n, t, ids, pubshares, thresh_pk = signers_ctx\n+    if t < 1 or t > n:\n+        raise ValueError(\"The threshold must be 1 <= t <= n.\")\n+    if not t <= len(ids) <= n:\n+        raise ValueError(\"The number of signers must be between t and n.\")\n+    if len(pubshares) != len(ids):\n+        raise ValueError(\"The pubshares and ids arrays must have the same length.\")\n+    pubshare_points = []\n+    for idx, (i, pubshare) in enumerate(zip(ids, pubshares)):\n+        if not 0 <= i <= n - 1:\n+            raise ValueError(\n+                f\"The participant identifier at index {idx} is out of range.\"\n+            )\n+        try:\n+            P = GE.from_bytes_compressed(pubshare)\n+        except ValueError:\n+            raise ValueError(f\"Invalid pubshare at index {idx}.\")",
+      "path": "bip-0445/python/frost_ref/signing.py",
+      "position": 102,
+      "original_position": 102,
+      "commit_id": "a1a52b8a9a7f811778de3e482605079616eeb3c8",
+      "original_commit_id": "a1a52b8a9a7f811778de3e482605079616eeb3c8",
+      "in_reply_to_id": 3307327182,
+      "user": {
+        "login": "siv2r",
+        "id": 56887198,
+        "node_id": "MDQ6VXNlcjU2ODg3MTk4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/56887198?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/siv2r",
+        "html_url": "https://github.com/siv2r",
+        "followers_url": "https://api.github.com/users/siv2r/followers",
+        "following_url": "https://api.github.com/users/siv2r/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/siv2r/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/siv2r/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/siv2r/subscriptions",
+        "organizations_url": "https://api.github.com/users/siv2r/orgs",
+        "repos_url": "https://api.github.com/users/siv2r/repos",
+        "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/siv2r/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Yes, removed pubshare from `ContribKind`. Thanks!",
+      "created_at": "2026-06-10T11:56:31Z",
+      "updated_at": "2026-06-10T11:56:31Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#discussion_r3388042229",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3388042229"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
