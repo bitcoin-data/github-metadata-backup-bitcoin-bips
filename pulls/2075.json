@@ -62,7 +62,7 @@
       }
     ],
     "created_at": "2026-01-07T04:16:45Z",
-    "updated_at": "2026-06-12T18:01:51Z",
+    "updated_at": "2026-06-12T21:32:20Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -326,7 +326,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 6
+    "comments": 7
   },
   "events": [
     {
@@ -1158,6 +1158,64 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-06-12T18:01:53Z"
+    },
+    {
+      "event": "commented",
+      "id": 4695621731,
+      "node_id": "IC_kwDOAN28mc8AAAABF-GAYw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/4695621731",
+      "actor": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-06-12T21:32:20Z",
+      "updated_at": "2026-06-12T21:32:20Z",
+      "author_association": "MEMBER",
+      "body": "How about\r\n\r\n```diff\r\ndiff --git a/bip-0174.mediawiki b/bip-0174.mediawiki\r\nindex 9cbbe254..c36a3493 100644\r\n--- a/bip-0174.mediawiki\r\n+++ b/bip-0174.mediawiki\r\n@@ -505,8 +505,13 @@ For every type that a Combiner understands, it may refuse to combine PSBTs if it\r\n \r\n The Combiner does not need to know how to interpret scripts in order to combine PSBTs. It can do so without understanding scripts or the network serialization format.\r\n \r\n-In general, the result of a Combiner combining two PSBTs from independent participants A and B should be functionally equivalent to a result obtained from processing the original PSBT by A and then B in a sequence.\r\n-Or, for participants performing fA(psbt) and fB(psbt): Combine(fA(psbt), fB(psbt)) == fA(fB(psbt)) == fB(fA(psbt))\r\n+In general, the result of a Combiner combining two PSBTs with no conflicting fields from independent participants A and B should be functionally equivalent to a result obtained from processing the original PSBT by A and then B in a sequence.\r\n+Or, for participants performing fA(psbt) and fB(psbt) where fA() and fB() only add unique fields to the PSBT: Combine(fA(psbt), fB(psbt)) == fA(fB(psbt)) == fB(fA(psbt))\r\n+\r\n+Combiners may be asked to combine PSBTs which have conflicting fields, i.e. each PSBT has a field with identical keys but differing values.\r\n+As discussed in [[Handling Duplicated Keys]], the combiner may arbitrariliy choose the value from one PSBT to use in the combined PSBT.\r\n+Alternatively, the combiner may also refuse to combine the PSBTs.\r\n+In this case, the previously discussed commutative property no longer holds.\r\n \r\n ===Input Finalizer===\r\n \r\n```",
+      "user": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2075#issuecomment-4695621731",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2075"
     }
   ],
   "comments": []
