@@ -12,12 +12,12 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2198/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2198/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/24e28ddc637767121aa9dfb95e3cdc4a945cef44",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/35ee070a9aef9d5da5d4e71657826d732885bd98",
     "number": 2198,
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "bip360: disallow depth-zero script trees in P2MR",
+    "title": "bip360: depth-zero script trees should be anyone-can-spend",
     "user": {
       "login": "conduition",
       "id": 130806907,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "This changes the validation rules of BIP360 to prevent users from spending script trees of depth zero - those with a single leaf script.\r\n\r\nThis change is motivated by constructive critiques of P2MR which highlight the regressive use-cases which depth-zero script trees seem to incentivize.\r\n\r\nhttps://groups.google.com/g/bitcoindev/c/p8AVEmAtWdA\r\n\r\nThis specifically includes disincentivizing the use of a PQ script. With depth-zero script trees in play, users may have incentive to omit a PQ leaf script from their P2MR address to save 32 bytes of witness data when spending with Schnorr.\r\n\r\nWe also must consider the same incentive for multi-party transaction protocol authors, who may be incentivized to omit a cooperative leaf script to save 32 bytes off the witness of the non-cooperative script.\r\n\r\nAfter this change, P2MR's privacy profile is much more well aligned with that of P2TR: Every user must pay for at least two spending paths anyway, so it encourages everyone to make use of both of them if possible/applicable, whether for cooperative spending path or for a PQ leaf. We thus create ambiguity to on-chain observers: is this a cooperative spend of a multi-party protocol? or just a single-signer wallet with a sibling PQ leaf script?",
+    "body": "This PR changes the validation rules of BIP360 to ~prevent users from spending~ add an auto-success path for script trees of depth zero - those with a single leaf script. By doing so, we discourage use of depth-zero script trees: anyone who uses them will lose their money to miners.\r\n\r\nThis change is motivated by constructive critiques of P2MR which highlight the regressive use-cases which depth-zero script trees seem to incentivize.\r\n\r\nhttps://groups.google.com/g/bitcoindev/c/p8AVEmAtWdA\r\n\r\nSpecifically, depth-zero script trees disincentivize the use of a PQ script. With depth-zero script trees in play, users may have incentive to omit a PQ leaf script from their P2MR address to save 32 bytes of witness data when spending with Schnorr. We also must consider the same incentive for multi-party transaction protocol authors, who may be incentivized to omit a cooperative leaf script to save 32 bytes off the witness of the non-cooperative script.\r\n\r\nAfter this change, P2MR's privacy profile is much more well aligned with that of P2TR: Every P2MR user must pay for at least two spending paths anyway, so it encourages everyone to make use of both of them if possible/applicable, whether for cooperative spending path or for a PQ leaf. We thus create ambiguity to on-chain observers: is this a cooperative spend of a multi-party protocol? or just a single-signer wallet with a sibling PQ leaf script?\r\n\r\nThanks to @EthanHeilman for his suggestion to make this change reversible through an auto-success path. The first version of this PR implemented a straight-up ban on depth-zero script trees.",
     "labels": [
       {
         "id": 275846070,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-06-13T15:30:53Z",
-    "updated_at": "2026-06-15T02:07:11Z",
+    "updated_at": "2026-06-15T14:56:36Z",
     "mergeable": true,
-    "mergeable_state": "clean",
+    "mergeable_state": "unstable",
     "merged": false,
-    "merge_commit_sha": "77962fd8902af64c8a405e7133419a495ecc274c",
+    "merge_commit_sha": "1613d53bae67402f1cb4b0ac3e30a42665e45448",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "conduition:360/depth-zero-ban",
       "ref": "360/depth-zero-ban",
-      "sha": "24e28ddc637767121aa9dfb95e3cdc4a945cef44",
+      "sha": "35ee070a9aef9d5da5d4e71657826d732885bd98",
       "user": {
         "login": "conduition",
         "id": 130806907,
@@ -187,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-06-13T15:28:04Z",
+        "pushed_at": "2026-06-15T14:49:30Z",
         "created_at": "2026-04-17T14:51:26Z",
         "updated_at": "2026-06-13T13:43:46Z",
         "allow_forking": true
@@ -293,7 +293,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5964,
+        "forks_count": 5963,
         "stargazers_count": 10806,
         "watchers_count": 10806,
         "size": 22188,
@@ -323,9 +323,9 @@
     "author_association": "CONTRIBUTOR",
     "draft": false,
     "additions": 27,
-    "deletions": 63,
-    "changed_files": 3,
-    "commits": 1,
+    "deletions": 11,
+    "changed_files": 1,
+    "commits": 2,
     "review_comments": 0,
     "comments": 4
   },
@@ -834,6 +834,143 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2198#issuecomment-4703918833",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2198"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDM1ZWUwNzBhOWFlZjlkNWRhNWQ0ZTcxNjU3ODI2ZDczMjg4NWJkOTg",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/35ee070a9aef9d5da5d4e71657826d732885bd98",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/35ee070a9aef9d5da5d4e71657826d732885bd98",
+      "tree": {
+        "sha": "bb095b69e7259c591df8594c41cf769a24b048f0",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/bb095b69e7259c591df8594c41cf769a24b048f0"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree bb095b69e7259c591df8594c41cf769a24b048f0\nparent 24e28ddc637767121aa9dfb95e3cdc4a945cef44\nauthor conduition <conduition@proton.me> 1781534960 +0000\ncommitter conduition <conduition@proton.me> 1781534960 +0000\n\ndepth zero trees should be anyone-can-spend\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niNUEABYKAH0WIQRHSJGtAjLay3YNd2t4KWzthPazxQUCajAQ8F8UgAAAAAAuAChp\nc3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0NDc0\nODkxQUQwMjMyREFDQjc2MEQ3NzZCNzgyOTZDRUQ4NEY2QjNDNQAKCRB4KWzthPaz\nxW3GAQCButP8vUZzzKswHKfQM7v4iFn9LH9y4L5uyRthMMHHRAEA2vRW8Sq0dv7s\nTPUdkFugv07TTqQDPsq0vwnyY5H4GQI=\n=OGYg\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/24e28ddc637767121aa9dfb95e3cdc4a945cef44",
+          "sha": "24e28ddc637767121aa9dfb95e3cdc4a945cef44",
+          "html_url": "https://github.com/bitcoin/bips/commit/24e28ddc637767121aa9dfb95e3cdc4a945cef44"
+        }
+      ],
+      "message": "depth zero trees should be anyone-can-spend",
+      "committer": {
+        "name": "conduition",
+        "email": "conduition@proton.me",
+        "date": "2026-06-15T14:49:20Z"
+      },
+      "author": {
+        "name": "conduition",
+        "email": "conduition@proton.me",
+        "date": "2026-06-15T14:49:20Z"
+      },
+      "sha": "35ee070a9aef9d5da5d4e71657826d732885bd98"
+    },
+    {
+      "event": "renamed",
+      "id": 26763500592,
+      "node_id": "RTE_lADOAN28mc8AAAABFYTRHM8AAAAGOzqcMA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/26763500592",
+      "actor": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-06-15T14:52:46Z",
+      "rename": {
+        "from": "bip360: disallow depth-zero script trees in P2MR",
+        "to": "bip360: depth-zero script trees should be anyone-can-spend"
+      }
+    },
+    {
+      "event": "mentioned",
+      "id": 26763695217,
+      "node_id": "MEE_lADOAN28mc8AAAABFYTRHM8AAAAGOz2UcQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/26763695217",
+      "actor": {
+        "login": "EthanHeilman",
+        "id": 274814,
+        "node_id": "MDQ6VXNlcjI3NDgxNA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/274814?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/EthanHeilman",
+        "html_url": "https://github.com/EthanHeilman",
+        "followers_url": "https://api.github.com/users/EthanHeilman/followers",
+        "following_url": "https://api.github.com/users/EthanHeilman/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/EthanHeilman/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/EthanHeilman/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/EthanHeilman/subscriptions",
+        "organizations_url": "https://api.github.com/users/EthanHeilman/orgs",
+        "repos_url": "https://api.github.com/users/EthanHeilman/repos",
+        "events_url": "https://api.github.com/users/EthanHeilman/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/EthanHeilman/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-06-15T14:56:56Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 26763695332,
+      "node_id": "SE_lADOAN28mc8AAAABFYTRHM8AAAAGOz2U5A",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/26763695332",
+      "actor": {
+        "login": "EthanHeilman",
+        "id": 274814,
+        "node_id": "MDQ6VXNlcjI3NDgxNA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/274814?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/EthanHeilman",
+        "html_url": "https://github.com/EthanHeilman",
+        "followers_url": "https://api.github.com/users/EthanHeilman/followers",
+        "following_url": "https://api.github.com/users/EthanHeilman/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/EthanHeilman/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/EthanHeilman/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/EthanHeilman/subscriptions",
+        "organizations_url": "https://api.github.com/users/EthanHeilman/orgs",
+        "repos_url": "https://api.github.com/users/EthanHeilman/repos",
+        "events_url": "https://api.github.com/users/EthanHeilman/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/EthanHeilman/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-06-15T14:56:56Z"
     }
   ],
   "comments": []
