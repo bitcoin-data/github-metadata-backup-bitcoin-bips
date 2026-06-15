@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "This PR changes the validation rules of BIP360 to ~prevent users from spending~ add an auto-success path for script trees of depth zero - those with a single leaf script. By doing so, we discourage use of depth-zero script trees: anyone who uses them will lose their money to miners.\r\n\r\nThis change is motivated by constructive critiques of P2MR which highlight the regressive use-cases which depth-zero script trees seem to incentivize.\r\n\r\nhttps://groups.google.com/g/bitcoindev/c/p8AVEmAtWdA\r\n\r\nSpecifically, depth-zero script trees disincentivize the use of a PQ script. With depth-zero script trees in play, users may have incentive to omit a PQ leaf script from their P2MR address to save 32 bytes of witness data when spending with Schnorr. We also must consider the same incentive for multi-party transaction protocol authors, who may be incentivized to omit a cooperative leaf script to save 32 bytes off the witness of the non-cooperative script.\r\n\r\nAfter this change, P2MR's privacy profile is much more well aligned with that of P2TR: Every P2MR user must pay for at least two spending paths anyway, so it encourages everyone to make use of both of them if possible/applicable, whether for cooperative spending path or for a PQ leaf. We thus create ambiguity to on-chain observers: is this a cooperative spend of a multi-party protocol? or just a single-signer wallet with a sibling PQ leaf script?\r\n\r\nThanks to @EthanHeilman for his suggestion to make this change reversible through an auto-success path. The first version of this PR implemented a straight-up ban on depth-zero script trees.",
+    "body": "This PR changes the validation rules of BIP360 to ~prevent users from spending~ add an auto-success path for script trees of depth zero - those with a single leaf script. By doing so, we discourage use of depth-zero script trees: anyone who uses them will lose their money to miners.\r\n\r\nThis change is motivated by constructive critiques of P2MR which highlight the regressive use-cases which depth-zero script trees seem to incentivize.\r\n\r\nhttps://groups.google.com/g/bitcoindev/c/p8AVEmAtWdA\r\n\r\nSpecifically, depth-zero script trees disincentivize the use of a PQ script. With depth-zero script trees in play, users may have incentive to omit a PQ leaf script from their P2MR address to save 32 bytes of witness data when spending with Schnorr. We also must consider the same incentive for multi-party transaction protocol authors, who may be incentivized to omit a cooperative leaf script to save 32 bytes off the witness of the non-cooperative script.\r\n\r\nAfter this change, P2MR's privacy profile is much more well aligned with that of P2TR: Every P2MR user must pay for at least two spending paths anyway, so it encourages everyone to make use of both of them if possible/applicable, whether for cooperative spending path or for a PQ leaf. We thus create ambiguity to on-chain observers: is this a cooperative spend of a multi-party protocol? or just a single-signer wallet with a sibling PQ leaf script?\r\n\r\nIf depth-zero script trees are anyone-can-spend, this still leaves it open to future use in a later soft-fork. For example, if we someday have enough confidence to deploy isogenies, we can use taproot-style key tweaking with isogenies to hide a commitment to a script tree inside an isogeny-based pubkey, and put that pubkey in the P2MR \"script\" stack element, allowing a kind of key-spending with isogenies with a hidden script tree fallback. Other options abound.\r\n\r\nThanks to @EthanHeilman for his suggestion to make this change reversible through an auto-success path. The first version of this PR implemented a straight-up ban on depth-zero script trees.",
     "labels": [
       {
         "id": 275846070,
@@ -62,9 +62,9 @@
       }
     ],
     "created_at": "2026-06-13T15:30:53Z",
-    "updated_at": "2026-06-15T14:56:36Z",
+    "updated_at": "2026-06-15T15:05:06Z",
     "mergeable": true,
-    "mergeable_state": "unstable",
+    "mergeable_state": "clean",
     "merged": false,
     "merge_commit_sha": "1613d53bae67402f1cb4b0ac3e30a42665e45448",
     "assignees": [],
@@ -174,7 +174,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22200,
+        "size": 22220,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -327,7 +327,7 @@
     "changed_files": 1,
     "commits": 2,
     "review_comments": 0,
-    "comments": 4
+    "comments": 5
   },
   "events": [
     {
@@ -971,6 +971,64 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-06-15T14:56:56Z"
+    },
+    {
+      "event": "commented",
+      "id": 4709319259,
+      "node_id": "IC_kwDOAN28mc8AAAABGLKCWw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/4709319259",
+      "actor": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-06-15T15:05:06Z",
+      "updated_at": "2026-06-15T15:05:06Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "I applied Ethan's idea to make depth-zero script trees an anyone-can-spend path and updated the PR description/title. Note the auto-success path occurs _after_ the P2MR commitment opening is validated (i.e. after validating $k_m = q$), so it cannot be gamed by a spender.\r\n\r\n> I like how this incentivizes privacy and the cost of an additional 32-bytes seems worth it\r\n\r\nSmall note on this: adding a minimum depth won't affect witness size for a majority of P2MR use-cases because almost everyone using P2MR will be doing so for quantum-security. I think the most common use-case this might affect would be addresses who want no standalone EC keys in their script tree at all, e.g. a pure PQC script, or an EC+PQC hybrid script. But for such use-cases, 32 bytes of extra witness data would be a relatively minor handicap due to the size of most PQ signatures.",
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2198#issuecomment-4709319259",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2198"
     }
   ],
   "comments": []

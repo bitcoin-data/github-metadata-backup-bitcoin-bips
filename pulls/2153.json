@@ -62,7 +62,7 @@
       }
     ],
     "created_at": "2026-05-07T13:42:05Z",
-    "updated_at": "2026-06-12T18:13:17Z",
+    "updated_at": "2026-06-15T15:57:38Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -293,12 +293,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5964,
-        "stargazers_count": 10805,
-        "watchers_count": 10805,
+        "forks_count": 5963,
+        "stargazers_count": 10806,
+        "watchers_count": 10806,
         "size": 22188,
         "default_branch": "master",
-        "open_issues_count": 38,
+        "open_issues_count": 39,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -311,7 +311,7 @@
         "visibility": "public",
         "pushed_at": "2026-06-11T14:11:18Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-06-12T13:55:25Z",
+        "updated_at": "2026-06-15T01:28:19Z",
         "allow_forking": true
       }
     },
@@ -327,7 +327,7 @@
     "changed_files": 3,
     "commits": 5,
     "review_comments": 0,
-    "comments": 6
+    "comments": 7
   },
   "events": [
     {
@@ -1729,6 +1729,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2153#issuecomment-4694018084",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2153"
+    },
+    {
+      "event": "commented",
+      "id": 4709786450,
+      "node_id": "IC_kwDOAN28mc8AAAABGLmjUg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/4709786450",
+      "actor": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-06-15T15:57:38Z",
+      "updated_at": "2026-06-15T15:57:38Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "I'm not convinced that the described scenario of potential BIP misinterpretation warrants a change in the reference implementation and/or test vectors. If anything, I'd prefer to clarify the grouping mechanism in text with a simple change. As stated earlier, the currently used (B_m, count) representation in the test vectors was introduced merely for a space-efficient encoding of .json file, and I wouldn't expect to find that being used in any real-world implementation (outside of tests). Looking at a few existing SP wallets/libraries and how they structure groups, it seems all of them represent the `B_m` values in the groups dictionary as _lists_ rather than sets:\r\n\r\n* SparrowWallet (Drongo): `Map<ECKey, List<SilentPayment>> scanKeyGroups` [1]\r\n* SPDK: `silent_payment_groups: HashMap<PublicKey, (SharedSecret, Vec<SilentPaymentAddress>)` [2]\r\n* BlueWallet: `type SilentPaymentGroup = { Bscan: Uint8Array; BmValues: Array<[Uint8Array, number | undefined, number]>; };` [3] (note that the number denotes an index, not a counter)\r\n\r\nThis indicates that, at least in those implementations, repeated addresses within a group are not treated any differently, i.e. duplicates are fine. Under that interpretation, the current \"if any of the grouping sizes exceed K_max, fail\" check should already be sufficient to achieve the following \"number of outputs for a B_scan\" check:\r\n\r\n> it would be very nice to clarify in the BIP the true nature of k_max, and that the really important check would be the one in the number of outputs for a B_scan\r\n\r\nI might still miss something though, happy to hear other opinions. \r\n\r\n[1] https://github.com/sparrowwallet/drongo/blob/077d2142cc3aad84f6f58868cf8f17fc61027fdc/src/main/java/com/sparrowwallet/drongo/silentpayments/SilentPaymentUtils.java#L279\r\n[2] https://github.com/cygnet3/spdk/blob/8394a0cfa08d974f7aed1a1112a3d4caee6e63c0/silentpayments/src/sending.rs#L49\r\n[3] https://github.com/BlueWallet/SilentPayments/blob/37addd49b919281e0dc0eb40d0af46ecf9ef26fd/src/index.ts#L30",
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2153#issuecomment-4709786450",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2153"
     }
   ],
