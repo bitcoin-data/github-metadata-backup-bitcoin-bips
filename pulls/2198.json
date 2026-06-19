@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2198/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2198/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/64b0b326e305671c4d18d4f77cc790d921c7eec3",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/81ca40ee8ef0f60db2861074c7d64171a81a1aed",
     "number": 2198,
     "state": "open",
     "locked": false,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "This PR changes the validation rules of BIP360 to ~prevent users from spending~ add an auto-success path for script trees of depth zero - those with a single leaf script. By doing so, we discourage use of depth-zero script trees: anyone who uses them will lose their money to miners.\r\n\r\nThis change is motivated by constructive critiques of P2MR which highlight the regressive use-cases which depth-zero script trees seem to incentivize.\r\n\r\nhttps://groups.google.com/g/bitcoindev/c/p8AVEmAtWdA\r\n\r\nSpecifically, depth-zero script trees disincentivize the use of a PQ script. With depth-zero script trees in play, users may have incentive to omit a PQ leaf script from their P2MR address to save 32 bytes of witness data when spending with Schnorr. We also must consider the same incentive for multi-party transaction protocol authors, who may be incentivized to omit a cooperative leaf script to save 32 bytes off the witness of the non-cooperative script.\r\n\r\nAfter this change, P2MR's privacy profile is much more well aligned with that of P2TR: Every P2MR user must pay for at least two spending paths anyway, so it encourages everyone to make use of both of them if possible/applicable, whether for cooperative spending path or for a PQ leaf. We thus create ambiguity to on-chain observers: is this a cooperative spend of a multi-party protocol? or just a single-signer wallet with a sibling PQ leaf script?\r\n\r\nIf depth-zero script trees are anyone-can-spend, this still leaves it open to future use in a later soft-fork. For example, if we someday have enough confidence to deploy isogenies, we can use taproot-style key tweaking with isogenies to hide a commitment to a script tree inside an isogeny-based pubkey, and put that pubkey in the P2MR \"script\" stack element, allowing a kind of key-spending with isogenies with a hidden script tree fallback. Other options abound.\r\n\r\nThanks to @EthanHeilman for his suggestion to make this change reversible through an auto-success path. The first version of this PR implemented a straight-up ban on depth-zero script trees.",
+    "body": "This PR changes the validation rules of BIP360 to ~prevent users from spending~ add an auto-success path for script trees of depth zero - those with a single leaf script. By doing so, we discourage use of depth-zero script trees: anyone who uses them will lose their money to miners.\r\n\r\nThis change is motivated by constructive critiques of P2MR which highlight the regressive use-cases that depth-zero script trees seem to incentivize.\r\n\r\nhttps://groups.google.com/g/bitcoindev/c/p8AVEmAtWdA\r\n\r\nSpecifically, depth-zero script trees disincentivize the use of a PQ script. With depth-zero script trees in play, users may have incentive to omit a PQ leaf script from their P2MR address to save 32 bytes of witness data when spending with Schnorr. We also must consider the same incentive for multi-party transaction protocol authors, who may be incentivized to omit a cooperative leaf script to save 32 bytes off the witness of the non-cooperative script.\r\n\r\nAfter this change, P2MR's privacy profile is much more well aligned with that of P2TR: Every P2MR user must pay for at least two spending paths anyway, so it encourages everyone to make use of both of them if possible/applicable, whether for cooperative spending path or for a PQ leaf. We thus create ambiguity to on-chain observers: is this a cooperative spend of a multi-party protocol? or just a single-signer wallet with a sibling PQ leaf script?\r\n\r\nIf depth-zero script trees are anyone-can-spend, this still leaves it open to future use in a later soft-fork. For example, if we someday have enough confidence to deploy isogenies, we can use taproot-style key tweaking with isogenies to hide a commitment to a script tree inside an isogeny-based pubkey, and put that pubkey in the P2MR \"script\" stack element, allowing a kind of key-spending with isogenies with a hidden script tree fallback. Other options abound.\r\n\r\nThanks to @EthanHeilman for his suggestion to make this change reversible through an auto-success path. The first version of this PR implemented a straight-up ban on depth-zero script trees.",
     "labels": [
       {
         "id": 275846070,
@@ -53,11 +53,11 @@
       }
     ],
     "created_at": "2026-06-13T15:30:53Z",
-    "updated_at": "2026-06-18T22:06:07Z",
+    "updated_at": "2026-06-19T00:09:51Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "c18b7b67381674f0749676f104137f20eb64fd89",
+    "merge_commit_sha": "df7725b9869c888896ef580db43ad0441bd2323e",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -65,7 +65,7 @@
     "head": {
       "label": "conduition:360/depth-zero-ban",
       "ref": "360/depth-zero-ban",
-      "sha": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
+      "sha": "81ca40ee8ef0f60db2861074c7d64171a81a1aed",
       "user": {
         "login": "conduition",
         "id": 130806907,
@@ -178,7 +178,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-06-18T21:35:05Z",
+        "pushed_at": "2026-06-19T00:09:04Z",
         "created_at": "2026-04-17T14:51:26Z",
         "updated_at": "2026-06-13T13:43:46Z",
         "allow_forking": true
@@ -313,12 +313,12 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 27,
-    "deletions": 11,
+    "additions": 29,
+    "deletions": 12,
     "changed_files": 1,
-    "commits": 3,
+    "commits": 4,
     "review_comments": 7,
-    "comments": 6
+    "comments": 7
   },
   "events": [
     {
@@ -1268,6 +1268,104 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2198#issuecomment-4746489826",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2198"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDgxY2E0MGVlOGVmMGY2MGRiMjg2MTA3NGM3ZDY0MTcxYTgxYTFhZWQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/81ca40ee8ef0f60db2861074c7d64171a81a1aed",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/81ca40ee8ef0f60db2861074c7d64171a81a1aed",
+      "tree": {
+        "sha": "5465975650d816083f2c234400ccd9343faf869d",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/5465975650d816083f2c234400ccd9343faf869d"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 5465975650d816083f2c234400ccd9343faf869d\nparent 64b0b326e305671c4d18d4f77cc790d921c7eec3\nauthor conduition <conduition@proton.me> 1781827700 +0000\ncommitter conduition <conduition@proton.me> 1781827735 +0000\n\nupdate BIP360 changelog and version to 0.12.0\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niNUEABYKAH0WIQRHSJGtAjLay3YNd2t4KWzthPazxQUCajSIl18UgAAAAAAuAChp\nc3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0NDc0\nODkxQUQwMjMyREFDQjc2MEQ3NzZCNzgyOTZDRUQ4NEY2QjNDNQAKCRB4KWzthPaz\nxcRfAQDBYNC4jHNPVnCYHhQQDsvTrpbL8AhKdG6/LGK/jGcgGQEAsvbUygm+NMka\nufOvIWHvg7giXh4TtYB/MasIpWwqTgM=\n=Juma\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/64b0b326e305671c4d18d4f77cc790d921c7eec3",
+          "sha": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
+          "html_url": "https://github.com/bitcoin/bips/commit/64b0b326e305671c4d18d4f77cc790d921c7eec3"
+        }
+      ],
+      "message": "update BIP360 changelog and version to 0.12.0",
+      "committer": {
+        "name": "conduition",
+        "email": "conduition@proton.me",
+        "date": "2026-06-19T00:08:55Z"
+      },
+      "author": {
+        "name": "conduition",
+        "email": "conduition@proton.me",
+        "date": "2026-06-19T00:08:20Z"
+      },
+      "sha": "81ca40ee8ef0f60db2861074c7d64171a81a1aed"
+    },
+    {
+      "event": "commented",
+      "id": 4747138147,
+      "node_id": "IC_kwDOAN28mc8AAAABGvOUYw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/4747138147",
+      "actor": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-06-19T00:09:09Z",
+      "updated_at": "2026-06-19T00:09:09Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "oh thanks, forgot that. Now done.",
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2198#issuecomment-4747138147",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2198"
     }
   ],
   "comments": [
@@ -1386,9 +1484,9 @@
       "node_id": "PRRC_kwDOAN28mc7M_EAj",
       "diff_hunk": "@@ -234,13 +249,15 @@ A P2MR output is a native SegWit output (see [[bip-0141.mediawiki|BIP 141]]) wit\n **** If ''k<sub>j</sub> &ge; e<sub>j</sub>'': ''k<sub>j+1</sub> = hash<sub>TapBranch</sub>(e<sub>j</sub> || k<sub>j</sub>)''.\n ** Let ''r = k<sub>m</sub>''.\n ** If ''q &ne; r'', fail.\n+** If ''m = 0'', succeed immediately.",
       "path": "bip-0360.mediawiki",
-      "position": 53,
+      "position": 62,
       "original_position": 53,
-      "commit_id": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
+      "commit_id": "81ca40ee8ef0f60db2861074c7d64171a81a1aed",
       "original_commit_id": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
       "in_reply_to_id": null,
       "user": {
@@ -1440,9 +1538,9 @@
       "node_id": "PRRC_kwDOAN28mc7M_F8O",
       "diff_hunk": "@@ -234,13 +249,15 @@ A P2MR output is a native SegWit output (see [[bip-0141.mediawiki|BIP 141]]) wit\n **** If ''k<sub>j</sub> &ge; e<sub>j</sub>'': ''k<sub>j+1</sub> = hash<sub>TapBranch</sub>(e<sub>j</sub> || k<sub>j</sub>)''.\n ** Let ''r = k<sub>m</sub>''.\n ** If ''q &ne; r'', fail.\n+** If ''m = 0'', succeed immediately.",
       "path": "bip-0360.mediawiki",
-      "position": 53,
+      "position": 62,
       "original_position": 53,
-      "commit_id": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
+      "commit_id": "81ca40ee8ef0f60db2861074c7d64171a81a1aed",
       "original_commit_id": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
       "in_reply_to_id": 3439083555,
       "user": {
@@ -1494,9 +1592,9 @@
       "node_id": "PRRC_kwDOAN28mc7M_HCF",
       "diff_hunk": "@@ -234,13 +249,15 @@ A P2MR output is a native SegWit output (see [[bip-0141.mediawiki|BIP 141]]) wit\n **** If ''k<sub>j</sub> &ge; e<sub>j</sub>'': ''k<sub>j+1</sub> = hash<sub>TapBranch</sub>(e<sub>j</sub> || k<sub>j</sub>)''.\n ** Let ''r = k<sub>m</sub>''.\n ** If ''q &ne; r'', fail.\n+** If ''m = 0'', succeed immediately.",
       "path": "bip-0360.mediawiki",
-      "position": 53,
+      "position": 62,
       "original_position": 53,
-      "commit_id": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
+      "commit_id": "81ca40ee8ef0f60db2861074c7d64171a81a1aed",
       "original_commit_id": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
       "in_reply_to_id": 3439083555,
       "user": {
@@ -1548,9 +1646,9 @@
       "node_id": "PRRC_kwDOAN28mc7M_ING",
       "diff_hunk": "@@ -234,13 +249,15 @@ A P2MR output is a native SegWit output (see [[bip-0141.mediawiki|BIP 141]]) wit\n **** If ''k<sub>j</sub> &ge; e<sub>j</sub>'': ''k<sub>j+1</sub> = hash<sub>TapBranch</sub>(e<sub>j</sub> || k<sub>j</sub>)''.\n ** Let ''r = k<sub>m</sub>''.\n ** If ''q &ne; r'', fail.\n+** If ''m = 0'', succeed immediately.",
       "path": "bip-0360.mediawiki",
-      "position": 53,
+      "position": 62,
       "original_position": 53,
-      "commit_id": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
+      "commit_id": "81ca40ee8ef0f60db2861074c7d64171a81a1aed",
       "original_commit_id": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
       "in_reply_to_id": 3439083555,
       "user": {
@@ -1602,9 +1700,9 @@
       "node_id": "PRRC_kwDOAN28mc7M_O24",
       "diff_hunk": "@@ -234,13 +249,15 @@ A P2MR output is a native SegWit output (see [[bip-0141.mediawiki|BIP 141]]) wit\n **** If ''k<sub>j</sub> &ge; e<sub>j</sub>'': ''k<sub>j+1</sub> = hash<sub>TapBranch</sub>(e<sub>j</sub> || k<sub>j</sub>)''.\n ** Let ''r = k<sub>m</sub>''.\n ** If ''q &ne; r'', fail.\n+** If ''m = 0'', succeed immediately.",
       "path": "bip-0360.mediawiki",
-      "position": 53,
+      "position": 62,
       "original_position": 53,
-      "commit_id": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
+      "commit_id": "81ca40ee8ef0f60db2861074c7d64171a81a1aed",
       "original_commit_id": "64b0b326e305671c4d18d4f77cc790d921c7eec3",
       "in_reply_to_id": 3439083555,
       "user": {
