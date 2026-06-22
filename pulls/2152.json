@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-05-06T12:00:18Z",
-    "updated_at": "2026-06-22T08:56:21Z",
+    "updated_at": "2026-06-22T09:44:02Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -173,7 +173,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 21977,
+        "size": 21974,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -325,7 +325,7 @@
     "deletions": 0,
     "changed_files": 6,
     "commits": 3,
-    "review_comments": 25,
+    "review_comments": 26,
     "comments": 6
   },
   "events": [
@@ -2883,6 +2883,60 @@
       "start_side": null,
       "line": null,
       "original_line": 21,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3451212431",
+      "pull_request_review_id": 4542851384,
+      "id": 3451212431,
+      "node_id": "PRRC_kwDOAN28mc7NtVKP",
+      "diff_hunk": "@@ -0,0 +1,171 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: Peer sharing of block spent coins\n+  Authors: Robert Netzke <bips@2140.dev>\n+  Deputies: Ruben Somsen <bips@2140.dev>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Discussion: https://groups.google.com/g/bitcoindev/c/FpSWUxItXQs/m/pnfjP6rFCgAJ\n+```\n+\n+## Abstract\n+\n+Inputs of a Bitcoin block are referenced by the outpoint data structure. This poses a limitation during initial block download (IBD), such that a client must process blocks sequentially to validate the chain history. The SwiftSync protocol allows blocks to be evaluated in arbitrary order, however additional data is required that must be served over the peer-to-peer network. Namely, the creation height, coinbase flag, input script, and amount for each spent coin must be accessible to fully validate a block in a state-less manner. This document describes how to share this additional data over the peer to peer network.\n+## Motivation\n+\n+A current limitation of IBD is that it must be done sequentially. This is a result of the height, coinbase flag, input script, and amount of the block inputs being omitted from the data committed to by proof of work in the current block, and, thus, this data cannot be trusted if received over the wire naively. Using the SwiftSync protocol, a client is able to verify the correctness of this data, even if served by a potentially untrusted party. This allows a significant improvement in IBD performance, as block downloads may be done in parallel.\n+## Specification\n+\n+In Bitcoin Core, to roll-back the chain state in the event of a block reorganization, the height, coinbase flag, script and amount metadata for each input of a block are stored in a data structure known colloquially as \"undo data\". This terminology stems from its use to \"undo\" the effect of a block by repopulating the UTXO set with the coins that were spent by the reorganized block. To remain general in language, this data will be referred as \"spent coins.\"\n+\n+Bitcoin Core full archival nodes store spent coins for all blocks. This is useful in the context of SwiftSync, as no additional index must be created or maintained to serve this data to peers. There are, however, some discrepancies between how this data is serialized on disk in Bitcoin Core and how this proposal seeks to serialize this data over the peer-to-peer protocol, which are detailed in the rationale section.\n+\n+This section defines how to request and serve block spent coins over the peer-to-peer protocol, as well as signaling support of this feature to peers.\n+### Definitions\n+\n+- `[]byte`: arbitrary sequence of bytes with no fixed length\n+- `<N bytes>`: byte vector of size N, where N is specified inline (e.g. <32 bytes>)\n+- `vector<Foo>`: vector of arbitrary length of elements of type Foo\n+- `CompactSize`: encoding of unsigned integers defined in peer-to-peer messages\n+- `CompressAmount`: compression function for integer amounts, as defined in the Function Appendix section\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHALL\", \"SHALL NOT\", \"SHOULD\", \"SHOULD NOT\", \"RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document are to be interpreted as described in RFC 2119.\n+### Data structures\n+#### Height Code\n+\n+The height and coinbase flag are encoded as a 32 bit integer. To encode the height and flag, binary left shift the height one bit, treat the coinbase flag as a bit, insert it into the newly opened bit position. To decode the height, binary right shift the code. To decode the coinbase flag, mask the first bit position of the header code and interpret the bit as a boolean.\n+\n+Take, for example, a height with binary encoding `0010 0111`. To encode a coinbase output at this height, one begins with a left shift: `0100 1110`, and places the coinbase flag in the least significant bit: `0100 1111`.\n+\n+#### Reconstructable Script Format\n+\n+Scripts are serialized in this format by concatenating the `Prefix` and `Format` fields specified below.\n+\n+| Prefix | Script   | Format                                | Expansion                                                    |\n+| :------ | :-------- | :------------------------------------- | :------------------------------------------------------------ |\n+| `0x00` | Unknown  | `CompactSize(Len([]bytes)) + []bytes` | `[]bytes`                                                    |\n+| `0x01` | `P2PKH`  | `<20 bytes>`                          | `OP_DUP OP_HASH160 20 <20 bytes> OP_EQUALVERIFY OP_CHECKSIG` |\n+| `0x02` | `P2PK`   | `<32 byte 0x02 parity public key>`    | `33 0x02 <32 byte public key> OP_CHECKSIG`                   |\n+| `0x03` | `P2PK`   | `<32 byte 0x03 parity public key>`    | `33 0x03 <32 byte public key> OP_CHECKSIG`                   |\n+| `0x04` | `P2PK`   | `<64 byte public key>`                | `65 0x04 <64 byte public key> OP_CHECKSIG`                   |\n+| `0x05` | `P2SH`   | `<20 bytes>`                          | `OP_HASH160 20 <20 bytes> OP_EQUAL`                          |\n+| `0x06` | `P2WSH`  | `<32 bytes>`                          | `OP_0 32 <32 bytes>`                                         |\n+| `0x07` | `P2WPKH` | `<20 bytes>`                          | `OP_0 20 <20 bytes>`                                         |\n+| `0x08` | `P2TR`   | `<32 byte X-only public key>`         | `OP_1 32 <32 bytes>`                                         |\n+\n+#### Amount Format\n+\n+The 64 bit unsigned integers representing amounts are compressed by first using the `CompressAmount` function defined below, and serializing the result with `CompactSize`.\n+#### Coin\n+\n+| Field                    | Type                          | Serialization | Description                                                                                                       |\n+| :----------------------- | :---------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------- |\n+| Input index              | 32 bit unsigned integer       | Little endian | The index in the block inputs for which this coin corresponds. The coinbase inputs are _excluded_ from this index |\n+| Height and coinbase flag | Height code                   | Defined above |                                                                                                                   |\n+| Script                   | Reconstructable script format | Defined above |                                                                                                                   |\n+| Amount                   | 64 bit unsigned integer       | Defined above | Satoshi denominated value                                                                                         |\n+### Messages\n+\n+#### MSG_GET_SPENT_COINS",
+      "path": "bip-xxxx-block-undo.md",
+      "position": 103,
+      "original_position": 72,
+      "commit_id": "e5ec57861375f00980b6793accee9464e52d03ce",
+      "original_commit_id": "f4cd99ae054769ce2eb67c858858cbc11a64cd3a",
+      "in_reply_to_id": 3291908875,
+      "user": {
+        "login": "rustaceanrob",
+        "id": 102320249,
+        "node_id": "U_kgDOBhlIeQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/102320249?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/rustaceanrob",
+        "html_url": "https://github.com/rustaceanrob",
+        "followers_url": "https://api.github.com/users/rustaceanrob/followers",
+        "following_url": "https://api.github.com/users/rustaceanrob/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/rustaceanrob/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/rustaceanrob/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/rustaceanrob/subscriptions",
+        "organizations_url": "https://api.github.com/users/rustaceanrob/orgs",
+        "repos_url": "https://api.github.com/users/rustaceanrob/repos",
+        "events_url": "https://api.github.com/users/rustaceanrob/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/rustaceanrob/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "We've found that bandwidth thoroughput is the limiting factor when downloading blocks in parallel. Not all spent coins have to be downloaded if a client keeps a cache, as this document describes. In the batched variant, the cache is not possible and the bandwidth requirement increases significantly.",
+      "created_at": "2026-06-22T09:44:02Z",
+      "updated_at": "2026-06-22T09:44:02Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2152#discussion_r3451212431",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3451212431"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2152"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 103,
+      "original_line": 72,
       "side": "RIGHT"
     }
   ]
