@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-06-10T11:47:35Z",
-    "updated_at": "2026-06-24T18:35:28Z",
+    "updated_at": "2026-06-24T19:38:35Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -284,8 +284,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5961,
-        "stargazers_count": 10824,
-        "watchers_count": 10824,
+        "stargazers_count": 10823,
+        "watchers_count": 10823,
         "size": 22199,
         "default_branch": "master",
         "open_issues_count": 39,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-06-19T19:13:55Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-06-24T16:45:06Z",
+        "updated_at": "2026-06-24T19:46:23Z",
         "allow_forking": true
       }
     },
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 59,
+    "review_comments": 60,
     "comments": 0
   },
   "events": [
@@ -714,6 +714,44 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2196#pullrequestreview-4564821106",
       "submitted_at": "2026-06-24T18:35:27Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2196"
+    },
+    {
+      "event": "reviewed",
+      "id": 4565332054,
+      "node_id": "PRR_kwDOAN28mc8AAAABEB1wVg",
+      "url": null,
+      "actor": null,
+      "commit_id": "643ec30ef2af54a0db97295fc103142249821b8f",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-06-24T19:38:35Z",
+      "author_association": "NONE",
+      "user": {
+        "login": "average-gary",
+        "id": 165834679,
+        "node_id": "U_kgDOCeJvtw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/165834679?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/average-gary",
+        "html_url": "https://github.com/average-gary",
+        "followers_url": "https://api.github.com/users/average-gary/followers",
+        "following_url": "https://api.github.com/users/average-gary/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/average-gary/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/average-gary/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/average-gary/subscriptions",
+        "organizations_url": "https://api.github.com/users/average-gary/orgs",
+        "repos_url": "https://api.github.com/users/average-gary/repos",
+        "events_url": "https://api.github.com/users/average-gary/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/average-gary/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2196#pullrequestreview-4565332054",
+      "submitted_at": "2026-06-24T19:38:35Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2196"
     }
@@ -3903,6 +3941,60 @@
       "start_side": null,
       "line": 150,
       "original_line": 150,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3469773721",
+      "pull_request_review_id": 4565332054,
+      "id": 3469773721,
+      "node_id": "PRRC_kwDOAN28mc7O0IuZ",
+      "diff_hunk": "@@ -0,0 +1,181 @@\n+```\n+  BIP: 95\n+  Layer: Applications\n+  Title: Testnet 5\n+  Authors: Pol Espinasa <polespinasa@protonmail.com>\n+           Fabian Jahr <fjahr@protonmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2026-06-22\n+  License: CC0-1.0\n+  Discussion: 2026-06-02: https://groups.google.com/g/bitcoindev/c/kGUMTxOvdJA\n+  Version: 0.1.0\n+  Requires: 54\n+  Replaces: 94\n+```\n+\n+## Abstract\n+\n+Testnet 5 is a new test network intended to replace [Testnet 4][BIP94]. Testnet 5 removes the difficulty\n+exception defined in Testnet 4. Sustained exploitation of this exception has made the network difficult\n+to use for testing. Additionally, Testnet 5 raises the minimum difficulty and enforces the consensus\n+rules specified in BIP 54 from block 1.\n+\n+## Motivation\n+\n+Testnet 4 included mitigations for an issue known as the [block storm attack][block-storms] which could render the\n+whole network unusable. Block storm attacks led to a depletion of block subsidies, which made it hard to acquire\n+coins for testing. However, Testnet 4 still retained a modified version of the difficulty exception rule.\n+The difficulty exception permits a block to be mined at the minimum difficulty when more than 20 minutes\n+have passed since the previous block. Testnet 4 kept this exception with the aim of allowing CPU users a\n+limited path to acquire coins for testing, to mine non-standard transactions that other miners would not\n+relay, and to keep the chain moving if a large source of hash power were to leave the network. Shortly\n+after Testnet 4's introduction, the exception has been systematically and persistently exploited, which\n+prevented the exception from achieving the intended\n+goals. While block storms were prevented, the network suffers from constant re-orgs of small\n+numbers of blocks due to multiple difficulty-exception blocks competing for the tip. This led\n+to discussion about changing Testnet 4 to mitigate this issue (see [Bitcointalk][bitcointalk-thread]\n+for analysis and discussion).\n+\n+In Testnet 5 there is no exception to the PoW rules. This appears to be the logical conclusion,\n+since any such exception could be exploited by a motivated attacker. This\n+ensures the network’s behavior matches mainnet as closely as possible.\n+\n+BIP 54 is already enforced on signet through [Bitcoin Inquisition][signet-bip54] as of this BIP's creation.\n+However, signet does not allow miners to test that their software reliably follows the rules of\n+BIP 54. Testnet 5 provides a testing environment for this.\n+\n+## Specification\n+\n+Testnet 5 follows the same consensus rules as mainnet with the following two changes.\n+\n+### BIP 54 activation\n+\n+The rules specified in [BIP 54 version 1.0.0][BIP54] are active on Testnet 5 from block 1.",
+      "path": "bip-0095.md",
+      "position": 54,
+      "original_position": 54,
+      "commit_id": "643ec30ef2af54a0db97295fc103142249821b8f",
+      "original_commit_id": "643ec30ef2af54a0db97295fc103142249821b8f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "average-gary",
+        "id": 165834679,
+        "node_id": "U_kgDOCeJvtw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/165834679?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/average-gary",
+        "html_url": "https://github.com/average-gary",
+        "followers_url": "https://api.github.com/users/average-gary/followers",
+        "following_url": "https://api.github.com/users/average-gary/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/average-gary/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/average-gary/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/average-gary/subscriptions",
+        "organizations_url": "https://api.github.com/users/average-gary/orgs",
+        "repos_url": "https://api.github.com/users/average-gary/repos",
+        "events_url": "https://api.github.com/users/average-gary/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/average-gary/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Should the link to BIP54 be present on the first mention of the BIP (Line 22 under Abstract)?",
+      "created_at": "2026-06-24T19:38:35Z",
+      "updated_at": "2026-06-24T19:38:35Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2196#discussion_r3469773721",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3469773721"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2196"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 54,
+      "original_line": 54,
       "side": "RIGHT"
     }
   ]
