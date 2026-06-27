@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2202/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2202/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/94b0f9db4cf39defd7d57fd6fa131776cd579993",
     "number": 2202,
     "state": "open",
     "locked": false,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-06-26T19:23:47Z",
-    "updated_at": "2026-06-27T04:45:19Z",
+    "updated_at": "2026-06-27T05:19:05Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "54a8c2128f9c594fae36f9e9742a5adb2e033b55",
+    "merge_commit_sha": "9141e999de77ee9d38a119c1542077d6d4d7b4dd",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "notmike-5:p2mr",
       "ref": "p2mr",
-      "sha": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+      "sha": "94b0f9db4cf39defd7d57fd6fa131776cd579993",
       "user": {
         "login": "notmike-5",
         "id": 16808272,
@@ -187,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-06-27T02:08:26Z",
+        "pushed_at": "2026-06-27T05:06:53Z",
         "created_at": "2025-07-12T05:23:20Z",
         "updated_at": "2026-06-26T19:17:30Z",
         "allow_forking": true
@@ -322,11 +322,11 @@
     },
     "author_association": "NONE",
     "draft": false,
-    "additions": 540,
+    "additions": 542,
     "deletions": 97,
     "changed_files": 5,
-    "commits": 14,
-    "review_comments": 13,
+    "commits": 15,
+    "review_comments": 16,
     "comments": 0
   },
   "events": [
@@ -1203,6 +1203,46 @@
       "submitted_at": "2026-06-27T04:45:19Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDk0YjBmOWRiNGNmMzlkZWZkN2Q1N2ZkNmZhMTMxNzc2Y2Q1Nzk5OTM",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/94b0f9db4cf39defd7d57fd6fa131776cd579993",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/94b0f9db4cf39defd7d57fd6fa131776cd579993",
+      "tree": {
+        "sha": "e9b5c16e7203d3458fdbd73c61556cbbb2ae4197",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/e9b5c16e7203d3458fdbd73c61556cbbb2ae4197"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+          "sha": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+          "html_url": "https://github.com/bitcoin/bips/commit/64d068e9d101e631019e9aa95e1e0eb7cce832d9"
+        }
+      ],
+      "message": "bip360: consistency changes to p2mr core functions\n\nStandardizes all P2MR-specific functions to use bytes uniformly for\ninput/output. Hex conversions are now confined to two boundaries:\nreading `script` field out of ScriptTree input, and comparing against\nhex-encoded test vector data in `run_single_test`.\n\nbech32 functions and s2w are left unchanged.",
+      "committer": {
+        "name": "notmike",
+        "email": "notmike-5@users.noreply.github.com",
+        "date": "2026-06-27T05:03:50Z"
+      },
+      "author": {
+        "name": "notmike",
+        "email": "notmike-5@users.noreply.github.com",
+        "date": "2026-06-27T05:03:50Z"
+      },
+      "sha": "94b0f9db4cf39defd7d57fd6fa131776cd579993"
     }
   ],
   "comments": [
@@ -1269,7 +1309,7 @@
       "path": "bip-0360/ref-impl/python/p2mr.py",
       "position": 46,
       "original_position": 46,
-      "commit_id": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+      "commit_id": "94b0f9db4cf39defd7d57fd6fa131776cd579993",
       "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
       "in_reply_to_id": null,
       "user": {
@@ -1321,9 +1361,9 @@
       "node_id": "PRRC_kwDOAN28mc7Pskl9",
       "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:\n+    \"\"\"Recursively collect leaf hashes in order (for verification)\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return [tapleaf_hash(script=script, tapleaf_ver=version)]\n+\n+    elif isinstance(tree, list):  # Branch: recurse on children\n+        hashes: List[str] = []\n+        for sub in tree:\n+            hashes.extend(collect_leaf_hashes(sub))\n+        return hashes\n+\n+    else:\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_merkle_root(tree: ScriptTree) -> str:\n+    \"\"\"Recursively compute script tree merkle root\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return tapleaf_hash(script=script, tapleaf_ver=version)\n+\n+    elif isinstance(tree, list):  # Branch\n+        # Script trees are treated as strictly binary trees; each branch node should have\n+        # exactly 2 children. This isn't a general n-ary fold, and combining\n+        # more than 2 children sequentially would not produce a valid\n+        # P2MR merkle root. It would also break here on a type mismatch.\n+        # `tapbranch_hash` returns bytes, not the hex str this loop expects.\n+        assert len(tree) == 2, f\"expected binary branch, got {len(tree)} children\"\n+        left, right = compute_merkle_root(tree[0]), compute_merkle_root(tree[1])\n+        return tapbranch_hash(left, right).hex()\n+\n+    else:  # badbadnotgood\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_control_block(\n+    leaf: Dict[str, Any], tree: ScriptTree, path: Optional[List[str]] = None\n+) -> Optional[str]:\n+    \"\"\"Compute the control block for a given leaf in a given tree\"\"\"\n+    if path is None:\n+        path = []\n+\n+    if isinstance(tree, dict):\n+        if tree == leaf:\n+            version_byte = (leaf[\"leafVersion\"] | 1) & 0xFF\n+            return f\"{version_byte:02x}\" + \"\".join(path)\n+\n+        return None\n+\n+    if isinstance(tree, list):\n+        for i, child in enumerate(tree):\n+            # build a list of sibling roots at this level\n+            siblings: List[str] = []\n+            for j, sib in enumerate(tree):\n+                if j != i:\n+                    siblings.append(compute_merkle_root(sib))\n+            # try this child; if it (or a descendant) matches, we get a result\n+            result = compute_control_block(leaf, child, siblings + path)\n+            if result:\n+                return result\n+\n+    return None\n+\n+\n+def collect_control_blocks(script_tree: ScriptTree) -> List[str]:\n+    \"\"\"Return control blocks for all leaves in tree declaration order.\n+    Note: This ordering is for testing purposes. In practice, you would\n+    compute the control block for a specific leaf at spend-time using\n+    `compute_control_block(leaf, tree)`.\"\"\"\n+    leaf_nodes: List[Dict[str, Any]] = []\n+    stack = [script_tree]\n+    while stack:\n+        node = stack.pop()\n+        if isinstance(node, dict):\n+            leaf_nodes.append(node)\n+        elif isinstance(node, list):\n+            stack.extend(reversed(node))\n+\n+    return [\n+        cb for leaf in leaf_nodes if (cb := compute_control_block(leaf, script_tree))\n+    ]\n+\n+\n+#\n+# Bech32/Bech32m Encoding\n+#\n+# Bech32 encoding code is taken from sipa (BIP-0350), and has been tested against the test vectors therein:\n+# https://github.com/sipa/bech32/blob/master/ref/python/tests.py",
       "path": "bip-0360/ref-impl/python/p2mr.py",
-      "position": 142,
+      "position": 140,
       "original_position": 185,
-      "commit_id": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+      "commit_id": "94b0f9db4cf39defd7d57fd6fa131776cd579993",
       "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
       "in_reply_to_id": null,
       "user": {
@@ -1361,10 +1401,10 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
         }
       },
-      "start_line": 141,
+      "start_line": 139,
       "original_start_line": 184,
       "start_side": "RIGHT",
-      "line": 142,
+      "line": 140,
       "original_line": 185,
       "side": "RIGHT"
     },
@@ -1375,7 +1415,7 @@
       "node_id": "PRRC_kwDOAN28mc7Psopj",
       "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:\n+    \"\"\"Recursively collect leaf hashes in order (for verification)\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return [tapleaf_hash(script=script, tapleaf_ver=version)]\n+\n+    elif isinstance(tree, list):  # Branch: recurse on children\n+        hashes: List[str] = []\n+        for sub in tree:\n+            hashes.extend(collect_leaf_hashes(sub))\n+        return hashes\n+\n+    else:\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_merkle_root(tree: ScriptTree) -> str:\n+    \"\"\"Recursively compute script tree merkle root\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"",
       "path": "bip-0360/ref-impl/python/p2mr.py",
-      "position": 94,
+      "position": 1,
       "original_position": 115,
       "commit_id": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
       "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
@@ -1418,7 +1458,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 94,
+      "line": null,
       "original_line": 115,
       "side": "RIGHT"
     },
@@ -1537,7 +1577,7 @@
       "node_id": "PRRC_kwDOAN28mc7PsuMT",
       "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:\n+    \"\"\"Recursively collect leaf hashes in order (for verification)\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return [tapleaf_hash(script=script, tapleaf_ver=version)]\n+\n+    elif isinstance(tree, list):  # Branch: recurse on children\n+        hashes: List[str] = []\n+        for sub in tree:\n+            hashes.extend(collect_leaf_hashes(sub))\n+        return hashes\n+\n+    else:\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_merkle_root(tree: ScriptTree) -> str:\n+    \"\"\"Recursively compute script tree merkle root\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return tapleaf_hash(script=script, tapleaf_ver=version)\n+\n+    elif isinstance(tree, list):  # Branch\n+        # Script trees are treated as strictly binary trees; each branch node should have\n+        # exactly 2 children. This isn't a general n-ary fold, and combining\n+        # more than 2 children sequentially would not produce a valid\n+        # P2MR merkle root. It would also break here on a type mismatch.\n+        # `tapbranch_hash` returns bytes, not the hex str this loop expects.\n+        assert len(tree) == 2, f\"expected binary branch, got {len(tree)} children\"\n+        left, right = compute_merkle_root(tree[0]), compute_merkle_root(tree[1])\n+        return tapbranch_hash(left, right).hex()",
       "path": "bip-0360/ref-impl/python/p2mr.py",
-      "position": 106,
+      "position": 1,
       "original_position": 127,
       "commit_id": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
       "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
@@ -1580,7 +1620,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 106,
+      "line": null,
       "original_line": 127,
       "side": "RIGHT"
     },
@@ -1647,7 +1687,7 @@
       "path": "bip-0360/ref-impl/python/p2mr.py",
       "position": 46,
       "original_position": 46,
-      "commit_id": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+      "commit_id": "94b0f9db4cf39defd7d57fd6fa131776cd579993",
       "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
       "in_reply_to_id": 3484555565,
       "user": {
@@ -1896,6 +1936,168 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3485250745"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 24,
+      "original_line": 24,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3485291023",
+      "pull_request_review_id": 4584199886,
+      "id": 3485291023,
+      "node_id": "PRRC_kwDOAN28mc7PvVIP",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:\n+    \"\"\"Recursively collect leaf hashes in order (for verification)\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return [tapleaf_hash(script=script, tapleaf_ver=version)]\n+\n+    elif isinstance(tree, list):  # Branch: recurse on children\n+        hashes: List[str] = []\n+        for sub in tree:\n+            hashes.extend(collect_leaf_hashes(sub))\n+        return hashes\n+\n+    else:\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_merkle_root(tree: ScriptTree) -> str:\n+    \"\"\"Recursively compute script tree merkle root\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return tapleaf_hash(script=script, tapleaf_ver=version)\n+\n+    elif isinstance(tree, list):  # Branch\n+        # Script trees are treated as strictly binary trees; each branch node should have\n+        # exactly 2 children. This isn't a general n-ary fold, and combining\n+        # more than 2 children sequentially would not produce a valid\n+        # P2MR merkle root. It would also break here on a type mismatch.\n+        # `tapbranch_hash` returns bytes, not the hex str this loop expects.\n+        assert len(tree) == 2, f\"expected binary branch, got {len(tree)} children\"\n+        left, right = compute_merkle_root(tree[0]), compute_merkle_root(tree[1])\n+        return tapbranch_hash(left, right).hex()",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 1,
+      "original_position": 127,
+      "commit_id": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": 3484607251,
+      "user": {
+        "login": "notmike-5",
+        "id": 16808272,
+        "node_id": "MDQ6VXNlcjE2ODA4Mjcy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16808272?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/notmike-5",
+        "html_url": "https://github.com/notmike-5",
+        "followers_url": "https://api.github.com/users/notmike-5/followers",
+        "following_url": "https://api.github.com/users/notmike-5/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/notmike-5/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/notmike-5/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/notmike-5/subscriptions",
+        "organizations_url": "https://api.github.com/users/notmike-5/orgs",
+        "repos_url": "https://api.github.com/users/notmike-5/repos",
+        "events_url": "https://api.github.com/users/notmike-5/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/notmike-5/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Took a stab at this in 94b0f9d. It also cleaned up the code quite a bit in places. ",
+      "created_at": "2026-06-27T05:09:35Z",
+      "updated_at": "2026-06-27T05:09:36Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3485291023",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3485291023"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 127,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3485296661",
+      "pull_request_review_id": 4584204571,
+      "id": 3485296661,
+      "node_id": "PRRC_kwDOAN28mc7PvWgV",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:\n+    \"\"\"Recursively collect leaf hashes in order (for verification)\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return [tapleaf_hash(script=script, tapleaf_ver=version)]\n+\n+    elif isinstance(tree, list):  # Branch: recurse on children\n+        hashes: List[str] = []\n+        for sub in tree:\n+            hashes.extend(collect_leaf_hashes(sub))\n+        return hashes\n+\n+    else:\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_merkle_root(tree: ScriptTree) -> str:\n+    \"\"\"Recursively compute script tree merkle root\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 1,
+      "original_position": 115,
+      "commit_id": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": 3484584547,
+      "user": {
+        "login": "notmike-5",
+        "id": 16808272,
+        "node_id": "MDQ6VXNlcjE2ODA4Mjcy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16808272?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/notmike-5",
+        "html_url": "https://github.com/notmike-5",
+        "followers_url": "https://api.github.com/users/notmike-5/followers",
+        "following_url": "https://api.github.com/users/notmike-5/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/notmike-5/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/notmike-5/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/notmike-5/subscriptions",
+        "organizations_url": "https://api.github.com/users/notmike-5/orgs",
+        "repos_url": "https://api.github.com/users/notmike-5/repos",
+        "events_url": "https://api.github.com/users/notmike-5/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/notmike-5/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Fixed in 94b0f9d. Should be g2g now.",
+      "created_at": "2026-06-27T05:11:21Z",
+      "updated_at": "2026-06-27T05:11:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3485296661",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3485296661"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 115,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3485321107",
+      "pull_request_review_id": 4584232729,
+      "id": 3485321107,
+      "node_id": "PRRC_kwDOAN28mc7PvceT",
+      "diff_hunk": "",
+      "path": "bip-0360/ref-impl/rust/tests/p2mr_construction.rs",
+      "position": 1,
+      "original_position": 1,
+      "commit_id": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+      "original_commit_id": "64d068e9d101e631019e9aa95e1e0eb7cce832d9",
+      "in_reply_to_id": 3485250745,
+      "user": {
+        "login": "notmike-5",
+        "id": 16808272,
+        "node_id": "MDQ6VXNlcjE2ODA4Mjcy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16808272?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/notmike-5",
+        "html_url": "https://github.com/notmike-5",
+        "followers_url": "https://api.github.com/users/notmike-5/followers",
+        "following_url": "https://api.github.com/users/notmike-5/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/notmike-5/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/notmike-5/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/notmike-5/subscriptions",
+        "organizations_url": "https://api.github.com/users/notmike-5/orgs",
+        "repos_url": "https://api.github.com/users/notmike-5/repos",
+        "events_url": "https://api.github.com/users/notmike-5/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/notmike-5/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "The test really tests p2mr misuse and presence of an internal pubkey. That said, I don't have strong feelings one way or the other. We might need to update this file also to reflect the new test vector @jbride. ",
+      "created_at": "2026-06-27T05:19:05Z",
+      "updated_at": "2026-06-27T05:19:05Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3485321107",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3485321107"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
