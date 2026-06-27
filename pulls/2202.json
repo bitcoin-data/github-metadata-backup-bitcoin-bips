@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2202/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2202/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/29e1a158e7314e403c0b655194b52c9faa1d4968",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/2706a6181d727942172880933970221de8d081ea",
     "number": 2202,
     "state": "open",
     "locked": false,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-06-26T19:23:47Z",
-    "updated_at": "2026-06-26T22:39:11Z",
+    "updated_at": "2026-06-27T01:57:42Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "ebbedb925b08edf4b2207463c5e34406b3665d27",
+    "merge_commit_sha": "7e9522062784e80e8d8bf1659d1b59a8331b2375",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "notmike-5:p2mr",
       "ref": "p2mr",
-      "sha": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "sha": "2706a6181d727942172880933970221de8d081ea",
       "user": {
         "login": "notmike-5",
         "id": 16808272,
@@ -187,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-06-26T19:21:26Z",
+        "pushed_at": "2026-06-27T01:35:37Z",
         "created_at": "2025-07-12T05:23:20Z",
         "updated_at": "2026-06-26T19:17:30Z",
         "allow_forking": true
@@ -322,11 +322,11 @@
     },
     "author_association": "NONE",
     "draft": false,
-    "additions": 497,
+    "additions": 544,
     "deletions": 97,
     "changed_files": 5,
-    "commits": 4,
-    "review_comments": 0,
+    "commits": 9,
+    "review_comments": 12,
     "comments": 0
   },
   "events": [
@@ -722,7 +722,899 @@
         "name": "Pending acceptance",
         "color": "fbca04"
       }
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDk4YzAyODk4MDU1ZDNkMTUyYjgxYjQ3ZDdjOGZmZGFlYjk0MWI2NDY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/98c02898055d3d152b81b47d7c8ffdaeb941b646",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/98c02898055d3d152b81b47d7c8ffdaeb941b646",
+      "tree": {
+        "sha": "27c43b18be7f5a1bfae7ec302248b70963e8b710",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/27c43b18be7f5a1bfae7ec302248b70963e8b710"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 27c43b18be7f5a1bfae7ec302248b70963e8b710\nparent 29e1a158e7314e403c0b655194b52c9faa1d4968\nauthor conduition <conduition@proton.me> 1782522171 +0000\ncommitter conduition <conduition@proton.me> 1782522686 +0000\n\nbip360: simplify computing control blocks using explicit traversal paths\n\nThis refactors `compute_control_block` to improve performance, and make\nthe function simpler to read (to me at least).\n\nThe previous version walked the entire script tree searching for the\nfirst matching instance of the leaf node.\n\nThe new version expects the caller to pass in an explicit `path`\nparameter, which tells us exactly where the leaf node lives, with\nleft/right steps encoded as bits in an integer. We walk down the\ntree straight to that leaf node, and build the control block as we go.\n\nThis might not be the best DX for a real-world API or library, but this\nis just reference code, so we can accept poor usage ergonomics if it makes\nthe code clearer and more explicit.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niNUEABYKAH0WIQRHSJGtAjLay3YNd2t4KWzthPazxQUCaj8jPl8UgAAAAAAuAChp\nc3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0NDc0\nODkxQUQwMjMyREFDQjc2MEQ3NzZCNzgyOTZDRUQ4NEY2QjNDNQAKCRB4KWzthPaz\nxY9UAQCmI4cxltqyD0m8Xgy7tRru10a4dFtklIGdCcUEELtwtAD/XVmYgOlo7gNy\nBMO5V5E+HGdvss3GdiDP3eYhmqGwxgE=\n=+QaH\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/29e1a158e7314e403c0b655194b52c9faa1d4968",
+          "sha": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+          "html_url": "https://github.com/bitcoin/bips/commit/29e1a158e7314e403c0b655194b52c9faa1d4968"
+        }
+      ],
+      "message": "bip360: simplify computing control blocks using explicit traversal paths\n\nThis refactors `compute_control_block` to improve performance, and make\nthe function simpler to read (to me at least).\n\nThe previous version walked the entire script tree searching for the\nfirst matching instance of the leaf node.\n\nThe new version expects the caller to pass in an explicit `path`\nparameter, which tells us exactly where the leaf node lives, with\nleft/right steps encoded as bits in an integer. We walk down the\ntree straight to that leaf node, and build the control block as we go.\n\nThis might not be the best DX for a real-world API or library, but this\nis just reference code, so we can accept poor usage ergonomics if it makes\nthe code clearer and more explicit.",
+      "committer": {
+        "name": "conduition",
+        "email": "conduition@proton.me",
+        "date": "2026-06-27T01:11:26Z"
+      },
+      "author": {
+        "name": "conduition",
+        "email": "conduition@proton.me",
+        "date": "2026-06-27T01:02:51Z"
+      },
+      "sha": "98c02898055d3d152b81b47d7c8ffdaeb941b646"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDg2ZTdmOWQ0Y2FmZDFmZDYyMmU0YTYzNmJhMTI1MmU3NjE0ZjIxYzM",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/86e7f9d4cafd1fd622e4a636ba1252e7614f21c3",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/86e7f9d4cafd1fd622e4a636ba1252e7614f21c3",
+      "tree": {
+        "sha": "9a46ea5d7ed442ff8b35af97b661b63c3385fe36",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/9a46ea5d7ed442ff8b35af97b661b63c3385fe36"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 9a46ea5d7ed442ff8b35af97b661b63c3385fe36\nparent 98c02898055d3d152b81b47d7c8ffdaeb941b646\nauthor conduition <conduition@proton.me> 1782522767 +0000\ncommitter conduition <conduition@proton.me> 1782522767 +0000\n\nadd new test case for duplicate script leaves\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niNUEABYKAH0WIQRHSJGtAjLay3YNd2t4KWzthPazxQUCaj8jj18UgAAAAAAuAChp\nc3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0NDc0\nODkxQUQwMjMyREFDQjc2MEQ3NzZCNzgyOTZDRUQ4NEY2QjNDNQAKCRB4KWzthPaz\nxZ0pAP9Ge+NPJpx5K+vp7hbpnJ+efUcuqsvfmARpFmVisikIWwEA6g0cCySgaOly\n1HhCHyzqV1MqFEO1mPYxu7IXJZQXcgw=\n=7BV9\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/98c02898055d3d152b81b47d7c8ffdaeb941b646",
+          "sha": "98c02898055d3d152b81b47d7c8ffdaeb941b646",
+          "html_url": "https://github.com/bitcoin/bips/commit/98c02898055d3d152b81b47d7c8ffdaeb941b646"
+        }
+      ],
+      "message": "add new test case for duplicate script leaves",
+      "committer": {
+        "name": "conduition",
+        "email": "conduition@proton.me",
+        "date": "2026-06-27T01:12:47Z"
+      },
+      "author": {
+        "name": "conduition",
+        "email": "conduition@proton.me",
+        "date": "2026-06-27T01:12:47Z"
+      },
+      "sha": "86e7f9d4cafd1fd622e4a636ba1252e7614f21c3"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDEzMjVjY2M3ZGJlYmVhOWY2MmM2ODc3MDJhYzUwODhhNzc0ODFmMGQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1325ccc7dbebea9f62c687702ac5088a77481f0d",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/1325ccc7dbebea9f62c687702ac5088a77481f0d",
+      "tree": {
+        "sha": "96e59ec4b1d5949f3623f72feb25a5771d706f3a",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/96e59ec4b1d5949f3623f72feb25a5771d706f3a"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 96e59ec4b1d5949f3623f72feb25a5771d706f3a\nparent 86e7f9d4cafd1fd622e4a636ba1252e7614f21c3\nauthor conduition <conduition@proton.me> 1782522928 +0000\ncommitter conduition <conduition@proton.me> 1782522928 +0000\n\nreturn type is not optional anymore\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niNUEABYKAH0WIQRHSJGtAjLay3YNd2t4KWzthPazxQUCaj8kMF8UgAAAAAAuAChp\nc3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0NDc0\nODkxQUQwMjMyREFDQjc2MEQ3NzZCNzgyOTZDRUQ4NEY2QjNDNQAKCRB4KWzthPaz\nxcrHAQC1MJKc0QpzDRcVRznuMb+FcDbXcasEtsWynQI8BpmeHwD9HuKNZi3MS3zQ\nOwCjto/Mw01BVy/i7ZKgdbfMEjuGMQg=\n=LUR9\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/86e7f9d4cafd1fd622e4a636ba1252e7614f21c3",
+          "sha": "86e7f9d4cafd1fd622e4a636ba1252e7614f21c3",
+          "html_url": "https://github.com/bitcoin/bips/commit/86e7f9d4cafd1fd622e4a636ba1252e7614f21c3"
+        }
+      ],
+      "message": "return type is not optional anymore",
+      "committer": {
+        "name": "conduition",
+        "email": "conduition@proton.me",
+        "date": "2026-06-27T01:15:28Z"
+      },
+      "author": {
+        "name": "conduition",
+        "email": "conduition@proton.me",
+        "date": "2026-06-27T01:15:28Z"
+      },
+      "sha": "1325ccc7dbebea9f62c687702ac5088a77481f0d"
+    },
+    {
+      "event": "reviewed",
+      "id": 4583199219,
+      "node_id": "PRR_kwDOAN28mc8AAAABES4R8w",
+      "url": null,
+      "actor": null,
+      "commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-06-27T01:25:45Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#pullrequestreview-4583199219",
+      "submitted_at": "2026-06-27T01:25:45Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDlmYWZiYjcxMmNlZWZlYjRkYzNhYTRjMGMwYWY2YWFjM2Q4ZmQ0YWI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9fafbb712ceefeb4dc3aa4c0c0af6aac3d8fd4ab",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/9fafbb712ceefeb4dc3aa4c0c0af6aac3d8fd4ab",
+      "tree": {
+        "sha": "96e59ec4b1d5949f3623f72feb25a5771d706f3a",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/96e59ec4b1d5949f3623f72feb25a5771d706f3a"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 96e59ec4b1d5949f3623f72feb25a5771d706f3a\nparent 29e1a158e7314e403c0b655194b52c9faa1d4968\nparent 1325ccc7dbebea9f62c687702ac5088a77481f0d\nauthor notmike <notmike-5@users.noreply.github.com> 1782523948 -0600\ncommitter GitHub <noreply@github.com> 1782523948 -0600\n\nMerge pull request #1 from conduition/360/p2mr-compute-control-block\n\nbip360: simplify computing control blocks using explicit traversal paths",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqPygsCRC1aQ7uu5UhlAAAkugQAA2+JzvdwMjzCjTlH47eBLJL\nSxF4UHhn3ixAynvgLeqdxVUpCE83ZBL8cjVhWi+lSGS0pqeG/Tzrbnb+4teuGjRP\n5MUcbXMztSRJv9GYP2qp+WuFmoLVfRk1xcK4uCLyihqvVt1Q9UaEJ1NFGPIATjxg\nyXEPdCFDWuodHnxEdRpP6EAmNCPuiMsc+6hl8gHdAiZkKqqoe3leAZK4hyo2KwYx\n5DoGIKHOXOHs/uifgJ/y29HiTO3xz7U31kFJu/nfLTH/PgYp+8HKACk+aRD7TyeH\nH6UdXpnNIedPXAOUIhO11BZirgXkEOzNw8hCR4QOhH2I3noNOWgsbZfxSiQKnhNg\nU/8ZnBbXjoBdgeEZW0niKaQ3Tw4/K4akFZDZYtO42xhbOEeSlrs6Ek46k3ezBDoN\nj8Tw0BMk+D+MQGWwRaUmudjSfa0LQagEoILpVwrH7RbUD06pAReOxLHfR3qHhGEE\n/oipCAIRz6BDvyPeguSbw+m9T6JaxOi48/gB6olvu275YjOoeyaoyfk5or/YR0QB\nYIhxKvZJYOaSP8mCqupEZ9YZa+XukoeeCpBU4P3kF80Dx87POfzKWA59xdL1Y+sp\n9lDDM35K5YBwjimLfUatXB08Vdv9iupg6woc2OlPQvWVANUBmOZwR+drG3yNQWu5\nMjMwpbT3gNd2M4xuxACV\n=Ny/9\n-----END PGP SIGNATURE-----\n"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/29e1a158e7314e403c0b655194b52c9faa1d4968",
+          "sha": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+          "html_url": "https://github.com/bitcoin/bips/commit/29e1a158e7314e403c0b655194b52c9faa1d4968"
+        },
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1325ccc7dbebea9f62c687702ac5088a77481f0d",
+          "sha": "1325ccc7dbebea9f62c687702ac5088a77481f0d",
+          "html_url": "https://github.com/bitcoin/bips/commit/1325ccc7dbebea9f62c687702ac5088a77481f0d"
+        }
+      ],
+      "message": "Merge pull request #1 from conduition/360/p2mr-compute-control-block\n\nbip360: simplify computing control blocks using explicit traversal paths",
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2026-06-27T01:32:28Z"
+      },
+      "author": {
+        "name": "notmike",
+        "email": "notmike-5@users.noreply.github.com",
+        "date": "2026-06-27T01:32:28Z"
+      },
+      "sha": "9fafbb712ceefeb4dc3aa4c0c0af6aac3d8fd4ab"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDI3MDZhNjE4MWQ3Mjc5NDIxNzI4ODA5MzM5NzAyMjFkZThkMDgxZWE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/2706a6181d727942172880933970221de8d081ea",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/2706a6181d727942172880933970221de8d081ea",
+      "tree": {
+        "sha": "f0ba49444909c9b269a7fe5e8d98f7fc00e4c48d",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/f0ba49444909c9b269a7fe5e8d98f7fc00e4c48d"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9fafbb712ceefeb4dc3aa4c0c0af6aac3d8fd4ab",
+          "sha": "9fafbb712ceefeb4dc3aa4c0c0af6aac3d8fd4ab",
+          "html_url": "https://github.com/bitcoin/bips/commit/9fafbb712ceefeb4dc3aa4c0c0af6aac3d8fd4ab"
+        }
+      ],
+      "message": "bip360: Optional type removed / no longer needed",
+      "committer": {
+        "name": "notmike",
+        "email": "notmike-5@users.noreply.github.com",
+        "date": "2026-06-27T01:35:32Z"
+      },
+      "author": {
+        "name": "notmike",
+        "email": "notmike-5@users.noreply.github.com",
+        "date": "2026-06-27T01:35:32Z"
+      },
+      "sha": "2706a6181d727942172880933970221de8d081ea"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484535403",
+      "pull_request_review_id": 4583199219,
+      "id": 3484535403,
+      "node_id": "PRRC_kwDOAN28mc7Pscpr",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 51,
+      "original_position": 51,
+      "commit_id": "2706a6181d727942172880933970221de8d081ea",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "```suggestion\n    return list(bytes.fromhex(script))\n```",
+      "created_at": "2026-06-26T23:11:54Z",
+      "updated_at": "2026-06-27T01:25:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484535403",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484535403"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 51,
+      "original_line": 51,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484555565",
+      "pull_request_review_id": 4583199219,
+      "id": 3484555565,
+      "node_id": "PRRC_kwDOAN28mc7Pshkt",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 46,
+      "original_position": 46,
+      "commit_id": "2706a6181d727942172880933970221de8d081ea",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Nit: It's a bit weird that you sometimes use unhexlify, and other times (L83) you use `bytes.fromhex`.",
+      "created_at": "2026-06-26T23:20:01Z",
+      "updated_at": "2026-06-27T01:25:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484555565",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484555565"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": 44,
+      "original_start_line": 44,
+      "start_side": "RIGHT",
+      "line": 46,
+      "original_line": 46,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484567933",
+      "pull_request_review_id": 4583199219,
+      "id": 3484567933,
+      "node_id": "PRRC_kwDOAN28mc7Pskl9",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:\n+    \"\"\"Recursively collect leaf hashes in order (for verification)\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return [tapleaf_hash(script=script, tapleaf_ver=version)]\n+\n+    elif isinstance(tree, list):  # Branch: recurse on children\n+        hashes: List[str] = []\n+        for sub in tree:\n+            hashes.extend(collect_leaf_hashes(sub))\n+        return hashes\n+\n+    else:\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_merkle_root(tree: ScriptTree) -> str:\n+    \"\"\"Recursively compute script tree merkle root\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return tapleaf_hash(script=script, tapleaf_ver=version)\n+\n+    elif isinstance(tree, list):  # Branch\n+        # Script trees are treated as strictly binary trees; each branch node should have\n+        # exactly 2 children. This isn't a general n-ary fold, and combining\n+        # more than 2 children sequentially would not produce a valid\n+        # P2MR merkle root. It would also break here on a type mismatch.\n+        # `tapbranch_hash` returns bytes, not the hex str this loop expects.\n+        assert len(tree) == 2, f\"expected binary branch, got {len(tree)} children\"\n+        left, right = compute_merkle_root(tree[0]), compute_merkle_root(tree[1])\n+        return tapbranch_hash(left, right).hex()\n+\n+    else:  # badbadnotgood\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_control_block(\n+    leaf: Dict[str, Any], tree: ScriptTree, path: Optional[List[str]] = None\n+) -> Optional[str]:\n+    \"\"\"Compute the control block for a given leaf in a given tree\"\"\"\n+    if path is None:\n+        path = []\n+\n+    if isinstance(tree, dict):\n+        if tree == leaf:\n+            version_byte = (leaf[\"leafVersion\"] | 1) & 0xFF\n+            return f\"{version_byte:02x}\" + \"\".join(path)\n+\n+        return None\n+\n+    if isinstance(tree, list):\n+        for i, child in enumerate(tree):\n+            # build a list of sibling roots at this level\n+            siblings: List[str] = []\n+            for j, sib in enumerate(tree):\n+                if j != i:\n+                    siblings.append(compute_merkle_root(sib))\n+            # try this child; if it (or a descendant) matches, we get a result\n+            result = compute_control_block(leaf, child, siblings + path)\n+            if result:\n+                return result\n+\n+    return None\n+\n+\n+def collect_control_blocks(script_tree: ScriptTree) -> List[str]:\n+    \"\"\"Return control blocks for all leaves in tree declaration order.\n+    Note: This ordering is for testing purposes. In practice, you would\n+    compute the control block for a specific leaf at spend-time using\n+    `compute_control_block(leaf, tree)`.\"\"\"\n+    leaf_nodes: List[Dict[str, Any]] = []\n+    stack = [script_tree]\n+    while stack:\n+        node = stack.pop()\n+        if isinstance(node, dict):\n+            leaf_nodes.append(node)\n+        elif isinstance(node, list):\n+            stack.extend(reversed(node))\n+\n+    return [\n+        cb for leaf in leaf_nodes if (cb := compute_control_block(leaf, script_tree))\n+    ]\n+\n+\n+#\n+# Bech32/Bech32m Encoding\n+#\n+# Bech32 encoding code is taken from sipa (BIP-0350), and has been tested against the test vectors therein:\n+# https://github.com/sipa/bech32/blob/master/ref/python/tests.py",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 163,
+      "original_position": 185,
+      "commit_id": "2706a6181d727942172880933970221de8d081ea",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Most of this code already exists in the BIPs repository, under the reference code of BIP352 (silent payments). \r\n\r\nhttps://github.com/bitcoin/bips/blob/master/bip-0352/bech32m.py\r\n\r\n@murchandamus What are your thoughts on the bech32m code duplication here? is it better to duplicate for the sake of compartmentalization, or should we update the existing code and reference it here?",
+      "created_at": "2026-06-26T23:24:26Z",
+      "updated_at": "2026-06-27T01:33:43Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484567933",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484567933"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": 162,
+      "original_start_line": 184,
+      "start_side": "RIGHT",
+      "line": 163,
+      "original_line": 185,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484584547",
+      "pull_request_review_id": 4583199219,
+      "id": 3484584547,
+      "node_id": "PRRC_kwDOAN28mc7Psopj",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:\n+    \"\"\"Recursively collect leaf hashes in order (for verification)\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return [tapleaf_hash(script=script, tapleaf_ver=version)]\n+\n+    elif isinstance(tree, list):  # Branch: recurse on children\n+        hashes: List[str] = []\n+        for sub in tree:\n+            hashes.extend(collect_leaf_hashes(sub))\n+        return hashes\n+\n+    else:\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_merkle_root(tree: ScriptTree) -> str:\n+    \"\"\"Recursively compute script tree merkle root\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 115,
+      "original_position": 115,
+      "commit_id": "2706a6181d727942172880933970221de8d081ea",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "It seems a bit redundant to convert the leaf version number to a hex string, only to convert it right back to bytes in the `tapleaf_hash` function. Maybe instead just pass the leaf version as an integer to `tapleaf_hash`?",
+      "created_at": "2026-06-26T23:31:05Z",
+      "updated_at": "2026-06-27T01:25:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484584547",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484584547"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 115,
+      "original_line": 115,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484593982",
+      "pull_request_review_id": 4583199219,
+      "id": 3484593982,
+      "node_id": "PRRC_kwDOAN28mc7Psq8-",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 95,
+      "original_position": 95,
+      "commit_id": "2706a6181d727942172880933970221de8d081ea",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This function seems like it is only a test helper function. Maybe it would be best to move it away from the core P2MR reference code?",
+      "created_at": "2026-06-26T23:35:02Z",
+      "updated_at": "2026-06-27T01:25:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484593982",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484593982"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 95,
+      "original_line": 95,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484599324",
+      "pull_request_review_id": 4583199219,
+      "id": 3484599324,
+      "node_id": "PRRC_kwDOAN28mc7PssQc",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 92,
+      "original_position": 92,
+      "commit_id": "2706a6181d727942172880933970221de8d081ea",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Optional suggestion:\n\n\n```suggestion\n    return tagged_hash(\"TapBranch\", b\"\".join(sorted((h2b(right) + h2b(left)))))\n```",
+      "created_at": "2026-06-26T23:37:42Z",
+      "updated_at": "2026-06-27T01:25:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484599324",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484599324"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": 90,
+      "original_start_line": 90,
+      "start_side": "RIGHT",
+      "line": 92,
+      "original_line": 92,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484607251",
+      "pull_request_review_id": 4583199219,
+      "id": 3484607251,
+      "node_id": "PRRC_kwDOAN28mc7PsuMT",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:\n+    \"\"\"Recursively collect leaf hashes in order (for verification)\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return [tapleaf_hash(script=script, tapleaf_ver=version)]\n+\n+    elif isinstance(tree, list):  # Branch: recurse on children\n+        hashes: List[str] = []\n+        for sub in tree:\n+            hashes.extend(collect_leaf_hashes(sub))\n+        return hashes\n+\n+    else:\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_merkle_root(tree: ScriptTree) -> str:\n+    \"\"\"Recursively compute script tree merkle root\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return tapleaf_hash(script=script, tapleaf_ver=version)\n+\n+    elif isinstance(tree, list):  # Branch\n+        # Script trees are treated as strictly binary trees; each branch node should have\n+        # exactly 2 children. This isn't a general n-ary fold, and combining\n+        # more than 2 children sequentially would not produce a valid\n+        # P2MR merkle root. It would also break here on a type mismatch.\n+        # `tapbranch_hash` returns bytes, not the hex str this loop expects.\n+        assert len(tree) == 2, f\"expected binary branch, got {len(tree)} children\"\n+        left, right = compute_merkle_root(tree[0]), compute_merkle_root(tree[1])\n+        return tapbranch_hash(left, right).hex()",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 127,
+      "original_position": 127,
+      "commit_id": "2706a6181d727942172880933970221de8d081ea",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Some of these functions accept or return hex-strings, while others use `bytes` for the same conceptual objects. Consistency is better: Either use hex strings for everything, or use bytes for everything. Input from test vectors (or output from the code) can be converted as needed in the tests.",
+      "created_at": "2026-06-26T23:41:43Z",
+      "updated_at": "2026-06-27T01:25:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484607251",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484607251"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 127,
+      "original_line": 127,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484855071",
+      "pull_request_review_id": 4583199219,
+      "id": 3484855071,
+      "node_id": "PRRC_kwDOAN28mc7Ptqsf",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:\n+    \"\"\"Recursively collect leaf hashes in order (for verification)\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return [tapleaf_hash(script=script, tapleaf_ver=version)]\n+\n+    elif isinstance(tree, list):  # Branch: recurse on children\n+        hashes: List[str] = []\n+        for sub in tree:\n+            hashes.extend(collect_leaf_hashes(sub))\n+        return hashes\n+\n+    else:\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_merkle_root(tree: ScriptTree) -> str:\n+    \"\"\"Recursively compute script tree merkle root\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return tapleaf_hash(script=script, tapleaf_ver=version)\n+\n+    elif isinstance(tree, list):  # Branch\n+        # Script trees are treated as strictly binary trees; each branch node should have\n+        # exactly 2 children. This isn't a general n-ary fold, and combining\n+        # more than 2 children sequentially would not produce a valid\n+        # P2MR merkle root. It would also break here on a type mismatch.\n+        # `tapbranch_hash` returns bytes, not the hex str this loop expects.\n+        assert len(tree) == 2, f\"expected binary branch, got {len(tree)} children\"\n+        left, right = compute_merkle_root(tree[0]), compute_merkle_root(tree[1])\n+        return tapbranch_hash(left, right).hex()\n+\n+    else:  # badbadnotgood\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_control_block(\n+    leaf: Dict[str, Any], tree: ScriptTree, path: Optional[List[str]] = None\n+) -> Optional[str]:",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 1,
+      "original_position": 135,
+      "commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This function seems a bit overcomplicated. I'd like to suggest a non-recursive alternative, which uses the bits of an int to explicitly encode the position of a target spending leaf in the script tree, without any ambiguity: https://github.com/notmike-5/bips/pull/1\n\n",
+      "created_at": "2026-06-27T01:21:52Z",
+      "updated_at": "2026-06-27T01:25:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484855071",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484855071"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": 133,
+      "start_side": "RIGHT",
+      "line": null,
+      "original_line": 135,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484913703",
+      "pull_request_review_id": 4583651380,
+      "id": 3484913703,
+      "node_id": "PRRC_kwDOAN28mc7Pt5An",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 46,
+      "original_position": 46,
+      "commit_id": "2706a6181d727942172880933970221de8d081ea",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": 3484555565,
+      "user": {
+        "login": "notmike-5",
+        "id": 16808272,
+        "node_id": "MDQ6VXNlcjE2ODA4Mjcy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16808272?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/notmike-5",
+        "html_url": "https://github.com/notmike-5",
+        "followers_url": "https://api.github.com/users/notmike-5/followers",
+        "following_url": "https://api.github.com/users/notmike-5/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/notmike-5/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/notmike-5/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/notmike-5/subscriptions",
+        "organizations_url": "https://api.github.com/users/notmike-5/orgs",
+        "repos_url": "https://api.github.com/users/notmike-5/repos",
+        "events_url": "https://api.github.com/users/notmike-5/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/notmike-5/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I agree. Several of these functions lived in different files in a larger, more general codebase I'd written. In that, I did switch between ways of doing the same thing and that turned out to be a pretty bad idea. I'll give it another once over and try to correct this.",
+      "created_at": "2026-06-27T01:44:01Z",
+      "updated_at": "2026-06-27T01:44:01Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484913703",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484913703"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": 44,
+      "original_start_line": 44,
+      "start_side": "RIGHT",
+      "line": 46,
+      "original_line": 46,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484932016",
+      "pull_request_review_id": 4583676231,
+      "id": 3484932016,
+      "node_id": "PRRC_kwDOAN28mc7Pt9ew",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 51,
+      "original_position": 51,
+      "commit_id": "2706a6181d727942172880933970221de8d081ea",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": 3484535403,
+      "user": {
+        "login": "notmike-5",
+        "id": 16808272,
+        "node_id": "MDQ6VXNlcjE2ODA4Mjcy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16808272?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/notmike-5",
+        "html_url": "https://github.com/notmike-5",
+        "followers_url": "https://api.github.com/users/notmike-5/followers",
+        "following_url": "https://api.github.com/users/notmike-5/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/notmike-5/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/notmike-5/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/notmike-5/subscriptions",
+        "organizations_url": "https://api.github.com/users/notmike-5/orgs",
+        "repos_url": "https://api.github.com/users/notmike-5/repos",
+        "events_url": "https://api.github.com/users/notmike-5/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/notmike-5/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Corrected.",
+      "created_at": "2026-06-27T01:51:08Z",
+      "updated_at": "2026-06-27T01:51:09Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484932016",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484932016"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 51,
+      "original_line": 51,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484936503",
+      "pull_request_review_id": 4583682285,
+      "id": 3484936503,
+      "node_id": "PRRC_kwDOAN28mc7Pt-k3",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:\n+    \"\"\"Recursively collect leaf hashes in order (for verification)\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return [tapleaf_hash(script=script, tapleaf_ver=version)]\n+\n+    elif isinstance(tree, list):  # Branch: recurse on children\n+        hashes: List[str] = []\n+        for sub in tree:\n+            hashes.extend(collect_leaf_hashes(sub))\n+        return hashes\n+\n+    else:\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_merkle_root(tree: ScriptTree) -> str:\n+    \"\"\"Recursively compute script tree merkle root\"\"\"\n+    if isinstance(tree, dict):  # Leaf\n+        version = f\"{tree['leafVersion']:x}\"\n+        script = tree[\"script\"]\n+        return tapleaf_hash(script=script, tapleaf_ver=version)\n+\n+    elif isinstance(tree, list):  # Branch\n+        # Script trees are treated as strictly binary trees; each branch node should have\n+        # exactly 2 children. This isn't a general n-ary fold, and combining\n+        # more than 2 children sequentially would not produce a valid\n+        # P2MR merkle root. It would also break here on a type mismatch.\n+        # `tapbranch_hash` returns bytes, not the hex str this loop expects.\n+        assert len(tree) == 2, f\"expected binary branch, got {len(tree)} children\"\n+        left, right = compute_merkle_root(tree[0]), compute_merkle_root(tree[1])\n+        return tapbranch_hash(left, right).hex()\n+\n+    else:  # badbadnotgood\n+        raise ValueError(\"Invalid tree node\")\n+\n+\n+def compute_control_block(\n+    leaf: Dict[str, Any], tree: ScriptTree, path: Optional[List[str]] = None\n+) -> Optional[str]:",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 1,
+      "original_position": 135,
+      "commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": 3484855071,
+      "user": {
+        "login": "notmike-5",
+        "id": 16808272,
+        "node_id": "MDQ6VXNlcjE2ODA4Mjcy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16808272?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/notmike-5",
+        "html_url": "https://github.com/notmike-5",
+        "followers_url": "https://api.github.com/users/notmike-5/followers",
+        "following_url": "https://api.github.com/users/notmike-5/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/notmike-5/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/notmike-5/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/notmike-5/subscriptions",
+        "organizations_url": "https://api.github.com/users/notmike-5/orgs",
+        "repos_url": "https://api.github.com/users/notmike-5/repos",
+        "events_url": "https://api.github.com/users/notmike-5/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/notmike-5/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Merged in above referenced PR.",
+      "created_at": "2026-06-27T01:54:24Z",
+      "updated_at": "2026-06-27T01:54:25Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484936503",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484936503"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": 133,
+      "start_side": "RIGHT",
+      "line": null,
+      "original_line": 135,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484943761",
+      "pull_request_review_id": 4583690612,
+      "id": 3484943761,
+      "node_id": "PRRC_kwDOAN28mc7PuAWR",
+      "diff_hunk": "@@ -0,0 +1,427 @@\n+\"\"\"\n+Simple example of construction for Pay-to-Merkle-Root (P2MR) outputs and control blocks.\n+\n+Usage: python -m p2mr\n+\"\"\"\n+\n+from enum import Enum\n+from typing import Any, Dict, List, Optional, Union\n+\n+import binascii\n+import hashlib\n+import json\n+\n+\n+class Encoding(Enum):\n+    \"\"\"enum type to list supported encodings\"\"\"\n+\n+    BECH32 = 1\n+    BECH32M = 2\n+\n+\n+BECH32_CHARSET = \"qpzry9x8gf2tvdw0s3jn54khce6mua7l\"\n+BECH32M_CONST = 0x2BC830A3\n+MAX_COMPACT_SIZE = 2**64 - 1\n+\n+# A script tree node is either a leaf (dict) or a branch (list of nodes)\n+ScriptTree = Union[Dict[str, Any], List[\"ScriptTree\"]]\n+\n+\n+#\n+# Utility Functions\n+#\n+def sha256(b: bytes) -> bytes:\n+    \"\"\"sha256 hash function\"\"\"\n+    return hashlib.sha256(b).digest()\n+\n+\n+def tagged_hash(tag: str, data: bytes) -> bytes:\n+    \"\"\"Compute tagged hash of data as per BIP-340\"\"\"\n+    tag_hash = sha256(tag.encode())\n+    return sha256(tag_hash + tag_hash + data)\n+\n+\n+def h2b(h: str) -> bytes:\n+    \"\"\"hex-to-byte converter\"\"\"\n+    return binascii.unhexlify(h)\n+\n+\n+def s2w(script: str) -> List[int]:\n+    \"\"\"Convert a script/witprog hex string to a List[int] of its bytes\"\"\"\n+    return [int(f\"{script[i:i + 2]}\", 16) for i in range(0, len(script), 2)]\n+\n+\n+def get_compact_size(n: int) -> bytes:\n+    \"\"\"Get the compact size byte for given script\"\"\"\n+    if not isinstance(n, int) or not (0 <= n <= MAX_COMPACT_SIZE):\n+        raise ValueError(\n+            \"get_compact_size: out of bounds! must be 0 <= n <= 0xffffffffffffffff\"\n+        )\n+    if n < 0xFD:  # single-byte case when size < 0xffff\n+        return bytes([n])\n+    elif n <= 0xFFFF:\n+        return b\"\\xfd\" + n.to_bytes(2, \"little\")\n+    elif n <= 0xFFFFFFFF:\n+        return b\"\\xfe\" + n.to_bytes(4, \"little\")\n+    else:  # n > 0xffffffff\n+        return b\"\\xff\" + n.to_bytes(8, \"little\")\n+\n+\n+def serialize_varbytes(b: bytes) -> bytes:\n+    \"\"\"Serialize variably-sized data as: compact-size byte || data bytes.\"\"\"\n+    return get_compact_size(len(b)) + b\n+\n+\n+#\n+# P2MR-specific Functions\n+#\n+def tapleaf_hash(script: str, tapleaf_ver: str = \"c0\") -> str:\n+    \"\"\"Hash function for tree leaves\"\"\"\n+    if not script:\n+        raise ValueError(\"tapleaf_hash: script is required\")\n+    leaf = b\"\".join(\n+        (bytes.fromhex(tapleaf_ver), serialize_varbytes(bytes.fromhex(script)))\n+    )\n+    return tagged_hash(\"TapLeaf\", leaf).hex()\n+\n+\n+def tapbranch_hash(left: str, right: str) -> bytes:\n+    \"\"\"Hash function for tree branches\"\"\"\n+    if left < right:\n+        return tagged_hash(\"TapBranch\", h2b(left) + h2b(right))\n+    return tagged_hash(\"TapBranch\", h2b(right) + h2b(left))\n+\n+\n+def collect_leaf_hashes(tree: ScriptTree) -> List[str]:",
+      "path": "bip-0360/ref-impl/python/p2mr.py",
+      "position": 95,
+      "original_position": 95,
+      "commit_id": "2706a6181d727942172880933970221de8d081ea",
+      "original_commit_id": "29e1a158e7314e403c0b655194b52c9faa1d4968",
+      "in_reply_to_id": 3484593982,
+      "user": {
+        "login": "notmike-5",
+        "id": 16808272,
+        "node_id": "MDQ6VXNlcjE2ODA4Mjcy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/16808272?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/notmike-5",
+        "html_url": "https://github.com/notmike-5",
+        "followers_url": "https://api.github.com/users/notmike-5/followers",
+        "following_url": "https://api.github.com/users/notmike-5/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/notmike-5/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/notmike-5/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/notmike-5/subscriptions",
+        "organizations_url": "https://api.github.com/users/notmike-5/orgs",
+        "repos_url": "https://api.github.com/users/notmike-5/repos",
+        "events_url": "https://api.github.com/users/notmike-5/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/notmike-5/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Moved `collect_leaf_hashes` down to the \"BIP-360 Test Code\" section.",
+      "created_at": "2026-06-27T01:57:42Z",
+      "updated_at": "2026-06-27T01:57:43Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2202#discussion_r3484943761",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3484943761"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2202"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 95,
+      "original_line": 95,
+      "side": "RIGHT"
+    }
+  ]
 }
