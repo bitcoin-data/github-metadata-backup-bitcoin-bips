@@ -52,11 +52,11 @@
       }
     ],
     "created_at": "2026-03-27T10:39:35Z",
-    "updated_at": "2026-06-24T18:27:00Z",
+    "updated_at": "2026-06-29T11:22:58Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "d7121a1d791587f3e20224336fe2e52536fdf6b8",
+    "merge_commit_sha": "9f74e0b46d3642d26cd37c04459a02852dca8896",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -282,12 +282,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5961,
-        "stargazers_count": 10824,
-        "watchers_count": 10824,
-        "size": 22199,
+        "forks_count": 5966,
+        "stargazers_count": 10832,
+        "watchers_count": 10832,
+        "size": 22239,
         "default_branch": "master",
-        "open_issues_count": 39,
+        "open_issues_count": 41,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -298,9 +298,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-06-19T19:13:55Z",
+        "pushed_at": "2026-06-28T20:34:28Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-06-24T16:45:06Z",
+        "updated_at": "2026-06-29T11:36:10Z",
         "allow_forking": true
       }
     },
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 28,
+    "review_comments": 29,
     "comments": 15
   },
   "events": [
@@ -3843,6 +3843,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3469339344"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2130"
+        }
+      },
+      "start_line": 161,
+      "original_start_line": 161,
+      "start_side": "RIGHT",
+      "line": 171,
+      "original_line": 171,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3491296761",
+      "pull_request_review_id": 4591347497,
+      "id": 3491296761,
+      "node_id": "PRRC_kwDOAN28mc7QGPX5",
+      "diff_hunk": "@@ -0,0 +1,289 @@\n+```\n+  BIP: 139\n+  Layer: Applications\n+  Title: Wallet Metadata Backup Format\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2026-05-11\n+  License: BSD-2-Clause\n+  Discussion: https://groups.google.com/g/bitcoindev/c/ylPeOnEIhO8\n+```\n+\n+## Abstract\n+\n+This document specifies a format for exporting wallet backup data, including accounts,\n+descriptors, associated keys, labels, transactions, and partially signed Bitcoin\n+transactions (PSBTs).\n+The format aims to standardize wallet backup and restore operations across different\n+Bitcoin wallet implementations by providing a common structure and field naming\n+conventions.\n+All fields are optional except for the base structure, which must include at least one\n+account entry.\n+\n+This BIP also acts as a central repository where a wallet implementer can register its\n+usage of a field and share that usage through a test vector.\n+The intent is not to force every implementation to be fully interoperable with every\n+other one in both directions, but rather to make it easy for an implementation to become\n+interoperable in at least one direction when it chooses to.\n+\n+## Copyright\n+\n+This BIP is licensed under the BSD 2-clause license.\n+\n+## Motivation\n+\n+Bitcoin software wallets store various forms of metadata beyond just private keys,\n+including account structures, descriptors, labels, and transaction history.  \n+While [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)\n+and [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) provide\n+standardized mechanisms for key recovery, they do not preserve additional wallet-specific\n+metadata necessary for seamless migration between wallets.\n+\n+A standardized wallet backup format ensures that users can migrate wallets without losing\n+critical metadata, reducing vendor lock-in and enabling more robust recovery options.\n+\n+## Rationale\n+\n+Several wallet implementations store backup data in proprietary formats, making migration\n+difficult.  \n+This proposal introduces a structured, human-readable format, leveraging JSON to store\n+wallet metadata in a portable way.  \n+The format is flexible and extensible, allowing wallet developers to include as much or\n+as little information as they think necessary.  \n+\n+By making all fields optional except for the base structure with at least one account,\n+this standard accommodates diverse use cases and preferences.  \n+Wallet developers can include only the fields relevant to their application while\n+maintaining structural integrity.  \n+\n+## Specification\n+\n+A wallet backup is a UTF-8 encoded text file containing a single valid JSON object\n+representing the backup structure.  \n+This object includes wallet-level metadata, multiple accounts, and associated key data.  \n+\n+### version\n+\n+This BIP defines version 1 of this specification.  \n+\n+### Wallet Backup Structure\n+\n+The top-level JSON object must contain at least one account in the `accounts` array.  \n+All other fields are optional.  \n+\n+- `version`: Optional integer version of the backup format.  \n+- `bip`: Optional integer value representing the number of this BIP.  \n+- `name`: Optional string wallet name.  \n+  NOTE: `alias` is an alias of `name`.  \n+- `description`: Optional string wallet description.  \n+- `accounts`: Mandatory array of account objects.  \n+  Must contain at least one account.  \n+  See [Account Object Structure](#account-object-structure).  \n+- `network`: Optional string network identifier.  \n+  Valid values are `bitcoin` (mainnet), `testnet3`, `testnet4`, `signet`, and `regtest`.  \n+- `last_height`: Optional integer representing the last block height the exporter had\n+  processed.  \n+- `proprietary`: Optional JSON object storing application-specific metadata.  \n+\n+### Account Object Structure\n+\n+Each account object in the `accounts` array represents a single account within the wallet.\n+All fields are optional, allowing wallets to include only the metadata they support.\n+\n+- `name`: Optional string account name.  \n+  NOTE: `alias` is an alias of `name`.  \n+- `description`: Optional string account description.  \n+- `active`: Optional boolean field indicating if the account is active.  \n+- `type`: Optional string describing the account type.  \n+  Possible values include `bip_380` (output descriptor), `bip_388` (wallet policies),\n+  `bip_392` (silent payments), or any arbitrary string representing metadata needed to\n+  find and spend coins for an account.  \n+- `output_type`: Optional string describing the output category of the account.  \n+  Values used by bitcoin core are `legacy`, `p2sh-segwit`, `bech32`, and `bech32m`.  \n+- `descriptor`: Optional string or object representing the account structure as\n+  defined by the value in `type`.  \n+- `change_descriptor`: Optional string or object representing an explicit change-side\n+  descriptor, paired with `descriptor`. Intended for wallets that do not use BIP-389\n+  multipath descriptors (e.g. Bitcoin Core).  \n+- `descriptor_id`: Optional string containing a stable hexadecimal identifier for the\n+  receive `descriptor`. Its construction is implementation-defined, but it MUST be stable\n+  across exports of the same descriptor.  \n+- `change_descriptor_id`: Optional string. Same semantics as `descriptor_id`, for\n+  `change_descriptor`.  \n+- `receive_index`: Optional integer representing the maximum receive index for generated\n+  receive addresses.  \n+- `change_index`: Optional integer representing the maximum change index for generated\n+  change addresses.  \n+- `range_start`: Optional integer representing the cached keypool range start of the\n+  receive `descriptor`. Present only for ranged descriptors.  \n+- `range_end`: Optional integer representing the cached keypool range end of the receive\n+  `descriptor`. Present only for ranged descriptors.  \n+- `change_range_start`: Optional integer representing the cached keypool range start of\n+  the `change_descriptor`. Present only for ranged descriptors.  \n+- `change_range_end`: Optional integer representing the cached keypool range end of the\n+  `change_descriptor`. Present only for ranged descriptors.  \n+- `timestamp`: Optional integer Unix timestamp representing account creation time in\n+  seconds.  \n+- `iso_8601_datetime`: optional string representing account creation time in ISO 8601\n+  format.  \n+- `block_height`: Optional integer representing account creation time in bitcoin block\n+  height unit.  \n+- `last_height`: Optional integer representing the last seen block height.  \n+- `bip352_labels`: Optional array of silent payments labels (`[0,1,2]`), or range (`{0-10}`).  \n+- `keys`: Optional object mapping descriptor key fingerprints to key metadata objects.\n+  See [Key Object Structure](#key-object-structure).  \n+- `bip329_labels`: Optional array containing label structures for transactions, addresses, and\n+  keys following [BIP-0329](https://github.com/bitcoin/bips/blob/master/bip-0329.mediawiki).  \n+  NOTE: `labels` is an alias of `bip329_labels`.  \n+- `transactions`: Optional array containing transactions.  \n+  Wallets may include only transactions spending coins controlled by the account, only\n+  transactions funding controlled coins, or only their corresponding outpoints.  \n+  See [Transaction Object Structure](#transaction-object-structure).  \n+- `bip352_outputs`: Optional array of\n+  [Silent Payment Owned Output Object Structure](#silent-payment-owned-output-object-structure).  \n+- `bip174_psbts`: Optional array containing unspent but partially signed transactions as defined\n+  by [BIP-0174](https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki).  \n+- `bip370_psbts`: Optional array containing unspent but partially signed transactions as defined\n+  by [BIP-0370](https://github.com/bitcoin/bips/blob/master/bip-370.mediawiki).  \n+- `psbts`: Optinnal array than can contains both BIP-0174 & BIP-0370 PSBTs.  \n+- `bip39_mnemonic`: Optional string containing mnemonic words following BIP39.  \n+  Since backups may be stored online, this field is intended for test networks only\n+  (`testnet3`, `testnet4`, `signet`, `regtest`); it MUST NOT be used to store mainnet mnemonics.  \n+- `proprietary`: Optional JSON object storing account-specific metadata.  \n+\n+### Key Object Structure\n+\n+Keys in the `keys` dictionary are indexed by their\n+[BIP32 fingerprint](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#key-identifiers).\n+Each key object contains metadata about the key.\n+\n+- `key`: Optional string representing the public key fingerprint in hexadecimal form.  \n+- `alias`: Optional string user-defined alias for the key.  \n+- `role`: Optional string role of the key in wallet operations.  \n+  See [Key Roles](#key-roles).  \n+- `key_type`: Optional string describing ownership of the key.  \n+  See [Key Types](#key-types).  \n+- `key_status`: Optional string describing the status of the key.  \n+  See [Key Status](#key-status).  \n+- `bip85_derivation_path`: Optional string describing the\n+  [BIP-0085](https://github.com/bitcoin/bips/blob/master/bip-0085.mediawiki) derivation\n+  path used to derive this key from the master key.  ",
+      "path": "bip-0139.md",
+      "position": 171,
+      "original_position": 171,
+      "commit_id": "94fdbc5e6b3e4cfe8a5162149dd2a39f54b2682f",
+      "original_commit_id": "94fdbc5e6b3e4cfe8a5162149dd2a39f54b2682f",
+      "in_reply_to_id": 3469339344,
+      "user": {
+        "login": "ethicnology",
+        "id": 25751709,
+        "node_id": "MDQ6VXNlcjI1NzUxNzA5",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25751709?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethicnology",
+        "html_url": "https://github.com/ethicnology",
+        "followers_url": "https://api.github.com/users/ethicnology/followers",
+        "following_url": "https://api.github.com/users/ethicnology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethicnology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethicnology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethicnology/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethicnology/orgs",
+        "repos_url": "https://api.github.com/users/ethicnology/repos",
+        "events_url": "https://api.github.com/users/ethicnology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethicnology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I agree, defining a standard requires having mandatory requirements. Take BIP329 as an example: it has many optional fields that some wallets may not support (like \"unspendable\"), but you can still count on anyone implementing the BIP to support at least the required fields. If everything is optional, then everyone will only implement what they personally care about, and we lose any ability to enforce consistency.",
+      "created_at": "2026-06-29T11:22:58Z",
+      "updated_at": "2026-06-29T11:22:58Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2130#discussion_r3491296761",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3491296761"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2130"
