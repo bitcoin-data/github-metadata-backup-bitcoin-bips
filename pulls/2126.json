@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2126/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2126/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/e6df9dbf1093444302331565a1a8f58144175a21",
     "number": 2126,
     "state": "open",
     "locked": false,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "# BIP-85: the Nostr path\r\n\r\nAdds a dedicated BIP-85 application for deriving Nostr private keys a.k.a. `nsec`, with a structured `/{identity}'/{account}'` path supporting multiple unlinkable identities.\r\n\r\n## Motivation\r\n\r\nToday there is no standardized BIP-85 path for Nostr key derivation:\r\n\r\n| Method | Path | Problem |\r\n|--------|------|---------|\r\n| BIP-85 HEX | `m/83696968'/128169'/32'/index'` | Not Nostr-specific, no identity structure |\r\n| BIP-85 mnemonic + NIP-06 | BIP-85 → 12 words → `m/44'/1237'/0'/0/0` | Two-step, wasteful intermediate mnemonic |\r\n| NIP-06 directly | `m/44'/1237'/account'/0/0` | Unhardened, Not BIP-85 entropy isolation |\r\n\r\nA dedicated application number eliminates this fragmentation.\r\n\r\n**Without an isolated derivation path, a mnemonic imported into a Nostr-aware wallet could collide with keys already in use by a Bitcoin wallet (or vice versa). A dedicated BIP-85 application isolates Nostr key derivation entirely, preventing any cross-protocol key reuse.**\r\n\r\nThe structured `{identity}'/{account}'` path also enables account discovery: a wallet can derive pubkeys aka `npub` for the first N identities and accounts, then query Nostr relays for events signed by those keys to automatically recover all active accounts.\r\n\r\n\r\n## Application number: 9000\r\n\r\n9000 is the zip code of Funchal in Madeira, Portugal. The place where I wrote this pull request during the Sovereign Engineering event. This deliberately avoids `1237` (the SLIP-0044 coin type used in NIP-06's `m/44'/1237'/...`) to clearly distinguish BIP-85 derivation from NIP-06 derivation.\r\n\r\n```\r\nm/83696968'/9000'/{identity}'/{account}'\r\n```\r\n\r\nIdentity index `0'` and account index `0'` across identities are reserved for future key management operations.\r\n\r\nFrom this new application number, identity semantics (proof-of-linkage, key rotation, account discovery) can be specified in an external NIP that references this application.\r\n\r\n\r\n## Implementation commitment\r\n\r\nI maintain two BIP-85 libraries and can port this application to both:\r\n- **Rust**: [bip85_extended](https://crates.io/crates/bip85_extended)\r\n- **Dart/Flutter**: [bip85_entropy](https://pub.dev/packages/bip85_entropy)\r\n",
+    "body": "# BIP-85: the Nostr path\r\n\r\nAdds a dedicated BIP-85 application for deriving Nostr private keys a.k.a. `nsec`, with a structured `/{identity}'/{account}'` path supporting multiple unlinkable identities.\r\n\r\n## Motivation\r\n\r\nToday there is no standardized BIP-85 path for Nostr key derivation:\r\n\r\n| Method | Path | Problem |\r\n|--------|------|---------|\r\n| BIP-85 HEX | `m/83696968'/128169'/32'/index'` | Not Nostr-specific, no identity structure |\r\n| BIP-85 mnemonic + NIP-06 | BIP-85 → 12 words → `m/44'/1237'/0'/0/0` | Two-step, wasteful intermediate mnemonic |\r\n| NIP-06 directly | `m/44'/1237'/account'/0/0` | Unhardened, Not BIP-85 entropy isolation |\r\n\r\nA dedicated application number eliminates this fragmentation.\r\n\r\n**Without an isolated derivation path, a mnemonic imported into a Nostr-aware wallet could collide with keys already in use by a Bitcoin wallet (or vice versa). A dedicated BIP-85 application isolates Nostr key derivation entirely, preventing any cross-protocol key reuse.**\r\n\r\nThe structured `{identity}'/{account}'` path also enables account discovery: a wallet can derive pubkeys aka `npub` for the first N identities and accounts, then query Nostr relays for events signed by those keys to automatically recover all active accounts.\r\n\r\n### Application number: 128002'\r\n\r\n`m/83696968'/128002'/{identity}'/{account}'`\r\n\r\nThe resulting 32-byte private key (the first 32 bytes of the BIP-85\r\nentropy) is Bech32-encoded as an `nsec` per NIP-19.\r\n\r\nIdentity index `0'` and account index `0'` across identities are reserved for future key management operations.\r\n\r\nFrom this new application number, identity semantics (proof-of-linkage, key rotation, account discovery) can be specified in an external NIP that references this application.\r\n\r\n\r\n## Implementation commitment\r\n\r\nI maintain two BIP-85 libraries and can port this application to both:\r\n- **Rust**: [bip85_extended](https://crates.io/crates/bip85_extended)\r\n- **Dart/Flutter**: [bip85_entropy](https://pub.dev/packages/bip85_entropy)\r\n",
     "labels": [
       {
         "id": 275846070,
@@ -71,11 +71,11 @@
       }
     ],
     "created_at": "2026-03-20T13:18:57Z",
-    "updated_at": "2026-06-29T13:01:10Z",
+    "updated_at": "2026-06-29T15:18:46Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "645a4a5ec1654cb862a17da3680f1fe4aca414db",
+    "merge_commit_sha": "66092cfc122195fcc91cf3f9cdde6cbb95da4a9e",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -83,7 +83,7 @@
     "head": {
       "label": "ethicnology:bip85-nostr-application-86",
       "ref": "bip85-nostr-application-86",
-      "sha": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+      "sha": "e6df9dbf1093444302331565a1a8f58144175a21",
       "user": {
         "login": "ethicnology",
         "id": 25751709,
@@ -183,7 +183,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22043,
+        "size": 22249,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -196,7 +196,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-06-29T13:01:08Z",
+        "pushed_at": "2026-06-29T15:18:45Z",
         "created_at": "2025-05-29T13:57:59Z",
         "updated_at": "2026-03-26T19:48:26Z",
         "allow_forking": true
@@ -302,9 +302,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5966,
-        "stargazers_count": 10832,
-        "watchers_count": 10832,
+        "forks_count": 5967,
+        "stargazers_count": 10833,
+        "watchers_count": 10833,
         "size": 22239,
         "default_branch": "master",
         "open_issues_count": 41,
@@ -320,7 +320,7 @@
         "visibility": "public",
         "pushed_at": "2026-06-28T20:34:28Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-06-29T11:36:10Z",
+        "updated_at": "2026-06-29T14:17:14Z",
         "allow_forking": true
       }
     },
@@ -331,11 +331,11 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 56,
+    "additions": 52,
     "deletions": 5,
     "changed_files": 2,
-    "commits": 9,
-    "review_comments": 31,
+    "commits": 11,
+    "review_comments": 33,
     "comments": 14
   },
   "events": [
@@ -3156,6 +3156,117 @@
         "date": "2026-06-29T13:01:08Z"
       },
       "sha": "1925e8a4855f05dcb44f991234ac36d1e34ff08a"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDYwNDk4MjgyYWE2YzY4YWQyYzVkYmE2NGJlYzhjZTg5YTRlNjNlMTA",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
+      "tree": {
+        "sha": "86b0b4fbb279dd7efdf4a292e73d7ca729407d6b",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/86b0b4fbb279dd7efdf4a292e73d7ca729407d6b"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 86b0b4fbb279dd7efdf4a292e73d7ca729407d6b\nparent 1925e8a4855f05dcb44f991234ac36d1e34ff08a\nauthor ethicnology <ethicnology@pm.me> 1782745258 +0000\ncommitter ethicnology <ethicnology@pm.me> 1782745867 +0000\n\nbip85: address review on Nostr application, renumber to 128002'\n\nIncorporate akarve's review of the Nostr application:\n\n- Renumber 9000' -> 128002' and drop the origin explanation,\n  per the convention of leaving the app number's meaning implicit.\n- State explicitly that the Nostr private key is the first 32 bytes\n  (most significant 256 bits) of the 64-byte BIP-85 entropy.\n- Move the private-key sentence below the path and consolidate it\n  with the encoding description.\n- Justify the reserved identity 0' and account 0' indices.\n- Show the full 64-byte DERIVED ENTROPY in all test vectors for\n  consistency with the other applications.\n",
+        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgc0lo+G\nCluYnzAdxxomdJkvB/nUWvH1p3v5LyYp/JaC4AAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABATGbZmYmXIPkd8G\nLHBMLw3u4PD19OMCmc2N2J/IQeYAnVuCHNKZssjP6fvBmtCTvLAbRz2EGHh9QjcwWQtKGw\nBgEAAKMP\n-----END SSH SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+          "sha": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+          "html_url": "https://github.com/bitcoin/bips/commit/1925e8a4855f05dcb44f991234ac36d1e34ff08a"
+        }
+      ],
+      "message": "bip85: address review on Nostr application, renumber to 128002'\n\nIncorporate akarve's review of the Nostr application:\n\n- Renumber 9000' -> 128002' and drop the origin explanation,\n  per the convention of leaving the app number's meaning implicit.\n- State explicitly that the Nostr private key is the first 32 bytes\n  (most significant 256 bits) of the 64-byte BIP-85 entropy.\n- Move the private-key sentence below the path and consolidate it\n  with the encoding description.\n- Justify the reserved identity 0' and account 0' indices.\n- Show the full 64-byte DERIVED ENTROPY in all test vectors for\n  consistency with the other applications.",
+      "committer": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-06-29T15:11:07Z"
+      },
+      "author": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-06-29T15:00:58Z"
+      },
+      "sha": "60498282aa6c68ad2c5dba64bec8ce89a4e63e10"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 27336343864,
+      "node_id": "HRFPE_lADOAN28mc702NT9zwAAAAZdX4E4",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/27336343864",
+      "actor": {
+        "login": "ethicnology",
+        "id": 25751709,
+        "node_id": "MDQ6VXNlcjI1NzUxNzA5",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25751709?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethicnology",
+        "html_url": "https://github.com/ethicnology",
+        "followers_url": "https://api.github.com/users/ethicnology/followers",
+        "following_url": "https://api.github.com/users/ethicnology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethicnology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethicnology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethicnology/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethicnology/orgs",
+        "repos_url": "https://api.github.com/users/ethicnology/repos",
+        "events_url": "https://api.github.com/users/ethicnology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethicnology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
+      "commit_url": "https://api.github.com/repos/ethicnology/bips/commits/60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
+      "created_at": "2026-06-29T15:11:19Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGU2ZGY5ZGJmMTA5MzQ0NDMwMjMzMTU2NWExYThmNTgxNDQxNzVhMjE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e6df9dbf1093444302331565a1a8f58144175a21",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/e6df9dbf1093444302331565a1a8f58144175a21",
+      "tree": {
+        "sha": "bdb2c8d53e33380feca61f4186c5027c0b58adc6",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/bdb2c8d53e33380feca61f4186c5027c0b58adc6"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree bdb2c8d53e33380feca61f4186c5027c0b58adc6\nparent 60498282aa6c68ad2c5dba64bec8ce89a4e63e10\nauthor ethicnology <ethicnology@pm.me> 1782746315 +0000\ncommitter ethicnology <ethicnology@pm.me> 1782746315 +0000\n\nbip85: reword reserved Nostr indices to defer semantics to a future NIP\n",
+        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgc0lo+G\nCluYnzAdxxomdJkvB/nUWvH1p3v5LyYp/JaC4AAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABA4/IqXVcg6Zy32i\njLO0lFr7VUnpNvmq5Ha+TpdTJaNsmBKyGjPc+e8UnV4m2RNGjvK3uDy0ENF9dZY/FeDAE3\nDQEAAKMg\n-----END SSH SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
+          "sha": "60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
+          "html_url": "https://github.com/bitcoin/bips/commit/60498282aa6c68ad2c5dba64bec8ce89a4e63e10"
+        }
+      ],
+      "message": "bip85: reword reserved Nostr indices to defer semantics to a future NIP",
+      "committer": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-06-29T15:18:35Z"
+      },
+      "author": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-06-29T15:18:35Z"
+      },
+      "sha": "e6df9dbf1093444302331565a1a8f58144175a21"
     }
   ],
   "comments": [
@@ -3546,7 +3657,7 @@
       "path": ".typos.toml",
       "position": 5,
       "original_position": 4,
-      "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+      "commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
       "original_commit_id": "cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b",
       "in_reply_to_id": null,
       "user": {
@@ -3654,7 +3765,7 @@
       "path": ".typos.toml",
       "position": 5,
       "original_position": 4,
-      "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+      "commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
       "original_commit_id": "cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b",
       "in_reply_to_id": 3191117020,
       "user": {
@@ -4192,7 +4303,7 @@
       "node_id": "PRRC_kwDOAN28mc7EaUKb",
       "diff_hunk": "@@ -423,6 +423,52 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 9000'\n+\n+9000 is the zip code of Funchal in Madeira, Portugal, where this specification was written during the Sovereign Engineering event.",
       "path": "bip-0085.mediawiki",
-      "position": 17,
+      "position": 1,
       "original_position": 17,
       "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
@@ -4235,7 +4346,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 430,
+      "line": null,
       "original_line": 430,
       "side": "RIGHT"
     },
@@ -4246,7 +4357,7 @@
       "node_id": "PRRC_kwDOAN28mc7EaVWS",
       "diff_hunk": "@@ -423,6 +423,52 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 9000'\n+\n+9000 is the zip code of Funchal in Madeira, Portugal, where this specification was written during the Sovereign Engineering event.\n+\n+The derivation path format is: <code>m/83696968'/9000'/{identity}'/{account_index}'</code>\n+\n+Uses the entropy as a Nostr private key.\n+\n+Identity index <code>0'</code> is reserved for future protocol use.\n+Account index <code>0'</code> is reserved across all identities for key management operations.\n+Usable keys start at <code>identity >= 1'</code> and <code>account_index >= 1'</code>.",
       "path": "bip-0085.mediawiki",
-      "position": 25,
+      "position": 1,
       "original_position": 25,
       "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
@@ -4286,10 +4397,10 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2126"
         }
       },
-      "start_line": 436,
+      "start_line": null,
       "original_start_line": 436,
       "start_side": "RIGHT",
-      "line": 438,
+      "line": null,
       "original_line": 438,
       "side": "RIGHT"
     },
@@ -4300,7 +4411,7 @@
       "node_id": "PRRC_kwDOAN28mc7EaWq6",
       "diff_hunk": "@@ -423,6 +423,52 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 9000'\n+\n+9000 is the zip code of Funchal in Madeira, Portugal, where this specification was written during the Sovereign Engineering event.\n+\n+The derivation path format is: <code>m/83696968'/9000'/{identity}'/{account_index}'</code>\n+\n+Uses the entropy as a Nostr private key.\n+\n+Identity index <code>0'</code> is reserved for future protocol use.\n+Account index <code>0'</code> is reserved across all identities for key management operations.\n+Usable keys start at <code>identity >= 1'</code> and <code>account_index >= 1'</code>.",
       "path": "bip-0085.mediawiki",
-      "position": 25,
+      "position": 1,
       "original_position": 25,
       "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
@@ -4340,10 +4451,10 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2126"
         }
       },
-      "start_line": 436,
+      "start_line": null,
       "original_start_line": 436,
       "start_side": "RIGHT",
-      "line": 438,
+      "line": null,
       "original_line": 438,
       "side": "RIGHT"
     },
@@ -4354,7 +4465,7 @@
       "node_id": "PRRC_kwDOAN28mc7Eac1r",
       "diff_hunk": "@@ -423,6 +423,52 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 9000'\n+\n+9000 is the zip code of Funchal in Madeira, Portugal, where this specification was written during the Sovereign Engineering event.\n+\n+The derivation path format is: <code>m/83696968'/9000'/{identity}'/{account_index}'</code>\n+\n+Uses the entropy as a Nostr private key.",
       "path": "bip-0085.mediawiki",
-      "position": 21,
+      "position": 1,
       "original_position": 21,
       "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
@@ -4397,7 +4508,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 434,
+      "line": null,
       "original_line": 434,
       "side": "RIGHT"
     },
@@ -4408,7 +4519,7 @@
       "node_id": "PRRC_kwDOAN28mc7Eadv-",
       "diff_hunk": "@@ -423,6 +423,52 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 9000'\n+\n+9000 is the zip code of Funchal in Madeira, Portugal, where this specification was written during the Sovereign Engineering event.\n+\n+The derivation path format is: <code>m/83696968'/9000'/{identity}'/{account_index}'</code>\n+\n+Uses the entropy as a Nostr private key.\n+\n+Identity index <code>0'</code> is reserved for future protocol use.\n+Account index <code>0'</code> is reserved across all identities for key management operations.\n+Usable keys start at <code>identity >= 1'</code> and <code>account_index >= 1'</code>.\n+\n+The resulting 32-byte private key is Bech32 encoded as an <code>nsec</code> per NIP19.",
       "path": "bip-0085.mediawiki",
-      "position": 27,
+      "position": 1,
       "original_position": 27,
       "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
@@ -4451,7 +4562,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 440,
+      "line": null,
       "original_line": 440,
       "side": "RIGHT"
     },
@@ -4462,7 +4573,7 @@
       "node_id": "PRRC_kwDOAN28mc7Ead7J",
       "diff_hunk": "@@ -423,6 +423,52 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 9000'\n+\n+9000 is the zip code of Funchal in Madeira, Portugal, where this specification was written during the Sovereign Engineering event.\n+\n+The derivation path format is: <code>m/83696968'/9000'/{identity}'/{account_index}'</code>\n+\n+Uses the entropy as a Nostr private key.\n+\n+Identity index <code>0'</code> is reserved for future protocol use.\n+Account index <code>0'</code> is reserved across all identities for key management operations.\n+Usable keys start at <code>identity >= 1'</code> and <code>account_index >= 1'</code>.\n+\n+The resulting 32-byte private key is Bech32 encoded as an <code>nsec</code> per NIP19.\n+\n+'''identity=1, account=1'''\n+\n+INPUT:\n+* MASTER BIP32 ROOT KEY: xprv9s21ZrQH143K2LBWUUQRFXhucrQqBpKdRRxNVq2zBqsx8HVqFk2uYo8kmbaLLHRdqtQpUm98uKfu3vca1LqdGhUtyoFnCNkfmXRyPXLjbKb\n+* PATH: m/83696968'/9000'/1'/1'\n+\n+OUTPUT\n+* DERIVED ENTROPY=552ad1d578fe1bc927cec9612651652b07c52dde4017911bc23bc953568075ff",
       "path": "bip-0085.mediawiki",
-      "position": 36,
+      "position": 1,
       "original_position": 36,
       "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
@@ -4505,7 +4616,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 449,
+      "line": null,
       "original_line": 449,
       "side": "RIGHT"
     },
@@ -4516,7 +4627,7 @@
       "node_id": "PRRC_kwDOAN28mc7Eae8w",
       "diff_hunk": "@@ -423,6 +423,52 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 9000'\n+\n+9000 is the zip code of Funchal in Madeira, Portugal, where this specification was written during the Sovereign Engineering event.",
       "path": "bip-0085.mediawiki",
-      "position": 17,
+      "position": 1,
       "original_position": 17,
       "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
@@ -4559,7 +4670,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 430,
+      "line": null,
       "original_line": 430,
       "side": "RIGHT"
     },
@@ -4570,9 +4681,9 @@
       "node_id": "PRRC_kwDOAN28mc7EafNM",
       "diff_hunk": "@@ -431,16 +477,20 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39, [https://github.com/nostr-protocol/nips/blob/master/01.md NIP01], [https://github.com/nostr-protocol/nips/blob/master/06.md NIP06], [https://github.com/nostr-protocol/nips/blob/master/19.md NIP19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]",
       "path": "bip-0085.mediawiki",
-      "position": 73,
+      "position": 69,
       "original_position": 73,
-      "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+      "commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": null,
       "user": {
@@ -4624,7 +4735,7 @@
       "node_id": "PRRC_kwDOAN28mc7EagYp",
       "diff_hunk": "@@ -423,6 +423,52 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 9000'\n+\n+9000 is the zip code of Funchal in Madeira, Portugal, where this specification was written during the Sovereign Engineering event.",
       "path": "bip-0085.mediawiki",
-      "position": 17,
+      "position": 1,
       "original_position": 17,
       "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
@@ -4667,7 +4778,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 430,
+      "line": null,
       "original_line": 430,
       "side": "RIGHT"
     },
@@ -4678,9 +4789,9 @@
       "node_id": "PRRC_kwDOAN28mc7FC3b5",
       "diff_hunk": "@@ -431,16 +477,20 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39, [https://github.com/nostr-protocol/nips/blob/master/01.md NIP01], [https://github.com/nostr-protocol/nips/blob/master/06.md NIP06], [https://github.com/nostr-protocol/nips/blob/master/19.md NIP19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]",
       "path": "bip-0085.mediawiki",
-      "position": 73,
+      "position": 69,
       "original_position": 73,
-      "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+      "commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -4732,9 +4843,9 @@
       "node_id": "PRRC_kwDOAN28mc7FGmDI",
       "diff_hunk": "@@ -431,16 +477,20 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39, [https://github.com/nostr-protocol/nips/blob/master/01.md NIP01], [https://github.com/nostr-protocol/nips/blob/master/06.md NIP06], [https://github.com/nostr-protocol/nips/blob/master/19.md NIP19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]",
       "path": "bip-0085.mediawiki",
-      "position": 73,
+      "position": 69,
       "original_position": 73,
-      "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+      "commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -4786,9 +4897,9 @@
       "node_id": "PRRC_kwDOAN28mc7FKMor",
       "diff_hunk": "@@ -431,16 +477,20 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39, [https://github.com/nostr-protocol/nips/blob/master/01.md NIP01], [https://github.com/nostr-protocol/nips/blob/master/06.md NIP06], [https://github.com/nostr-protocol/nips/blob/master/19.md NIP19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]",
       "path": "bip-0085.mediawiki",
-      "position": 73,
+      "position": 69,
       "original_position": 73,
-      "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+      "commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -4832,6 +4943,114 @@
       "line": 440,
       "original_line": 440,
       "side": "LEFT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3492683201",
+      "pull_request_review_id": 4592979472,
+      "id": 3492683201,
+      "node_id": "PRRC_kwDOAN28mc7QLh3B",
+      "diff_hunk": "@@ -423,6 +423,52 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 9000'\n+\n+9000 is the zip code of Funchal in Madeira, Portugal, where this specification was written during the Sovereign Engineering event.\n+\n+The derivation path format is: <code>m/83696968'/9000'/{identity}'/{account_index}'</code>\n+\n+Uses the entropy as a Nostr private key.\n+\n+Identity index <code>0'</code> is reserved for future protocol use.\n+Account index <code>0'</code> is reserved across all identities for key management operations.\n+Usable keys start at <code>identity >= 1'</code> and <code>account_index >= 1'</code>.\n+\n+The resulting 32-byte private key is Bech32 encoded as an <code>nsec</code> per NIP19.\n+\n+'''identity=1, account=1'''\n+\n+INPUT:\n+* MASTER BIP32 ROOT KEY: xprv9s21ZrQH143K2LBWUUQRFXhucrQqBpKdRRxNVq2zBqsx8HVqFk2uYo8kmbaLLHRdqtQpUm98uKfu3vca1LqdGhUtyoFnCNkfmXRyPXLjbKb\n+* PATH: m/83696968'/9000'/1'/1'\n+\n+OUTPUT\n+* DERIVED ENTROPY=552ad1d578fe1bc927cec9612651652b07c52dde4017911bc23bc953568075ff",
+      "path": "bip-0085.mediawiki",
+      "position": 1,
+      "original_position": 36,
+      "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+      "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
+      "in_reply_to_id": 3295272649,
+      "user": {
+        "login": "ethicnology",
+        "id": 25751709,
+        "node_id": "MDQ6VXNlcjI1NzUxNzA5",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25751709?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethicnology",
+        "html_url": "https://github.com/ethicnology",
+        "followers_url": "https://api.github.com/users/ethicnology/followers",
+        "following_url": "https://api.github.com/users/ethicnology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethicnology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethicnology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethicnology/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethicnology/orgs",
+        "repos_url": "https://api.github.com/users/ethicnology/repos",
+        "events_url": "https://api.github.com/users/ethicnology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethicnology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
+      "created_at": "2026-06-29T15:05:21Z",
+      "updated_at": "2026-06-29T15:11:42Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2126#discussion_r3492683201",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3492683201"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2126"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 449,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3492723390",
+      "pull_request_review_id": 4593024713,
+      "id": 3492723390,
+      "node_id": "PRRC_kwDOAN28mc7QLrq-",
+      "diff_hunk": "@@ -423,6 +423,52 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 9000'\n+\n+9000 is the zip code of Funchal in Madeira, Portugal, where this specification was written during the Sovereign Engineering event.\n+\n+The derivation path format is: <code>m/83696968'/9000'/{identity}'/{account_index}'</code>\n+\n+Uses the entropy as a Nostr private key.\n+\n+Identity index <code>0'</code> is reserved for future protocol use.\n+Account index <code>0'</code> is reserved across all identities for key management operations.\n+Usable keys start at <code>identity >= 1'</code> and <code>account_index >= 1'</code>.\n+\n+The resulting 32-byte private key is Bech32 encoded as an <code>nsec</code> per NIP19.",
+      "path": "bip-0085.mediawiki",
+      "position": 1,
+      "original_position": 27,
+      "commit_id": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
+      "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
+      "in_reply_to_id": 3295271934,
+      "user": {
+        "login": "ethicnology",
+        "id": 25751709,
+        "node_id": "MDQ6VXNlcjI1NzUxNzA5",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25751709?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethicnology",
+        "html_url": "https://github.com/ethicnology",
+        "followers_url": "https://api.github.com/users/ethicnology/followers",
+        "following_url": "https://api.github.com/users/ethicnology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethicnology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethicnology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethicnology/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethicnology/orgs",
+        "repos_url": "https://api.github.com/users/ethicnology/repos",
+        "events_url": "https://api.github.com/users/ethicnology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethicnology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
+      "created_at": "2026-06-29T15:11:26Z",
+      "updated_at": "2026-06-29T15:11:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2126#discussion_r3492723390",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3492723390"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2126"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 440,
+      "side": "RIGHT"
     }
   ]
 }
