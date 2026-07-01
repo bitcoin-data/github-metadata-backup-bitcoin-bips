@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-01-03T18:00:46Z",
-    "updated_at": "2026-06-30T06:23:12Z",
+    "updated_at": "2026-07-01T10:57:16Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -283,9 +283,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5965,
-        "stargazers_count": 10833,
-        "watchers_count": 10833,
+        "forks_count": 5966,
+        "stargazers_count": 10836,
+        "watchers_count": 10836,
         "size": 22239,
         "default_branch": "master",
         "open_issues_count": 39,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-06-28T20:34:28Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-06-30T05:00:43Z",
+        "updated_at": "2026-07-01T09:36:02Z",
         "allow_forking": true
       }
     },
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 48,
     "commits": 14,
-    "review_comments": 173,
+    "review_comments": 174,
     "comments": 21
   },
   "events": [
@@ -3887,6 +3887,45 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2070#issuecomment-4840489018",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2070"
+    },
+    {
+      "event": "reviewed",
+      "id": 4608183934,
+      "node_id": "PRR_kwDOAN28mc8AAAABEqtOfg",
+      "url": null,
+      "actor": null,
+      "commit_id": "1f456d8b5c0426216d2e8fa97c17faf3fd32611d",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-07-01T10:57:16Z",
+      "author_association": "NONE",
+      "body": "Minor nit; everything else looks good to me!",
+      "user": {
+        "login": "DarkWindman",
+        "id": 78978625,
+        "node_id": "MDQ6VXNlcjc4OTc4NjI1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/78978625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DarkWindman",
+        "html_url": "https://github.com/DarkWindman",
+        "followers_url": "https://api.github.com/users/DarkWindman/followers",
+        "following_url": "https://api.github.com/users/DarkWindman/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DarkWindman/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DarkWindman/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DarkWindman/subscriptions",
+        "organizations_url": "https://api.github.com/users/DarkWindman/orgs",
+        "repos_url": "https://api.github.com/users/DarkWindman/repos",
+        "events_url": "https://api.github.com/users/DarkWindman/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DarkWindman/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#pullrequestreview-4608183934",
+      "submitted_at": "2026-07-01T10:57:16Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
     }
   ],
   "comments": [
@@ -13230,6 +13269,60 @@
       "start_side": "RIGHT",
       "line": null,
       "original_line": 52,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3505253424",
+      "pull_request_review_id": 4608183934,
+      "id": 3505253424,
+      "node_id": "PRRC_kwDOAN28mc7Q7eww",
+      "diff_hunk": "@@ -0,0 +1,857 @@\n+```\n+  BIP: 445\n+  Title: FROST Signing Protocol for BIP340 Signatures\n+  Authors: Sivaram Dhakshinamoorthy <siv2ram@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2026-01-30\n+  License: CC0-1.0\n+  Discussion: 2024-07-31: https://groups.google.com/g/bitcoindev/c/PeMp2HQl-H4/m/AcJtK0aKAwAJ\n+  Requires: 340\n+```\n+\n+## Abstract\n+\n+This document proposes a standard for the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol. The standard is compatible with [BIP340][bip340] public keys and signatures. It supports *tweaking*, which allows deriving [BIP32][bip32] child keys from the threshold public key and creating [BIP341][bip341] Taproot outputs with key and script paths.\n+\n+## Copyright\n+\n+This document is made available under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).\n+The accompanying source code is licensed under the [MIT license](https://opensource.org/license/mit).\n+\n+## Motivation\n+\n+The FROST signature scheme enables threshold Schnorr signatures. In a *t-of-n* threshold configuration, any *t*[^t-edge-cases] participants can cooperatively produce a Schnorr signature that is indistinguishable from a signature produced by a single signer. FROST signatures are unforgeable as long as fewer than *t* participants are corrupted. The signing protocol remains functional provided that at least *t* honest participants retain access to their secret key shares.\n+\n+[^t-edge-cases]: While *t = n* and *t = 1* are in principle supported, simpler alternatives are available in these cases. In the case *t = n*, using a dedicated *n-of-n* multi-signature scheme such as MuSig2 (see [BIP327][bip327]) instead of FROST avoids the need for an interactive DKG. The case *t = 1* can be realized by letting one signer generate an ordinary [BIP340][bip340] key pair and transmitting the key pair to every other signer, who can check its consistency and then simply use the ordinary [BIP340][bip340] signing algorithm. Signers still need to ensure that they agree on a key pair.\n+\n+The IRTF has published [RFC 9591][rfc9591], which specifies the FROST signing protocol for several elliptic curve and hash function combinations, including secp256k1 with SHA-256, the cryptographic primitives used in Bitcoin. However, the signatures produced by RFC 9591 are incompatible with BIP340 Schnorr signatures due to the X-only public keys introduced in BIP340. Additionally, RFC 9591 does not specify key tweaking mechanisms, which are essential for Bitcoin applications such as [BIP32][bip32] key derivation and [BIP341][bip341] Taproot. This document addresses these limitations by specifying a BIP340-compatible variant of FROST signing protocol that supports key tweaking.\n+\n+Following the initial publication of the FROST protocol[[KG20][frost1]], several optimized variants have been proposed to improve computational efficiency and bandwidth optimization: FROST2[[CKM21][frost2]], FROST2-BTZ[[BTZ21][stronger-security-frost]], and FROST3[[RRJSS][roast], [CGRS23][olaf]]. Among these variants, FROST3 is the most efficient variant to date.\n+\n+This document specifies the FROST3 variant[^frost3-security]. The FROST3 signing protocol shares substantial similarities with the MuSig2 signing protocol specified in [BIP327][bip327]. Accordingly, this specification adopts several design principles from BIP327, including support for key tweaking, partial signature verification, and identifiable abort mechanisms. We note that significant portions of this document have been directly adapted from BIP327 due to the similarities in the signing protocols. Key generation for FROST signing is out of scope for this document.\n+\n+[^frost3-security]: The FROST3 signing scheme has been proven existentially unforgeable for both trusted dealer and distributed key generation setups. When using a trusted dealer for key generation, security reduces to the standard One-More Discrete Logarithm (OMDL) assumption. When instantiated with a distributed key generation protocol such as SimplPedPoP, security reduces to the Algebraic One-More Discrete Logarithm (AOMDL) assumption.\n+\n+The on-chain footprint of a FROST Taproot output is essentially a single BIP340 public key, and a transaction spending the output only requires a single signature cooperatively produced by at least *t* signers. This is **more compact** and has **lower verification cost** than each signer providing an individual public key and signature, as would be required by a *t-of-n* policy implemented using `OP_CHECKSIGADD` as introduced in [BIP342][bip342].\n+As a side effect, the number *n* of signers is not limited by any consensus rules when using FROST.\n+\n+Moreover, FROST offers a **higher level of privacy** than `OP_CHECKSIGADD`: FROST Taproot outputs are indistinguishable for a blockchain observer from regular, single-signer Taproot outputs even though they are actually controlled by multiple signers. By tweaking the threshold public key, the shared Taproot output can have script spending paths that are hidden unless used.\n+\n+## Overview\n+\n+Implementers must make sure to understand this section thoroughly to avoid subtle mistakes that may lead to catastrophic failure.\n+\n+### Optionality of Features\n+\n+The goal of this proposal is to support a wide range of possible application scenarios.\n+Given a specific application scenario, some features may be unnecessary or not desirable, and implementers can choose not to support them.\n+Such optional features include:\n+\n+- Applying plain tweaks after x-only tweaks.\n+- Applying tweaks at all.\n+- Dealing with messages that are not exactly 32 bytes.\n+- Identifying a disruptive signer after aborting (aborting itself remains mandatory).\n+\n+If applicable, the corresponding algorithms should simply fail when encountering inputs unsupported by a particular implementation. (For example, the signing algorithm may fail when given a message which is not 32 bytes.)\n+Similarly, the test vectors that exercise the unimplemented features should be re-interpreted to expect an error, or be skipped if appropriate.\n+\n+### Key Material and Setup\n+\n+A FROST key generation protocol configures a group of *n* participants with a *threshold public key* (representing a *t-of-n* threshold policy).\n+The corresponding *threshold secret key* is Shamir secret-shared among all *n* participants, where each participant holds a distinct long-term *secret share*.\n+This ensures that any subset of at least *t* participants can jointly run the FROST signing protocol to produce a signature under the *threshold secret key*.\n+\n+Key generation for FROST signing is out of scope for this document. Implementations can use either a trusted dealer setup, as specified in [Appendix C of RFC 9591](https://www.rfc-editor.org/rfc/rfc9591.html#name-trusted-dealer-key-generati), or a distributed key generation (DKG) protocol such as [ChillDKG](https://github.com/BlockstreamResearch/bip-frost-dkg). The appropriate choice depends on the implementation's trust model and operational requirements.\n+\n+This protocol distinguishes between two public key formats: *plain public keys* are 33-byte compressed public keys traditionally used in Bitcoin, while *X-only public keys* are 32-byte keys defined in [BIP340][bip340].\n+Key generation protocols produce *public shares* and *threshold public keys* in the plain format. During signing, we conditionally negate *secret shares* to ensure the resulting threshold-signature verifies under the corresponding *X-only threshold public key*.\n+\n+> [!WARNING]\n+> Key generation protocols must commit the *threshold public key* to an unspendable script path as recommended in [BIP341](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#cite_note-23). This prevents a malicious party from embedding a hidden script path during key generation that would allow them to bypass the *t-of-n* threshold policy.\n+\n+#### Protocol Parties and Network Setup\n+\n+There are *u* (where *t <= u <= n < 2^32*)[^n-bound] participants and one coordinator initiating the FROST signing protocol.\n+Each participant has a point-to-point communication link to the coordinator (but participants do not have direct communication links to each other).\n+\n+[^n-bound]: This bound on *n* comes from the identifier encoding. A participant identifier is serialized as a 4-byte big-endian integer and fed into the tagged hash function that binds the nonces to the signer set, so it must fit in 32 bits. No realistic threshold setup approaches 2^32 participants, so the bound doesn't limit practical implementations.\n+\n+If there is no dedicated coordinator, one of the participants can act as the coordinator. Alternatively, the protocol can be run without any coordinator, with each signer sending its contributions to every other signer, as described in [BIP327][bip327].\n+\n+This document is written from the coordinator's perspective because the key generation methods compatible with this BIP, a trusted dealer setup and ChillDKG, also involve a central third party. Implementations are therefore likely to reuse the same setup for signing.\n+\n+#### Signing Inputs and Outputs\n+\n+Each signing session requires two inputs: a participant's long-term *secret share* (individual to each participant, not shared with the coordinator) and a [Signers Context](#signers-context)[^signers-ctx-struct] data structure (common to all participants and the coordinator).\n+\n+[^signers-ctx-struct]: The Signers Context represents the public data of signing participants: their identifiers (*id<sub>1..u</sub>*) and public shares (*pubshare<sub>1..u</sub>*).\n+Implementations may represent this as simply as two separate lists passed to signing APIs.\n+The threshold public key *thresh_pk* can be stored for efficiency or recomputed when needed using *DeriveThreshPubkey*.\n+Similarly, the values *n* and *t* are used only for validation, and can be omitted if validation is not performed.\n+\n+This signing protocol is compatible with any key generation protocol that produces valid FROST keys.\n+Valid keys satisfy: (1) each *secret share* is a Shamir share of the *threshold secret key*, and (2) each *public share* equals the scalar multiplication *secshare \\* G*.\n+Before signing, the signers context must pass *ValidateSignersCtx*, which rejects duplicate identifiers and confirms the key material reproduces the threshold public key. The signing algorithms (*Sign*, *PartialSigVerify*, and *PartialSigAgg*) include this check for clarity, so an implementation can instead validate a context once and skip the repeated checks in later calls.\n+For comprehensive validation of the entire key material, *ValidateSignersCtx* can be run on all possible *u* signing participants.\n+\n+> [!IMPORTANT]\n+> Passing *ValidateSignersCtx* ensures functional compatibility with the signing protocol but does not guarantee the security of the key generation protocol itself.\n+\n+The output of the FROST signing protocol is a BIP340 Schnorr signature that verifies under the *X-only threshold public key* as if it were produced by a single signer using the *threshold secret key*.\n+\n+### General Signing Flow\n+\n+The coordinator and signing participants must be determined before initiating the signing protocol.\n+The signing participants information is stored in a [Signers Context](#signers-context) data structure.\n+The *threshold public key* may optionally be tweaked by initializing a [Tweak Context](#tweak-context) at this stage.\n+\n+Whenever the signing participants want to sign a message, the basic order of operations to create a threshold-signature is as follows:\n+\n+**First communication round:**\n+Signers begin the signing session by running *NonceGen* to compute their *secnonce* and *pubnonce*.[^nonce-serialization-detail]\n+Each signer sends their *pubnonce* to the coordinator, who aggregates them using *NonceAgg* to produce an aggregate nonce and sends it back to all signers.\n+\n+[^nonce-serialization-detail]: We treat the *secnonce* and *pubnonce* as grammatically singular even though they include serializations of two scalars and two elliptic curve points, respectively.\n+This treatment may be confusing for readers familiar with the [FROST paper][olaf].\n+However, serialization is a technical detail that is irrelevant for users of FROST interfaces.\n+\n+**Second communication round:**\n+At this point, every signer has the required data to sign, which, in the algorithms specified below, is stored in a data structure called [Session Context](#session-context).\n+Every signer computes a partial signature by running *Sign* with their long-term *secret share*, *secnonce* and the session context.\n+Then, each signer sends their partial signature to the coordinator, who runs *PartialSigAgg* to produce the final signature.\n+If all parties behaved honestly, the result passes [BIP340][bip340] verification.\n+\n+![Frost signing flow](./bip-0445/docs/frost-signing-flow.png)\n+\n+A malicious coordinator can cause the signing session to fail but cannot compromise the unforgeability of the scheme. Even when colluding with up to *t-1* signers, a malicious coordinator cannot forge a signature.\n+\n+> [!WARNING]\n+> The *Sign* algorithm must **not** be executed twice with the same *secnonce*.\n+> Otherwise, it is possible to extract the secret signing key from the two partial signatures output by the two executions of *Sign*.\n+> To avoid accidental reuse of *secnonce*, an implementation may securely erase the *secnonce* argument by overwriting it with 64 zero bytes after it has been read by *Sign*.\n+> A *secnonce* consisting of only zero bytes is invalid for *Sign* and will cause it to fail.\n+\n+To simplify the specification of the algorithms, some intermediary values are unnecessarily recomputed from scratch, e.g., when executing *GetSessionValues* multiple times.\n+Actual implementations can cache these values.\n+As a result, the [Session Context](#session-context) may look very different in implementations or may not exist at all.\n+\n+> [!WARNING]\n+> The computation of *GetSessionValues* and storage of the result must be protected against modification from an untrusted third party.\n+> Such a party would have complete control over the aggregate public key and message to be signed.\n+\n+### Nonce Generation\n+\n+*NonceGen* must have access to a high-quality random generator to draw an unbiased, uniformly random value *rand'*.\n+\n+> [!WARNING]\n+> In contrast to BIP340 signing, the values *k<sub>1</sub>* and *k<sub>2</sub>* **must not be derived deterministically** from the session parameters, because deterministic nonces enable a complete key-recovery attack in multi-party discrete-logarithm signatures[[MPSW18][musig]].[^det-nonce]\n+\n+The optional arguments to *NonceGen* enable a defense-in-depth mechanism that may prevent secret share exposure if *rand'* is accidentally not drawn uniformly at random.\n+If the value *rand'* was identical in two *NonceGen* invocations, but any other argument was different, the *secnonce* would still be guaranteed to be different as well (with overwhelming probability), and thus accidentally using the same *secnonce* for *Sign* in both sessions would be avoided.\n+Therefore, it is recommended to provide the optional arguments *secshare*, *pubshare*, *thresh_pk*, and *m* if these session parameters are already determined during nonce generation.\n+The auxiliary input *extra_in* can contain additional contextual data that has a chance of changing between *NonceGen* runs,\n+e.g., a supposedly unique session id (taken from the application), a session counter wide enough not to repeat in practice, any nonces by other signers (if already known), or the serialization of a data structure containing multiple of the above.\n+However, the protection provided by the optional arguments should only be viewed as a last resort.\n+In most conceivable scenarios, the assumption that the arguments are different between two executions of *NonceGen* is relatively strong, particularly when facing an active adversary.\n+\n+In some applications, the coordinator may enable preprocessing of nonce generation to reduce signing latency.\n+Participants run *NonceGen* to generate a batch of *pubnonce* values before the message or Signers Context[^preprocess-round1] is known, which are stored with the coordinator (e.g., on a centralized server).\n+During this preprocessing phase, only the available arguments are provided to *NonceGen*.\n+When a signing session begins, the coordinator selects and aggregates *pubnonces* of the signing participants, enabling them to run *Sign* immediately once the message is determined.\n+This way, the final signature is created quicker and with fewer round trips.\n+However, applications that use this method presumably store the nonces for a longer time and must therefore be even more careful not to reuse them.\n+Moreover, this method is not compatible with the defense-in-depth mechanism described in the previous paragraph.\n+Generating the nonces ahead of time in this manner does not affect the unforgeability of the scheme.\n+\n+[^det-nonce]: A signer's partial signature has the form *s = k<sub>1</sub> + b k<sub>2</sub> + c &lambda; d*, where *(k<sub>1</sub>, k<sub>2</sub>)* is the secret nonce, *d* is the secret share, and the coefficients *b* (nonce binding), *c* (challenge), and *&lambda;* (Lagrange interpolation over the signer set) are public. With deterministic nonces, an honest signer reproduces the identical *(k<sub>1</sub>, k<sub>2</sub>)* on every signing attempt for a given message. A malicious co-signer exploits this by replaying the session three times on that message and contributing a different nonce each time, which changes the aggregate nonce and therefore both *b* and *c*, while *&lambda;* stays fixed because the signer set is unchanged. The three resulting partial signatures form three linear equations in the unknowns *(k<sub>1</sub>, k<sub>2</sub>, d)*, which the co-signer solves to recover the victim's secret share *d*. This adapts the derandomization attack from Section 3.2 (\"Derandomized Signing\") of [[MPSW18][musig]], and a similar replay attack is noted for the stateless deterministic signing case in [^det-signer-set].",
+      "path": "bip-0445.md",
+      "position": 167,
+      "original_position": 167,
+      "commit_id": "1f456d8b5c0426216d2e8fa97c17faf3fd32611d",
+      "original_commit_id": "1f456d8b5c0426216d2e8fa97c17faf3fd32611d",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "DarkWindman",
+        "id": 78978625,
+        "node_id": "MDQ6VXNlcjc4OTc4NjI1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/78978625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/DarkWindman",
+        "html_url": "https://github.com/DarkWindman",
+        "followers_url": "https://api.github.com/users/DarkWindman/followers",
+        "following_url": "https://api.github.com/users/DarkWindman/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/DarkWindman/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/DarkWindman/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/DarkWindman/subscriptions",
+        "organizations_url": "https://api.github.com/users/DarkWindman/orgs",
+        "repos_url": "https://api.github.com/users/DarkWindman/repos",
+        "events_url": "https://api.github.com/users/DarkWindman/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/DarkWindman/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Since `e` is used to denote the challenge later on, it would be better to use `e` instead of `c` here as well, for consistency.",
+      "created_at": "2026-07-01T10:54:10Z",
+      "updated_at": "2026-07-01T10:57:16Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#discussion_r3505253424",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3505253424"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 167,
+      "original_line": 167,
       "side": "RIGHT"
     }
   ]
