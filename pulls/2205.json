@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-06-28T19:58:45Z",
-    "updated_at": "2026-07-01T21:49:36Z",
+    "updated_at": "2026-07-01T23:46:14Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -164,7 +164,7 @@
         "forks_count": 1,
         "stargazers_count": 1,
         "watchers_count": 1,
-        "size": 22295,
+        "size": 22296,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -177,7 +177,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-07-01T21:24:22Z",
+        "pushed_at": "2026-07-01T23:12:58Z",
         "created_at": "2019-06-13T15:48:17Z",
         "updated_at": "2026-06-30T22:01:25Z",
         "allow_forking": true
@@ -283,9 +283,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5966,
-        "stargazers_count": 10837,
-        "watchers_count": 10837,
+        "forks_count": 5967,
+        "stargazers_count": 10836,
+        "watchers_count": 10836,
         "size": 22239,
         "default_branch": "master",
         "open_issues_count": 39,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-06-28T20:34:28Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-07-01T18:37:29Z",
+        "updated_at": "2026-07-01T23:30:23Z",
         "allow_forking": true
       }
     },
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 26,
     "commits": 2,
-    "review_comments": 14,
+    "review_comments": 15,
     "comments": 2
   },
   "events": [
@@ -1808,6 +1808,60 @@
       "start_side": "RIGHT",
       "line": null,
       "original_line": 41,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3509639792",
+      "pull_request_review_id": 4613517001,
+      "id": 3509639792,
+      "node_id": "PRRC_kwDOAN28mc7RMNpw",
+      "diff_hunk": "@@ -0,0 +1,200 @@\n+<pre>\n+  BIP: ?\n+  Layer: Applications\n+  Title: Half-Aggregation of BIP 340 Signatures\n+  Authors: Tim Ruffing <crypto@timruffing.de>\n+           Jonas Nick <jonas@n-ck.net>\n+           Fabian Jahr <fjahr@protonmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Discussion: 2022-07-08: https://gnusha.org/pi/bitcoindev/33f275c2-06b1-4b4a-2a75-cafe36836503%40gmail.com/\n+  Requires: 340\n+</pre>\n+\n+== Introduction ==\n+\n+=== Abstract ===\n+\n+This document describes ''half-aggregation'' of BIP 340 signatures.\n+Half-aggregation is a non-interactive process for aggregating a collection of signatures into a single aggregate signature.\n+The size of the resulting aggregate signature is approximately half of the combined size of the original signatures.\n+\n+=== Copyright ===\n+\n+This document, along with the [[bip-XXXX/halfagg.py|reference implementation]] and [[bip-XXXX/vectors/|test vectors]], is licensed under the BSD-3-Clause License. The exception is the vendored copy of the secp256k1lab library in [[bip-XXXX/secp256k1lab/|bip-XXXX/secp256k1lab]], which is licensed under the MIT License as stated in its [[bip-XXXX/secp256k1lab/COPYING|COPYING]] file.\n+\n+=== Motivation ===\n+\n+Half-aggregation is applicable if there is a verifier that needs to verify multiple signatures.\n+Instead of sending individual signatures to the verifier, the signatures can be compressed into a single aggregate signature and sent to the verifier.\n+If the verifier can successfully verify the aggregate signature, the verifier can be sure that the individual signatures would have passed verification.\n+\n+The purpose of half-aggregation is to reduce the size of the data that is sent to the verifier.\n+While ''n'' BIP 340 signatures are ''64*n'' bytes, a half-aggregate of the same signatures is ''32*n + 32'' bytes.\n+The process of half-aggregation is straightforward: it is a pure function of the input signatures, public keys, and messages.\n+It is non-interactive and does ''not'' require cooperation from other parties, including signers or verifiers.\n+This is unlike interactive multisignature schemes such as MuSig2 ([[bip-0327.mediawiki|BIP 327]]), in which signers cooperate to produce a single signature under a single aggregate public key.\n+In half-aggregation, there is no aggregate key, and the aggregate signature is verified against the individual public keys and messages.\n+\n+There are a variety of scenarios where half-aggregation of BIP 340 signatures is useful.\n+To keep this section brief and avoid getting outdated quickly, we focus on listing example applications and defer the detailed discussion of the application-specific trade-offs to other places.\n+\n+One example is the Lightning Network routing gossip protocol, which [https://github.com/lightning/bolts/blob/2e8f2095a36afb9de38da0f3f0051c7dc16dfc36/07-routing-gossip.md as of this writing] involves messages that contain ECDSA signatures.\n+If the signature scheme was changed to BIP 340, half-aggregation could reduce the total amount of gossiped data.\n+Instead of sending individual gossip messages, nodes could assemble a batch of messages and half-aggregate the signatures of the individual messages into a single signature for the batch.\n+\n+Another application of half-aggregation is within the Bitcoin consensus protocol.\n+In particular, it has been discussed in the context of the [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2018-February/015700.html Graftroot proposal].\n+Half-aggregation would allow Graftroot spending to be as efficient as best-case Taproot spends by aggregating the signature of the ''surrogate script'' and signatures that satisfy this script.\n+Moreover, half-aggregation improves the efficiency of proposed Bitcoin script opcodes that verify multiple signatures, such as [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-February/019926.html OP_EVICT].\n+We can also imagine adding a Bitcoin script opcode that verifies a half-aggregate signature, allowing for more efficient non-interactive multi and threshold signatures.\n+\n+Half-aggregation can also be applied to the signatures in the inputs of Bitcoin transactions, a process known as cross-input signature aggregation (CISA).\n+This [https://github.com/ElementsProject/cross-input-aggregation/blob/master/savings.org reduces the size of an average transaction] by 20.6% and the weight by 7.6%.\n+A known downside of using half-aggregation is that some uses of adaptor signature protocols [https://github.com/ElementsProject/cross-input-aggregation#half-aggregation-and-adaptor-signatures may be incompatible].\n+Usually, CISA is proposed with interactive ''full'' signature aggregation instead of non-interactive half-aggregation because creating a valid transaction already requires cooperation, and full signature aggregation is more efficient.\n+However, the difference in complexity between half-aggregation and full aggregation is so significant that basing a CISA on half-aggregation is a legitimate approach.\n+\n+The most invasive application to Bitcoin's consensus would be block-wide signature aggregation.\n+It refers to a process where block producers aggregate as many transaction signatures as possible.\n+In the best case, a full block would only have a single half-aggregate signature.\n+While this is attractive from the efficiency perspective, block-wide aggregation requires more research (and, in particular, special attention to handling\n+[https://github.com/ElementsProject/cross-input-aggregation#half-aggregation-and-reorgs reorgs]).\n+\n+=== Rationale ===\n+\n+The idea for half-aggregation of Schnorr signatures was brought up in the context of block-wide signature aggregation [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2017-May/014272.html by Tadge Dryja on the Bitcoin mailing list] in 2017.\n+The scheme had a security flaw that was [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2017-May/014306.html noticed] and [https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2017-May/014308.html fixed] shortly after by Russell O'Connor and Andrew Poelstra.\n+In 2021 [https://eprint.iacr.org/2021/350 Chalkias, Garillot, Kondi and Nikolaenko] published a security proof in the random oracle model (ROM) that reduces the security of half-aggregation to the security of Schnorr signatures.\n+[https://eprint.iacr.org/2022/222.pdf Chen and Zhao] were able to produce a tight proof in the ROM and algebraic group model in the following year.\n+Moreover, they came up with an elegant approach to incremental aggregation that is used in this document.\n+\n+* Incremental aggregation allows non-interactively aggregating additional BIP 340 signatures into an existing half-aggregate signature.\n+* A half-aggregate signature of ''u'' BIP 340 input signatures is serialized as the ''(u+1)⋅32''-byte array ''r<sub>1</sub> || ... || r<sub>u</sub> || bytes(s)'' where ''r<sub>i</sub>'' is a 32-byte array from input signature ''i'' and ''s'' is a scalar aggregate (see below for details).\n+* This document does ''not'' specify the aggregation of multiple aggregate signatures (yet). It is possible, but requires changing the encoding of an aggregate signature. Since it is not possible to undo the aggregation of the s-values, when verifying of such an aggregate signature the randomizers need to be the same as when verifying the individual aggregate signature. Therefore, the aggregate signature needs to encode a tree that reveals how the individual signatures were aggregated and how the resulting aggregate signatures were reaggregated.\n+* The first randomizer ''z<sub>0</sub>'' is fixed to the constant ''1'', which speeds up verification because ''z<sub>0</sub>⋅R<sub>0</sub> = R<sub>0</sub>''. This optimization has been suggested and proven secure by [https://eprint.iacr.org/2022/222.pdf Chen and Zhao].\n+* This BIP does not impose a maximum number of signatures that can be aggregated in a single half-aggregate signature. Implementations may enforce limits, e.g., to facilitate testing, to prevent resource exhaustion and integer overflows. Additionally, applications should enforce a (possibly lower) limit that suits their needs, taking into account that processing large aggregates may take a considerable amount of time. We note that there must be agreement over the limits in consensus-critical applications.\n+\n+== Description ==\n+\n+=== Specification ===\n+\n+The specification is written in Python and can be found in [[bip-XXXX/halfagg.py|halfagg.py]].\n+Note that the specification depends on a vendored copy of the [https://github.com/secp256k1lab/secp256k1lab secp256k1lab library].\n+\n+=== Test Vectors ===\n+\n+Test vectors are provided in [[bip-XXXX/vectors/|vectors]] and are generated with a [[bip-XXXX/gen_test_vectors.py|generator script]].\n+The specification can be executed with the test vectors by running [[bip-XXXX/run_test_vectors.py|the run_test_vectors script]].\n+\n+=== Pseudocode ===\n+\n+The following pseudocode is ''not'' a specification but is only intended to augment the actual Python [[#specification|specification]].\n+\n+==== Notation ====\n+\n+The following conventions are used, with constants as defined for [https://www.secg.org/sec2-v2.pdf secp256k1]. We note that adapting this specification to other elliptic curves is not straightforward and can result in an insecure scheme<ref>Among other pitfalls, using the specification with a curve whose order is not close to the size of the range of the nonce derivation function is insecure.</ref>.",
+      "path": "bip-XXXX.mediawiki",
+      "position": 98,
+      "original_position": 98,
+      "commit_id": "5378d373fe585bdf247b4ab431fb6fd4dae754ee",
+      "original_commit_id": "22a16867284221b40dac3ab45d066ffd41251edd",
+      "in_reply_to_id": 3492755503,
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Yeah good point, keeping the notation intentionally close to BIP340 seems reasonable. I think the small mapping table you added is definitely helpful for (reference implementation) readers.",
+      "created_at": "2026-07-01T23:46:14Z",
+      "updated_at": "2026-07-01T23:46:14Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2205#discussion_r3509639792",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3509639792"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2205"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 98,
+      "original_line": 98,
       "side": "RIGHT"
     }
   ]
