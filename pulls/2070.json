@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-01-03T18:00:46Z",
-    "updated_at": "2026-07-01T10:57:16Z",
+    "updated_at": "2026-07-03T14:22:58Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -283,9 +283,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5966,
-        "stargazers_count": 10836,
-        "watchers_count": 10836,
+        "forks_count": 5968,
+        "stargazers_count": 10837,
+        "watchers_count": 10837,
         "size": 22239,
         "default_branch": "master",
         "open_issues_count": 39,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-06-28T20:34:28Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-07-01T09:36:02Z",
+        "updated_at": "2026-07-03T11:50:28Z",
         "allow_forking": true
       }
     },
@@ -317,7 +317,7 @@
     "changed_files": 48,
     "commits": 14,
     "review_comments": 174,
-    "comments": 21
+    "comments": 22
   },
   "events": [
     {
@@ -3926,6 +3926,64 @@
       "submitted_at": "2026-07-01T10:57:16Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
+    },
+    {
+      "event": "commented",
+      "id": 4877209144,
+      "node_id": "IC_kwDOAN28mc8AAAABIrROOA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/4877209144",
+      "actor": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-07-03T14:22:58Z",
+      "updated_at": "2026-07-03T14:22:58Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Sorry for being late with a comment of this kind, but I think this should somehow take into account the \"plausible attack on adaptive security of threshold Schnorr signatures\" by Elizabeth Crites and Alistair Stewart ([paper](https://eprint.iacr.org/2025/1001), [talk](https://youtu.be/fiomW_7euEk?list=PLeeS-3Ml-rppEDAlrjdfwJBBy46Lt8Q9a&t=2339)).\r\n\r\ntl;dr of the paper:\r\n - The result of the attack (if possible, see caveats below) is that the attacker can forge a signature after compromising (and learning the secret shares of) fewer than t participants.\r\n - It is not clear if there is an attack. It's only *plausible* in the sense that the attacker needs to solve a new computational problem from which nobody currently knows whether it's hard or not. This is unlike, e.g., the discrete logarithm problem on elliptic curves which has been studied for a long time, so that there's reasonable belief that it's hard.\r\n - The attack requires the attacker to be adaptive, i.e., the attacker chooses whom to corrupt after seeing the results of key generation including the public shares. This is realistic; and I think users expect that the scheme remains secure if the attacker can do this.\r\n - The attack requires t and n to be large. For example, a 131-of-196 setup is supposed to be easier to break than simply computing the discrete logarithm of the threshold public key but a 86-of-128 setup won't be affected (see Table 1 in the paper). Concretely, the authors suggest that the attack would be beneficial if `effort(n, t) < 128` whereas `effort` is defined as in this Python code for secp256k1.\r\n    ```python\r\n    from math import comb, log2\r\n    def effort(n: int, t: int) -> float:\r\n        c = comb(n, t-1)\r\n        return -log2(c / ((2**256) + c))\r\n    ```\r\n\r\nThe big question, of course, is what to do. I think there are two reasonable options:\r\n 1. Forbid affected parameters (n, t) entirely, and explain the rationale.\r\n 2. Only add a warning.\r\n\r\nI tend to think that option 1 is better. Of course, that's a restriction in practice, but we can't just move on and pretend that everything will be fine. If someone wants to ignore the restriction, they can still do this, but then they're on their own.",
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#issuecomment-4877209144",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2070"
     }
   ],
   "comments": [
