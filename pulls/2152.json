@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-05-06T12:00:18Z",
-    "updated_at": "2026-07-09T13:34:06Z",
+    "updated_at": "2026-07-09T17:32:51Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -164,7 +164,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 21973,
+        "size": 22264,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 8,
     "commits": 3,
-    "review_comments": 109,
+    "review_comments": 110,
     "comments": 9
   },
   "events": [
@@ -9415,6 +9415,60 @@
       "start_side": "RIGHT",
       "line": 62,
       "original_line": 61,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3553586722",
+      "pull_request_review_id": 4665334998,
+      "id": 3553586722,
+      "node_id": "PRRC_kwDOAN28mc7Tz24i",
+      "diff_hunk": "@@ -0,0 +1,158 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: SwiftSync initial block download\n+  Authors: Robert Netzke <rob@2140.dev>, Ruben Somsen <ruben@2140.dev>\n+  Deputies: Edil Medeiros <edil@vinteum.org>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Requires: BIP ?, BIP ?\n+  Discussion: https://groups.google.com/g/bitcoindev/c/FpSWUxItXQs/m/pnfjP6rFCgAJ\n+```\n+\n+## Abstract\n+\n+_SwiftSync_ is a protocol to accelerate initial block download (IBD) using existing cryptographic primitives and minimal\n+state. The protocol is comprised of hash aggregate for a set of elements and a \"hintsfile\" to indicate the spent-ness of\n+outputs in the chain history. Using these hints, clients may perform IBD in parallel, which maximizes the use of\n+existing system resources and shifts the performance limitations to internet quality.\n+\n+## Motivation\n+\n+Initial block download is the first user experience when using Bitcoin software, and, moreover, is a bootstrapping cost\n+for second layer protocols. Improvements to this process benefit end-users and scaling protocols alike. IBD faces two\n+limitations. First, although the lifetime of coins demonstrates an empirical distribution, cache misses occur for coins\n+that are deleted. This creates unnecessary disk I/O and database compaction. Secondly, given the structure of a block,\n+coins that are spent are indexed by their outpoint. This creates a requirement for clients to maintain a cache to fetch\n+coin metadata associated with an outpoint. _SwiftSync_ alleviates both of these limitations, allowing for IBD in as fast\n+as a client can download blocks and verify signatures.\n+\n+## Specification\n+\n+### Definitions\n+\n+- $H$: A hashing function\n+- $Hintsfile\\_{n}$: Defined in BIP ???\n+- $UTXO\\_{n}$: Unspent outputs at block height $n$\n+\n+_SwiftSync_ builds on a common observation in cryptography, that _verification_ is often orders of magnitude more\n+performant than _computation_. What a client seeks to verify when performing _SwiftSync_ is that a unspent transaction\n+output (UTXO) set indeed corresponds to the chain history downloaded from peers.\n+\n+A key invariant is that a UTXO set state at height $n$ is equivalent to all of the outputs created in the chain history,\n+less all of the inputs:\n+\n+$$ Outputs - UTXO\\_{n} = Inputs $$\n+\n+Given this relationship between the two sets, a client uses hints to $UTXO\\_{n}$ to verify the chain history they have\n+received is correct. This document describes the fully-validating client, however this protocol may be easily extended\n+to assume-valid assumptions.\n+\n+As a final note, some coins are guaranteed to be impossible to spend. We define an _unspendable output_ is defined as:\n+\n+- An output with script length over 10,000 OR\n+- An output beginning with `OP_RETURN` OR\n+- A [BIP-30](https://github.com/bitcoin/bips/blob/master/bip-0030.mediawiki) unspendable coinbase output\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHALL\", \"SHALL NOT\", \"SHOULD\", \"SHOULD NOT\", \"RECOMMENDED\", \"MAY\", and\n+\"OPTIONAL\" in this document are to be interpreted as described in RFC 2119.\n+\n+### Aggregation\n+\n+A client must compare $Outputs - UTXO\\_{n}$ with $Inputs$ in a succinct way. Rather than say, comparing the lists, a",
+      "path": "bip-0457.md",
+      "position": 1,
+      "original_position": 64,
+      "commit_id": "5a9105c51e8fcca17dfae01a415b207e261dea04",
+      "original_commit_id": "2abf06aa05b991cf66f7e0575227bc4e23609f86",
+      "in_reply_to_id": 3509380809,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I noticed that only one of the three changes was adopted, while the comment was marked as resolved. That made me wonder whether you overlooked the other suggestions or preferred it as is. Perhaps you could leave a brief reply when it might not be obvious why you didn’t take a suggestion as you mark it resolved.\r\n\r\nI was suggesting to use `\\text{…}` for each word, because the words in the rendering of the math syntax have kerning as if each letter is intended to be its own symbol which looks weird to me. Even with `\\text`, the words would still look distinct from the regular text: note how UTXO<sub>n</sub> uses a serif font, whereas the rest of the document uses a sans-serif font.\r\n\r\n<img width=\"790\" height=\"1013\" alt=\"image\" src=\"https://github.com/user-attachments/assets/e13f8195-538e-4ebc-9c02-c6530a36a175\" />\r\n\r\nAnyway, please feel free to not take the suggestion if you like it as is.",
+      "created_at": "2026-07-09T17:32:50Z",
+      "updated_at": "2026-07-09T17:32:51Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2152#discussion_r3553586722",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3553586722"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2152"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 64,
       "side": "RIGHT"
     }
   ]
