@@ -61,11 +61,11 @@
       }
     ],
     "created_at": "2026-01-03T18:00:46Z",
-    "updated_at": "2026-07-08T12:36:41Z",
+    "updated_at": "2026-07-10T08:40:48Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "4b262dbdc04dd582c8d347606c86e2a12c1a35c1",
+    "merge_commit_sha": "0cd14b1d5e43e4d932a4f6c03a10d85eed34056a",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -292,12 +292,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5969,
-        "stargazers_count": 10845,
-        "watchers_count": 10845,
-        "size": 22239,
+        "forks_count": 5968,
+        "stargazers_count": 10847,
+        "watchers_count": 10847,
+        "size": 22235,
         "default_branch": "master",
-        "open_issues_count": 42,
+        "open_issues_count": 41,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -308,9 +308,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-06-28T20:34:28Z",
+        "pushed_at": "2026-07-08T20:00:09Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-07-08T12:30:06Z",
+        "updated_at": "2026-07-10T03:14:59Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 0,
     "changed_files": 48,
     "commits": 14,
-    "review_comments": 174,
+    "review_comments": 176,
     "comments": 24
   },
   "events": [
@@ -4268,6 +4268,44 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-07-08T12:36:43Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 4669872229,
+      "node_id": "PRR_kwDOAN28mc8AAAABFliYZQ",
+      "url": null,
+      "actor": null,
+      "commit_id": "1f456d8b5c0426216d2e8fa97c17faf3fd32611d",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-07-10T08:40:48Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#pullrequestreview-4669872229",
+      "submitted_at": "2026-07-10T08:40:48Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
     }
   ],
   "comments": [
@@ -13665,6 +13703,60 @@
       "start_side": null,
       "line": 167,
       "original_line": 167,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3557529530",
+      "pull_request_review_id": 4669872229,
+      "id": 3557529530,
+      "node_id": "PRRC_kwDOAN28mc7UC5e6",
+      "diff_hunk": "@@ -0,0 +1,857 @@\n+```\n+  BIP: 445\n+  Title: FROST Signing Protocol for BIP340 Signatures\n+  Authors: Sivaram Dhakshinamoorthy <siv2ram@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2026-01-30\n+  License: CC0-1.0\n+  Discussion: 2024-07-31: https://groups.google.com/g/bitcoindev/c/PeMp2HQl-H4/m/AcJtK0aKAwAJ\n+  Requires: 340\n+```\n+\n+## Abstract\n+\n+This document proposes a standard for the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol. The standard is compatible with [BIP340][bip340] public keys and signatures. It supports *tweaking*, which allows deriving [BIP32][bip32] child keys from the threshold public key and creating [BIP341][bip341] Taproot outputs with key and script paths.\n+\n+## Copyright\n+\n+This document is made available under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).\n+The accompanying source code is licensed under the [MIT license](https://opensource.org/license/mit).\n+\n+## Motivation\n+\n+The FROST signature scheme enables threshold Schnorr signatures. In a *t-of-n* threshold configuration, any *t*[^t-edge-cases] participants can cooperatively produce a Schnorr signature that is indistinguishable from a signature produced by a single signer. FROST signatures are unforgeable as long as fewer than *t* participants are corrupted. The signing protocol remains functional provided that at least *t* honest participants retain access to their secret key shares.\n+\n+[^t-edge-cases]: While *t = n* and *t = 1* are in principle supported, simpler alternatives are available in these cases. In the case *t = n*, using a dedicated *n-of-n* multi-signature scheme such as MuSig2 (see [BIP327][bip327]) instead of FROST avoids the need for an interactive DKG. The case *t = 1* can be realized by letting one signer generate an ordinary [BIP340][bip340] key pair and transmitting the key pair to every other signer, who can check its consistency and then simply use the ordinary [BIP340][bip340] signing algorithm. Signers still need to ensure that they agree on a key pair.\n+\n+The IRTF has published [RFC 9591][rfc9591], which specifies the FROST signing protocol for several elliptic curve and hash function combinations, including secp256k1 with SHA-256, the cryptographic primitives used in Bitcoin. However, the signatures produced by RFC 9591 are incompatible with BIP340 Schnorr signatures due to the X-only public keys introduced in BIP340. Additionally, RFC 9591 does not specify key tweaking mechanisms, which are essential for Bitcoin applications such as [BIP32][bip32] key derivation and [BIP341][bip341] Taproot. This document addresses these limitations by specifying a BIP340-compatible variant of FROST signing protocol that supports key tweaking.\n+\n+Following the initial publication of the FROST protocol[[KG20][frost1]], several optimized variants have been proposed to improve computational efficiency and bandwidth optimization: FROST2[[CKM21][frost2]], FROST2-BTZ[[BTZ21][stronger-security-frost]], and FROST3[[RRJSS][roast], [CGRS23][olaf]]. Among these variants, FROST3 is the most efficient variant to date.\n+\n+This document specifies the FROST3 variant[^frost3-security]. The FROST3 signing protocol shares substantial similarities with the MuSig2 signing protocol specified in [BIP327][bip327]. Accordingly, this specification adopts several design principles from BIP327, including support for key tweaking, partial signature verification, and identifiable abort mechanisms. We note that significant portions of this document have been directly adapted from BIP327 due to the similarities in the signing protocols. Key generation for FROST signing is out of scope for this document.\n+\n+[^frost3-security]: The FROST3 signing scheme has been proven existentially unforgeable for both trusted dealer and distributed key generation setups. When using a trusted dealer for key generation, security reduces to the standard One-More Discrete Logarithm (OMDL) assumption. When instantiated with a distributed key generation protocol such as SimplPedPoP, security reduces to the Algebraic One-More Discrete Logarithm (AOMDL) assumption.",
+      "path": "bip-0445.md",
+      "position": 34,
+      "original_position": 34,
+      "commit_id": "1f456d8b5c0426216d2e8fa97c17faf3fd32611d",
+      "original_commit_id": "1f456d8b5c0426216d2e8fa97c17faf3fd32611d",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "nit:\n```suggestion\n[^frost3-security]: FROST3 has been proven existentially unforgeable under the Algebraic One-More Discrete Logarithm (AOMDL) assumption, for both trusted dealer and distributed key generation using the SimplPedPop protocol[[CGRS23][olaf]].\n```\n\nIt's a bit misleading to distinguish OMDL and AOMDL here.  The Olaf paper shows unforgeability with SimplPedPop under AOMDL (which is a weaker assumption than OMDL and thus prefereable). Unforgeability with SimplPedPop implies unforgeability with a trusted dealer. As a result, unforgeability in both settings reduces to AODML.",
+      "created_at": "2026-07-10T08:40:48Z",
+      "updated_at": "2026-07-10T08:40:48Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#discussion_r3557529530",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3557529530"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 34,
+      "original_line": 34,
       "side": "RIGHT"
     }
   ]
