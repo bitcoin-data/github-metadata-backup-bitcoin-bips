@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-05-06T12:00:18Z",
-    "updated_at": "2026-07-13T08:19:39Z",
+    "updated_at": "2026-07-13T11:35:56Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -164,7 +164,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22264,
+        "size": 22273,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -284,8 +284,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5972,
-        "stargazers_count": 10851,
-        "watchers_count": 10851,
+        "stargazers_count": 10848,
+        "watchers_count": 10848,
         "size": 22245,
         "default_branch": "master",
         "open_issues_count": 41,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-07-10T18:13:49Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-07-13T08:43:24Z",
+        "updated_at": "2026-07-13T10:16:33Z",
         "allow_forking": true
       }
     },
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 8,
     "commits": 3,
-    "review_comments": 113,
+    "review_comments": 114,
     "comments": 9
   },
   "events": [
@@ -9786,6 +9786,60 @@
       "start_side": null,
       "line": null,
       "original_line": 38,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3570290766",
+      "pull_request_review_id": 4684313140,
+      "id": 3570290766,
+      "node_id": "PRRC_kwDOAN28mc7UzlBO",
+      "diff_hunk": "@@ -0,0 +1,158 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: SwiftSync initial block download\n+  Authors: Robert Netzke <rob@2140.dev>, Ruben Somsen <ruben@2140.dev>\n+  Deputies: Edil Medeiros <edil@vinteum.org>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Requires: BIP ?, BIP ?\n+  Discussion: https://groups.google.com/g/bitcoindev/c/FpSWUxItXQs/m/pnfjP6rFCgAJ\n+```\n+\n+## Abstract\n+\n+_SwiftSync_ is a protocol to accelerate initial block download (IBD) using existing cryptographic primitives and minimal\n+state. The protocol is comprised of hash aggregate for a set of elements and a \"hintsfile\" to indicate the spent-ness of\n+outputs in the chain history. Using these hints, clients may perform IBD in parallel, which maximizes the use of\n+existing system resources and shifts the performance limitations to internet quality.\n+\n+## Motivation\n+\n+Initial block download is the first user experience when using Bitcoin software, and, moreover, is a bootstrapping cost\n+for second layer protocols. Improvements to this process benefit end-users and scaling protocols alike. IBD faces two\n+limitations. First, although the lifetime of coins demonstrates an empirical distribution, cache misses occur for coins\n+that are deleted. This creates unnecessary disk I/O and database compaction. Secondly, given the structure of a block,\n+coins that are spent are indexed by their outpoint. This creates a requirement for clients to maintain a cache to fetch\n+coin metadata associated with an outpoint. _SwiftSync_ alleviates both of these limitations, allowing for IBD in as fast\n+as a client can download blocks and verify signatures.\n+\n+## Specification\n+\n+### Definitions\n+\n+- $H$: A hashing function\n+- $Hintsfile\\_{n}$: Defined in BIP ???\n+- $UTXO\\_{n}$: Unspent outputs at block height $n$\n+\n+_SwiftSync_ builds on a common observation in cryptography, that _verification_ is often orders of magnitude more\n+performant than _computation_. What a client seeks to verify when performing _SwiftSync_ is that a unspent transaction\n+output (UTXO) set indeed corresponds to the chain history downloaded from peers.\n+\n+A key invariant is that a UTXO set state at height $n$ is equivalent to all of the outputs created in the chain history,\n+less all of the inputs:\n+\n+$$ Outputs - UTXO\\_{n} = Inputs $$\n+\n+Given this relationship between the two sets, a client uses hints to $UTXO\\_{n}$ to verify the chain history they have\n+received is correct. This document describes the fully-validating client, however this protocol may be easily extended\n+to assume-valid assumptions.\n+\n+As a final note, some coins are guaranteed to be impossible to spend. We define an _unspendable output_ is defined as:\n+\n+- An output with script length over 10,000 OR\n+- An output beginning with `OP_RETURN` OR\n+- A [BIP-30](https://github.com/bitcoin/bips/blob/master/bip-0030.mediawiki) unspendable coinbase output\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHALL\", \"SHALL NOT\", \"SHOULD\", \"SHOULD NOT\", \"RECOMMENDED\", \"MAY\", and\n+\"OPTIONAL\" in this document are to be interpreted as described in RFC 2119.\n+\n+### Aggregation\n+\n+A client must compare $Outputs - UTXO\\_{n}$ with $Inputs$ in a succinct way. Rather than say, comparing the lists, a\n+client may compute two aggregates, and compare the values at the end of the protocol. The _aggregate_ is defined over\n+the data structure of the elements and a hashing function. It is recommended, but not strictly required, that a client\n+uses the typical SHA-256 hash, with an additional randomly generated salt value[^1]. The elements of the set a client\n+compares are _coins_, which are defined as the following:\n+\n+```\n+Coin = CreationHeight || CoinbaseFlag || OutputScript || Amount || Outpoint\n+```\n+\n+Each field of the `Coin` is serialized before hashing as follows:\n+\n+| Element                               | Serialization                                    |\n+| :------------------------------------ | :----------------------------------------------- |\n+| `Creation Height` and `Coinbase Flag` | `HeightAndCoinbaseFlagCode` described in BIP ??? |\n+| `Output Script`                       | as in the block representation                   |\n+| `Amount`                              | unsigned 64-bit integer, little endian           |\n+| `Outpoint`                            | as in the block representation                   |\n+\n+To add an element to an aggregate, a client computes the $H(Coin)$ and interprets that number as an unsigned 256-bit\n+integer. To update the state of the aggregate, a client simply adds this element to the previous state, modulo 256 bits.\n+Thus, for a set of $Coin$, the _aggregate_ is defined as:\n+\n+$Agg = H(Coin\\_{0}) + ... + H(Coin\\_{i})\\\\mod2^{256}$\n+\n+### Protocol\n+\n+Block validation when performing _SwiftSync_ is nearly the same, only with a few additional steps. First, a client\n+requires a $Hintsfile\\_{n}$ and initializes two aggregates with the same value (i.e. zero), one for block inputs\n+$Agg\\_{inputs}$, the other for block outputs $Agg\\_{outputs}$\n+\n+When downloading blocks, _SwiftSync_ clients will do the following:\n+\n+1. Download the required spent coins data defined in BIP ???.\n+1. Using the undo data, validate the block. If the block is invalid, fail.\n+1. For all inputs, except the coinbase, add the hashes to $Agg\\_{inputs}$ using the spent coin data.\n+1. For all outputs:\n+   1. If the output is _unspendable_, continue\n+   1. If the output is in $Hintsfile\\_{n}$, add the output to $UTXO\\_{n}$. Else, add the hash of the output coin to\n+      $Agg\\_{outputs}$.\n+\n+Notice here that a client does not have to download blocks in any particular order, and may download blocks from\n+multiple peers at a time. A client then verifies $Agg\\_{outputs} = Agg\\_{inputs}$ once they have arrived at height\n+$n$[^2]. If the verification succeeds, the client accepts $UTXO\\_{n}$ as valid. In the failure case, the client rejects\n+$UTXO\\_{n}$ and attempts to recover using a reindex in the usual serial case.\n+\n+## Rationale\n+\n+While there are hash functions, such as siphash, that may offer a performance improvement compared to SHA-256, consensus\n+is already dependent on the cryptographic assumptions of SHA. Thus, SHA-256 is recommended to circumvent adding new\n+cryptographic assumptions to IBD. On griefing, a malicious peer may construct spent coins that is valid for the given\n+block, yet it is not spending the correct coins in the history for the chain of most work. Take, for example, a\n+trivially spendable output. The malicious peer may use any script when serving the block inputs, which will alter the\n+output of $H\\_{salt}(Coin)$, ultimately causing the final verification to fail. To mitigate this, it is encouraged to\n+commit to the hashes of the block inputs, either within the binary or file from a semi-trusted source.\n+\n+## Note on BIP-30 and BIP-34\n+\n+During the period between the genesis block and BIP-34 activation, a _SwiftSync_ client must check for duplicate\n+coinbase outputs. A cache of these outputs is modest in memory footprint, and may be easily added and queried for the\n+fixed block range. More information on this caveat is detailed in\n+[this article](https://gist.github.com/RubenSomsen/a02b9071bf81b922dcc9edea7d810b7c).",
+      "path": "bip-0457.md",
+      "position": 126,
+      "original_position": 125,
+      "commit_id": "0ffd583746aa1259cc9350e0b447ecade14106df",
+      "original_commit_id": "2abf06aa05b991cf66f7e0575227bc4e23609f86",
+      "in_reply_to_id": 3509417386,
+      "user": {
+        "login": "RubenSomsen",
+        "id": 9066803,
+        "node_id": "MDQ6VXNlcjkwNjY4MDM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/9066803?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/RubenSomsen",
+        "html_url": "https://github.com/RubenSomsen",
+        "followers_url": "https://api.github.com/users/RubenSomsen/followers",
+        "following_url": "https://api.github.com/users/RubenSomsen/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/RubenSomsen/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/RubenSomsen/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/RubenSomsen/subscriptions",
+        "organizations_url": "https://api.github.com/users/RubenSomsen/orgs",
+        "repos_url": "https://api.github.com/users/RubenSomsen/repos",
+        "events_url": "https://api.github.com/users/RubenSomsen/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/RubenSomsen/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Yes, the exceptions must be hardcoded, but that doesn't cover the whole issue, as it neglects to account for the rule. The rule is that until BIP34 activates, BIP30 remains active and duplicate outputs are not allowed to exist in the UTXO set. This is actively being verified by Bitcoin Core full nodes. You can certainly skip the check, but that would be akin to skipping certain validation rules with assumevalid enabled. If we want to do full validation without assumptions, we must check for this.\r\n\r\nGiven that we don't have normal access to the UTXO set during SwiftSync IBD to check for UTXO uniqueness (as BIP30 mandates), we can instead check for coinbase uniqueness as described [here](https://gist.github.com/RubenSomsen/a02b9071bf81b922dcc9edea7d810b7c#solution:~:text=Given%20that%20we%20have%20no%20duplicates%2C%20barring%20the%20two%20exceptions%2C%20we%20could%20replace%20the%20inefficient%20BIP30%20UTXO%20set%20check%20with%20a%20coinbase%20uniqueness%20check.%20We%20simply%20cache%20the%20coinbase%20TXIDs%20and%20ensure%20there%20are%20no%20duplicates.%20Doing%20this%20until%20block%20227931%20results%20in%20a%20modest%20~7MB%20cache.). Note that this solution assumes there is no reorg to any point before BIP34 activation. This is (among others) because what we're doing is technically more strict than what BIP30 enforces, but it does work on the current chain.\r\n\r\nAs you stated, never expecting such a reorg is a reasonable assumption, but in my opinion conservative clients should always aim to account for these types of scenarios regardless. In this particular case a simple solution exists, so it's not too much to ask - just disable SwiftSync and fall back to regular validation in (the largely theoretical) case of such a reorg.\r\n\r\nMore generally speaking, discrepancies are also a form of complexity. I think we are on much more solid ground if we are able to demonstrate that validation with or without SwiftSync results in the exact same outcome under any given scenario.",
+      "created_at": "2026-07-13T11:35:56Z",
+      "updated_at": "2026-07-13T11:42:00Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2152#discussion_r3570290766",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3570290766"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2152"
+        }
+      },
+      "start_line": 123,
+      "original_start_line": 122,
+      "start_side": "RIGHT",
+      "line": 126,
+      "original_line": 125,
       "side": "RIGHT"
     }
   ]
