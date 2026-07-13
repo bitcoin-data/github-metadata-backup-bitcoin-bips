@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-05-06T12:00:18Z",
-    "updated_at": "2026-07-13T11:35:56Z",
+    "updated_at": "2026-07-13T21:18:30Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -283,9 +283,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5972,
-        "stargazers_count": 10848,
-        "watchers_count": 10848,
+        "forks_count": 5971,
+        "stargazers_count": 10850,
+        "watchers_count": 10850,
         "size": 22245,
         "default_branch": "master",
         "open_issues_count": 41,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-07-10T18:13:49Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-07-13T10:16:33Z",
+        "updated_at": "2026-07-13T20:11:05Z",
         "allow_forking": true
       }
     },
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 8,
     "commits": 3,
-    "review_comments": 114,
+    "review_comments": 115,
     "comments": 9
   },
   "events": [
@@ -3683,6 +3683,37 @@
       "commit_id": "0ffd583746aa1259cc9350e0b447ecade14106df",
       "commit_url": "https://api.github.com/repos/rustaceanrob/bips/commits/0ffd583746aa1259cc9350e0b447ecade14106df",
       "created_at": "2026-07-13T08:19:39Z"
+    },
+    {
+      "event": "unsubscribed",
+      "id": 27932641283,
+      "node_id": "UE_lADOAN28mc8AAAABBbuC2M8AAAAGgOpIAw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/27932641283",
+      "actor": {
+        "login": "marksedgwickNET",
+        "id": 44738320,
+        "node_id": "MDQ6VXNlcjQ0NzM4MzIw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/44738320?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/marksedgwickNET",
+        "html_url": "https://github.com/marksedgwickNET",
+        "followers_url": "https://api.github.com/users/marksedgwickNET/followers",
+        "following_url": "https://api.github.com/users/marksedgwickNET/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/marksedgwickNET/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/marksedgwickNET/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/marksedgwickNET/subscriptions",
+        "organizations_url": "https://api.github.com/users/marksedgwickNET/orgs",
+        "repos_url": "https://api.github.com/users/marksedgwickNET/repos",
+        "events_url": "https://api.github.com/users/marksedgwickNET/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/marksedgwickNET/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-07-13T21:52:45Z"
     }
   ],
   "comments": [
@@ -9840,6 +9871,60 @@
       "start_side": "RIGHT",
       "line": 126,
       "original_line": 125,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3574212416",
+      "pull_request_review_id": 4688809567,
+      "id": 3574212416,
+      "node_id": "PRRC_kwDOAN28mc7VCidA",
+      "diff_hunk": "@@ -0,0 +1,158 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: SwiftSync initial block download\n+  Authors: Robert Netzke <rob@2140.dev>, Ruben Somsen <ruben@2140.dev>\n+  Deputies: Edil Medeiros <edil@vinteum.org>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Requires: BIP ?, BIP ?\n+  Discussion: https://groups.google.com/g/bitcoindev/c/FpSWUxItXQs/m/pnfjP6rFCgAJ\n+```\n+\n+## Abstract\n+\n+_SwiftSync_ is a protocol to accelerate initial block download (IBD) using existing cryptographic primitives and minimal\n+state. The protocol is comprised of hash aggregate for a set of elements and a \"hintsfile\" to indicate the spent-ness of\n+outputs in the chain history. Using these hints, clients may perform IBD in parallel, which maximizes the use of\n+existing system resources and shifts the performance limitations to internet quality.\n+\n+## Motivation\n+\n+Initial block download is the first user experience when using Bitcoin software, and, moreover, is a bootstrapping cost\n+for second layer protocols. Improvements to this process benefit end-users and scaling protocols alike. IBD faces two\n+limitations. First, although the lifetime of coins demonstrates an empirical distribution, cache misses occur for coins\n+that are deleted. This creates unnecessary disk I/O and database compaction. Secondly, given the structure of a block,\n+coins that are spent are indexed by their outpoint. This creates a requirement for clients to maintain a cache to fetch\n+coin metadata associated with an outpoint. _SwiftSync_ alleviates both of these limitations, allowing for IBD in as fast\n+as a client can download blocks and verify signatures.",
+      "path": "bip-0457.md",
+      "position": 31,
+      "original_position": 30,
+      "commit_id": "0ffd583746aa1259cc9350e0b447ecade14106df",
+      "original_commit_id": "2abf06aa05b991cf66f7e0575227bc4e23609f86",
+      "in_reply_to_id": 3509277403,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Not all Bitcoin software does an IBD, not all Bitcoin software removes spent TXOs, e.g., it’s my understanding that `libbitcoin` stores all TXOs in a database, rather than separately manifesting a UTXO set. It seemed to me that some of this paragraph would apply to Bitcoin Core, but might not apply to other software, and speaking about Bitcoin software in general felt inaccurate.",
+      "created_at": "2026-07-13T21:18:30Z",
+      "updated_at": "2026-07-13T21:18:30Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2152#discussion_r3574212416",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3574212416"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2152"
+        }
+      },
+      "start_line": 25,
+      "original_start_line": 24,
+      "start_side": "RIGHT",
+      "line": 31,
+      "original_line": 30,
       "side": "RIGHT"
     }
   ]
