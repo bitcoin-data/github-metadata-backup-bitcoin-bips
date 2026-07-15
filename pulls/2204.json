@@ -62,7 +62,7 @@
       }
     ],
     "created_at": "2026-06-27T14:41:53Z",
-    "updated_at": "2026-07-15T18:55:25Z",
+    "updated_at": "2026-07-15T19:21:34Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -326,7 +326,7 @@
     "deletions": 66,
     "changed_files": 2,
     "commits": 2,
-    "review_comments": 4,
+    "review_comments": 5,
     "comments": 0
   },
   "events": [
@@ -549,6 +549,45 @@
       "submitted_at": "2026-06-28T19:56:29Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2204"
+    },
+    {
+      "event": "reviewed",
+      "id": 4707407334,
+      "node_id": "PRR_kwDOAN28mc8AAAABGJVV5g",
+      "url": null,
+      "actor": null,
+      "commit_id": "e840999d2dc3e19ea0f9bdda70b977ba6f666e6f",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-07-15T19:21:34Z",
+      "author_association": "MEMBER",
+      "body": "LGTM, the wordspan notation looks very helpful.\r\n\r\nGiven the triviality of the nit I commented on, I’ll merge this PR in a couple days if there is no update, but if you want to fix it or something else, please feel free to update.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2204#pullrequestreview-4707407334",
+      "submitted_at": "2026-07-15T19:19:47Z",
+      "state": "APPROVED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2204"
     }
   ],
   "comments": [
@@ -766,6 +805,60 @@
       "start_side": null,
       "line": 351,
       "original_line": 351,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3590119335",
+      "pull_request_review_id": 4707407334,
+      "id": 3590119335,
+      "node_id": "PRRC_kwDOAN28mc7V_N-n",
+      "diff_hunk": "@@ -660,22 +685,23 @@ using multiple instructions).\n For multiplication, the steps break down like so:\n # Allocate and zero the result: cost = (length(A) + length(B)) * 2 (ZEROING)\n # For each word in A:\n-#* Multiply by each word in B, into a scratch vector: cost = 6 * ((length(B) + 7) / 8) * 8 (ARITH)\n-#* Sum scratch vector at the word offset into the result: cost = 6 * ((length(B) + 7) / 8) * 8 (ARITH)\n+#* Multiply by each word in B, into a scratch vector: cost = 6 * wordspan(B) (ARITH)\n+#* Sum scratch vector at the word offset into the result: cost = 6 * wordspan(B) (ARITH)\n \n-We increase the length of B here to the next word boundary, using\n-\"((length(B) + 7) / 8) * 8\", as the multiplication below makes the\n-difference of that from the simple \"length(B)\" significant.\n+We increase the operand lengths to the next word boundary for the word-span\n+loops, using <code>wordspan(n)</code> from [[bip-0440.mediawiki|BIP440]], as",
+      "path": "bip-0441.mediawiki",
+      "position": 272,
+      "original_position": 272,
+      "commit_id": "e840999d2dc3e19ea0f9bdda70b977ba6f666e6f",
+      "original_commit_id": "e840999d2dc3e19ea0f9bdda70b977ba6f666e6f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Nano-consistency-nit: BIP440 speaks of `<code>wordspan(X)</code>`, while this line calls it `<code>wordspan(n)</code>`.",
+      "created_at": "2026-07-15T19:17:24Z",
+      "updated_at": "2026-07-15T19:19:47Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2204#discussion_r3590119335",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3590119335"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2204"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 692,
+      "original_line": 692,
       "side": "RIGHT"
     }
   ]
