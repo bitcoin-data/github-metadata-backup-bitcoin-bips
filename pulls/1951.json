@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2025-09-04T06:47:33Z",
-    "updated_at": "2026-07-21T14:11:45Z",
+    "updated_at": "2026-07-21T21:46:01Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -172,7 +172,7 @@
         "has_projects": true,
         "has_wiki": true,
         "has_pages": false,
-        "has_downloads": true,
+        "has_downloads": false,
         "archived": false,
         "disabled": false,
         "visibility": "public",
@@ -287,14 +287,14 @@
         "watchers_count": 10857,
         "size": 22299,
         "default_branch": "master",
-        "open_issues_count": 36,
+        "open_issues_count": 37,
         "is_template": false,
         "topics": [],
         "has_issues": false,
         "has_projects": false,
         "has_wiki": true,
         "has_pages": false,
-        "has_downloads": true,
+        "has_downloads": false,
         "archived": false,
         "disabled": false,
         "visibility": "public",
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 11,
     "commits": 31,
-    "review_comments": 92,
+    "review_comments": 93,
     "comments": 71
   },
   "events": [
@@ -15451,6 +15451,60 @@
       "start_side": null,
       "line": 119,
       "original_line": 119,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3625918417",
+      "pull_request_review_id": 4749269133,
+      "id": 3625918417,
+      "node_id": "PRRC_kwDOAN28mc7YHx_R",
+      "diff_hunk": "@@ -0,0 +1,600 @@\n+```\n+  BIP: 138\n+  Layer: Applications\n+  Title: Compact Encryption Scheme for Non-seed Wallet Data\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2026-05-11\n+  License: BSD-2-Clause\n+  Discussion: https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts/1607\n+              https://groups.google.com/g/bitcoindev/c/5NgJbpVDgEc/m/TtGK9sF9BgAJ\n+              https://github.com/bitcoin/bips/pull/1951\n+  Requires: 32, 340, 380, 388, 389\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines a compact encryption scheme for **output script descriptors** (BIP-0380),\n+**wallet policies** (BIP-0388), and other wallet metadata.\n+The payload must not contain any private key material.\n+\n+Users can store encrypted backups on untrusted media or cloud services without leaking\n+addresses, script structures, or cosigner counts. The encryption key derives from the\n+lexicographically-sorted public keys in the descriptor, allowing any keyholder to decrypt\n+without additional secrets.\n+\n+Though designed for descriptors and policies, the scheme works equally well for labels\n+and backup metadata.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+Losing the **wallet descriptor** (or **wallet policy**) is almost as catastrophic as\n+losing the seed itself. The seed lets you sign, but the descriptor maps you to your coins.\n+For multisig or miniscript wallets, keys alone are insufficient: without the descriptor, you\n+can't reconstruct the script.\n+\n+Multisig setups can be designed to retain access to coins even if one of the\n+seeds is lost, for example a 3-of-3 MuSig2 keypath with a script path that lets\n+2-of-3 recover. But when one seed is lost, its public key may also be lost,\n+rendering the coins inaccessible. This risk is not intuitive.\n+\n+Offline storage of descriptors has two practical obstacles:\n+\n+1. **Descriptors are hard to store offline.**  \n+   Descriptors can be much longer than a 12/24-word seed. Paper and steel backups\n+   become impractical or error-prone, while USB sticks and other offline digital\n+   storage solutions degrade over time and are unlikely to survive flood or fire.\n+\n+2. **Online redundancy carries privacy risk.**  \n+   Phones and cloud storage solve the length problem but expose your wallet\n+   structure. Plaintext descriptors leak your pubkeys and script details.\n+   Cloud storage is often unencrypted, and even cloud encryption could be compromised,\n+   depending on (often opaque) implementation details. Its security also reduces to\n+   that of the weakest device with cloud access. Each copy increases the attack surface.\n+\n+This BIP therefore proposes an **encrypted**, compact backup format that:\n+\n+* can be **safely stored in multiple places**, including untrusted online services,  \n+* can be **decrypted only by intended holders** of specified _public_ keys,\n+\n+See the original [Delving post](https://delvingbitcoin.org/t/a-simple-backup-scheme-for-wallet-accounts/1607/31)\n+for more background.\n+\n+### Expected properties\n+\n+* **Encrypted**: safe to store with untrusted cloud providers or backup services  \n+* **Access controlled**:\n+  * only designated cosigners can decrypt, using their xpub\n+  * can't be decrypted using public keys revealed on chain\n+* **Easy to implement**:\n+  * it should not require any sophisticated tools/libraries\n+  * it should not require access to private key material, which secure signing systems may not yield\n+* **Vendor-neutral**: works with any hardware signer\n+\n+### Scope\n+\n+This proposal targets output script descriptors (BIP-0380) and policies (BIP-0388), but the\n+scheme also works for labels (BIP-0329) and other wallet metadata like\n+wallet backup metadata (BIP-0139).\n+\n+Private key material MUST be removed before encrypting any payload.\n+This is because the use of _public key_ material for decryption makes the\n+scheme unsuitable for storing private key material.\n+\n+## Specification\n+\n+Note: in the following sections, the operator ⊕ refers to the bitwise XOR operation.\n+\n+### Secret generation\n+\n+- Let $p_1, p_2, \\dots, p_n$, be the public keys in the descriptor/wallet policy, in\n+  increasing lexicographical order. The scheme is defined for any $n \\geq 1$,\n+  in particular it supports single-signature descriptors ($n = 1$). Each $p_i$\n+  is the x-only-normalized root public key of one *allowed* key expression\n+  (see [Descriptor key requirements](#descriptor-key-requirements)).\n+- Let $s$ = tagged_hash(\"BIP138_DECRYPTION_SECRET\", $p_1$ | $p_2$ | ... | $p_n$)\n+- Let $s_i$ = tagged_hash(\"BIP138_INDIVIDUAL_SECRET\", $p_i$)\n+- Let $c_i$ = $s$ ⊕ $s_i$\n+\n+where tagged_hash(tag, m) = sha256(sha256(tag) | sha256(tag) | m) is the tagged\n+hash construction from [BIP340](bip-0340.mediawiki#design).\n+\n+Because $s$ and $s_i$ use distinct domain-separation tags, $s \\neq s_i$ and\n+therefore $c_i$ is never the all-zero string.\n+\n+**Note:** To prevent attackers from decrypting the backup using publicly known\n+keys, explicitly exclude any public keys with x coordinate\n+`50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0` (the BIP341 NUMS\n+point, used as a taproot internal key in some applications). Additionally, exclude any\n+other publicly known keys.\n+\n+Applications that exclude additional keys SHOULD document this, although decryption\n+using these keys will simply fail. This does not affect decryption with the remaining\n+keys.",
+      "path": "bip-0138.md",
+      "position": 123,
+      "original_position": 123,
+      "commit_id": "65b4c38a0237e1cfeb2c80f845ca4547d09c5403",
+      "original_commit_id": "65b4c38a0237e1cfeb2c80f845ca4547d09c5403",
+      "in_reply_to_id": 3621764623,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "In technical writing, please feel free to reuse the same term repeatedly as you are going for clarity, not prose. :)",
+      "created_at": "2026-07-21T21:46:01Z",
+      "updated_at": "2026-07-21T21:46:17Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/1951#discussion_r3625918417",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3625918417"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/1951"
+        }
+      },
+      "start_line": 121,
+      "original_start_line": 121,
+      "start_side": "RIGHT",
+      "line": 123,
+      "original_line": 123,
       "side": "RIGHT"
     }
   ]
