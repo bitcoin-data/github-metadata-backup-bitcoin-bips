@@ -52,11 +52,11 @@
       }
     ],
     "created_at": "2026-05-06T12:00:18Z",
-    "updated_at": "2026-07-24T14:34:57Z",
+    "updated_at": "2026-07-27T17:30:20Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "2ab2706c4b479d6314b014dab5532038cefe20c3",
+    "merge_commit_sha": "6173afbd75e0a182f8e9a354187ce774e0dad639",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -283,12 +283,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5982,
-        "stargazers_count": 10865,
-        "watchers_count": 10865,
-        "size": 22292,
+        "forks_count": 5985,
+        "stargazers_count": 10871,
+        "watchers_count": 10871,
+        "size": 22359,
         "default_branch": "master",
-        "open_issues_count": 37,
+        "open_issues_count": 36,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -299,9 +299,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-07-24T02:57:18Z",
+        "pushed_at": "2026-07-26T19:22:38Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-07-24T14:11:55Z",
+        "updated_at": "2026-07-27T17:06:52Z",
         "allow_forking": true
       }
     },
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 8,
     "commits": 3,
-    "review_comments": 119,
+    "review_comments": 120,
     "comments": 12
   },
   "events": [
@@ -10501,6 +10501,60 @@
       "start_side": null,
       "line": null,
       "original_line": 38,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3659491167",
+      "pull_request_review_id": 4789783091,
+      "id": 3659491167,
+      "node_id": "PRRC_kwDOAN28mc7aH2df",
+      "diff_hunk": "@@ -0,0 +1,201 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: Hints for unspent coins\n+  Authors: Robert Netzke <rob@2140.dev>, Ruben Somsen <ruben@2140.dev>\n+  Deputies: Edil Medeiros <edil@vinteum.org>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Discussion: https://groups.google.com/g/bitcoindev/c/FpSWUxItXQs/m/pnfjP6rFCgAJ\n+```\n+\n+## Abstract\n+\n+The SwiftSync protocol requires a client to have foresight, or \"hints\", into the UTXO set at a state at a particular\n+height, which is verified at the end of the protocol. This document describes a concise representation of the UTXO set.\n+Clients performing SwiftSync may use this file of hints to perform IBD and verify the UTXO set they arrive at is\n+correct.\n+\n+## Motivation\n+\n+SwiftSync can improve the user experience by accelerating IBD, however the protocol requires the client verify a UTXO\n+set corresponds to the blockchain history they received. Rather than simply encoding and distributing the UTXO set, a\n+far smaller representation may be computed and shared. Intuitively, just as how it is cheap for programs to share\n+pointers to objects in memory, we define a \"hintsfile\" that encodes pointers to unspent outputs.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHALL\", \"SHALL NOT\", \"SHOULD\", \"SHOULD NOT\", \"RECOMMENDED\", \"MAY\", and\n+\"OPTIONAL\" in this document are to be interpreted as described in RFC 2119.\n+\n+Our goal is to indicate which outputs in a block, or set of blocks, will remain unspent at a particular chain height.\n+There are many ways to do so, however an intuitive representation is a\n+[bitset](https://en.cppreference.com/w/cpp/utility/bitset.html). Each output in a block is assigned a bit, with a `0`\n+bit denoting the output will be spent, and a `1` to denote the output is unspent. For a block of 8 outputs, we may\n+arrive at a bitset of `1000 0010`, which conveys the 0th and 6th index are UTXOs.\n+\n+Empirically, this representation does poorly, as the vast majority of outputs are spent. In fact, simply recording the\n+indices within the block that will be unspent is a more optimal approach than the bitset. For our example above, that\n+would be recording the numbers `0, 6`. To efficiently represent this data, we may formulate the problem as the\n+following: what is the most efficient way to represent $n$ random, monotonically increasing indices less than or equal\n+to size $m$? In other words, for a block with $n$ unspent outputs, what is an efficient representation?\n+\n+This formulation has a known theoretical optimum of $\\\\log_2 \\\\binom{m}{n}$ bits. _Elias-Fano_ developed a\n+representation that is reasonably close to this optimum in a concise and maintainable format.\n+\n+### Elias-Fano Encoding\n+\n+Suppose we would like to encode $n$ monotonically increasing elements ${ i\\_{0}, ..., i\\_{n - 1} }$ where $i\\_{n - 1} =\n+m$. _Elias-Fano_ builds on the intuition that numbers may share bits in their binary representation. Consider the\n+integers 6 and 7. The binary representation of 6 is `0110` while the binary representation of 7 is `0111`, differing by\n+only one bit. This observation may be used to efficiently store elements. For the lowest bits of the elements, we will\n+represent them in a bitset, and for the highest bits, we will represent the difference in bits as unary.\n+\n+We define the following:\n+\n+- Let ${ i\\_{0}, ..., i\\_{n-1} }$ be a list of $n$ elements where $i\\_{n-1} = m$\n+- Let $\\\\ell(m, n)$ be the function that determines the number of low bits to use: $\\\\ell(m, n) = \\\\left\\\\lfloor \\\\log_2\n+  \\\\ \\\\left(\\\\frac{m+1}{n}\\\\right) \\\\right\\\\rfloor$\n+- Let $\\\\text{unary}(q)$ be the following function: $\\\\text{unary}(q) = \\\\underbrace{0\\\\cdots0}\\_{q}1$",
+      "path": "bip-0456.md",
+      "position": 62,
+      "original_position": 61,
+      "commit_id": "0776320f820311cef7b1be0ccd1714d44116fe0d",
+      "original_commit_id": "1d9f873f798ecf38ac3d4cd9fb2ddb6cafd3ba0c",
+      "in_reply_to_id": 3493683043,
+      "user": {
+        "login": "edilmedeiros",
+        "id": 78322931,
+        "node_id": "MDQ6VXNlcjc4MzIyOTMx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/78322931?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/edilmedeiros",
+        "html_url": "https://github.com/edilmedeiros",
+        "followers_url": "https://api.github.com/users/edilmedeiros/followers",
+        "following_url": "https://api.github.com/users/edilmedeiros/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/edilmedeiros/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/edilmedeiros/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/edilmedeiros/subscriptions",
+        "organizations_url": "https://api.github.com/users/edilmedeiros/orgs",
+        "repos_url": "https://api.github.com/users/edilmedeiros/repos",
+        "events_url": "https://api.github.com/users/edilmedeiros/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/edilmedeiros/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This one is rendering fine to me, but I'll try to fiddle it to be more stable.\r\n<img width=\"437\" height=\"48\" alt=\"Screenshot 2026-07-27 at 13 29 34\" src=\"https://github.com/user-attachments/assets/762d763f-2d21-42c9-a5a7-d23e1417d843\" />\r\n",
+      "created_at": "2026-07-27T17:30:20Z",
+      "updated_at": "2026-07-27T17:30:20Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2152#discussion_r3659491167",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3659491167"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2152"
+        }
+      },
+      "start_line": 59,
+      "original_start_line": 58,
+      "start_side": "RIGHT",
+      "line": 62,
+      "original_line": 61,
       "side": "RIGHT"
     }
   ]
