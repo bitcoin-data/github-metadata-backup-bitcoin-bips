@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2126/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2126/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/1e0bf69d4d859a43d092b035d083a9227eed4709",
     "number": 2126,
     "state": "open",
     "locked": false,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "# BIP-85: the Nostr path\r\n\r\nAdds a dedicated BIP-85 application for deriving Nostr private keys a.k.a. `nsec`, with a structured `/{identity}'/{account}'` path supporting multiple unlinkable identities.\r\n\r\n## Motivation\r\n\r\nToday there is no standardized BIP-85 path for Nostr key derivation:\r\n\r\n| Method | Path | Problem |\r\n|--------|------|---------|\r\n| BIP-85 HEX | `m/83696968'/128169'/32'/index'` | Not Nostr-specific, no identity structure |\r\n| BIP-85 mnemonic + NIP-06 | BIP-85 → 12 words → `m/44'/1237'/0'/0/0` | Two-step, wasteful intermediate mnemonic |\r\n| NIP-06 directly | `m/44'/1237'/account'/0/0` | Unhardened, Not BIP-85 entropy isolation |\r\n\r\nA dedicated application number eliminates this fragmentation.\r\n\r\n**Without an isolated derivation path, a mnemonic imported into a Nostr-aware wallet could collide with keys already in use by a Bitcoin wallet (or vice versa). A dedicated BIP-85 application isolates Nostr key derivation entirely, preventing any cross-protocol key reuse.**\r\n\r\nThe structured `{identity}'/{account}'` path also enables account discovery: a wallet can derive pubkeys aka `npub` for the first N identities and accounts, then query Nostr relays for events signed by those keys to automatically recover all active accounts.\r\n\r\n### Application number: 128002'\r\n\r\n`m/83696968'/128002'/{identity}'/{account}'`\r\n\r\nThe resulting 32-byte private key (the first 32 bytes of the BIP-85\r\nentropy) is Bech32-encoded as an `nsec` per NIP-19.\r\n\r\nIdentity index `0'` and account index `0'` across identities are reserved for future key management operations.\r\n\r\nFrom this new application number, identity semantics (proof-of-linkage, key rotation, account discovery) can be specified in an external NIP that references this application.\r\n\r\n\r\n## Implementation commitment\r\n\r\nI maintain two BIP-85 libraries and can port this application to both:\r\n- **Rust**: [bip85_extended](https://crates.io/crates/bip85_extended)\r\n- **Dart/Flutter**: [bip85_entropy](https://pub.dev/packages/bip85_entropy)\r\n",
+    "body": "# BIP-85: the Nostr path\r\n\r\nAdds a dedicated BIP-85 application for deriving Nostr private keys a.k.a. `nsec`, with a structured `/{identity}'/{account_index}'` path supporting multiple unlinkable identities.\r\n\r\n## Motivation\r\n\r\nToday there is no standardized BIP-85 path for Nostr key derivation:\r\n\r\n| Method | Path | Problem |\r\n|--------|------|---------|\r\n| BIP-85 HEX | `m/83696968'/128169'/32'/index'` | Not Nostr-specific, no identity structure |\r\n| BIP-85 mnemonic + NIP-06 | BIP-85 → 12 words → `m/44'/1237'/0'/0/0` | Two-step, wasteful intermediate mnemonic |\r\n| NIP-06 directly | `m/44'/1237'/account'/0/0` | Unhardened, Not BIP-85 entropy isolation |\r\n\r\nA dedicated application number eliminates this fragmentation.\r\n\r\n**Without an isolated derivation path, a mnemonic imported into a Nostr-aware wallet could collide with keys already in use by a Bitcoin wallet (or vice versa). A dedicated BIP-85 application isolates Nostr key derivation entirely, preventing any cross-protocol key reuse.**\r\n\r\nThe structured `{identity}'/{account_index}'` path also enables account discovery: a wallet can derive pubkeys aka `npub` for the first N identities and accounts, then query Nostr relays for events signed by those keys to automatically recover all active accounts.\r\n\r\n### Application number: 128002'\r\n\r\n`m/83696968'/128002'/{identity}'/{account_index}'`\r\n\r\nThe resulting 32-byte private key (the first 32 bytes of the BIP-85\r\nentropy) is Bech32-encoded as an `nsec` per NIP-19.\r\n\r\nIdentity index `0'` and account index `0'` across identities are reserved for future key management operations.\r\n\r\nFrom this new application number, identity semantics (proof-of-linkage, key rotation, account discovery) can be specified in an external NIP that references this application.\r\n\r\n\r\n## Implementation commitment\r\n\r\nI maintain two BIP-85 libraries and can port this application to both:\r\n- **Rust**: [bip85_extended](https://crates.io/crates/bip85_extended)\r\n- **Dart/Flutter**: [bip85_entropy](https://pub.dev/packages/bip85_entropy)\r\n",
     "labels": [
       {
         "id": 275846070,
@@ -71,11 +71,11 @@
       }
     ],
     "created_at": "2026-03-20T13:18:57Z",
-    "updated_at": "2026-07-26T23:45:12Z",
+    "updated_at": "2026-07-27T01:49:02Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "ab0603415179565fa61a421433d26953b6501d44",
+    "merge_commit_sha": "289bda0be1ad30581809db406fbbf7d1fbbaa978",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -83,7 +83,7 @@
     "head": {
       "label": "ethicnology:bip85-nostr-application-86",
       "ref": "bip85-nostr-application-86",
-      "sha": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "sha": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "user": {
         "login": "ethicnology",
         "id": 25751709,
@@ -183,7 +183,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22267,
+        "size": 22387,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -196,7 +196,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-07-26T23:45:11Z",
+        "pushed_at": "2026-07-27T01:18:08Z",
         "created_at": "2025-05-29T13:57:59Z",
         "updated_at": "2026-03-26T19:48:26Z",
         "allow_forking": true
@@ -331,11 +331,11 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 52,
+    "additions": 63,
     "deletions": 5,
     "changed_files": 2,
-    "commits": 12,
-    "review_comments": 37,
+    "commits": 13,
+    "review_comments": 40,
     "comments": 14
   },
   "events": [
@@ -3496,6 +3496,46 @@
         "date": "2026-07-26T23:45:10Z"
       },
       "sha": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDFlMGJmNjlkNGQ4NTlhNDNkMDkyYjAzNWQwODNhOTIyN2VlZDQ3MDk",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "tree": {
+        "sha": "dee792b1fa28364b42d3a82ee1afb85d87477f33",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/dee792b1fa28364b42d3a82ee1afb85d87477f33"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree dee792b1fa28364b42d3a82ee1afb85d87477f33\nparent 6474c5901e9235c5db2cddac8e0cc17aa3cdc356\nauthor ethicnology <ethicnology@pm.me> 1785115009 -0400\ncommitter ethicnology <ethicnology@pm.me> 1785115009 -0400\n\nbip85: address final Nostr review\n\nWrap the Nostr prose for terminal readability, describe the private key as a secp256k1 scalar using the HD-Seed WIF application and existing curve-order footnote, and use the conventional hyphenated NIP names.\n",
+        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgc0lo+G\nCluYnzAdxxomdJkvB/nUWvH1p3v5LyYp/JaC4AAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABAeoOGENqad6ULN6\nXH9GVZyozzth7X57cW/t3sNoiKByl5eNTbPe+/5DtdMiXrbUe3fRfwLWsz6GmpDQZi393F\nDwEAALly\n-----END SSH SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+          "sha": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+          "html_url": "https://github.com/bitcoin/bips/commit/6474c5901e9235c5db2cddac8e0cc17aa3cdc356"
+        }
+      ],
+      "message": "bip85: address final Nostr review\n\nWrap the Nostr prose for terminal readability, describe the private key as a secp256k1 scalar using the HD-Seed WIF application and existing curve-order footnote, and use the conventional hyphenated NIP names.",
+      "committer": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-07-27T01:16:49Z"
+      },
+      "author": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-07-27T01:16:49Z"
+      },
+      "sha": "1e0bf69d4d859a43d092b035d083a9227eed4709"
     }
   ],
   "comments": [
@@ -3886,7 +3926,7 @@
       "path": ".typos.toml",
       "position": 5,
       "original_position": 4,
-      "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b",
       "in_reply_to_id": null,
       "user": {
@@ -3994,7 +4034,7 @@
       "path": ".typos.toml",
       "position": 5,
       "original_position": 4,
-      "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b",
       "in_reply_to_id": 3191117020,
       "user": {
@@ -4910,9 +4950,9 @@
       "node_id": "PRRC_kwDOAN28mc7EafNM",
       "diff_hunk": "@@ -431,16 +477,20 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39, [https://github.com/nostr-protocol/nips/blob/master/01.md NIP01], [https://github.com/nostr-protocol/nips/blob/master/06.md NIP06], [https://github.com/nostr-protocol/nips/blob/master/19.md NIP19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]",
       "path": "bip-0085.mediawiki",
-      "position": 69,
+      "position": 80,
       "original_position": 73,
-      "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": null,
       "user": {
@@ -5018,9 +5058,9 @@
       "node_id": "PRRC_kwDOAN28mc7FC3b5",
       "diff_hunk": "@@ -431,16 +477,20 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39, [https://github.com/nostr-protocol/nips/blob/master/01.md NIP01], [https://github.com/nostr-protocol/nips/blob/master/06.md NIP06], [https://github.com/nostr-protocol/nips/blob/master/19.md NIP19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]",
       "path": "bip-0085.mediawiki",
-      "position": 69,
+      "position": 80,
       "original_position": 73,
-      "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -5072,9 +5112,9 @@
       "node_id": "PRRC_kwDOAN28mc7FGmDI",
       "diff_hunk": "@@ -431,16 +477,20 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39, [https://github.com/nostr-protocol/nips/blob/master/01.md NIP01], [https://github.com/nostr-protocol/nips/blob/master/06.md NIP06], [https://github.com/nostr-protocol/nips/blob/master/19.md NIP19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]",
       "path": "bip-0085.mediawiki",
-      "position": 69,
+      "position": 80,
       "original_position": 73,
-      "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -5126,9 +5166,9 @@
       "node_id": "PRRC_kwDOAN28mc7FKMor",
       "diff_hunk": "@@ -431,16 +477,20 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39, [https://github.com/nostr-protocol/nips/blob/master/01.md NIP01], [https://github.com/nostr-protocol/nips/blob/master/06.md NIP06], [https://github.com/nostr-protocol/nips/blob/master/19.md NIP19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]",
       "path": "bip-0085.mediawiki",
-      "position": 69,
+      "position": 80,
       "original_position": 73,
-      "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -5288,9 +5328,9 @@
       "node_id": "PRRC_kwDOAN28mc7XJWhV",
       "diff_hunk": "@@ -431,16 +477,20 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39, [https://github.com/nostr-protocol/nips/blob/master/01.md NIP01], [https://github.com/nostr-protocol/nips/blob/master/06.md NIP06], [https://github.com/nostr-protocol/nips/blob/master/19.md NIP19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]",
       "path": "bip-0085.mediawiki",
-      "position": 69,
+      "position": 80,
       "original_position": 73,
-      "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -5344,7 +5384,7 @@
       "path": "bip-0085.mediawiki",
       "position": 15,
       "original_position": 15,
-      "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
       "in_reply_to_id": null,
       "user": {
@@ -5396,7 +5436,7 @@
       "node_id": "PRRC_kwDOAN28mc7XJZN5",
       "diff_hunk": "@@ -423,6 +423,48 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 128002'\n+\n+The derivation path format is: <code>m/83696968'/128002'/{identity}'/{account_index}'</code>\n+\n+Each <code>identity</code> is an independent, unlinkable Nostr key namespace, and each <code>account_index</code> is a distinct key within that identity.\n+\n+Identity index <code>0'</code> and account index <code>0'</code> are reserved for future key-management use, such as proof-of-linkage between an identity's keys, key rotation, and revocation. Their semantics are out of scope for this BIP and may be specified by a future NIP. Usable signing keys therefore start at <code>identity >= 1'</code> and <code>account_index >= 1'</code>.\n+\n+The standard application of BIP-85 produces 64 bytes of entropy. Take the first 32 bytes (the 256 most significant bits) as the Nostr private key and discard the trailing 32 bytes, as in the HEX application. This 32-byte private key is then Bech32 encoded as an <code>nsec</code> per NIP19.",
       "path": "bip-0085.mediawiki",
-      "position": 23,
+      "position": 1,
       "original_position": 23,
       "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
       "original_commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
@@ -5439,7 +5479,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 436,
+      "line": null,
       "original_line": 436,
       "side": "RIGHT"
     },
@@ -5450,7 +5490,7 @@
       "node_id": "PRRC_kwDOAN28mc7XJZ_p",
       "diff_hunk": "@@ -423,6 +423,48 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 128002'\n+\n+The derivation path format is: <code>m/83696968'/128002'/{identity}'/{account_index}'</code>\n+\n+Each <code>identity</code> is an independent, unlinkable Nostr key namespace, and each <code>account_index</code> is a distinct key within that identity.\n+\n+Identity index <code>0'</code> and account index <code>0'</code> are reserved for future key-management use, such as proof-of-linkage between an identity's keys, key rotation, and revocation. Their semantics are out of scope for this BIP and may be specified by a future NIP. Usable signing keys therefore start at <code>identity >= 1'</code> and <code>account_index >= 1'</code>.\n+\n+The standard application of BIP-85 produces 64 bytes of entropy. Take the first 32 bytes (the 256 most significant bits) as the Nostr private key and discard the trailing 32 bytes, as in the HEX application. This 32-byte private key is then Bech32 encoded as an <code>nsec</code> per NIP19.",
       "path": "bip-0085.mediawiki",
-      "position": 23,
+      "position": 1,
       "original_position": 23,
       "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
       "original_commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
@@ -5493,7 +5533,169 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 436,
+      "line": null,
+      "original_line": 436,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3653908385",
+      "pull_request_review_id": 4783070639,
+      "id": 3653908385,
+      "node_id": "PRRC_kwDOAN28mc7Zyjeh",
+      "diff_hunk": "@@ -423,6 +423,48 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 128002'",
+      "path": "bip-0085.mediawiki",
+      "position": 15,
+      "original_position": 15,
+      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "original_commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
+      "in_reply_to_id": 3609555689,
+      "user": {
+        "login": "ethicnology",
+        "id": 25751709,
+        "node_id": "MDQ6VXNlcjI1NzUxNzA5",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25751709?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethicnology",
+        "html_url": "https://github.com/ethicnology",
+        "followers_url": "https://api.github.com/users/ethicnology/followers",
+        "following_url": "https://api.github.com/users/ethicnology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethicnology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethicnology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethicnology/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethicnology/orgs",
+        "repos_url": "https://api.github.com/users/ethicnology/repos",
+        "events_url": "https://api.github.com/users/ethicnology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethicnology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Done in 1e0bf69",
+      "created_at": "2026-07-27T01:22:07Z",
+      "updated_at": "2026-07-27T01:22:07Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2126#discussion_r3653908385",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3653908385"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2126"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 428,
+      "original_line": 428,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3653910406",
+      "pull_request_review_id": 4783072842,
+      "id": 3653910406,
+      "node_id": "PRRC_kwDOAN28mc7Zyj-G",
+      "diff_hunk": "@@ -423,6 +423,48 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 128002'\n+\n+The derivation path format is: <code>m/83696968'/128002'/{identity}'/{account_index}'</code>\n+\n+Each <code>identity</code> is an independent, unlinkable Nostr key namespace, and each <code>account_index</code> is a distinct key within that identity.\n+\n+Identity index <code>0'</code> and account index <code>0'</code> are reserved for future key-management use, such as proof-of-linkage between an identity's keys, key rotation, and revocation. Their semantics are out of scope for this BIP and may be specified by a future NIP. Usable signing keys therefore start at <code>identity >= 1'</code> and <code>account_index >= 1'</code>.\n+\n+The standard application of BIP-85 produces 64 bytes of entropy. Take the first 32 bytes (the 256 most significant bits) as the Nostr private key and discard the trailing 32 bytes, as in the HEX application. This 32-byte private key is then Bech32 encoded as an <code>nsec</code> per NIP19.",
+      "path": "bip-0085.mediawiki",
+      "position": 1,
+      "original_position": 23,
+      "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "original_commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
+      "in_reply_to_id": 3609564025,
+      "user": {
+        "login": "ethicnology",
+        "id": 25751709,
+        "node_id": "MDQ6VXNlcjI1NzUxNzA5",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25751709?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethicnology",
+        "html_url": "https://github.com/ethicnology",
+        "followers_url": "https://api.github.com/users/ethicnology/followers",
+        "following_url": "https://api.github.com/users/ethicnology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethicnology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethicnology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethicnology/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethicnology/orgs",
+        "repos_url": "https://api.github.com/users/ethicnology/repos",
+        "events_url": "https://api.github.com/users/ethicnology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethicnology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Updated in 1e0bf69",
+      "created_at": "2026-07-27T01:23:01Z",
+      "updated_at": "2026-07-27T01:23:01Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2126#discussion_r3653910406",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3653910406"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2126"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 436,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3653912108",
+      "pull_request_review_id": 4783074658,
+      "id": 3653912108,
+      "node_id": "PRRC_kwDOAN28mc7ZykYs",
+      "diff_hunk": "@@ -423,6 +423,48 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 128002'\n+\n+The derivation path format is: <code>m/83696968'/128002'/{identity}'/{account_index}'</code>\n+\n+Each <code>identity</code> is an independent, unlinkable Nostr key namespace, and each <code>account_index</code> is a distinct key within that identity.\n+\n+Identity index <code>0'</code> and account index <code>0'</code> are reserved for future key-management use, such as proof-of-linkage between an identity's keys, key rotation, and revocation. Their semantics are out of scope for this BIP and may be specified by a future NIP. Usable signing keys therefore start at <code>identity >= 1'</code> and <code>account_index >= 1'</code>.\n+\n+The standard application of BIP-85 produces 64 bytes of entropy. Take the first 32 bytes (the 256 most significant bits) as the Nostr private key and discard the trailing 32 bytes, as in the HEX application. This 32-byte private key is then Bech32 encoded as an <code>nsec</code> per NIP19.",
+      "path": "bip-0085.mediawiki",
+      "position": 1,
+      "original_position": 23,
+      "commit_id": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
+      "original_commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
+      "in_reply_to_id": 3609567209,
+      "user": {
+        "login": "ethicnology",
+        "id": 25751709,
+        "node_id": "MDQ6VXNlcjI1NzUxNzA5",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25751709?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethicnology",
+        "html_url": "https://github.com/ethicnology",
+        "followers_url": "https://api.github.com/users/ethicnology/followers",
+        "following_url": "https://api.github.com/users/ethicnology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethicnology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethicnology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethicnology/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethicnology/orgs",
+        "repos_url": "https://api.github.com/users/ethicnology/repos",
+        "events_url": "https://api.github.com/users/ethicnology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethicnology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": " The body now says NIP-19 in 1e0bf69  ",
+      "created_at": "2026-07-27T01:23:51Z",
+      "updated_at": "2026-07-27T01:23:51Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2126#discussion_r3653912108",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3653912108"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2126"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
       "original_line": 436,
       "side": "RIGHT"
     }
