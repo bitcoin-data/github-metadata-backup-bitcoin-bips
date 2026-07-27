@@ -40,10 +40,29 @@
       "name": null,
       "patch_url": null
     },
-    "body": "Small doc fixes in bip-0360.mediawiki, noticed while implementing against the published vectors:\n\n- The Test Vectors section linked `P2MR_construction.json`; the file on disk is lowercase `p2mr_construction.json`, so the link 404s.\n- The same section still linked the rust implementation under `bip-0360/ref-impl/rust`, which #2202 moved out of the repository. Kept the python link and adjusted the sentence around it.\n- The header said `Version: 0.12.0` while the changelog's latest entry is 0.12.1.\n- The 135-byte depth-1 witness example labeled the merkle path \"(empty)\" while counting 32 bytes for it; a depth-1 path has one 32-byte node.\n\nTwo observations on the vector files, left unchanged here since they affect consumers' parsers: the schema mixes `given.scriptTree` (most vectors) with `given.script_tree` (the missing-tree error vectors), and a missing tree is encoded both as `null` and as an empty string. Happy to normalize those too if there's a preferred spelling.\n",
-    "labels": [],
+    "body": "Small doc fixes in bip-0360.mediawiki, noticed while implementing against the published vectors:\n\n- The Test Vectors section linked P2MR_construction.json; the file on disk is lowercase p2mr_construction.json, so the link 404s.\n- The same section still linked the rust implementation under bip-0360/ref-impl/rust, which #2202 moved out of the repository. Kept the python link and adjusted the sentence around it.\n- The header said Version: 0.12.0 while the changelog's latest entry is 0.12.1.\n- The 135-byte depth-1 witness example labeled the merkle path \"(empty)\" while counting 32 bytes for it. A depth-1 path has one 32-byte node.\n\nTwo things I left unchanged because they affect consumers' parsers: the schema mixes given.scriptTree (most vectors) with given.script_tree (the missing-tree error vectors), and a missing tree is encoded both as null and as an empty string. Happy to normalize those too if there is a preferred spelling.\n",
+    "labels": [
+      {
+        "id": 9029110872,
+        "node_id": "LA_kwDOAN28mc8AAAACGi1MWA",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Link%20fix",
+        "name": "Link fix",
+        "description": "",
+        "color": "5E15D6",
+        "default": false
+      },
+      {
+        "id": 10999942923,
+        "node_id": "LA_kwDOAN28mc8AAAACj6XPCw",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Fixups",
+        "name": "Fixups",
+        "description": "Minor fixups not worth bothering the BIP author(s) for",
+        "color": "052447",
+        "default": false
+      }
+    ],
     "created_at": "2026-07-27T20:44:29Z",
-    "updated_at": "2026-07-27T20:44:29Z",
+    "updated_at": "2026-07-27T21:37:44Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -154,7 +173,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22359,
+        "size": 22360,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -274,11 +293,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 5986,
-        "stargazers_count": 10871,
-        "watchers_count": 10871,
+        "stargazers_count": 10870,
+        "watchers_count": 10870,
         "size": 22359,
         "default_branch": "master",
-        "open_issues_count": 39,
+        "open_issues_count": 38,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -291,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2026-07-26T19:22:38Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-07-27T17:06:52Z",
+        "updated_at": "2026-07-27T21:52:52Z",
         "allow_forking": true
       }
     },
@@ -306,7 +325,7 @@
     "deletions": 4,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 0
   },
   "events": [
@@ -349,7 +368,241 @@
         "date": "2026-07-27T20:40:11Z"
       },
       "sha": "19f5a224ee7c11fbbb10d34e2ebc624b3368f402"
+    },
+    {
+      "event": "labeled",
+      "id": 28563637158,
+      "node_id": "LE_lADOAN28mc8AAAABKY5-Jc8AAAAGpoaDpg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/28563637158",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-07-27T21:32:49Z",
+      "label": {
+        "name": "Bug fix",
+        "color": "b60205"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 28563637179,
+      "node_id": "LE_lADOAN28mc8AAAABKY5-Jc8AAAAGpoaDuw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/28563637179",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-07-27T21:32:49Z",
+      "label": {
+        "name": "Link fix",
+        "color": "5E15D6"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 28563637210,
+      "node_id": "LE_lADOAN28mc8AAAABKY5-Jc8AAAAGpoaD2g",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/28563637210",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-07-27T21:32:49Z",
+      "label": {
+        "name": "Fixups",
+        "color": "052447"
+      }
+    },
+    {
+      "event": "reviewed",
+      "id": 4791705726,
+      "node_id": "PRR_kwDOAN28mc8AAAABHZugfg",
+      "url": null,
+      "actor": null,
+      "commit_id": "19f5a224ee7c11fbbb10d34e2ebc624b3368f402",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-07-27T21:36:05Z",
+      "author_association": "MEMBER",
+      "body": "ACK, good fixups (thanks!)",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2221#pullrequestreview-4791705726",
+      "submitted_at": "2026-07-27T21:36:05Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2221"
+    },
+    {
+      "event": "unlabeled",
+      "id": 28563820269,
+      "node_id": "UNLE_lADOAN28mc8AAAABKY5-Jc8AAAAGpolO7Q",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/28563820269",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-07-27T21:37:44Z",
+      "label": {
+        "name": "Bug fix",
+        "color": "b60205"
+      }
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3661072356",
+      "pull_request_review_id": 4791705726,
+      "id": 3661072356,
+      "node_id": "PRRC_kwDOAN28mc7aN4fk",
+      "diff_hunk": "@@ -281,7 +281,7 @@ P2MR witness for a depth-1 tree (135 bytes):\n [count] (1 byte), # Number of elements in the witness\n [size] signature (1 + 64 bytes = 65 bytes),\n leaf script = [size] [OP_PUSHBYTES_32, 32-byte public key, OP_CHECKSIG] (1 + 1 + 32 + 1 bytes = 35 bytes),\n-control block = [size] [control byte] [merkle path (empty)] (1 + 1 + 32 bytes = 34 bytes)\n+control block = [size] [control byte] [merkle path] (1 + 1 + 32 bytes = 34 bytes)",
+      "path": "bip-0360.mediawiki",
+      "position": 14,
+      "original_position": 14,
+      "commit_id": "19f5a224ee7c11fbbb10d34e2ebc624b3368f402",
+      "original_commit_id": "19f5a224ee7c11fbbb10d34e2ebc624b3368f402",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "@cryptoquick @EthanHeilman can I get your feedback on this? It looks correct to me.\r\n\r\n(Also on this, from the PR description):\r\n\r\n\"Two things I left unchanged because they affect consumers' parsers: the schema mixes given.scriptTree (most vectors) with given.script_tree (the missing-tree error vectors), and a missing tree is encoded both as null and as an empty string. Happy to normalize those too if there is a preferred spelling.\"",
+      "created_at": "2026-07-27T21:35:40Z",
+      "updated_at": "2026-07-27T21:37:23Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2221#discussion_r3661072356",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3661072356"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2221"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 284,
+      "original_line": 284,
+      "side": "RIGHT"
+    }
+  ]
 }
