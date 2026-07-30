@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-07-29T17:00:40Z",
-    "updated_at": "2026-07-30T06:56:02Z",
+    "updated_at": "2026-07-30T13:25:15Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -282,7 +282,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5989,
+        "forks_count": 5990,
         "stargazers_count": 10872,
         "watchers_count": 10872,
         "size": 22359,
@@ -315,7 +315,7 @@
     "deletions": 6,
     "changed_files": 3,
     "commits": 2,
-    "review_comments": 31,
+    "review_comments": 32,
     "comments": 16
   },
   "events": [
@@ -3915,6 +3915,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3680615970"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2225"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 47,
+      "original_line": 47,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3683034013",
+      "pull_request_review_id": 4819218118,
+      "id": 3683034013,
+      "node_id": "PRRC_kwDOAN28mc7bhqOd",
+      "diff_hunk": "@@ -37,6 +37,15 @@ This grandfathering ensures that no existing coins can be frozen or rendered uns\n The new rules apply only to UTXOs created at or after the activation height.\n Once the softfork expires, UTXOs of all heights are once again unrestricted.\n \n+<span id=\"defined-witness-versions\"></span>\n+===Defined witness versions===\n+\n+For the purposes of rule 3, these are the witness versions (and the one Tapleaf version) that are defined as of this BIP:\n+\n+* '''Witness v0''' with a 20-byte program (P2WPKH) or a 32-byte program (P2WSH), as defined in [[bip-0141.mediawiki|BIP 141]]. Other v0 program lengths are already invalid under BIP 141 itself.\n+* '''Witness v1''' with a 32-byte program (Taproot/P2TR), as defined in [[bip-0341.mediawiki|BIP 341]]. In a script path spend, the only defined Tapleaf version is 0xc0 (Tapscript), as defined in [[bip-0342.mediawiki|BIP 342]].\n+* '''Witness v1''' with the 2-byte program 0x4e73 (P2A), and only when spent with an empty witness stack, as defined in [[bip-0433.mediawiki#specification|BIP 433]].",
+      "path": "bip-0110.mediawiki",
+      "position": 20,
+      "original_position": 20,
+      "commit_id": "2dfb201b271d4620baa3ce17cbd8f13d40009668",
+      "original_commit_id": "2dfb201b271d4620baa3ce17cbd8f13d40009668",
+      "in_reply_to_id": 3678109962,
+      "user": {
+        "login": "john-moffett",
+        "id": 116917595,
+        "node_id": "U_kgDOBvgFWw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/116917595?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/john-moffett",
+        "html_url": "https://github.com/john-moffett",
+        "followers_url": "https://api.github.com/users/john-moffett/followers",
+        "following_url": "https://api.github.com/users/john-moffett/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/john-moffett/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/john-moffett/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/john-moffett/subscriptions",
+        "organizations_url": "https://api.github.com/users/john-moffett/orgs",
+        "repos_url": "https://api.github.com/users/john-moffett/repos",
+        "events_url": "https://api.github.com/users/john-moffett/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/john-moffett/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "@delcin-raj \r\n\r\n> P2A output type specifically states that no witness data is attached.\r\n\r\nThe *output type* is defined independently of the spend. It's a template, just like P2MS or P2PKH. *Spending* a P2A with witness data is currently consensus valid. The current relay *policy*, however, restricts it to an empty witness.\r\n\r\n> If witness data is attached to the above specification, can it still be considered P2A?\r\n\r\nUndoubtedly, as BIP 433 is unequivocal in its definition of P2A: it's the output type, not the separate policy restricting its spend. In Bitcoin Core, ``IsPayToAnchor`` only looks at the scriptPubKey. It's like asking whether a 6-of-12 P2MS is still considered a P2MS despite it not relaying in Bitcoin Core due to policy. The answer is yes. \r\n\r\nEdit: to address @dathonohm 's objection about \"P2A has no consensus meaning at all\". That's not true. The script pattern had existing consensus meaning before P2A (anyone can spend even with a non-empty witness), just like P2MS's script pattern had existing consensus meaning before BIP11 made it a standard template (and *also* didn't change any consensus rules). ",
+      "created_at": "2026-07-30T13:25:14Z",
+      "updated_at": "2026-07-30T13:31:20Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2225#discussion_r3683034013",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3683034013"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2225"
