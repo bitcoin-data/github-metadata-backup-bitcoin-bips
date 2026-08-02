@@ -41,9 +41,19 @@
       "patch_url": null
     },
     "body": "\nThe existing test vectors are construction-only: script tree in; leaf\nhashes, Merkle root, scriptPubKey, address and control blocks out. There\nare no spending transactions or signatures, unlike BIP 341's\nwallet-test-vectors.json, so everyone implementing consensus has to\ninvent their own spend coverage. This PR adds the spend-path vectors\noffered in the Delving write-up\n(https://delvingbitcoin.org/t/bip-360-p2mr-implemented-in-bitcoin-core-on-regtest-vector-results-measurements-spec-feedback/2751).\nI generated them from the regtest implementation discussed there.\n\nThe schema mirrors bip-0341/wallet-test-vectors.json, adapted to an\noutput type whose only spend path is the script path. One transaction\nwith six inputs covers the valid cases, with per-input\n`given`/`intermediary`/`expected` and the BIP 341 sighash midstate\npieces at the group level. A separate `invalidSpending` array has nine\nself-contained transactions that must fail validation. The `error`\nfield uses short spec-level descriptions; implementations map them\nonto their own error codes (several deliberately collapse onto one code\nin ours). For inputs spent without a signature,\nprivkey/hashType/annex/sigMsg/sigHash are null rather than absent.\n\nValid cases:\n\n- depth-1 leaf, SIGHASH_DEFAULT\n- depth-2 leaf of a three-leaf tree, SIGHASH_ALL (65-byte signature)\n- annex present, covered by the signature\n- `p2mr_single_leaf_script_tree` (from p2mr_construction.json) spent at\n  depth 0 with no signature: demonstrates the v0.12.0 anyone-can-spend\n  rule on a published tree\n- `p2mr_different_version_leaves` (also from p2mr_construction.json)\n  spent through its 0xfa leaf: unknown leaf versions are unencumbered\n- a depth-128 leaf whose control block is exactly the 4097-byte\n  maximum, pinning the accepting side of the depth limit\n\nInvalid cases: bit-flipped signature, tampered Merkle path, control\nbyte with the low bit unset, single-element witness, two-element\nwitness ending in an annex, empty witness, and control blocks of 0, 34\nand 1+32*129 bytes. That covers all three clauses of the control block\nsize rule, so the depth limit is pinned from both sides.\n\nEverything can be regenerated from scratch: private keys are\n`sha256(\"p2mr_spending/key/<n>\")`, prevout txids\n`sha256(\"p2mr_spending/prevout/<n>\")`, and signing is BIP 340 with an\nall-zero aux. The two reused trees are asserted to reproduce their\npublished construction vectors, so the two files cross-check each\nother.\n\nOne case bakes in an interpretation the spec text leaves implicit:\n`p2mr_spend_control_byte_low_bit_zero` expects failure when the control\nbyte's low bit is 0. Script Validation says the bit \"is unused and must\nbe 1\" and the footnote describes it catching deserialization bugs \"with\nan immediate error\", but the validation steps have no explicit \"Fail\nif\" clause for it, unlike every other rule in that section. If the\nintended reading is non-enforcement, this vector should be dropped and\nthe footnote reworded; either way the text could make it explicit.\n\nVerified against a Bitcoin Core implementation of the BIP: every valid\ninput passes VerifyScript and every invalid case fails with the\nexpected script error\n(https://github.com/jeanpablojp/bitcoin/tree/p2mr-regtest,\nsrc/test/p2mr_vector_tests.cpp). The generator is\ntest/functional/tool_p2mr_spend_vectors.py on the same branch.\n\n",
-    "labels": [],
+    "labels": [
+      {
+        "id": 275846070,
+        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
+        "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
+        "color": "5319e7",
+        "default": false
+      }
+    ],
     "created_at": "2026-08-01T21:55:01Z",
-    "updated_at": "2026-08-01T21:55:01Z",
+    "updated_at": "2026-08-02T03:55:36Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -154,7 +164,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22361,
+        "size": 22296,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -273,12 +283,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5992,
-        "stargazers_count": 10877,
-        "watchers_count": 10877,
-        "size": 22286,
+        "forks_count": 5994,
+        "stargazers_count": 10880,
+        "watchers_count": 10880,
+        "size": 22287,
         "default_branch": "master",
-        "open_issues_count": 44,
+        "open_issues_count": 43,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -289,9 +299,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-01T16:34:22Z",
+        "pushed_at": "2026-08-02T00:32:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-01T19:44:17Z",
+        "updated_at": "2026-08-02T03:07:20Z",
         "allow_forking": true
       }
     },
@@ -349,6 +359,41 @@
         "date": "2026-08-01T21:43:24Z"
       },
       "sha": "92cb0b1ac681e19fbefc0f7e5fbaf7ac5b7a34f5"
+    },
+    {
+      "event": "labeled",
+      "id": 28835521127,
+      "node_id": "LE_lADOAN28mc8AAAABLFxC8M8AAAAGtrsiZw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/28835521127",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-02T03:55:36Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
     }
   ],
   "comments": []
