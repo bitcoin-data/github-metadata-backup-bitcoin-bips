@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2126/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2126/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/1e0bf69d4d859a43d092b035d083a9227eed4709",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/6209768676bf85d7ef5ffb4055543d6286d79b96",
     "number": 2126,
     "state": "open",
     "locked": false,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "# BIP-85: the Nostr path\r\n\r\nAdds a dedicated BIP-85 application for deriving Nostr private keys a.k.a. `nsec`, with a structured `/{identity}'/{account_index}'` path supporting multiple unlinkable identities.\r\n\r\n## Motivation\r\n\r\nToday there is no standardized BIP-85 path for Nostr key derivation:\r\n\r\n| Method | Path | Problem |\r\n|--------|------|---------|\r\n| BIP-85 HEX | `m/83696968'/128169'/32'/index'` | Not Nostr-specific, no identity structure |\r\n| BIP-85 mnemonic + NIP-06 | BIP-85 → 12 words → `m/44'/1237'/0'/0/0` | Two-step, wasteful intermediate mnemonic |\r\n| NIP-06 directly | `m/44'/1237'/account'/0/0` | Unhardened, Not BIP-85 entropy isolation |\r\n\r\nA dedicated application number eliminates this fragmentation.\r\n\r\n**Without an isolated derivation path, a mnemonic imported into a Nostr-aware wallet could collide with keys already in use by a Bitcoin wallet (or vice versa). A dedicated BIP-85 application isolates Nostr key derivation entirely, preventing any cross-protocol key reuse.**\r\n\r\nThe structured `{identity}'/{account_index}'` path also enables account discovery: a wallet can derive pubkeys aka `npub` for the first N identities and accounts, then query Nostr relays for events signed by those keys to automatically recover all active accounts.\r\n\r\n### Application number: 128002'\r\n\r\n`m/83696968'/128002'/{identity}'/{account_index}'`\r\n\r\nThe resulting 32-byte private key (the first 32 bytes of the BIP-85\r\nentropy) is Bech32-encoded as an `nsec` per NIP-19.\r\n\r\nIdentity index `0'` and account index `0'` across identities are reserved for future key management operations.\r\n\r\nFrom this new application number, identity semantics (proof-of-linkage, key rotation, account discovery) can be specified in an external NIP that references this application.\r\n\r\n\r\n## Implementation commitment\r\n\r\nI maintain two BIP-85 libraries and can port this application to both:\r\n- **Rust**: [bip85_extended](https://crates.io/crates/bip85_extended)\r\n- **Dart/Flutter**: [bip85_entropy](https://pub.dev/packages/bip85_entropy)\r\n",
+    "body": "# BIP-85: the Nostr path\r\n\r\nAdds BIP-85 application number `128002'` for deterministic Nostr private-key derivation.\r\n\r\nDerivation path:\r\n\r\n`m/83696968'/128002'/{identity}'/{account_index}'`\r\n\r\n`identity` selects an independent, unlinkable Nostr key namespace; `account_index` selects a key within that identity. Indices `0'` are reserved for future key-management semantics.\r\n\r\nThe first 32 bytes of BIP-85 entropy are used as the secp256k1 secret key and encoded as an `nsec` according to NIP-19.",
     "labels": [
       {
         "id": 275846070,
@@ -71,17 +71,19 @@
       }
     ],
     "created_at": "2026-03-20T13:18:57Z",
-    "updated_at": "2026-08-03T03:45:26Z",
-    "mergeable_state": "unknown",
+    "updated_at": "2026-08-03T13:16:03Z",
+    "mergeable": true,
+    "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "219a1d7c47970bc1158439708a30d54a7ac15e55",
+    "merge_commit_sha": "bb7eda8b29c367ba72a69e3f7edb1e21bbe28770",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
+    "rebaseable": true,
     "head": {
       "label": "ethicnology:bip85-nostr-application-86",
       "ref": "bip85-nostr-application-86",
-      "sha": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "sha": "6209768676bf85d7ef5ffb4055543d6286d79b96",
       "user": {
         "login": "ethicnology",
         "id": 25751709,
@@ -194,7 +196,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-07-27T01:18:08Z",
+        "pushed_at": "2026-08-03T13:05:16Z",
         "created_at": "2025-05-29T13:57:59Z",
         "updated_at": "2026-07-27T19:01:18Z",
         "allow_forking": true
@@ -203,7 +205,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "9783d61f1b9c81231581fee026c8e8cb9499d265",
+      "sha": "e7263a4cfe500c89e4269889244606953691ca33",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -300,10 +302,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 5997,
+        "forks_count": 5998,
         "stargazers_count": 10883,
         "watchers_count": 10883,
-        "size": 22287,
+        "size": 22260,
         "default_branch": "master",
         "open_issues_count": 42,
         "is_template": false,
@@ -316,9 +318,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-03T03:52:56Z",
+        "pushed_at": "2026-08-03T04:03:45Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-03T03:53:27Z",
+        "updated_at": "2026-08-03T04:04:10Z",
         "allow_forking": true
       }
     },
@@ -332,91 +334,11 @@
     "additions": 63,
     "deletions": 5,
     "changed_files": 2,
-    "commits": 13,
+    "commits": 3,
     "review_comments": 43,
-    "comments": 15
+    "comments": 16
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGQzNTEyYmRjZWY5YjVlZjg5Y2Y0ZjMyMWM5YjU5NThmMmY0NWRkODI",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d3512bdcef9b5ef89cf4f321c9b5958f2f45dd82",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/d3512bdcef9b5ef89cf4f321c9b5958f2f45dd82",
-      "tree": {
-        "sha": "270d7e6ce7573fb816bb2f92b1645a79f9f1b4a8",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/270d7e6ce7573fb816bb2f92b1645a79f9f1b4a8"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 270d7e6ce7573fb816bb2f92b1645a79f9f1b4a8\nparent 2778442c21cef2290ae3e0c843d9f3179aa1cdd0\nauthor ethicnology <ethicnology@pm.me> 1774011253 +0000\ncommitter ethicnology <ethicnology@pm.me> 1774012535 +0000\n\nfeat(BIP-85): add Nostr application 86'\n",
-        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgRnTdUN\njbp0T26XnyrAAnCSptxMCgUru22Q2oSNF73aIAAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABATNBi9rppSvy5HX\nPhABbknAboe+LVUCDYUtfCvjeBF+h+PyxDPzIwa9CBGsmJwKzWGjHMjApN6Y/0/Nm5Nni0\nBwEAABDp\n-----END SSH SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/2778442c21cef2290ae3e0c843d9f3179aa1cdd0",
-          "sha": "2778442c21cef2290ae3e0c843d9f3179aa1cdd0",
-          "html_url": "https://github.com/bitcoin/bips/commit/2778442c21cef2290ae3e0c843d9f3179aa1cdd0"
-        }
-      ],
-      "message": "feat(BIP-85): add Nostr application 86'",
-      "committer": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-03-20T13:15:35Z"
-      },
-      "author": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-03-20T12:54:13Z"
-      },
-      "sha": "d3512bdcef9b5ef89cf4f321c9b5958f2f45dd82"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDM3MTI3N2QyZTA5YTQ3YzcxYWE4NjEyZDFlMjM1MTE2NGU3M2JhYmQ",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/371277d2e09a47c71aa8612d1e2351164e73babd",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/371277d2e09a47c71aa8612d1e2351164e73babd",
-      "tree": {
-        "sha": "4abc19004e506279f141136e52d97a64570d3b9a",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/4abc19004e506279f141136e52d97a64570d3b9a"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 4abc19004e506279f141136e52d97a64570d3b9a\nparent d3512bdcef9b5ef89cf4f321c9b5958f2f45dd82\nauthor ethicnology <ethicnology@pm.me> 1774012988 +0000\ncommitter ethicnology <ethicnology@pm.me> 1774012988 +0000\n\nfix: exclude nsec from typos\n",
-        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgRnTdUN\njbp0T26XnyrAAnCSptxMCgUru22Q2oSNF73aIAAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABAueO1Va7wM+O2q6\neMCNkFT7L8zptSSGwONN7DWojAceRAdziemy4OEe5eoMz9hUdNX6/JroxB2V6Yr0Ch3bf/\nBgEAABDx\n-----END SSH SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d3512bdcef9b5ef89cf4f321c9b5958f2f45dd82",
-          "sha": "d3512bdcef9b5ef89cf4f321c9b5958f2f45dd82",
-          "html_url": "https://github.com/bitcoin/bips/commit/d3512bdcef9b5ef89cf4f321c9b5958f2f45dd82"
-        }
-      ],
-      "message": "fix: exclude nsec from typos",
-      "committer": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-03-20T13:23:08Z"
-      },
-      "author": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-03-20T13:23:08Z"
-      },
-      "sha": "371277d2e09a47c71aa8612d1e2351164e73babd"
-    },
     {
       "event": "renamed",
       "id": 23752450946,
@@ -1382,91 +1304,6 @@
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2126"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDFjZTVjYThhYjZhMTBiMWQyYmMwMTNmYzc1NDcxMmIwNWRmOTRkYTE",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1ce5ca8ab6a10b1d2bc013fc754712b05df94da1",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/1ce5ca8ab6a10b1d2bc013fc754712b05df94da1",
-      "tree": {
-        "sha": "3f0d27ff72f9e8c036ac88aa8790c9948e8332d3",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/3f0d27ff72f9e8c036ac88aa8790c9948e8332d3"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 3f0d27ff72f9e8c036ac88aa8790c9948e8332d3\nparent 371277d2e09a47c71aa8612d1e2351164e73babd\nparent 805c9b54f6d38f644d1f9c3ce871e2ea3df1f7d8\nauthor Azad <25751709+ethicnology@users.noreply.github.com> 1774554256 +0000\ncommitter GitHub <noreply@github.com> 1774554256 +0000\n\nMerge branch 'bitcoin:master' into bip85-nostr-application-86\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpxYyQCRC1aQ7uu5UhlAAAykYQAJtEpiU08vzSl7dAJ3cohpVM\neIi+hFILKJpbdT/BaNI/c9UlvKjBTJ7Nlk0twcLFBBTeIK0r+I9gwDrubQlUzqmI\neyVVjBxtajO4m4tiMz5Hu4IBcUvcHsNwKIZT8FxqXkQAysMVZ3CgXt1UknnUbJsd\nxgYPxrIe9so2Vx5VeDRGe/QQlEya7q858ynCaCvVWQt7xBHFWSn35RuWysVUxuvS\nOxKspC9ummG2cLdNQP+OdRUlw8Ah10aVWyMmjmdB8WRm6Q1OhkGeTR5Wc1PUddpU\nWjXOTfJFUQUx0t5iIMWajkwykyelKWKhZGSlVstQWo0XaB34OMX8aM8c6maYnJDN\n2hInDxqRJ7lUI+Zlo7wzBgnpKdv11oOfnRs3smiV1qJmYQ/DjnQ0bfHIKXfSNgkn\nz/VMUxncnBJmssu/6vO5zIZb4WlCVSh/X5jmsTX6HA0mhfROqni064rLnEqp2qqJ\nSb2tUkX+5lddn+gQZpHiJTIX4fjoxU/i6j9XBoQ6zjMGmuZ9JzsVoOLQYh/ifuCD\nmxntBstOGscsdXfmMPDisJHh3wUlbO4ngARP0XurClx1g2s/s4C9WF8r20r+sAn9\nd+eInOlWuxzDUwrf1WoeUZr7LKo+GU4AabXTH6z+94bY7FudGOuwL48Mj2k5saXm\nfSjsrmws7dnRJ8w/POhH\n=YG7a\n-----END PGP SIGNATURE-----\n"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/371277d2e09a47c71aa8612d1e2351164e73babd",
-          "sha": "371277d2e09a47c71aa8612d1e2351164e73babd",
-          "html_url": "https://github.com/bitcoin/bips/commit/371277d2e09a47c71aa8612d1e2351164e73babd"
-        },
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/805c9b54f6d38f644d1f9c3ce871e2ea3df1f7d8",
-          "sha": "805c9b54f6d38f644d1f9c3ce871e2ea3df1f7d8",
-          "html_url": "https://github.com/bitcoin/bips/commit/805c9b54f6d38f644d1f9c3ce871e2ea3df1f7d8"
-        }
-      ],
-      "message": "Merge branch 'bitcoin:master' into bip85-nostr-application-86",
-      "committer": {
-        "name": "GitHub",
-        "email": "noreply@github.com",
-        "date": "2026-03-26T19:44:16Z"
-      },
-      "author": {
-        "name": "Azad",
-        "email": "25751709+ethicnology@users.noreply.github.com",
-        "date": "2026-03-26T19:44:16Z"
-      },
-      "sha": "1ce5ca8ab6a10b1d2bc013fc754712b05df94da1"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGNkZjExNWU2YzJlYThmZDIxYzI1MDg0ZTNmZGNmMGY0ODkzNThmMGI",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b",
-      "tree": {
-        "sha": "b052e836ae079958a755a33a5dd4d86c45a4b3b4",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/b052e836ae079958a755a33a5dd4d86c45a4b3b4"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree b052e836ae079958a755a33a5dd4d86c45a4b3b4\nparent 1ce5ca8ab6a10b1d2bc013fc754712b05df94da1\nauthor ethicnology <ethicnology@pm.me> 1774554721 +0000\ncommitter ethicnology <ethicnology@pm.me> 1774554721 +0000\n\nBIP-85: use bold text for Nostr test vector labels to reduce TOC entries\n",
-        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgRnTdUN\njbp0T26XnyrAAnCSptxMCgUru22Q2oSNF73aIAAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABAeJMmxgpyRmS1R7\nvlE2RZZAv8DvX1taOCoZhWdSv0fXMiucsJvK4TlklvsYeOIPHdVTlcGtJTt2rBbGRunXEA\nDQEAABHp\n-----END SSH SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1ce5ca8ab6a10b1d2bc013fc754712b05df94da1",
-          "sha": "1ce5ca8ab6a10b1d2bc013fc754712b05df94da1",
-          "html_url": "https://github.com/bitcoin/bips/commit/1ce5ca8ab6a10b1d2bc013fc754712b05df94da1"
-        }
-      ],
-      "message": "BIP-85: use bold text for Nostr test vector labels to reduce TOC entries",
-      "committer": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-03-26T19:52:01Z"
-      },
-      "author": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-03-26T19:52:01Z"
-      },
-      "sha": "cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b"
-    },
-    {
       "event": "commented",
       "id": 4187649385,
       "node_id": "IC_kwDOAN28mc75mnVp",
@@ -1941,91 +1778,6 @@
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2126"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDgxOWRiNmEzMWFhNzE1ZDc5OTI1NjAwNTdmNGJiYTljNGRmM2RlNmM",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/819db6a31aa715d7992560057f4bba9c4df3de6c",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/819db6a31aa715d7992560057f4bba9c4df3de6c",
-      "tree": {
-        "sha": "364c012af2cdeefe0b65bcf7fd25f280d413009f",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/364c012af2cdeefe0b65bcf7fd25f280d413009f"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 364c012af2cdeefe0b65bcf7fd25f280d413009f\nparent cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b\nauthor ethicnology <ethicnology@pm.me> 1778067781 +0300\ncommitter ethicnology <ethicnology@pm.me> 1778067781 +0300\n\nrefactor: according to @jonatack review\n",
-        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgRnTdUN\njbp0T26XnyrAAnCSptxMCgUru22Q2oSNF73aIAAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABAbgJhfa19oiNt1O\n9knyNzRafFVl/ZYMe0vYWDeNFmDh2zsuDIFaQG+WKD82O4A6jURN2BIvO87mnWXjbuALjj\nCwEAACB2\n-----END SSH SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b",
-          "sha": "cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b",
-          "html_url": "https://github.com/bitcoin/bips/commit/cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b"
-        }
-      ],
-      "message": "refactor: according to @jonatack review",
-      "committer": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-05-06T11:43:01Z"
-      },
-      "author": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-05-06T11:43:01Z"
-      },
-      "sha": "819db6a31aa715d7992560057f4bba9c4df3de6c"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGMxYmExMGViMzcyYzRjYTYwMzM5NTQwY2I1ZjQ2OGE4MTg3NjAxNDA",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c1ba10eb372c4ca60339540cb5f468a818760140",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/c1ba10eb372c4ca60339540cb5f468a818760140",
-      "tree": {
-        "sha": "867175684d06cb3f2674697e6e59973ff4a69428",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/867175684d06cb3f2674697e6e59973ff4a69428"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 867175684d06cb3f2674697e6e59973ff4a69428\nparent 819db6a31aa715d7992560057f4bba9c4df3de6c\nparent 2cf42729484b385b310aeb590cb704ba3f0c9498\nauthor Azad <25751709+ethicnology@users.noreply.github.com> 1778067953 +0300\ncommitter GitHub <noreply@github.com> 1778067953 +0300\n\nMerge branch 'master' into bip85-nostr-application-86",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJp+ynxCRC1aQ7uu5UhlAAAlMUQABEmqHYNm6tRzUblQY27Zl9s\nAj5tX1hVGna9oVQWKrk0cACKc+f3z7Wq7AXwx3nz29LicI3bWmlvbInaxA2xhQ8B\niApvWqN+TWajqPgn80EaEssp/dHyD0jqBRMxaQsQiiN3xEpH2N1KeQhjpx6dRXNU\nc2gg3VH1IIJxmRwIv0FJ2x9QGzX5+A5IYMdDQQVLIfTh4bzwEhu19Aa+bbxJGxuW\nVABXybW2gy5NPiNfj9nTk8Y1fwuHFBlX05ASTyTQ3HQEliv8okgkZ77ipQL63jID\nGVq3xxKT6TCRWpFJ5kJd7aYqNnPBDGZQKKn83vGp6iYXSzmxtB8Cr6JkBBwo3NPF\nuC1lr85Xvs+KPQ7PVg7AnoZlkX8e+g0idSULcnctYR2enxg7b1eOY3d6NvtvdCaV\n+VpAooASnThUXgTck4ksRFZVT6l7zlyagblBa70KmVwxkbRw65WXA4A1+4CGuYo/\nN5yzectuGW7Bfk6cPuEUqLbJhr+o+Z1hYg5YB5nRa7EfzIbBiIQnMuRQCMjxTciM\nK1OECv57BY7MQArWRL6XPW3Y18f9+Bdp6o443QevN/sLXgbFflYUUImPwh7p/4z6\n89xzcqAFJCULRUGpfcacEvM9Cs8SuFsd8c72xyBNm8pq0L6IRzmnaXqTRSQ8jSH9\nR7R5i9rLkZ3NWwR8z8Vo\n=xgxt\n-----END PGP SIGNATURE-----\n"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/819db6a31aa715d7992560057f4bba9c4df3de6c",
-          "sha": "819db6a31aa715d7992560057f4bba9c4df3de6c",
-          "html_url": "https://github.com/bitcoin/bips/commit/819db6a31aa715d7992560057f4bba9c4df3de6c"
-        },
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/2cf42729484b385b310aeb590cb704ba3f0c9498",
-          "sha": "2cf42729484b385b310aeb590cb704ba3f0c9498",
-          "html_url": "https://github.com/bitcoin/bips/commit/2cf42729484b385b310aeb590cb704ba3f0c9498"
-        }
-      ],
-      "message": "Merge branch 'master' into bip85-nostr-application-86",
-      "committer": {
-        "name": "GitHub",
-        "email": "noreply@github.com",
-        "date": "2026-05-06T11:45:53Z"
-      },
-      "author": {
-        "name": "Azad",
-        "email": "25751709+ethicnology@users.noreply.github.com",
-        "date": "2026-05-06T11:45:53Z"
-      },
-      "sha": "c1ba10eb372c4ca60339540cb5f468a818760140"
-    },
-    {
       "event": "review_requested",
       "id": 25229812603,
       "node_id": "RRE_lADOAN28mc702NT9zwAAAAXf0GN7",
@@ -2434,51 +2186,6 @@
       }
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDFlOGJhZjA4YWMwOTBlMDRkNzVjNWI1ZjJiNWE1Zjk1NWZiODlkYmQ",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1e8baf08ac090e04d75c5b5f2b5a5f955fb89dbd",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/1e8baf08ac090e04d75c5b5f2b5a5f955fb89dbd",
-      "tree": {
-        "sha": "c164e7915561957bd1a30a707ddbc5dacb44a304",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/c164e7915561957bd1a30a707ddbc5dacb44a304"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree c164e7915561957bd1a30a707ddbc5dacb44a304\nparent c1ba10eb372c4ca60339540cb5f468a818760140\nparent fa4e128f66cee7b1049e303c094ba62b19b4453e\nauthor Azad <25751709+ethicnology@users.noreply.github.com> 1778755982 +0300\ncommitter GitHub <noreply@github.com> 1778755982 +0300\n\nMerge branch 'bitcoin:master' into bip85-nostr-application-86\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqBamOCRC1aQ7uu5UhlAAA+xQQACe3DWMsKV/DanUUYhBSawx1\n76C6ZMmtUS7eZIFPpMYVsUNgraeMdyuXd6u/H7GWsX3npYdIZqNlWFYhqBjK3f5a\nz9SmYn8AwxZp6kOnnOCQpjMMZiSIDaDo0fuPMHy+598howbQ6o6rBhowcHskDUUd\nZcWxemcv0cd0aEqsiPEjZtRq+duKkBm9HQr+uQ2Z3+CyZYRhjYjiUAps0bl6KCMe\nENMQup49g+FwsMgbdz0pO4zKmF7uuXq1OLQhrt78WNewFQXcLyNfFi2/KVS2VOvP\n0VFXJGOJYWK1QYjNJPEQH8fFT65zEmkK3+m/YlvdjkoGfRYvCPuFGfglFmP7X+9w\nXjcu/LRWjKK9n1QyHuihU8jkTywzl2+aYiPzSmXpuU0MdVimESN8OLjLGRfk7Y0m\nGuqlVxHDBR2cpJLfe6aJd82kBfUzFRciPETMek85CqyKBnL7beDIbViLuvC+pLD/\nnw5GExNmQnEOqKtw4Kza6Ab1kpM98NzqQ4eO7rEexW3eQL4/MnAoIxAC8AIro0Gu\nBYocPZ4MGEndEo4kjvglAg43y2tjnsg7CB2rYIVlPi1m52fvZO+IRPBL5ueVhl5c\nuOhvKtJGq6NFfFz4nK3vVEO2tkAC0cNmolRClLAPR4638ZeS2b3Mktp7ZmyeeZ6j\nuGaVe9cGuL81kh6BYPNB\n=4D4D\n-----END PGP SIGNATURE-----\n"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c1ba10eb372c4ca60339540cb5f468a818760140",
-          "sha": "c1ba10eb372c4ca60339540cb5f468a818760140",
-          "html_url": "https://github.com/bitcoin/bips/commit/c1ba10eb372c4ca60339540cb5f468a818760140"
-        },
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/fa4e128f66cee7b1049e303c094ba62b19b4453e",
-          "sha": "fa4e128f66cee7b1049e303c094ba62b19b4453e",
-          "html_url": "https://github.com/bitcoin/bips/commit/fa4e128f66cee7b1049e303c094ba62b19b4453e"
-        }
-      ],
-      "message": "Merge branch 'bitcoin:master' into bip85-nostr-application-86",
-      "committer": {
-        "name": "GitHub",
-        "email": "noreply@github.com",
-        "date": "2026-05-14T10:53:02Z"
-      },
-      "author": {
-        "name": "Azad",
-        "email": "25751709+ethicnology@users.noreply.github.com",
-        "date": "2026-05-14T10:53:02Z"
-      },
-      "sha": "1e8baf08ac090e04d75c5b5f2b5a5f955fb89dbd"
-    },
-    {
       "event": "commented",
       "id": 4450160805,
       "node_id": "IC_kwDOAN28mc8AAAABCUAQpQ",
@@ -2678,46 +2385,6 @@
       "submitted_at": "2026-05-14T20:44:38Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2126"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDEzZjMwN2I1NWUwYmViM2EzMzkyMjQ0Y2NlNjNhZjdlMDc5NDJmMTU",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/13f307b55e0beb3a3392244cce63af7e07942f15",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/13f307b55e0beb3a3392244cce63af7e07942f15",
-      "tree": {
-        "sha": "5751cbb90192295aa477d1a84063b18e1334f620",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/5751cbb90192295aa477d1a84063b18e1334f620"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 5751cbb90192295aa477d1a84063b18e1334f620\nparent 1e8baf08ac090e04d75c5b5f2b5a5f955fb89dbd\nauthor ethicnology <ethicnology@pm.me> 1778755626 +0000\ncommitter ethicnology <ethicnology@pm.me> 1778823360 +0300\n\nBIP-86: rename Nostr application 86' to 9000', bump to 2.1.0, list rust-bip85 + dart-bip85-entropy reference implementations\n",
-        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgRnTdUN\njbp0T26XnyrAAnCSptxMCgUru22Q2oSNF73aIAAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABACiGnHcmMDzCXzX\n1pIquLuacNwucwpqIw79iV60H8ihEg0gZI/fS03Gv6ITXl/WN24Wswo/Ajfkk+nuvHqFF/\nAQEAACLz\n-----END SSH SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1e8baf08ac090e04d75c5b5f2b5a5f955fb89dbd",
-          "sha": "1e8baf08ac090e04d75c5b5f2b5a5f955fb89dbd",
-          "html_url": "https://github.com/bitcoin/bips/commit/1e8baf08ac090e04d75c5b5f2b5a5f955fb89dbd"
-        }
-      ],
-      "message": "BIP-86: rename Nostr application 86' to 9000', bump to 2.1.0, list rust-bip85 + dart-bip85-entropy reference implementations",
-      "committer": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-05-15T05:36:00Z"
-      },
-      "author": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-05-14T10:47:06Z"
-      },
-      "sha": "13f307b55e0beb3a3392244cce63af7e07942f15"
     },
     {
       "event": "head_ref_force_pushed",
@@ -3111,91 +2778,6 @@
       }
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDE5MjVlOGE0ODU1ZjA1ZGNiNDRmOTkxMjM0YWMzNmQxZTM0ZmYwOGE",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1925e8a4855f05dcb44f991234ac36d1e34ff08a",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/1925e8a4855f05dcb44f991234ac36d1e34ff08a",
-      "tree": {
-        "sha": "228f219167dc6be63ea5dc7741e326066653e737",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/228f219167dc6be63ea5dc7741e326066653e737"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 228f219167dc6be63ea5dc7741e326066653e737\nparent 13f307b55e0beb3a3392244cce63af7e07942f15\nparent f078d4f5ff70fe2921fd005d799a3d4a8ff7d55c\nauthor Azad <25751709+ethicnology@users.noreply.github.com> 1782738068 +0000\ncommitter GitHub <noreply@github.com> 1782738068 +0000\n\nMerge branch 'bitcoin:master' into bip85-nostr-application-86\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqQmyUCRC1aQ7uu5UhlAAAhE8QAIW5wn4zyyOkUv4PtgQRbvy9\nO+xfGGjpe/lt2gyAHQoTg3/F4o52cHIz0BWKmyeVKH1KfONrLEOjm8m3xGjuQB05\na9OiiIqCZFK9Rh502y8qKlBccV0yLoFRDlW4eRdT7EyRQVSpng4AB82IuAzNRQnc\nlbkuDACUMyaPvz1ovQAn1mr+4l2oAtButEL7Vzfa9a8HI+yqlN4lsvXgR5s2lF73\nVpbyP62U3aJAqTwiJh863Aawpy57b1i8CQcwizQN8/oT8KOtlQEeJAjtw8un8Ghn\nu8FGyursOr3BeyW9K+1KzCUYujA2UW7aeqJV2l1rAi0jvbHe4IfQyF/w4rs5nkMf\n45MpjUP7YKpD6dumkDUNhyC4+US5MERuYvDo3xHstxPHtGQYxjX68EjBNQ4zySUW\nR/NCSs8znnFHR38L0nC2YFgvX4Yqtaia9yIQIf2bEG7AAb0ErvTPKAmGoNuUs/Zb\nd9NAWKZs9CX0mDE0NPe/cSLmjv6eq+YxsxZywYXRyxaXu5xfg60Y52iSAvMTP0RM\nCGo/wdKnd0X+RunLs4BA+Re6Agp3Xkvw9Xp00pIKlGerPIRSfHkSX8B0pG88A9uw\nzoe8NVQZmDRS7eXjr93njHRyG0M+slDvTgJDQ8EDiM7X9X4yH2w5qYIpPcp437IZ\n/zIUN8aDzNTvMCKX1ci2\n=m2If\n-----END PGP SIGNATURE-----\n"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/13f307b55e0beb3a3392244cce63af7e07942f15",
-          "sha": "13f307b55e0beb3a3392244cce63af7e07942f15",
-          "html_url": "https://github.com/bitcoin/bips/commit/13f307b55e0beb3a3392244cce63af7e07942f15"
-        },
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f078d4f5ff70fe2921fd005d799a3d4a8ff7d55c",
-          "sha": "f078d4f5ff70fe2921fd005d799a3d4a8ff7d55c",
-          "html_url": "https://github.com/bitcoin/bips/commit/f078d4f5ff70fe2921fd005d799a3d4a8ff7d55c"
-        }
-      ],
-      "message": "Merge branch 'bitcoin:master' into bip85-nostr-application-86",
-      "committer": {
-        "name": "GitHub",
-        "email": "noreply@github.com",
-        "date": "2026-06-29T13:01:08Z"
-      },
-      "author": {
-        "name": "Azad",
-        "email": "25751709+ethicnology@users.noreply.github.com",
-        "date": "2026-06-29T13:01:08Z"
-      },
-      "sha": "1925e8a4855f05dcb44f991234ac36d1e34ff08a"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDYwNDk4MjgyYWE2YzY4YWQyYzVkYmE2NGJlYzhjZTg5YTRlNjNlMTA",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
-      "tree": {
-        "sha": "86b0b4fbb279dd7efdf4a292e73d7ca729407d6b",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/86b0b4fbb279dd7efdf4a292e73d7ca729407d6b"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 86b0b4fbb279dd7efdf4a292e73d7ca729407d6b\nparent 1925e8a4855f05dcb44f991234ac36d1e34ff08a\nauthor ethicnology <ethicnology@pm.me> 1782745258 +0000\ncommitter ethicnology <ethicnology@pm.me> 1782745867 +0000\n\nbip85: address review on Nostr application, renumber to 128002'\n\nIncorporate akarve's review of the Nostr application:\n\n- Renumber 9000' -> 128002' and drop the origin explanation,\n  per the convention of leaving the app number's meaning implicit.\n- State explicitly that the Nostr private key is the first 32 bytes\n  (most significant 256 bits) of the 64-byte BIP-85 entropy.\n- Move the private-key sentence below the path and consolidate it\n  with the encoding description.\n- Justify the reserved identity 0' and account 0' indices.\n- Show the full 64-byte DERIVED ENTROPY in all test vectors for\n  consistency with the other applications.\n",
-        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgc0lo+G\nCluYnzAdxxomdJkvB/nUWvH1p3v5LyYp/JaC4AAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABATGbZmYmXIPkd8G\nLHBMLw3u4PD19OMCmc2N2J/IQeYAnVuCHNKZssjP6fvBmtCTvLAbRz2EGHh9QjcwWQtKGw\nBgEAAKMP\n-----END SSH SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1925e8a4855f05dcb44f991234ac36d1e34ff08a",
-          "sha": "1925e8a4855f05dcb44f991234ac36d1e34ff08a",
-          "html_url": "https://github.com/bitcoin/bips/commit/1925e8a4855f05dcb44f991234ac36d1e34ff08a"
-        }
-      ],
-      "message": "bip85: address review on Nostr application, renumber to 128002'\n\nIncorporate akarve's review of the Nostr application:\n\n- Renumber 9000' -> 128002' and drop the origin explanation,\n  per the convention of leaving the app number's meaning implicit.\n- State explicitly that the Nostr private key is the first 32 bytes\n  (most significant 256 bits) of the 64-byte BIP-85 entropy.\n- Move the private-key sentence below the path and consolidate it\n  with the encoding description.\n- Justify the reserved identity 0' and account 0' indices.\n- Show the full 64-byte DERIVED ENTROPY in all test vectors for\n  consistency with the other applications.",
-      "committer": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-06-29T15:11:07Z"
-      },
-      "author": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-06-29T15:00:58Z"
-      },
-      "sha": "60498282aa6c68ad2c5dba64bec8ce89a4e63e10"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 27336343864,
       "node_id": "HRFPE_lADOAN28mc702NT9zwAAAAZdX4E4",
@@ -3225,46 +2807,6 @@
       "commit_id": "60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
       "commit_url": "https://api.github.com/repos/ethicnology/bips/commits/60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
       "created_at": "2026-06-29T15:11:19Z"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGU2ZGY5ZGJmMTA5MzQ0NDMwMjMzMTU2NWExYThmNTgxNDQxNzVhMjE",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e6df9dbf1093444302331565a1a8f58144175a21",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/e6df9dbf1093444302331565a1a8f58144175a21",
-      "tree": {
-        "sha": "bdb2c8d53e33380feca61f4186c5027c0b58adc6",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/bdb2c8d53e33380feca61f4186c5027c0b58adc6"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree bdb2c8d53e33380feca61f4186c5027c0b58adc6\nparent 60498282aa6c68ad2c5dba64bec8ce89a4e63e10\nauthor ethicnology <ethicnology@pm.me> 1782746315 +0000\ncommitter ethicnology <ethicnology@pm.me> 1782746315 +0000\n\nbip85: reword reserved Nostr indices to defer semantics to a future NIP\n",
-        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgc0lo+G\nCluYnzAdxxomdJkvB/nUWvH1p3v5LyYp/JaC4AAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABA4/IqXVcg6Zy32i\njLO0lFr7VUnpNvmq5Ha+TpdTJaNsmBKyGjPc+e8UnV4m2RNGjvK3uDy0ENF9dZY/FeDAE3\nDQEAAKMg\n-----END SSH SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
-          "sha": "60498282aa6c68ad2c5dba64bec8ce89a4e63e10",
-          "html_url": "https://github.com/bitcoin/bips/commit/60498282aa6c68ad2c5dba64bec8ce89a4e63e10"
-        }
-      ],
-      "message": "bip85: reword reserved Nostr indices to defer semantics to a future NIP",
-      "committer": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-06-29T15:18:35Z"
-      },
-      "author": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-06-29T15:18:35Z"
-      },
-      "sha": "e6df9dbf1093444302331565a1a8f58144175a21"
     },
     {
       "event": "unlabeled",
@@ -3449,91 +2991,6 @@
         "name": "PR Author action required",
         "color": "e99695"
       }
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDY0NzRjNTkwMWU5MjM1YzVkYjJjZGRhYzhlMGNjMTdhYTNjZGMzNTY",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
-      "tree": {
-        "sha": "d499f5ebcfa5f793dcdc40b7eb1cfe8608ecb2b7",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/d499f5ebcfa5f793dcdc40b7eb1cfe8608ecb2b7"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree d499f5ebcfa5f793dcdc40b7eb1cfe8608ecb2b7\nparent e6df9dbf1093444302331565a1a8f58144175a21\nparent 9783d61f1b9c81231581fee026c8e8cb9499d265\nauthor Azad <25751709+ethicnology@users.noreply.github.com> 1785109510 +0000\ncommitter GitHub <noreply@github.com> 1785109510 +0000\n\nMerge branch 'bitcoin:master' into bip85-nostr-application-86\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqZpwGCRC1aQ7uu5UhlAAAFWYQADWVnfyB5gbQHHH6YdqKQO6B\nZJEK2fhwNsJG9Uvudhr7UqWv0l/By/CFIsGXGrycNTA4re252/dP7vUzjNSBw58g\nJPEOO+4v5VbFjJs9cQpzlmJzTe8AqIstO6AUYSeQzZMECRGpNccphxa1rApXtSqD\nB9tAxbIjXFAJ1WeNa2VurARmAPqj9Wp/t97xT92b/jj5+JayGTAvA1xFQAcywUK1\n6ifPgy4ISDkfRjjQeItQV14eTwVkPCw1qwFBIxJelWgRB+WM1n+ggKWt+TrV31kk\nOJWoX/v2pr/Jp4ZFIZZRaWYnE4lSnwZKjYEV2wNL+IpmvqEVs3MENZHUT9yMzV0d\n3w4iJQ6q9A6+oVh2fccKH+FMK0HP5tjqYjTxLdRywveKPkKAPZh1+3I8EIvTZfNc\nisBzjRbDjkBp0OE8gtPcqCf2wvGYkkDiXp7qqaIyTGH/hdRPBSrC43nwmsPX7KU4\nTUUQsHQX2FwHWwlG5yWLVAT5R62NUaerHr2UMWVDDT/2Xbq1WaiDcPqBAglFFeIH\nrAx6kJGVj80i11dVwNy9CpHnaQTPJl3fIpxxSyYj6rjWPbbp6o3qn7pbKfsFCCEg\nrufnbI9ihy13NQbLnIP1lr/tWbSRPhGk9wF/WvBJlElojyF7x9/QGmwZOeSINfoF\naFYF2WgbHWG9QAeKAtc+\n=b4Mg\n-----END PGP SIGNATURE-----\n"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e6df9dbf1093444302331565a1a8f58144175a21",
-          "sha": "e6df9dbf1093444302331565a1a8f58144175a21",
-          "html_url": "https://github.com/bitcoin/bips/commit/e6df9dbf1093444302331565a1a8f58144175a21"
-        },
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9783d61f1b9c81231581fee026c8e8cb9499d265",
-          "sha": "9783d61f1b9c81231581fee026c8e8cb9499d265",
-          "html_url": "https://github.com/bitcoin/bips/commit/9783d61f1b9c81231581fee026c8e8cb9499d265"
-        }
-      ],
-      "message": "Merge branch 'bitcoin:master' into bip85-nostr-application-86",
-      "committer": {
-        "name": "GitHub",
-        "email": "noreply@github.com",
-        "date": "2026-07-26T23:45:10Z"
-      },
-      "author": {
-        "name": "Azad",
-        "email": "25751709+ethicnology@users.noreply.github.com",
-        "date": "2026-07-26T23:45:10Z"
-      },
-      "sha": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDFlMGJmNjlkNGQ4NTlhNDNkMDkyYjAzNWQwODNhOTIyN2VlZDQ3MDk",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1e0bf69d4d859a43d092b035d083a9227eed4709",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/1e0bf69d4d859a43d092b035d083a9227eed4709",
-      "tree": {
-        "sha": "dee792b1fa28364b42d3a82ee1afb85d87477f33",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/dee792b1fa28364b42d3a82ee1afb85d87477f33"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree dee792b1fa28364b42d3a82ee1afb85d87477f33\nparent 6474c5901e9235c5db2cddac8e0cc17aa3cdc356\nauthor ethicnology <ethicnology@pm.me> 1785115009 -0400\ncommitter ethicnology <ethicnology@pm.me> 1785115009 -0400\n\nbip85: address final Nostr review\n\nWrap the Nostr prose for terminal readability, describe the private key as a secp256k1 scalar using the HD-Seed WIF application and existing curve-order footnote, and use the conventional hyphenated NIP names.\n",
-        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgc0lo+G\nCluYnzAdxxomdJkvB/nUWvH1p3v5LyYp/JaC4AAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABAeoOGENqad6ULN6\nXH9GVZyozzth7X57cW/t3sNoiKByl5eNTbPe+/5DtdMiXrbUe3fRfwLWsz6GmpDQZi393F\nDwEAALly\n-----END SSH SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
-          "sha": "6474c5901e9235c5db2cddac8e0cc17aa3cdc356",
-          "html_url": "https://github.com/bitcoin/bips/commit/6474c5901e9235c5db2cddac8e0cc17aa3cdc356"
-        }
-      ],
-      "message": "bip85: address final Nostr review\n\nWrap the Nostr prose for terminal readability, describe the private key as a secp256k1 scalar using the HD-Seed WIF application and existing curve-order footnote, and use the conventional hyphenated NIP names.",
-      "committer": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-07-27T01:16:49Z"
-      },
-      "author": {
-        "name": "ethicnology",
-        "email": "ethicnology@pm.me",
-        "date": "2026-07-27T01:16:49Z"
-      },
-      "sha": "1e0bf69d4d859a43d092b035d083a9227eed4709"
     },
     {
       "event": "unlabeled",
@@ -3984,6 +3441,339 @@
         "name": "PR Author action required",
         "color": "e99695"
       }
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGVkNjY5YTRjYWEwODRkMzg1N2UxZmM0MmMwZTQ2YjcyZTExN2VkZWY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ed669a4caa084d3857e1fc42c0e46b72e117edef",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/ed669a4caa084d3857e1fc42c0e46b72e117edef",
+      "tree": {
+        "sha": "1259991a3a3b2dee8cf2be16bf194d64c3f9e1f6",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/1259991a3a3b2dee8cf2be16bf194d64c3f9e1f6"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 1259991a3a3b2dee8cf2be16bf194d64c3f9e1f6\nparent 9783d61f1b9c81231581fee026c8e8cb9499d265\nauthor ethicnology <ethicnology@pm.me> 1785761978 -0400\ncommitter ethicnology <ethicnology@pm.me> 1785761978 -0400\n\ntypos: move Strnad to extend-words\n",
+        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgc0lo+G\nCluYnzAdxxomdJkvB/nUWvH1p3v5LyYp/JaC4AAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABATMtrOafHDvXCt3\nx2x6l6S/qJDS5ARUek1k2yhJS7rigk7gvYIZP8c/ppRL4/TOMfEixAWkMY4lFFIcjp0AfX\nDwEAAMiG\n-----END SSH SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9783d61f1b9c81231581fee026c8e8cb9499d265",
+          "sha": "9783d61f1b9c81231581fee026c8e8cb9499d265",
+          "html_url": "https://github.com/bitcoin/bips/commit/9783d61f1b9c81231581fee026c8e8cb9499d265"
+        }
+      ],
+      "message": "typos: move Strnad to extend-words",
+      "committer": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-08-03T12:59:38Z"
+      },
+      "author": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-08-03T12:59:38Z"
+      },
+      "sha": "ed669a4caa084d3857e1fc42c0e46b72e117edef"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDkzODVjZDJkZDgzYWEzNTYyOWNlODA0ZTBkMjc4MDg3NjQ3MTQzMjk",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9385cd2dd83aa35629ce804e0d27808764714329",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/9385cd2dd83aa35629ce804e0d27808764714329",
+      "tree": {
+        "sha": "01cb57278e0404f020082d8eff86a7d8d545b598",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/01cb57278e0404f020082d8eff86a7d8d545b598"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 01cb57278e0404f020082d8eff86a7d8d545b598\nparent ed669a4caa084d3857e1fc42c0e46b72e117edef\nauthor ethicnology <ethicnology@pm.me> 1785761993 -0400\ncommitter ethicnology <ethicnology@pm.me> 1785761993 -0400\n\nbip85: remove obsolete reference implementations\n",
+        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgc0lo+G\nCluYnzAdxxomdJkvB/nUWvH1p3v5LyYp/JaC4AAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABAN7v3jhDO3uDeqp\n3Io55szDW6E4OQBM4jmzpHi/2L2m8xWOMU2j0e3GRMMdIIjcxjOnFuZEcfh1/nBJgXDbFD\nCQEAAMiK\n-----END SSH SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ed669a4caa084d3857e1fc42c0e46b72e117edef",
+          "sha": "ed669a4caa084d3857e1fc42c0e46b72e117edef",
+          "html_url": "https://github.com/bitcoin/bips/commit/ed669a4caa084d3857e1fc42c0e46b72e117edef"
+        }
+      ],
+      "message": "bip85: remove obsolete reference implementations",
+      "committer": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-08-03T12:59:53Z"
+      },
+      "author": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-08-03T12:59:53Z"
+      },
+      "sha": "9385cd2dd83aa35629ce804e0d27808764714329"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDYyMDk3Njg2NzZiZjg1ZDdlZjVmZmI0MDU1NTQzZDYyODZkNzliOTY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6209768676bf85d7ef5ffb4055543d6286d79b96",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/6209768676bf85d7ef5ffb4055543d6286d79b96",
+      "tree": {
+        "sha": "7397effab49c971dfe17a3b4129ffe8c7d011496",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/7397effab49c971dfe17a3b4129ffe8c7d011496"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 7397effab49c971dfe17a3b4129ffe8c7d011496\nparent 9385cd2dd83aa35629ce804e0d27808764714329\nauthor ethicnology <ethicnology@pm.me> 1785762077 -0400\ncommitter ethicnology <ethicnology@pm.me> 1785762077 -0400\n\nbip85: add Nostr application 128002'\n",
+        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAAEoAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAAAgc0lo+G\nCluYnzAdxxomdJkvB/nUWvH1p3v5LyYp/JaC4AAAAEc3NoOgAAAANnaXQAAAAAAAAABnNo\nYTUxMgAAAGcAAAAac2stc3NoLWVkMjU1MTlAb3BlbnNzaC5jb20AAABARHpdvxRm6adE/1\nAjfcvFm0wO2IKAH5codc4iXjrk7YFmZH0B8QsMW1ZVJFOYjYriwJrWRv+DWVejDArOtTB/\nAQEAAMiO\n-----END SSH SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9385cd2dd83aa35629ce804e0d27808764714329",
+          "sha": "9385cd2dd83aa35629ce804e0d27808764714329",
+          "html_url": "https://github.com/bitcoin/bips/commit/9385cd2dd83aa35629ce804e0d27808764714329"
+        }
+      ],
+      "message": "bip85: add Nostr application 128002'",
+      "committer": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-08-03T13:01:17Z"
+      },
+      "author": {
+        "name": "ethicnology",
+        "email": "ethicnology@pm.me",
+        "date": "2026-08-03T13:01:17Z"
+      },
+      "sha": "6209768676bf85d7ef5ffb4055543d6286d79b96"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 28888938278,
+      "node_id": "HRFPE_lADOAN28mc702NT9zwAAAAa56jcm",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/28888938278",
+      "actor": {
+        "login": "ethicnology",
+        "id": 25751709,
+        "node_id": "MDQ6VXNlcjI1NzUxNzA5",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25751709?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethicnology",
+        "html_url": "https://github.com/ethicnology",
+        "followers_url": "https://api.github.com/users/ethicnology/followers",
+        "following_url": "https://api.github.com/users/ethicnology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethicnology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethicnology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethicnology/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethicnology/orgs",
+        "repos_url": "https://api.github.com/users/ethicnology/repos",
+        "events_url": "https://api.github.com/users/ethicnology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethicnology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "6209768676bf85d7ef5ffb4055543d6286d79b96",
+      "commit_url": "https://api.github.com/repos/ethicnology/bips/commits/6209768676bf85d7ef5ffb4055543d6286d79b96",
+      "created_at": "2026-08-03T13:05:17Z"
+    },
+    {
+      "event": "commented",
+      "id": 5166793085,
+      "node_id": "IC_kwDOAN28mc8AAAABM_cBfQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5166793085",
+      "actor": {
+        "login": "ethicnology",
+        "id": 25751709,
+        "node_id": "MDQ6VXNlcjI1NzUxNzA5",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25751709?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethicnology",
+        "html_url": "https://github.com/ethicnology",
+        "followers_url": "https://api.github.com/users/ethicnology/followers",
+        "following_url": "https://api.github.com/users/ethicnology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethicnology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethicnology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethicnology/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethicnology/orgs",
+        "repos_url": "https://api.github.com/users/ethicnology/repos",
+        "events_url": "https://api.github.com/users/ethicnology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethicnology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-03T13:16:03Z",
+      "updated_at": "2026-08-03T13:16:03Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "@akarve @jonatack \r\n\r\n- updated the changelog date\r\n- renamed `account` to `account_index` in the test vectors\r\n- squashed the branch into 3 commits and updated the PR description.\r\n",
+      "user": {
+        "login": "ethicnology",
+        "id": 25751709,
+        "node_id": "MDQ6VXNlcjI1NzUxNzA5",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25751709?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ethicnology",
+        "html_url": "https://github.com/ethicnology",
+        "followers_url": "https://api.github.com/users/ethicnology/followers",
+        "following_url": "https://api.github.com/users/ethicnology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ethicnology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ethicnology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ethicnology/subscriptions",
+        "organizations_url": "https://api.github.com/users/ethicnology/orgs",
+        "repos_url": "https://api.github.com/users/ethicnology/repos",
+        "events_url": "https://api.github.com/users/ethicnology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ethicnology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2126#issuecomment-5166793085",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2126"
+    },
+    {
+      "event": "mentioned",
+      "id": 28889529276,
+      "node_id": "MEE_lADOAN28mc702NT9zwAAAAa58zu8",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/28889529276",
+      "actor": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-03T13:16:04Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 28889529396,
+      "node_id": "SE_lADOAN28mc702NT9zwAAAAa58zw0",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/28889529396",
+      "actor": {
+        "login": "akarve",
+        "id": 1322715,
+        "node_id": "MDQ6VXNlcjEzMjI3MTU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1322715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/akarve",
+        "html_url": "https://github.com/akarve",
+        "followers_url": "https://api.github.com/users/akarve/followers",
+        "following_url": "https://api.github.com/users/akarve/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/akarve/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/akarve/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/akarve/subscriptions",
+        "organizations_url": "https://api.github.com/users/akarve/orgs",
+        "repos_url": "https://api.github.com/users/akarve/repos",
+        "events_url": "https://api.github.com/users/akarve/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/akarve/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-03T13:16:04Z"
+    },
+    {
+      "event": "mentioned",
+      "id": 28889529541,
+      "node_id": "MEE_lADOAN28mc702NT9zwAAAAa58zzF",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/28889529541",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-03T13:16:04Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 28889529620,
+      "node_id": "SE_lADOAN28mc702NT9zwAAAAa58z0U",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/28889529620",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-03T13:16:04Z"
     }
   ],
   "comments": [
@@ -4374,7 +4164,7 @@
       "path": ".typos.toml",
       "position": 5,
       "original_position": 4,
-      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "commit_id": "6209768676bf85d7ef5ffb4055543d6286d79b96",
       "original_commit_id": "cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b",
       "in_reply_to_id": null,
       "user": {
@@ -4482,7 +4272,7 @@
       "path": ".typos.toml",
       "position": 5,
       "original_position": 4,
-      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "commit_id": "6209768676bf85d7ef5ffb4055543d6286d79b96",
       "original_commit_id": "cdf115e6c2ea8fd21c25084e3fdcf0f489358f0b",
       "in_reply_to_id": 3191117020,
       "user": {
@@ -5400,7 +5190,7 @@
       "path": "bip-0085.mediawiki",
       "position": 80,
       "original_position": 73,
-      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "commit_id": "6209768676bf85d7ef5ffb4055543d6286d79b96",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": null,
       "user": {
@@ -5508,7 +5298,7 @@
       "path": "bip-0085.mediawiki",
       "position": 80,
       "original_position": 73,
-      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "commit_id": "6209768676bf85d7ef5ffb4055543d6286d79b96",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -5562,7 +5352,7 @@
       "path": "bip-0085.mediawiki",
       "position": 80,
       "original_position": 73,
-      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "commit_id": "6209768676bf85d7ef5ffb4055543d6286d79b96",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -5616,7 +5406,7 @@
       "path": "bip-0085.mediawiki",
       "position": 80,
       "original_position": 73,
-      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "commit_id": "6209768676bf85d7ef5ffb4055543d6286d79b96",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -5778,7 +5568,7 @@
       "path": "bip-0085.mediawiki",
       "position": 80,
       "original_position": 73,
-      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "commit_id": "6209768676bf85d7ef5ffb4055543d6286d79b96",
       "original_commit_id": "13f307b55e0beb3a3392244cce63af7e07942f15",
       "in_reply_to_id": 3295277900,
       "user": {
@@ -5832,7 +5622,7 @@
       "path": "bip-0085.mediawiki",
       "position": 15,
       "original_position": 15,
-      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "commit_id": "6209768676bf85d7ef5ffb4055543d6286d79b96",
       "original_commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
       "in_reply_to_id": null,
       "user": {
@@ -5994,7 +5784,7 @@
       "path": "bip-0085.mediawiki",
       "position": 15,
       "original_position": 15,
-      "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
+      "commit_id": "6209768676bf85d7ef5ffb4055543d6286d79b96",
       "original_commit_id": "e6df9dbf1093444302331565a1a8f58144175a21",
       "in_reply_to_id": 3609555689,
       "user": {
@@ -6154,7 +5944,7 @@
       "node_id": "PRRC_kwDOAN28mc7cmhn5",
       "diff_hunk": "@@ -431,16 +481,23 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39,\n+[https://github.com/nostr-protocol/nips/blob/master/01.md NIP-01],\n+[https://github.com/nostr-protocol/nips/blob/master/06.md NIP-06],\n+[https://github.com/nostr-protocol/nips/blob/master/19.md NIP-19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]\n \n ==Changelog==\n \n+===2.1.0 (2026-05-15)===",
       "path": "bip-0085.mediawiki",
-      "position": 84,
+      "position": 1,
       "original_position": 84,
       "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
@@ -6197,7 +5987,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 495,
+      "line": null,
       "original_line": 495,
       "side": "RIGHT"
     },
@@ -6208,7 +5998,7 @@
       "node_id": "PRRC_kwDOAN28mc7cmiIN",
       "diff_hunk": "@@ -423,6 +423,56 @@ OUTPUT\n * DERIVED ENTROPY=5e41f8f5d5d9ac09a20b8a5797a3172b28c806aead00d27e36609e2dd116a59176a738804236586f668da8a51b90c708a4226d7f92259c69f64c51124b6f6cd2\n * DERIVED ROLLS=1,0,0,2,0,1,5,5,2,4\n \n+===Nostr===\n+\n+Application number: 128002'\n+\n+The derivation path format is: <code>m/83696968'/128002'/{identity}'/{account_index}'</code>\n+\n+Each <code>identity</code> is an independent, unlinkable Nostr key namespace, and each\n+<code>account_index</code> is a distinct key within that identity.\n+\n+Identity index <code>0'</code> and account index <code>0'</code> are reserved for future\n+key-management use, such as proof-of-linkage between an identity's keys, key rotation, and\n+revocation. Their semantics are out of scope for this BIP and may be specified by a future\n+NIP. Usable signing keys therefore start at <code>identity >= 1'</code> and\n+<code>account_index >= 1'</code>.\n+\n+The standard application of BIP-85 produces 64 bytes of entropy. Take the first 32 bytes\n+(the 256 most significant bits)<ref name=\"curve-order\" /> as the secp256k1 secret key,\n+as in the HD-Seed WIF application, and discard the trailing 32 bytes. Encode the secret\n+key in Bech32 with the <code>nsec</code> human-readable part as specified by NIP-19.\n+\n+'''identity=1, account=1'''",
       "path": "bip-0085.mediawiki",
-      "position": 33,
+      "position": 1,
       "original_position": 33,
       "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
@@ -6251,7 +6041,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 446,
+      "line": null,
       "original_line": 446,
       "side": "RIGHT"
     },
@@ -6262,7 +6052,7 @@
       "node_id": "PRRC_kwDOAN28mc7cmzi-",
       "diff_hunk": "@@ -431,16 +481,23 @@ This specification relies on BIP32 but is agnostic to how the BIP32 root key is\n \n ==References==\n \n-BIP32, BIP39\n+BIP32, BIP39,\n+[https://github.com/nostr-protocol/nips/blob/master/01.md NIP-01],\n+[https://github.com/nostr-protocol/nips/blob/master/06.md NIP-06],\n+[https://github.com/nostr-protocol/nips/blob/master/19.md NIP-19]\n \n ==Reference Implementations==\n \n * 1.3.0 Python 3.x library implementation: [https://github.com/akarve/bipsea]\n-* 1.1.0 Python 2.x library implementation: [https://github.com/ethankosakovsky/bip85]\n-* 1.0.0 JavaScript library implementation: [https://github.com/hoganri/bip85-js]\n \n ==Changelog==\n \n+===2.1.0 (2026-05-15)===",
       "path": "bip-0085.mediawiki",
-      "position": 84,
+      "position": 1,
       "original_position": 84,
       "commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
       "original_commit_id": "1e0bf69d4d859a43d092b035d083a9227eed4709",
@@ -6305,7 +6095,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 495,
+      "line": null,
       "original_line": 495,
       "side": "RIGHT"
     }
