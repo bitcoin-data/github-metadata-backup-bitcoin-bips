@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-07-28T14:59:34Z",
-    "updated_at": "2026-08-03T18:36:52Z",
+    "updated_at": "2026-08-03T23:45:59Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -287,7 +287,7 @@
         "watchers_count": 10886,
         "size": 22260,
         "default_branch": "master",
-        "open_issues_count": 43,
+        "open_issues_count": 44,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -316,7 +316,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 2,
-    "comments": 4
+    "comments": 5
   },
   "events": [
     {
@@ -760,6 +760,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2224#issuecomment-5170216734",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2224"
+    },
+    {
+      "event": "commented",
+      "id": 5172925630,
+      "node_id": "IC_kwDOAN28mc8AAAABNFSUvg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5172925630",
+      "actor": {
+        "login": "jeanpablojp",
+        "id": 8968629,
+        "node_id": "MDQ6VXNlcjg5Njg2Mjk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8968629?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jeanpablojp",
+        "html_url": "https://github.com/jeanpablojp",
+        "followers_url": "https://api.github.com/users/jeanpablojp/followers",
+        "following_url": "https://api.github.com/users/jeanpablojp/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jeanpablojp/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jeanpablojp/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jeanpablojp/subscriptions",
+        "organizations_url": "https://api.github.com/users/jeanpablojp/orgs",
+        "repos_url": "https://api.github.com/users/jeanpablojp/repos",
+        "events_url": "https://api.github.com/users/jeanpablojp/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jeanpablojp/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-03T23:45:59Z",
+      "updated_at": "2026-08-03T23:45:59Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Since the reference implementation and test vectors are still marked TODO, I'd like to offer help there, if you aren't already deep into them.\n\nWhat I have in mind is an independent Python implementation of the recommended instantiation: pure Python secp256k1, RFC 6979 with the grind counter in the additional data, the grinding loop, and DER encoding, plus a script that generates the vectors and a separate one that verifies them, everything checked byte for byte against Bitcoin Core's signer. I built the spend-path vectors for the BIP 360 draft recently (#2232), so this is familiar ground.\n\nThe reason I think an implementation that shares no code with libsecp is worth having: if it agrees with Core on the vectors, that's good evidence the text is unambiguous, and if it doesn't, the first diverging intermediate value shows exactly which part needs tightening.\n\nIf that sounds useful, two things worth deciding up front:\n\n1. Should the vectors carry intermediate values (additional data, nonce, r, s before low-s normalization, final DER), or only key, message hash, counter and signature? My preference is the full set: the keys are test-only so there's nothing to protect, and the intermediates are what lets two implementations find where they diverge. RFC 6979 publishes k in its own vectors.\n2. A JSON file next to the document, or vectors inline in the markdown?\n\nHappy to open the result as a PR against your branch, or just post it here, whichever works better for you.\n",
+      "user": {
+        "login": "jeanpablojp",
+        "id": 8968629,
+        "node_id": "MDQ6VXNlcjg5Njg2Mjk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8968629?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jeanpablojp",
+        "html_url": "https://github.com/jeanpablojp",
+        "followers_url": "https://api.github.com/users/jeanpablojp/followers",
+        "following_url": "https://api.github.com/users/jeanpablojp/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jeanpablojp/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jeanpablojp/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jeanpablojp/subscriptions",
+        "organizations_url": "https://api.github.com/users/jeanpablojp/orgs",
+        "repos_url": "https://api.github.com/users/jeanpablojp/repos",
+        "events_url": "https://api.github.com/users/jeanpablojp/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jeanpablojp/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2224#issuecomment-5172925630",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2224"
     }
   ],
