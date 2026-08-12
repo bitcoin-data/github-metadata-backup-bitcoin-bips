@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "Updates the two Script Restoration BIPs:\r\n\r\n- exclude non-Tapscript-v2 input weight from the shared varops budget, preventing overlap with existing resource limits\r\n- add the missing OP_BOOLAND to BIP 441 opcode list",
+    "body": "\r\nUpdates BIP 440 and BIP 441:\r\n\r\n1. document mixed-version resource limits, including the potential 2× validation cost of adversarial input mixing\r\n2. add the missing OP_BOOLAND entry to BIP 441\r\n3. clarify postcharging for linear operations, precharging for expensive operations, and conditional signature-check costs\r\n4. apply the conditional signature-check formulas to BIP 441\r\n5. update BIP 441’s reference implementation link to the gsr-core branch",
     "labels": [
       {
         "id": 9823934454,
@@ -53,7 +53,7 @@
       }
     ],
     "created_at": "2026-08-01T16:28:53Z",
-    "updated_at": "2026-08-12T15:47:34Z",
+    "updated_at": "2026-08-12T16:08:53Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -165,7 +165,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22262,
+        "size": 22257,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -289,7 +289,7 @@
         "watchers_count": 10907,
         "size": 22358,
         "default_branch": "master",
-        "open_issues_count": 48,
+        "open_issues_count": 49,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -318,7 +318,7 @@
     "changed_files": 2,
     "commits": 5,
     "review_comments": 0,
-    "comments": 1
+    "comments": 2
   },
   "events": [
     {
@@ -644,6 +644,64 @@
       "commit_id": "ec838b72734bf64c47c6aec0194da0dff20b6cdb",
       "commit_url": "https://api.github.com/repos/jmoik/bips/commits/ec838b72734bf64c47c6aec0194da0dff20b6cdb",
       "created_at": "2026-08-12T15:47:34Z"
+    },
+    {
+      "event": "commented",
+      "id": 5269346757,
+      "node_id": "IC_kwDOAN28mc8AAAABOhPZxQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5269346757",
+      "actor": {
+        "login": "jmoik",
+        "id": 63734881,
+        "node_id": "MDQ6VXNlcjYzNzM0ODgx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/63734881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jmoik",
+        "html_url": "https://github.com/jmoik",
+        "followers_url": "https://api.github.com/users/jmoik/followers",
+        "following_url": "https://api.github.com/users/jmoik/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jmoik/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jmoik/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jmoik/subscriptions",
+        "organizations_url": "https://api.github.com/users/jmoik/orgs",
+        "repos_url": "https://api.github.com/users/jmoik/repos",
+        "events_url": "https://api.github.com/users/jmoik/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jmoik/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-12T16:08:53Z",
+      "updated_at": "2026-08-12T16:08:53Z",
+      "author_association": "NONE",
+      "body": "> I haven’t looked at this yet, because it is marked as a draft pull request. Is this still waiting for someone’s review in particular or was that perhaps an oversight?\r\n\r\nThis was intended, still discussing the approach with Rusty, I have now force pushed over the original commits and only applied a note describing this mixed-version resource limit issue, instead of complicating the budget calculation when mixed-version inputs are present.\r\n\r\nI will move it to \"Ready for review\" when it's clear.",
+      "user": {
+        "login": "jmoik",
+        "id": 63734881,
+        "node_id": "MDQ6VXNlcjYzNzM0ODgx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/63734881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jmoik",
+        "html_url": "https://github.com/jmoik",
+        "followers_url": "https://api.github.com/users/jmoik/followers",
+        "following_url": "https://api.github.com/users/jmoik/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jmoik/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jmoik/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jmoik/subscriptions",
+        "organizations_url": "https://api.github.com/users/jmoik/orgs",
+        "repos_url": "https://api.github.com/users/jmoik/repos",
+        "events_url": "https://api.github.com/users/jmoik/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jmoik/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2231#issuecomment-5269346757",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2231"
     }
   ],
   "comments": []
