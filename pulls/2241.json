@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-08-06T16:45:56Z",
-    "updated_at": "2026-08-12T17:58:49Z",
+    "updated_at": "2026-08-12T18:37:27Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -285,7 +285,7 @@
         "forks_count": 6005,
         "stargazers_count": 10907,
         "watchers_count": 10907,
-        "size": 22358,
+        "size": 22310,
         "default_branch": "master",
         "open_issues_count": 48,
         "is_template": false,
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 28,
+    "review_comments": 31,
     "comments": 1
   },
   "events": [
@@ -2003,6 +2003,168 @@
       "start_side": "RIGHT",
       "line": 668,
       "original_line": 668,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3769072053",
+      "pull_request_review_id": 4919678370,
+      "id": 3769072053,
+      "node_id": "PRRC_kwDOAN28mc7gp3m1",
+      "diff_hunk": "@@ -0,0 +1,700 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: Stale Tip Relay\n+  Authors: Anthony Towns <aj@erisian.com.au>\n+           w0xlt <woxlt.dev@gmail.com>\n+           Ram <pseudoramdom@proton.me>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Discussion: 2026-07-29 https://gnusha.org/pi/bitcoindev/d92f1615-368b-4406-b326-a1799c72a555n@googlegroups.com/\n+  Version: 0.1.0\n+  Requires: 434\n+```\n+\n+## Abstract\n+\n+Bitcoin miners sporadically produce stale blocks: valid blocks or valid block\n+headers that do not become part of the node's active chain. This BIP defines an\n+optional peer-to-peer (P2P) feature for announcing recent stale chain tips to\n+peers. The announcement includes the stale branch headers and whether the sender\n+is willing to serve corresponding stale block data.\n+\n+## Motivation\n+\n+Stale blocks are a potentially useful signal about the health of the network's\n+block-relay layer. The rate at which they occur tracks how quickly new blocks\n+reach the rest of the miners, and an elevated rate can be a symptom of a range\n+of network-related problems – degraded or congested propagation, network\n+partitions, or adversarial mining behavior such as selfish mining.\n+\n+An added benefit is that when a stale block has the same cumulative proof of\n+work as the active tip, the current active tip may be re-orged out in favor of a \n+child of the stale block; having the block already downloaded (and possibly already\n+validated) makes the reorg faster. The contents of stale blocks additionally\n+reveal differences in block-creation policy between mining pools.\n+\n+These benefits are not essential to the operation of the Bitcoin network, so\n+this is proposed as an optional feature, with low performance demands and strict\n+resource limits.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\",\n+\"RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document are to be interpreted as\n+described in RFC 2119.\n+\n+For the purposes of this document, \"active chain\" means the chain that a node\n+has selected as its current best chain. A \"stale branch\" is a sequence of valid\n+headers that descends from a known block but whose tip is not on the node's\n+active chain. The \"stale tip\" is the last header in that branch.\n+\n+### Protocol Constants\n+\n+Implementations of this BIP use the following limits unless otherwise noted:\n+\n+| Name | Value | Meaning |\n+| ---- | ----- | ------- |\n+| `MAX_STALETIP_HEADERS` | 20 | Recommended maximum number of `CompressedHeader` entries in one `staletip` message |\n+| `STALETIP_RECENT_WINDOW` | 1000 blocks | Recommended maximum distance from the receiver's active tip |\n+| `MAX_RETAINED_STALETIPS` | 10 | Recommended maximum number of stale tips retained for later relay |\n+\n+`MAX_STALETIP_HEADERS` is a resource-management limit[^rat-maxforklen]. The\n+value of 20 is intended to cover the short stale branches useful for reorg\n+detection while avoiding long-term tracking of persistent chain splits.\n+\n+`STALETIP_RECENT_WINDOW` is a resource-management limit[^rat-maxheight]. The\n+1000-block window is about seven days and balances limiting resource usage with\n+allowing stale tips to propagate. `MAX_RETAINED_STALETIPS` is also a\n+resource-management limit[^rat-denialofservice]. Retaining up to 10 stale tips,\n+combined with the 20-header branch limit, keeps relaying all known stale tips to\n+a new peer under 10kB. Implementations MAY use stricter limits and SHOULD NOT\n+punish peers solely for sending stale tips outside local policy limits.\n+\n+### Staletip Feature Definition\n+\n+This BIP defines a new [BIP 434][BIP434] feature id (\"the `staletip` feature\"):\n+\n+ * `https://github.com/w0xlt/bitcoin/tree/staletip-v4`\n+\n+If this specification is assigned a BIP number, the feature id SHOULD be updated\n+to a BIP-number based identifier as recommended by BIP 434, for example\n+`BIPxxx` or `BIPxxxv1`.\n+\n+The `staletip` feature data MUST contain at least one byte. The first byte is a\n+boolean, `prefers_blocks`, indicating whether the node advertising the feature\n+prefers to collect the full block data associated with stale tips:\n+\n+ * `\\x00`: the node prefers header-only announcements and does not request that\n+   announcements be delayed until block data is available.\n+ * `\\x01`: the node prefers announcements that include availability of block\n+   data where practical.\n+\n+Nodes receiving an empty `staletip` feature data field, or a first byte other\n+than `\\x00` or `\\x01`, MUST ignore that peer's `staletip` feature\n+advertisement. They SHOULD NOT disconnect solely because the feature data is not\n+understood.\n+\n+For future compatibility, nodes MUST ignore any additional feature data bytes\n+after the first byte.\n+\n+### BIP 434 Negotiation\n+\n+Nodes implementing this BIP MUST use BIP 434 to negotiate support before\n+sending any `staletip` messages.\n+\n+Nodes MUST NOT send a `staletip` message to a peer unless that peer advertised a\n+valid `staletip` feature during BIP 434 feature negotiation. Nodes SHOULD ignore\n+`staletip` messages received from peers that did not advertise a valid\n+`staletip` feature. Nodes MAY disconnect peers that repeatedly send such\n+messages without negotiation.\n+\n+Nodes advertising this feature SHOULD send the BIP 434 `feature` message with\n+the `staletip` feature id and feature data defined above before sending their\n+`verack` message.\n+\n+Advertising the feature only signals willingness to receive `staletip` messages.\n+It does not oblige a node to send them or to serve block data. A node MAY\n+advertise the feature to receive stale tips while never sending any itself, for\n+example a node that only collects stale tips for research.\n+\n+### The `staletip` Message",
+      "path": "bip-staletip.md",
+      "position": 123,
+      "original_position": 123,
+      "commit_id": "5b30d292217b8928340589fc21b88b23d841bf3d",
+      "original_commit_id": "5b30d292217b8928340589fc21b88b23d841bf3d",
+      "in_reply_to_id": 3754089764,
+      "user": {
+        "login": "pseudoramdom",
+        "id": 101169910,
+        "node_id": "U_kgDOBge69g",
+        "avatar_url": "https://avatars.githubusercontent.com/u/101169910?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/pseudoramdom",
+        "html_url": "https://github.com/pseudoramdom",
+        "followers_url": "https://api.github.com/users/pseudoramdom/followers",
+        "following_url": "https://api.github.com/users/pseudoramdom/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/pseudoramdom/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/pseudoramdom/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/pseudoramdom/subscriptions",
+        "organizations_url": "https://api.github.com/users/pseudoramdom/orgs",
+        "repos_url": "https://api.github.com/users/pseudoramdom/repos",
+        "events_url": "https://api.github.com/users/pseudoramdom/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/pseudoramdom/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Fair enough. I’ll move the `staletip` message definition, including the `CompressedHeader` format, to the start of the Specification section.",
+      "created_at": "2026-08-12T18:07:34Z",
+      "updated_at": "2026-08-12T18:07:34Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2241#discussion_r3769072053",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3769072053"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2241"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 123,
+      "original_line": 123,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3769104609",
+      "pull_request_review_id": 4919719225,
+      "id": 3769104609,
+      "node_id": "PRRC_kwDOAN28mc7gp_jh",
+      "diff_hunk": "@@ -0,0 +1,700 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: Stale Tip Relay\n+  Authors: Anthony Towns <aj@erisian.com.au>\n+           w0xlt <woxlt.dev@gmail.com>\n+           Ram <pseudoramdom@proton.me>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Discussion: 2026-07-29 https://gnusha.org/pi/bitcoindev/d92f1615-368b-4406-b326-a1799c72a555n@googlegroups.com/\n+  Version: 0.1.0\n+  Requires: 434\n+```\n+\n+## Abstract\n+\n+Bitcoin miners sporadically produce stale blocks: valid blocks or valid block\n+headers that do not become part of the node's active chain. This BIP defines an\n+optional peer-to-peer (P2P) feature for announcing recent stale chain tips to\n+peers. The announcement includes the stale branch headers and whether the sender\n+is willing to serve corresponding stale block data.\n+\n+## Motivation\n+\n+Stale blocks are a potentially useful signal about the health of the network's\n+block-relay layer. The rate at which they occur tracks how quickly new blocks\n+reach the rest of the miners, and an elevated rate can be a symptom of a range\n+of network-related problems – degraded or congested propagation, network\n+partitions, or adversarial mining behavior such as selfish mining.\n+\n+An added benefit is that when a stale block has the same cumulative proof of\n+work as the active tip, the current active tip may be re-orged out in favor of a \n+child of the stale block; having the block already downloaded (and possibly already\n+validated) makes the reorg faster. The contents of stale blocks additionally\n+reveal differences in block-creation policy between mining pools.\n+\n+These benefits are not essential to the operation of the Bitcoin network, so\n+this is proposed as an optional feature, with low performance demands and strict\n+resource limits.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\",\n+\"RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document are to be interpreted as\n+described in RFC 2119.\n+\n+For the purposes of this document, \"active chain\" means the chain that a node\n+has selected as its current best chain. A \"stale branch\" is a sequence of valid\n+headers that descends from a known block but whose tip is not on the node's\n+active chain. The \"stale tip\" is the last header in that branch.\n+\n+### Protocol Constants\n+\n+Implementations of this BIP use the following limits unless otherwise noted:\n+\n+| Name | Value | Meaning |\n+| ---- | ----- | ------- |\n+| `MAX_STALETIP_HEADERS` | 20 | Recommended maximum number of `CompressedHeader` entries in one `staletip` message |\n+| `STALETIP_RECENT_WINDOW` | 1000 blocks | Recommended maximum distance from the receiver's active tip |\n+| `MAX_RETAINED_STALETIPS` | 10 | Recommended maximum number of stale tips retained for later relay |\n+\n+`MAX_STALETIP_HEADERS` is a resource-management limit[^rat-maxforklen]. The\n+value of 20 is intended to cover the short stale branches useful for reorg\n+detection while avoiding long-term tracking of persistent chain splits.\n+\n+`STALETIP_RECENT_WINDOW` is a resource-management limit[^rat-maxheight]. The\n+1000-block window is about seven days and balances limiting resource usage with\n+allowing stale tips to propagate. `MAX_RETAINED_STALETIPS` is also a\n+resource-management limit[^rat-denialofservice]. Retaining up to 10 stale tips,\n+combined with the 20-header branch limit, keeps relaying all known stale tips to\n+a new peer under 10kB. Implementations MAY use stricter limits and SHOULD NOT\n+punish peers solely for sending stale tips outside local policy limits.\n+\n+### Staletip Feature Definition\n+\n+This BIP defines a new [BIP 434][BIP434] feature id (\"the `staletip` feature\"):\n+\n+ * `https://github.com/w0xlt/bitcoin/tree/staletip-v4`\n+\n+If this specification is assigned a BIP number, the feature id SHOULD be updated\n+to a BIP-number based identifier as recommended by BIP 434, for example\n+`BIPxxx` or `BIPxxxv1`.\n+\n+The `staletip` feature data MUST contain at least one byte. The first byte is a\n+boolean, `prefers_blocks`, indicating whether the node advertising the feature\n+prefers to collect the full block data associated with stale tips:\n+\n+ * `\\x00`: the node prefers header-only announcements and does not request that\n+   announcements be delayed until block data is available.\n+ * `\\x01`: the node prefers announcements that include availability of block\n+   data where practical.\n+\n+Nodes receiving an empty `staletip` feature data field, or a first byte other\n+than `\\x00` or `\\x01`, MUST ignore that peer's `staletip` feature\n+advertisement. They SHOULD NOT disconnect solely because the feature data is not\n+understood.\n+\n+For future compatibility, nodes MUST ignore any additional feature data bytes\n+after the first byte.\n+\n+### BIP 434 Negotiation\n+\n+Nodes implementing this BIP MUST use BIP 434 to negotiate support before\n+sending any `staletip` messages.\n+\n+Nodes MUST NOT send a `staletip` message to a peer unless that peer advertised a\n+valid `staletip` feature during BIP 434 feature negotiation. Nodes SHOULD ignore\n+`staletip` messages received from peers that did not advertise a valid\n+`staletip` feature. Nodes MAY disconnect peers that repeatedly send such\n+messages without negotiation.\n+\n+Nodes advertising this feature SHOULD send the BIP 434 `feature` message with\n+the `staletip` feature id and feature data defined above before sending their\n+`verack` message.\n+\n+Advertising the feature only signals willingness to receive `staletip` messages.\n+It does not oblige a node to send them or to serve block data. A node MAY\n+advertise the feature to receive stale tips while never sending any itself, for\n+example a node that only collects stale tips for research.\n+\n+### The `staletip` Message\n+\n+The `staletip` message is a post-handshake P2P message with the ASCII message\n+type `staletip` and the following payload:\n+\n+| Type | Name | Description |\n+| ---- | ---- | ----------- |\n+| `uint256` | `fork_point` | The block hash used as the previous block hash of the first compressed header |\n+| vector of `CompressedHeader` | `headers` | The stale branch headers after `fork_point`, ordered from oldest to newest |\n+| `bool` | `have_block` | Whether the sender is willing to serve block data for the stale branch |\n+\n+The `fork_point` MUST be known by the receiver and MUST be the predecessor of\n+the first reconstructed header. In the common case it is the block where the",
+      "path": "bip-staletip.md",
+      "position": 135,
+      "original_position": 135,
+      "commit_id": "5b30d292217b8928340589fc21b88b23d841bf3d",
+      "original_commit_id": "5b30d292217b8928340589fc21b88b23d841bf3d",
+      "in_reply_to_id": 3754136259,
+      "user": {
+        "login": "pseudoramdom",
+        "id": 101169910,
+        "node_id": "U_kgDOBge69g",
+        "avatar_url": "https://avatars.githubusercontent.com/u/101169910?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/pseudoramdom",
+        "html_url": "https://github.com/pseudoramdom",
+        "followers_url": "https://api.github.com/users/pseudoramdom/followers",
+        "following_url": "https://api.github.com/users/pseudoramdom/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/pseudoramdom/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/pseudoramdom/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/pseudoramdom/subscriptions",
+        "organizations_url": "https://api.github.com/users/pseudoramdom/orgs",
+        "repos_url": "https://api.github.com/users/pseudoramdom/repos",
+        "events_url": "https://api.github.com/users/pseudoramdom/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/pseudoramdom/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "The sender can determine this from its per-peer header state. A `fork_point` is known if it is an ancestor of a block previously announced by the receiver OR of a header the sender previously sent on the same peer. I can clarify this if that’s not clear in the spec.",
+      "created_at": "2026-08-12T18:11:41Z",
+      "updated_at": "2026-08-12T18:11:42Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2241#discussion_r3769104609",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3769104609"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2241"
+        }
+      },
+      "start_line": 134,
+      "original_start_line": 134,
+      "start_side": "RIGHT",
+      "line": 135,
+      "original_line": 135,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3769303088",
+      "pull_request_review_id": 4919947425,
+      "id": 3769303088,
+      "node_id": "PRRC_kwDOAN28mc7gqwAw",
+      "diff_hunk": "@@ -0,0 +1,700 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: Stale Tip Relay\n+  Authors: Anthony Towns <aj@erisian.com.au>\n+           w0xlt <woxlt.dev@gmail.com>\n+           Ram <pseudoramdom@proton.me>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Discussion: 2026-07-29 https://gnusha.org/pi/bitcoindev/d92f1615-368b-4406-b326-a1799c72a555n@googlegroups.com/\n+  Version: 0.1.0\n+  Requires: 434\n+```\n+\n+## Abstract\n+\n+Bitcoin miners sporadically produce stale blocks: valid blocks or valid block\n+headers that do not become part of the node's active chain. This BIP defines an\n+optional peer-to-peer (P2P) feature for announcing recent stale chain tips to\n+peers. The announcement includes the stale branch headers and whether the sender\n+is willing to serve corresponding stale block data.\n+\n+## Motivation\n+\n+Stale blocks are a potentially useful signal about the health of the network's\n+block-relay layer. The rate at which they occur tracks how quickly new blocks\n+reach the rest of the miners, and an elevated rate can be a symptom of a range\n+of network-related problems – degraded or congested propagation, network\n+partitions, or adversarial mining behavior such as selfish mining.\n+\n+An added benefit is that when a stale block has the same cumulative proof of\n+work as the active tip, the current active tip may be re-orged out in favor of a \n+child of the stale block; having the block already downloaded (and possibly already\n+validated) makes the reorg faster. The contents of stale blocks additionally\n+reveal differences in block-creation policy between mining pools.\n+\n+These benefits are not essential to the operation of the Bitcoin network, so\n+this is proposed as an optional feature, with low performance demands and strict\n+resource limits.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\",\n+\"RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document are to be interpreted as\n+described in RFC 2119.\n+\n+For the purposes of this document, \"active chain\" means the chain that a node\n+has selected as its current best chain. A \"stale branch\" is a sequence of valid\n+headers that descends from a known block but whose tip is not on the node's\n+active chain. The \"stale tip\" is the last header in that branch.\n+\n+### Protocol Constants\n+\n+Implementations of this BIP use the following limits unless otherwise noted:\n+\n+| Name | Value | Meaning |\n+| ---- | ----- | ------- |\n+| `MAX_STALETIP_HEADERS` | 20 | Recommended maximum number of `CompressedHeader` entries in one `staletip` message |\n+| `STALETIP_RECENT_WINDOW` | 1000 blocks | Recommended maximum distance from the receiver's active tip |\n+| `MAX_RETAINED_STALETIPS` | 10 | Recommended maximum number of stale tips retained for later relay |\n+\n+`MAX_STALETIP_HEADERS` is a resource-management limit[^rat-maxforklen]. The\n+value of 20 is intended to cover the short stale branches useful for reorg\n+detection while avoiding long-term tracking of persistent chain splits.\n+\n+`STALETIP_RECENT_WINDOW` is a resource-management limit[^rat-maxheight]. The\n+1000-block window is about seven days and balances limiting resource usage with\n+allowing stale tips to propagate. `MAX_RETAINED_STALETIPS` is also a\n+resource-management limit[^rat-denialofservice]. Retaining up to 10 stale tips,\n+combined with the 20-header branch limit, keeps relaying all known stale tips to\n+a new peer under 10kB. Implementations MAY use stricter limits and SHOULD NOT\n+punish peers solely for sending stale tips outside local policy limits.\n+\n+### Staletip Feature Definition\n+\n+This BIP defines a new [BIP 434][BIP434] feature id (\"the `staletip` feature\"):\n+\n+ * `https://github.com/w0xlt/bitcoin/tree/staletip-v4`\n+\n+If this specification is assigned a BIP number, the feature id SHOULD be updated\n+to a BIP-number based identifier as recommended by BIP 434, for example\n+`BIPxxx` or `BIPxxxv1`.\n+\n+The `staletip` feature data MUST contain at least one byte. The first byte is a\n+boolean, `prefers_blocks`, indicating whether the node advertising the feature\n+prefers to collect the full block data associated with stale tips:\n+\n+ * `\\x00`: the node prefers header-only announcements and does not request that\n+   announcements be delayed until block data is available.\n+ * `\\x01`: the node prefers announcements that include availability of block\n+   data where practical.\n+\n+Nodes receiving an empty `staletip` feature data field, or a first byte other\n+than `\\x00` or `\\x01`, MUST ignore that peer's `staletip` feature\n+advertisement. They SHOULD NOT disconnect solely because the feature data is not\n+understood.\n+\n+For future compatibility, nodes MUST ignore any additional feature data bytes\n+after the first byte.\n+\n+### BIP 434 Negotiation\n+\n+Nodes implementing this BIP MUST use BIP 434 to negotiate support before\n+sending any `staletip` messages.\n+\n+Nodes MUST NOT send a `staletip` message to a peer unless that peer advertised a\n+valid `staletip` feature during BIP 434 feature negotiation. Nodes SHOULD ignore\n+`staletip` messages received from peers that did not advertise a valid\n+`staletip` feature. Nodes MAY disconnect peers that repeatedly send such\n+messages without negotiation.\n+\n+Nodes advertising this feature SHOULD send the BIP 434 `feature` message with\n+the `staletip` feature id and feature data defined above before sending their\n+`verack` message.\n+\n+Advertising the feature only signals willingness to receive `staletip` messages.\n+It does not oblige a node to send them or to serve block data. A node MAY\n+advertise the feature to receive stale tips while never sending any itself, for\n+example a node that only collects stale tips for research.\n+\n+### The `staletip` Message\n+\n+The `staletip` message is a post-handshake P2P message with the ASCII message\n+type `staletip` and the following payload:\n+\n+| Type | Name | Description |\n+| ---- | ---- | ----------- |\n+| `uint256` | `fork_point` | The block hash used as the previous block hash of the first compressed header |\n+| vector of `CompressedHeader` | `headers` | The stale branch headers after `fork_point`, ordered from oldest to newest |\n+| `bool` | `have_block` | Whether the sender is willing to serve block data for the stale branch |\n+\n+The `fork_point` MUST be known by the receiver and MUST be the predecessor of\n+the first reconstructed header. In the common case it is the block where the\n+stale branch diverges from the receiver's active chain. It MAY be a later known\n+stale-branch header if both peers are expected to already know that header; in\n+that case the `headers` vector only contains the unknown suffix.\n+\n+The `headers` vector is serialized as normal: encode the length of the vector as\n+a 1, 3, 5 or 9 byte `CompactSize`, then encode each member of the vector. Only\n+minimally-encoded `CompactSize` values are supported.\n+\n+The `bool` serialization is a single byte `\\x00` for false, and a single byte\n+`\\x01` for true. Other encodings are malformed.\n+\n+The `headers` field is ordered from oldest (the header immediately following\n+`fork_point`) to newest (the stale tip itself).\n+\n+`have_block` set to `true` means the sender currently has, and is willing to\n+serve through normal block download mechanisms, the full block data for the\n+stale tip, which is the final header in this `staletip` message. A sender that\n+sets `have_block` to `true` SHOULD additionally be willing to serve earlier\n+blocks on the announced stale branch that it has. `have_block` set to `false`\n+makes no claim about stale-branch block-data availability. A sender SHOULD NOT\n+set `have_block` to `true` unless it expects a request for the stale tip block to\n+succeed.\n+\n+Because stale tips are very rare, this BIP does not reserve a 1-byte [BIP\n+324][BIP324] message type ID for the `staletip` message.",
+      "path": "bip-staletip.md",
+      "position": 160,
+      "original_position": 160,
+      "commit_id": "5b30d292217b8928340589fc21b88b23d841bf3d",
+      "original_commit_id": "5b30d292217b8928340589fc21b88b23d841bf3d",
+      "in_reply_to_id": 3754167576,
+      "user": {
+        "login": "pseudoramdom",
+        "id": 101169910,
+        "node_id": "U_kgDOBge69g",
+        "avatar_url": "https://avatars.githubusercontent.com/u/101169910?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/pseudoramdom",
+        "html_url": "https://github.com/pseudoramdom",
+        "followers_url": "https://api.github.com/users/pseudoramdom/followers",
+        "following_url": "https://api.github.com/users/pseudoramdom/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/pseudoramdom/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/pseudoramdom/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/pseudoramdom/subscriptions",
+        "organizations_url": "https://api.github.com/users/pseudoramdom/orgs",
+        "repos_url": "https://api.github.com/users/pseudoramdom/repos",
+        "events_url": "https://api.github.com/users/pseudoramdom/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/pseudoramdom/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This is a good point. \r\n@w0xlt @ajtowns - We'll probably have repeated announcements ion testnet if the feature is enabled. Do you think this warrants reserving a 1-byte ID in BIP 324. It would save 12 bytes per message.",
+      "created_at": "2026-08-12T18:37:27Z",
+      "updated_at": "2026-08-12T18:37:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2241#discussion_r3769303088",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3769303088"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2241"
+        }
+      },
+      "start_line": 159,
+      "original_start_line": 159,
+      "start_side": "RIGHT",
+      "line": 160,
+      "original_line": 160,
       "side": "RIGHT"
     }
   ]
