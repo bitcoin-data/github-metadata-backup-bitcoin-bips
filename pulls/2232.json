@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "\nThe existing test vectors are construction-only: script tree in; leaf\nhashes, Merkle root, scriptPubKey, address and control blocks out. There\nare no spending transactions or signatures, unlike BIP 341's\nwallet-test-vectors.json, so everyone implementing consensus has to\ninvent their own spend coverage. This PR adds the spend-path vectors\noffered in the Delving write-up\n(https://delvingbitcoin.org/t/bip-360-p2mr-implemented-in-bitcoin-core-on-regtest-vector-results-measurements-spec-feedback/2751).\nI generated them from the regtest implementation discussed there.\n\nThe schema mirrors bip-0341/wallet-test-vectors.json, adapted to an\noutput type whose only spend path is the script path. One transaction\nwith six inputs covers the valid cases, with per-input\n`given`/`intermediary`/`expected` and the BIP 341 sighash midstate\npieces at the group level. A separate `invalidSpending` array has nine\nself-contained transactions that must fail validation. The `error`\nfield uses short spec-level descriptions; implementations map them\nonto their own error codes (several deliberately collapse onto one code\nin ours). For inputs spent without a signature,\nprivkey/hashType/annex/sigMsg/sigHash are null rather than absent.\n\nValid cases:\n\n- depth-1 leaf, SIGHASH_DEFAULT\n- depth-2 leaf of a three-leaf tree, SIGHASH_ALL (65-byte signature)\n- annex present, covered by the signature\n- `p2mr_single_leaf_script_tree` (from p2mr_construction.json) spent at\n  depth 0 with no signature: demonstrates the v0.12.0 anyone-can-spend\n  rule on a published tree\n- `p2mr_different_version_leaves` (also from p2mr_construction.json)\n  spent through its 0xfa leaf: unknown leaf versions are unencumbered\n- a depth-128 leaf whose control block is exactly the 4097-byte\n  maximum, pinning the accepting side of the depth limit\n\nInvalid cases: bit-flipped signature, tampered Merkle path, control\nbyte with the low bit unset, single-element witness, two-element\nwitness ending in an annex, empty witness, and control blocks of 0, 34\nand 1+32*129 bytes. That covers all three clauses of the control block\nsize rule, so the depth limit is pinned from both sides.\n\nEverything can be regenerated from scratch: private keys are\n`sha256(\"p2mr_spending/key/<n>\")`, prevout txids\n`sha256(\"p2mr_spending/prevout/<n>\")`, and signing is BIP 340 with an\nall-zero aux. The two reused trees are asserted to reproduce their\npublished construction vectors, so the two files cross-check each\nother.\n\nOne case bakes in an interpretation the spec text leaves implicit:\n`p2mr_spend_control_byte_low_bit_zero` expects failure when the control\nbyte's low bit is 0. Script Validation says the bit \"is unused and must\nbe 1\" and the footnote describes it catching deserialization bugs \"with\nan immediate error\", but the validation steps have no explicit \"Fail\nif\" clause for it, unlike every other rule in that section. If the\nintended reading is non-enforcement, this vector should be dropped and\nthe footnote reworded; either way the text could make it explicit.\n\nVerified against a Bitcoin Core implementation of the BIP: every valid\ninput passes VerifyScript and every invalid case fails with the\nexpected script error\n(https://github.com/jeanpablojp/bitcoin/tree/p2mr-regtest,\nsrc/test/p2mr_vector_tests.cpp). The generator is\ntest/functional/tool_p2mr_spend_vectors.py on the same branch.\n\n",
+    "body": "\nThe existing test vectors are construction-only: script tree in; leaf\nhashes, Merkle root, scriptPubKey, address and control blocks out. There\nare no spending transactions or signatures, unlike BIP 341's\nwallet-test-vectors.json, so everyone implementing consensus has to\ninvent their own spend coverage. This PR adds the spend-path vectors\noffered in the Delving write-up\n(https://delvingbitcoin.org/t/bip-360-p2mr-implemented-in-bitcoin-core-on-regtest-vector-results-measurements-spec-feedback/2751).\nI generated them from the regtest implementation discussed there.\n\nThe schema mirrors bip-0341/wallet-test-vectors.json, adapted to an\noutput type whose only spend path is the script path. One transaction\nwith six inputs covers the valid cases, with per-input\n`given`/`intermediary`/`expected` and the BIP 341 sighash midstate\npieces at the group level. A separate `invalidSpending` array has nine\nself-contained transactions that must fail validation. The `error`\nfield uses short spec-level descriptions; implementations map them\nonto their own error codes (several deliberately collapse onto one code\nin ours). For inputs spent without a signature,\nprivkey/hashType/annex/sigMsg/sigHash are null rather than absent.\n\nValid cases:\n\n- depth-1 leaf, SIGHASH_DEFAULT\n- depth-2 leaf of a three-leaf tree, SIGHASH_ALL (65-byte signature)\n- annex present, covered by the signature\n- `p2mr_single_leaf_script_tree` (from p2mr_construction.json) spent at\n  depth 0 with no signature: demonstrates the v0.12.0 anyone-can-spend\n  rule on a published tree\n- `p2mr_different_version_leaves` (also from p2mr_construction.json)\n  spent through its 0xfa leaf: unknown leaf versions are unencumbered\n- a depth-128 leaf whose control block is exactly the 4097-byte\n  maximum, pinning the accepting side of the depth limit\n\nInvalid cases: bit-flipped signature, tampered Merkle path, control\nbyte with the low bit unset, single-element witness, two-element\nwitness ending in an annex, empty witness, and control blocks of 0, 34\nand 1+32*129 bytes. That covers all three clauses of the control block\nsize rule.\n\nEverything can be regenerated from scratch: private keys are\n`sha256(\"p2mr_spending/key/<n>\")`, prevout txids\n`sha256(\"p2mr_spending/prevout/<n>\")`, and signing is BIP 340 with an\nall-zero aux. The two reused trees are asserted to reproduce their\npublished construction vectors, so the two files cross-check each\nother.\n\nOne case bakes in an interpretation the spec text leaves implicit:\n`p2mr_spend_control_byte_low_bit_zero` expects failure when the control\nbyte's low bit is 0. Script Validation says the bit \"is unused and must\nbe 1\" and the footnote describes it catching deserialization bugs \"with\nan immediate error\", but the validation steps have no explicit \"Fail\nif\" clause for it, unlike every other rule in that section. If the\nintended reading is non-enforcement, this vector should be dropped and\nthe footnote reworded; either way the text could make it explicit.\n\nVerified against a Bitcoin Core implementation of the BIP: every valid\ninput passes VerifyScript and every invalid case fails with the\nexpected script error\n(https://github.com/jeanpablojp/bitcoin/tree/p2mr-regtest,\nsrc/test/p2mr_vector_tests.cpp). The generator is\ntest/functional/tool_p2mr_spend_vectors.py on the same branch.\n\n",
     "labels": [
       {
         "id": 275846070,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-08-01T21:55:01Z",
-    "updated_at": "2026-08-13T23:04:33Z",
+    "updated_at": "2026-08-15T17:47:34Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "bdfbf9934ccac03380d19e74fac0156a1b2de61f",
+    "merge_commit_sha": "946a4c4ead49bea9b862cbec22f3779f19cd93c4",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -173,7 +173,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22318,
+        "size": 22322,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -186,7 +186,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-12T10:58:05Z",
+        "pushed_at": "2026-08-14T20:39:38Z",
         "created_at": "2026-07-27T20:39:06Z",
         "updated_at": "2026-07-27T20:39:06Z",
         "allow_forking": true
@@ -292,12 +292,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6004,
-        "stargazers_count": 10909,
-        "watchers_count": 10909,
-        "size": 22312,
+        "forks_count": 6005,
+        "stargazers_count": 10914,
+        "watchers_count": 10914,
+        "size": 22330,
         "default_branch": "master",
-        "open_issues_count": 49,
+        "open_issues_count": 51,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -308,9 +308,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-13T04:22:56Z",
+        "pushed_at": "2026-08-15T00:05:26Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-13T05:57:36Z",
+        "updated_at": "2026-08-15T09:52:27Z",
         "allow_forking": true
       }
     },
@@ -319,7 +319,7 @@
         "href": "https://api.github.com/repos/bitcoin/bips/pulls/2232"
       }
     },
-    "author_association": "NONE",
+    "author_association": "CONTRIBUTOR",
     "draft": false,
     "additions": 1285,
     "deletions": 0,
