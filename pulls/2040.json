@@ -71,7 +71,7 @@
       }
     ],
     "created_at": "2025-11-22T06:36:29Z",
-    "updated_at": "2026-08-15T21:50:32Z",
+    "updated_at": "2026-08-16T14:02:08Z",
     "closed_at": "2026-07-16T19:13:53Z",
     "mergeable": true,
     "mergeable_state": "clean",
@@ -304,8 +304,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6004,
-        "stargazers_count": 10914,
-        "watchers_count": 10914,
+        "stargazers_count": 10915,
+        "watchers_count": 10915,
         "size": 22330,
         "default_branch": "master",
         "open_issues_count": 51,
@@ -321,7 +321,7 @@
         "visibility": "public",
         "pushed_at": "2026-08-15T00:05:26Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-15T09:52:27Z",
+        "updated_at": "2026-08-16T04:26:32Z",
         "allow_forking": true
       }
     },
@@ -337,7 +337,7 @@
     "changed_files": 1,
     "commits": 13,
     "review_comments": 111,
-    "comments": 34
+    "comments": 35
   },
   "events": [
     {
@@ -4541,6 +4541,64 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-08-15T21:50:24Z"
+    },
+    {
+      "event": "commented",
+      "id": 5307813378,
+      "node_id": "IC_kwDOAN28mc8AAAABPF7OAg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5307813378",
+      "actor": {
+        "login": "apoelstra",
+        "id": 1351933,
+        "node_id": "MDQ6VXNlcjEzNTE5MzM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1351933?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/apoelstra",
+        "html_url": "https://github.com/apoelstra",
+        "followers_url": "https://api.github.com/users/apoelstra/followers",
+        "following_url": "https://api.github.com/users/apoelstra/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/apoelstra/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/apoelstra/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/apoelstra/subscriptions",
+        "organizations_url": "https://api.github.com/users/apoelstra/orgs",
+        "repos_url": "https://api.github.com/users/apoelstra/repos",
+        "events_url": "https://api.github.com/users/apoelstra/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/apoelstra/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-16T14:02:08Z",
+      "updated_at": "2026-08-16T14:02:08Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Yeah, I see what you're getting at. Basically, we unconditionally consider the HRP to be covered by the checksum for purposes of deciding whether the checksum is long enough.\r\n\r\nIn the current BIP text, we exclude the HRP on the basis that if the HRP were corrupt, you don't even know if you're using codex32 (though I forget whether we said that). So we used exactly your function in the current BIP text but used `len(data)` rather than `expanded` (and also we forgot to put a maximum length in apparently).\r\n\r\nYour proposal is the same except we add in the HRP, effectively shifting the length boundary by 5. (We continue to have a 2-byte gap because the checksums' lengths differ by 2.)\r\n\r\nSo people who currently have data lengths of 89 through 93 will be affected. You are telling them to use codex32_long instead of codex32. Subtracting the checkum, this is 76 through 80; subtracting the 6-character header, this is 70 through 74; converting to bytes this is 43 through 47. (Without dropping the 6-character header, it's byte lengths 48 through 50...but if you don't have the header, you aren't doing codex32 and shouldn't be using the `ms` HRP anyway.)\r\n\r\n**So this is technically a breaking change for codex32 users but IMO it seems fine to me.** It's hard for me to imagine anybody using byte lengths greater than 32 (maaybe 33 for a BIP39 seed or for a pubkey or something) at all, let alone the weird lengths 43 through 47.\r\n\r\nSo concept ACK. But please open a new PR instead of making proposals in the comments of an unrelated closed PR :P.",
+      "user": {
+        "login": "apoelstra",
+        "id": 1351933,
+        "node_id": "MDQ6VXNlcjEzNTE5MzM=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1351933?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/apoelstra",
+        "html_url": "https://github.com/apoelstra",
+        "followers_url": "https://api.github.com/users/apoelstra/followers",
+        "following_url": "https://api.github.com/users/apoelstra/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/apoelstra/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/apoelstra/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/apoelstra/subscriptions",
+        "organizations_url": "https://api.github.com/users/apoelstra/orgs",
+        "repos_url": "https://api.github.com/users/apoelstra/repos",
+        "events_url": "https://api.github.com/users/apoelstra/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/apoelstra/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2040#issuecomment-5307813378",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2040"
     }
   ],
   "comments": [
