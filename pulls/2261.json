@@ -41,9 +41,19 @@
       "patch_url": null
     },
     "body": "Found during a review of BIP327's reference implementation and its shipped test gate.\r\n\r\n`bip-0327/tests.sh` (the BIP's own `set -e` quality gate: `mypy --no-error-summary reference.py && python3 reference.py && python3 gen_vectors_helper.py`) currently fails at its first step under the current mypy (2.3.1), before the vector suite ever runs:\r\n\r\n```\r\nreference.py:354: error: Argument 1 to \"int_from_bytes\" has incompatible type \"bytearray\"; expected \"bytes\"  [arg-type]\r\nreference.py:355: error: Argument 1 to \"int_from_bytes\" has incompatible type \"bytearray\"; expected \"bytes\"  [arg-type]\r\nreference.py:672: error: Argument 1 to \"int_from_bytes\" has incompatible type \"bytearray\"; expected \"bytes\"  [arg-type]\r\nreference.py:673: error: Argument 1 to \"int_from_bytes\" has incompatible type \"bytearray\"; expected \"bytes\"  [arg-type]\r\n```\r\n\r\nCause: `sign()` and the tweak-test driver slice `secnonce`, which is a `bytearray` by design (mutable, for in-place zeroization); recent mypy/typeshed no longer accepts `bytearray` for a `bytes` parameter.\r\n\r\nFix: convert to immutable bytes at the four call sites (`int_from_bytes(bytes(secnonce[...]))`). This keeps the `int_from_bytes` helper byte-identical to the BIP-340 reference implementation it was copied from, and is behavior-identical at runtime (`int.from_bytes` already accepts both types).\r\n\r\nVerification: full `tests.sh` gate now passes end-to-end in a clean container with mypy 2.3.1 (`mypy` clean + `python3 reference.py` — all vector suites and the randomized self-test — + `gen_vectors_helper.py`).\r\n\r\nHistory: this was accepted in older versions of mypy because it was more relaxed then. But from mypy 2.0, it is stricter per [PEP 688](https://peps.python.org/pep-0688), mypy no longer treats bytearray and memoryview values as assignable to the bytes type. https://github.com/python/mypy/pull/18371",
-    "labels": [],
+    "labels": [
+      {
+        "id": 10999942923,
+        "node_id": "LA_kwDOAN28mc8AAAACj6XPCw",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Fixups",
+        "name": "Fixups",
+        "description": "Minor fixups not worth bothering the BIP author(s) for",
+        "color": "052447",
+        "default": false
+      }
+    ],
     "created_at": "2026-08-18T16:43:38Z",
-    "updated_at": "2026-08-18T17:31:59Z",
+    "updated_at": "2026-08-18T18:01:18Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -349,6 +359,41 @@
         "date": "2026-08-18T16:41:24Z"
       },
       "sha": "ccb5415095c5b096abc9bd72384a6db4b7c34bce"
+    },
+    {
+      "event": "labeled",
+      "id": 29636515529,
+      "node_id": "LE_lADOAN28mc8AAAABNP_rrs8AAAAG5nlWyQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/29636515529",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-18T18:01:18Z",
+      "label": {
+        "name": "Fixups",
+        "color": "052447"
+      }
     }
   ],
   "comments": []
