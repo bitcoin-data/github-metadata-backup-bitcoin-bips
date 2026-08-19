@@ -52,11 +52,11 @@
       }
     ],
     "created_at": "2026-08-06T16:45:56Z",
-    "updated_at": "2026-08-19T10:18:58Z",
+    "updated_at": "2026-08-19T15:59:22Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "5d10bc6aeaa0744287a4f7ee61a11cd405177c80",
+    "merge_commit_sha": "3f1bf7741005af3a054e0ba3986b1afb031c005f",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -298,9 +298,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-17T21:33:24Z",
+        "pushed_at": "2026-08-19T15:18:29Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-19T07:36:09Z",
+        "updated_at": "2026-08-19T15:32:23Z",
         "allow_forking": true
       }
     },
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 45,
+    "review_comments": 46,
     "comments": 2
   },
   "events": [
@@ -3171,6 +3171,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3812092400"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2241"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 61,
+      "original_line": 61,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3814614933",
+      "pull_request_review_id": 4974159162,
+      "id": 3814614933,
+      "node_id": "PRRC_kwDOAN28mc7jXmeV",
+      "diff_hunk": "@@ -0,0 +1,700 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: Stale Tip Relay\n+  Authors: Anthony Towns <aj@erisian.com.au>\n+           w0xlt <woxlt.dev@gmail.com>\n+           Ram <pseudoramdom@proton.me>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Discussion: 2026-07-29 https://gnusha.org/pi/bitcoindev/d92f1615-368b-4406-b326-a1799c72a555n@googlegroups.com/\n+  Version: 0.1.0\n+  Requires: 434\n+```\n+\n+## Abstract\n+\n+Bitcoin miners sporadically produce stale blocks: valid blocks or valid block\n+headers that do not become part of the node's active chain. This BIP defines an\n+optional peer-to-peer (P2P) feature for announcing recent stale chain tips to\n+peers. The announcement includes the stale branch headers and whether the sender\n+is willing to serve corresponding stale block data.\n+\n+## Motivation\n+\n+Stale blocks are a potentially useful signal about the health of the network's\n+block-relay layer. The rate at which they occur tracks how quickly new blocks\n+reach the rest of the miners, and an elevated rate can be a symptom of a range\n+of network-related problems – degraded or congested propagation, network\n+partitions, or adversarial mining behavior such as selfish mining.\n+\n+An added benefit is that when a stale block has the same cumulative proof of\n+work as the active tip, the current active tip may be re-orged out in favor of a \n+child of the stale block; having the block already downloaded (and possibly already\n+validated) makes the reorg faster. The contents of stale blocks additionally\n+reveal differences in block-creation policy between mining pools.\n+\n+These benefits are not essential to the operation of the Bitcoin network, so\n+this is proposed as an optional feature, with low performance demands and strict\n+resource limits.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\",\n+\"RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document are to be interpreted as\n+described in RFC 2119.\n+\n+For the purposes of this document, \"active chain\" means the chain that a node\n+has selected as its current best chain. A \"stale branch\" is a sequence of valid\n+headers that descends from a known block but whose tip is not on the node's\n+active chain. The \"stale tip\" is the last header in that branch.\n+\n+### Protocol Constants\n+\n+Implementations of this BIP use the following limits unless otherwise noted:\n+\n+| Name | Value | Meaning |\n+| ---- | ----- | ------- |\n+| `MAX_STALETIP_HEADERS` | 20 | Recommended maximum number of `CompressedHeader` entries in one `staletip` message |\n+| `STALETIP_RECENT_WINDOW` | 1000 blocks | Recommended maximum distance from the receiver's active tip |",
+      "path": "bip-staletip.md",
+      "position": 61,
+      "original_position": 61,
+      "commit_id": "1f869b30a472f960a8cad31e4589cad38c80c410",
+      "original_commit_id": "1f869b30a472f960a8cad31e4589cad38c80c410",
+      "in_reply_to_id": 3804430047,
+      "user": {
+        "login": "pseudoramdom",
+        "id": 101169910,
+        "node_id": "U_kgDOBge69g",
+        "avatar_url": "https://avatars.githubusercontent.com/u/101169910?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/pseudoramdom",
+        "html_url": "https://github.com/pseudoramdom",
+        "followers_url": "https://api.github.com/users/pseudoramdom/followers",
+        "following_url": "https://api.github.com/users/pseudoramdom/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/pseudoramdom/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/pseudoramdom/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/pseudoramdom/subscriptions",
+        "organizations_url": "https://api.github.com/users/pseudoramdom/orgs",
+        "repos_url": "https://api.github.com/users/pseudoramdom/repos",
+        "events_url": "https://api.github.com/users/pseudoramdom/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/pseudoramdom/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "`STALETIP_RECENT_WINDOW` number is arbitrary. 1000 blocks gives monitoring nodes roughly seven days to discover staletip data.\r\n\r\n>With the current implementation, it seems that these older headers would be sent out but would not be accepted by the peer by default.\r\n\r\nGood catch, this might've been an oversight in the PoC implementation. Staletip relay path should probably define a separate bounded acceptance policy. ",
+      "created_at": "2026-08-19T15:59:22Z",
+      "updated_at": "2026-08-19T15:59:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2241#discussion_r3814614933",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3814614933"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2241"
