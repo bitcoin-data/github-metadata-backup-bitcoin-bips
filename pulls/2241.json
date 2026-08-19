@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-08-06T16:45:56Z",
-    "updated_at": "2026-08-18T13:30:42Z",
+    "updated_at": "2026-08-19T05:09:22Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -282,12 +282,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6005,
-        "stargazers_count": 10918,
-        "watchers_count": 10918,
+        "forks_count": 6006,
+        "stargazers_count": 10922,
+        "watchers_count": 10922,
         "size": 22362,
         "default_branch": "master",
-        "open_issues_count": 50,
+        "open_issues_count": 52,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -300,7 +300,7 @@
         "visibility": "public",
         "pushed_at": "2026-08-17T21:33:24Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-18T11:16:16Z",
+        "updated_at": "2026-08-19T03:52:38Z",
         "allow_forking": true
       }
     },
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 43,
+    "review_comments": 44,
     "comments": 2
   },
   "events": [
@@ -3063,6 +3063,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3804430047"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2241"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 61,
+      "original_line": 61,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3810206963",
+      "pull_request_review_id": 4968601427,
+      "id": 3810206963,
+      "node_id": "PRRC_kwDOAN28mc7jGyTz",
+      "diff_hunk": "@@ -0,0 +1,700 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: Stale Tip Relay\n+  Authors: Anthony Towns <aj@erisian.com.au>\n+           w0xlt <woxlt.dev@gmail.com>\n+           Ram <pseudoramdom@proton.me>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Discussion: 2026-07-29 https://gnusha.org/pi/bitcoindev/d92f1615-368b-4406-b326-a1799c72a555n@googlegroups.com/\n+  Version: 0.1.0\n+  Requires: 434\n+```\n+\n+## Abstract\n+\n+Bitcoin miners sporadically produce stale blocks: valid blocks or valid block\n+headers that do not become part of the node's active chain. This BIP defines an\n+optional peer-to-peer (P2P) feature for announcing recent stale chain tips to\n+peers. The announcement includes the stale branch headers and whether the sender\n+is willing to serve corresponding stale block data.\n+\n+## Motivation\n+\n+Stale blocks are a potentially useful signal about the health of the network's\n+block-relay layer. The rate at which they occur tracks how quickly new blocks\n+reach the rest of the miners, and an elevated rate can be a symptom of a range\n+of network-related problems – degraded or congested propagation, network\n+partitions, or adversarial mining behavior such as selfish mining.\n+\n+An added benefit is that when a stale block has the same cumulative proof of\n+work as the active tip, the current active tip may be re-orged out in favor of a \n+child of the stale block; having the block already downloaded (and possibly already\n+validated) makes the reorg faster. The contents of stale blocks additionally\n+reveal differences in block-creation policy between mining pools.\n+\n+These benefits are not essential to the operation of the Bitcoin network, so\n+this is proposed as an optional feature, with low performance demands and strict\n+resource limits.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\",\n+\"RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document are to be interpreted as\n+described in RFC 2119.\n+\n+For the purposes of this document, \"active chain\" means the chain that a node\n+has selected as its current best chain. A \"stale branch\" is a sequence of valid\n+headers that descends from a known block but whose tip is not on the node's\n+active chain. The \"stale tip\" is the last header in that branch.\n+\n+### Protocol Constants\n+\n+Implementations of this BIP use the following limits unless otherwise noted:\n+\n+| Name | Value | Meaning |\n+| ---- | ----- | ------- |\n+| `MAX_STALETIP_HEADERS` | 20 | Recommended maximum number of `CompressedHeader` entries in one `staletip` message |\n+| `STALETIP_RECENT_WINDOW` | 1000 blocks | Recommended maximum distance from the receiver's active tip |",
+      "path": "bip-staletip.md",
+      "position": 61,
+      "original_position": 61,
+      "commit_id": "1f869b30a472f960a8cad31e4589cad38c80c410",
+      "original_commit_id": "1f869b30a472f960a8cad31e4589cad38c80c410",
+      "in_reply_to_id": 3804430047,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Just a round number; more inspired by the average interval between stale blocks on mainnet (so that there's a decent chance a new node using this feature would see data fairly quickly) than anything else.",
+      "created_at": "2026-08-19T05:09:22Z",
+      "updated_at": "2026-08-19T05:09:22Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2241#discussion_r3810206963",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3810206963"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2241"
