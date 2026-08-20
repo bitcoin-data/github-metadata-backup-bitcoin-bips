@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2258/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2258/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/3531824ed90b6dbf5b12b9ff1b19d8c34a299f76",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/a9d8246244c06b4143b280844e7b8cf7215fe8f9",
     "number": 2258,
     "state": "open",
     "locked": false,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-08-17T04:49:29Z",
-    "updated_at": "2026-08-17T21:54:55Z",
+    "updated_at": "2026-08-20T00:51:38Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "e046b5b295888ae85f2fe8c02c41ab0d87dc0739",
+    "merge_commit_sha": "8b4ecaf7f844297db994846b0679c561a84f1d84",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "BenWestgate:bip93-checksum-boundary",
       "ref": "bip93-checksum-boundary",
-      "sha": "3531824ed90b6dbf5b12b9ff1b19d8c34a299f76",
+      "sha": "a9d8246244c06b4143b280844e7b8cf7215fe8f9",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
@@ -174,7 +174,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22390,
+        "size": 22462,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -187,9 +187,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-17T04:23:37Z",
+        "pushed_at": "2026-08-20T00:51:37Z",
         "created_at": "2025-08-19T15:04:43Z",
-        "updated_at": "2026-01-07T23:20:08Z",
+        "updated_at": "2026-08-19T14:12:59Z",
         "allow_forking": true
       }
     },
@@ -293,12 +293,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6003,
-        "stargazers_count": 10917,
-        "watchers_count": 10917,
-        "size": 22354,
+        "forks_count": 6007,
+        "stargazers_count": 10922,
+        "watchers_count": 10922,
+        "size": 22390,
         "default_branch": "master",
-        "open_issues_count": 49,
+        "open_issues_count": 52,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -309,9 +309,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-17T21:33:24Z",
+        "pushed_at": "2026-08-19T20:53:39Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-17T21:33:33Z",
+        "updated_at": "2026-08-19T20:55:21Z",
         "allow_forking": true
       }
     },
@@ -322,10 +322,10 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 64,
-    "deletions": 20,
+    "additions": 118,
+    "deletions": 27,
     "changed_files": 1,
-    "commits": 1,
+    "commits": 2,
     "review_comments": 0,
     "comments": 2
   },
@@ -679,6 +679,46 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-08-17T21:54:57Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGE5ZDgyNDYyNDRjMDZiNDE0M2IyODA4NDRlN2I4Y2Y3MjE1ZmU4Zjk",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a9d8246244c06b4143b280844e7b8cf7215fe8f9",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/a9d8246244c06b4143b280844e7b8cf7215fe8f9",
+      "tree": {
+        "sha": "de9bfa5fc2e8b72001839b9b04d64bea523fe893",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/de9bfa5fc2e8b72001839b9b04d64bea523fe893"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree de9bfa5fc2e8b72001839b9b04d64bea523fe893\nparent 3531824ed90b6dbf5b12b9ff1b19d8c34a299f76\nauthor Ben Westgate <BenWestgate@protonmail.com> 1787187096 -0500\ncommitter GitHub <noreply@github.com> 1787187096 -0500\n\nUpdate bip-0093.mediawiki\n\nBIP93: Separate checksum primitives from format selection  Distinguish the regular and long checksum primitives from the codex32 format selector. Each primitive verifier enforces its stated maximum period, while ms32_verify_checksum selects the checksum required by BIP93 and rejects expanded lengths 94 and 95.  Keep ms32_create_checksum as the format-selection helper and add the corresponding regular-checksum creator.  Add reproducible 43- through 47-byte vectors and direct assertions for the 93/94/95/96 and 1023/1024 expanded-length boundaries.",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqhk+YCRC1aQ7uu5UhlAAAofUQAB6aC8y7bJ/1LsbmlAK/PRM7\nEHzxxy707l1B0mVu2io+8Z5+uavNO9V4rGbG5ZSWErNN3+fOCqvhyGAHWNS6YqUd\npFKmltRZUt+/BCgJ3T4Ib7uX1iRKFPP5AzkZ0rOeolM/Hgio/klaUXz/30eTh3b+\nfI6Ybb8P4X3kenSIze3el+m8Pp9/HnlHnf+dO6jm2hSi8dHGlrCVILyWAaJvSlnD\nbN0ATvuOsFSe2SK/UYRRtF15Z5X8ZyxHPZjqzjk6Ye5NTbbPaX2V33mStR6I639w\nL6pzvUh9Xk8Vaff+k//KAEnzq1RxsbL5459mlBRMOkNlCgbmXBtf2zVdEzekxV5Z\nfnU1uqyd7vNtFMsZ4B/RLbsBZWzTOjYtmoQTbpvMi6fYXiKvckKRZjQegU11riph\njNRvqHSCMQrdHzY+6p6+hZmMtzWTOcatQSJjQ+ny3pfqI5vp6qYROI2az/lcqjy8\n+Rk9vD6zjVqVyyTFkdZU5kV5Z4OqU4W/XKDVeKYGRfcf3D4Vy4J5B5FvIE/6E57T\nzRsjPpQCRM0O2ffZgEMFopMs9zn/Jl7/gciaMGJLRgRbIe3B+0XVZmEVMm6iR85Z\nZamkRe7BBTl7iBNYqNbKlQxfkt3ljqSfMvpn22ggIjb/hfjamvhFJ28uCaA0EmjT\n6uo+xoG4DuVnDzoSvRPu\n=Bq7N\n-----END PGP SIGNATURE-----\n"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/3531824ed90b6dbf5b12b9ff1b19d8c34a299f76",
+          "sha": "3531824ed90b6dbf5b12b9ff1b19d8c34a299f76",
+          "html_url": "https://github.com/bitcoin/bips/commit/3531824ed90b6dbf5b12b9ff1b19d8c34a299f76"
+        }
+      ],
+      "message": "Update bip-0093.mediawiki\n\nBIP93: Separate checksum primitives from format selection  Distinguish the regular and long checksum primitives from the codex32 format selector. Each primitive verifier enforces its stated maximum period, while ms32_verify_checksum selects the checksum required by BIP93 and rejects expanded lengths 94 and 95.  Keep ms32_create_checksum as the format-selection helper and add the corresponding regular-checksum creator.  Add reproducible 43- through 47-byte vectors and direct assertions for the 93/94/95/96 and 1023/1024 expanded-length boundaries.",
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2026-08-20T00:51:36Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-08-20T00:51:36Z"
+      },
+      "sha": "a9d8246244c06b4143b280844e7b8cf7215fe8f9"
     }
   ],
   "comments": []
