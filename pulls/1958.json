@@ -71,7 +71,7 @@
       }
     ],
     "created_at": "2025-09-07T23:40:39Z",
-    "updated_at": "2026-08-21T13:48:38Z",
+    "updated_at": "2026-08-21T22:18:06Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -302,12 +302,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6011,
-        "stargazers_count": 10922,
-        "watchers_count": 10922,
+        "forks_count": 6013,
+        "stargazers_count": 10923,
+        "watchers_count": 10923,
         "size": 22367,
         "default_branch": "master",
-        "open_issues_count": 51,
+        "open_issues_count": 53,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -320,7 +320,7 @@
         "visibility": "public",
         "pushed_at": "2026-08-20T17:14:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-21T11:16:11Z",
+        "updated_at": "2026-08-21T22:42:55Z",
         "allow_forking": true
       }
     },
@@ -3645,7 +3645,7 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-08-10T08:21:41Z",
-      "updated_at": "2026-08-10T08:36:35Z",
+      "updated_at": "2026-08-21T22:18:06Z",
       "author_association": "CONTRIBUTOR",
       "body": "#### DRNG character selection vs bytes + padding encoding\r\n\r\n@akarve Your comment on byte draws and unpacking was https://github.com/akarve/bipsea/pull/68#issuecomment-3288939849.\r\n> Drawing and truncating a single byte per character is certainly clear to understand but I keep wondering > if implementers shouldn't draw ((chars * 5) // 8) bytes in one shot? These bytes aren't expensive or\r\n> anything but it's less iterations, less total reads, etc.\r\n\r\nI made the leap to encode bytes + padding for all _**strings**_ in my reply https://github.com/akarve/bipsea/pull/68#issuecomment-3289823669.\r\n> I prefer your suggestion to draw threshold * byte_length bytes in one shot, because then our initial t byte strings can be padded to a multiple of 5 bits with a CRC for more error detection.\r\n\r\nThis makes a share's last character non-uniform violating BIP93:\r\n\r\n> 4. k many times, **generate a random share by**:\r\n>\r\n>    i. Take the next available letter from the bech32 alphabet, in alphabetical order, as a, c, d, ..., to be the share index\r\n>    ii. Set the first nine characters to be the prefix ms1, the threshold value t, the 4-character identifier, and then the share index\r\n>    iii. **Choose the** next ceil(bitlength / 5) **characters uniformly at random**\r\n>    iv. Generate a valid checksum in accordance with the Checksum section, and append this to the resulting shares\r\n\r\nSo correction: shares _must_ use BIP85-DRNG to select `ceil(bit_length / 5)` uniform Bech32 payload characters, matching BIP93.\r\n\r\nI’ll revert the _share_ byte+padding encoding language.\r\n\r\nIt is correct BIP93 for codex32-encoding unshared seeds:\r\n> A conversion of the **16-to-64-byte** BIP-0032 HD master seed to bech32:\r\n>\r\n>  - Start with the bits of the master seed, most significant bit per byte first.\r\n>  - Re-arrange those bits into groups of 5, **and pad with arbitrary bits at the end** if needed.\r\n>  - Translate those bits to characters using the bech32 character table from BIP-0173.\r\n\r\nOur arbitrary bits can be the CRC1-4 of the seed bytes.\r\n\r\n#### Identifiers:\r\n\r\n* Secret at child index 0: `m/83696968'/93'/0'/16'/0'`; identifier will be the derived seed's BIP32 fingerprint (as bech32).\r\n* Secret at child index 816663: `m/83696968'/93'/0'/16'/816663'`; identifier will be `cash` as provided in the final path level.\r\n* Shares at child index 816663: `m/83696968'/93'/3'/16'/816663'`; identifier will be `cash` as provided in the final path level.\r\n\r\nThis shows the two secret identifier options.\r\n\r\n1. Derived seed derives identifier; less user input; keeps a normal child index for secrets; can't recover full bip85 derivation path from the codex32 secret; BIP32 fingerprint helps locate correct secret descriptors/wallets/PSBTs the seed can sign.\r\n\r\n2. Final path level selects identifier by Bech32-encoding its 20-LSB; burden to select a unique identifier falls on user; no independent child index, all bip85 derivation paths are recoverable from the codex32 secret which may help reestablish parent-child relationships if the bip85 path is lost.\r\n\r\n> [identifier]... SHOULD be distinct for every master seed and share set the user may need to disambiguate.\r\n\r\n#### bitsize vs byte_len vs payload-character length\r\n\r\nFor length, a 128-bit secret is `/16'` with `byte_len`, `/128'` with `bit_length`, or `/26'` with payload-character length.\r\n\r\n1. **bitsize** is the term used by BIP93. It leaves flexibility for a future application to not encode bytes. It requires more input guarding as few of the possible `bit_length` will be valid for our `ms` application. A risk of bitsize is two bip85 paths differing only by `bit_length` could map to the same secret string after application defined padding, a bad property.\r\n\r\n> Choose a **bitsize**, between 128 and 512, which must be a multiple of 8\r\n\r\n2. **byte_len** is easy since 16-64 are all valid lengths for master seeds. Simple for encoding bytes as secrets. May break compatibility with a future codex32 application not storing bytes. Can't repeat output strings for different `byte_len` as 8>5 they always differ in string length.\r\n3. **payload-character length** is u5 native for random shares but doesn't padding size on secrets. Different `payload_char_len` always change the output string length. Some values will produce remainders >4 bits and be invalid for \"ms\" and other byte-aligned secrets.\r\n\r\nSince #2040 is now closed, I’ll decouple this PR, squash/rebase it, and implement the application against the live app protocol after we make the best decisions for the above.",
       "user": {
