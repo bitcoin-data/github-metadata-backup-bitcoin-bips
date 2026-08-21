@@ -52,11 +52,11 @@
       }
     ],
     "created_at": "2026-08-06T16:45:56Z",
-    "updated_at": "2026-08-20T15:02:30Z",
+    "updated_at": "2026-08-21T01:30:53Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "3f1bf7741005af3a054e0ba3986b1afb031c005f",
+    "merge_commit_sha": "05a58fc31450cffea24b796b3b68b85c614b0910",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -282,12 +282,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6008,
-        "stargazers_count": 10922,
-        "watchers_count": 10922,
-        "size": 22390,
+        "forks_count": 6010,
+        "stargazers_count": 10923,
+        "watchers_count": 10923,
+        "size": 22367,
         "default_branch": "master",
-        "open_issues_count": 52,
+        "open_issues_count": 50,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -298,9 +298,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-19T20:53:39Z",
+        "pushed_at": "2026-08-20T17:14:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-19T20:55:21Z",
+        "updated_at": "2026-08-20T23:57:27Z",
         "allow_forking": true
       }
     },
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 50,
+    "review_comments": 51,
     "comments": 2
   },
   "events": [
@@ -3480,6 +3480,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3822597014"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2241"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 119,
+      "original_line": 119,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3826614006",
+      "pull_request_review_id": 4988965684,
+      "id": 3826614006,
+      "node_id": "PRRC_kwDOAN28mc7kFX72",
+      "diff_hunk": "@@ -0,0 +1,694 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: Stale Tip Relay\n+  Authors: Anthony Towns <aj@erisian.com.au>\n+           w0xlt <woxlt.dev@gmail.com>\n+           Ram <pseudoramdom@proton.me>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Discussion: 2026-07-29 https://gnusha.org/pi/bitcoindev/d92f1615-368b-4406-b326-a1799c72a555n@googlegroups.com/\n+  Version: 0.1.0\n+  Requires: 434\n+```\n+\n+## Abstract\n+\n+Bitcoin miners sporadically produce stale blocks: valid blocks or valid block\n+headers that do not become part of the node's active chain. This BIP defines a\n+new optional peer-to-peer (P2P) `staletip` message for announcing recent stale\n+chain tips to peers. The announcement includes the stale branch headers and\n+whether the sender is willing to serve corresponding stale block data.\n+\n+## Motivation\n+\n+Stale blocks are a potentially useful signal about the health of the network's\n+block-relay layer. The rate at which they occur tracks how quickly new blocks\n+reach the rest of the miners, and an elevated rate can be a symptom of a range\n+of network-related problems – degraded or congested propagation, network\n+partitions, or adversarial mining behavior such as selfish mining.\n+\n+An added benefit is that when a stale block has the same cumulative proof of\n+work as the active tip, the current active tip may be re-orged out in favor of a \n+child of the stale block; having the block already downloaded (and possibly already\n+validated) makes the reorg faster. The contents of stale blocks additionally\n+reveal differences in block-creation policy between mining pools.\n+\n+These benefits are not essential to the operation of the Bitcoin network, so\n+this is proposed as an optional feature, with low performance demands and strict\n+resource limits.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\",\n+\"RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document are to be interpreted as\n+described in RFC 2119.\n+\n+For the purposes of this document, \"active chain\" means the chain that a node\n+has selected as its current best chain. A \"stale branch\" is a sequence of valid\n+headers that descends from a known block but whose tip is not on the node's\n+active chain. The \"stale tip\" is the last header in that branch.\n+\n+### The `staletip` Message\n+\n+The `staletip` P2P message has the ASCII message type `staletip` and the\n+following payload:\n+\n+| Type | Name | Description |\n+| ---- | ---- | ----------- |\n+| `uint256` | `fork_point` | The block hash used as the previous block hash of the first compressed header |\n+| vector of `CompressedHeader` | `headers` | The headers forming a single stale branch after `fork_point`, in chain order |\n+| `bool` | `have_block` | Whether the sender is willing to serve block data for the stale branch |\n+\n+The `fork_point` MUST be known by the receiver and MUST be the predecessor of\n+the first reconstructed header. In the common case it is the block where the\n+stale branch diverges from the receiver's active chain. It MAY be a later known\n+stale-branch header if both peers are expected to already know that header; in\n+that case the `headers` vector only contains the unknown suffix.\n+\n+The `headers` field MUST describe a single linear branch. The first header\n+immediately follows `fork_point`, and each subsequent header immediately\n+follows the preceding header. The final header is the stale tip. A separate\n+`staletip` message is required for each competing branch that the sender\n+chooses to announce.\n+\n+The `headers` vector is serialized as normal: encode the length of the vector as\n+a 1, 3, 5 or 9 byte `CompactSize`, then serialize each member of the vector.\n+Only minimally-encoded `CompactSize` values are supported.\n+\n+The `bool` serialization is a single byte `\\x00` for false, and a single byte\n+`\\x01` for true. Other encodings are malformed.\n+\n+`have_block` set to `true` means the sender currently has, and is willing to\n+serve through normal block download mechanisms, the full block data for the\n+stale tip, which is the final header in this `staletip` message. A sender that\n+sets `have_block` to `true` SHOULD additionally be willing to serve earlier\n+blocks on the announced stale branch that it has. `have_block` set to `false`\n+makes no claim about stale-branch block-data availability. A sender SHOULD NOT\n+set `have_block` to `true` unless it expects a request for the stale tip block to\n+succeed.\n+\n+Because stale tips are very rare, this BIP does not reserve a 1-byte [BIP\n+324][BIP324] message type ID for the `staletip` message.\n+\n+#### `CompressedHeader` Format\n+\n+The `CompressedHeader` is a 48 byte structure equivalent to regular block header\n+serialization, but omits the previous block's hash[^rat-compressedheader]. The\n+fields are serialized exactly as the corresponding fields are serialized in a\n+Bitcoin block header:\n+\n+| Size | Name | Type | Description |\n+| ---- | ---- | ---- | ----------- |\n+| 4 | `version` | `int32_t` | Block version information |\n+| 32 | `merkle_root` | `uint256` | The Merkle root of the block's transactions |\n+| 4 | `time` | `uint32_t` | The block's timestamp |\n+| 4 | `bits` | `uint32_t` | The calculated difficulty target being used for this block |\n+| 4 | `nonce` | `uint32_t` | The nonce used to generate this block |\n+\n+### Protocol Constants\n+\n+Implementations of this BIP use the following limits unless otherwise noted:\n+\n+| Name | Value | Meaning |\n+| ---- | ----- | ------- |\n+| `MAX_STALETIP_HEADERS` | 20 | Recommended maximum number of `CompressedHeader` entries in one `staletip` message |\n+| `STALETIP_RECENT_WINDOW` | 1000 blocks | Recommended maximum distance from the receiver's active tip |\n+| `MAX_RETAINED_STALETIPS` | 10 | Recommended maximum number of stale tips retained for later relay |",
+      "path": "bip-staletip.md",
+      "position": 119,
+      "original_position": 119,
+      "commit_id": "d055be18e2cc46b9cdbc128cbe03478b6b094f18",
+      "original_commit_id": "d055be18e2cc46b9cdbc128cbe03478b6b094f18",
+      "in_reply_to_id": 3822597014,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Should probably be called \"ADVERTISED\" (or similar) rather than \"RETAINED\" -- (except for pruning) core retains all the stale tips it has, eg. Advertising the 10 stale tips with most accumulated work, and in the case of a tie, dropping the oldest is probably reasonable for ensuring the tips most likely to be involved in a reorg are available. \r\n\r\nChoosing randomly would probably maximise the number of tips available to the network, particularly if it were re-randomized per connection.",
+      "created_at": "2026-08-21T01:30:52Z",
+      "updated_at": "2026-08-21T01:30:53Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2241#discussion_r3826614006",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3826614006"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2241"
