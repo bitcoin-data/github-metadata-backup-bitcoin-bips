@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "This allows wallets to derive codex32 secrets and codex32 shares from BIP-0032 master keys.\r\n\r\n**Summary of changes**\r\n- Add codex32 application\r\n- Add [BIP-0093](https://github.com/bitcoin/bips/blob/master/bip-0093.mediawiki) to references\r\n- Bump version number to 1.4.0\r\n- Add 1.4.0 [reference implementation](https://github.com/benwestgate/bip85)\r\n\r\n**Rationale**\r\n\r\n- Mirrors the existing BIP-85 application for BIP-39.\r\n- Codex32 offers error correction, hand verification, identifiers, and secret sharing improvements vs BIP-39.\r\n- Deterministic generation produces auditable backups by avoiding reliance on local RNG, helping users who distrust device entropy.\r\n\r\n**Specification**\r\n\r\n- Adds **Application 93'** to BIP-0085 using derivation path:\r\n```matlab\r\nm/83696968'/93'/{header}'/{byte_len}'/{index}''\r\n```\r\n\r\n**Tests**\r\nReference tests and new vectors will be included in the reference bipsea implementation:\r\nhttps://github.com/benwestgate/bipsea/compare/master...BenWestgate:bipsea:master\r\n\r\n**Mailing List**\r\nDiscussion: https://groups.google.com/g/bitcoindev/c/--lHTAtq0Qc\r\n\r\n**Status**\r\nReady for conceptual and approach review. This change is additive and does not modify existing BIP-85 behavior.",
+    "body": "This allows wallets to derive codex32 secrets and codex32 shares from BIP-0032 root keys.\r\n\r\n**Summary of changes**\r\n- Add codex32 application `93'`\r\n- Add [BIP-0093](https://github.com/bitcoin/bips/blob/master/bip-0093.mediawiki) and [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) to references\r\n- Add [reference implementation](https://github.com/akarve/bipsea/pull/68)\r\n- Bump version to `2.2.0`\r\n\r\n**Rationale**\r\n\r\n- Mirrors the existing BIP-85 application for BIP-39.\r\n- Codex32 offers error correction, hand verification, identifiers, and secret sharing improvements vs BIP-39.\r\n- Deterministic generation produces auditable backups by avoiding reliance on local RNG, helping users who distrust device entropy.\r\n\r\n**Specification**\r\n\r\n- Adds **Application 93'** to BIP-0085 using derivation path:\r\n```matlab\r\nm/83696968'/93'/{profile}'/{payload_len}'/{index}'\r\n```\r\n- Profile `0` uses BIP93's `ms` human-readable part and Master seed format\r\n-  {payload_len} counts Bech32 payload characters\r\n- {index} serializes the six-character codex32 header into 30 bits\r\n- Threshold `0` derives secrets according to profile specific construction\r\n- A nonzero threshold derives one canonical initial share per path\r\n\r\n**Tests**\r\nReference tests included in the reference bipsea implementation:\r\nhttps://github.com/akarve/bipsea/pull/68/changes\r\n\r\n**Mailing List**\r\nDiscussion: https://groups.google.com/g/bitcoindev/c/--lHTAtq0Qc\r\n\r\n**Status**\r\nReady for renewed conceptual and approach review. This change is additive and does not modify existing BIP-85 behavior.",
     "labels": [
       {
         "id": 275846070,
@@ -71,7 +71,7 @@
       }
     ],
     "created_at": "2025-09-07T23:40:39Z",
-    "updated_at": "2026-08-22T06:21:03Z",
+    "updated_at": "2026-08-22T07:50:46Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
