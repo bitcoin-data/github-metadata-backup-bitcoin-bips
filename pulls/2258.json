@@ -62,7 +62,7 @@
       }
     ],
     "created_at": "2026-08-17T04:49:29Z",
-    "updated_at": "2026-08-25T14:21:25Z",
+    "updated_at": "2026-08-25T18:53:33Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -327,7 +327,7 @@
     "changed_files": 1,
     "commits": 3,
     "review_comments": 0,
-    "comments": 4
+    "comments": 5
   },
   "events": [
     {
@@ -905,6 +905,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2258#issuecomment-5411804501",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2258"
+    },
+    {
+      "event": "commented",
+      "id": 5415188689,
+      "node_id": "IC_kwDOAN28mc8AAAABQsU40Q",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5415188689",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-25T18:53:33Z",
+      "updated_at": "2026-08-25T18:53:33Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "cACK\r\n> simply restrict BIP-93 to seed lengths 128, 160, 192, 224, 256 and 512. I think I slightly prefer that, and if we are going to make such a change it would be better to do it from the get go.\r\n\r\nTo prepare to generalize BIP-93 we still must _also_ correct the checksum-period coverage or it leaves the unsafe checksum-selection question for every later application:\r\n\r\nFor an `ms` application to restrict to these lengths, `codex32_decode` must verify the separator, header and checksum, then return HRP and u5 data. If expanded codewords may exceed the checksum period, detection guarantees won't apply, risking undetected cross-application/profile confusion.\r\n\r\nSince restricting `ms` seed lengths can simplify the test vectors, rationale and compatibility sections I will add it here as a separate commit rather than revive #2077.\r\n\r\n- Checksum verification primitives enforce their maximum 93/1023 periods.\r\n- Checksum verification selects Long from 96 expanded length.\r\n- Checksum creation selects Long above 80 expanded hrp plus data length.\r\n- Master seed format rules will update and state its valid lengths.\r\n- “Long codex32 only for 512 bits” is an ms-profile rule, not a general rule.\r\n- Compatibility mentions the removed previously valid non-multiple of 4-byte and 33-63-byte sizes and their previous checksum selections.\r\n- SLIP-0039 permits additional lengths, compatibility needs \"interconvertible with SLIP-0039 master seeds of supported lengths\".\r\n- 43–47-byte master-seed vectors will be removed.\r\n- Checksum-layer assertions for 93/94/95/96/1023/1024 will be added while `ms` tests will enforce the six seed lengths.",
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2258#issuecomment-5415188689",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2258"
     }
   ],
