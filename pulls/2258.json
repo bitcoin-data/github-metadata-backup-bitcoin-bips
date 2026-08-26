@@ -12,12 +12,12 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2258/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2258/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/c2015366046de35785f5b69e56d6b3227bb34232",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/5117f5831bcbf0485949e5951d2954b792eded28",
     "number": 2258,
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "BIP93: Fix checksum selection boundaries",
+    "title": "BIP93: Fix checksum selection bounds and restrict `ms` sizes",
     "user": {
       "login": "BenWestgate",
       "id": 73506583,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "### Motivation\r\nBIP93 currently admits expanded codewords beyond the checksum’s stated period, so its detection guarantee no longer applies to the complete codeword. This cause problems for a generic `codex32_decode` function in later PRs. Both regular and long checksums permitted codewords in excess of their period.\r\n\r\n### Changes\r\n\r\n- `ms32_verify_checksum` and `ms32_create_checksum` now include the expanded \"ms\" HRP length when selecting regular vs. long checksums.\r\n- `ms32_create_checksum` uses `if 5 + len(data) > 80:` as the switch to `ms32_create_long_checksum`.\r\n- added `ms32_create_regular_checksum` and `ms32_verify_regular_checksum`.\r\n- The Python reference code, specification, rationale, and vectors are updated.\r\n\r\nValid lengths:\r\n- Regular codewords will now be <= 93 expanded values\r\n- Long codewords will now be >= 96 and <= 1023 expanded values\r\n\r\nInvalid lengths:\r\n- Expanded values 94, 95 and > 1023.\r\n\r\n### Compatibility\r\n\r\nThis is a breaking change for old regular codex32 strings encoding 44-, 45-, and 46-byte seeds. However the authors [do not see this is a problem](https://github.com/bitcoin/bips/pull/2040#issuecomment-5307813378) due to the exceedingly rare possibility these have ever been created and used.\r\nThe underlying seed lengths remain supported so users must migrate by reencoding their data with the _Long codex32_ checksum for modern decoders to accept them.\r\nThe 43-byte regular encoding and existing 47-byte long encoding remain valid.\r\n\r\n### Testing\r\n\r\nThoroughly reviewed the complete diff.\r\nChecked the new 43–47-byte boundary vectors.\r\nChecked that expanded length 1023 verifies and 1024 fails.\r\nChecked that the legacy short-checksum vectors should fail.\r\n\r\n### Discussion\r\n\r\nProposal: https://github.com/bitcoin/bips/pull/2040#issuecomment-5304395231\r\ncACK https://github.com/bitcoin/bips/pull/2040#issuecomment-5307813378\r\nReference impl issue: https://github.com/BlockstreamResearch/codex32/issues/75\r\nrust-codex32 PR: https://github.com/BlockstreamResearch/codex32/pull/76",
+    "body": "### Motivation\r\nBIP93 currently admits expanded codewords beyond the checksum’s stated period, so its detection guarantee no longer applies to the complete codeword. This is a problem for a generic `codex32_decode` function in later PRs. Both regular and long checksums permitted codewords in excess of their period.\r\n\r\nMeanwhile, fixing the above will invalidate very uncommon `ms` strings or leave an ugly disjoint checksum selection rule for `len(hrp) == 2`. A better solution is immediately follow up with by restricting master seeds to the most commonly used seed and entropy sizes. This reduces target length ambiguity for optional insert/delete correcting wallets and [my benchmarks](https://github.com/BlockstreamResearch/codex32/pull/70/#issuecomment-5429747298) show improvements in both false-correction risk and performance at the same indel search depths.\r\n\r\n### Changes\r\n\r\n- `ms32_verify_checksum` and `ms32_create_checksum` now include the expanded \"ms\" HRP length when selecting regular vs. long checksums.\r\n- `ms32_create_checksum` uses `if 5 + len(data) > 80:` as the switch to `ms32_create_long_checksum`.\r\n- added `ms32_create_regular_checksum` and `ms32_verify_regular_checksum`.\r\n- The Python reference code, specification, rationale, and vectors are updated.\r\n- `ms32_decode` enforces the new `ms` string lengths.\r\n- Obsolete tests/vectors from the seed size restrictions are removed.\r\n\r\ncodex32 lengths:\r\n- Regular codewords will now be <= 93 expanded values\r\n- Long codewords will now be >= 96 and <= 1023 expanded values\r\n\r\ninvalid codex32 lengths:\r\n- Expanded values 94, 95 and > 1023.\r\n\r\ncodex32-encoded master seed sizes:\r\n- 16-, 20-, 24-, 28-, 32- and 64-bytes\r\n\r\nunsupported `ms` sizes:\r\n- All from 16- to 64-bytes besides the six above.\r\n\r\n### Compatibility\r\n\r\nThis is a breaking change for old strings encoding deprecated byte-length seeds. However the authors [do not see this is a problem](https://github.com/bitcoin/bips/pull/2040#issuecomment-5307813378) due to the exceedingly rare possibility these have ever been created and used.\r\n\r\n### Testing\r\n\r\nThoroughly reviewed the complete diff.\r\nChecked the new vectors.\r\nChecked that expanded length 1023 verifies and 1024 fails.\r\nChecked that the legacy short-checksum vectors should fail.\r\nChecked that `ms32_decode` rejects newly invalid lengths, even when they have valid header, incomplete group and checksum.\r\n\r\n### Discussion\r\n\r\nProposal: https://github.com/bitcoin/bips/pull/2040#issuecomment-5304395231\r\ncACK https://github.com/bitcoin/bips/pull/2040#issuecomment-5307813378\r\nReference impl issue: https://github.com/BlockstreamResearch/codex32/issues/75\r\nrust-codex32 PR: https://github.com/BlockstreamResearch/codex32/pull/76\r\nRestrict `ms` sizes suggestion: https://github.com/bitcoin/bips/pull/2258#issuecomment-5411804501",
     "labels": [
       {
         "id": 275846070,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-08-17T04:49:29Z",
-    "updated_at": "2026-08-26T20:24:21Z",
+    "updated_at": "2026-08-26T22:54:33Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "cdae7de9b6b1bd431a3042bea29693cb71d5d268",
+    "merge_commit_sha": "5510eb95756b8c0e7addbe61b0847230ed2485f8",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "BenWestgate:bip93-checksum-boundary",
       "ref": "bip93-checksum-boundary",
-      "sha": "c2015366046de35785f5b69e56d6b3227bb34232",
+      "sha": "5117f5831bcbf0485949e5951d2954b792eded28",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
@@ -174,7 +174,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22448,
+        "size": 22410,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -187,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-26T20:18:30Z",
+        "pushed_at": "2026-08-26T22:29:17Z",
         "created_at": "2025-08-19T15:04:43Z",
         "updated_at": "2026-08-21T00:02:04Z",
         "allow_forking": true
@@ -322,10 +322,10 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 91,
-    "deletions": 27,
+    "additions": 103,
+    "deletions": 50,
     "changed_files": 1,
-    "commits": 1,
+    "commits": 2,
     "review_comments": 0,
     "comments": 6
   },
@@ -1035,6 +1035,81 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2258#issuecomment-5430682643",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2258"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDUxMTdmNTgzMWJjYmYwNDg1OTQ5ZTU5NTFkMjk1NGI3OTJlZGVkMjg",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5117f5831bcbf0485949e5951d2954b792eded28",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/5117f5831bcbf0485949e5951d2954b792eded28",
+      "tree": {
+        "sha": "7ecd2938cd727efbcfb678134cb11b70d2173d60",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/7ecd2938cd727efbcfb678134cb11b70d2173d60"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c2015366046de35785f5b69e56d6b3227bb34232",
+          "sha": "c2015366046de35785f5b69e56d6b3227bb34232",
+          "html_url": "https://github.com/bitcoin/bips/commit/c2015366046de35785f5b69e56d6b3227bb34232"
+        }
+      ],
+      "message": "BIP93: Restrict supported master seed sizes\n\nRestrict codex32-encoded BIP32 master seeds to 16, 20, 24, 28,\n32, or 64 bytes. These sizes correspond to the BIP39 entropy\nsizes and the 512-bit BIP32 seed produced by BIP39 recovery and provide\nminimum six-character length gaps to reduce target length ambiguity\nduring optional insertion/deletion correction.\n\nMove payload decoding out of the generic codex32 secret definition\nand make it application-specific. Define the byte conversion and\nlength requirements under the master seed format instead.\n\nAdditionally:\n- Enforce the new valid encoded lengths (48, 54, 61, 67, 74, 127) in\n  the Python `ms32_decode` in-line reference.\n- Remove obsolete short-checksum backward compatibility constraints and\n  unsupported length test vectors.\n- Add test vectors for 160, 192, and 224-bit master seeds\n- Update rationale, compatibility, and reference implementation links.",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-08-26T22:29:14Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-08-26T22:29:14Z"
+      },
+      "sha": "5117f5831bcbf0485949e5951d2954b792eded28"
+    },
+    {
+      "event": "renamed",
+      "id": 30071764631,
+      "node_id": "RTE_lADOAN28mc8AAAABNA-aeM8AAAAHAGq2lw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/30071764631",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-26T22:30:46Z",
+      "rename": {
+        "from": "BIP93: Fix checksum selection boundaries",
+        "to": "BIP93: Fix checksum selection bounds and restrict `ms` sizes"
+      }
     }
   ],
   "comments": []
