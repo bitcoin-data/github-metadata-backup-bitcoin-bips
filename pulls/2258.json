@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2258/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2258/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/7c5251d29acc1446b1b7ed86cc1ab2327bf78271",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/c2015366046de35785f5b69e56d6b3227bb34232",
     "number": 2258,
     "state": "open",
     "locked": false,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-08-17T04:49:29Z",
-    "updated_at": "2026-08-25T18:53:33Z",
+    "updated_at": "2026-08-26T20:24:21Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "5879eaef096e031afe41cac9c00c9e5cc4b6cf9d",
+    "merge_commit_sha": "cdae7de9b6b1bd431a3042bea29693cb71d5d268",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "BenWestgate:bip93-checksum-boundary",
       "ref": "bip93-checksum-boundary",
-      "sha": "7c5251d29acc1446b1b7ed86cc1ab2327bf78271",
+      "sha": "c2015366046de35785f5b69e56d6b3227bb34232",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
@@ -187,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-22T06:21:02Z",
+        "pushed_at": "2026-08-26T20:18:30Z",
         "created_at": "2025-08-19T15:04:43Z",
         "updated_at": "2026-08-21T00:02:04Z",
         "allow_forking": true
@@ -196,7 +196,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "d923cb825c7bd1e8271c3f9c0e05d939e22969f2",
+      "sha": "7fe0b034ec967b52a5a28276419117326df93263",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -293,9 +293,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6013,
-        "stargazers_count": 10927,
-        "watchers_count": 10927,
+        "forks_count": 6012,
+        "stargazers_count": 10928,
+        "watchers_count": 10928,
         "size": 22367,
         "default_branch": "master",
         "open_issues_count": 54,
@@ -311,7 +311,7 @@
         "visibility": "public",
         "pushed_at": "2026-08-20T17:14:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-25T13:04:22Z",
+        "updated_at": "2026-08-26T18:15:11Z",
         "allow_forking": true
       }
     },
@@ -322,54 +322,14 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 117,
-    "deletions": 26,
+    "additions": 91,
+    "deletions": 27,
     "changed_files": 1,
-    "commits": 3,
+    "commits": 1,
     "review_comments": 0,
-    "comments": 5
+    "comments": 6
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDM1MzE4MjRlZDkwYjZkYmY1YjEyYjlmZjFiMTlkOGMzNGEyOTlmNzY",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/3531824ed90b6dbf5b12b9ff1b19d8c34a299f76",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/3531824ed90b6dbf5b12b9ff1b19d8c34a299f76",
-      "tree": {
-        "sha": "3c267a1f9e957299d1331c47ea5ace79a9ffa354",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/3c267a1f9e957299d1331c47ea5ace79a9ffa354"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d923cb825c7bd1e8271c3f9c0e05d939e22969f2",
-          "sha": "d923cb825c7bd1e8271c3f9c0e05d939e22969f2",
-          "html_url": "https://github.com/bitcoin/bips/commit/d923cb825c7bd1e8271c3f9c0e05d939e22969f2"
-        }
-      ],
-      "message": "BIP93: Correct checksum selection boundaries\n\nThe checksum correction guarantees apply to the expanded codeword,\nwhich includes the five-value expansion of the \"ms\" human-readable\npart. The reference code instead selected the checksum using only the\ndata-part length, allowing regular checksums beyond their 93-value\ncorrection boundary.\n\nSelect regular and long checksums using expanded codeword length.\nReject expanded lengths 94 and 95, and reject long checksums above\n1023 values. Keep checksum creation permissive while enforcing these\nlimits during verification.\n\nThis invalidates legacy short-checksum encodings for 44-, 45-, and\n46-byte master seeds. The underlying seed lengths remain supported\nusing the long checksum.\n\nUpdate the specification, Python reference code, compatibility\ndiscussion, and boundary vectors accordingly.\n\nRefs: https://github.com/BlockstreamResearch/codex32/issues/75",
-      "committer": {
-        "name": "Ben Westgate",
-        "email": "BenWestgate@protonmail.com",
-        "date": "2026-08-17T04:14:56Z"
-      },
-      "author": {
-        "name": "Ben Westgate",
-        "email": "BenWestgate@protonmail.com",
-        "date": "2026-08-17T04:14:56Z"
-      },
-      "sha": "3531824ed90b6dbf5b12b9ff1b19d8c34a299f76"
-    },
     {
       "event": "commented",
       "id": 5312066582,
@@ -681,46 +641,6 @@
       "created_at": "2026-08-17T21:54:57Z"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGE5ZDgyNDYyNDRjMDZiNDE0M2IyODA4NDRlN2I4Y2Y3MjE1ZmU4Zjk",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a9d8246244c06b4143b280844e7b8cf7215fe8f9",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/a9d8246244c06b4143b280844e7b8cf7215fe8f9",
-      "tree": {
-        "sha": "de9bfa5fc2e8b72001839b9b04d64bea523fe893",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/de9bfa5fc2e8b72001839b9b04d64bea523fe893"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree de9bfa5fc2e8b72001839b9b04d64bea523fe893\nparent 3531824ed90b6dbf5b12b9ff1b19d8c34a299f76\nauthor Ben Westgate <BenWestgate@protonmail.com> 1787187096 -0500\ncommitter GitHub <noreply@github.com> 1787187096 -0500\n\nUpdate bip-0093.mediawiki\n\nBIP93: Separate checksum primitives from format selection  Distinguish the regular and long checksum primitives from the codex32 format selector. Each primitive verifier enforces its stated maximum period, while ms32_verify_checksum selects the checksum required by BIP93 and rejects expanded lengths 94 and 95.  Keep ms32_create_checksum as the format-selection helper and add the corresponding regular-checksum creator.  Add reproducible 43- through 47-byte vectors and direct assertions for the 93/94/95/96 and 1023/1024 expanded-length boundaries.",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqhk+YCRC1aQ7uu5UhlAAAofUQAB6aC8y7bJ/1LsbmlAK/PRM7\nEHzxxy707l1B0mVu2io+8Z5+uavNO9V4rGbG5ZSWErNN3+fOCqvhyGAHWNS6YqUd\npFKmltRZUt+/BCgJ3T4Ib7uX1iRKFPP5AzkZ0rOeolM/Hgio/klaUXz/30eTh3b+\nfI6Ybb8P4X3kenSIze3el+m8Pp9/HnlHnf+dO6jm2hSi8dHGlrCVILyWAaJvSlnD\nbN0ATvuOsFSe2SK/UYRRtF15Z5X8ZyxHPZjqzjk6Ye5NTbbPaX2V33mStR6I639w\nL6pzvUh9Xk8Vaff+k//KAEnzq1RxsbL5459mlBRMOkNlCgbmXBtf2zVdEzekxV5Z\nfnU1uqyd7vNtFMsZ4B/RLbsBZWzTOjYtmoQTbpvMi6fYXiKvckKRZjQegU11riph\njNRvqHSCMQrdHzY+6p6+hZmMtzWTOcatQSJjQ+ny3pfqI5vp6qYROI2az/lcqjy8\n+Rk9vD6zjVqVyyTFkdZU5kV5Z4OqU4W/XKDVeKYGRfcf3D4Vy4J5B5FvIE/6E57T\nzRsjPpQCRM0O2ffZgEMFopMs9zn/Jl7/gciaMGJLRgRbIe3B+0XVZmEVMm6iR85Z\nZamkRe7BBTl7iBNYqNbKlQxfkt3ljqSfMvpn22ggIjb/hfjamvhFJ28uCaA0EmjT\n6uo+xoG4DuVnDzoSvRPu\n=Bq7N\n-----END PGP SIGNATURE-----\n"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/3531824ed90b6dbf5b12b9ff1b19d8c34a299f76",
-          "sha": "3531824ed90b6dbf5b12b9ff1b19d8c34a299f76",
-          "html_url": "https://github.com/bitcoin/bips/commit/3531824ed90b6dbf5b12b9ff1b19d8c34a299f76"
-        }
-      ],
-      "message": "Update bip-0093.mediawiki\n\nBIP93: Separate checksum primitives from format selection  Distinguish the regular and long checksum primitives from the codex32 format selector. Each primitive verifier enforces its stated maximum period, while ms32_verify_checksum selects the checksum required by BIP93 and rejects expanded lengths 94 and 95.  Keep ms32_create_checksum as the format-selection helper and add the corresponding regular-checksum creator.  Add reproducible 43- through 47-byte vectors and direct assertions for the 93/94/95/96 and 1023/1024 expanded-length boundaries.",
-      "committer": {
-        "name": "GitHub",
-        "email": "noreply@github.com",
-        "date": "2026-08-20T00:51:36Z"
-      },
-      "author": {
-        "name": "Ben Westgate",
-        "email": "BenWestgate@protonmail.com",
-        "date": "2026-08-20T00:51:36Z"
-      },
-      "sha": "a9d8246244c06b4143b280844e7b8cf7215fe8f9"
-    },
-    {
       "event": "commented",
       "id": 5350301288,
       "node_id": "IC_kwDOAN28mc8AAAABPuceaA",
@@ -808,46 +728,6 @@
       "commit_id": "581a472eea2c2254a40b3c753dd35e12d916f9b7",
       "commit_url": "https://api.github.com/repos/BenWestgate/codex32/commits/581a472eea2c2254a40b3c753dd35e12d916f9b7",
       "created_at": "2026-08-20T08:01:39Z"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDdjNTI1MWQyOWFjYzE0NDZiMWI3ZWQ4NmNjMWFiMjMyN2JmNzgyNzE",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/7c5251d29acc1446b1b7ed86cc1ab2327bf78271",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/7c5251d29acc1446b1b7ed86cc1ab2327bf78271",
-      "tree": {
-        "sha": "d0a5bafba8e80a8745ab6c733aaf0dc0a043e44f",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/d0a5bafba8e80a8745ab6c733aaf0dc0a043e44f"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree d0a5bafba8e80a8745ab6c733aaf0dc0a043e44f\nparent a9d8246244c06b4143b280844e7b8cf7215fe8f9\nauthor Ben Westgate <BenWestgate@protonmail.com> 1787267813 -0500\ncommitter GitHub <noreply@github.com> 1787267813 -0500\n\nFix newline at end of bip-0093.mediawiki",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqh4rlCRC1aQ7uu5UhlAAAuVIQAJC4QYhGJSoj8xoeu1RRoJz0\noEJGWwxE3tmqdWWAGFq3eMGv/PfxijusbBO9h9im478DqpeIU81jyMPUnATblDem\nwXM2+PihC09/GudXOHohlXbUI+kz8dtXj3enRRgDcMwcrjiC1yMp0/L6YwHXJ5Ok\nw2WJakzjwzw++h4NCQsufZJDYNFbE/OgQ9g5D/YyaBjpD6aqldV0x3+sQkXrpuMl\nSNQeNikrvdJtrFA9xuRzHGFhCPTrzeBAlxKUULMkfNq9QCQ/JKMlhy1Fbd1pB8fJ\nkZ8IE98dWnle7OvTY8bf/c3yk8AMI6HY5nQ1ssfnrTXRAEOeA2HRk0kRUZdbG+9j\nPjBjB2jnVVPUGRbp0c5V13HaoJW8R5Lz99zRmyOAyO1+cT8/A7mkn5rODffMdWoO\nCqU8YBtTZJYoqux2nbRPmOdgXMPo4pRm9HrJXYtwVz/N5Pk6wrXOAEwAXqs7S6mA\nU74CsB7YtPmJNA6MxrnMLgS05HeTKxYWqaOuk0meVEKMHw+i6J7VtjrzZxvWEtN+\n7+7Ap+Nq/hRqPdhFKFMhqBDTWmFPdZEm99Ma1Havz9l/BoMwrmKHZMDFDpsgCxhe\nm1d0424suV00DSZkSEPpWGd5PMtWVAD8CmmJ8nPpXuj2rd1Hiz8vtGpmzaOtgeXA\n1/xD3++TWMsTND3jJeGS\n=pTLs\n-----END PGP SIGNATURE-----\n"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a9d8246244c06b4143b280844e7b8cf7215fe8f9",
-          "sha": "a9d8246244c06b4143b280844e7b8cf7215fe8f9",
-          "html_url": "https://github.com/bitcoin/bips/commit/a9d8246244c06b4143b280844e7b8cf7215fe8f9"
-        }
-      ],
-      "message": "Fix newline at end of bip-0093.mediawiki",
-      "committer": {
-        "name": "GitHub",
-        "email": "noreply@github.com",
-        "date": "2026-08-20T23:16:53Z"
-      },
-      "author": {
-        "name": "Ben Westgate",
-        "email": "BenWestgate@protonmail.com",
-        "date": "2026-08-20T23:16:53Z"
-      },
-      "sha": "7c5251d29acc1446b1b7ed86cc1ab2327bf78271"
     },
     {
       "event": "commented",
@@ -963,6 +843,197 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2258#issuecomment-5415188689",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2258"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGMyMDE1MzY2MDQ2ZGUzNTc4NWY1YjY5ZTU2ZDZiMzIyN2JiMzQyMzI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c2015366046de35785f5b69e56d6b3227bb34232",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/c2015366046de35785f5b69e56d6b3227bb34232",
+      "tree": {
+        "sha": "4d9229d947f8365c878db0a7afaaea103b99d6fd",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/4d9229d947f8365c878db0a7afaaea103b99d6fd"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d923cb825c7bd1e8271c3f9c0e05d939e22969f2",
+          "sha": "d923cb825c7bd1e8271c3f9c0e05d939e22969f2",
+          "html_url": "https://github.com/bitcoin/bips/commit/d923cb825c7bd1e8271c3f9c0e05d939e22969f2"
+        }
+      ],
+      "message": "BIP93: Correct checksum selection boundaries\n\nInclude the expanded human-readable part when selecting the codex32\nchecksum. This keeps regular codewords within the 93-symbol BCH period\nand rejects the 94- and 95-symbol gap before the long checksum starts\nat 96 symbols.\n\nSplit regular and long checksum construction and verification so their\nperiods can be tested independently. Add assertions for both selection\nboundaries and the long checksum upper limit.\n\nRefs: https://github.com/bitcoin/bips/pull/2258#issuecomment-5411804501",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-08-25T22:52:47Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-08-25T21:58:50Z"
+      },
+      "sha": "c2015366046de35785f5b69e56d6b3227bb34232"
+    },
+    {
+      "event": "referenced",
+      "id": 30065581530,
+      "node_id": "REFE_lADOAN28mc8AAAABNA-aeM8AAAAHAAxd2g",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/30065581530",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "203bcff3c9e5c43d59b1e3f2246c86a542bd1a7c",
+      "commit_url": "https://api.github.com/repos/BenWestgate/bips/commits/203bcff3c9e5c43d59b1e3f2246c86a542bd1a7c",
+      "created_at": "2026-08-26T20:01:25Z"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 30065581863,
+      "node_id": "HRFPE_lADOAN28mc8AAAABNA-aeM8AAAAHAAxfJw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/30065581863",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "203bcff3c9e5c43d59b1e3f2246c86a542bd1a7c",
+      "commit_url": "https://api.github.com/repos/BenWestgate/bips/commits/203bcff3c9e5c43d59b1e3f2246c86a542bd1a7c",
+      "created_at": "2026-08-26T20:01:26Z"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 30066374565,
+      "node_id": "HRFPE_lADOAN28mc8AAAABNA-aeM8AAAAHABh3pQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/30066374565",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "c2015366046de35785f5b69e56d6b3227bb34232",
+      "commit_url": "https://api.github.com/repos/BenWestgate/bips/commits/c2015366046de35785f5b69e56d6b3227bb34232",
+      "created_at": "2026-08-26T20:18:32Z"
+    },
+    {
+      "event": "commented",
+      "id": 5430682643,
+      "node_id": "IC_kwDOAN28mc8AAAABQ7GkEw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5430682643",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-26T20:24:20Z",
+      "updated_at": "2026-08-26T20:24:20Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "c2015366046de35785f5b69e56d6b3227bb34232 is ready for review. I drafted the next commit \"BIP93: Restrict ms seed lengths\", working on the vectors.\r\n\r\nEach commit is stand alone complete.",
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2258#issuecomment-5430682643",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2258"
     }
   ],
