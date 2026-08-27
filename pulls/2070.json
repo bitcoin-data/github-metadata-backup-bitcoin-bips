@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-01-03T18:00:46Z",
-    "updated_at": "2026-08-26T19:51:27Z",
+    "updated_at": "2026-08-27T08:34:15Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2026-08-20T17:14:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-26T18:15:11Z",
+        "updated_at": "2026-08-27T04:23:16Z",
         "allow_forking": true
       }
     },
@@ -5854,9 +5854,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-08-26T19:51:27Z",
-      "updated_at": "2026-08-26T19:51:27Z",
+      "updated_at": "2026-08-27T08:34:15Z",
       "author_association": "CONTRIBUTOR",
-      "body": "> BIP could be simply to require n <= 131 (or maybe n <= 128 to be on the safe side and have a nicer looking number).\r\n\r\n$n$ is now capped at 128 (v0.10.0). I considered allowing larger $n$ for the $(n, t)$ pairs that stay hard instead, but the allowed $t$ (the BIP's threshold, one more than the $t$ in your script) shrinks fast as $n$ grows: at $n = 132$ thresholds 65 to 69 already fail, at $n = 256$ only $t \\le 30$ or $t \\ge 228$ pass, and at $n = 1024$ only $t \\le 19$ or $t \\ge 1007$. That rule is harder to state and implement, so a flat cap seemed simpler.\r\n\r\nThe other change is the redesign from siv2r/bip-frost-signing#43 (v0.9.0). `ThresholdInfo` holds the key material from key generation, including all the public shares you know. Not all of them take part in a signing session: the coordinator picks the signers, and only their identifiers and public shares go into the `SessionContext`. Before, the signer set was an input to the session, so it was fixed before round 1. Now it can be chosen just before round 2.",
+      "body": "> BIP could be simply to require n <= 131 (or maybe n <= 128 to be on the safe side and have a nicer looking number).\r\n\r\n$n$ is now capped at 128 (v0.10.0). I considered allowing larger $n$ for the $(n, t)$ pairs that stay hard instead, but the allowed $t$ (the BIP's threshold, one more than the $t$ in your script) shrinks fast as $n$ grows: at $n = 132$ thresholds 65 to 69 already fail, at $n = 256$ only $t \\le 30$ or $t \\ge 228$ pass, and at $n = 1024$ only $t \\le 19$ or $t \\ge 1007$. That rule is harder to state and implement, so a flat cap seemed simpler. Another option is to implement the `effort(t, n) >= 128` check (assuming `tc = t - 1`) inside `ValidateThresholdInfo`, without the `n <= 128` cap.\r\n\r\nThe other change is the redesign from siv2r/bip-frost-signing#43 (v0.9.0). `ThresholdInfo` holds the key material from key generation, including all the public shares you know. Not all of them take part in a signing session: the coordinator picks the signers, and only their identifiers and public shares go into the `SessionContext`. Before, the signer set was an input to the session, so it was fixed before round 1. Now it can be chosen just before round 2.",
       "user": {
         "login": "siv2r",
         "id": 56887198,
