@@ -53,7 +53,7 @@
       }
     ],
     "created_at": "2026-08-17T04:49:29Z",
-    "updated_at": "2026-08-28T17:51:04Z",
+    "updated_at": "2026-08-29T14:56:15Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -284,9 +284,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6012,
-        "stargazers_count": 10931,
-        "watchers_count": 10931,
+        "forks_count": 6013,
+        "stargazers_count": 10933,
+        "watchers_count": 10933,
         "size": 22367,
         "default_branch": "master",
         "open_issues_count": 55,
@@ -302,7 +302,7 @@
         "visibility": "public",
         "pushed_at": "2026-08-20T17:14:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-28T14:02:57Z",
+        "updated_at": "2026-08-29T12:48:03Z",
         "allow_forking": true
       }
     },
@@ -318,7 +318,7 @@
     "changed_files": 1,
     "commits": 2,
     "review_comments": 0,
-    "comments": 8
+    "comments": 9
   },
   "events": [
     {
@@ -1251,6 +1251,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2258#issuecomment-5455871574",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2258"
+    },
+    {
+      "event": "commented",
+      "id": 5463078861,
+      "node_id": "IC_kwDOAN28mc8AAAABRZ_3zQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5463078861",
+      "actor": {
+        "login": "roconnor",
+        "id": 852967,
+        "node_id": "MDQ6VXNlcjg1Mjk2Nw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/852967?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/roconnor",
+        "html_url": "https://github.com/roconnor",
+        "followers_url": "https://api.github.com/users/roconnor/followers",
+        "following_url": "https://api.github.com/users/roconnor/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/roconnor/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/roconnor/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/roconnor/subscriptions",
+        "organizations_url": "https://api.github.com/users/roconnor/orgs",
+        "repos_url": "https://api.github.com/users/roconnor/repos",
+        "events_url": "https://api.github.com/users/roconnor/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/roconnor/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-29T14:52:38Z",
+      "updated_at": "2026-08-29T14:56:15Z",
+      "author_association": "NONE",
+      "body": "I had thought that SLIP-0039 supported just 128 and 256, but now I see that it supports lengths `[128,144,160,176,192,208,224,240,256]`.\r\n\r\nThis PR for BIP-93 supports `[128, 160, 192, 224, 256]` (and 512).\r\n\r\nI think we should at give some consideration in our discussion here in supporting all SLIP-39 lengths.  It would cause no problems for us regarding long and short codex32 checksums. It would make insertion and deletion recovery somewhat more difficult.\r\n\r\nWith the full SLIP-93 lengths `[128,144,160,176,192,208,224,240,256]` we would have codex32 encodings of lengths  `[48,51,54,58,61,64,67,70,74]` with gaps of 3 or 4 characters between valid lengths.\r\n\r\nThinking out loud, if you take a 160 bit, 54 length ms codex32 string and delete 3 random characters, can you actually able to recover that by trial and error inserting 3 characters?  There are `54 choose 3` positions to try inserting, and `32^3` combinations to try in each position which is a total of 812 777 472 possible combinations to try.  That does seem to be a feasible number to try, especially since you are looking for one with a valid checksum.\r\n\r\nSo we are considering a trade off here of enhanced SLIP-39 compatibility for secret lengths that probably no one ever uses versus allowing recovering an from up to 3 characters being omitted from a codex32 string, which feels like also an unlikely number of characters to forget to jot down.\r\n\r\nI'm genuinely torn here.  What are the thoughts of other folks here?\r\n\r\n",
+      "user": {
+        "login": "roconnor",
+        "id": 852967,
+        "node_id": "MDQ6VXNlcjg1Mjk2Nw==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/852967?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/roconnor",
+        "html_url": "https://github.com/roconnor",
+        "followers_url": "https://api.github.com/users/roconnor/followers",
+        "following_url": "https://api.github.com/users/roconnor/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/roconnor/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/roconnor/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/roconnor/subscriptions",
+        "organizations_url": "https://api.github.com/users/roconnor/orgs",
+        "repos_url": "https://api.github.com/users/roconnor/repos",
+        "events_url": "https://api.github.com/users/roconnor/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/roconnor/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2258#issuecomment-5463078861",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2258"
     }
   ],
