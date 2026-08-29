@@ -53,7 +53,7 @@
       }
     ],
     "created_at": "2026-08-17T04:49:29Z",
-    "updated_at": "2026-08-29T18:47:48Z",
+    "updated_at": "2026-08-29T20:40:46Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -302,7 +302,7 @@
         "visibility": "public",
         "pushed_at": "2026-08-20T17:14:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-08-29T12:48:03Z",
+        "updated_at": "2026-08-29T20:46:03Z",
         "allow_forking": true
       }
     },
@@ -318,7 +318,7 @@
     "changed_files": 1,
     "commits": 2,
     "review_comments": 0,
-    "comments": 13
+    "comments": 14
   },
   "events": [
     {
@@ -1541,6 +1541,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2258#issuecomment-5464208228",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2258"
+    },
+    {
+      "event": "commented",
+      "id": 5464768878,
+      "node_id": "IC_kwDOAN28mc8AAAABRbnBbg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5464768878",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-29T20:40:46Z",
+      "updated_at": "2026-08-29T20:40:46Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> We could consider a compromise where ms secrets are limited to between 128 and 256 bits (i.e. 16-32 bytes) (plus the 512 bit long format), but generating bit sizes outside [128, 160, 192, 224, 256] is discouraged?  I don't know if that is sensible.\n\nAdding 160, 192 and 224 already required my single threaded python indel correction to search 160, 192 and 224 one indel less deeply to stay under 10s on my laptop.\n\nIt can solve any 4 deletions in 44 character observed in about 8.6 seconds. 149k combinations of 4 in 45 since deletions are marked as erasures and algebraically solved. 250k for 4 in 51 (160-bit)\n\nIts too slow to check all six lengths to indel depth 4, but 128 and 256 and 512 can get the full search and a shorter 3 depth search works for 160, 192, 224.\n\nThe main limiting factor correcting deletions is false-correction. 5 deletions can be solved (or 4 deletions and a substitution) in under 10 seconds but we start seeing wrong correction probability around 1e-4 or worse. Intuitively it feels wrong to correct more deletions than substitutions so I prefer the symmetric \"up to 4 extra or omitted characters, and mixtures\" I.e. I+O <= 4.\n\nRemoving inserted characters OTOH is almost entirely CPU limited rather than accuracy limited.\n\nI will have to simulate how much adding the SLIP-39 lengths increases ambiguity assuming non 128 and 256 remain searched to 3 indels.\n\nLastly we say \"we do not recommend interconversion and suggest users generate a fresh master seed\" so this is potentially harming an optional feature to better support a not recommended feature.\n\nWe do say wallets may assume the true length is 48 or 74. But actually if we assume the length close weird lengths get corrected to 48 or 74 and effectively not supported so they need to be checked at some depth before \"assuming 48 or 74\".\n\nFor avoiding transcription errors and having fast corrections of them, the best recommendation is avoid generating sizes besides 128-bit, the 4-indel correction is necessarily slower on 256-bit and they've more chances to make mistakes, we already say \" shorter strings are better.\"\n\nHowever if not generating 128-bit, 256-bit is the next best size to reduce search ambiguity.",
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2258#issuecomment-5464768878",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2258"
     }
   ],
