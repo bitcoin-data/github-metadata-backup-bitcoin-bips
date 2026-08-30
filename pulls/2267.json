@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2267/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2267/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/a320fe8d7e3f37388fe1c57f026471237c3167ac",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/acbc7b000bf8655ecf6ef03359ba291b9e9b891f",
     "number": 2267,
     "state": "open",
     "locked": false,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-08-22T12:46:53Z",
-    "updated_at": "2026-08-30T15:35:23Z",
+    "updated_at": "2026-08-30T17:46:37Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "1b8a3b5273b232072fa827c4570551da0b1f8de1",
+    "merge_commit_sha": "8b1dfe6a6dee7658cba54babfb883f9742e7b292",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "guggero:bip379-malleability-caveat",
       "ref": "bip379-malleability-caveat",
-      "sha": "a320fe8d7e3f37388fe1c57f026471237c3167ac",
+      "sha": "acbc7b000bf8655ecf6ef03359ba291b9e9b891f",
       "user": {
         "login": "guggero",
         "id": 1008879,
@@ -187,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-08-26T06:27:22Z",
+        "pushed_at": "2026-08-30T17:45:52Z",
         "created_at": "2022-04-20T12:20:26Z",
         "updated_at": "2026-08-22T07:00:44Z",
         "allow_forking": true
@@ -293,7 +293,7 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6012,
+        "forks_count": 6011,
         "stargazers_count": 10932,
         "watchers_count": 10932,
         "size": 22367,
@@ -322,12 +322,12 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 9,
+    "additions": 12,
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 13
+    "comments": 14
   },
   "events": [
     {
@@ -1291,46 +1291,6 @@
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2267"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGEzMjBmZThkN2UzZjM3Mzg4ZmUxYzU3ZjAyNjQ3MTIzN2MzMTY3YWM",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a320fe8d7e3f37388fe1c57f026471237c3167ac",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/a320fe8d7e3f37388fe1c57f026471237c3167ac",
-      "tree": {
-        "sha": "6069a95acdc85ac471654286a7a4d19a84721184",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/6069a95acdc85ac471654286a7a4d19a84721184"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 6069a95acdc85ac471654286a7a4d19a84721184\nparent 7fe0b034ec967b52a5a28276419117326df93263\nauthor Oli <gugger@gmail.com> 1787401105 +0200\ncommitter Oli <gugger@gmail.com> 1787723889 +0200\n\nbip379: note that the type properties assume their requirements\n\nBoth tables give the properties of a fragment in function of those of its\nsubexpressions, and both are written assuming that the conditions in the\n\"Requires\" column of that fragment hold. Where they do not, the tables\nstill assign values, but the values carry none of the meaning the\ndescriptions of the properties give them, and implementations are free to\ndiffer on them.\n\nthresh is the case that surfaced this. Its rule is \"e=all are s\", so\nthresh(2,or_i(pk(A),pk(B)),a:or_i(pk(C),pk(D))) is \"e\" even though each\nor_i child has two unconditional dissatisfactions, giving the threshold\nfour, which is the opposite of the \"unique unconditional dissatisfaction\"\nthat the description of \"e\" promises. The threshold fails the \"e\"\nrequirement the same table imposes, though, so it is malleable and the\nvalue is a don't-care.\n\nSay so below both tables, so that implementations which disagree on the\ntype of an invalid or malleable expression are not read as contradicting\nthis document. Bitcoin Core (bitcoin/bitcoin#36028) and rust-miniscript\nare aligning on the values the tables give, and the test vectors proposed\nin #2240 leave out the properties that are not meaningful: z/o/n/d/u for\ninvalid expressions and s/f/e for malleable ones.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEE9Pxw8HMQAoQk78IKjkJWWT8XdyAFAmqOgHEACgkQjkJWWT8X\ndyA53RAA0nZKM2vR6qEVjs24w5JLRpLy3jZcoK7dRI/EGJq/O+tDWXNrXR74VpCP\n5c5JfOVeTgHvuTlBYlUK6tpRvEupPncov66Kh/YqWohVeE4ou55fTSJYVvEnIAd6\nqBE1M+cCjMAIHWeV5CB0WJX7ACbUQnPQBkjRJwAcwlqGt00GdiMdEYYOtKlNIWZ/\nUl93vbdBOhahHpdMK2KnOFjW35y9rbAYc49kcM7F7diE8TiCyk3Z6nypfXTiCVbK\nkEJEy3dZAKCTZ5FZdcROwzjS6inXpORfwk/6GSqqjkyXJae5JVVFY8Y0G70Qwjv5\nnHCuLWDf/qgKdJUJyk4MiXGvdHE3prghG4gE83BU63VkaE2Iznj/5fsnSxmTITtP\n3qyZUdq1vcy7/n22s+8vfj/IbXRg0ox+0GedNklhj6XaHvtYMvqK9Uw/Kxg10Xv+\nRVEoLB7N/ScVyh6cu7P5b1Or0Dmx/dph6Qs4dnbDcB5n6Nmi/I9teDigiX4LvTxD\nHlTf5gjuZgc+jCScg4yK4LNWYNzWVWXHbjJVhmh5TDIu5Tj3PmYReBGpGV1R8J6L\n07McJLGJvyeFGWfXgXlSDIIOhMezw42TmLpjMuhBESK5BaWNhlQeJOrIA7AMqBwD\nve1kY9AKIhOgwls8j0JZRwFP0brPhd93S1kY3mfL4+3Kr+ksy60=\n=L4/M\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/7fe0b034ec967b52a5a28276419117326df93263",
-          "sha": "7fe0b034ec967b52a5a28276419117326df93263",
-          "html_url": "https://github.com/bitcoin/bips/commit/7fe0b034ec967b52a5a28276419117326df93263"
-        }
-      ],
-      "message": "bip379: note that the type properties assume their requirements\n\nBoth tables give the properties of a fragment in function of those of its\nsubexpressions, and both are written assuming that the conditions in the\n\"Requires\" column of that fragment hold. Where they do not, the tables\nstill assign values, but the values carry none of the meaning the\ndescriptions of the properties give them, and implementations are free to\ndiffer on them.\n\nthresh is the case that surfaced this. Its rule is \"e=all are s\", so\nthresh(2,or_i(pk(A),pk(B)),a:or_i(pk(C),pk(D))) is \"e\" even though each\nor_i child has two unconditional dissatisfactions, giving the threshold\nfour, which is the opposite of the \"unique unconditional dissatisfaction\"\nthat the description of \"e\" promises. The threshold fails the \"e\"\nrequirement the same table imposes, though, so it is malleable and the\nvalue is a don't-care.\n\nSay so below both tables, so that implementations which disagree on the\ntype of an invalid or malleable expression are not read as contradicting\nthis document. Bitcoin Core (bitcoin/bitcoin#36028) and rust-miniscript\nare aligning on the values the tables give, and the test vectors proposed\nin #2240 leave out the properties that are not meaningful: z/o/n/d/u for\ninvalid expressions and s/f/e for malleable ones.",
-      "committer": {
-        "name": "Oli",
-        "email": "gugger@gmail.com",
-        "date": "2026-08-26T05:58:09Z"
-      },
-      "author": {
-        "name": "Oli",
-        "email": "gugger@gmail.com",
-        "date": "2026-08-22T12:18:25Z"
-      },
-      "sha": "a320fe8d7e3f37388fe1c57f026471237c3167ac"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 30023912545,
       "node_id": "HRFPE_lADOAN28mc8AAAABN0DeUc8AAAAG_ZCMYQ",
@@ -1568,6 +1528,135 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2267#issuecomment-5469610228",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2267"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGFjYmM3YjAwMGJmODY1NWVjZjZlZjAzMzU5YmEyOTFiOWU5Yjg5MWY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/acbc7b000bf8655ecf6ef03359ba291b9e9b891f",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/acbc7b000bf8655ecf6ef03359ba291b9e9b891f",
+      "tree": {
+        "sha": "67b4962c98ebeed6ca024c2d672a6199fc0de3b6",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/67b4962c98ebeed6ca024c2d672a6199fc0de3b6"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 67b4962c98ebeed6ca024c2d672a6199fc0de3b6\nparent 7fe0b034ec967b52a5a28276419117326df93263\nauthor Oli <gugger@gmail.com> 1787401105 +0200\ncommitter Oli <gugger@gmail.com> 1788111875 +0200\n\nbip379: note that the type properties assume their requirements\n\nBoth tables give the properties of a fragment in function of those of its\nsubexpressions, and both are written assuming that the conditions in the\n\"Requires\" column of that fragment hold. Where they do not, the tables\nstill assign values, but the values carry none of the meaning the\ndescriptions of the properties give them, and implementations are free to\ndiffer on them.\n\nthresh is the case that surfaced this. Its rule is \"e=all are s\", so\nthresh(2,or_i(pk(A),pk(B)),a:or_i(pk(C),pk(D))) is \"e\" even though each\nor_i child has two unconditional dissatisfactions, giving the threshold\nfour, which is the opposite of the \"unique unconditional dissatisfaction\"\nthat the description of \"e\" promises. The threshold fails the \"e\"\nrequirement the same table imposes, though, so it is malleable and the\nvalue is a don't-care.\n\nSay so below both tables, so that implementations which disagree on the\ntype of an invalid or malleable expression are not read as contradicting\nthis document. Bitcoin Core (bitcoin/bitcoin#36028) and rust-miniscript\nare aligning on the values the tables give, and the test vectors proposed\nin #2240 leave out the properties that are not meaningful: z/o/n/d/u for\ninvalid expressions and s/f/e for malleable ones.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCgAdFiEE9Pxw8HMQAoQk78IKjkJWWT8XdyAFAmqUbAUACgkQjkJWWT8X\ndyCoRQ//UZ6rEZ4R7xsDsDtTIExy5fMBhPuJL/IzCKEZjcQNTiUdv8bV164b0wTp\nwCyvl0NUEqbtj6c4/N8FUs5S6mqNalk0YZCLTGRc1BK/0WcFhEWP2frzJTodilzX\nKedvuZ6aEBDOfZJoACf89wNuqV2GeJKQmp9zX/4HQ/nhvaxsZTeb2lrBW41xLkuy\n8NTpWMn7QDUmkEVDoBq2l/HEW9S5pDwgi3uApoHhqaj3Iu2Ob5/J9rRBosqvbeVU\nnWVN/vzDbkOIDrKxojduEt3u8Pd02/MjQm2607bVxXkLnBk0kaL+5Z0rD3IaXedm\nT0owxOtAbx8LPQR1DDAui1aHHfBzparacSJ818KvpDwLA4Yes6EM1LP4sEfpCGkv\nufDp6p9qoiYtjNGf23zW+JsnhXogUK3NighnMoZLX7UpFilItBtl03FKBd9ej/bT\n0WA+hHe7FgcBwqh1oG9EJruTZjfK+C4EVjTp+1qVORvpue6ezZoINkqrRBYmNHi1\nJ8h9uW7Vnm7ldnCfLpkHbuxYtR3RqCr5K04q8VA44LSTrPahDhVMlrp52wCJ+qde\nRDqt8SovJep2w16sPSQP1hL5+ECL7oL/Db7mEZzrPzVaFhwP4205oNhyM5a9N8v7\nIOZzAfLvDi2dIp52ttHE6tLOq+cFBAzoxf8ps1BiKkJUpaNmLJk=\n=1Hsr\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/7fe0b034ec967b52a5a28276419117326df93263",
+          "sha": "7fe0b034ec967b52a5a28276419117326df93263",
+          "html_url": "https://github.com/bitcoin/bips/commit/7fe0b034ec967b52a5a28276419117326df93263"
+        }
+      ],
+      "message": "bip379: note that the type properties assume their requirements\n\nBoth tables give the properties of a fragment in function of those of its\nsubexpressions, and both are written assuming that the conditions in the\n\"Requires\" column of that fragment hold. Where they do not, the tables\nstill assign values, but the values carry none of the meaning the\ndescriptions of the properties give them, and implementations are free to\ndiffer on them.\n\nthresh is the case that surfaced this. Its rule is \"e=all are s\", so\nthresh(2,or_i(pk(A),pk(B)),a:or_i(pk(C),pk(D))) is \"e\" even though each\nor_i child has two unconditional dissatisfactions, giving the threshold\nfour, which is the opposite of the \"unique unconditional dissatisfaction\"\nthat the description of \"e\" promises. The threshold fails the \"e\"\nrequirement the same table imposes, though, so it is malleable and the\nvalue is a don't-care.\n\nSay so below both tables, so that implementations which disagree on the\ntype of an invalid or malleable expression are not read as contradicting\nthis document. Bitcoin Core (bitcoin/bitcoin#36028) and rust-miniscript\nare aligning on the values the tables give, and the test vectors proposed\nin #2240 leave out the properties that are not meaningful: z/o/n/d/u for\ninvalid expressions and s/f/e for malleable ones.",
+      "committer": {
+        "name": "Oli",
+        "email": "gugger@gmail.com",
+        "date": "2026-08-30T17:44:35Z"
+      },
+      "author": {
+        "name": "Oli",
+        "email": "gugger@gmail.com",
+        "date": "2026-08-22T12:18:25Z"
+      },
+      "sha": "acbc7b000bf8655ecf6ef03359ba291b9e9b891f"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 30242546526,
+      "node_id": "HRFPE_lADOAN28mc8AAAABN0DeUc8AAAAHCpijXg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/30242546526",
+      "actor": {
+        "login": "guggero",
+        "id": 1008879,
+        "node_id": "MDQ6VXNlcjEwMDg4Nzk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1008879?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/guggero",
+        "html_url": "https://github.com/guggero",
+        "followers_url": "https://api.github.com/users/guggero/followers",
+        "following_url": "https://api.github.com/users/guggero/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/guggero/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/guggero/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/guggero/subscriptions",
+        "organizations_url": "https://api.github.com/users/guggero/orgs",
+        "repos_url": "https://api.github.com/users/guggero/repos",
+        "events_url": "https://api.github.com/users/guggero/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/guggero/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "acbc7b000bf8655ecf6ef03359ba291b9e9b891f",
+      "commit_url": "https://api.github.com/repos/guggero/bips/commits/acbc7b000bf8655ecf6ef03359ba291b9e9b891f",
+      "created_at": "2026-08-30T17:45:53Z"
+    },
+    {
+      "event": "commented",
+      "id": 5470278803,
+      "node_id": "IC_kwDOAN28mc8AAAABRg3Ukw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5470278803",
+      "actor": {
+        "login": "guggero",
+        "id": 1008879,
+        "node_id": "MDQ6VXNlcjEwMDg4Nzk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1008879?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/guggero",
+        "html_url": "https://github.com/guggero",
+        "followers_url": "https://api.github.com/users/guggero/followers",
+        "following_url": "https://api.github.com/users/guggero/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/guggero/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/guggero/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/guggero/subscriptions",
+        "organizations_url": "https://api.github.com/users/guggero/orgs",
+        "repos_url": "https://api.github.com/users/guggero/repos",
+        "events_url": "https://api.github.com/users/guggero/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/guggero/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-08-30T17:46:37Z",
+      "updated_at": "2026-08-30T17:46:37Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> ACK [a320fe8](https://github.com/bitcoin/bips/commit/a320fe8d7e3f37388fe1c57f026471237c3167ac).\r\n> \r\n> But I would suggest adding one more paragraph `Implementors of APIs which unconditionally return values for these properties should always return false for malleable expressions.`\r\n\r\nThank you, added that paragraph below the malleability properties table.",
+      "user": {
+        "login": "guggero",
+        "id": 1008879,
+        "node_id": "MDQ6VXNlcjEwMDg4Nzk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1008879?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/guggero",
+        "html_url": "https://github.com/guggero",
+        "followers_url": "https://api.github.com/users/guggero/followers",
+        "following_url": "https://api.github.com/users/guggero/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/guggero/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/guggero/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/guggero/subscriptions",
+        "organizations_url": "https://api.github.com/users/guggero/orgs",
+        "repos_url": "https://api.github.com/users/guggero/repos",
+        "events_url": "https://api.github.com/users/guggero/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/guggero/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2267#issuecomment-5470278803",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2267"
     }
   ],
