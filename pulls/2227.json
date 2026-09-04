@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-07-30T19:35:02Z",
-    "updated_at": "2026-09-04T16:56:40Z",
+    "updated_at": "2026-09-04T20:23:18Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -283,8 +283,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6016,
-        "stargazers_count": 10931,
-        "watchers_count": 10931,
+        "stargazers_count": 10933,
+        "watchers_count": 10933,
         "size": 22382,
         "default_branch": "master",
         "open_issues_count": 57,
@@ -300,7 +300,7 @@
         "visibility": "public",
         "pushed_at": "2026-09-03T23:28:08Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-04T13:53:19Z",
+        "updated_at": "2026-09-04T19:12:59Z",
         "allow_forking": true
       }
     },
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 55,
     "commits": 1,
-    "review_comments": 7,
+    "review_comments": 8,
     "comments": 5
   },
   "events": [
@@ -1442,6 +1442,60 @@
       "start_side": null,
       "line": 149,
       "original_line": 149,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3937653339",
+      "pull_request_review_id": 5117489341,
+      "id": 3937653339,
+      "node_id": "PRRC_kwDOAN28mc7qs9Jb",
+      "diff_hunk": "@@ -0,0 +1,1510 @@\n+```\n+BIP: ?\n+Title: ChillDKG: Distributed Key Generation for FROST\n+Layer: Applications\n+Authors: Tim Ruffing <me@real-or-random.org>\n+         Jonas Nick <jonas@n-ck.net>\n+         Illia Melnyk <mazylia6@gmail.com>\n+         Mariia Zhvanko <mariia.zhvanko@gmail.com>\n+         Sivaram Dhakshinamoorthy <siv2ram@gmail.com>\n+Status: Draft\n+Type: Specification\n+Assigned: ?\n+License: CC0-1.0\n+License-Code: MIT\n+Discussion: 2024-07-08: https://groups.google.com/g/bitcoindev/c/HE3HSnGTpoQ/m/euZvPxKeAQAJ\n+Version: 0.3.0\n+Requires: 445\n+```\n+\n+# ChillDKG: Distributed Key Generation for FROST\n+\n+### Abstract\n+\n+This Bitcoin Improvement Proposal proposes ChillDKG, a distributed key generation protocol (DKG) for use with the FROST Schnorr threshold signature scheme.\n+\n+### Copyright\n+\n+This document is made available under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).\n+The accompanying auxiliary files are licensed under the [MIT License](https://opensource.org/license/mit).\n+The collection of test vectors therein (subdirectory `vectors/`) is, in addition to the MIT License, available under CC0 1.0 Universal.\n+\n+## Introduction\n+\n+### Motivation\n+\n+The FROST threshold signature scheme [[KG20](https://eprint.iacr.org/2020/852), [CKM21](https://eprint.iacr.org/2021/1375), [BTZ22](https://eprint.iacr.org/2022/833), [CGRS23](https://eprint.iacr.org/2023/899)] enables `t`-of-`n` Schnorr signatures,\n+in which some threshold `t` of a group of `n` participants is required to produce a signature.\n+FROST guarantees unforgeability as long as at most `t - 1` participants are compromised\n+and remains functional as long as `t` honest participants do not lose their secret key material,\n+where `t` and `n` can be chosen arbitrarily (as long as `1 <= t <= n`).[^t-edge-cases]\n+As a result, threshold signatures increase both security and availability,\n+enabling users to escape the inherent dilemma between the contradicting goals of protecting a single secret key against theft and data loss simultaneously.\n+\n+[^t-edge-cases]: While `t = n` and `t = 1` are in principle supported, simpler alternatives are available in these cases.\n+In the case of `t = n`, using a dedicated `n`-of-`n` multi-signature scheme such as MuSig2 [[BIP 327](bip-0327.mediawiki)] instead of FROST avoids the need for an interactive DKG.\n+The case `t = 1` can be realized by letting one participant generate an ordinary [BIP 340](bip-0340.mediawiki) key pair and transmitting the key pair to every other participant, who can check its consistency and then simply use the ordinary [BIP 340](bip-0340.mediawiki) signing algorithm.\n+Participants still need to ensure that they agree on a key pair. A detailed specification is not in the scope of this document.\n+\n+[BIP 445](bip-0445.md) provides a specification of the FROST signing protocol tailored to [BIP 340](bip-0340.mediawiki) Schnorr signatures as deployed in Bitcoin.\n+However, in order to use the specified protocol, the participants need to generate a shared *threshold public key* (representing the entire group with its `t`-of-`n` policy),\n+together with `n` corresponding *secret shares* (held by the `n` participants) that allow to sign under the threshold public key.\n+This key generation can, in principle, be performed by a trusted dealer who takes care of generating the threshold public key as well as all `n` secret shares,\n+which are then distributed to the `n` participants via secure channels.\n+However, the trusted dealer constitutes a single point of failure:\n+a compromised dealer can forge signatures arbitrarily.\n+\n+An interactive *distributed key generation* (DKG) protocol session by all participants avoids the need for a trusted dealer.\n+There exist a number of DKG protocols with different requirements and guarantees in the cryptographic literature.\n+Most suitable for the use with FROST is the PedPop DKG protocol [[KG20](https://eprint.iacr.org/2020/852), [CKM21](https://eprint.iacr.org/2021/1375), [CGRS23](https://eprint.iacr.org/2023/899)] (\"Pedersen DKG [[Ped92](https://doi.org/10.1007/3-540-46766-1_9), [GJKR07](https://doi.org/10.1007/s00145-006-0347-3)] with proofs of possession\"),\n+which, like FROST, does not impose restrictions on the choice of `t` and `n`.\n+\n+But similar to most DKG protocols in the literature, PedPop has strong requirements on the communication channels between participants,\n+which make it difficult to deploy in practice:\n+First, it assumes that participants have secure (i.e., authenticated and encrypted) channels between each other,\n+which is necessary to avoid man-in-the-middle attacks and to ensure confidentiality of secret shares when delivering them to individual participants.\n+Second, PedPop assumes that all participants have access to some external consensus or reliable broadcast mechanism\n+that ensures they have an identical view of the protocol messages exchanged during DKG.\n+This will, in turn, ensure that all participants eventually reach agreement over the results of the DKG,\n+which include not only parameters such as the generated threshold public key\n+but also whether the DKG has succeeded at all.\n+\n+To understand the necessity of reaching agreement,\n+consider the example of a DKG to set up a 2-of-3 Bitcoin wallet\n+in which two participants are honest but the third participant is malicious.\n+The malicious participant sends invalid secret shares to the first honest participant, but valid shares to the second honest participant.\n+While the first honest participant cannot finish the DKG,\n+the second honest participant will believe that the DKG has finished successfully\n+and thus may be willing to send funds to the resulting threshold public key.\n+But this constitutes a catastrophic failure:\n+Those funds will be lost irrevocably because the single remaining secret share of the second participant will not be sufficient to produce a signature (without the help of the malicious participant).[^resharing-attack]\n+\n+[^resharing-attack]: A very similar attack has been observed in the implementation of a resharing scheme [[AS20](https://eprint.iacr.org/2020/1052), Section 3].\n+\n+To sum up, there is currently no description of PedPop that\n+does not assume the availability of external secure channels and consensus\n+and thus can be turned into a standalone implementation.\n+To overcome these issues, we propose ChillDKG in this BIP.\n+ChillDKG is a variant of PedPop with \"batteries included\",\n+i.e., it incorporates minimal but sufficient implementations of secure channels and consensus\n+and thus does not have external dependencies.\n+This makes it easy to implement and deploy, and\n+we provide detailed algorithmic specifications in the form of Python code.\n+\n+### Design\n+\n+We assume a network setup in which participants have point-to-point connections to an untrusted coordinator.\n+This will enable bandwidth optimizations and is common also in implementations of the signing stage of FROST.\n+Participants are identified and authenticated via long-term public keys.\n+\n+The basic building block of ChillDKG is the SimplPedPop protocol (a simplified variant of PedPop),\n+which has been designed specifically for FROST.\n+SimplPedPop is proven to be secure when combined with FROST [[CGRS23](https://eprint.iacr.org/2023/899)],\n+and its output contains, in addition to the threshold public key, separate per-participant public shares thereof,\n+which allow for partial verification of contributions in a FROST signing session.\n+\n+Besides external secure channels, SimplPedPop depends on an external *equality check protocol*.\n+The equality check protocol serves as an abstraction of a consensus mechanism:\n+Its only purpose is to check that, at the end of SimplPedPop, all participants have received identical protocol messages.\n+\n+Our goal is to turn SimplPedPop into a standalone DKG protocol without external dependencies.\n+We then follow a modular approach that removes one dependency at a time.\n+First, we take care of secure channels by wrapping SimplPedPop in a protocol EncPedPop,\n+which relies on pairwise ECDH key exchanges between the participants to encrypt secret shares.\n+Finally, we add a concrete equality check protocol CertEq to EncPedPop to obtain a standalone DKG protocol ChillDKG.\n+\n+Our equality check protocol CertEq consists of every participant simply collecting a list of valid signatures on the session transcript from all `n` participants\n+before finalizing the DKG session with some threshold public key as output.\n+The list of signatures, also called a *success certificate*, can convince any other honest participant\n+(ultimately at the time of a signing request)\n+that the DKG session has indeed been successful.\n+This is sufficient to exclude the catastrophic failure described in the previous section.\n+\n+As an additional feature of ChillDKG, the DKG outputs for any signing device can be fully recovered from\n+a backup of a single *host secret key* specific to the device,\n+(the essential parts of) the public transcripts of the DKG sessions,\n+and the corresponding success certificates.\n+To simplify the interface, we combine the transcript data and the session certificate into a single byte string called the *recovery data*,\n+which is common to all participants and does not need to be kept confidential.\n+Recovering a device that has participated in a DKG session then requires just the device's host secret key and the recovery data,\n+the latter of which can be obtained from any cooperative participant (or the coordinator) or from an untrusted backup provider.\n+\n+ChillDKG outputs a threshold public key that can be safely used in Taproot outputs [[BIP 341](bip-0341.mediawiki)].\n+In contrast, a standard PedPop implementation would allow a malicious participant to secretly embed a Taproot commitment to a script path within the threshold public key.\n+If such a key was used directly in a Taproot output, the malicious participant could spend the output through their hidden script path, bypassing the requirement for `t - 1` additional signatures.\n+While [BIP 341](bip-0341.mediawiki) outlines special precautions for using threshold public keys generated by standard PedPop, ChillDKG eliminates this vulnerability entirely, providing built-in protection against accidental misuse.\n+\n+If a ChillDKG session fails due to the participants or the coordinator deviating from the protocol,\n+any aborting party will be able to identify and blame a single party responsible for the failure\n+(assuming the network, and, depending on the circumstances, the coordinator, are reliable).",
+      "path": "bip-chilldkg.md",
+      "position": 139,
+      "original_position": 139,
+      "commit_id": "2b9b0b1875ae47357449ea70f43d3aa73f7f3b90",
+      "original_commit_id": "2b9b0b1875ae47357449ea70f43d3aa73f7f3b90",
+      "in_reply_to_id": 3899161132,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This is indeed subtle.\r\n\r\nThe only guarantee the protocol provides is this:\r\n```suggestion\r\nIf a ChillDKG session fails due to one or more participants deviating from the protocol,\r\nany aborting party will be able to identify and blame a single participant responsible for the failure\r\n(assuming the network and the coordinator are reliable).\r\n```\r\n\r\nBut just writing it like that will also be confusing to the reader because the code has also paths where a failing participant blames the coordinator. But the purpose of these code paths is just debugging broken coordinators, and there's no guarantee that an actively malicious coordinator can be caught (as it can always make an honest participant A blame another honest participant B by mis-relaying a message from B as @DarkWindman explains).\r\n\r\nWe'll need to see how to phrase this clearly.",
+      "created_at": "2026-09-04T20:23:17Z",
+      "updated_at": "2026-09-04T20:23:18Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2227#discussion_r3937653339",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3937653339"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2227"
+        }
+      },
+      "start_line": 137,
+      "original_start_line": 137,
+      "start_side": "RIGHT",
+      "line": 139,
+      "original_line": 139,
       "side": "RIGHT"
     }
   ]
