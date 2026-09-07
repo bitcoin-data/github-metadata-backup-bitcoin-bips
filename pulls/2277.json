@@ -17,7 +17,7 @@
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "BIP370: add the Input Finalizer role; BIP371: drop the finalizer clause from PSBT_OUT_TAP_BIP32_DERIVATION",
+    "title": "BIP370: add Input Finalizer section; BIP371: remove finalizer clause from an output field",
     "user": {
       "login": "fametrano",
       "id": 3296421,
@@ -40,10 +40,10 @@
       "name": null,
       "patch_url": null
     },
-    "body": "Two independent commits, both minor amendments to Deployed BIPs that record what Bitcoin Core already does.\n\n**BIP370.** BIP 174 tells the Input Finalizer to clear all other data except the UTXO and unknown fields. Applied literally to a PSBTv2 input, that removes PSBT_IN_PREVIOUS_TXID and PSBT_IN_OUTPUT_INDEX, and the result cannot be parsed back. BIP 370 amends Creator, Updater, Signer and Transaction Extractor for v2, adds the Constructor, and says nothing about the Input Finalizer. This adds the section: the five fields that define the input are kept. Bitcoin Core keeps them today: at `19b0ff2fa0`, `PSBTInput::Serialize` writes them for every PSBTv2 input, finalized or not.\n\n**BIP371.** The output field PSBT_OUT_TAP_BIP32_DERIVATION carries the same \"Finalizers should remove this field after PSBT_IN_FINAL_SCRIPTWITNESS is constructed\" as the six input fields. An output has no final scriptwitness, the clause names no input, and its two neighbours in the table have no such clause. Dropped; Bitcoin Core does not clear output fields on finalization.\n",
+    "body": "Two independent commits.\n\n## BIP370: add an Input Finalizer section\n\nIn a version 2 PSBT, the fields that define an input live in the input map: `PSBT_IN_PREVIOUS_TXID`, `PSBT_IN_OUTPUT_INDEX`, `PSBT_IN_SEQUENCE`, and the two required-locktime fields.\n\nBIP174 tells the Input Finalizer to clear every field of a finalized input except the UTXO and unknown fields. Followed literally on a version 2 input, this deletes the fields above. Without `PSBT_IN_PREVIOUS_TXID` or `PSBT_IN_OUTPUT_INDEX` the PSBT is invalid; without the sequence and locktime fields the Transaction Extractor builds a different transaction.\n\nBIP370 defines every other role for version 2 but has no Input Finalizer section. This adds one, stating that the finalizer keeps those five fields. Bitcoin Core already does this: its input serializer writes them whether or not the input is finalized.\n\n## BIP371: remove a finalizer clause from an output field\n\n`PSBT_OUT_TAP_BIP32_DERIVATION` carries the note \"Finalizers should remove this field after `PSBT_IN_FINAL_SCRIPTWITNESS` is constructed\".\n\nThis is an output field. An output has no `PSBT_IN_FINAL_SCRIPTWITNESS`, and the clause names no input to act on. The two neighbouring output fields carry no such note. This removes it.\n\nBoth are minor amendments to Deployed BIPs.\n",
     "labels": [],
     "created_at": "2026-09-07T16:01:05Z",
-    "updated_at": "2026-09-07T16:01:05Z",
+    "updated_at": "2026-09-07T17:32:37Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -155,7 +155,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22450,
+        "size": 22512,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -390,6 +390,41 @@
         "date": "2026-09-07T16:01:00Z"
       },
       "sha": "f5034ac3100a77c3c86b004a15dfee7e4a4b266c"
+    },
+    {
+      "event": "renamed",
+      "id": 30706661212,
+      "node_id": "RTE_lADOAN28mc8AAAABQHxqJM8AAAAHJkJ3XA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/30706661212",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-09-07T17:32:37Z",
+      "rename": {
+        "from": "BIP370: add the Input Finalizer role; BIP371: drop the finalizer clause from PSBT_OUT_TAP_BIP32_DERIVATION",
+        "to": "BIP370: add Input Finalizer section; BIP371: remove finalizer clause from an output field"
+      }
     }
   ],
   "comments": []
