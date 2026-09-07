@@ -43,7 +43,7 @@
     "body": "BIP 174 says the Input Finalizer keeps the UTXO so the Transaction Extractor can verify the final transaction, and its finalized example PSBT does keep it. This BIP's Finalizer section requires removing PSBT_IN_WITNESS_UTXO. None of the finalizers I checked do that: Core's FinalizePSBT, Sparrow's clearNonFinalFields, rust-psbt's Input::finalize and rust-miniscript all keep it. Removing it also breaks partially finalized PSBTs: BIP 341 sighashes commit to every spent output, so once one input is finalized this way no remaining taproot input can be signed (Core's PrecomputePSBTData fails without all UTXOs).",
     "labels": [],
     "created_at": "2026-09-04T09:07:42Z",
-    "updated_at": "2026-09-04T09:07:42Z",
+    "updated_at": "2026-09-07T14:59:19Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -291,7 +291,7 @@
         "visibility": "public",
         "pushed_at": "2026-09-03T23:28:08Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-03T23:28:33Z",
+        "updated_at": "2026-09-06T13:37:24Z",
         "allow_forking": true
       }
     },
@@ -349,6 +349,45 @@
         "date": "2026-09-04T09:01:55Z"
       },
       "sha": "c8cbc9804e4a9695ed118c9306b20795eacfdc00"
+    },
+    {
+      "event": "reviewed",
+      "id": 5133378661,
+      "node_id": "PRR_kwDOAN28mc8AAAABMfkkZQ",
+      "url": null,
+      "actor": null,
+      "commit_id": "c8cbc9804e4a9695ed118c9306b20795eacfdc00",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-09-07T14:59:19Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "ACK c8cbc9804e4a9695ed118c9306b20795eacfdc00\n\nThanks for reviewing! You're right, this is an error, the extractor should be able to verify the network serialized transaction.",
+      "user": {
+        "login": "nymius",
+        "id": 155548262,
+        "node_id": "U_kgDOCUV6Zg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155548262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nymius",
+        "html_url": "https://github.com/nymius",
+        "followers_url": "https://api.github.com/users/nymius/followers",
+        "following_url": "https://api.github.com/users/nymius/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nymius/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nymius/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nymius/subscriptions",
+        "organizations_url": "https://api.github.com/users/nymius/orgs",
+        "repos_url": "https://api.github.com/users/nymius/repos",
+        "events_url": "https://api.github.com/users/nymius/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nymius/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2276#pullrequestreview-5133378661",
+      "submitted_at": "2026-09-07T14:59:19Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2276"
     }
   ],
   "comments": []
