@@ -12,12 +12,12 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2278/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2278/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/fc9a1bce34642080de77a7e5cc8d80b47d72cb2a",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/4f9567fd60021cb7dea032250ab241cd68d9ff91",
     "number": 2278,
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "bip-0327: use a portable monotonic clock in the reference self-test",
+    "title": "bip-0327: derive extra_in from secrets in the reference self-test",
     "user": {
       "login": "fametrano",
       "id": 3296421,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "`bip-0327/reference.py`'s self-test reads `time.clock_gettime_ns(time.CLOCK_MONOTONIC)` for `extra_in`. Both symbols are documented \"Availability: Unix\" in CPython, so `python3 reference.py` raises `AttributeError` on Windows.\n\n`time.monotonic_ns()` is the portable monotonic clock CPython documents for measuring elapsed time, available on all platforms since 3.7. It returns the same nanosecond int, so `.to_bytes(8, 'big')` is unaffected.\n\nNot tested on Windows; verified against CPython's platform-availability docs.\n",
+    "body": "`bip-0327/reference.py`'s self-test read `time.clock_gettime_ns(time.CLOCK_MONOTONIC)` for `extra_in`. Both symbols are documented \"Availability: Unix\" in CPython, so `python3 reference.py` raises `AttributeError` on Windows.\n\nFollowing real-or-random's suggestion, `extra_in` now comes from `secrets`, with a random length in 0..41, so the self-test also exercises variable-length `extra_in`. `time` has no other use in the file, so its import is dropped.\n\nNot tested on Windows; verified against CPython's platform-availability docs.",
     "labels": [
       {
         "id": 10999942923,
@@ -53,11 +53,11 @@
       }
     ],
     "created_at": "2026-09-07T18:50:29Z",
-    "updated_at": "2026-09-10T06:57:17Z",
+    "updated_at": "2026-09-10T14:35:23Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "00611dc6017df3f9755986e142945e94f8ea7e5c",
+    "merge_commit_sha": "9d784ec85f9cf6a768fea03365b5e25847a879c1",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -65,7 +65,7 @@
     "head": {
       "label": "fametrano:bip327-portable-monotonic-clock",
       "ref": "bip327-portable-monotonic-clock",
-      "sha": "fc9a1bce34642080de77a7e5cc8d80b47d72cb2a",
+      "sha": "4f9567fd60021cb7dea032250ab241cd68d9ff91",
       "user": {
         "login": "fametrano",
         "id": 3296421,
@@ -178,7 +178,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-09T07:27:53Z",
+        "pushed_at": "2026-09-10T14:08:03Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-08-01T21:58:43Z",
         "allow_forking": true
@@ -187,7 +187,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "09e21036a4001fe6c9ba65c1d3a39b737768132f",
+      "sha": "2120121c40274aa1d80207541471f5c89905770a",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -284,9 +284,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6015,
-        "stargazers_count": 10932,
-        "watchers_count": 10932,
+        "forks_count": 6016,
+        "stargazers_count": 10931,
+        "watchers_count": 10931,
         "size": 22404,
         "default_branch": "master",
         "open_issues_count": 58,
@@ -302,7 +302,7 @@
         "visibility": "public",
         "pushed_at": "2026-09-09T20:56:23Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-10T01:23:16Z",
+        "updated_at": "2026-09-10T13:56:56Z",
         "allow_forking": true
       }
     },
@@ -313,54 +313,14 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 1,
-    "deletions": 1,
+    "additions": 3,
+    "deletions": 4,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 1,
+    "review_comments": 2,
     "comments": 1
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGZjOWExYmNlMzQ2NDIwODBkZTc3YTdlNWNjOGQ4MGI0N2Q3MmNiMmE",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/fc9a1bce34642080de77a7e5cc8d80b47d72cb2a",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/fc9a1bce34642080de77a7e5cc8d80b47d72cb2a",
-      "tree": {
-        "sha": "c4784f0734a020dfca07e22121c70ff183245285",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/c4784f0734a020dfca07e22121c70ff183245285"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree c4784f0734a020dfca07e22121c70ff183245285\nparent 09e21036a4001fe6c9ba65c1d3a39b737768132f\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1788806568 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1788806568 +0200\n\nbip-0327: use a portable monotonic clock in the reference self-test\n\nreference.py reads time.clock_gettime_ns(time.CLOCK_MONOTONIC) to vary\nextra_in across signing iterations. Both symbols are documented\n\"Availability: Unix\", so `python3 reference.py` raises AttributeError on\nWindows.\n\ntime.monotonic_ns() is the portable monotonic clock CPython documents for\nmeasuring elapsed time, available on all platforms since 3.7. Not tested\non Windows.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmqfBagbFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/Fi30P/1xJuareERCs+m1eiNNI\nXuqKjsEK+360qvZaDSqa7adBsqZnb+9xnixEZRHc6YsMb+m5tOPMtClFRP7LF9hA\npihxCuJY6ooMtapebwfX33UvgHWkrTSh8bkG+KL4/NvOQXSDGVq7jUg9ZQTWLn0G\n6Y429v9VkhjPJDHFr9rb0s0npvhwh0iQjJbN4KkqmenGoervK2z2vJCvbI4TAiPy\n41ldDh1DjtXSmlmNuNI4nCY+UHOZC+0B0icRAMljt/287TWJaXoUcFcG1ZOM1kKE\n8Y2FWEhOdpHQxLmq6To6dXbohYKgeaC2A+rJVdQNhWxV1T6vMshCpOwLx4wkOz05\noRsXuwSEgtnoGOyOeoxY5rbpyF1rhXAXQEyj2T55FCHt48gnumlnWc69IM0PHBdt\n+uKzJg7s+3qN1Itxye3jxAp7ISZiUgw9zSrPUDEqypzQrHBls9z4AZboHTPgmfvQ\nTySAlXM/geRInEQFXQ6NJ2Cz3XSL2jhAJPNnDp2Gt26cUaVTeDENiC8yjJhLvgie\ndMnzzCXRaBL0B7xl+D0edrKin4AiyyxoHHpQBzW44GBUzUSVm25fwkEFaufSSSpz\ne13RIhEkZ42UYdrfpdNA73Vx0n5S9cwouwZjhW1Idt0Uq98isXGMIOAK9mlqPVV2\nUqtyjvHiSdJ0wH0xxINMi20V\n=ID0J\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/09e21036a4001fe6c9ba65c1d3a39b737768132f",
-          "sha": "09e21036a4001fe6c9ba65c1d3a39b737768132f",
-          "html_url": "https://github.com/bitcoin/bips/commit/09e21036a4001fe6c9ba65c1d3a39b737768132f"
-        }
-      ],
-      "message": "bip-0327: use a portable monotonic clock in the reference self-test\n\nreference.py reads time.clock_gettime_ns(time.CLOCK_MONOTONIC) to vary\nextra_in across signing iterations. Both symbols are documented\n\"Availability: Unix\", so `python3 reference.py` raises AttributeError on\nWindows.\n\ntime.monotonic_ns() is the portable monotonic clock CPython documents for\nmeasuring elapsed time, available on all platforms since 3.7. Not tested\non Windows.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-07T18:42:48Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-07T18:42:48Z"
-      },
-      "sha": "fc9a1bce34642080de77a7e5cc8d80b47d72cb2a"
-    },
     {
       "event": "unsubscribed",
       "id": 30764869021,
@@ -709,6 +669,151 @@
       "submitted_at": "2026-09-10T06:57:17Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2278"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDRmOTU2N2ZkNjAwMjFjYjdkZWEwMzIyNTBhYjI0MWNkNjhkOWZmOTE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/4f9567fd60021cb7dea032250ab241cd68d9ff91",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/4f9567fd60021cb7dea032250ab241cd68d9ff91",
+      "tree": {
+        "sha": "c186d1070b6a134b583720da016716de5f2eedb6",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/c186d1070b6a134b583720da016716de5f2eedb6"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree c186d1070b6a134b583720da016716de5f2eedb6\nparent 2120121c40274aa1d80207541471f5c89905770a\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1788806568 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1789048528 +0200\n\nbip-0327: derive extra_in from secrets in the reference self-test\n\nThe self-test reads time.clock_gettime_ns(time.CLOCK_MONOTONIC) for\nextra_in on even iterations. CPython documents both symbols\n\"Availability: Unix\", so the attribute lookup raises AttributeError on\nWindows and python3 reference.py does not run there.\n\nTake extra_in from secrets instead, at a random length, so the self-test\nalso exercises extra_in of varying length. time has no other use in the\nfile, so its import goes too.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmqittAbFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/FSD8P/ilgwwvZPFQB9Y3sPCub\n5DDtTzOLm/nadM0Ub2QQnq54quPHfbr0BRTdmesSBY+bpYqFIzNOWFUhfL6/wqxw\nXRPwl280vjMPRNQO7rAK6wig83f0yd8PK7iFHcCvezEU3KYxQHaBFwAx6WaYt4lc\nV2fKscsgCKITJ+JiiJTJWAnNMc3uP2/7TKlSHn3rwApEkZvcaat2oQym7leBENqE\ny5tc8RpCYrge8gqTRXLRPAAGVHjofW5skF8sH+fde8nPMIwZ+Oh8si4/S4qfdbbA\nr2GsSvcr20VOAqJ9Tnh+LUjRKU8c03SffJIolpvX2mketKiKsl+Q3sUuFeRSRd6l\nvZ3aSaUKmo4p8LRR8fqw6CIPife0cGp5z+ukEWs20r1Ys0FCisxwIOs2hOt3g6Rt\nq98AqWBlplP7ID9DQahSdJJkbQAnXjp2LehSghgP7C+4gfJ8tqzifbhWW03TUXUa\nZmMOI2In+LPA/s6aucOAWyTPclgccsjwkWbch1Y+s/n7lqR+dg7aQxRZBlWVsAKc\nRjyJ+GLAfQYsiAaOimKv8Xv90QY0mI2ikYmClsgRBbHDe7XHpYZ46AS3i6cHNKQU\nLsrIVBVROCtvdDeJh4dQ7TZIf82UhTR/sUuKl+vh/3XCKJ2jq29Vw1D6uSQ8XK2Q\nwuaIWFtIQ3nbmB5QdkK29yGt\n=Aiz1\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/2120121c40274aa1d80207541471f5c89905770a",
+          "sha": "2120121c40274aa1d80207541471f5c89905770a",
+          "html_url": "https://github.com/bitcoin/bips/commit/2120121c40274aa1d80207541471f5c89905770a"
+        }
+      ],
+      "message": "bip-0327: derive extra_in from secrets in the reference self-test\n\nThe self-test reads time.clock_gettime_ns(time.CLOCK_MONOTONIC) for\nextra_in on even iterations. CPython documents both symbols\n\"Availability: Unix\", so the attribute lookup raises AttributeError on\nWindows and python3 reference.py does not run there.\n\nTake extra_in from secrets instead, at a random length, so the self-test\nalso exercises extra_in of varying length. time has no other use in the\nfile, so its import goes too.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-10T13:55:28Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-07T18:42:48Z"
+      },
+      "sha": "4f9567fd60021cb7dea032250ab241cd68d9ff91"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 30907729170,
+      "node_id": "HRFPE_lADOAN28mc8AAAABQI-B4c8AAAAHMj6FEg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/30907729170",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "4f9567fd60021cb7dea032250ab241cd68d9ff91",
+      "commit_url": "https://api.github.com/repos/fametrano/bips/commits/4f9567fd60021cb7dea032250ab241cd68d9ff91",
+      "created_at": "2026-09-10T14:08:07Z"
+    },
+    {
+      "event": "renamed",
+      "id": 30907746280,
+      "node_id": "RTE_lADOAN28mc8AAAABQI-B4c8AAAAHMj7H6A",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/30907746280",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-09-10T14:08:23Z",
+      "rename": {
+        "from": "bip-0327: use a portable monotonic clock in the reference self-test",
+        "to": "bip-0327: derive extra_in from secrets in the reference self-test"
+      }
+    },
+    {
+      "event": "reviewed",
+      "id": 5168454546,
+      "node_id": "PRR_kwDOAN28mc8AAAABNBBbkg",
+      "url": null,
+      "actor": null,
+      "commit_id": "4f9567fd60021cb7dea032250ab241cd68d9ff91",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-09-10T14:35:23Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "utACK 4f9567fd60021cb7dea032250ab241cd68d9ff91",
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2278#pullrequestreview-5168454546",
+      "submitted_at": "2026-09-10T14:35:23Z",
+      "state": "APPROVED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2278"
     }
   ],
   "comments": [
@@ -719,7 +824,7 @@
       "node_id": "PRRC_kwDOAN28mc7tAhDm",
       "diff_hunk": "@@ -839,7 +839,7 @@ def test_sign_and_verify_random(iters: int) -> None:\n         # otherwise use deterministic signing algorithm\n         if i % 2 == 0:\n             # Use a clock for extra_in\n-            t = time.clock_gettime_ns(time.CLOCK_MONOTONIC)\n+            t = time.monotonic_ns()\n             secnonce_2, pubnonce_2 = nonce_gen(sk_2, pk_2, aggpk, msg, t.to_bytes(8, 'big'))",
       "path": "bip-0327/reference.py",
-      "position": 6,
+      "position": 1,
       "original_position": 6,
       "commit_id": "fc9a1bce34642080de77a7e5cc8d80b47d72cb2a",
       "original_commit_id": "fc9a1bce34642080de77a7e5cc8d80b47d72cb2a",
@@ -759,10 +864,64 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2278"
         }
       },
-      "start_line": 841,
+      "start_line": null,
       "original_start_line": 841,
       "start_side": "RIGHT",
-      "line": 843,
+      "line": null,
+      "original_line": 843,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3979943225",
+      "pull_request_review_id": 5168143418,
+      "id": 3979943225,
+      "node_id": "PRRC_kwDOAN28mc7tOR05",
+      "diff_hunk": "@@ -839,7 +839,7 @@ def test_sign_and_verify_random(iters: int) -> None:\n         # otherwise use deterministic signing algorithm\n         if i % 2 == 0:\n             # Use a clock for extra_in\n-            t = time.clock_gettime_ns(time.CLOCK_MONOTONIC)\n+            t = time.monotonic_ns()\n             secnonce_2, pubnonce_2 = nonce_gen(sk_2, pk_2, aggpk, msg, t.to_bytes(8, 'big'))",
+      "path": "bip-0327/reference.py",
+      "position": 1,
+      "original_position": 6,
+      "commit_id": "fc9a1bce34642080de77a7e5cc8d80b47d72cb2a",
+      "original_commit_id": "fc9a1bce34642080de77a7e5cc8d80b47d72cb2a",
+      "in_reply_to_id": 3976335590,
+      "user": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Applied as suggested (4f9567f): extra_in now comes from secrets with a random length, so the test also covers variable-length extra_in. That line was the only use of time in the file, so I dropped the import; if you would rather keep it, say so and I will put it back. Title and commit message updated accordingly.",
+      "created_at": "2026-09-10T14:08:27Z",
+      "updated_at": "2026-09-10T14:08:27Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2278#discussion_r3979943225",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/3979943225"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2278"
+        }
+      },
+      "start_line": null,
+      "original_start_line": 841,
+      "start_side": "RIGHT",
+      "line": null,
       "original_line": 843,
       "side": "RIGHT"
     }
