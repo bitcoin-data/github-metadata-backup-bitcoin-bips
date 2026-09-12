@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2238/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2238/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/e0d51f1035d37f3b7db303fb0b431bbd33ccbde7",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/d389ceb6c4ca65c90da78ed97e1f8f7061c94ac5",
     "number": 2238,
     "state": "open",
     "locked": false,
@@ -43,11 +43,11 @@
     "body": "The \"PSBT with invalid output witnessScript typed key\" case should fail on the key length — a `PSBT_OUT_WITNESS_SCRIPT` key longer than one octet — but as written it can also fail on an off-curve pubkey: the witnessScript pushes `03b7ce…9d06d5…`, and `x**3 + 7` is not a square mod p for that x. An implementation that validates pushed keys but never checks the key length rejects the case anyway, for the wrong reason, and the missing check goes undetected.\n\nThe off-curve key is an artifact: 65f0b3dd changed one octet of it (`2b` → `06`) to fix a short read on the value length, but the case's hashes (P2WSH `876bad83…`, P2SH `b921b1ba…`) still commit to the script with `2b`.\n\nThis re-encodes the record as `02 0100 25 <script with 2b>` — the extra octet in the key, the whole on-curve script in the value, as the \"invalid output redeemScript typed key\" case already does. Same total length, same intended failure, hashes match again; bitcoin/bitcoin's `rpc_psbt.json` still carries the pre-65f0b3dd octets (a short read), so this encoding serves both.",
     "labels": [],
     "created_at": "2026-08-05T22:46:40Z",
-    "updated_at": "2026-09-11T05:46:39Z",
+    "updated_at": "2026-09-12T12:34:51Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "aafe95d34011ddc36798b526a4a3193d4f71144a",
+    "merge_commit_sha": "593df7c66195c50893ea685ff90b5f8fbb59ea56",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -55,7 +55,7 @@
     "head": {
       "label": "fametrano:bip174-witnessscript-vector-pubkey",
       "ref": "bip174-witnessscript-vector-pubkey",
-      "sha": "e0d51f1035d37f3b7db303fb0b431bbd33ccbde7",
+      "sha": "d389ceb6c4ca65c90da78ed97e1f8f7061c94ac5",
       "user": {
         "login": "fametrano",
         "id": 3296421,
@@ -168,7 +168,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-10T14:08:03Z",
+        "pushed_at": "2026-09-12T12:35:17Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-08-01T21:58:43Z",
         "allow_forking": true
@@ -177,7 +177,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "01d2c8410f99d146293d186c8e2343bd302a3ed8",
+      "sha": "bfc142f2b580a314c846dbce3c15c659c2b1d32d",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -274,12 +274,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6016,
-        "stargazers_count": 10931,
-        "watchers_count": 10931,
-        "size": 22407,
+        "forks_count": 6020,
+        "stargazers_count": 10934,
+        "watchers_count": 10934,
+        "size": 22458,
         "default_branch": "master",
-        "open_issues_count": 57,
+        "open_issues_count": 58,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -290,9 +290,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-10T15:25:02Z",
+        "pushed_at": "2026-09-11T20:40:30Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-10T22:38:41Z",
+        "updated_at": "2026-09-12T12:31:55Z",
         "allow_forking": true
       }
     },
@@ -311,46 +311,6 @@
     "comments": 1
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGUwZDUxZjEwMzVkMzdmM2I3ZGIzMDNmYjBiNDMxYmJkMzNjY2JkZTc",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e0d51f1035d37f3b7db303fb0b431bbd33ccbde7",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/e0d51f1035d37f3b7db303fb0b431bbd33ccbde7",
-      "tree": {
-        "sha": "18a72c5033fc1c456832f09d0575cff8e39524db",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/18a72c5033fc1c456832f09d0575cff8e39524db"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "bad_email",
-        "payload": "tree 18a72c5033fc1c456832f09d0575cff8e39524db\nparent 01d2c8410f99d146293d186c8e2343bd302a3ed8\nauthor Ferdinando Ametrano <ferdinando@checksig.com> 1785966759 +0200\ncommitter Ferdinando Ametrano <ferdinando@checksig.com> 1785969857 +0200\n\nBIP-174: test data: a public key in the witnessScript case\n\nThe \"PSBT with invalid output witnessScript typed key\" case tests one\ncondition: a PSBT_OUT_WITNESS_SCRIPT key longer than the one octet the\ntype is. Its last record, key length included, is\n\n    21 010025512103b7ce...51309d 06 d57f8a8751ae\n\nRead as a stream, the witnessScript is\n\n    OP_1 <03b7ce23...51309d06d57f8a87> OP_1 OP_CHECKMULTISIG\n\nand x^3 + 7 is not a square mod p for that x: the pushed key is not a\npoint of secp256k1.\n\nAn implementation that checks the pushed key but not the key length\nrefuses the case for the wrong reason and the missing check goes\nundetected.\n\n65f0b3dd62ec replaced 2b with 06 to make the value length consistent:\nwith 2b it is 43 where 7 octets remain, and a reader that takes the\nwhole key-value pair before judging the key hits a short read. That\noctet is the 29th of the pushed key.\n\nThe case commits to the key with 2b. sha256 of that script is\n876bad83...2b278a65, the P2WSH the output's redeemScript pushes, and\nhash160 of that redeemScript is b921b1ba...6a42ec83, the P2SH\nscriptPubKey of the unsigned transaction's second output. The script as\nit reads today hashes to bcea4f01...fbb21dc8, which nothing in the case\ncommits to. Another point in its place would mean recomputing both\nhashes and the unsigned transaction; keeping it means moving the value\nlength off it.\n\nThe record below does that, carrying the extra octet in the key and the\nwhole script in the value, as the \"invalid output redeemScript typed\nkey\" case does.\n\n    02 0100 25 512103b7ce...2bd57f8a8751ae\n\nSame length as now, same failure, and the first 222 of the 264 octets\nunchanged.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmpzvMEbFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/F2W0P/R1dEd4JzIdsE5xDW80x\nQP1uIgCMQ7BTNVX33dihBfeuPgYAGP9ysXU+n3UldQUPn1uAMpB+kUvAfXamGkkJ\nBrb7NlVFl42m13tzTIo/YTn7uiO+hjFFQcEqk94EAFX67DxWclPV32Y/bGsZu4W5\nd60Tmx1xx6CI4NbEdeeAQAuywFDD4zruSsqbXSS+84AoXh94rXCRGNkbvTnyyE6l\n6pbcw0/zUHrnFcCTASkpA/hBYqm4O8cfN12vZJAlmXfPd98p7JylkDagMEfDrK/g\nOB7rj0m4tQbXopjqdNDX4mjiUmEsfEgRl+jYiXdhYE0qULBp2qX/MUMqAuchiyOh\nHTy3RcCaj1XF5iBgmbwqUpuw2Jns0+kPE5QnVMpu2U9xGZRgsPj29pvcxxVOts+n\nV79IInCW/8fmNcWAxe1zxxfUxVi/KOgpLnrLqdnqC3a1pArB974O4EubksGv5JFs\nhzFBvUImVbDgCeAOqRp7ZjtzW8J9awej2JNZWeWZA/+QjE0mjkuuuDbKU0b+yi+3\nqFi3d9h3aTOlfa2NDzOJZTV2cdIH0EQEEcQdud/gHOpi3/UBPoL5EEALRptj88NI\n8iHQfOHQDmCZi+oSv3iqBYGbnZvJEqaLN8caQ/LPGBDagCxtEHxQrjBXPnVJBGyt\nodLTW4ZI4v5hBJloA8IoZdtL\n=nxEW\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/01d2c8410f99d146293d186c8e2343bd302a3ed8",
-          "sha": "01d2c8410f99d146293d186c8e2343bd302a3ed8",
-          "html_url": "https://github.com/bitcoin/bips/commit/01d2c8410f99d146293d186c8e2343bd302a3ed8"
-        }
-      ],
-      "message": "BIP-174: test data: a public key in the witnessScript case\n\nThe \"PSBT with invalid output witnessScript typed key\" case tests one\ncondition: a PSBT_OUT_WITNESS_SCRIPT key longer than the one octet the\ntype is. Its last record, key length included, is\n\n    21 010025512103b7ce...51309d 06 d57f8a8751ae\n\nRead as a stream, the witnessScript is\n\n    OP_1 <03b7ce23...51309d06d57f8a87> OP_1 OP_CHECKMULTISIG\n\nand x^3 + 7 is not a square mod p for that x: the pushed key is not a\npoint of secp256k1.\n\nAn implementation that checks the pushed key but not the key length\nrefuses the case for the wrong reason and the missing check goes\nundetected.\n\n65f0b3dd62ec replaced 2b with 06 to make the value length consistent:\nwith 2b it is 43 where 7 octets remain, and a reader that takes the\nwhole key-value pair before judging the key hits a short read. That\noctet is the 29th of the pushed key.\n\nThe case commits to the key with 2b. sha256 of that script is\n876bad83...2b278a65, the P2WSH the output's redeemScript pushes, and\nhash160 of that redeemScript is b921b1ba...6a42ec83, the P2SH\nscriptPubKey of the unsigned transaction's second output. The script as\nit reads today hashes to bcea4f01...fbb21dc8, which nothing in the case\ncommits to. Another point in its place would mean recomputing both\nhashes and the unsigned transaction; keeping it means moving the value\nlength off it.\n\nThe record below does that, carrying the extra octet in the key and the\nwhole script in the value, as the \"invalid output redeemScript typed\nkey\" case does.\n\n    02 0100 25 512103b7ce...2bd57f8a8751ae\n\nSame length as now, same failure, and the first 222 of the 264 octets\nunchanged.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@checksig.com",
-        "date": "2026-08-05T22:44:17Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@checksig.com",
-        "date": "2026-08-05T21:52:39Z"
-      },
-      "sha": "e0d51f1035d37f3b7db303fb0b431bbd33ccbde7"
-    },
     {
       "event": "subscribed",
       "id": 29152893425,
@@ -606,6 +566,77 @@
         "from": "BIP-174: test data: the witnessScript case should fail on the key length, can fail on an off-curve pubkey",
         "to": "BIP-174: test data: fix off-curve pubkey in the witnessScript case"
       }
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGQzODljZWI2YzRjYTY1YzkwZGE3OGVkOTdlMWY4ZjcwNjFjOTRhYzU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d389ceb6c4ca65c90da78ed97e1f8f7061c94ac5",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/d389ceb6c4ca65c90da78ed97e1f8f7061c94ac5",
+      "tree": {
+        "sha": "f248e231c55a95697e32f889eef915fbc9075eab",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/f248e231c55a95697e32f889eef915fbc9075eab"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree f248e231c55a95697e32f889eef915fbc9075eab\nparent bfc142f2b580a314c846dbce3c15c659c2b1d32d\nauthor Ferdinando Ametrano <ferdinando@checksig.com> 1785966759 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1789215896 +0200\n\nBIP-174: test data: a public key in the witnessScript case\n\nThe \"PSBT with invalid output witnessScript typed key\" case tests one\ncondition: a PSBT_OUT_WITNESS_SCRIPT key longer than the one octet the\ntype is. Its last record, key length included, is\n\n    21 010025512103b7ce...51309d 06 d57f8a8751ae\n\nRead as a stream, the witnessScript is\n\n    OP_1 <03b7ce23...51309d06d57f8a87> OP_1 OP_CHECKMULTISIG\n\nand x^3 + 7 is not a square mod p for that x: the pushed key is not a\npoint of secp256k1.\n\nAn implementation that checks the pushed key but not the key length\nrefuses the case for the wrong reason and the missing check goes\nundetected.\n\n65f0b3dd62ec replaced 2b with 06 to make the value length consistent:\nwith 2b it is 43 where 7 octets remain, and a reader that takes the\nwhole key-value pair before judging the key hits a short read. That\noctet is the 29th of the pushed key.\n\nThe case commits to the key with 2b. sha256 of that script is\n876bad83...2b278a65, the P2WSH the output's redeemScript pushes, and\nhash160 of that redeemScript is b921b1ba...6a42ec83, the P2SH\nscriptPubKey of the unsigned transaction's second output. The script as\nit reads today hashes to bcea4f01...fbb21dc8, which nothing in the case\ncommits to. Another point in its place would mean recomputing both\nhashes and the unsigned transaction; keeping it means moving the value\nlength off it.\n\nThe record below does that, carrying the extra octet in the key and the\nwhole script in the value, as the \"invalid output redeemScript typed\nkey\" case does.\n\n    02 0100 25 512103b7ce...2bd57f8a8751ae\n\nSame length as now, same failure, and the first 222 of the 264 octets\nunchanged.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmqlRJgbFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/F/xYQAI+GWj2Z91IBdRfGjPui\nzHyjZbXk71RSFmIJMihPXvAA7+GLNbkFtqeCr5hlsq9gY5n+YwKrY9M9FzwX+4mj\n+d88mUWlDOw8jPoMUYLQ9F7EAyqAc1WWuIaqO8Cj1l4uXhCGILAYrDk2hEqLIOUW\nNERmHy5rH2r1aZf2yCevPg6bcWjjSsDATY3wLMxXAQRdo9QT90/XczCIOxjjK1Eo\niOdmCBjF1fWjGP5ue2EpiwaT5yDZDsxdn7l0gHCMOHbxko1iJ6V2tMQLD9LYtbL3\nxnBHAwbeyNK4iQO2eeJ4KLsJ1u80sBVzIG0AAOIIwXPPnOwjxfdnAdFZAOXsne/z\nmc3unYZp7/ncJPswsWJTzz7kypsgYdr992pQpBlOwEqbwTtWlekncaTDZ+1Q+4OW\n6Lkt+twc+DVyhqZOXuaHN2DY2xotYkKePrphJQZ68BH0+KZKE51AImrVQY4/Gwg/\nMIiHmMvMaudcYRM9kul9gWiI0oIlqGrtcUsPlGZtEq321CsnRBw5vKijF/p2WPcr\ndaQalSgI3hjCKzfiAE9a/MaWKGBJGF9kI/jkMfNy1foVFmxYW2VhFJqIkQ35UXeF\n4CQlYgdmFIEzmlZMdmjhNsMY8ocWt9Wg6aawh5w+lme+IlJH25KKZeaJTWKkk7a4\nee0cHSjHEHORn2QwfCtie63g\n=xctn\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/bfc142f2b580a314c846dbce3c15c659c2b1d32d",
+          "sha": "bfc142f2b580a314c846dbce3c15c659c2b1d32d",
+          "html_url": "https://github.com/bitcoin/bips/commit/bfc142f2b580a314c846dbce3c15c659c2b1d32d"
+        }
+      ],
+      "message": "BIP-174: test data: a public key in the witnessScript case\n\nThe \"PSBT with invalid output witnessScript typed key\" case tests one\ncondition: a PSBT_OUT_WITNESS_SCRIPT key longer than the one octet the\ntype is. Its last record, key length included, is\n\n    21 010025512103b7ce...51309d 06 d57f8a8751ae\n\nRead as a stream, the witnessScript is\n\n    OP_1 <03b7ce23...51309d06d57f8a87> OP_1 OP_CHECKMULTISIG\n\nand x^3 + 7 is not a square mod p for that x: the pushed key is not a\npoint of secp256k1.\n\nAn implementation that checks the pushed key but not the key length\nrefuses the case for the wrong reason and the missing check goes\nundetected.\n\n65f0b3dd62ec replaced 2b with 06 to make the value length consistent:\nwith 2b it is 43 where 7 octets remain, and a reader that takes the\nwhole key-value pair before judging the key hits a short read. That\noctet is the 29th of the pushed key.\n\nThe case commits to the key with 2b. sha256 of that script is\n876bad83...2b278a65, the P2WSH the output's redeemScript pushes, and\nhash160 of that redeemScript is b921b1ba...6a42ec83, the P2SH\nscriptPubKey of the unsigned transaction's second output. The script as\nit reads today hashes to bcea4f01...fbb21dc8, which nothing in the case\ncommits to. Another point in its place would mean recomputing both\nhashes and the unsigned transaction; keeping it means moving the value\nlength off it.\n\nThe record below does that, carrying the extra octet in the key and the\nwhole script in the value, as the \"invalid output redeemScript typed\nkey\" case does.\n\n    02 0100 25 512103b7ce...2bd57f8a8751ae\n\nSame length as now, same failure, and the first 222 of the 264 octets\nunchanged.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-12T12:24:56Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@checksig.com",
+        "date": "2026-08-05T21:52:39Z"
+      },
+      "sha": "d389ceb6c4ca65c90da78ed97e1f8f7061c94ac5"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 31020710450,
+      "node_id": "HRFPE_lADOAN28mc8AAAABLouaZM8AAAAHOPp6Mg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31020710450",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "d389ceb6c4ca65c90da78ed97e1f8f7061c94ac5",
+      "commit_url": "https://api.github.com/repos/fametrano/bips/commits/d389ceb6c4ca65c90da78ed97e1f8f7061c94ac5",
+      "created_at": "2026-09-12T12:34:51Z"
     }
   ],
   "comments": []

@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2277/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2277/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/f5034ac3100a77c3c86b004a15dfee7e4a4b266c",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/5bd6a7a8e6bc72049eaa7931244bb4671c929efc",
     "number": 2277,
     "state": "open",
     "locked": false,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-09-07T16:01:05Z",
-    "updated_at": "2026-09-09T18:16:15Z",
+    "updated_at": "2026-09-12T12:35:09Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "0e25b61d5d7fd238ed52e6e6484f51c66b92d9c0",
+    "merge_commit_sha": "e8e705293bf0e8bfa66189c8d6873ac827d14946",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -97,7 +97,7 @@
     "head": {
       "label": "fametrano:psbt-finalizer-clearing",
       "ref": "psbt-finalizer-clearing",
-      "sha": "f5034ac3100a77c3c86b004a15dfee7e4a4b266c",
+      "sha": "5bd6a7a8e6bc72049eaa7931244bb4671c929efc",
       "user": {
         "login": "fametrano",
         "id": 3296421,
@@ -197,7 +197,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22466,
+        "size": 22489,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -210,7 +210,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-09T07:27:53Z",
+        "pushed_at": "2026-09-12T12:35:17Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-08-01T21:58:43Z",
         "allow_forking": true
@@ -219,7 +219,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "09e21036a4001fe6c9ba65c1d3a39b737768132f",
+      "sha": "bfc142f2b580a314c846dbce3c15c659c2b1d32d",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -316,12 +316,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6015,
+        "forks_count": 6020,
         "stargazers_count": 10934,
         "watchers_count": 10934,
-        "size": 22382,
+        "size": 22458,
         "default_branch": "master",
-        "open_issues_count": 60,
+        "open_issues_count": 58,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -332,9 +332,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-03T23:28:08Z",
+        "pushed_at": "2026-09-11T20:40:30Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-09T18:37:41Z",
+        "updated_at": "2026-09-12T12:31:55Z",
         "allow_forking": true
       }
     },
@@ -353,86 +353,6 @@
     "comments": 0
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDQ5MDEyODdjZjRmNTQzNjcxOGFlNTExOGRkODJjNjNmMjk0Y2ExOWM",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/4901287cf4f5436718ae5118dd82c63f294ca19c",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/4901287cf4f5436718ae5118dd82c63f294ca19c",
-      "tree": {
-        "sha": "4e4ab13a0637d28348ad7c5d51fc3e3715ea66aa",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/4e4ab13a0637d28348ad7c5d51fc3e3715ea66aa"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 4e4ab13a0637d28348ad7c5d51fc3e3715ea66aa\nparent 09e21036a4001fe6c9ba65c1d3a39b737768132f\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1788796860 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1788796860 +0200\n\nbip-0370: say what the Input Finalizer keeps in a version 2 input\n\nBIP 174 tells the Input Finalizer to clear all other data except the\nUTXO and unknown fields from a finalized input. It was written when the\nunsigned transaction was a global field. PSBTv2 moves the data that\ndefines the input into the input map, and a finalizer that follows the\nsentence literally removes it: without PSBT_IN_PREVIOUS_TXID or\nPSBT_IN_OUTPUT_INDEX the result is invalid, and without\nPSBT_IN_SEQUENCE and the locktime fields the Transaction Extractor\nbuilds a different transaction.\n\nBIP 370 amends Creator, Updater, Signer and Transaction Extractor for\nPSBTv2, adds the Constructor, and says nothing about the Input\nFinalizer. Add the section: the five fields are kept. Bitcoin Core\ndoes this today: at 19b0ff2fa0, PSBTInput::Serialize in src/psbt.h\nwrites them for every PSBTv2 input, finalized or not.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmqe37wbFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/FLwkP/119nKYlUC6vezMlfpFJ\nACbJc/vyl+yxHdK+ZgbnvBotQF1PcF24yO5fN0SABPrlQna4Xf+6LgfIGpZrpzVz\nEylMlIrZdJWA5GOfx7k4YgKHgPtVxCYmcYO1Poiw1PQFCPG/wyFXg4gZshwNl60x\nn2si9dUc1EWu6wKEsdnS2othYNdN7QjU+0Cre5rGWPV+ZiZXEHuzeWYb3h5p+y2p\nfz75FhrGqyTSmr9motld7sJYZR70T58nGffvZPJiLCbKKiTfuzXvQ5FQZzl9ZMKE\n1PV5eHH0pn2AUqNDk5hsSkAfIxkfF45S65KGAGm39zufTGIi4B+hG7keqtFBxnsd\ncBcIEfYGmSxmwsCqV0x/4QLqP4y7o7mYgWwngvLc9XWuPre35B84w5Q7u5tFP5R0\npigxGM4TEZ6JgiWyeR6ruMUFWB4qQPulqGnqT+TQIDuGAcCNn+f13gn6U6WEWxx8\nYQ3SQhgUwzhof78BZTfWZ/HmT0fBUmXSHksw2YBpoq6IRDmE0Kn/tkaKHbuOnrBb\nA39LtY8g8ORkhMItg0+yY6uCUSe+LByYowg54IEBosKPX/Z5dhs0AvBippKebAp5\n3qGLlnD+4aXyBOdbgna8Y2z76+K21tvLZpqUQtLEggOler2yj3xDelffR4X130WR\nAS5NmRsrsKIdLqyZj0/XiNbr\n=xPjK\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/09e21036a4001fe6c9ba65c1d3a39b737768132f",
-          "sha": "09e21036a4001fe6c9ba65c1d3a39b737768132f",
-          "html_url": "https://github.com/bitcoin/bips/commit/09e21036a4001fe6c9ba65c1d3a39b737768132f"
-        }
-      ],
-      "message": "bip-0370: say what the Input Finalizer keeps in a version 2 input\n\nBIP 174 tells the Input Finalizer to clear all other data except the\nUTXO and unknown fields from a finalized input. It was written when the\nunsigned transaction was a global field. PSBTv2 moves the data that\ndefines the input into the input map, and a finalizer that follows the\nsentence literally removes it: without PSBT_IN_PREVIOUS_TXID or\nPSBT_IN_OUTPUT_INDEX the result is invalid, and without\nPSBT_IN_SEQUENCE and the locktime fields the Transaction Extractor\nbuilds a different transaction.\n\nBIP 370 amends Creator, Updater, Signer and Transaction Extractor for\nPSBTv2, adds the Constructor, and says nothing about the Input\nFinalizer. Add the section: the five fields are kept. Bitcoin Core\ndoes this today: at 19b0ff2fa0, PSBTInput::Serialize in src/psbt.h\nwrites them for every PSBTv2 input, finalized or not.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-07T16:01:00Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-07T16:01:00Z"
-      },
-      "sha": "4901287cf4f5436718ae5118dd82c63f294ca19c"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGY1MDM0YWMzMTAwYTc3YzNjODZiMDA0YTE1ZGZlZTdlNGE0YjI2NmM",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f5034ac3100a77c3c86b004a15dfee7e4a4b266c",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/f5034ac3100a77c3c86b004a15dfee7e4a4b266c",
-      "tree": {
-        "sha": "63eeb0150f2acb99944d5d2560383cb508108d76",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/63eeb0150f2acb99944d5d2560383cb508108d76"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 63eeb0150f2acb99944d5d2560383cb508108d76\nparent 4901287cf4f5436718ae5118dd82c63f294ca19c\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1788796860 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1788796860 +0200\n\nbip-0371: drop the finalizer clause from PSBT_OUT_TAP_BIP32_DERIVATION\n\nThe six taproot input fields say \"Finalizers should remove this field\nafter PSBT_IN_FINAL_SCRIPTWITNESS is constructed\", and so does the\noutput field PSBT_OUT_TAP_BIP32_DERIVATION. An output has no\nPSBT_IN_FINAL_SCRIPTWITNESS, the clause names no input, and its two\nneighbours in the output table carry no such clause. Drop it; Bitcoin\nCore does not clear output fields on finalization.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmqe37wbFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/Fdq8P/1LAVgd3daQKxaVLtV0W\nfeOQofEn0zeVEem7/JHHnaCB8Lz9dHGxz2b82RKul1XyKsMIruDKqJ42kg53bTRe\nevUmE9Y7xkkrNMO7KLc5Y/itaUApMywyVNpgNQFkcq8jjQiRuliu1PCzS0aMBmmx\nPMxomo8emsZrAq6Qqc8fT3Z97bFINLtpU5XRB+ul6Fbu0zTN1hGDemwNhmZZat7X\nPlv6fDUBwi2qVG970PKVFVY2hzwBPo5nnHPm28PYhReZEm4r97SiWWOrmgqxBDh4\nMMRYTZsw2Ay2w9AqUSvwTz49231ld09sIyxtl+QlvnBlLwuN7JHVBJesIU4R/AxU\nmG+2gfjlEXjNuwZM+D39rNOF7FIRuO3NjufBddvjKvCUvMbF6xNExJqBqv0esicH\n+2fhDlfNyZ6MM2hUhlrMQ4H2svOGlSmh91SztkPIe2lJY5u+7cW90fNfpIJGRp6d\nYCWhOSj+1DuicGjdhC9xy6zu03vuN7KhRfctqBpcxqYiFtOq+E1yDjAZhfG9zmvB\nX2498LzOBjGykf+0FqiTL13DUONUFJb05LTKle/b7kiFhypdg7A3xeztqXTb55qf\nLezNdJ4lB+plXB8NoHlUwxQCkUR/t5LiiQHE4KPrbfqKmGhL6a7JDDkfzAYylTZb\nvc1UDHuZvsHak269Hhliuonj\n=0DKf\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/4901287cf4f5436718ae5118dd82c63f294ca19c",
-          "sha": "4901287cf4f5436718ae5118dd82c63f294ca19c",
-          "html_url": "https://github.com/bitcoin/bips/commit/4901287cf4f5436718ae5118dd82c63f294ca19c"
-        }
-      ],
-      "message": "bip-0371: drop the finalizer clause from PSBT_OUT_TAP_BIP32_DERIVATION\n\nThe six taproot input fields say \"Finalizers should remove this field\nafter PSBT_IN_FINAL_SCRIPTWITNESS is constructed\", and so does the\noutput field PSBT_OUT_TAP_BIP32_DERIVATION. An output has no\nPSBT_IN_FINAL_SCRIPTWITNESS, the clause names no input, and its two\nneighbours in the output table carry no such clause. Drop it; Bitcoin\nCore does not clear output fields on finalization.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-07T16:01:00Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-07T16:01:00Z"
-      },
-      "sha": "f5034ac3100a77c3c86b004a15dfee7e4a4b266c"
-    },
     {
       "event": "renamed",
       "id": 30706661212,
@@ -643,6 +563,117 @@
         "name": null,
         "patch_url": null
       }
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGI3OGNiNjVjOTI5MmI5Y2M4ZDM0ZmY0NDQ3OGFmMmViMThjYWEyYWY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b78cb65c9292b9cc8d34ff44478af2eb18caa2af",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/b78cb65c9292b9cc8d34ff44478af2eb18caa2af",
+      "tree": {
+        "sha": "49788a40698ddb8aaa2101ff81479203b980e78c",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/49788a40698ddb8aaa2101ff81479203b980e78c"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 49788a40698ddb8aaa2101ff81479203b980e78c\nparent bfc142f2b580a314c846dbce3c15c659c2b1d32d\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1788796860 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1789215897 +0200\n\nbip-0370: say what the Input Finalizer keeps in a version 2 input\n\nBIP 174 tells the Input Finalizer to clear all other data except the\nUTXO and unknown fields from a finalized input. It was written when the\nunsigned transaction was a global field. PSBTv2 moves the data that\ndefines the input into the input map, and a finalizer that follows the\nsentence literally removes it: without PSBT_IN_PREVIOUS_TXID or\nPSBT_IN_OUTPUT_INDEX the result is invalid, and without\nPSBT_IN_SEQUENCE and the locktime fields the Transaction Extractor\nbuilds a different transaction.\n\nBIP 370 amends Creator, Updater, Signer and Transaction Extractor for\nPSBTv2, adds the Constructor, and says nothing about the Input\nFinalizer. Add the section: the five fields are kept. Bitcoin Core\ndoes this today: at 19b0ff2fa0, PSBTInput::Serialize in src/psbt.h\nwrites them for every PSBTv2 input, finalized or not.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmqlRJkbFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/F4wQP+gM/Fbaindn6bcgQj6mD\nMOi85/RealncuZz/Qo3cI1wbp9KX4edfoHdPiRf2AF0Vy78DJg9uT5G9Ivyt1z6G\ndWot61Z63oO9dzNM1fJ+ceMcco9Dw/8mqqt+d6Ymp6hjcaatLtNtl6DVRP+sZt9a\n1b8L9hSInKJFj1GXKHwNrHin9X+Bv5DMOzHUTgQQBclsW7q8kYT0ZYv5jOZPLYE5\na5roMANZIjdSV9MvHS7RCt7KVYc+UQpnTt7Y26mZZXizUH4BISvx5nuxG+4ZjoCV\nYKbY1ywggL63+kDlN4kPt0EotZOEZrompo4uhg7TGEtn758wGoDPWs9/eOT19qqd\nJfV1FAcmFuKbRto60zuyX3mz/Q3LOfpKgzZFWLxdibFAkT2PtdtGqqkrg96iB9ED\neXXsL4gbWK1yXsWo+0X8eoM15zSNL2s2UcB8ORGEPw+ElIbqsdtTZENKsFI5z3nl\nag4K+oFc4/l4jbizdbQhXeCxJZpvZxJQr57RobrcekTPTdqm45Pkn+kdjM7ZVFYM\naFCq7ARB2HKfQxr48v2QOzucQMAvNIJXxIt94qHi2ghbCalyppx+2+fNv2F3E6jO\nsZ5liEiigjh5lKFu2DilIt+d0j5wsi+6YJBQD0TXBUNdffifoiszrqXtCXG8TyR0\nj92/og0Bs2/nmL/d7l4Ma5pn\n=oWmp\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/bfc142f2b580a314c846dbce3c15c659c2b1d32d",
+          "sha": "bfc142f2b580a314c846dbce3c15c659c2b1d32d",
+          "html_url": "https://github.com/bitcoin/bips/commit/bfc142f2b580a314c846dbce3c15c659c2b1d32d"
+        }
+      ],
+      "message": "bip-0370: say what the Input Finalizer keeps in a version 2 input\n\nBIP 174 tells the Input Finalizer to clear all other data except the\nUTXO and unknown fields from a finalized input. It was written when the\nunsigned transaction was a global field. PSBTv2 moves the data that\ndefines the input into the input map, and a finalizer that follows the\nsentence literally removes it: without PSBT_IN_PREVIOUS_TXID or\nPSBT_IN_OUTPUT_INDEX the result is invalid, and without\nPSBT_IN_SEQUENCE and the locktime fields the Transaction Extractor\nbuilds a different transaction.\n\nBIP 370 amends Creator, Updater, Signer and Transaction Extractor for\nPSBTv2, adds the Constructor, and says nothing about the Input\nFinalizer. Add the section: the five fields are kept. Bitcoin Core\ndoes this today: at 19b0ff2fa0, PSBTInput::Serialize in src/psbt.h\nwrites them for every PSBTv2 input, finalized or not.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-12T12:24:57Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-07T16:01:00Z"
+      },
+      "sha": "b78cb65c9292b9cc8d34ff44478af2eb18caa2af"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDViZDZhN2E4ZTZiYzcyMDQ5ZWFhNzkzMTI0NGJiNDY3MWM5MjllZmM",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5bd6a7a8e6bc72049eaa7931244bb4671c929efc",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/5bd6a7a8e6bc72049eaa7931244bb4671c929efc",
+      "tree": {
+        "sha": "1460f18d8a2b66ba4f250fe03809a150408d0ac8",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/1460f18d8a2b66ba4f250fe03809a150408d0ac8"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 1460f18d8a2b66ba4f250fe03809a150408d0ac8\nparent b78cb65c9292b9cc8d34ff44478af2eb18caa2af\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1788796860 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1789215897 +0200\n\nbip-0371: drop the finalizer clause from PSBT_OUT_TAP_BIP32_DERIVATION\n\nThe six taproot input fields say \"Finalizers should remove this field\nafter PSBT_IN_FINAL_SCRIPTWITNESS is constructed\", and so does the\noutput field PSBT_OUT_TAP_BIP32_DERIVATION. An output has no\nPSBT_IN_FINAL_SCRIPTWITNESS, the clause names no input, and its two\nneighbours in the output table carry no such clause. Drop it; Bitcoin\nCore does not clear output fields on finalization.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmqlRJkbFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/FPFMP/jP6xVlQT2Jgd25+8184\nUeP6DVnctAuNn3fhl8xSwweX8TLSKMt733IFxu0JJmb5ne/sZcsCcD/yO1XGl9u0\nz+ePq1lnrJQOXqUn+lawDvymxhm//3QLvhUAGIxi48UBvgrJA05UWgoBIlkxWSWa\nGj8X6sk8D3O/kdPY0krmV3gAaaWwIsVXt44Pzx5NRTUwyQRlle0VmTpspVH/uu5c\n9RPmbc3LvQuxly+WrMvVJxqbOz9TDyZF5sDybbBwRXMD4Wkjx9RnTdkPHLjfYBFZ\n1BSQOS0/ynrJ8oH7zLZoVN7bkWtmd6c//4xzOob9AgZ7b7lb2s1BZyhRqkIBJfa5\ng/eRGE8pGisd3sxQ8ucTDHsrTxQgHHEY9iwAWhpmE/rS6az+RuIUFEx0kg3YFHjG\nFIxLuHS/0G0S4Qh6A3sVjGi9HO9PsEYtVUgBfgnLxz+oG0/IhrD2v+HsrupQMZGi\nPh+lcY1GUBq6D4Wz9IXE6CdqEujEzr3kCHzjFO0f3k+KpRq8CvDRqArva/d2gla3\nr/0uwQEbn6kYsQBfORrqjfa2HiZ5TngrKF5xcNtJDsx7OBMuLQyfIGebpr4nsy+o\niTfK4Hc80bOPZLvaBiTExtdP462bRSHaCD+Ipox2cg7SjwICecklnGlJv7BoMah5\niQrAi+gi4J62BuAKXApXvRS9\n=qDON\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b78cb65c9292b9cc8d34ff44478af2eb18caa2af",
+          "sha": "b78cb65c9292b9cc8d34ff44478af2eb18caa2af",
+          "html_url": "https://github.com/bitcoin/bips/commit/b78cb65c9292b9cc8d34ff44478af2eb18caa2af"
+        }
+      ],
+      "message": "bip-0371: drop the finalizer clause from PSBT_OUT_TAP_BIP32_DERIVATION\n\nThe six taproot input fields say \"Finalizers should remove this field\nafter PSBT_IN_FINAL_SCRIPTWITNESS is constructed\", and so does the\noutput field PSBT_OUT_TAP_BIP32_DERIVATION. An output has no\nPSBT_IN_FINAL_SCRIPTWITNESS, the clause names no input, and its two\nneighbours in the output table carry no such clause. Drop it; Bitcoin\nCore does not clear output fields on finalization.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-12T12:24:57Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-07T16:01:00Z"
+      },
+      "sha": "5bd6a7a8e6bc72049eaa7931244bb4671c929efc"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 31020716633,
+      "node_id": "HRFPE_lADOAN28mc8AAAABQHxqJM8AAAAHOPqSWQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31020716633",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "5bd6a7a8e6bc72049eaa7931244bb4671c929efc",
+      "commit_url": "https://api.github.com/repos/fametrano/bips/commits/5bd6a7a8e6bc72049eaa7931244bb4671c929efc",
+      "created_at": "2026-09-12T12:35:09Z"
     }
   ],
   "comments": []
