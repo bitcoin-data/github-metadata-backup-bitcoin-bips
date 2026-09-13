@@ -1,23 +1,23 @@
 {
   "type": "pull",
   "pull": {
-    "url": "https://api.github.com/repos/bitcoin/bips/pulls/2281",
-    "id": 4505786129,
-    "node_id": "PR_kwDOAN28mc8AAAABDJDXEQ",
-    "html_url": "https://github.com/bitcoin/bips/pull/2281",
-    "diff_url": "https://github.com/bitcoin/bips/pull/2281.diff",
-    "patch_url": "https://github.com/bitcoin/bips/pull/2281.patch",
-    "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2281",
-    "commits_url": "https://api.github.com/repos/bitcoin/bips/pulls/2281/commits",
-    "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2281/comments",
+    "url": "https://api.github.com/repos/bitcoin/bips/pulls/2291",
+    "id": 4519635743,
+    "node_id": "PR_kwDOAN28mc8AAAABDWQrHw",
+    "html_url": "https://github.com/bitcoin/bips/pull/2291",
+    "diff_url": "https://github.com/bitcoin/bips/pull/2291.diff",
+    "patch_url": "https://github.com/bitcoin/bips/pull/2291.patch",
+    "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2291",
+    "commits_url": "https://api.github.com/repos/bitcoin/bips/pulls/2291/commits",
+    "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2291/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
-    "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2281/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/4d00a4348f0e0056c3556e995754daf1181d1262",
-    "number": 2281,
+    "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2291/comments",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/e2e7a03d69e8865bc895114554369d41d7dcb925",
+    "number": 2291,
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "README: sync BIP-93 author list with its header",
+    "title": "bip-433: fix heading levels, stray '<', typos, add Copyright section",
     "user": {
       "login": "kriss39",
       "id": 93033289,
@@ -40,22 +40,22 @@
       "name": null,
       "patch_url": null
     },
-    "body": "BIP-93 credits its first two authors as a single entry sharing one address:\n\n```\n  Authors: Leon Olsson Curr and Pearlwort Sneed <pearlwort@wpsoftware.net>\n           Andrew Poelstra <andrew.poelstra@gmail.com>\n```\n\nThe table row split that entry on a comma, so it reads as three authors with three addresses. `buildtable.pl` keeps the whole name ahead of each address and joins entries with a comma, so it renders the row as `Leon Olsson Curr and Pearlwort Sneed, Andrew Poelstra`.\n\nRunning `scripts/buildtable.pl` and diffing against the committed table, this was the only row where the two disagreed on content. With this change the two match everywhere except the `BIP number allocated` rows for 40, 41 and 63, which have no files for the script to read and are maintained by hand.\n\n`scripts/link-format-chk.sh`, `scripts/buildtable.pl` and `typos` all still pass.\n",
+    "body": "Editorial fixes to BIP 433 (P2A), no change to the specification itself:\n\n- `===Specification===` was a level-3 heading, so on the rendered page (and in the TOC) Specification appears as a subsection of Motivation; `Implementation`/`Related Work` were level 4 and `Backward Compatibility` was level 4 instead of being a top-level section. Reset them to `==Specification==` / `===Implementation===` / `===Related Work===` / `==Backward Compatibility==`.\n- Remove the stray `<` in `<code><tb1pfees9rn5nz</code>` (the address itself is correct: `bech32m(\"tb\", 1, 0x4e73)` = `tb1pfees9rn5nz`).\n- Typos: \"output typea\" → \"output type\", \"ineherent\" → \"inherent\".\n- Add the Copyright section that BIP 3 requires, stating the same BSD-3-Clause terms as the `License` header.\n",
     "labels": [],
-    "created_at": "2026-09-11T12:24:45Z",
-    "updated_at": "2026-09-13T16:15:54Z",
+    "created_at": "2026-09-13T16:17:49Z",
+    "updated_at": "2026-09-13T16:17:49Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "93d5b01098613b7c13e9a5d09fdb15b17334438b",
+    "merge_commit_sha": "3acde92c0d09e7677c00cba80c0456c43dde01c3",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
     "rebaseable": true,
     "head": {
-      "label": "kriss39:fix/readme-bip93-authors",
-      "ref": "fix/readme-bip93-authors",
-      "sha": "4d00a4348f0e0056c3556e995754daf1181d1262",
+      "label": "kriss39:fix/bip433-formatting",
+      "ref": "fix/bip433-formatting",
+      "sha": "e2e7a03d69e8865bc895114554369d41d7dcb925",
       "user": {
         "login": "kriss39",
         "id": 93033289,
@@ -297,15 +297,15 @@
     },
     "_links": {
       "self": {
-        "href": "https://api.github.com/repos/bitcoin/bips/pulls/2281"
+        "href": "https://api.github.com/repos/bitcoin/bips/pulls/2291"
       }
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 1,
-    "deletions": 3,
-    "changed_files": 2,
-    "commits": 2,
+    "additions": 11,
+    "deletions": 7,
+    "changed_files": 1,
+    "commits": 1,
     "review_comments": 0,
     "comments": 0
   },
@@ -313,16 +313,16 @@
     {
       "event": "committed",
       "id": null,
-      "node_id": "C_kwDOAN28mdoAKGZhOWQxODc3NzJjYmZlMDkxYmMwOThkNmQxMDllOTliNzEwYzZiNzk",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/fa9d187772cbfe091bc098d6d109e99b710c6b79",
+      "node_id": "C_kwDOAN28mdoAKGUyZTdhMDNkNjllODg2NWJjODk1MTE0NTU0MzY5ZDQxZDdkY2I5MjU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e2e7a03d69e8865bc895114554369d41d7dcb925",
       "actor": null,
       "commit_id": null,
       "commit_url": null,
       "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/fa9d187772cbfe091bc098d6d109e99b710c6b79",
+      "html_url": "https://github.com/bitcoin/bips/commit/e2e7a03d69e8865bc895114554369d41d7dcb925",
       "tree": {
-        "sha": "5123895d946ffeed628d1de7ebfb69554a55c1d4",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/5123895d946ffeed628d1de7ebfb69554a55c1d4"
+        "sha": "b57100259f4db512c36649140aaca50373057dc2",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/b57100259f4db512c36649140aaca50373057dc2"
       },
       "verification": {
         "verified": false,
@@ -337,89 +337,18 @@
           "html_url": "https://github.com/bitcoin/bips/commit/bfc142f2b580a314c846dbce3c15c659c2b1d32d"
         }
       ],
-      "message": "README: sync BIP-93 author list with its header\n\nBIP-93 credits its first two authors as one entry sharing one address:\n\n  Authors: Leon Olsson Curr and Pearlwort Sneed <pearlwort@wpsoftware.net>\n           Andrew Poelstra <andrew.poelstra@gmail.com>\n\nThe table row split that entry on a comma, which reads as three authors with\nthree addresses. buildtable.pl keeps the name ahead of each address intact and\njoins entries with a comma, so it renders the row the other way.\n\nWith this, the committed table matches the generated one everywhere except the\nthree \"BIP number allocated\" rows for 40, 41 and 63, which have no files for\nthe script to read and are maintained by hand.",
+      "message": "bip-433: fix heading levels, stray '<', typos, add Copyright section\n\n- Specification was a level-3 heading and therefore rendered as a\n  subsection of Motivation; Backward Compatibility, Implementation and\n  Related Work were one level too deep as well.\n- Drop the stray '<' in front of the testnet address tb1pfees9rn5nz.\n- 'typea' -> 'type', 'ineherent' -> 'inherent'.\n- Add the Copyright section required by BIP 3, matching the\n  BSD-3-Clause License header.",
       "committer": {
         "name": "Kanan",
         "email": "93033289+kriss39@users.noreply.github.com",
-        "date": "2026-09-13T16:15:46Z"
+        "date": "2026-09-13T16:17:47Z"
       },
       "author": {
         "name": "Kanan",
         "email": "93033289+kriss39@users.noreply.github.com",
-        "date": "2026-09-11T12:24:20Z"
+        "date": "2026-09-13T16:17:47Z"
       },
-      "sha": "fa9d187772cbfe091bc098d6d109e99b710c6b79"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDRkMDBhNDM0OGYwZTAwNTZjMzU1NmU5OTU3NTRkYWYxMTgxZDEyNjI",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/4d00a4348f0e0056c3556e995754daf1181d1262",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/4d00a4348f0e0056c3556e995754daf1181d1262",
-      "tree": {
-        "sha": "a5dca485f37a4c3a74ddb69717f08c0afcddc2a8",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/a5dca485f37a4c3a74ddb69717f08c0afcddc2a8"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/fa9d187772cbfe091bc098d6d109e99b710c6b79",
-          "sha": "fa9d187772cbfe091bc098d6d109e99b710c6b79",
-          "html_url": "https://github.com/bitcoin/bips/commit/fa9d187772cbfe091bc098d6d109e99b710c6b79"
-        }
-      ],
-      "message": "scripts: drop the BIP-93 row from diffcheck.expected\n\nWith the README row now matching the generated table, the expected\ndelta for BIP 93 no longer occurs and the Diff Checks job fails on\nthe stale entry.",
-      "committer": {
-        "name": "Kanan",
-        "email": "93033289+kriss39@users.noreply.github.com",
-        "date": "2026-09-13T16:15:46Z"
-      },
-      "author": {
-        "name": "Kanan",
-        "email": "93033289+kriss39@users.noreply.github.com",
-        "date": "2026-09-13T16:15:46Z"
-      },
-      "sha": "4d00a4348f0e0056c3556e995754daf1181d1262"
-    },
-    {
-      "event": "head_ref_force_pushed",
-      "id": 31057398294,
-      "node_id": "HRFPE_lADOAN28mc8AAAABQ0-dAc8AAAAHOypKFg",
-      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31057398294",
-      "actor": {
-        "login": "kriss39",
-        "id": 93033289,
-        "node_id": "U_kgDOBYuTSQ",
-        "avatar_url": "https://avatars.githubusercontent.com/u/93033289?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/kriss39",
-        "html_url": "https://github.com/kriss39",
-        "followers_url": "https://api.github.com/users/kriss39/followers",
-        "following_url": "https://api.github.com/users/kriss39/following%7B/other_user%7D",
-        "gists_url": "https://api.github.com/users/kriss39/gists%7B/gist_id%7D",
-        "starred_url": "https://api.github.com/users/kriss39/starred%7B/owner%7D%7B/repo%7D",
-        "subscriptions_url": "https://api.github.com/users/kriss39/subscriptions",
-        "organizations_url": "https://api.github.com/users/kriss39/orgs",
-        "repos_url": "https://api.github.com/users/kriss39/repos",
-        "events_url": "https://api.github.com/users/kriss39/events%7B/privacy%7D",
-        "received_events_url": "https://api.github.com/users/kriss39/received_events",
-        "type": "User",
-        "site_admin": false,
-        "name": null,
-        "patch_url": null
-      },
-      "commit_id": "4d00a4348f0e0056c3556e995754daf1181d1262",
-      "commit_url": "https://api.github.com/repos/kriss39/bips/commits/4d00a4348f0e0056c3556e995754daf1181d1262",
-      "created_at": "2026-09-13T16:15:54Z"
+      "sha": "e2e7a03d69e8865bc895114554369d41d7dcb925"
     }
   ],
   "comments": []
