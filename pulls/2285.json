@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2285/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2285/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/54e0233ad7084c8517b588427a2149e90a1f944f",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/1978ac253d257f8a1087efa2f1f655737d29118e",
     "number": 2285,
     "state": "open",
     "locked": false,
@@ -43,11 +43,11 @@
     "body": "Motivation: the Specification should move from most general to specific cases.\r\n\r\nGroup the regular and long checksum definitions together in the **codex32** format section. Move **Master seed format** application to after of the codex32 format specification and keep seed-specific checksum motivation in the rationale.\r\n\r\n\r\nDeduplicate repeated explanations and redundant inline encoding/decoding helpers: 9621d3fa066b7c8b2f5c3adefd1aa4c0497c25e3\r\n\r\nThis is a behavior-neutral organization change on top of #2258, progressing from codex32 format → optional secret sharing → master seed encoding.\r\n\r\nThis PR retains the required `ms` HRP,\r\n\r\nThere is also:\r\n\r\n- a bits vs bytes consistency fixup: 12a61ee567a772d4508875303b1709564b6ca8a5,\r\n- a retrospective changelog history: 54e0233ad7084c8517b588427a2149e90a1f944f, and lastly\r\n- TOC simplification and casing fixup: 1589133608ca2ddd56d72f8bec40041d2d6b4550\r\n\r\nDiscussion:\r\nbits vs bytes\r\nhttps://github.com/bitcoin/bips/pull/2258/changes#r3894597745\r\nhttps://github.com/bitcoin/bips/pull/2258/changes#r3894609812\r\nhttps://github.com/bitcoin/bips/pull/2258/changes#r3894685643\r\nOptional: a changelog.\r\nhttps://github.com/bitcoin/bips/pull/2258#issuecomment-5639721896\r\n\r\nA cautionary warning to not convert bytes to shares.\r\nhttps://github.com/bitcoin/bips/pull/2258#issuecomment-5622199016\r\n\r\nRationale\r\n\r\n====Long Checksum==== seems like it belongs in ===codex32=== with bold, like it is in BIP173 and BIP350. \r\n\r\n> We first describe the general checksummed base32 format called codex32 and then define a secret sharing scheme and BIP-0032 master seed encoding using it.\r\n\r\nThe final part of ==Specification== should be ===Master seed format===.\r\n\r\nI'm undecided if every application must use the codex32 header, I think they can be free to choose and they may use it even if they do not support SSS, like `CL1` rejected `threshold != 0` invalidating shared secrets even if another application did the secret recovery.\r\n\r\nIt's most flexible and Bech32-like to not require it. OTOH, every application has used it thus far so making `codex32_decode(hrp, data)` continue to require:\r\n```python\r\n    if codex[pos+1].isalpha() or codex[pos+1] == \"0\" and codex[pos+6] != \"s\":\r\n        return None\r\n```\r\nimproves the certainty damaged base32 data is codex32. If saving 6 characters were top priority, they'd Bech32-encode anyhow.\r\n\r\nNevertheless, ===SSSS-awareness=== feels like it belongs as the only === section between ===codex32=== and ===Master seed format===. That way it can be skipped over by readers who do not need sharing.\r\n\r\nFuture work\r\n\r\nGeneralized HRPs, optional headers, new helper APIs, and bytes-to-shares guidance/warning remain deferred.",
     "labels": [],
     "created_at": "2026-09-12T08:52:17Z",
-    "updated_at": "2026-09-14T02:11:09Z",
+    "updated_at": "2026-09-14T03:36:47Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "0c2b719a5d755a7ec679cdf26a059973d1cb7128",
+    "merge_commit_sha": "407aa6e4e29008d854ee0d351079af764b4a6e51",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -55,7 +55,7 @@
     "head": {
       "label": "BenWestgate:bip93-master-seed-refactor",
       "ref": "bip93-master-seed-refactor",
-      "sha": "54e0233ad7084c8517b588427a2149e90a1f944f",
+      "sha": "1978ac253d257f8a1087efa2f1f655737d29118e",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
@@ -168,7 +168,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-14T01:21:09Z",
+        "pushed_at": "2026-09-14T03:12:49Z",
         "created_at": "2025-08-19T15:04:43Z",
         "updated_at": "2026-08-21T00:02:04Z",
         "allow_forking": true
@@ -303,12 +303,12 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 174,
-    "deletions": 179,
+    "additions": 177,
+    "deletions": 173,
     "changed_files": 1,
-    "commits": 5,
+    "commits": 6,
     "review_comments": 0,
-    "comments": 7
+    "comments": 8
   },
   "events": [
     {
@@ -924,9 +924,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-09-14T01:46:31Z",
-      "updated_at": "2026-09-14T01:46:31Z",
+      "updated_at": "2026-09-14T03:36:47Z",
       "author_association": "CONTRIBUTOR",
-      "body": "I preserved reviewed commit eb7bb6c and appended four commits. I saw BIP-0380 did put Checksum in the TOC and since our Error Correction is not an after thought or warning like BIP-0173 decided both Checksum and Error Correct deserved a seat in the TOC. I put regular and long checksums as bold headings inside Checksum section.\r\n\r\n- 9621d3f: deduplication, including replacing the run-on validity sentence with a master-seed cross-reference.\r\n- 1589133: section organization and heading cleanup.\r\n- 12a61ee: seed-size units as requested by @roconnor.\r\n- 54e0233: revision history changelog.\r\n- Bytes-to-shares warning deferred as requested.\r\n\r\nReady for review and rereview through 54e0233.",
+      "body": "I preserved reviewed commit eb7bb6c and appended four commits. I saw BIP-0380 did put Checksum in the TOC and since our Error Correction is not an after thought or warning like BIP-0173 decided both Checksum and Error Correct deserved a seat in the TOC. I put regular and long checksums as bold headings inside Checksum section.\r\n\r\n- 9621d3f: deduplication, including replacing the run-on validity sentence with a master-seed cross-reference.\r\n- 1589133: section organization and heading cleanup.\r\n- 12a61ee: seed-size units as requested by @roconnor.\r\n- 54e0233: revision history changelog.\r\n- Bytes-to-shares warning deferred as requested.",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
@@ -1070,6 +1070,104 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2285#issuecomment-5658053122",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2285"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDE5NzhhYzI1M2QyNTdmOGExMDg3ZWZhMmYxZjY1NTczN2QyOTExOGU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1978ac253d257f8a1087efa2f1f655737d29118e",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/1978ac253d257f8a1087efa2f1f655737d29118e",
+      "tree": {
+        "sha": "31a5572d552b9459c315618df965e86c5aeee4da",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/31a5572d552b9459c315618df965e86c5aeee4da"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/54e0233ad7084c8517b588427a2149e90a1f944f",
+          "sha": "54e0233ad7084c8517b588427a2149e90a1f944f",
+          "html_url": "https://github.com/bitcoin/bips/commit/54e0233ad7084c8517b588427a2149e90a1f944f"
+        }
+      ],
+      "message": "bip93: Explain secret-sharing data representation\n\nDefine the integer-list representation once in the SSSS-awareness\nintroduction, before either procedure needs it. Move the unchanged\ninterpolation helpers there too, so recovery does not depend on code\ninside Generating shares. Describe interpolation's arguments and result\nbeside its definition and refer to the shared representation from both\ngeneration and recovery.\n\nState that both checksum variants use the same procedures without an\nearly reference to the interpolation function. Label the existing casing\nrules and remove the unnecessary word \"workflows\" from the rationale.\nNo algorithms, validity conditions, version, or changelog entries change.\n\nChecked all Python blocks are byte-identical and that vectors, procedure\nconditions, casing rules, headings, anchors, and metadata are unchanged.\nSixteen recovery cases pass using only the shared introduction and\nrecovery snippets, covering regular and long checksums. Existing vector,\nsize, header, checksum-boundary, recovery, and padding checks also pass.\nLocal rendering, link formatting, README table, and whitespace checks\npass; the casing label does not add a TOC entry.\n\nRefs: #2285",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-14T03:05:04Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-14T03:05:04Z"
+      },
+      "sha": "1978ac253d257f8a1087efa2f1f655737d29118e"
+    },
+    {
+      "event": "commented",
+      "id": 5658619400,
+      "node_id": "IC_kwDOAN28mc8AAAABUUeuCA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5658619400",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-09-14T03:35:39Z",
+      "updated_at": "2026-09-14T03:36:13Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "I added one more https://github.com/bitcoin/bips/pull/2285/commits/1978ac253d257f8a1087efa2f1f655737d29118e after re-reviewing the stacked changes.\r\n\r\nWhen I first tried to implement BIP93 it took me a moment because `ms32_interpolate` was described as taking \"codex32 shares/strings\" but it really needs u5 data parts I clarified that.\r\n\r\nI also missed that when **Generate** and **Recover** were swapped, the definition of how to use the function was missing from it's first reference, so I put the functions in the ===SSSS-Awareness=== introduction. Maybe that title is better as ===Secret Sharing Scheme=== but not worth another commit.\r\n\r\nHopefully this is still easy to review, the Changelog and bits/bytes commits are tiny and this final one is small also.\r\n\r\nI recommend reviewers view each individual commit, the whole stacked diff is hard to follow due to the movement of many blocks.\r\n\r\nFile looks great on my last proof-read. Ready for review and rereview at 1978ac253d257f8a1087efa2f1f655737d29118e.",
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2285#issuecomment-5658619400",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2285"
     }
   ],
