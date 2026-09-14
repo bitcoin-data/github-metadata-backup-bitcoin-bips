@@ -41,9 +41,19 @@
       "patch_url": null
     },
     "body": "Motivation: the Specification should move from most general to specific cases.\r\n\r\nGroup the regular and long checksum definitions together in the **codex32** format section. Move **Master seed format** application to after of the codex32 format specification and keep seed-specific checksum motivation in the rationale.\r\n\r\n\r\nDeduplicate repeated explanations and redundant inline encoding/decoding helpers: 9621d3fa066b7c8b2f5c3adefd1aa4c0497c25e3\r\n\r\nThis is a behavior-neutral organization change on top of #2258, progressing from codex32 format → optional secret sharing → master seed encoding.\r\n\r\nThis PR retains the required `ms` HRP,\r\n\r\nThere is also:\r\n\r\n- a bits vs bytes consistency fixup: 12a61ee567a772d4508875303b1709564b6ca8a5,\r\n- a retrospective changelog history: 54e0233ad7084c8517b588427a2149e90a1f944f, and lastly\r\n- TOC simplification and casing fixup: 1589133608ca2ddd56d72f8bec40041d2d6b4550\r\n\r\nDiscussion:\r\nbits vs bytes\r\nhttps://github.com/bitcoin/bips/pull/2258/changes#r3894597745\r\nhttps://github.com/bitcoin/bips/pull/2258/changes#r3894609812\r\nhttps://github.com/bitcoin/bips/pull/2258/changes#r3894685643\r\nOptional: a changelog.\r\nhttps://github.com/bitcoin/bips/pull/2258#issuecomment-5639721896\r\n\r\nA cautionary warning to not convert bytes to shares.\r\nhttps://github.com/bitcoin/bips/pull/2258#issuecomment-5622199016\r\n\r\nRationale\r\n\r\n====Long Checksum==== seems like it belongs in ===codex32=== with bold, like it is in BIP173 and BIP350. \r\n\r\n> We first describe the general checksummed base32 format called codex32 and then define a secret sharing scheme and BIP-0032 master seed encoding using it.\r\n\r\nThe final part of ==Specification== should be ===Master seed format===.\r\n\r\nI'm undecided if every application must use the codex32 header, I think they can be free to choose and they may use it even if they do not support SSS, like `CL1` rejected `threshold != 0` invalidating shared secrets even if another application did the secret recovery.\r\n\r\nIt's most flexible and Bech32-like to not require it. OTOH, every application has used it thus far so making `codex32_decode(hrp, data)` continue to require:\r\n```python\r\n    if codex[pos+1].isalpha() or codex[pos+1] == \"0\" and codex[pos+6] != \"s\":\r\n        return None\r\n```\r\nimproves the certainty damaged base32 data is codex32. If saving 6 characters were top priority, they'd Bech32-encode anyhow.\r\n\r\nNevertheless, ===SSSS-awareness=== feels like it belongs as the only === section between ===codex32=== and ===Master seed format===. That way it can be skipped over by readers who do not need sharing.\r\n\r\nFuture work\r\n\r\nGeneralized HRPs, optional headers, new helper APIs, and bytes-to-shares guidance/warning remain deferred.",
-    "labels": [],
+    "labels": [
+      {
+        "id": 275846070,
+        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
+        "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
+        "color": "5319e7",
+        "default": false
+      }
+    ],
     "created_at": "2026-09-12T08:52:17Z",
-    "updated_at": "2026-09-14T03:36:47Z",
+    "updated_at": "2026-09-14T20:55:48Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -155,7 +165,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22468,
+        "size": 22489,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -275,8 +285,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6021,
-        "stargazers_count": 10937,
-        "watchers_count": 10937,
+        "stargazers_count": 10938,
+        "watchers_count": 10938,
         "size": 22458,
         "default_branch": "master",
         "open_issues_count": 63,
@@ -292,7 +302,7 @@
         "visibility": "public",
         "pushed_at": "2026-09-11T20:40:30Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-13T23:14:46Z",
+        "updated_at": "2026-09-14T17:34:35Z",
         "allow_forking": true
       }
     },
@@ -1169,6 +1179,41 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2285#issuecomment-5658619400",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2285"
+    },
+    {
+      "event": "labeled",
+      "id": 31130078012,
+      "node_id": "LE_lADOAN28mc8AAAABQ8pvUM8AAAAHP39LPA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31130078012",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-09-14T20:55:48Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
     }
   ],
   "comments": []
