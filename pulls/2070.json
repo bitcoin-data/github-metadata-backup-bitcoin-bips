@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-01-03T18:00:46Z",
-    "updated_at": "2026-09-15T19:54:10Z",
+    "updated_at": "2026-09-16T07:46:08Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -284,8 +284,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6021,
-        "stargazers_count": 10939,
-        "watchers_count": 10939,
+        "stargazers_count": 10938,
+        "watchers_count": 10938,
         "size": 22414,
         "default_branch": "master",
         "open_issues_count": 59,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-09-14T23:26:29Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-15T11:03:07Z",
+        "updated_at": "2026-09-16T03:13:42Z",
         "allow_forking": true
       }
     },
@@ -317,7 +317,7 @@
     "changed_files": 47,
     "commits": 17,
     "review_comments": 224,
-    "comments": 42
+    "comments": 43
   },
   "events": [
     {
@@ -6178,9 +6178,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-09-15T16:34:05Z",
-      "updated_at": "2026-09-15T16:34:05Z",
+      "updated_at": "2026-09-16T07:46:08Z",
       "author_association": "CONTRIBUTOR",
-      "body": "@murchandamus agreed. I'll keep this PR to the base protocol: a BIP340-compatible counterpart to RFC 9591 with key tweaking, which is what the motivation section already says it is. Anti-exfil can be its own BIP, or a PR against the draft once this is merged.\r\n\r\nAdding it here is still a real change. The per-device version @seedhammer asked about (sign-to-contract, as @fametrano describes above) needs the coordinator's randomness to end up in every signer's nonce. That means a commit-and-open step in the signing flow, a tweak in `Sign`, pubnonce tweaking on the coordinator side before aggregation, a second call for the stateless signer, and new vectors for all of it. It also needs a security argument, and I'm not aware of any existing one for the threshold setting.\r\n\r\nThe threat is also narrower than in single-signer, where one compromised device produces the whole nonce and can leak the secret key through it. In FROST a backdoored signer can at most leak its own secret share. Getting the threshold key out needs `t` backdoored signers. Not impossible (`t` devices from one vendor is a real setup), but a much narrower attacker than the one anti-exfil was built for.\r\n\r\nBIP327 and RFC 9591 say nothing about exfiltration either, so there is precedent for leaving it out. The discussion can continue in siv2r/bip-frost-signing#60 for now.",
+      "body": "@murchandamus agreed. I'll keep this PR to the base protocol: a BIP340-compatible counterpart to RFC 9591 with key tweaking, which is what the motivation section already says it is. Anti-exfil can be its own BIP, or a PR against the draft once this is merged.\r\n\r\nAdding it here is quite a big change. The per-device version @seedhammer asked about (sign-to-contract, as @fametrano describes above) needs the coordinator's randomness to end up in every signer's nonce. That means a commit-and-open step in the signing flow, a tweak in `Sign`, pubnonce tweaking on the coordinator side before aggregation, a second call for the stateless signer, and new vectors for all of it. It also needs a security argument, and I'm not aware of any existing one for the threshold setting.\r\n\r\nThe threat is also narrower than in single-signer, where one compromised device produces the whole nonce and can leak the secret key through it. In FROST a backdoored signer can at most leak its own secret share. Getting the threshold key out needs `t` backdoored signers. Not impossible (`t` devices from one vendor is still possible), but a much narrower attacker than the one anti-exfil was built for.\r\n\r\nBIP327 and RFC 9591 say nothing about exfiltration either, so there is precedent for leaving it out. The discussion can continue in siv2r/bip-frost-signing#60 for now.",
       "user": {
         "login": "siv2r",
         "id": 56887198,
@@ -6546,6 +6546,64 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-09-15T19:54:12Z"
+    },
+    {
+      "event": "commented",
+      "id": 5693860284,
+      "node_id": "IC_kwDOAN28mc8AAAABU2FpvA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5693860284",
+      "actor": {
+        "login": "siv2r",
+        "id": 56887198,
+        "node_id": "MDQ6VXNlcjU2ODg3MTk4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/56887198?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/siv2r",
+        "html_url": "https://github.com/siv2r",
+        "followers_url": "https://api.github.com/users/siv2r/followers",
+        "following_url": "https://api.github.com/users/siv2r/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/siv2r/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/siv2r/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/siv2r/subscriptions",
+        "organizations_url": "https://api.github.com/users/siv2r/orgs",
+        "repos_url": "https://api.github.com/users/siv2r/repos",
+        "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/siv2r/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-09-16T07:44:22Z",
+      "updated_at": "2026-09-16T07:44:22Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "There's one more small tweak needed (https://github.com/siv2r/bip-frost-signing/issues/59), once that's in. The BIP should be ready to publish. I'll drop a comment here when that's done.",
+      "user": {
+        "login": "siv2r",
+        "id": 56887198,
+        "node_id": "MDQ6VXNlcjU2ODg3MTk4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/56887198?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/siv2r",
+        "html_url": "https://github.com/siv2r",
+        "followers_url": "https://api.github.com/users/siv2r/followers",
+        "following_url": "https://api.github.com/users/siv2r/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/siv2r/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/siv2r/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/siv2r/subscriptions",
+        "organizations_url": "https://api.github.com/users/siv2r/orgs",
+        "repos_url": "https://api.github.com/users/siv2r/repos",
+        "events_url": "https://api.github.com/users/siv2r/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/siv2r/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#issuecomment-5693860284",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2070"
     }
   ],
   "comments": [
