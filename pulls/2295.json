@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-09-18T11:06:18Z",
-    "updated_at": "2026-09-19T18:40:52Z",
+    "updated_at": "2026-09-19T20:33:31Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -589,9 +589,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-09-19T18:37:05Z",
-      "updated_at": "2026-09-19T18:40:52Z",
+      "updated_at": "2026-09-19T20:33:31Z",
       "author_association": "CONTRIBUTOR",
-      "body": "@scgbckbone Requiring _derivation paths_ that consume <= 512 bits to use the raw HMAC output creates a few problems:\r\n1. Inconsistent codepaths within the same application (harder to test and prove correct)\r\n2. A \"back and forth\" correctness dance during application development where we realize things like [\"oh, powers of 2 do not require re-rolls for DICE\"](https://github.com/bitcoin/bips/pull/1958#issuecomment-5655138809). Or \"my app consumes a variable number of bits (like RSA key generation), how do I partition this into cases under and above the 512 bit limit?\" This will lead to unwarranted test vector complexity and more carve-outs for backward compatibility (as was proposed for DICE).\r\n\r\nA more consistent and sustainable policy would be to require that any application that could, under any of its derivation paths, consume more than 512 bits of pseudorandomness MUST use the DRNG. (For instance PWD BASE85 was designed so that _all of its paths_ obey the 512 bit ceiling.) All other apps MUST use the HMAC output. In exchange for the gain in consistency and clarity, it is true that we trade away hardware wallet reach for the time being. That is a fundamental limitation of the already finalized and accepted DRNG application. I would rather see us put energy into noting in the BIP the fact that apps that depend on the DRNG have little to no hw wallet support as of today. The RSA app is already in this category.",
+      "body": "@scgbckbone Requiring _derivation paths_ that consume <= 512 bits to use the raw HMAC output creates a few problems:\r\n1. Inconsistent codepaths within the same application (harder to test and prove correct)\r\n2. A \"back and forth\" correctness dance during application development where we realize things like [\"oh, powers of 2 do not require re-rolls for DICE\"](https://github.com/bitcoin/bips/pull/1958#issuecomment-5655138809). Or \"my app consumes a variable number of bits (like RSA key generation), how do I partition this into cases under and above the 512 bit limit?\" This will lead to unwarranted test vector complexity and more carve-outs for backward compatibility (as was proposed for DICE).\r\n\r\nA more consistent and sustainable policy would be to require that any application that could, under any of its derivation paths, consume more than 512 bits of pseudorandomness MUST use the DRNG. All other apps MUST use the HMAC output. For instance PWD BASE85 was designed so that _all of its paths_ obey the 512 bit ceiling. In exchange for the gain in consistency and clarity, it is true that we trade away hardware wallet reach for the time being. That is a fundamental limitation of the already finalized and accepted DRNG application. I would rather see us put energy into noting in the BIP the fact that apps that depend on the DRNG have little to no hw wallet support as of today. The RSA app is already in this category.",
       "user": {
         "login": "akarve",
         "id": 1322715,
