@@ -1,23 +1,23 @@
 {
   "type": "pull",
   "pull": {
-    "url": "https://api.github.com/repos/bitcoin/bips/pulls/2298",
-    "id": 4613364951,
-    "node_id": "PR_kwDOAN28mc8AAAABEvpc1w",
-    "html_url": "https://github.com/bitcoin/bips/pull/2298",
-    "diff_url": "https://github.com/bitcoin/bips/pull/2298.diff",
-    "patch_url": "https://github.com/bitcoin/bips/pull/2298.patch",
-    "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2298",
-    "commits_url": "https://api.github.com/repos/bitcoin/bips/pulls/2298/commits",
-    "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2298/comments",
+    "url": "https://api.github.com/repos/bitcoin/bips/pulls/2299",
+    "id": 4613937884,
+    "node_id": "PR_kwDOAN28mc8AAAABEwMa3A",
+    "html_url": "https://github.com/bitcoin/bips/pull/2299",
+    "diff_url": "https://github.com/bitcoin/bips/pull/2299.diff",
+    "patch_url": "https://github.com/bitcoin/bips/pull/2299.patch",
+    "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2299",
+    "commits_url": "https://api.github.com/repos/bitcoin/bips/pulls/2299/commits",
+    "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2299/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
-    "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2298/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/8c1314949ec8b3d3bad718488f99f2c9fd9d0b33",
-    "number": 2298,
+    "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2299/comments",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/e3cfc053fc8f395a118d1ec6faa93ce25c18439a",
+    "number": 2299,
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "bip138: clarify receive-only descriptor set, 0 birth time, and BIP32 range",
+    "title": "bip138: binary encoding clarifications",
     "user": {
       "login": "Sjors",
       "id": 10217,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "This PR makes a couple of clarifications around the descriptor (and bip388 policy) sets.\r\n\r\nIt adds one test vector, but shouldn't be a breaking change.\r\n\r\nThree middle commits:\r\n\r\n- _clarify receive-only descriptor sets_: add a test vector importing just a receive descriptor, with no metadata\r\n- _clarify derivation ranges using BIP32_: clarifies bounds for `range`\r\n- _bip138: clarify zero and omitted birth times_: importers SHOULD rescan from the wallet\r\nbirthday if known, otherwise from genesis.\r\n\r\nThe first commit introduces a changelog. I'm reusing that commit across a few parallel pull requests.\r\n\r\nThe last commit updates the changelog; I'll update that depending on merge order.",
+    "body": "This PR clarifies a few details of BIP138's binary encoding.\r\n\r\nIt adds two test vectors in a new `payload.json`, but shouldn't be a breaking change.\r\n\r\nThree middle commits:\r\n\r\n- _specify empty associated data_: make the AAD input explicit in the encryption and decryption formulas.\r\n- _clarify that 0x00 ends payload parsing_: add a test vector with a content item followed by a terminator and ignored bytes.\r\n- _clarify rejection of empty payloads_: add a test vector containing only the terminator, with zero content items.\r\n\r\nThe first commit introduces a changelog. I'm reusing that commit across a few parallel pull requests.\r\n\r\nThe last commit updates the changelog; I'll update that depending on merge order.",
     "labels": [
       {
         "id": 10701597626,
@@ -61,20 +61,20 @@
         "default": false
       }
     ],
-    "created_at": "2026-09-23T12:08:46Z",
-    "updated_at": "2026-09-23T13:25:23Z",
+    "created_at": "2026-09-23T13:05:51Z",
+    "updated_at": "2026-09-23T13:23:22Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "d9b334c4446422e082d0f8cfb178569236084d81",
+    "merge_commit_sha": "edfea294b94266cbeb75106173069ea2ae4b86b8",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
     "rebaseable": true,
     "head": {
-      "label": "Sjors:2026/09/bip138-metadata",
-      "ref": "2026/09/bip138-metadata",
-      "sha": "8c1314949ec8b3d3bad718488f99f2c9fd9d0b33",
+      "label": "Sjors:2026/09/bip138-encoding",
+      "ref": "2026/09/bip138-encoding",
+      "sha": "e3cfc053fc8f395a118d1ec6faa93ce25c18439a",
       "user": {
         "login": "Sjors",
         "id": 10217,
@@ -317,13 +317,13 @@
     },
     "_links": {
       "self": {
-        "href": "https://api.github.com/repos/bitcoin/bips/pulls/2298"
+        "href": "https://api.github.com/repos/bitcoin/bips/pulls/2299"
       }
     },
     "author_association": "MEMBER",
     "draft": false,
-    "additions": 32,
-    "deletions": 4,
+    "additions": 40,
+    "deletions": 8,
     "changed_files": 2,
     "commits": 5,
     "review_comments": 0,
@@ -373,22 +373,22 @@
     {
       "event": "committed",
       "id": null,
-      "node_id": "C_kwDOAN28mdoAKDUxOTk1Y2MyMjhhNmM2NWY5YTc0ZGQyNDk2MmZlOTU2MmE0NzJkODM",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/51995cc228a6c65f9a74dd24962fe9562a472d83",
+      "node_id": "C_kwDOAN28mdoAKDA2OTFhNzM5OGZlMWE3MTAzOTY3NWVkNDkwZjE5MmQ1NjBmZGJmMGQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/0691a7398fe1a71039675ed490f192d560fdbf0d",
       "actor": null,
       "commit_id": null,
       "commit_url": null,
       "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/51995cc228a6c65f9a74dd24962fe9562a472d83",
+      "html_url": "https://github.com/bitcoin/bips/commit/0691a7398fe1a71039675ed490f192d560fdbf0d",
       "tree": {
-        "sha": "1428f6dccf89132e3b281e2238faa2bb15908962",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/1428f6dccf89132e3b281e2238faa2bb15908962"
+        "sha": "d79c777d506ac11e258dbdc26beccd11054993ed",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/d79c777d506ac11e258dbdc26beccd11054993ed"
       },
       "verification": {
         "verified": true,
         "reason": "valid",
-        "payload": "tree 1428f6dccf89132e3b281e2238faa2bb15908962\nparent bf63783c10649a3ae33d4c63d3e54fa1e04d1951\nauthor Sjors Provoost <sjors@sprovoost.nl> 1790163120 +0200\ncommitter Sjors Provoost <sjors@sprovoost.nl> 1790164504 +0200\n\nbip138: clarify receive-only descriptor sets\n\nMake change_descriptor explicitly optional for non-multipath descriptors.\nAdd a receive-only document vector with no change descriptor or optional\nmetadata; the existing vectors cover a receive/change pair and multipath.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEE7ZvfetalXiMuhFJCV/+b28wwEAkFAmqzvhgACgkQV/+b28ww\nEAkPkg/+MwtW348Dguu4d7XmN+yXA6ts+D4IYRCJ22Mm2dh5fxwKmXZCVZLn9t5z\nFNGwVZfWJRm22EUHeZ6VrTfsYA3tKt3/kdIqeYo1UQuFqfcK1gcjCLvmiFBsURVO\nX9yYBUdoOk5XXcmplKH0XPI53Dd2sc6y+jpV6ayAH4EIjr1DWsXOIZg0c0bxSGY9\nMnlaSHWPVLw8cRadYNPY8MeH2m92eTFkOYaDZikV3tVPWtkrHaWwTyg0yAbC6+vP\nP4+9MHWZf4T6Ry82030WTRBwLCvu3Q8v1qi4Q0Lt1fAnAm3xbDnqES3YME+mIK3T\nSqPQHvFEfQF5LOyGPmndjE9BOyX8BthrtuQWfVKRENtGH0HGzoWlqp6bpgBwoXbR\nZAT29FOVSfIr0RwoCyTR/8+cV2vM2aXZNBod0vuZMfrhGQFraJTONG31hpApdbSp\ncYEmQPO4ODjXaDH/bE1XVNAyNZTXWkI2+ZsrCu4aE0a+cRv6ooD2cnd/MRAbtsGm\nKjv2hJcfLB/YxaH867JQOkCzpRtrg8OvWuwDwmt3XTwM6zSgxf1MaF+Y8m4WX0kM\nw8BCG2SuoswIItPtdSP7okEDica1YJpPFiyyidUEjnv6ciEU5T8cFjYt72RHslGc\npktK4gaPP0Y3LjlUzZwUjIWQFxU7vA/W8fnsP3o34qLrkwxq18k=\n=9oUL\n-----END PGP SIGNATURE-----"
+        "payload": "tree d79c777d506ac11e258dbdc26beccd11054993ed\nparent bf63783c10649a3ae33d4c63d3e54fa1e04d1951\nauthor Sjors Provoost <sjors@sprovoost.nl> 1790081530 +0200\ncommitter Sjors Provoost <sjors@sprovoost.nl> 1790166059 +0200\n\nbip138: specify empty associated data\n\nMake the associated-data input explicit in the encryption and decryption\nformulas and specify that it is empty, as used by the existing vectors.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEE7ZvfetalXiMuhFJCV/+b28wwEAkFAmqzxCsACgkQV/+b28ww\nEAn/xQ/+IaVNX97W6jaL3VIxHLbKDl/Mm5G/j47V8T6X3ihNcKoI8OPJODZslbfe\neKjGyXvXPgjRWfQ/amuWeaDanTcTt2iTlPjF/svKNn1jvC7eY00y6UgwssuMvt6z\nrM0lXSy/HDujj6YpvWu9pi3pudg7IZtL3Cwf+fsi5yRnblsrM062IC8oCgJ9W+P7\n1OH81e/k7hupBEpnFt2f6HPRYUSAzgRiCBBsSnIQrWlLHxti0G8X95cA3QTZ4I8M\nSiaE5cf3Ehke+854u2TFNj7IAaZq63U0l0xCaudQ5zl0ErzOTlCajgCsl+cc7rNa\nUqWi1NSyOYKdU1zHQyu4sFlEPySgPC18OS0uwsxQ5KiTMv9h0+LeHpCZuJ7UNy1S\n4n4AA3TYXiztizYST7sFewo1nT57qnpRKzq9CZYYYBKNqreZ5DeU8tqzW+A1qIq+\nXgDFrOFfxiSN1XMfYfzgbT/K0RIDoKnGPjX69dWp0RAIpIEGdNyBuni89/dGz4F+\nAMPHfWEsIKvj3xBY9702tXEYxiDL7kncMFYPAsf53VgnrfUlyaFoROS1tBctU9yZ\nPMgS4MkOOOUgyTbvx/VLCOCUnHx8QLRInLgmjx85RAfpuryhLWEcReVGVVO5KmrB\nk86ZZth2kbdRDUTChXbGqoA3HPrrpGnNWk1qLBqNzLazg1b4YTs=\n=YhGM\n-----END PGP SIGNATURE-----"
       },
       "parents": [
         {
@@ -397,144 +397,104 @@
           "html_url": "https://github.com/bitcoin/bips/commit/bf63783c10649a3ae33d4c63d3e54fa1e04d1951"
         }
       ],
-      "message": "bip138: clarify receive-only descriptor sets\n\nMake change_descriptor explicitly optional for non-multipath descriptors.\nAdd a receive-only document vector with no change descriptor or optional\nmetadata; the existing vectors cover a receive/change pair and multipath.",
+      "message": "bip138: specify empty associated data\n\nMake the associated-data input explicit in the encryption and decryption\nformulas and specify that it is empty, as used by the existing vectors.",
       "committer": {
         "name": "Sjors Provoost",
         "email": "sjors@sprovoost.nl",
-        "date": "2026-09-23T11:55:04Z"
+        "date": "2026-09-23T12:20:59Z"
       },
       "author": {
         "name": "Sjors Provoost",
         "email": "sjors@sprovoost.nl",
-        "date": "2026-09-23T11:32:00Z"
+        "date": "2026-09-22T12:52:10Z"
       },
-      "sha": "51995cc228a6c65f9a74dd24962fe9562a472d83"
+      "sha": "0691a7398fe1a71039675ed490f192d560fdbf0d"
     },
     {
       "event": "committed",
       "id": null,
-      "node_id": "C_kwDOAN28mdoAKDM5OWVhMmEwOTE1NTEzMGU5NTE5YzU4Zjg1ZjNjZjlmYTUyMTVmODQ",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/399ea2a09155130e9519c58f85f3cf9fa5215f84",
+      "node_id": "C_kwDOAN28mdoAKGNhMDQ3NzAxYzcyN2ZiMzNjOTE0MTU2YzIyYjhiODY3YjUwOTM3OGE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ca047701c727fb33c914156c22b8b867b509378a",
       "actor": null,
       "commit_id": null,
       "commit_url": null,
       "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/399ea2a09155130e9519c58f85f3cf9fa5215f84",
+      "html_url": "https://github.com/bitcoin/bips/commit/ca047701c727fb33c914156c22b8b867b509378a",
       "tree": {
-        "sha": "47de40a52b436e570b5c6e7899b2c4fe7b8a1ea2",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/47de40a52b436e570b5c6e7899b2c4fe7b8a1ea2"
+        "sha": "fd425d87653ffb6509d75d9e618f5d08cefdc99e",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/fd425d87653ffb6509d75d9e618f5d08cefdc99e"
       },
       "verification": {
         "verified": true,
         "reason": "valid",
-        "payload": "tree 47de40a52b436e570b5c6e7899b2c4fe7b8a1ea2\nparent 51995cc228a6c65f9a74dd24962fe9562a472d83\nauthor Sjors Provoost <sjors@sprovoost.nl> 1790163120 +0200\ncommitter Sjors Provoost <sjors@sprovoost.nl> 1790164745 +0200\n\nbip138: clarify derivation ranges using BIP32\n\nIdentify range bounds as BIP32 non-hardened child indexes, ordered from\nstart to end.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEE7ZvfetalXiMuhFJCV/+b28wwEAkFAmqzvwkACgkQV/+b28ww\nEAmAfg//V7xQuF1kZAWi3mKhJwis1r9xO5sfS1JRmDIqJbXaSdClRxzo5BCSIdgs\nnk8STiabXkESSGn117QG54fvPoK3ABbw3pwoJbDMNTJQy+XDXwGFPLExppJwxzQY\nY+0jAJe6wZo7LehVyCmVcSVvgFs56xAcFsI9yqYB35Vb0Bx80jJXN3qCgJrncj1V\npDm5aj4A0DvQmVkVRayTKL50yYALzD/OgSaLHfYyfsVzsFzopEAbuvaxQuBWWbpA\nC6bIja4stpDfBR/JErqXyyQ3BzwhhTFfmd1BXSG7H4Zk5m7DN2OkV6KJ7ssseyGB\nbpgYh5fUVwZRqTaseteut7p2Dcy81JwkTJo+ZfVvqL5TLOO+5UoM1XlJHTK2n8Tx\n2eJ9isFxA7p4gUPJBxGgyU4lwQPdyFj9+9gpHXuHRX2VmYMCv0rcXDl5w1/4kA38\nCe7IttNfybQHkGlchNSJTe67setYnMHeMfFmo9PNSdlM6B5aUjfdajd/FHgDBLvV\nqrW3k1bwQYyKhd/mnw5897FgMTUqeJt+yjyzD9rp/1XLiHPxWNa3PAFzcktP8wBZ\noqPFiFbyzJqzaYZahRltGqAKXYMCdDbrm6FEcJoNDtB1yJL9rlGPno0VD55UpuJL\nZqEA135hAPPQBOUJNBAOezlWA/dsW+TT0lzfTYgJoUCzIJTvqxg=\n=yJ3q\n-----END PGP SIGNATURE-----"
+        "payload": "tree fd425d87653ffb6509d75d9e618f5d08cefdc99e\nparent 0691a7398fe1a71039675ed490f192d560fdbf0d\nauthor Sjors Provoost <sjors@sprovoost.nl> 1790166714 +0200\ncommitter Sjors Provoost <sjors@sprovoost.nl> 1790167916 +0200\n\nbip138: clarify that 0x00 ends payload parsing\n\nSpecify that parsing stops immediately. Add a vector with an item followed\nby a terminator and ignored bytes.\n\nClarify that TYPE 0x00 also doesn't require TYPE_LENGTH.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEE7ZvfetalXiMuhFJCV/+b28wwEAkFAmqzy2wACgkQV/+b28ww\nEAl3txAAldV+rNe0Wt+03El1+I/KkZL/iiCTSR+hPx8dul9VKYeLCWLZGfYsaCQb\nfLg0XsMUWPoUQoEKBfW8rNr58IRHorDsROFgF73SCJ1NrlMHwPNiIyyIAW8nRo4q\nlwr6oloF9nhwxErLJFy4DgVnwjdiEXnrH/WwgS+hFB7kTwoouVnbG5QXcwFrMlTt\ndHVLTH3wxyC84VJiEeMm9OMTnSJ1fE2Z/XiFATow+uwA4TMvzwjnc28x0GdyNlRZ\n4M+veyD3saUqiII/l/H7815YJoMOltu0V+ZUBa/nMLajjYLngz8b7kL3SvRw125S\ndJydRiXrglkwm6xbHDHg0Knh4LOVZH5KQl2u20jWrJ2p98rqbUMvQkpbe93QU3GD\nxvdHbhwrw6MVHLxy8j4cIJW1cUNVmow7UnsIDWV486p3I9ndBctulfUWG5+s3Nty\nAmyiUmMKXgekG0iLTBvGHVdrLo4qAsQzkhnoFY9fDMx9QaSQVMHESQlF0eDFQMDj\nvjGbtfJ+JlFIh5DNXisFZrUhmBOK7g5ctR27H1h3tqq4/HHL3VaQdaCqPSO6afj6\ndPd+j2vzVLKV7yl4bq+NFrYxqsOPsAevSu5X5JnanVjIo5ASNYXtmqRAJ8D8W7Ln\nBShHyT2GYKSq+BHYVt86+A8TVYGGtsDn6ouLBJFAMvT3VdbE9To=\n=JXCJ\n-----END PGP SIGNATURE-----"
       },
       "parents": [
         {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/51995cc228a6c65f9a74dd24962fe9562a472d83",
-          "sha": "51995cc228a6c65f9a74dd24962fe9562a472d83",
-          "html_url": "https://github.com/bitcoin/bips/commit/51995cc228a6c65f9a74dd24962fe9562a472d83"
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/0691a7398fe1a71039675ed490f192d560fdbf0d",
+          "sha": "0691a7398fe1a71039675ed490f192d560fdbf0d",
+          "html_url": "https://github.com/bitcoin/bips/commit/0691a7398fe1a71039675ed490f192d560fdbf0d"
         }
       ],
-      "message": "bip138: clarify derivation ranges using BIP32\n\nIdentify range bounds as BIP32 non-hardened child indexes, ordered from\nstart to end.",
+      "message": "bip138: clarify that 0x00 ends payload parsing\n\nSpecify that parsing stops immediately. Add a vector with an item followed\nby a terminator and ignored bytes.\n\nClarify that TYPE 0x00 also doesn't require TYPE_LENGTH.",
       "committer": {
         "name": "Sjors Provoost",
         "email": "sjors@sprovoost.nl",
-        "date": "2026-09-23T11:59:05Z"
+        "date": "2026-09-23T12:51:56Z"
       },
       "author": {
         "name": "Sjors Provoost",
         "email": "sjors@sprovoost.nl",
-        "date": "2026-09-23T11:32:00Z"
+        "date": "2026-09-23T12:31:54Z"
       },
-      "sha": "399ea2a09155130e9519c58f85f3cf9fa5215f84"
+      "sha": "ca047701c727fb33c914156c22b8b867b509378a"
     },
     {
       "event": "committed",
       "id": null,
-      "node_id": "C_kwDOAN28mdoAKGZmYTZiZjQ5NDRjNGM4ODM5NzBiOGE5YjZlNzM4NjQ1OWQ1ZWZkMGQ",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ffa6bf4944c4c883970b8a9b6e7386459d5efd0d",
+      "node_id": "C_kwDOAN28mdoAKGYyNDNmNzQ0MzkyODEyNzNkN2MwZDZmYjljYWM2YmJmNjc3NDJmYzY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f243f74439281273d7c0d6fb9cac6bbf67742fc6",
       "actor": null,
       "commit_id": null,
       "commit_url": null,
       "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/ffa6bf4944c4c883970b8a9b6e7386459d5efd0d",
+      "html_url": "https://github.com/bitcoin/bips/commit/f243f74439281273d7c0d6fb9cac6bbf67742fc6",
       "tree": {
-        "sha": "a8e392342bc409fed5b6016cc3b003cc7ab2cf73",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/a8e392342bc409fed5b6016cc3b003cc7ab2cf73"
+        "sha": "fe4d69bb4d4ea98dbd487274939ce41fb2222f94",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/fe4d69bb4d4ea98dbd487274939ce41fb2222f94"
       },
       "verification": {
         "verified": true,
         "reason": "valid",
-        "payload": "tree a8e392342bc409fed5b6016cc3b003cc7ab2cf73\nparent 399ea2a09155130e9519c58f85f3cf9fa5215f84\nauthor Sjors Provoost <sjors@sprovoost.nl> 1790163121 +0200\ncommitter Sjors Provoost <sjors@sprovoost.nl> 1790164745 +0200\n\nbip138: clarify zero and omitted birth times\n\nExplain that zero and omission both mean the birth time is unknown.\nRecommend scanning from the wallet birthday if known, otherwise from\ngenesis.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEE7ZvfetalXiMuhFJCV/+b28wwEAkFAmqzvwkACgkQV/+b28ww\nEAlO8g/8D+WZebpeZ+OffWc4ScxlhlDWPmdxf5tP9sLWWkNHO/d6Cr6iZr1o9cb3\nF0r6+HDYyEsREAS5jahGT/nKfu1I9gAPELpAqsX5qSEHy75bAlbatN14LCe9WUXZ\n4nkwdcUhzAwdwX0jLwY7+TyAnvnPJ5GWcojQFruYYgqsugpA6scJQ7xN02vshuur\ngqK0Kk2/sfHnFT0Xf14svg0NmRlKCrNjax2Mv5qD8tyJbOnPyNA2deMBb7JV0WvL\n+JsSzq/Zc8fq3Lcm7GEpazxL5CXLcl8G5j5ZCS375chC1wu7SD7ztQw0ikF9OzKl\n4r/yqEk5T1Ue4m5BsloVd8eayNdIdwI7ncR068zwkxJ7jPqgmQczqrxQJun2cvYB\ny1kFUjrzgPLpFmY+0sp8NwPn3XJQyBsp+2ptJmXOcvmmm9OLJJ96ZoEHLqkQe4hx\n5BqXubv30RE4YlpIe8xWx09FdXfaor91K/UqZ3ASWQzWRNVsH9AbcLmOk5cHCOd7\nLG91rzlXO1cce1Wrsgnlb2dHad81lMPhHrgH9A/HND1Fx2pZJbtn7w8dgRyy2BEr\nQDJVFy/UYiHSwRT7Sx/UwktA78XmW8pVQiOiYdfLZrXEX9LhOSAMCTxhAiA9OYxA\n9pTkE+d+jpstHSQikNYB79Z58zplxOwwSEN8kHVL0AgCWQbwlt0=\n=IV7P\n-----END PGP SIGNATURE-----"
+        "payload": "tree fe4d69bb4d4ea98dbd487274939ce41fb2222f94\nparent ca047701c727fb33c914156c22b8b867b509378a\nauthor Sjors Provoost <sjors@sprovoost.nl> 1790166714 +0200\ncommitter Sjors Provoost <sjors@sprovoost.nl> 1790167916 +0200\n\nbip138: clarify rejection of empty payloads\n\nClarify that an empty payload contains zero content items. Add a\nvector that rejects a payload consisting only of the 0x00 terminator.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEE7ZvfetalXiMuhFJCV/+b28wwEAkFAmqzy2wACgkQV/+b28ww\nEAlNQw//X9RsO3I9UHFPt1AsWPdpVWYuHR7Q7bRBvU4p/RhNs8X9vVxA76J6BEbP\niy+odWZl5qvu5TzVxsr7oMLn3CLNF8QcB2HNqK82CT2gskvDBKdQAslgXHaq/dCO\n2pF7DwwW9u5A6Ir+2jAA6+czcU6CMacwxZvOZpL3bXCIqS594t+HPrt4netcWs5R\nkfxFEgF8Dv8iKUBzywolUGfXT/ouH4mnapw8Nbazdkcv+IR8vVapcaK70P3Ggo/e\nIbrclX90xAb44xBT0LMj3UripNZuTuqnRa2/33QawPoXwkn9hAN+r4JTeQYFoWbR\n38wFH3xzPV3p1wzN89KShYID2tpJumYoVe8k75VWBxiRwGOcNAsJI5FtBwqIL9nj\nFOIgmVLWsapQCi6RU71/I75lvJ1y9W6kDaJmsvihYkjhT+wmmqj3ztMMbe3YsgWT\ni8oLIoaOQB7VR9B7MxiXPptq4upAc0gIRcZeywPPPrU180QXtQ6DvsP+8UBFLZl4\neZ5LRWR+EjLI2MDce5W0WcNmGjpqBc51+QlLADCA+gegeyHyrc1nLLsxRZh5hVmo\nNrlExvVU6L2zziqDIBJTIxvz6aBe5pHp/Y2a9b/kKZkC8WCUkgtnCsC/ZA9FvDFK\nYFKPZBb8PbMBbvBJGeF4HHXtFt8Vf3AzdG2OmJpuO1xZ+BhsGK0=\n=HFAe\n-----END PGP SIGNATURE-----"
       },
       "parents": [
         {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/399ea2a09155130e9519c58f85f3cf9fa5215f84",
-          "sha": "399ea2a09155130e9519c58f85f3cf9fa5215f84",
-          "html_url": "https://github.com/bitcoin/bips/commit/399ea2a09155130e9519c58f85f3cf9fa5215f84"
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ca047701c727fb33c914156c22b8b867b509378a",
+          "sha": "ca047701c727fb33c914156c22b8b867b509378a",
+          "html_url": "https://github.com/bitcoin/bips/commit/ca047701c727fb33c914156c22b8b867b509378a"
         }
       ],
-      "message": "bip138: clarify zero and omitted birth times\n\nExplain that zero and omission both mean the birth time is unknown.\nRecommend scanning from the wallet birthday if known, otherwise from\ngenesis.",
+      "message": "bip138: clarify rejection of empty payloads\n\nClarify that an empty payload contains zero content items. Add a\nvector that rejects a payload consisting only of the 0x00 terminator.",
       "committer": {
         "name": "Sjors Provoost",
         "email": "sjors@sprovoost.nl",
-        "date": "2026-09-23T11:59:05Z"
+        "date": "2026-09-23T12:51:56Z"
       },
       "author": {
         "name": "Sjors Provoost",
         "email": "sjors@sprovoost.nl",
-        "date": "2026-09-23T11:32:01Z"
+        "date": "2026-09-23T12:31:54Z"
       },
-      "sha": "ffa6bf4944c4c883970b8a9b6e7386459d5efd0d"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDhjMTMxNDk0OWVjOGIzZDNiYWQ3MTg0ODhmOTlmMmM5ZmQ5ZDBiMzM",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/8c1314949ec8b3d3bad718488f99f2c9fd9d0b33",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/8c1314949ec8b3d3bad718488f99f2c9fd9d0b33",
-      "tree": {
-        "sha": "e337b493af18049b9fd7d3e8a2de24811dae4272",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/e337b493af18049b9fd7d3e8a2de24811dae4272"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree e337b493af18049b9fd7d3e8a2de24811dae4272\nparent ffa6bf4944c4c883970b8a9b6e7386459d5efd0d\nauthor Sjors Provoost <sjors@sprovoost.nl> 1790161838 +0200\ncommitter Sjors Provoost <sjors@sprovoost.nl> 1790164745 +0200\n\nbip138: record metadata clarifications in changelog\n\nRecord this branch's clarifications and test vectors under draft document\nversion 0.1.1. Keep the initial-publication entry in the shared first commit.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEE7ZvfetalXiMuhFJCV/+b28wwEAkFAmqzvwkACgkQV/+b28ww\nEAk+og//c8zoWXm2CvWx97S6V7ZIuzN0OzdnKGOnprenCxzg967Ek8BchIX7Ecq6\nod1wD6Tw88TwYWUbVd8n0JqzD6RhrFrjS/y/6l/QdD0HbKfLT0ek0LNt1m5Iaa7F\nMmjVRsjI/f1um2ZAtF6lAIV7z9cdXbPkX8wMX8BvfaJZZtBGJy0ieCqCednJnJB/\nxnYwGt2e23gp0B5Qs1CxoIRUl3pxpQrt6rfeJmNTZ2fQ0TQpJlaeoieiSVzOdkI7\nCQ3P4fKk82pHyCfenBKPKCo4DPaXT4EEnnlEcWzr+3xvCyFPoEwilT9hT7X7ruvQ\n8bGPIJ32eXkHX7Q32XtidbvgAMVVOT4nL9/ALmWd1PvRqjA4aiIXgm27BHH0TRI3\nmyv2ZibcU2dn5YjyTa5Vkn/YgqECGrZsXZpu6QJXT0X8o96cdi/Ns8YTuvyAPeLO\npDgP5OXM7NDV7lSsliLDNA7y6wf2m7Bc7+G3HbNqsA/ZrdJ1ZwZKPcwC9ZNTTMYe\nNzgc0xeRmACXtAXL+O0mq1JJBxlrbioxB8Im8nHJ7cn19SP7mgN+J0s7PYkDkjEb\nUk7aZBScZ3CkCmLWmvf0qXAVY5v5cV9C39Wop5vJQ4dN0nRIsRec3oSMbxFMnlCk\nRzQ2Rw4LuPpWElUDOJXcDmF32G98nJsg25Nt3Jl2I1+Y4nmouuk=\n=9VjE\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ffa6bf4944c4c883970b8a9b6e7386459d5efd0d",
-          "sha": "ffa6bf4944c4c883970b8a9b6e7386459d5efd0d",
-          "html_url": "https://github.com/bitcoin/bips/commit/ffa6bf4944c4c883970b8a9b6e7386459d5efd0d"
-        }
-      ],
-      "message": "bip138: record metadata clarifications in changelog\n\nRecord this branch's clarifications and test vectors under draft document\nversion 0.1.1. Keep the initial-publication entry in the shared first commit.",
-      "committer": {
-        "name": "Sjors Provoost",
-        "email": "sjors@sprovoost.nl",
-        "date": "2026-09-23T11:59:05Z"
-      },
-      "author": {
-        "name": "Sjors Provoost",
-        "email": "sjors@sprovoost.nl",
-        "date": "2026-09-23T11:10:38Z"
-      },
-      "sha": "8c1314949ec8b3d3bad718488f99f2c9fd9d0b33"
+      "sha": "f243f74439281273d7c0d6fb9cac6bbf67742fc6"
     },
     {
       "event": "commented",
-      "id": 5794531662,
-      "node_id": "IC_kwDOAN28mc8AAAABWWGJTg",
-      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5794531662",
+      "id": 5795389769,
+      "node_id": "IC_kwDOAN28mc8AAAABWW6hSQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/5795389769",
       "actor": {
         "login": "Sjors",
         "id": 10217,
@@ -559,10 +519,10 @@
       },
       "commit_id": null,
       "commit_url": null,
-      "created_at": "2026-09-23T12:09:24Z",
-      "updated_at": "2026-09-23T12:09:24Z",
+      "created_at": "2026-09-23T13:06:43Z",
+      "updated_at": "2026-09-23T13:07:00Z",
       "author_association": "MEMBER",
-      "body": "cc @pythcoiner ",
+      "body": "cc @pythcoiner\r\n\r\nFirst (changelog) commit is shared with #2298.",
       "user": {
         "login": "Sjors",
         "id": 10217,
@@ -585,14 +545,14 @@
         "name": null,
         "patch_url": null
       },
-      "html_url": "https://github.com/bitcoin/bips/pull/2298#issuecomment-5794531662",
-      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2298"
+      "html_url": "https://github.com/bitcoin/bips/pull/2299#issuecomment-5795389769",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2299"
     },
     {
       "event": "mentioned",
-      "id": 31674049694,
-      "node_id": "MEE_lADOAN28mc8AAAABSv50M88AAAAHX-ukng",
-      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31674049694",
+      "id": 31677733001,
+      "node_id": "MEE_lADOAN28mc8AAAABSwk9js8AAAAHYCPYiQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31677733001",
       "actor": {
         "login": "pythcoiner",
         "id": 124568858,
@@ -617,13 +577,13 @@
       },
       "commit_id": null,
       "commit_url": null,
-      "created_at": "2026-09-23T12:09:25Z"
+      "created_at": "2026-09-23T13:06:45Z"
     },
     {
       "event": "subscribed",
-      "id": 31674049803,
-      "node_id": "SE_lADOAN28mc8AAAABSv50M88AAAAHX-ulCw",
-      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31674049803",
+      "id": 31677733101,
+      "node_id": "SE_lADOAN28mc8AAAABSwk9js8AAAAHYCPY7Q",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31677733101",
       "actor": {
         "login": "pythcoiner",
         "id": 124568858,
@@ -648,13 +608,84 @@
       },
       "commit_id": null,
       "commit_url": null,
-      "created_at": "2026-09-23T12:09:26Z"
+      "created_at": "2026-09-23T13:06:45Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGUzY2ZjMDUzZmM4ZjM5NWExMThkMWVjNmZhYTkzY2UyNWMxODQzOWE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e3cfc053fc8f395a118d1ec6faa93ce25c18439a",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/e3cfc053fc8f395a118d1ec6faa93ce25c18439a",
+      "tree": {
+        "sha": "84a1e0d2aab9e9d974a4b2ac28f59dcb59e31988",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/84a1e0d2aab9e9d974a4b2ac28f59dcb59e31988"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 84a1e0d2aab9e9d974a4b2ac28f59dcb59e31988\nparent f243f74439281273d7c0d6fb9cac6bbf67742fc6\nauthor Sjors Provoost <sjors@sprovoost.nl> 1790161831 +0200\ncommitter Sjors Provoost <sjors@sprovoost.nl> 1790168918 +0200\n\nbip138: record encoding clarifications in changelog\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEE7ZvfetalXiMuhFJCV/+b28wwEAkFAmqzz1YACgkQV/+b28ww\nEAkVMBAAvFVciYVFzWDcSArlWRQlyjio313mlszg06ECIeWduY5WsvvxEPQBi3uc\n8QzZaGRP8bH4Yisg3PVSuzCIS4vsynBAR8egtj4TbiH5TPdzmAIjirVBldSb5frc\nIV+Dsb+lVq8AQe0+Ppu3zyL1KOCVUaub9egjP1H8XfIvYUgONEbsKpK/g9XVLAJF\n0+9GjSO7duBfDmx9udDYjFIt/WxKE9+8/tW4ZAc55YQFcxKpdabnMRCJbyGv/rcA\nDSMBPZVnVZMpsj2w5/iroBnc/7Bc7jTz2+Io126N/6+56oxYtsE1fOK/+f4O1PQ/\ntDZPYxrqRtelcbjPiceajkeGouG/oG6poLME6qGjLpL+4jgNUbAjscehOX3X0AO6\ngSC1IQT0Hx0FzATYy/pw5t0KKHb/nsDlJtcEypduZ2XFnP+m2pTYfOc8tJOoUA4R\ny3y8Ja0YyKUzPkgQ2FgnalnONbv3oASpbtYF8iTkxN94aaVjV7gHLKojzym/L+j1\nMNTLChuxw0PudQ5+8OFeUhXoU84se9wFfQVgbMcgS33IaYvS4kAFQJZ7lRpVNvlF\nHOMtABHObDRf0Ccz7A+N3xE1NYkWWt1mwrhuzDALAETsZ63Y7ik0K6PypZpDAQDf\n7yB4+0aFOpChNx1LMUe7o9WwLMTnDZ3wRazoEwutB5+qJJeu/zQ=\n=3I/i\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f243f74439281273d7c0d6fb9cac6bbf67742fc6",
+          "sha": "f243f74439281273d7c0d6fb9cac6bbf67742fc6",
+          "html_url": "https://github.com/bitcoin/bips/commit/f243f74439281273d7c0d6fb9cac6bbf67742fc6"
+        }
+      ],
+      "message": "bip138: record encoding clarifications in changelog",
+      "committer": {
+        "name": "Sjors Provoost",
+        "email": "sjors@sprovoost.nl",
+        "date": "2026-09-23T13:08:38Z"
+      },
+      "author": {
+        "name": "Sjors Provoost",
+        "email": "sjors@sprovoost.nl",
+        "date": "2026-09-23T11:10:31Z"
+      },
+      "sha": "e3cfc053fc8f395a118d1ec6faa93ce25c18439a"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 31677883741,
+      "node_id": "HRFPE_lADOAN28mc8AAAABSwk9js8AAAAHYCYlXQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31677883741",
+      "actor": {
+        "login": "Sjors",
+        "id": 10217,
+        "node_id": "MDQ6VXNlcjEwMjE3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/10217?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Sjors",
+        "html_url": "https://github.com/Sjors",
+        "followers_url": "https://api.github.com/users/Sjors/followers",
+        "following_url": "https://api.github.com/users/Sjors/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Sjors/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Sjors/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Sjors/subscriptions",
+        "organizations_url": "https://api.github.com/users/Sjors/orgs",
+        "repos_url": "https://api.github.com/users/Sjors/repos",
+        "events_url": "https://api.github.com/users/Sjors/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Sjors/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "e3cfc053fc8f395a118d1ec6faa93ce25c18439a",
+      "commit_url": "https://api.github.com/repos/Sjors/bips/commits/e3cfc053fc8f395a118d1ec6faa93ce25c18439a",
+      "created_at": "2026-09-23T13:08:50Z"
     },
     {
       "event": "labeled",
-      "id": 31679060405,
-      "node_id": "LE_lADOAN28mc8AAAABSv50M88AAAAHYDgZtQ",
-      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31679060405",
+      "id": 31678911551,
+      "node_id": "LE_lADOAN28mc8AAAABSwk9js8AAAAHYDXUPw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31678911551",
       "actor": {
         "login": "jonatack",
         "id": 2415484,
@@ -679,7 +710,7 @@
       },
       "commit_id": null,
       "commit_url": null,
-      "created_at": "2026-09-23T13:25:23Z",
+      "created_at": "2026-09-23T13:23:22Z",
       "label": {
         "name": "Metadata Update",
         "color": "d4f218"
@@ -687,9 +718,9 @@
     },
     {
       "event": "labeled",
-      "id": 31679060468,
-      "node_id": "LE_lADOAN28mc8AAAABSv50M88AAAAHYDgZ9A",
-      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31679060468",
+      "id": 31678911638,
+      "node_id": "LE_lADOAN28mc8AAAABSwk9js8AAAAHYDXUlg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31678911638",
       "actor": {
         "login": "jonatack",
         "id": 2415484,
@@ -714,7 +745,7 @@
       },
       "commit_id": null,
       "commit_url": null,
-      "created_at": "2026-09-23T13:25:23Z",
+      "created_at": "2026-09-23T13:23:22Z",
       "label": {
         "name": "Fixups",
         "color": "052447"
