@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2257/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2257/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/8bb12e8c1468bf9832420aee09b892b0c3ac99ad",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/d6e021572808bcf9dec52615584b68bd69f2cd7d",
     "number": 2257,
     "state": "open",
     "locked": false,
@@ -43,11 +43,11 @@
     "body": "One sentence, in the Unique Identification section:\n\n> The PSBT_OUT_SP_V0_INFO should be serialized as a zero byte for the\n> version, followed by the 33 bytes of the scan key and then 33 bytes for\n> the spend key.\n\nIt names the field, and the field is 66 bytes: its table entry is\n`<33 byte scan key> <33 byte spend key>`, `bip375_test_vectors.json` carries\n66, and `validator/validate_psbt.py` refuses anything else — `invalid[1]`\nreports \"Output 0 SP_V0_INFO has wrong length (65 bytes, expected 66)\".\n\nRead in its section the sentence is not about the field but about the output\nscript that stands in for a silent payment output when building the unsigned\ntransaction used for unique identification, where 67 bytes contradicts\nnothing. That is also where it came from: `d29e2f8` added it together with\nthe unique-identification paragraph above it.\n\nBoth readings are available to someone reading the sentence alone, and one of\nthem contradicts three other artefacts. This picks the one that does not,\nwithout changing anything normative.\n\nNo changelog entry or version bump: nothing about the format changes, and\nleaving them out keeps this from conflicting with\n[#2207](https://github.com/bitcoin/bips/pull/2207) or\n[#2256](https://github.com/bitcoin/bips/pull/2256), both of which touch the\nchangelog. Glad to add both if you would rather have them.\n\n`scripts/link-format-chk.sh`, `scripts/buildtable.pl`,\n`scripts/diffcheck.sh` and `typos` pass locally.\n\nNoticed while implementing BIP375 in btclib, which serializes the version\nbyte in the identifier and not in the field:\nhttps://github.com/btclib-org/btclib/issues/768",
     "labels": [],
     "created_at": "2026-08-14T17:24:04Z",
-    "updated_at": "2026-09-19T13:06:41Z",
+    "updated_at": "2026-09-23T21:02:20Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "21fc5e2732f6735ef690f8575beaabfa21f1ad4f",
+    "merge_commit_sha": "295d9a9116694d09fbaec54bde9094b89bc03a1e",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -55,7 +55,7 @@
     "head": {
       "label": "fametrano:bip375-sp-info-identifier-serialization",
       "ref": "bip375-sp-info-identifier-serialization",
-      "sha": "8bb12e8c1468bf9832420aee09b892b0c3ac99ad",
+      "sha": "d6e021572808bcf9dec52615584b68bd69f2cd7d",
       "user": {
         "login": "fametrano",
         "id": 3296421,
@@ -155,7 +155,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22535,
+        "size": 22556,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -168,7 +168,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-19T13:06:44Z",
+        "pushed_at": "2026-09-23T21:02:21Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-08-01T21:58:43Z",
         "allow_forking": true
@@ -177,7 +177,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "e71448c81fb4f72da33fda5dffbba2f341457b6d",
+      "sha": "fc1b9f40ea7411bcba6394af513d8db8992b69f0",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -274,12 +274,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6023,
-        "stargazers_count": 10942,
-        "watchers_count": 10942,
-        "size": 22457,
+        "forks_count": 6024,
+        "stargazers_count": 10950,
+        "watchers_count": 10950,
+        "size": 22631,
         "default_branch": "master",
-        "open_issues_count": 61,
+        "open_issues_count": 58,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -290,9 +290,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-18T19:02:06Z",
+        "pushed_at": "2026-09-23T17:25:01Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-19T08:49:35Z",
+        "updated_at": "2026-09-23T17:25:08Z",
         "allow_forking": true
       }
     },
@@ -614,46 +614,6 @@
       "created_at": "2026-09-12T12:35:03Z"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDhiYjEyZThjMTQ2OGJmOTgzMjQyMGFlZTA5Yjg5MmIwYzNhYzk5YWQ",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/8bb12e8c1468bf9832420aee09b892b0c3ac99ad",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/8bb12e8c1468bf9832420aee09b892b0c3ac99ad",
-      "tree": {
-        "sha": "f958c306f627eb05862540caa2ee71a184b6e805",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/f958c306f627eb05862540caa2ee71a184b6e805"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree f958c306f627eb05862540caa2ee71a184b6e805\nparent e71448c81fb4f72da33fda5dffbba2f341457b6d\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1786728224 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1789823005 +0200\n\nbip-0375: say the version byte belongs to the identifier, not to the field\n\n\"The PSBT_OUT_SP_V0_INFO should be serialized as a zero byte for the\nversion, followed by the 33 bytes of the scan key and then 33 bytes for\nthe spend key\" names the field, and the field is 66 bytes: its table\nentry is \"<33 byte scan key> <33 byte spend key>\", the test vectors carry\n66, and the validator refuses anything else.\n\nThe sentence is in the Unique Identification section and was added with\nit, so what it describes is the output script that stands in for a silent\npayment output when building the unsigned transaction that identifies the\npsbt -- 67 bytes there, and nothing about the field. Read as the field's\nown serialization it contradicts the table, which is how it first read\nhere.\n\nOnly the wording changes.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmquiB0bFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/F82oP+wfMaev1KRwl07tK+1Q2\n+U+pHPzkCOeceNW4MDlWsgvI++nUH0gXw6zE0NRJVXlPL7W0e5hXfwuVT85p1lvW\nYBMZfI2jvsqN24amGrqhTvsmTVWIytE2vkwPKRljoUs1d2yOG9wj4K+DiLjqrsll\nKeuUd6BiCPGumJdvQfealC0RqLZONS+9+MHxUlD9bkmtDAnJrQuqLK5/s08iTQ13\n2Ra1mQEjcxeNvWWpLWlQZ66Uf8yLNu39FaoDVO4jSYfEYnacwKZ/wW2++9iNDT43\nyqjZWkxBvzls9n31BQYTJ6pO+DSSLWeKTb8cnUdZR/ZTb5B7+4dxQMvYjOus0p9T\n3xxfAwtwpM04++saqHp850VNaeBUcqFGwg2+vCInUCiDL3axFq4fiaMiSQb3wzKS\ncxWYd4h2o/zmzluyxAXnAPlqD7Av8kpNa0+TAfqWKfzbOxV/7eSrC/yVjkr5i3xj\n0iRpbj2RbDSi/pMg4bnSSHQzpFb1DRS6pAm4y5s8wqdFCJnmIL2+BSYe4VKvXz72\nForde4imDAiHOeyK9jJ6S0tHj5rLZlk+nlZ9H3F677AdgGZl24Ufs80N2EKKIHXE\nxIxiSvWUkLX/eK+WFhl2n2eow+VDbvE/iGFnxn+2prSJKd1+e2xfwtRi5UmhJXoC\n7REM+/xrepSJZIGMrQyXXhdB\n=+HWg\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e71448c81fb4f72da33fda5dffbba2f341457b6d",
-          "sha": "e71448c81fb4f72da33fda5dffbba2f341457b6d",
-          "html_url": "https://github.com/bitcoin/bips/commit/e71448c81fb4f72da33fda5dffbba2f341457b6d"
-        }
-      ],
-      "message": "bip-0375: say the version byte belongs to the identifier, not to the field\n\n\"The PSBT_OUT_SP_V0_INFO should be serialized as a zero byte for the\nversion, followed by the 33 bytes of the scan key and then 33 bytes for\nthe spend key\" names the field, and the field is 66 bytes: its table\nentry is \"<33 byte scan key> <33 byte spend key>\", the test vectors carry\n66, and the validator refuses anything else.\n\nThe sentence is in the Unique Identification section and was added with\nit, so what it describes is the output script that stands in for a silent\npayment output when building the unsigned transaction that identifies the\npsbt -- 67 bytes there, and nothing about the field. Read as the field's\nown serialization it contradicts the table, which is how it first read\nhere.\n\nOnly the wording changes.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-19T13:03:25Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-08-14T17:23:44Z"
-      },
-      "sha": "8bb12e8c1468bf9832420aee09b892b0c3ac99ad"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 31445267275,
       "node_id": "HRFPE_lADOAN28mc8AAAABMzW_188AAAAHUkizSw",
@@ -683,6 +643,77 @@
       "commit_id": "8bb12e8c1468bf9832420aee09b892b0c3ac99ad",
       "commit_url": "https://api.github.com/repos/fametrano/bips/commits/8bb12e8c1468bf9832420aee09b892b0c3ac99ad",
       "created_at": "2026-09-19T13:06:41Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGQ2ZTAyMTU3MjgwOGJjZjlkZWM1MjYxNTU4NGI2OGJkNjlmMmNkN2Q",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d6e021572808bcf9dec52615584b68bd69f2cd7d",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/d6e021572808bcf9dec52615584b68bd69f2cd7d",
+      "tree": {
+        "sha": "0796123d91845db8d4aaf184c51136a9313f38f7",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/0796123d91845db8d4aaf184c51136a9313f38f7"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 0796123d91845db8d4aaf184c51136a9313f38f7\nparent fc1b9f40ea7411bcba6394af513d8db8992b69f0\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1786728224 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1790197154 +0200\n\nbip-0375: say the version byte belongs to the identifier, not to the field\n\n\"The PSBT_OUT_SP_V0_INFO should be serialized as a zero byte for the\nversion, followed by the 33 bytes of the scan key and then 33 bytes for\nthe spend key\" names the field, and the field is 66 bytes: its table\nentry is \"<33 byte scan key> <33 byte spend key>\", the test vectors carry\n66, and the validator refuses anything else.\n\nThe sentence is in the Unique Identification section and was added with\nit, so what it describes is the output script that stands in for a silent\npayment output when building the unsigned transaction that identifies the\npsbt -- 67 bytes there, and nothing about the field. Read as the field's\nown serialization it contradicts the table, which is how it first read\nhere.\n\nOnly the wording changes.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmq0PaIbFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/FHPsP/ArcuJPAhvQbdgPCAIM0\nsCr+m1b7A+3TBx9DjGkvKmhgQy00km13IC9oJA/6Z0S3wp+bpvtwlFv2ICzL1mEB\n7ivrUMXu+rojN0lsaFmlVnTSb8w/8xrPvAyCWayboKawM5yoCuNBAOkx/Mn0yeF6\nNkUlUx4guq4ku/iI7/cjsH2baT8MElfTrLfcVD26mNX/rhQ4HkRIpHI3U6KAUIhk\ndT+b0IeT6T13jFXJon+4aiZwAoDAwsnIzS1yMfer1NWZJAtMyIPpo+b0dYQW26tg\nz7xAdNXmv65LchnZ3rm9tx7+dfZdA5eF9m5BTYskUHCL3EpPdmUOOxd+iczCOBZ0\n6/jGdzigIZbHhFcNqNVw7Mk0Md2iubJ9GpiK+9/CR+AWBdH5L6qr0+barjFCKJBs\npshYrFitzZYwcWckEGvudu+0fmd+73OH8vf/tKW69xzusKWy85H2Fo8dmyszEhiG\n6VxlA+99x8/SJuPWqVbL72My9+u3viITUfqAEbhH38Cxqi3huW2ps63KAULoJz6L\nSgY9S6x/lJbAUFLaRu4PfKe4F51TWBqNkAAyNLIil1EdtUBbaiGKZndd5/F3vvYT\nVZAfddydRqEPRR6H0JdZnw6kXYhnd3GtpEMBv4bc3ThLaD2TZ8L0cIoYi4SwAcaT\nla9wVf5MSOpY+VKjHlzL0YAV\n=WG1I\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/fc1b9f40ea7411bcba6394af513d8db8992b69f0",
+          "sha": "fc1b9f40ea7411bcba6394af513d8db8992b69f0",
+          "html_url": "https://github.com/bitcoin/bips/commit/fc1b9f40ea7411bcba6394af513d8db8992b69f0"
+        }
+      ],
+      "message": "bip-0375: say the version byte belongs to the identifier, not to the field\n\n\"The PSBT_OUT_SP_V0_INFO should be serialized as a zero byte for the\nversion, followed by the 33 bytes of the scan key and then 33 bytes for\nthe spend key\" names the field, and the field is 66 bytes: its table\nentry is \"<33 byte scan key> <33 byte spend key>\", the test vectors carry\n66, and the validator refuses anything else.\n\nThe sentence is in the Unique Identification section and was added with\nit, so what it describes is the output script that stands in for a silent\npayment output when building the unsigned transaction that identifies the\npsbt -- 67 bytes there, and nothing about the field. Read as the field's\nown serialization it contradicts the table, which is how it first read\nhere.\n\nOnly the wording changes.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-23T20:59:14Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-08-14T17:23:44Z"
+      },
+      "sha": "d6e021572808bcf9dec52615584b68bd69f2cd7d"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 31709442908,
+      "node_id": "HRFPE_lADOAN28mc8AAAABMzW_188AAAAHYgezXA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31709442908",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "d6e021572808bcf9dec52615584b68bd69f2cd7d",
+      "commit_url": "https://api.github.com/repos/fametrano/bips/commits/d6e021572808bcf9dec52615584b68bd69f2cd7d",
+      "created_at": "2026-09-23T21:02:20Z"
     }
   ],
   "comments": []
