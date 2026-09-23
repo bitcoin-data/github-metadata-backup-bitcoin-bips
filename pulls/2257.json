@@ -41,9 +41,19 @@
       "patch_url": null
     },
     "body": "One sentence, in the Unique Identification section:\n\n> The PSBT_OUT_SP_V0_INFO should be serialized as a zero byte for the\n> version, followed by the 33 bytes of the scan key and then 33 bytes for\n> the spend key.\n\nIt names the field, and the field is 66 bytes: its table entry is\n`<33 byte scan key> <33 byte spend key>`, `bip375_test_vectors.json` carries\n66, and `validator/validate_psbt.py` refuses anything else — `invalid[1]`\nreports \"Output 0 SP_V0_INFO has wrong length (65 bytes, expected 66)\".\n\nRead in its section the sentence is not about the field but about the output\nscript that stands in for a silent payment output when building the unsigned\ntransaction used for unique identification, where 67 bytes contradicts\nnothing. That is also where it came from: `d29e2f8` added it together with\nthe unique-identification paragraph above it.\n\nBoth readings are available to someone reading the sentence alone, and one of\nthem contradicts three other artefacts. This picks the one that does not,\nwithout changing anything normative.\n\nNo changelog entry or version bump: nothing about the format changes, and\nleaving them out keeps this from conflicting with\n[#2207](https://github.com/bitcoin/bips/pull/2207) or\n[#2256](https://github.com/bitcoin/bips/pull/2256), both of which touch the\nchangelog. Glad to add both if you would rather have them.\n\n`scripts/link-format-chk.sh`, `scripts/buildtable.pl`,\n`scripts/diffcheck.sh` and `typos` pass locally.\n\nNoticed while implementing BIP375 in btclib, which serializes the version\nbyte in the identifier and not in the field:\nhttps://github.com/btclib-org/btclib/issues/768",
-    "labels": [],
+    "labels": [
+      {
+        "id": 10999942923,
+        "node_id": "LA_kwDOAN28mc8AAAACj6XPCw",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Fixups",
+        "name": "Fixups",
+        "description": "Minor fixups not worth bothering the BIP author(s) for",
+        "color": "052447",
+        "default": false
+      }
+    ],
     "created_at": "2026-08-14T17:24:04Z",
-    "updated_at": "2026-09-23T21:02:20Z",
+    "updated_at": "2026-09-23T22:33:33Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -155,7 +165,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22556,
+        "size": 22727,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -279,7 +289,7 @@
         "watchers_count": 10950,
         "size": 22631,
         "default_branch": "master",
-        "open_issues_count": 58,
+        "open_issues_count": 57,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -307,7 +317,7 @@
     "deletions": 1,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 2
   },
   "events": [
@@ -714,7 +724,135 @@
       "commit_id": "d6e021572808bcf9dec52615584b68bd69f2cd7d",
       "commit_url": "https://api.github.com/repos/fametrano/bips/commits/d6e021572808bcf9dec52615584b68bd69f2cd7d",
       "created_at": "2026-09-23T21:02:20Z"
+    },
+    {
+      "event": "reviewed",
+      "id": 5297546737,
+      "node_id": "PRR_kwDOAN28mc8AAAABO8Il8Q",
+      "url": null,
+      "actor": null,
+      "commit_id": "d6e021572808bcf9dec52615584b68bd69f2cd7d",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-09-23T22:31:19Z",
+      "author_association": "MEMBER",
+      "user": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2257#pullrequestreview-5297546737",
+      "submitted_at": "2026-09-23T22:31:18Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2257"
+    },
+    {
+      "event": "labeled",
+      "id": 31714445221,
+      "node_id": "LE_lADOAN28mc8AAAABMzW_188AAAAHYlQHpQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31714445221",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-09-23T22:33:33Z",
+      "label": {
+        "name": "Fixups",
+        "color": "052447"
+      }
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4087951719",
+      "pull_request_review_id": 5297546737,
+      "id": 4087951719,
+      "node_id": "PRRC_kwDOAN28mc7zqTFn",
+      "diff_hunk": "@@ -146,7 +146,7 @@ If only PSBT_OUT_SCRIPT is present for an output, then the output is not being s\n ===Unique Identification===\n \n Silent payment capable PSBTs can be uniquely identified the same way as PSBTv2s, except when including silent payment outputs. If an output contains the PSBT_OUT_SP_V0_INFO field, it must use that field instead of PSBT_OUT_SCRIPT as the output script when creating the unsigned transaction used for unique identification.<ref name=\"why_use_sp_info_field\"> ''' Why use PSBT_OUT_SP_V0_INFO when serializing for a unique identifier?''' Since the same silent payment capable PSBT is valid whether or not a PSBT_OUT_SCRIPT is included in an output that has PSBT_OUT_SP_V0_INFO set, using the PSBT_OUT_SCRIPT if present for the unique identifier will cause malleability. The identifier will be different depending on whether PSBT_OUT_SCRIPT is present, so always using PSBT_OUT_SP_V0_INFO if it exists makes sure the PSBT is always identified uniquely.</ref>\n-The PSBT_OUT_SP_V0_INFO should be serialized as a zero byte for the version, followed by the 33 bytes of the scan key and then 33 bytes for the spend key.\n+In that unsigned transaction, the output script of such an output is a zero byte for the version, followed by the 33 bytes of the scan key and then 33 bytes for the spend key; the PSBT_OUT_SP_V0_INFO field itself is the two keys, without the version byte.",
+      "path": "bip-0375.mediawiki",
+      "position": 5,
+      "original_position": 5,
+      "commit_id": "d6e021572808bcf9dec52615584b68bd69f2cd7d",
+      "original_commit_id": "d6e021572808bcf9dec52615584b68bd69f2cd7d",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "achow101",
+        "id": 3782274,
+        "node_id": "MDQ6VXNlcjM3ODIyNzQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3782274?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/achow101",
+        "html_url": "https://github.com/achow101",
+        "followers_url": "https://api.github.com/users/achow101/followers",
+        "following_url": "https://api.github.com/users/achow101/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/achow101/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/achow101/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/achow101/subscriptions",
+        "organizations_url": "https://api.github.com/users/achow101/orgs",
+        "repos_url": "https://api.github.com/users/achow101/repos",
+        "events_url": "https://api.github.com/users/achow101/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/achow101/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "> the PSBT_OUT_SP_V0_INFO field itself is the two keys, without the version byte.\n\nI don't think it is necessary to specify this again, it's already specified elsewhere.",
+      "created_at": "2026-09-23T22:31:19Z",
+      "updated_at": "2026-09-23T22:31:19Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2257#discussion_r4087951719",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4087951719"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2257"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 149,
+      "original_line": 149,
+      "side": "RIGHT"
+    }
+  ]
 }
