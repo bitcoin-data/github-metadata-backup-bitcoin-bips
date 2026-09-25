@@ -43,9 +43,9 @@
     "body": "The Contents section says what goes into a basic filter, but nothing in the BIP says that an item appearing more than once is only included once. Set Construction describes `L` as \"a vector of N raw items\", so building the filter from the text alone keeps duplicates.\n\nThat gives a different result from the test vectors. Block 926485 in `bip-0158/testnet-19.json` (\"Duplicate pushdata 913bcc2b...\") spends several outputs with the same script. Keeping every item gives N=17 and a filter and filter header that don't match. Removing duplicates gives N=9, which matches the vector. All other vectors come out the same either way.\n\nBitcoin Core (`GCSFilter::ElementSet` is a `std::unordered_set`) and btcd (`gcs/builder` collects into a map) both dedupe, so this only writes down what implementations already do.\n",
     "labels": [],
     "created_at": "2026-09-25T11:49:11Z",
-    "updated_at": "2026-09-25T11:49:11Z",
+    "updated_at": "2026-09-25T18:56:56Z",
     "mergeable": true,
-    "mergeable_state": "unstable",
+    "mergeable_state": "clean",
     "merged": false,
     "merge_commit_sha": "bc965bfbae1bea9110313ee70eac25a420bbfd7f",
     "assignees": [],
@@ -154,7 +154,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22669,
+        "size": 22677,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -273,12 +273,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6027,
-        "stargazers_count": 10951,
-        "watchers_count": 10951,
-        "size": 22669,
+        "forks_count": 6028,
+        "stargazers_count": 10950,
+        "watchers_count": 10950,
+        "size": 22700,
         "default_branch": "master",
-        "open_issues_count": 58,
+        "open_issues_count": 57,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -289,9 +289,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-25T03:19:29Z",
+        "pushed_at": "2026-09-25T18:50:40Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-25T11:50:28Z",
+        "updated_at": "2026-09-25T18:51:07Z",
         "allow_forking": true
       }
     },
@@ -300,13 +300,13 @@
         "href": "https://api.github.com/repos/bitcoin/bips/pulls/2303"
       }
     },
-    "author_association": "NONE",
+    "author_association": "CONTRIBUTOR",
     "draft": false,
     "additions": 5,
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 0
   },
   "events": [
@@ -349,7 +349,101 @@
         "date": "2026-09-25T11:48:02Z"
       },
       "sha": "2479691dc8ec1e4819b20d33a3c6614378897dbd"
+    },
+    {
+      "event": "reviewed",
+      "id": 5321527050,
+      "node_id": "PRR_kwDOAN28mc8AAAABPTAPCg",
+      "url": null,
+      "actor": null,
+      "commit_id": "2479691dc8ec1e4819b20d33a3c6614378897dbd",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-09-25T18:56:55Z",
+      "author_association": "MEMBER",
+      "body": "Thanks for the submission, I’m not sure this is a useful change.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2303#pullrequestreview-5321527050",
+      "submitted_at": "2026-09-25T18:56:55Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2303"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4107670423",
+      "pull_request_review_id": 5321527050,
+      "id": 4107670423,
+      "node_id": "PRRC_kwDOAN28mc701hOX",
+      "diff_hunk": "@@ -274,6 +274,11 @@ following items for each transaction in a block:\n \n Any \"nil\" items MUST NOT be included into the final set of filter elements.\n \n+Duplicate items MUST be included only once. If the same script appears more",
+      "path": "bip-0158.mediawiki",
+      "position": 4,
+      "original_position": 4,
+      "commit_id": "2479691dc8ec1e4819b20d33a3c6614378897dbd",
+      "original_commit_id": "2479691dc8ec1e4819b20d33a3c6614378897dbd",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "The document refers to the filter data as a “set”. In computer science, [set](https://en.wikipedia.org/wiki/Set_(abstract_data_type)) refers to a data structure that stores unordered unique values. Sets cannot contain duplicates, trying to add a duplicate is either ignored or results in an error. I don’t think this clarification is necessary.",
+      "created_at": "2026-09-25T18:52:16Z",
+      "updated_at": "2026-09-25T18:56:56Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2303#discussion_r4107670423",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4107670423"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2303"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 277,
+      "original_line": 277,
+      "side": "RIGHT"
+    }
+  ]
 }
