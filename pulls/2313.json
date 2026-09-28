@@ -53,7 +53,7 @@
       }
     ],
     "created_at": "2026-09-28T16:18:52Z",
-    "updated_at": "2026-09-28T16:56:27Z",
+    "updated_at": "2026-09-28T17:06:37Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -164,7 +164,7 @@
         "forks_count": 0,
         "stargazers_count": 1,
         "watchers_count": 1,
-        "size": 22198,
+        "size": 22907,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -316,7 +316,7 @@
     "deletions": 2,
     "changed_files": 1,
     "commits": 2,
-    "review_comments": 1,
+    "review_comments": 2,
     "comments": 0
   },
   "events": [
@@ -472,6 +472,44 @@
       "submitted_at": "2026-09-28T16:56:26Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2313"
+    },
+    {
+      "event": "reviewed",
+      "id": 5342104188,
+      "node_id": "PRR_kwDOAN28mc8AAAABPmoKfA",
+      "url": null,
+      "actor": null,
+      "commit_id": "992a7458faf6a2fd32843b3c6ff583601775d3b9",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-09-28T17:06:37Z",
+      "author_association": "MEMBER",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2313#pullrequestreview-5342104188",
+      "submitted_at": "2026-09-28T17:06:37Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2313"
     }
   ],
   "comments": [
@@ -527,6 +565,60 @@
       "start_side": null,
       "line": 73,
       "original_line": 73,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4124948071",
+      "pull_request_review_id": 5342104188,
+      "id": 4124948071,
+      "node_id": "PRRC_kwDOAN28mc713bZn",
+      "diff_hunk": "",
+      "path": "bip-0054.md",
+      "position": 1,
+      "original_position": 1,
+      "commit_id": "992a7458faf6a2fd32843b3c6ff583601775d3b9",
+      "original_commit_id": "992a7458faf6a2fd32843b3c6ff583601775d3b9",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Aside, would this be clearer? (if I understand correctly)\n\n```diff\n--- a/bip-0054.md\n+++ b/bip-0054.md\n@@ -69,7 +69,7 @@ A limit is set on the number of signature operations present in the scripts use\n transaction. It applies to all transactions in the block except the coinbase transaction[^1]. For\n-each input in the transaction, count the number of `CHECKSIG` and `CHECKMULTISIG` in the input\n+each input in the transaction, count the number of signature operations from `CHECKSIG`, `CHECKSIGVERIFY`, `CHECKMULTISIG`, and `CHECKMULTISIGVERIFY` in the input\n scriptSig and previous output's scriptPubKey, including the P2SH redeemScript. If the total summed\n over all transaction inputs is strictly higher than 2500, the transaction is invalid. The accounting is the\n same as for [bip-0016][BIP16 specs], evaluating the scriptSig, scriptPubKey, and P2SH redeemScript\n```",
+      "created_at": "2026-09-28T17:06:37Z",
+      "updated_at": "2026-09-28T17:06:37Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2313#discussion_r4124948071",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4124948071"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2313"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 67,
+      "original_line": 67,
       "side": "RIGHT"
     }
   ]
