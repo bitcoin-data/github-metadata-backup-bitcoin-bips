@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2238/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2238/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/585e90382aeb1a93c39b7d070d0a55712bb78f0f",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/b7c7d7c19911d16aadbb173e006a8ba8df3f6cb9",
     "number": 2238,
     "state": "open",
     "locked": false,
@@ -53,11 +53,11 @@
       }
     ],
     "created_at": "2026-08-05T22:46:40Z",
-    "updated_at": "2026-09-26T05:47:35Z",
+    "updated_at": "2026-09-27T23:04:20Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "5ff308fbd89905ba7a6014ba216f51e25c61dd4e",
+    "merge_commit_sha": "b2a9d955e2b5d4aef883512565eb1b5264e843b3",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -88,7 +88,7 @@
     "head": {
       "label": "fametrano:bip174-witnessscript-vector-pubkey",
       "ref": "bip174-witnessscript-vector-pubkey",
-      "sha": "585e90382aeb1a93c39b7d070d0a55712bb78f0f",
+      "sha": "b7c7d7c19911d16aadbb173e006a8ba8df3f6cb9",
       "user": {
         "login": "fametrano",
         "id": 3296421,
@@ -188,7 +188,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22713,
+        "size": 22806,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -201,7 +201,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-26T05:47:41Z",
+        "pushed_at": "2026-09-27T23:13:48Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-08-01T21:58:43Z",
         "allow_forking": true
@@ -210,7 +210,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc",
+      "sha": "4f979daf78db8d18f1d90aed2750fb1a51c6eccf",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -310,7 +310,7 @@
         "forks_count": 6028,
         "stargazers_count": 10950,
         "watchers_count": 10950,
-        "size": 22724,
+        "size": 22761,
         "default_branch": "master",
         "open_issues_count": 56,
         "is_template": false,
@@ -323,9 +323,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-25T18:50:40Z",
+        "pushed_at": "2026-09-27T17:55:17Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-25T18:51:07Z",
+        "updated_at": "2026-09-27T17:55:23Z",
         "allow_forking": true
       }
     },
@@ -1044,46 +1044,6 @@
       "created_at": "2026-09-24T17:36:59Z"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDU4NWU5MDM4MmFlYjFhOTNjMzliN2QwNzBkMGE1NTcxMmJiNzhmMGY",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/585e90382aeb1a93c39b7d070d0a55712bb78f0f",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/585e90382aeb1a93c39b7d070d0a55712bb78f0f",
-      "tree": {
-        "sha": "07251280d946398dfec139f62dfeda006eba2d5d",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/07251280d946398dfec139f62dfeda006eba2d5d"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 07251280d946398dfec139f62dfeda006eba2d5d\nparent 02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc\nauthor Ferdinando Ametrano <ferdinando@checksig.com> 1785966759 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1790401566 +0200\n\nBIP-174: test data: make the witnessScript in the invalid-key case match its P2WSH hash\n\nIn the \"PSBT with invalid output witnessScript typed key\" case, the\nvalue of the PSBT_OUT_WITNESS_SCRIPT record no longer hashes to the\nP2WSH program in the output's redeemScript: 65f0b3dd trimmed it to its\nlast six bytes while fixing a short read.\n\nRe-encode the record as `02 0100 25 <script>`: the key stays one byte\ntoo long, which is what the case tests, and the value is the original\n37-byte script again. Same total length, same layout as the \"invalid\noutput redeemScript typed key\" case.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmq3XB4bFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/F4UsQAIK7eBPJ6wXTYc9QcDtY\nBfiCXQCjGhGAsI1V8gsvi6dRrnjDig9y49ujOoc/X4Jumh/vwkzu9G44ag3CwnfP\nDllSc2kmUreGEnJPJFOG73e9Mb86tD7ti5Zu2u3yD8Y/WcRbvcP5/uBHe9pwcxox\nwHzGbRe2DmyIHAGVhU5vJ16QBgF+tpvgq7cbmaukAJ5Z2v2p0hiWoSu8mxTrzUd/\nMNy4Y5a8ayPFBSG4dsLdTgsj4en9y7F393+xyVK9+g9NFmVVCUKOdNzNQl9JJTIh\nmhcIagb58Xz0uaH7oRvawZKshNs4bIS2xsr05tnCk5jtBhZcXZkB9zKSdroiOlPa\nIaxfNuQ7VdFNWWS9iqWLP4uBP9r3fYter6fuG0J1kYlkX/2AWr/82z6wICc23IA7\niru0ezL4NI/osJkd0PVRE5m0YM5qBABX4/EpoOzIQztG0A1wId3Kxsmk6mHDgo5O\nQQ020+me9TAcT+uVYV1LD/oDOVqNc2w/3k0+cZPTcCby2k/AZnEZrDvFSJpqb8Bn\nM7g/h8piG82IKwlrnUi1in6y1qK2UzfEX5iiGB8r/WLme1yEsyMSandfRoRLbr6c\ns4nP3BH6xZuYY40D/0GPkAUJxvult0MtQN7FqF09rC+BLcW1Bg6L0sxyL/8BphKG\ncXpfFSFj4KsRmmuNSAEYIYyE\n=5JbX\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc",
-          "sha": "02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc",
-          "html_url": "https://github.com/bitcoin/bips/commit/02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc"
-        }
-      ],
-      "message": "BIP-174: test data: make the witnessScript in the invalid-key case match its P2WSH hash\n\nIn the \"PSBT with invalid output witnessScript typed key\" case, the\nvalue of the PSBT_OUT_WITNESS_SCRIPT record no longer hashes to the\nP2WSH program in the output's redeemScript: 65f0b3dd trimmed it to its\nlast six bytes while fixing a short read.\n\nRe-encode the record as `02 0100 25 <script>`: the key stays one byte\ntoo long, which is what the case tests, and the value is the original\n37-byte script again. Same total length, same layout as the \"invalid\noutput redeemScript typed key\" case.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-26T05:46:06Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@checksig.com",
-        "date": "2026-08-05T21:52:39Z"
-      },
-      "sha": "585e90382aeb1a93c39b7d070d0a55712bb78f0f"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 31880669057,
       "node_id": "HRFPE_lADOAN28mc8AAAABLouaZM8AAAAHbDxngQ",
@@ -1113,6 +1073,77 @@
       "commit_id": "585e90382aeb1a93c39b7d070d0a55712bb78f0f",
       "commit_url": "https://api.github.com/repos/fametrano/bips/commits/585e90382aeb1a93c39b7d070d0a55712bb78f0f",
       "created_at": "2026-09-26T05:47:35Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGI3YzdkN2MxOTkxMWQxNmFhZGJiMTczZTAwNmE4YmE4ZGYzZjZjYjk",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b7c7d7c19911d16aadbb173e006a8ba8df3f6cb9",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/b7c7d7c19911d16aadbb173e006a8ba8df3f6cb9",
+      "tree": {
+        "sha": "b7c4eb61f33f85de8212fabb1d46fdcff5d9206b",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/b7c4eb61f33f85de8212fabb1d46fdcff5d9206b"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree b7c4eb61f33f85de8212fabb1d46fdcff5d9206b\nparent 4f979daf78db8d18f1d90aed2750fb1a51c6eccf\nauthor Ferdinando Ametrano <ferdinando@checksig.com> 1785966759 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1790549350 +0200\n\nBIP-174: test data: make the witnessScript in the invalid-key case match its P2WSH hash\n\nIn the \"PSBT with invalid output witnessScript typed key\" case, the\nvalue of the PSBT_OUT_WITNESS_SCRIPT record no longer hashes to the\nP2WSH program in the output's redeemScript: 65f0b3dd trimmed it to its\nlast six bytes while fixing a short read.\n\nRe-encode the record as `02 0100 25 <script>`: the key stays one byte\ntoo long, which is what the case tests, and the value is the original\n37-byte script again. Same total length, same layout as the \"invalid\noutput redeemScript typed key\" case.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmq5nWcbFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/Fm2IP/R4CpY5w3WCq37JrjHIN\n/38BA7rWG7ruD28AMKGK85ccxCMDbT1Xa9x+3qylqSvyh81KvCL5TtR+81Ne29wO\n+EosX8LPeijcMZRRQwhZxjrK+Ov0esTx/rrMxtuP3z53xmviMIx3qAZF9dPWvikT\ntD1ipZgYGLZX0f3eh8BEKVScmsA51nSSpM3851S46m/fsMhGuP1GeZHWv7xpQFgv\nF8JA5Z0giGUAfiFgHRceg37piu0rpvEXe5QKYSCWJjtGz/t7+2iOYQybmCLbnczT\nY7tuS3c4IGBeYvm2k6i7ViE+8ZmURPsannPhKAa/Wfi0kdPWrmHe2xEOPFi3sPYX\nL3p8g/USIVIikpGmlfbtjmFK3MYyZ8yK/RQ7wCDuNtpZXOZYDaw2ymXeoCmhjfN9\nwHdnac3gjHWV9E78lMn/h0hGYJjDg9tWEVAF71NHxxZwRL71hG16z0ZgzCAKZiCF\n+rsBJdiN4u2xBAakSKnEXbdqj2nCZPKZmYJ89LoPdRcw+C/ihZeX4UmlBbZEXO4x\nbnGt+v6MQDmi/WB8oCbkGCC/8r/BMV+7cpYuJdVINzmALM0Wpr7peubm4SUWInoi\nVWtnTpKG4bTt/lu6mx128q4aS9RnR2GsZ6jFyacNjwTKn6BN+T0nB37Am+9BJ7yc\nZqIrbhFcOXnStgtReG7pIu3l\n=nFGP\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/4f979daf78db8d18f1d90aed2750fb1a51c6eccf",
+          "sha": "4f979daf78db8d18f1d90aed2750fb1a51c6eccf",
+          "html_url": "https://github.com/bitcoin/bips/commit/4f979daf78db8d18f1d90aed2750fb1a51c6eccf"
+        }
+      ],
+      "message": "BIP-174: test data: make the witnessScript in the invalid-key case match its P2WSH hash\n\nIn the \"PSBT with invalid output witnessScript typed key\" case, the\nvalue of the PSBT_OUT_WITNESS_SCRIPT record no longer hashes to the\nP2WSH program in the output's redeemScript: 65f0b3dd trimmed it to its\nlast six bytes while fixing a short read.\n\nRe-encode the record as `02 0100 25 <script>`: the key stays one byte\ntoo long, which is what the case tests, and the value is the original\n37-byte script again. Same total length, same layout as the \"invalid\noutput redeemScript typed key\" case.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-27T22:49:10Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@checksig.com",
+        "date": "2026-08-05T21:52:39Z"
+      },
+      "sha": "b7c7d7c19911d16aadbb173e006a8ba8df3f6cb9"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 31951443457,
+      "node_id": "HRFPE_lADOAN28mc8AAAABLouaZM8AAAAHcHRWAQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/31951443457",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "b7c7d7c19911d16aadbb173e006a8ba8df3f6cb9",
+      "commit_url": "https://api.github.com/repos/fametrano/bips/commits/b7c7d7c19911d16aadbb173e006a8ba8df3f6cb9",
+      "created_at": "2026-09-27T23:04:20Z"
     }
   ],
   "comments": []
