@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-08-21T20:42:14Z",
-    "updated_at": "2026-09-30T00:52:29Z",
+    "updated_at": "2026-09-30T14:25:10Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -293,11 +293,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6028,
-        "stargazers_count": 10949,
-        "watchers_count": 10949,
+        "stargazers_count": 10948,
+        "watchers_count": 10948,
         "size": 22757,
         "default_branch": "master",
-        "open_issues_count": 60,
+        "open_issues_count": 61,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2026-09-28T15:24:34Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-29T15:58:22Z",
+        "updated_at": "2026-09-30T12:30:36Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 2,
-    "review_comments": 23,
+    "review_comments": 25,
     "comments": 2
   },
   "events": [
@@ -1990,9 +1990,9 @@
         "name": null,
         "patch_url": null
       },
-      "body": "Done.",
+      "body": "Updated.",
       "created_at": "2026-09-30T00:44:09Z",
-      "updated_at": "2026-09-30T00:44:09Z",
+      "updated_at": "2026-09-30T14:50:19Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2266#discussion_r4139749722",
       "author_association": "CONTRIBUTOR",
       "_links": {
@@ -2062,6 +2062,114 @@
       "start_side": null,
       "line": 28,
       "original_line": 28,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4145656330",
+      "pull_request_review_id": 5367531402,
+      "id": 4145656330,
+      "node_id": "PRRC_kwDOAN28mc73GbIK",
+      "diff_hunk": "@@ -0,0 +1,304 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: Anti-Fee-Sniping with LockTime\n+  Authors: nervana21 <nervana21@pm.me>\n+  Status: Draft\n+  Type: Informational\n+  Assigned: ?\n+  License: CC0-1.0\n+```\n+\n+## Abstract\n+\n+This BIP specifies wallet behavior that discourages fee sniping by setting nLockTime. Bitcoin Core already implements this behavior. BIP326 assumes these nLockTime rules as the baseline and uses nSequence instead for some taproot spends.\n+\n+## Motivation\n+\n+Anti-fee-sniping behavior has existed in Bitcoin Core since [2014](https://github.com/bitcoin/bitcoin/commit/ba7fcc8de06602576ab6a5911879d3d8df80d36a) and in Electrum since [2017](https://github.com/spesmilo/electrum/commit/de85b56e0aeac52463530dab3e54f1a35128ee3b). BIP326 assumes this nLockTime behavior but never defined it. This BIP specifies those rules.\n+\n+## Background\n+\n+### Fee sniping\n+\n+Fee sniping is an incentive-misaligned miner strategy. The miner orphans the best block to capture fees from its transactions and from the mempool instead of extending the tip. With nLockTime anti-fee-sniping, many of those transactions cannot enter the remined first block and must wait for the second, which weakens the attack and favors extending the chain instead.\n+\n+### Absolute locktime\n+\n+nLockTime is an absolute lock. Setting aside nSequence effects, a transaction with an nLockTime set to block height N may only be included in block height N + 1 or greater. A transaction with an nLockTime set to 0 is always final. nLockTime values less than 500_000_000 are block heights. The 10% privacy branch uses an older height, which can still enter a remine.\n+\n+If every input has nSequence equal to 0xffffffff, nLockTime is ignored.\n+\n+## Specification\n+\n+Set nLockTime to the current tip block height. With probability 10%, subtract a uniform random integer in 0..99 from that height (clamped at 0). The random branch improves privacy when signing is delayed (for example in high-latency mix networks).\n+\n+Ensure at least one input has nSequence below 0xffffffff so nLockTime takes effect. The pseudocode sets every wallet-controlled input to `2**32 - 2` as one conventional choice.\n+\n+If the tip is not current, such as during initial block download, or when the current time minus the tip timestamp is greater than 8 hours (28_800 seconds), set nLockTime to 0 instead. A tip-relative locktime while far behind the network does not help against fee sniping and can fingerprint the wallet.\n+\n+Do not apply this BIP when the user or a higher-level protocol sets nLockTime, or when any input already has a preset nSequence (for example a PSBT this wallet only funds, or a contract template). Leave those fields unmodified. Presigned transactions meant to stay valid across a wide height range should document their own locktime policy.\n+\n+A child's nLockTime does not protect an unconfirmed parent. Finality is checked per transaction.\n+\n+Wallets on BIP326's nSequence anti-fee-sniping branch may set nLockTime to 0. On BIP326's nLockTime branch, and for all non-taproot spends, follow this BIP.\n+\n+### Pseudocode\n+\n+```\n+def apply_nlocktime_anti_fee_sniping(transaction):\n+    if transaction.has_preset_nlocktime() or any(input.has_preset_nsequence() for input in transaction.inputs):\n+        return\n+    for input in transaction.inputs:\n+        input.nsequence = 2**32 - 2  # Conventional\n+    # skip if IBD or tip age > 8 hours\n+    if chain_is_ibd() or (now() - tip_time()) > 8 * 60 * 60:\n+        transaction.nlocktime = 0\n+        return\n+    transaction.nlocktime = blockchain.height()\n+    if randrange(10) == 0:\n+        transaction.nlocktime = max(0, transaction.nlocktime - randrange(100))\n+```\n+\n+### Test Vectors\n+\n+Each case is input to the pseudocode, then expected `nlocktime` / `nsequence`. `rand10` is `randrange(10)` (`0` is the 10% privacy branch). `rand100` is `randrange(100)` (values 0..99), subtracted only on that branch. `tip_age` is `now() - tip_time()` in seconds. If `nlocktime_preset` or `nsequence_preset` is true, leave both fields unchanged. `nsequence` is one wallet-controlled input. `4294967295` is `2^(32) - 1`, `4294967294` is `2^(32) - 2`.\n+\n+```json\n+[\n+  {\n+    \"comment\": \"current tip, common branch\",\n+    \"given\": {\n+      \"height\": 800000,\n+      \"ibd\": false,\n+      \"tip_age\": 0,\n+      \"rand10\": 3,\n+      \"rand100\": 99,\n+      \"nlocktime_preset\": false,\n+      \"nsequence_preset\": false,\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967295]\n+    },\n+    \"expected\": {\n+      \"nlocktime\": 800000,\n+      \"nsequence\": [4294967294]\n+    }\n+  },\n+  {\n+    \"comment\": \"current tip, privacy branch r = 0\",\n+    \"given\": {\n+      \"height\": 800000,\n+      \"ibd\": false,\n+      \"tip_age\": 0,\n+      \"rand10\": 0,\n+      \"rand100\": 0,\n+      \"nlocktime_preset\": false,\n+      \"nsequence_preset\": false,\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967295]\n+    },\n+    \"expected\": {\n+      \"nlocktime\": 800000,\n+      \"nsequence\": [4294967294]\n+    }\n+  },\n+  {\n+    \"comment\": \"current tip, privacy branch r = 99\",\n+    \"given\": {\n+      \"height\": 800000,\n+      \"ibd\": false,\n+      \"tip_age\": 0,\n+      \"rand10\": 0,\n+      \"rand100\": 99,\n+      \"nlocktime_preset\": false,\n+      \"nsequence_preset\": false,\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967295]\n+    },\n+    \"expected\": {\n+      \"nlocktime\": 799901,\n+      \"nsequence\": [4294967294]\n+    }\n+  },\n+  {\n+    \"comment\": \"stale tip, age 28801 > 8 hours\",\n+    \"given\": {\n+      \"height\": 800000,\n+      \"ibd\": false,\n+      \"tip_age\": 28801,\n+      \"rand10\": 3,\n+      \"rand100\": 99,\n+      \"nlocktime_preset\": false,\n+      \"nsequence_preset\": false,\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967295]\n+    },\n+    \"expected\": {\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967294]\n+    }\n+  },\n+  {\n+    \"comment\": \"stale tip, privacy RNG would have fired, still nLockTime 0\",\n+    \"given\": {\n+      \"height\": 800000,\n+      \"ibd\": false,\n+      \"tip_age\": 28801,\n+      \"rand10\": 0,\n+      \"rand100\": 99,\n+      \"nlocktime_preset\": false,\n+      \"nsequence_preset\": false,\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967295]\n+    },\n+    \"expected\": {\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967294]\n+    }\n+  },\n+  {\n+    \"comment\": \"tip age exactly 8 hours is still current\",\n+    \"given\": {\n+      \"height\": 800000,\n+      \"ibd\": false,\n+      \"tip_age\": 28800,\n+      \"rand10\": 3,\n+      \"rand100\": 99,\n+      \"nlocktime_preset\": false,\n+      \"nsequence_preset\": false,\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967295]\n+    },\n+    \"expected\": {\n+      \"nlocktime\": 800000,\n+      \"nsequence\": [4294967294]\n+    }\n+  },\n+  {\n+    \"comment\": \"IBD, tip otherwise current\",\n+    \"given\": {\n+      \"height\": 800000,\n+      \"ibd\": true,\n+      \"tip_age\": 0,\n+      \"rand10\": 3,\n+      \"rand100\": 99,\n+      \"nlocktime_preset\": false,\n+      \"nsequence_preset\": false,\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967295]\n+    },\n+    \"expected\": {\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967294]\n+    }\n+  },\n+  {\n+    \"comment\": \"preset nSequence, leave fields unchanged\",\n+    \"given\": {\n+      \"height\": 800000,\n+      \"ibd\": false,\n+      \"tip_age\": 0,\n+      \"rand10\": 3,\n+      \"rand100\": 99,\n+      \"nlocktime_preset\": false,\n+      \"nsequence_preset\": true,\n+      \"nlocktime\": 0,\n+      \"nsequence\": [7]\n+    },\n+    \"expected\": {\n+      \"nlocktime\": 0,\n+      \"nsequence\": [7]\n+    }\n+  },\n+  {\n+    \"comment\": \"preset nLockTime, leave fields unchanged\",\n+    \"given\": {\n+      \"height\": 800000,\n+      \"ibd\": false,\n+      \"tip_age\": 0,\n+      \"rand10\": 3,\n+      \"rand100\": 99,\n+      \"nlocktime_preset\": true,\n+      \"nsequence_preset\": false,\n+      \"nlocktime\": 123,\n+      \"nsequence\": [4294967294]\n+    },\n+    \"expected\": {\n+      \"nlocktime\": 123,\n+      \"nsequence\": [4294967294]\n+    }\n+  },\n+  {\n+    \"comment\": \"privacy branch subtract then clamp at 0\",\n+    \"given\": {\n+      \"height\": 50,\n+      \"ibd\": false,\n+      \"tip_age\": 0,\n+      \"rand10\": 0,\n+      \"rand100\": 99,\n+      \"nlocktime_preset\": false,\n+      \"nsequence_preset\": false,\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967295]\n+    },\n+    \"expected\": {\n+      \"nlocktime\": 0,\n+      \"nsequence\": [4294967294]\n+    }\n+  }\n+]\n+```\n+\n+## Rationale\n+\n+### Fee bumping and replacements\n+\n+Re-applying the 10% privacy branch when fee-bumping can set a lower nLockTime on the replacement than on the transaction being replaced. That fingerprints Core or Electrum style wallets ([bitcoin#26526](https://github.com/bitcoin/bitcoin/issues/26526)). Changing locktime type across a replacement (for example height-based to time-based) is related ([bitcoin#35628](https://github.com/bitcoin/bitcoin/issues/35628)). Implementations SHOULD document replacement locktime policy, including locktime type. When re-running the privacy branch on a height-based previous locktime, floor at that height. Do not go older unless that policy is intentional and documented.\n+\n+### Enforcing locktime\n+\n+Setting tip-relative nLockTime without a non-final nSequence is a known fingerprint. Past wallet bugs of this class are documented in the [locktime-stairs observation](https://b10c.me/observations/01-locktime-stairs/) and in [mainnet charts of unenforced locktimes](https://mainnet.observer/charts/transactions-not-enforced-locktime/).\n+\n+### Anonymity set\n+\n+Only a small share of transactions currently use height-based nLockTime (on the order of 5% at the time of this writing, see [height-based locktime chart](https://mainnet.observer/charts/transactions-height-based-locktime/)). Applying this BIP can stick out until broader correct adoption grows that set.\n+\n+## Backward Compatibility\n+\n+This BIP requires no consensus changes and wallets may adopt it unilaterally.\n+\n+Hardware signers and PSBT cosigners should accept tip-relative anti-fee-sniping nLockTime values and should not require nLockTime=0 by default. Wallet software that funds PSBTs should apply this BIP when locktime and sequences are still wallet-controlled. Creator-chosen values stay untouched.",
+      "path": "bip-anti-fee-sniping-with-locktime.md",
+      "position": 270,
+      "original_position": 270,
+      "commit_id": "0af9cb51e9be87a7f30c3053c801c1cf7d958574",
+      "original_commit_id": "0af9cb51e9be87a7f30c3053c801c1cf7d958574",
+      "in_reply_to_id": 4066530015,
+      "user": {
+        "login": "nervana21",
+        "id": 205626986,
+        "node_id": "U_kgDODEGeag",
+        "avatar_url": "https://avatars.githubusercontent.com/u/205626986?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nervana21",
+        "html_url": "https://github.com/nervana21",
+        "followers_url": "https://api.github.com/users/nervana21/followers",
+        "following_url": "https://api.github.com/users/nervana21/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nervana21/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nervana21/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nervana21/subscriptions",
+        "organizations_url": "https://api.github.com/users/nervana21/orgs",
+        "repos_url": "https://api.github.com/users/nervana21/repos",
+        "events_url": "https://api.github.com/users/nervana21/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nervana21/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Done.",
+      "created_at": "2026-09-30T14:22:36Z",
+      "updated_at": "2026-09-30T14:22:36Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2266#discussion_r4145656330",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4145656330"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2266"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 270,
+      "original_line": 270,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4145687342",
+      "pull_request_review_id": 5367570472,
+      "id": 4145687342,
+      "node_id": "PRRC_kwDOAN28mc73Gisu",
+      "diff_hunk": "@@ -0,0 +1,304 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: Anti-Fee-Sniping with LockTime\n+  Authors: nervana21 <nervana21@pm.me>\n+  Status: Draft\n+  Type: Informational\n+  Assigned: ?\n+  License: CC0-1.0\n+```\n+\n+## Abstract\n+\n+This BIP specifies wallet behavior that discourages fee sniping by setting nLockTime. Bitcoin Core already implements this behavior. BIP326 assumes these nLockTime rules as the baseline and uses nSequence instead for some taproot spends.\n+\n+## Motivation\n+\n+Anti-fee-sniping behavior has existed in Bitcoin Core since [2014](https://github.com/bitcoin/bitcoin/commit/ba7fcc8de06602576ab6a5911879d3d8df80d36a) and in Electrum since [2017](https://github.com/spesmilo/electrum/commit/de85b56e0aeac52463530dab3e54f1a35128ee3b). BIP326 assumes this nLockTime behavior but never defined it. This BIP specifies those rules.\n+\n+## Background\n+\n+### Fee sniping\n+\n+Fee sniping is an incentive-misaligned miner strategy. The miner orphans the best block to capture fees from its transactions and from the mempool instead of extending the tip. With nLockTime anti-fee-sniping, many of those transactions cannot enter the remined first block and must wait for the second, which weakens the attack and favors extending the chain instead.\n+\n+### Absolute locktime\n+\n+nLockTime is an absolute lock. Setting aside nSequence effects, a transaction with an nLockTime set to block height N may only be included in block height N + 1 or greater. A transaction with an nLockTime set to 0 is always final. nLockTime values less than 500_000_000 are block heights. The 10% privacy branch uses an older height, which can still enter a remine.\n+\n+If every input has nSequence equal to 0xffffffff, nLockTime is ignored.\n+\n+## Specification\n+\n+Set nLockTime to the current tip block height. With probability 10%, subtract a uniform random integer in 0..99 from that height (clamped at 0). The random branch improves privacy when signing is delayed (for example in high-latency mix networks).\n+\n+Ensure at least one input has nSequence below 0xffffffff so nLockTime takes effect. The pseudocode sets every wallet-controlled input to `2**32 - 2` as one conventional choice.\n+\n+If the tip is not current, such as during initial block download, or when the current time minus the tip timestamp is greater than 8 hours (28_800 seconds), set nLockTime to 0 instead. A tip-relative locktime while far behind the network does not help against fee sniping and can fingerprint the wallet.\n+\n+Do not apply this BIP when the user or a higher-level protocol sets nLockTime, or when any input already has a preset nSequence (for example a PSBT this wallet only funds, or a contract template). Leave those fields unmodified. Presigned transactions meant to stay valid across a wide height range should document their own locktime policy.",
+      "path": "bip-anti-fee-sniping-with-locktime.md",
+      "position": 40,
+      "original_position": 40,
+      "commit_id": "0af9cb51e9be87a7f30c3053c801c1cf7d958574",
+      "original_commit_id": "0af9cb51e9be87a7f30c3053c801c1cf7d958574",
+      "in_reply_to_id": 4066549051,
+      "user": {
+        "login": "nervana21",
+        "id": 205626986,
+        "node_id": "U_kgDODEGeag",
+        "avatar_url": "https://avatars.githubusercontent.com/u/205626986?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/nervana21",
+        "html_url": "https://github.com/nervana21",
+        "followers_url": "https://api.github.com/users/nervana21/followers",
+        "following_url": "https://api.github.com/users/nervana21/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/nervana21/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/nervana21/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/nervana21/subscriptions",
+        "organizations_url": "https://api.github.com/users/nervana21/orgs",
+        "repos_url": "https://api.github.com/users/nervana21/repos",
+        "events_url": "https://api.github.com/users/nervana21/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/nervana21/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Done.",
+      "created_at": "2026-09-30T14:25:10Z",
+      "updated_at": "2026-09-30T14:25:10Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2266#discussion_r4145687342",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4145687342"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2266"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 40,
+      "original_line": 40,
       "side": "RIGHT"
     }
   ]
