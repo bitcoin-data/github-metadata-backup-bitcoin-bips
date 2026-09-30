@@ -52,13 +52,15 @@
       }
     ],
     "created_at": "2026-01-03T18:00:46Z",
-    "updated_at": "2026-09-18T18:58:25Z",
-    "mergeable_state": "unknown",
+    "updated_at": "2026-09-30T00:23:41Z",
+    "mergeable": true,
+    "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "513a0ca4423a37d1d1f2946a4f79dcefec620b69",
+    "merge_commit_sha": "ecca7f36b299af6ee94e68de36f36d31a108ff0b",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
+    "rebaseable": false,
     "head": {
       "label": "siv2r:bip-frost-signing",
       "ref": "bip-frost-signing",
@@ -281,12 +283,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6023,
-        "stargazers_count": 10942,
-        "watchers_count": 10942,
-        "size": 22433,
+        "forks_count": 6028,
+        "stargazers_count": 10949,
+        "watchers_count": 10949,
+        "size": 22757,
         "default_branch": "master",
-        "open_issues_count": 62,
+        "open_issues_count": 60,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -297,9 +299,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-18T18:58:22Z",
+        "pushed_at": "2026-09-28T15:24:34Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-18T18:58:26Z",
+        "updated_at": "2026-09-29T15:58:22Z",
         "allow_forking": true
       }
     },
@@ -314,7 +316,7 @@
     "deletions": 0,
     "changed_files": 47,
     "commits": 17,
-    "review_comments": 224,
+    "review_comments": 225,
     "comments": 43
   },
   "events": [
@@ -18885,6 +18887,60 @@
       "start_side": null,
       "line": 727,
       "original_line": 727,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4139639006",
+      "pull_request_review_id": 5360060175,
+      "id": 4139639006,
+      "node_id": "PRRC_kwDOAN28mc72veDe",
+      "diff_hunk": "@@ -0,0 +1,822 @@\n+```\n+BIP: ?\n+Title: FROST Signing Protocol for BIP340 Signatures\n+Author: Sivaram Dhakshinamoorthy <siv2ram@gmail.com>\n+Comments-URI:\n+Status: Draft\n+Type: Standards Track\n+Assigned: ?\n+License: CC0-1.0 or MIT\n+Post-History: https://groups.google.com/g/bitcoindev/c/PeMp2HQl-H4/m/AcJtK0aKAwAJ\n+Requires: 32, 340, 341\n+```\n+\n+## Abstract\n+\n+This document proposes a standard for the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol. The standard is compatible with [BIP340][bip340] public keys and signatures. It supports *tweaking*, which allows deriving [BIP32][bip32] child keys from the threshold public key and creating [BIP341][bip341] Taproot outputs with key and script paths.\n+\n+## Copyright\n+\n+This document is made available under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).\n+The accompanying source code is licensed under the [MIT license](https://opensource.org/license/mit).\n+\n+## Motivation\n+\n+<!-- REVIEW: Should we add a paragraph about `OP_CHECKSIGADD` like BIP327 does? -->\n+\n+The FROST signature scheme enables threshold Schnorr signatures. In a `t`-of-`n` threshold configuration, any `t`[^t-edge-cases] participants can cooperatively produce a Schnorr signature that is indistinguishable from a signature produced by a single signer. FROST signatures are unforgeable as long as fewer than `t` participants are corrupted. The signing protocol remains functional provided that at least `t` honest participants retain access to their secret key shares.\n+\n+[^t-edge-cases]: While `t = n` and `t = 1` are in principle supported, simpler alternatives are available in these cases. In the case `t = n`, using a dedicated `n`-of-`n` multi-signature scheme such as MuSig2 (see [BIP327][bip327]) instead of FROST avoids the need for an interactive DKG. The case `t = 1` can be realized by letting one signer generate an ordinary [BIP340][bip340] key pair and transmitting the key pair to every other signer, who can check its consistency and then simply use the ordinary [BIP340][bip340] signing algorithm. Signers still need to ensure that they agree on a key pair.\n+\n+The IRTF has published [RFC 9591][rfc9591], which specifies the FROST signing protocol for several elliptic curve and hash function combinations, including secp256k1 with SHA-256, the cryptographic primitives used in Bitcoin. However, the signatures produced by RFC 9591 are incompatible with BIP340 Schnorr signatures due to the X-only public keys introduced in BIP340. Additionally, RFC 9591 does not specify key tweaking mechanisms, which are essential for Bitcoin applications such as [BIP32][bip32] key derivation and [BIP341][bip341] Taproot. This document addresses these limitations by specifying a BIP340-compatible variant of FROST signing protocol that supports key tweaking.\n+\n+Following the initial publication of the FROST protocol[[KG20][frost1]], several optimized variants have been proposed to improve computational efficiency and bandwidth optimization: FROST2[[CKM21][frost2]], FROST2-BTZ[[BTZ21][stronger-security-frost]], and FROST3[[CGRS23][olaf]]. Among these variants, FROST3 is the most efficient variant to date.\n+\n+This document specifies the FROST3 variant[^frost3-security]. The FROST3 signing protocol shares substantial similarities with the MuSig2 signing protocol specified in [BIP327][bip327]. Accordingly, this specification adopts several design principles from BIP327, including support for key tweaking, partial signature verification, and identifiable abort mechanisms. We note that significant portions of this document have been directly adapted from BIP327 due to the similarities in the signing protocols. Key generation for FROST signing is out of scope for this document.\n+\n+[^frost3-security]: The FROST3 signing scheme has been proven existentially unforgeable for both trusted dealer and distributed key generation setups. When using a trusted dealer for key generation, security reduces to the standard One-More Discrete Logarithm (OMDL) assumption. When instantiated with a distributed key generation protocol such as SimplPedPoP, security reduces to the Algebraic One-More Discrete Logarithm (AOMDL) assumption.\n+\n+## Overview\n+\n+Implementers must make sure to understand this section thoroughly to avoid subtle mistakes that may lead to catastrophic failure.\n+\n+### Optionality of Features\n+\n+The goal of this proposal is to support a wide range of possible application scenarios.\n+Given a specific application scenario, some features may be unnecessary or not desirable, and implementers can choose not to support them.\n+Such optional features include:\n+\n+- Applying plain tweaks after x-only tweaks.\n+- Applying tweaks at all.\n+- Dealing with messages that are not exactly 32 bytes.\n+- Identifying a disruptive signer after aborting (aborting itself remains mandatory).\n+If applicable, the corresponding algorithms should simply fail when encountering inputs unsupported by a particular implementation. (For example, the signing algorithm may fail when given a message which is not 32 bytes.)\n+Similarly, the test vectors that exercise the unimplemented features should be re-interpreted to expect an error, or be skipped if appropriate.\n+\n+### Key Material and Setup\n+\n+<!-- REVIEW: should we use \"identifiers `i`\", secret share `secshare_i` style here? -->\n+A FROST key generation protocol configures a group of `n` participants with a *threshold public key* (representing a `t`-of-`n` threshold policy).\n+The corresponding *threshold secret key* is Shamir secret-shared among all `n` participants, where each participant holds a distinct long-term *secret share*.\n+This ensures that any subset of at least `t` participants can jointly run the FROST signing protocol to produce a signature under the *threshold secret key*.\n+\n+Key generation for FROST signing is out of scope for this document. Implementations can use either a trusted dealer setup, as specified in [Appendix C of RFC 9591](https://www.rfc-editor.org/rfc/rfc9591.html#name-trusted-dealer-key-generati), or a distributed key generation (DKG) protocol such as [ChillDKG](https://github.com/BlockstreamResearch/bip-frost-dkg). The appropriate choice depends on the implementations's trust model and operational requirements.\n+\n+This protocol distinguishes between two public key formats: *plain public keys* are 33-byte compressed public keys traditionally used in Bitcoin, while *X-only public keys* are 32-byte keys defined in [BIP340][bip340].\n+Key generation protocols produce *public shares* and *threshold public keys* in the plain format. During signing, we conditionally negates *secret shares* to ensure the resulting threshold-signature verifies under the corresponding *X-only threshold public key*.\n+\n+> [!WARNING]\n+> Key generation protocols must commit the *threshold public key* to an unspendable script path as recommended in [BIP341](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki#cite_note-23). This prevents a malicious party from embedding a hidden script path during key generation that would allow them to bypass the `t`-of-`n` threshold policy.\n+\n+#### Protocol Parties and Network Setup\n+\n+There are `u` (where `t <= u <= n < 2^32`) participants and one coordinator initiating the FROST signing protocol.\n+Each participant has a point-to-point communication link to the coordinator (but participants do not have direct communication links to each other).\n+\n+If there is no dedicated coordinator, one of the participants can act as the coordinator.\n+\n+#### Signing Inputs and Outputs\n+\n+Each signing session requires two inputs: a participant's long-term *secret share* `secshare_i` (individual to each participant, not shared with the coordinator) and a [*Signers Context*](#signers-context)[^signers-ctx-struct] data structure (common to all participants and the coordinator).\n+\n+[^signers-ctx-struct]: The *Signers Context* represents the public data of signing participants: their identifiers (*id<sub>1..u</sub>*) and public shares (*pubshare<sub>1..u</sub>*).\n+Implementations may represent this as simply as two separate lists passed to signing APIs.\n+The threshold public key *thresh_pk* can be stored for efficiency or recomputed when needed using *DeriveThreshPubkey*.\n+Similarly, the values *n* and *t* are used only for validation, and can be omitted if validation is not performed.\n+\n+This signing protocol is compatible with any key generation protocol that produces valid FROST keys.\n+Valid keys satisfy: (1) each *secret share* is a Shamir share of the *threshold secret key*, and (2) each *public share* equals the scalar multiplication `secshare * G`.\n+Implementations may **optionally** validate key compatibility for a signing session using the *ValidateSignersCtx* function.\n+For comprehensive validation of the entire key material, *ValidateSignersCtx* can be run on all possible `u` signing participants.\n+\n+> [!IMPORTANT]\n+> Passing *ValidateSignersCtx* ensures functional compatibility with the signing protocol but does not guarantee the security of the key generation protocol itself.\n+\n+The output of the FROST signing protocol is a BIP340 Schnorr signature that verifies under the *threshold public key* as if it were produced by a single signer using the *threshold secret key*.\n+\n+### General Signing Flow\n+\n+We assume that the coordinator and the signing participants (in the algorithms specified below, is stored in a data structure called [Signers Context](#signers-context)) are selected externally to the signing protocol before it is initiated. They could also optionally tweak the *threshold public key* now, by initializing [Tweak Context](#tweak-context) with it.",
+      "path": "bip-frost-signing.md",
+      "position": 1,
+      "original_position": 99,
+      "commit_id": "ec46a20323840b1a6aba83bc2d18b34dd0811245",
+      "original_commit_id": "ec46a20323840b1a6aba83bc2d18b34dd0811245",
+      "in_reply_to_id": 2689921315,
+      "user": {
+        "login": "Bloqmusic36",
+        "id": 93728969,
+        "node_id": "U_kgDOBZYwyQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/93728969?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Bloqmusic36",
+        "html_url": "https://github.com/Bloqmusic36",
+        "followers_url": "https://api.github.com/users/Bloqmusic36/followers",
+        "following_url": "https://api.github.com/users/Bloqmusic36/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Bloqmusic36/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Bloqmusic36/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Bloqmusic36/subscriptions",
+        "organizations_url": "https://api.github.com/users/Bloqmusic36/orgs",
+        "repos_url": "https://api.github.com/users/Bloqmusic36/repos",
+        "events_url": "https://api.github.com/users/Bloqmusic36/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Bloqmusic36/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Okay! That is super.",
+      "created_at": "2026-09-30T00:23:41Z",
+      "updated_at": "2026-09-30T00:23:41Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2070#discussion_r4139639006",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4139639006"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2070"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 99,
       "side": "RIGHT"
     }
   ]
