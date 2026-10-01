@@ -1,0 +1,596 @@
+{
+  "type": "pull",
+  "pull": {
+    "url": "https://api.github.com/repos/bitcoin/bips/pulls/2320",
+    "id": 4708736906,
+    "node_id": "PR_kwDOAN28mc8AAAABGKmfig",
+    "html_url": "https://github.com/bitcoin/bips/pull/2320",
+    "diff_url": "https://github.com/bitcoin/bips/pull/2320.diff",
+    "patch_url": "https://github.com/bitcoin/bips/pull/2320.patch",
+    "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2320",
+    "commits_url": "https://api.github.com/repos/bitcoin/bips/pulls/2320/commits",
+    "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2320/comments",
+    "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
+    "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2320/comments",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/80a27cf13b895e80afce911e1376826f5be527bf",
+    "number": 2320,
+    "state": "open",
+    "locked": false,
+    "maintainer_can_modify": true,
+    "title": "BIP93: Allow other human-readable parts",
+    "user": {
+      "login": "BenWestgate",
+      "id": 73506583,
+      "node_id": "MDQ6VXNlcjczNTA2NTgz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/BenWestgate",
+      "html_url": "https://github.com/BenWestgate",
+      "followers_url": "https://api.github.com/users/BenWestgate/followers",
+      "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+      "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+      "repos_url": "https://api.github.com/users/BenWestgate/repos",
+      "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
+    "body": "## Summary\r\n\r\nGeneralize codex32 so that the human-readable part is not restricted to\r\n`ms`.\r\n\r\nBIP-32 master seeds and their shares continue to use `ms`, while other\r\napplications can use their own human-readable parts.\r\n\r\n## Changes\r\n\r\n- Specify the human-readable part as in BIP-173.\r\n- Include the human-readable part in checksum construction and verification.\r\n- Count its BIP-173 expansion toward the checksum length limits.\r\n- Rename the inline `ms32` checksum and interpolation helpers to `codex32`.\r\n- Require all shares in a set to use the same human-readable part.\r\n- Clarify that the interpolation helpers operate on the data part and do not\r\n  check the valid set conditions.\r\n- Limit fresh-secret generation to applications that accept every payload, or\r\n  require rejection sampling otherwise.\r\n- Do not recommend correcting errors in the human-readable part unless the\r\n  application specifies how.\r\n- Update the existing invalid vectors whose interpretation changes when other\r\n  human-readable parts become valid.\r\n- Add test vectors covering:\r\n  - the registered `cl` human-readable part used by Core Lightning;\r\n  - checksum selection affected by human-readable-part length;\r\n  - an 83-character human-readable part containing `1`;\r\n  - expanded lengths 94 and 95;\r\n  - a checksum computed over an uppercase human-readable part;\r\n  - a human-readable part longer than 83 characters.\r\n\r\nStrings using `ms` are unchanged.\r\n\r\n## Testing\r\n\r\nThe generalized checksum functions were checked against the previous `ms32`\r\nfunctions for `ms` over random data parts of every length from 0 through 1029\r\nsymbols, including both checksum variants, the 94–95 expanded-length gap, and\r\nlengths beyond 1023.\r\n\r\nInterpolation results for `ms` were also checked to be unchanged.\r\n\r\nThe new vectors were checked with both the specification's Python code and an\r\nindependent implementation, `python-codex32`. They agree except that\r\n`python-codex32` does not yet enforce the 83-character human-readable-part\r\nlimit.\r\n\r\nLink-format, README-table, and whitespace checks pass.\r\n\r\nRefs: #2040, #2258, #2285",
+    "labels": [],
+    "created_at": "2026-10-01T19:45:13Z",
+    "updated_at": "2026-10-01T19:45:13Z",
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "merged": false,
+    "merge_commit_sha": "911238a45796ffc08c69805543499579c76f87cf",
+    "assignees": [],
+    "requested_reviewers": [],
+    "requested_teams": [],
+    "rebaseable": true,
+    "head": {
+      "label": "BenWestgate:bip93-generalize-hrp",
+      "ref": "bip93-generalize-hrp",
+      "sha": "80a27cf13b895e80afce911e1376826f5be527bf",
+      "user": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "repo": {
+        "id": 1040826915,
+        "node_id": "R_kgDOPgnCIw",
+        "name": "bips",
+        "full_name": "BenWestgate/bips",
+        "owner": {
+          "login": "BenWestgate",
+          "id": 73506583,
+          "node_id": "MDQ6VXNlcjczNTA2NTgz",
+          "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/BenWestgate",
+          "html_url": "https://github.com/BenWestgate",
+          "followers_url": "https://api.github.com/users/BenWestgate/followers",
+          "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+          "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+          "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+          "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+          "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+          "repos_url": "https://api.github.com/users/BenWestgate/repos",
+          "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+          "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+          "type": "User",
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
+        },
+        "private": false,
+        "html_url": "https://github.com/BenWestgate/bips",
+        "description": "Bitcoin Improvement Proposals",
+        "fork": true,
+        "url": "https://api.github.com/repos/BenWestgate/bips",
+        "archive_url": "https://api.github.com/repos/BenWestgate/bips/%7Barchive_format%7D%7B/ref%7D",
+        "assignees_url": "https://api.github.com/repos/BenWestgate/bips/assignees%7B/user%7D",
+        "blobs_url": "https://api.github.com/repos/BenWestgate/bips/git/blobs%7B/sha%7D",
+        "branches_url": "https://api.github.com/repos/BenWestgate/bips/branches%7B/branch%7D",
+        "collaborators_url": "https://api.github.com/repos/BenWestgate/bips/collaborators%7B/collaborator%7D",
+        "comments_url": "https://api.github.com/repos/BenWestgate/bips/comments%7B/number%7D",
+        "commits_url": "https://api.github.com/repos/BenWestgate/bips/commits%7B/sha%7D",
+        "compare_url": "https://api.github.com/repos/BenWestgate/bips/compare/%7Bbase%7D...%7Bhead%7D",
+        "contents_url": "https://api.github.com/repos/BenWestgate/bips/contents/%7B+path%7D",
+        "contributors_url": "https://api.github.com/repos/BenWestgate/bips/contributors",
+        "deployments_url": "https://api.github.com/repos/BenWestgate/bips/deployments",
+        "downloads_url": "https://api.github.com/repos/BenWestgate/bips/downloads",
+        "events_url": "https://api.github.com/repos/BenWestgate/bips/events",
+        "forks_url": "https://api.github.com/repos/BenWestgate/bips/forks",
+        "git_commits_url": "https://api.github.com/repos/BenWestgate/bips/git/commits%7B/sha%7D",
+        "git_refs_url": "https://api.github.com/repos/BenWestgate/bips/git/refs%7B/sha%7D",
+        "git_tags_url": "https://api.github.com/repos/BenWestgate/bips/git/tags%7B/sha%7D",
+        "git_url": "git://github.com/BenWestgate/bips.git",
+        "issue_comment_url": "https://api.github.com/repos/BenWestgate/bips/issues/comments%7B/number%7D",
+        "issue_events_url": "https://api.github.com/repos/BenWestgate/bips/issues/events%7B/number%7D",
+        "issues_url": "https://api.github.com/repos/BenWestgate/bips/issues%7B/number%7D",
+        "keys_url": "https://api.github.com/repos/BenWestgate/bips/keys%7B/key_id%7D",
+        "labels_url": "https://api.github.com/repos/BenWestgate/bips/labels%7B/name%7D",
+        "languages_url": "https://api.github.com/repos/BenWestgate/bips/languages",
+        "merges_url": "https://api.github.com/repos/BenWestgate/bips/merges",
+        "milestones_url": "https://api.github.com/repos/BenWestgate/bips/milestones%7B/number%7D",
+        "notifications_url": "https://api.github.com/repos/BenWestgate/bips/notifications%7B?since,all,participating}",
+        "pulls_url": "https://api.github.com/repos/BenWestgate/bips/pulls%7B/number%7D",
+        "releases_url": "https://api.github.com/repos/BenWestgate/bips/releases%7B/id%7D",
+        "ssh_url": "git@github.com:BenWestgate/bips.git",
+        "stargazers_url": "https://api.github.com/repos/BenWestgate/bips/stargazers",
+        "statuses_url": "https://api.github.com/repos/BenWestgate/bips/statuses/%7Bsha%7D",
+        "subscribers_url": "https://api.github.com/repos/BenWestgate/bips/subscribers",
+        "subscription_url": "https://api.github.com/repos/BenWestgate/bips/subscription",
+        "tags_url": "https://api.github.com/repos/BenWestgate/bips/tags",
+        "teams_url": "https://api.github.com/repos/BenWestgate/bips/teams",
+        "trees_url": "https://api.github.com/repos/BenWestgate/bips/git/trees%7B/sha%7D",
+        "clone_url": "https://github.com/BenWestgate/bips.git",
+        "hooks_url": "https://api.github.com/repos/BenWestgate/bips/hooks",
+        "svn_url": "https://github.com/BenWestgate/bips",
+        "homepage": "",
+        "language": "Wikitext",
+        "forks_count": 0,
+        "stargazers_count": 0,
+        "watchers_count": 0,
+        "size": 22889,
+        "default_branch": "master",
+        "open_issues_count": 2,
+        "is_template": false,
+        "topics": [],
+        "has_issues": false,
+        "has_projects": true,
+        "has_wiki": true,
+        "has_pages": false,
+        "has_downloads": false,
+        "archived": false,
+        "disabled": false,
+        "visibility": "public",
+        "pushed_at": "2026-10-01T19:38:54Z",
+        "created_at": "2025-08-19T15:04:43Z",
+        "updated_at": "2026-10-01T08:47:09Z",
+        "allow_forking": true
+      }
+    },
+    "base": {
+      "label": "bitcoin:master",
+      "ref": "master",
+      "sha": "3a10b5b5f0a7586df8928d580a3009744ebb2079",
+      "user": {
+        "login": "bitcoin",
+        "id": 528860,
+        "node_id": "MDEyOk9yZ2FuaXphdGlvbjUyODg2MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/528860?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bitcoin",
+        "html_url": "https://github.com/bitcoin",
+        "followers_url": "https://api.github.com/users/bitcoin/followers",
+        "following_url": "https://api.github.com/users/bitcoin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bitcoin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bitcoin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bitcoin/subscriptions",
+        "organizations_url": "https://api.github.com/users/bitcoin/orgs",
+        "repos_url": "https://api.github.com/users/bitcoin/repos",
+        "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bitcoin/received_events",
+        "type": "Organization",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "repo": {
+        "id": 14531737,
+        "node_id": "MDEwOlJlcG9zaXRvcnkxNDUzMTczNw==",
+        "name": "bips",
+        "full_name": "bitcoin/bips",
+        "owner": {
+          "login": "bitcoin",
+          "id": 528860,
+          "node_id": "MDEyOk9yZ2FuaXphdGlvbjUyODg2MA==",
+          "avatar_url": "https://avatars.githubusercontent.com/u/528860?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/bitcoin",
+          "html_url": "https://github.com/bitcoin",
+          "followers_url": "https://api.github.com/users/bitcoin/followers",
+          "following_url": "https://api.github.com/users/bitcoin/following%7B/other_user%7D",
+          "gists_url": "https://api.github.com/users/bitcoin/gists%7B/gist_id%7D",
+          "starred_url": "https://api.github.com/users/bitcoin/starred%7B/owner%7D%7B/repo%7D",
+          "subscriptions_url": "https://api.github.com/users/bitcoin/subscriptions",
+          "organizations_url": "https://api.github.com/users/bitcoin/orgs",
+          "repos_url": "https://api.github.com/users/bitcoin/repos",
+          "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
+          "received_events_url": "https://api.github.com/users/bitcoin/received_events",
+          "type": "Organization",
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
+        },
+        "private": false,
+        "html_url": "https://github.com/bitcoin/bips",
+        "description": "Bitcoin Improvement Proposals",
+        "fork": false,
+        "url": "https://api.github.com/repos/bitcoin/bips",
+        "archive_url": "https://api.github.com/repos/bitcoin/bips/%7Barchive_format%7D%7B/ref%7D",
+        "assignees_url": "https://api.github.com/repos/bitcoin/bips/assignees%7B/user%7D",
+        "blobs_url": "https://api.github.com/repos/bitcoin/bips/git/blobs%7B/sha%7D",
+        "branches_url": "https://api.github.com/repos/bitcoin/bips/branches%7B/branch%7D",
+        "collaborators_url": "https://api.github.com/repos/bitcoin/bips/collaborators%7B/collaborator%7D",
+        "comments_url": "https://api.github.com/repos/bitcoin/bips/comments%7B/number%7D",
+        "commits_url": "https://api.github.com/repos/bitcoin/bips/commits%7B/sha%7D",
+        "compare_url": "https://api.github.com/repos/bitcoin/bips/compare/%7Bbase%7D...%7Bhead%7D",
+        "contents_url": "https://api.github.com/repos/bitcoin/bips/contents/%7B+path%7D",
+        "contributors_url": "https://api.github.com/repos/bitcoin/bips/contributors",
+        "deployments_url": "https://api.github.com/repos/bitcoin/bips/deployments",
+        "downloads_url": "https://api.github.com/repos/bitcoin/bips/downloads",
+        "events_url": "https://api.github.com/repos/bitcoin/bips/events",
+        "forks_url": "https://api.github.com/repos/bitcoin/bips/forks",
+        "git_commits_url": "https://api.github.com/repos/bitcoin/bips/git/commits%7B/sha%7D",
+        "git_refs_url": "https://api.github.com/repos/bitcoin/bips/git/refs%7B/sha%7D",
+        "git_tags_url": "https://api.github.com/repos/bitcoin/bips/git/tags%7B/sha%7D",
+        "git_url": "git://github.com/bitcoin/bips.git",
+        "issue_comment_url": "https://api.github.com/repos/bitcoin/bips/issues/comments%7B/number%7D",
+        "issue_events_url": "https://api.github.com/repos/bitcoin/bips/issues/events%7B/number%7D",
+        "issues_url": "https://api.github.com/repos/bitcoin/bips/issues%7B/number%7D",
+        "keys_url": "https://api.github.com/repos/bitcoin/bips/keys%7B/key_id%7D",
+        "labels_url": "https://api.github.com/repos/bitcoin/bips/labels%7B/name%7D",
+        "languages_url": "https://api.github.com/repos/bitcoin/bips/languages",
+        "merges_url": "https://api.github.com/repos/bitcoin/bips/merges",
+        "milestones_url": "https://api.github.com/repos/bitcoin/bips/milestones%7B/number%7D",
+        "notifications_url": "https://api.github.com/repos/bitcoin/bips/notifications%7B?since,all,participating}",
+        "pulls_url": "https://api.github.com/repos/bitcoin/bips/pulls%7B/number%7D",
+        "releases_url": "https://api.github.com/repos/bitcoin/bips/releases%7B/id%7D",
+        "ssh_url": "git@github.com:bitcoin/bips.git",
+        "stargazers_url": "https://api.github.com/repos/bitcoin/bips/stargazers",
+        "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/%7Bsha%7D",
+        "subscribers_url": "https://api.github.com/repos/bitcoin/bips/subscribers",
+        "subscription_url": "https://api.github.com/repos/bitcoin/bips/subscription",
+        "tags_url": "https://api.github.com/repos/bitcoin/bips/tags",
+        "teams_url": "https://api.github.com/repos/bitcoin/bips/teams",
+        "trees_url": "https://api.github.com/repos/bitcoin/bips/git/trees%7B/sha%7D",
+        "clone_url": "https://github.com/bitcoin/bips.git",
+        "hooks_url": "https://api.github.com/repos/bitcoin/bips/hooks",
+        "svn_url": "https://github.com/bitcoin/bips",
+        "homepage": "",
+        "language": "Wikitext",
+        "forks_count": 6031,
+        "stargazers_count": 10953,
+        "watchers_count": 10953,
+        "size": 22757,
+        "default_branch": "master",
+        "open_issues_count": 62,
+        "is_template": false,
+        "topics": [],
+        "has_issues": false,
+        "has_projects": false,
+        "has_wiki": true,
+        "has_pages": false,
+        "has_downloads": false,
+        "archived": false,
+        "disabled": false,
+        "visibility": "public",
+        "pushed_at": "2026-09-28T15:24:34Z",
+        "created_at": "2013-11-19T17:18:41Z",
+        "updated_at": "2026-10-01T18:39:15Z",
+        "allow_forking": true
+      }
+    },
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/bitcoin/bips/pulls/2320"
+      }
+    },
+    "author_association": "CONTRIBUTOR",
+    "draft": true,
+    "additions": 294,
+    "deletions": 210,
+    "changed_files": 1,
+    "commits": 7,
+    "review_comments": 0,
+    "comments": 0
+  },
+  "events": [
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGViN2JiNmMwOTdmZTlmYzM0MGZmYTdmOGI3Y2Y4MzQ0YjM4ZmE4NGY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/eb7bb6c097fe9fc340ffa7f8b7cf8344b38fa84f",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/eb7bb6c097fe9fc340ffa7f8b7cf8344b38fa84f",
+      "tree": {
+        "sha": "9f618ae5b5ad54979af61ac5d28d6bb02e4303e7",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/9f618ae5b5ad54979af61ac5d28d6bb02e4303e7"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/bfc142f2b580a314c846dbce3c15c659c2b1d32d",
+          "sha": "bfc142f2b580a314c846dbce3c15c659c2b1d32d",
+          "html_url": "https://github.com/bitcoin/bips/commit/bfc142f2b580a314c846dbce3c15c659c2b1d32d"
+        }
+      ],
+      "message": "BIP93: Separate format and seed sections\n\nGroup the regular and long checksum definitions in the codex32 format\nsection. Move the master-seed application profile to the end of the\nspecification and keep seed-specific checksum motivation in the\nrationale.\n\nThis is a behavior-neutral organization change on top of the #2258\nprofile commit.",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-12T06:53:20Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-08-25T21:58:50Z"
+      },
+      "sha": "eb7bb6c097fe9fc340ffa7f8b7cf8344b38fa84f"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDk2MjFkM2ZhMDY2YjdjOGIyZjVjM2FkZWZkMWFhNGMwNDk3YzI1ZTM",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9621d3fa066b7c8b2f5c3adefd1aa4c0497c25e3",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/9621d3fa066b7c8b2f5c3adefd1aa4c0497c25e3",
+      "tree": {
+        "sha": "3e0ff8f47abcb9f68b4a3ae7a6b192cf4159efcb",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/3e0ff8f47abcb9f68b4a3ae7a6b192cf4159efcb"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/eb7bb6c097fe9fc340ffa7f8b7cf8344b38fa84f",
+          "sha": "eb7bb6c097fe9fc340ffa7f8b7cf8344b38fa84f",
+          "html_url": "https://github.com/bitcoin/bips/commit/eb7bb6c097fe9fc340ffa7f8b7cf8344b38fa84f"
+        }
+      ],
+      "message": "bip93: Deduplicate specification\n\nKeep the common format rules and checksum properties in one place, and replace the broad application-validity sentence with a concrete reference to the master seed requirements.\n\nRemove the redundant symbol encoder and decoder examples. Preserve their validation rules in the format and master seed text, including the encoded-length restriction for both secrets and shares. Retained checksum and interpolation code is unchanged.\n\nChecked retained Python ASTs against eb7bb6c, all 36 valid and 55 invalid vector occurrences, all six size mappings, legacy sizes, 1024 header combinations, checksum boundaries, share recovery, and nonzero padding. Link-format, README table, and whitespace checks pass.\n\nRefs: #2258, #2285",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-13T21:55:49Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-13T21:55:49Z"
+      },
+      "sha": "9621d3fa066b7c8b2f5c3adefd1aa4c0497c25e3"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDE1ODkxMzM2MDhjYTJkZGQ1NmQ3MmY4YmVjNDAwNDFkMmQ2YjQ1NTA",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1589133608ca2ddd56d72f8bec40041d2d6b4550",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/1589133608ca2ddd56d72f8bec40041d2d6b4550",
+      "tree": {
+        "sha": "5ea7d438cc3706ee01935c1108929be15400aa54",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/5ea7d438cc3706ee01935c1108929be15400aa54"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9621d3fa066b7c8b2f5c3adefd1aa4c0497c25e3",
+          "sha": "9621d3fa066b7c8b2f5c3adefd1aa4c0497c25e3",
+          "html_url": "https://github.com/bitcoin/bips/commit/9621d3fa066b7c8b2f5c3adefd1aa4c0497c25e3"
+        }
+      ],
+      "message": "bip93: Reorganize specification\n\nLet readers implement unshared master seeds from the format and master\nseed sections without reading the secret sharing procedures. Keep the\ncommon header and unshared-secret rules under codex32, and group share\ngeneration and recovery under SSSS-awareness.\n\nGive checksum and error correction one TOC entry each. Use bold labels\nfor the individual checksums and generation cases, and preserve both\nMediaWiki anchors and GitHub permalinks for demoted headings. Put the\ninterpolation helpers with generation and its recovery wrapper afterward.\nRetained executable code is unchanged.\n\nChecked the retained Python ASTs, existing valid/invalid vectors, size\nmappings, header combinations, checksum boundaries, recovery, and padding.\nInspected the rendered TOC and table and checked fragment targets.\nLink-format, README table, and whitespace checks pass.\n\nRefs: #2285",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-13T22:01:48Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-13T22:01:48Z"
+      },
+      "sha": "1589133608ca2ddd56d72f8bec40041d2d6b4550"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDEyYTYxZWU1NjdhNzcyZDQ1MDg4NzUzMDNiMTcwOTU2NGI2Y2E4YTU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/12a61ee567a772d4508875303b1709564b6ca8a5",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/12a61ee567a772d4508875303b1709564b6ca8a5",
+      "tree": {
+        "sha": "afd161eb389f8560ddebe3146bdabf34a649de1c",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/afd161eb389f8560ddebe3146bdabf34a649de1c"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1589133608ca2ddd56d72f8bec40041d2d6b4550",
+          "sha": "1589133608ca2ddd56d72f8bec40041d2d6b4550",
+          "html_url": "https://github.com/bitcoin/bips/commit/1589133608ca2ddd56d72f8bec40041d2d6b4550"
+        }
+      ],
+      "message": "bip93: Clarify seed-size units\n\nDescribe seed sizes in bits in the encoding instructions, checksum\nrationale, and retained-size list, matching generation and the vectors.\nKeep bytes for decoded output and the historical contiguous byte-size\nrange, and retain both units in the size table.\n\nThe supported sizes and all numeric constraints are unchanged. The\nexisting rationale already explains that BIP39 produces 512-bit seeds.\n\nChecked retained Python ASTs, all existing vector occurrences, size\nmappings, header combinations, checksum boundaries, recovery, padding,\nand rendered markup. Link-format, README table, and whitespace checks\npass.\n\nRefs: #2258, #2285",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-14T00:59:47Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-14T00:59:47Z"
+      },
+      "sha": "12a61ee567a772d4508875303b1709564b6ca8a5"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDU0ZTAyMzNhZDcwODRjODUxN2I1ODg0MjdhMjE0OWU5MGExZjk0NGY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/54e0233ad7084c8517b588427a2149e90a1f944f",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/54e0233ad7084c8517b588427a2149e90a1f944f",
+      "tree": {
+        "sha": "4715dbb8136c2c745cb8a7966725d6eb8826f09c",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/4715dbb8136c2c745cb8a7966725d6eb8826f09c"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/12a61ee567a772d4508875303b1709564b6ca8a5",
+          "sha": "12a61ee567a772d4508875303b1709564b6ca8a5",
+          "html_url": "https://github.com/bitcoin/bips/commit/12a61ee567a772d4508875303b1709564b6ca8a5"
+        }
+      ],
+      "message": "bip93: Add revision history\n\nAdd a reverse-chronological draft changelog and matching Version header\nso readers can distinguish the earlier checksum-boundary and seed-size\nchanges from this behavior-neutral reorganization.\n\nAssign retrospective versions to significant revisions and use their\nupstream integration dates, rather than individual patch author dates.\nKeep the Draft status and BSD-3-Clause license unchanged.\n\nChecked the historical entries against first-parent upstream history,\nthe version and date ordering, and the metadata-only diff. Python ASTs,\nexisting vectors, size and checksum boundaries, header combinations,\nrecovery, padding, rendered markup, link formatting, README table, and\nwhitespace checks pass.\n\nRefs: #2258, #2285",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-14T01:02:17Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-14T01:02:17Z"
+      },
+      "sha": "54e0233ad7084c8517b588427a2149e90a1f944f"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDE5NzhhYzI1M2QyNTdmOGExMDg3ZWZhMmYxZjY1NTczN2QyOTExOGU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1978ac253d257f8a1087efa2f1f655737d29118e",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/1978ac253d257f8a1087efa2f1f655737d29118e",
+      "tree": {
+        "sha": "31a5572d552b9459c315618df965e86c5aeee4da",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/31a5572d552b9459c315618df965e86c5aeee4da"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/54e0233ad7084c8517b588427a2149e90a1f944f",
+          "sha": "54e0233ad7084c8517b588427a2149e90a1f944f",
+          "html_url": "https://github.com/bitcoin/bips/commit/54e0233ad7084c8517b588427a2149e90a1f944f"
+        }
+      ],
+      "message": "bip93: Explain secret-sharing data representation\n\nDefine the integer-list representation once in the SSSS-awareness\nintroduction, before either procedure needs it. Move the unchanged\ninterpolation helpers there too, so recovery does not depend on code\ninside Generating shares. Describe interpolation's arguments and result\nbeside its definition and refer to the shared representation from both\ngeneration and recovery.\n\nState that both checksum variants use the same procedures without an\nearly reference to the interpolation function. Label the existing casing\nrules and remove the unnecessary word \"workflows\" from the rationale.\nNo algorithms, validity conditions, version, or changelog entries change.\n\nChecked all Python blocks are byte-identical and that vectors, procedure\nconditions, casing rules, headings, anchors, and metadata are unchanged.\nSixteen recovery cases pass using only the shared introduction and\nrecovery snippets, covering regular and long checksums. Existing vector,\nsize, header, checksum-boundary, recovery, and padding checks also pass.\nLocal rendering, link formatting, README table, and whitespace checks\npass; the casing label does not add a TOC entry.\n\nRefs: #2285",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-14T03:05:04Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-09-14T03:05:04Z"
+      },
+      "sha": "1978ac253d257f8a1087efa2f1f655737d29118e"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDgwYTI3Y2YxM2I4OTVlODBhZmNlOTExZTEzNzY4MjZmNWJlNTI3YmY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/80a27cf13b895e80afce911e1376826f5be527bf",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/80a27cf13b895e80afce911e1376826f5be527bf",
+      "tree": {
+        "sha": "3c92c0a088c2bc7d17f96aa0696590ccd17b6981",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/3c92c0a088c2bc7d17f96aa0696590ccd17b6981"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1978ac253d257f8a1087efa2f1f655737d29118e",
+          "sha": "1978ac253d257f8a1087efa2f1f655737d29118e",
+          "html_url": "https://github.com/bitcoin/bips/commit/1978ac253d257f8a1087efa2f1f655737d29118e"
+        }
+      ],
+      "message": "bip93: Allow other human-readable parts\n\nSpecify the human-readable part as in BIP-0173 instead of requiring\n\"ms\", so other applications, such as the registered \"cl\", can use the\ncodex32 format. Master seeds and their shares keep \"ms\".\n\nPass the human-readable part to the checksum functions and cover its\nBIP-0173 expansion, which already counts toward the checksum length\nlimits. Rename the ms32 functions and constants that now serve every\nhuman-readable part to codex32. Results for \"ms\" are unchanged.\n\nRequire every share in a set to have the same human-readable part, state\nthat the interpolation helpers do not check the set conditions, and limit\nfresh-secret generation to applications that accept every payload, with\nrejection sampling allowed for those that do not. Implementations should\nnot correct the human-readable part unless its application specifies how.\n\nUpdate the existing invalid-vector classifications for generalized human-\nreadable parts. Add vectors for a Core Lightning \"cl\" secret, an\n11-character human-readable part requiring the long checksum, the\n83-character maximum, the 94-95 expanded-length gap, an uppercase human-\nreadable-part checksum, and an overlong human-readable part.\n\nChecked the checksum functions against the previous ms32 functions for\n\"ms\" across data-part lengths 0 through 1029, and checked interpolation\nis unchanged. Checked every new vector with the specification's Python\ncode and python-codex32, and checked each invalid group fails for its\nstated reason. Link-format, README table, and whitespace checks pass.\n\nRefs: #2040, #2258, #2285",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-10-01T19:28:00Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-10-01T19:28:00Z"
+      },
+      "sha": "80a27cf13b895e80afce911e1376826f5be527bf"
+    }
+  ],
+  "comments": []
+}
