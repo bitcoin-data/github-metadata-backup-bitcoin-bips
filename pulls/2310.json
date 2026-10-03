@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2310/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2310/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/ea1192c98800f3157fa6b22307e608362a07b7d2",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/242bfbe9cb2011733c16aea82de2227ba6fb2bc7",
     "number": 2310,
     "state": "open",
     "locked": false,
@@ -43,11 +43,11 @@
     "body": "BIP375 requires constructors and signers to reject PSBTs that combine silent payment outputs with inputs spending SegWit v2+ outputs.\r\n\r\nThe reference validator currently performs this check only when the prevout is provided through `PSBT_IN_WITNESS_UTXO`. BIP174 also permits SegWit inputs to provide the full previous transaction through `PSBT_IN_NON_WITNESS_UTXO`, so an input containing only that field can currently bypass the SegWit-version check.\r\n\r\nReuse the existing `_script_pubkey_from_psbt_input()` helper when validating input eligibility. This extracts the referenced scriptPubKey from either UTXO field.\r\n\r\nAlso add an invalid test vector containing:\r\n\r\n- a silent payment output;\r\n- a SegWit v2 prevout supplied only through `PSBT_IN_NON_WITNESS_UTXO`;\r\n- a matching previous transaction ID and output index.\r\n",
     "labels": [],
     "created_at": "2026-09-26T13:07:13Z",
-    "updated_at": "2026-10-03T19:53:22Z",
+    "updated_at": "2026-10-03T22:34:55Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "3b88ceaf00157bf9f9de30ffc333bdf9a14525f4",
+    "merge_commit_sha": "2ce768822e079bd45e55901468929ae5127d0eae",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -55,7 +55,7 @@
     "head": {
       "label": "zjubiology:master",
       "ref": "master",
-      "sha": "ea1192c98800f3157fa6b22307e608362a07b7d2",
+      "sha": "242bfbe9cb2011733c16aea82de2227ba6fb2bc7",
       "user": {
         "login": "zjubiology",
         "id": 254248340,
@@ -168,16 +168,16 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-26T13:06:29Z",
+        "pushed_at": "2026-10-03T22:33:30Z",
         "created_at": "2026-09-26T11:44:47Z",
-        "updated_at": "2026-09-26T13:06:55Z",
+        "updated_at": "2026-10-03T22:33:54Z",
         "allow_forking": true
       }
     },
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc",
+      "sha": "927b6de9915c9262615a6399de51b200f81e5aa4",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -307,50 +307,10 @@
     "deletions": 7,
     "changed_files": 3,
     "commits": 1,
-    "review_comments": 2,
+    "review_comments": 4,
     "comments": 1
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGVhMTE5MmM5ODgwMGYzMTU3ZmE2YjIyMzA3ZTYwODM2MmEwN2I3ZDI",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ea1192c98800f3157fa6b22307e608362a07b7d2",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/ea1192c98800f3157fa6b22307e608362a07b7d2",
-      "tree": {
-        "sha": "c0f9b187d5b173de8e33b27bbd92df65072d9b28",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/c0f9b187d5b173de8e33b27bbd92df65072d9b28"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc",
-          "sha": "02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc",
-          "html_url": "https://github.com/bitcoin/bips/commit/02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc"
-        }
-      ],
-      "message": "BIP375: check SegWit versions in non-witness UTXOs\n\nSigned-off-by: zjubiology <zjubiology@outlook.com>",
-      "committer": {
-        "name": "zjubiology",
-        "email": "zjubiology@outlook.com",
-        "date": "2026-09-26T13:06:07Z"
-      },
-      "author": {
-        "name": "zjubiology",
-        "email": "zjubiology@outlook.com",
-        "date": "2026-09-26T13:06:07Z"
-      },
-      "sha": "ea1192c98800f3157fa6b22307e608362a07b7d2"
-    },
     {
       "event": "reviewed",
       "id": 5328320423,
@@ -610,6 +570,77 @@
       "submitted_at": "2026-10-03T19:53:22Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2310"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDI0MmJmYmU5Y2IyMDExNzMzYzE2YWVhODJkZTIyMjdiYTZmYjJiYzc",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/242bfbe9cb2011733c16aea82de2227ba6fb2bc7",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/242bfbe9cb2011733c16aea82de2227ba6fb2bc7",
+      "tree": {
+        "sha": "11e2b37093fcf346eb6651129aa084c56595d5e2",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/11e2b37093fcf346eb6651129aa084c56595d5e2"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc",
+          "sha": "02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc",
+          "html_url": "https://github.com/bitcoin/bips/commit/02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc"
+        }
+      ],
+      "message": "BIP375: check SegWit versions in non-witness UTXOs\n\nSigned-off-by: zjubiology <zjubiology@outlook.com>",
+      "committer": {
+        "name": "zjubiology",
+        "email": "zjubiology@outlook.com",
+        "date": "2026-10-03T22:33:18Z"
+      },
+      "author": {
+        "name": "zjubiology",
+        "email": "zjubiology@outlook.com",
+        "date": "2026-09-26T13:06:07Z"
+      },
+      "sha": "242bfbe9cb2011733c16aea82de2227ba6fb2bc7"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 32417807506,
+      "node_id": "HRFPE_lADOAN28mc8AAAABTXC5UM8AAAAHjEB8kg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/32417807506",
+      "actor": {
+        "login": "zjubiology",
+        "id": 254248340,
+        "node_id": "U_kgDODyeFlA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/254248340?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/zjubiology",
+        "html_url": "https://github.com/zjubiology",
+        "followers_url": "https://api.github.com/users/zjubiology/followers",
+        "following_url": "https://api.github.com/users/zjubiology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/zjubiology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/zjubiology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/zjubiology/subscriptions",
+        "organizations_url": "https://api.github.com/users/zjubiology/orgs",
+        "repos_url": "https://api.github.com/users/zjubiology/repos",
+        "events_url": "https://api.github.com/users/zjubiology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/zjubiology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "242bfbe9cb2011733c16aea82de2227ba6fb2bc7",
+      "commit_url": "https://api.github.com/repos/zjubiology/bips/commits/242bfbe9cb2011733c16aea82de2227ba6fb2bc7",
+      "created_at": "2026-10-03T22:33:31Z"
     }
   ],
   "comments": [
@@ -620,7 +651,7 @@
       "node_id": "PRRC_kwDOAN28mc7401et",
       "diff_hunk": "@@ -384,6 +384,25 @@\n         \"input_eligibility\"\n       ]\n     },\n+    {\n+      \"description\": \"input eligibility: segwit version greater than 1 supplied via PSBT_IN_NON_WITNESS_UTXO with sp output\",\n+      \"psbt\": \"cHNidP8B+wQCAAAAAQIEAgAAAAEEAQEBBQEBAQYBAAABDiCWMCZrG0dm0WcLF8uVyI6AOAwflR+auv+KO1+SGwxzyQEPBAAAAAAiAgLIF7t1Ia/DXqlvO/snDm61Dd/6VWBie5Yf7ADymWUIv0cwRAIgcvN4hS+4Q3JgcvJQdvDndWDtTC4EcWbuamJsdb/bOdYCICEqrl8JV040H1iG9f/zL1cW6rkDCkpTeeYBa2pNQtwkAQEDBAEAAAAiBgLIF7t1Ia/DXqlvO/snDm61Dd/6VWBie5Yf7ADymWUIvwgAAACAAAAAAAEQBP7///8iHQJ6SH/Bn7dph3uHQtbqGBGPPE5yseqMbeYCp61KQdvgaCED7KT/Ebco4uD2DOYiKUOm/1W52V9ie/mpnQhLyHLVClsiHgJ6SH/Bn7dph3uHQtbqGBGPPE5yseqMbeYCp61KQdvgaECKE7OYVUX3K9bolxSuuQmz41SoQqm7i1bNDt7SHfihmVmLMSKKSeC9fpXOEFP3xbKKy1Q6aHB2AOPOiYIu4yAhAQBSAgAAAAH0whLVrtHn9v9jPyzgnGR8V77dkwMU2Y3ndQPVjpQLMwAAAAAA/////wGghgEAAAAAABZSFCKactNKZFvTSWu79Qu7gckGP0+UAAAAAAABAwgYcwEAAAAAAAEEIlEgMm31D+Cge3rLcgcL6ztjLrmtFbppXMHlqmqgB7YUb9gBCUICekh/wZ+3aYd7h0LW6hgRjzxOcrHqjG3mAqetSkHb4GgDYeGx6d5eQssgB/fKVLng1X7ROTj61W0/GeV1E6j84DkA\",",
       "path": "bip-0375/bip375_test_vectors.json",
-      "position": 6,
+      "position": 1,
       "original_position": 6,
       "commit_id": "ea1192c98800f3157fa6b22307e608362a07b7d2",
       "original_commit_id": "ea1192c98800f3157fa6b22307e608362a07b7d2",
@@ -663,7 +694,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 389,
+      "line": null,
       "original_line": 389,
       "side": "RIGHT"
     },
@@ -674,7 +705,7 @@
       "node_id": "PRRC_kwDOAN28mc7401e2",
       "diff_hunk": "@@ -384,6 +384,25 @@\n         \"input_eligibility\"\n       ]\n     },\n+    {\n+      \"description\": \"input eligibility: segwit version greater than 1 supplied via PSBT_IN_NON_WITNESS_UTXO with sp output\",\n+      \"psbt\": \"cHNidP8B+wQCAAAAAQIEAgAAAAEEAQEBBQEBAQYBAAABDiCWMCZrG0dm0WcLF8uVyI6AOAwflR+auv+KO1+SGwxzyQEPBAAAAAAiAgLIF7t1Ia/DXqlvO/snDm61Dd/6VWBie5Yf7ADymWUIv0cwRAIgcvN4hS+4Q3JgcvJQdvDndWDtTC4EcWbuamJsdb/bOdYCICEqrl8JV040H1iG9f/zL1cW6rkDCkpTeeYBa2pNQtwkAQEDBAEAAAAiBgLIF7t1Ia/DXqlvO/snDm61Dd/6VWBie5Yf7ADymWUIvwgAAACAAAAAAAEQBP7///8iHQJ6SH/Bn7dph3uHQtbqGBGPPE5yseqMbeYCp61KQdvgaCED7KT/Ebco4uD2DOYiKUOm/1W52V9ie/mpnQhLyHLVClsiHgJ6SH/Bn7dph3uHQtbqGBGPPE5yseqMbeYCp61KQdvgaECKE7OYVUX3K9bolxSuuQmz41SoQqm7i1bNDt7SHfihmVmLMSKKSeC9fpXOEFP3xbKKy1Q6aHB2AOPOiYIu4yAhAQBSAgAAAAH0whLVrtHn9v9jPyzgnGR8V77dkwMU2Y3ndQPVjpQLMwAAAAAA/////wGghgEAAAAAABZSFCKactNKZFvTSWu79Qu7gckGP0+UAAAAAAABAwgYcwEAAAAAAAEEIlEgMm31D+Cge3rLcgcL6ztjLrmtFbppXMHlqmqgB7YUb9gBCUICekh/wZ+3aYd7h0LW6hgRjzxOcrHqjG3mAqetSkHb4GgDYeGx6d5eQssgB/fKVLng1X7ROTj61W0/GeV1E6j84DkA\",\n+      \"supplementary\": {\n+        \"inputs\": [\n+          {\n+            \"input_index\": 0,\n+            \"prevout_txid\": \"9630266b1b4766d1670b17cb95c88e80380c1f951f9abaff8a3b5f921b0c73c9\",",
       "path": "bip-0375/bip375_test_vectors.json",
-      "position": 11,
+      "position": 1,
       "original_position": 11,
       "commit_id": "ea1192c98800f3157fa6b22307e608362a07b7d2",
       "original_commit_id": "ea1192c98800f3157fa6b22307e608362a07b7d2",
@@ -717,7 +748,115 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 394,
+      "line": null,
+      "original_line": 394,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4175193011",
+      "pull_request_review_id": 5403151371,
+      "id": 4175193011,
+      "node_id": "PRRC_kwDOAN28mc743GOz",
+      "diff_hunk": "@@ -384,6 +384,25 @@\n         \"input_eligibility\"\n       ]\n     },\n+    {\n+      \"description\": \"input eligibility: segwit version greater than 1 supplied via PSBT_IN_NON_WITNESS_UTXO with sp output\",\n+      \"psbt\": \"cHNidP8B+wQCAAAAAQIEAgAAAAEEAQEBBQEBAQYBAAABDiCWMCZrG0dm0WcLF8uVyI6AOAwflR+auv+KO1+SGwxzyQEPBAAAAAAiAgLIF7t1Ia/DXqlvO/snDm61Dd/6VWBie5Yf7ADymWUIv0cwRAIgcvN4hS+4Q3JgcvJQdvDndWDtTC4EcWbuamJsdb/bOdYCICEqrl8JV040H1iG9f/zL1cW6rkDCkpTeeYBa2pNQtwkAQEDBAEAAAAiBgLIF7t1Ia/DXqlvO/snDm61Dd/6VWBie5Yf7ADymWUIvwgAAACAAAAAAAEQBP7///8iHQJ6SH/Bn7dph3uHQtbqGBGPPE5yseqMbeYCp61KQdvgaCED7KT/Ebco4uD2DOYiKUOm/1W52V9ie/mpnQhLyHLVClsiHgJ6SH/Bn7dph3uHQtbqGBGPPE5yseqMbeYCp61KQdvgaECKE7OYVUX3K9bolxSuuQmz41SoQqm7i1bNDt7SHfihmVmLMSKKSeC9fpXOEFP3xbKKy1Q6aHB2AOPOiYIu4yAhAQBSAgAAAAH0whLVrtHn9v9jPyzgnGR8V77dkwMU2Y3ndQPVjpQLMwAAAAAA/////wGghgEAAAAAABZSFCKactNKZFvTSWu79Qu7gckGP0+UAAAAAAABAwgYcwEAAAAAAAEEIlEgMm31D+Cge3rLcgcL6ztjLrmtFbppXMHlqmqgB7YUb9gBCUICekh/wZ+3aYd7h0LW6hgRjzxOcrHqjG3mAqetSkHb4GgDYeGx6d5eQssgB/fKVLng1X7ROTj61W0/GeV1E6j84DkA\",",
+      "path": "bip-0375/bip375_test_vectors.json",
+      "position": 1,
+      "original_position": 6,
+      "commit_id": "ea1192c98800f3157fa6b22307e608362a07b7d2",
+      "original_commit_id": "ea1192c98800f3157fa6b22307e608362a07b7d2",
+      "in_reply_to_id": 4174600109,
+      "user": {
+        "login": "zjubiology",
+        "id": 254248340,
+        "node_id": "U_kgDODyeFlA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/254248340?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/zjubiology",
+        "html_url": "https://github.com/zjubiology",
+        "followers_url": "https://api.github.com/users/zjubiology/followers",
+        "following_url": "https://api.github.com/users/zjubiology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/zjubiology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/zjubiology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/zjubiology/subscriptions",
+        "organizations_url": "https://api.github.com/users/zjubiology/orgs",
+        "repos_url": "https://api.github.com/users/zjubiology/repos",
+        "events_url": "https://api.github.com/users/zjubiology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/zjubiology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Thanks, good catch. I had written the human-readable txid byte order directly into PSBT_IN_PREVIOUS_TXID.\r\n\r\nI updated the field to use the raw double-SHA256 byte order and changed the supplementary prevout_txid accordingly. I also checked all seven vectors containing PSBT_IN_NON_WITNESS_UTXO; their previous transaction hashes now match their PSBT_IN_PREVIOUS_TXID fields.\r\n\r\nThe corrected vector is still rejected by input eligibility with:\r\n\r\nInput 0 uses segwit version > 1 with silent payments\r\n\r\n",
+      "created_at": "2026-10-03T22:34:55Z",
+      "updated_at": "2026-10-03T22:34:55Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2310#discussion_r4175193011",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4175193011"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2310"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 389,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4175193504",
+      "pull_request_review_id": 5403152246,
+      "id": 4175193504,
+      "node_id": "PRRC_kwDOAN28mc743GWg",
+      "diff_hunk": "@@ -384,6 +384,25 @@\n         \"input_eligibility\"\n       ]\n     },\n+    {\n+      \"description\": \"input eligibility: segwit version greater than 1 supplied via PSBT_IN_NON_WITNESS_UTXO with sp output\",\n+      \"psbt\": \"cHNidP8B+wQCAAAAAQIEAgAAAAEEAQEBBQEBAQYBAAABDiCWMCZrG0dm0WcLF8uVyI6AOAwflR+auv+KO1+SGwxzyQEPBAAAAAAiAgLIF7t1Ia/DXqlvO/snDm61Dd/6VWBie5Yf7ADymWUIv0cwRAIgcvN4hS+4Q3JgcvJQdvDndWDtTC4EcWbuamJsdb/bOdYCICEqrl8JV040H1iG9f/zL1cW6rkDCkpTeeYBa2pNQtwkAQEDBAEAAAAiBgLIF7t1Ia/DXqlvO/snDm61Dd/6VWBie5Yf7ADymWUIvwgAAACAAAAAAAEQBP7///8iHQJ6SH/Bn7dph3uHQtbqGBGPPE5yseqMbeYCp61KQdvgaCED7KT/Ebco4uD2DOYiKUOm/1W52V9ie/mpnQhLyHLVClsiHgJ6SH/Bn7dph3uHQtbqGBGPPE5yseqMbeYCp61KQdvgaECKE7OYVUX3K9bolxSuuQmz41SoQqm7i1bNDt7SHfihmVmLMSKKSeC9fpXOEFP3xbKKy1Q6aHB2AOPOiYIu4yAhAQBSAgAAAAH0whLVrtHn9v9jPyzgnGR8V77dkwMU2Y3ndQPVjpQLMwAAAAAA/////wGghgEAAAAAABZSFCKactNKZFvTSWu79Qu7gckGP0+UAAAAAAABAwgYcwEAAAAAAAEEIlEgMm31D+Cge3rLcgcL6ztjLrmtFbppXMHlqmqgB7YUb9gBCUICekh/wZ+3aYd7h0LW6hgRjzxOcrHqjG3mAqetSkHb4GgDYeGx6d5eQssgB/fKVLng1X7ROTj61W0/GeV1E6j84DkA\",\n+      \"supplementary\": {\n+        \"inputs\": [\n+          {\n+            \"input_index\": 0,\n+            \"prevout_txid\": \"9630266b1b4766d1670b17cb95c88e80380c1f951f9abaff8a3b5f921b0c73c9\",",
+      "path": "bip-0375/bip375_test_vectors.json",
+      "position": 1,
+      "original_position": 11,
+      "commit_id": "ea1192c98800f3157fa6b22307e608362a07b7d2",
+      "original_commit_id": "ea1192c98800f3157fa6b22307e608362a07b7d2",
+      "in_reply_to_id": 4174600118,
+      "user": {
+        "login": "zjubiology",
+        "id": 254248340,
+        "node_id": "U_kgDODyeFlA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/254248340?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/zjubiology",
+        "html_url": "https://github.com/zjubiology",
+        "followers_url": "https://api.github.com/users/zjubiology/followers",
+        "following_url": "https://api.github.com/users/zjubiology/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/zjubiology/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/zjubiology/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/zjubiology/subscriptions",
+        "organizations_url": "https://api.github.com/users/zjubiology/orgs",
+        "repos_url": "https://api.github.com/users/zjubiology/repos",
+        "events_url": "https://api.github.com/users/zjubiology/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/zjubiology/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Updated the supplementary prevout_txid to match the serialized hash as well. Please review it again.",
+      "created_at": "2026-10-03T22:35:03Z",
+      "updated_at": "2026-10-03T22:35:03Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2310#discussion_r4175193504",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4175193504"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2310"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
       "original_line": 394,
       "side": "RIGHT"
     }
