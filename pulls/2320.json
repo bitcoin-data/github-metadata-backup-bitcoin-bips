@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2320/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2320/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/0bfb24da6cadf2463b661e989baedde944d4dc65",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/18919894e5bae2e0756ededdb54524644d8bfaab",
     "number": 2320,
     "state": "open",
     "locked": false,
@@ -43,11 +43,11 @@
     "body": "## Summary\r\n\r\nGeneralize codex32 so that the human-readable part is not restricted to\r\n`ms`.\r\n\r\nThis PR is based on top of behavior neutral #2285.\r\n\r\nBIP-32 master seeds and their shares continue to use `ms`, while other\r\napplications can use their own human-readable parts.\r\n\r\n## Changes\r\n\r\n- Specify the human-readable part as in BIP-173.\r\n- Include the human-readable part in checksum construction and verification.\r\n- Count its BIP-173 expansion toward the checksum length limits.\r\n- Rename the inline `ms32` checksum and interpolation helpers to `codex32`.\r\n- Require all shares in a set to use the same human-readable part.\r\n- Clarify that the interpolation helpers operate on the data part and do not\r\n  check the valid set conditions.\r\n- Limit fresh-secret generation to applications that accept every payload, or\r\n  require rejection sampling otherwise.\r\n- Do not recommend correcting errors in the human-readable part unless the\r\n  application specifies how.\r\n- Update the existing invalid vectors whose interpretation changes when other\r\n  human-readable parts become valid.\r\n- Add test vectors covering:\r\n  - the registered `cl` human-readable part used by Core Lightning;\r\n  - checksum selection affected by human-readable-part length;\r\n  - an 83-character human-readable part containing `1`;\r\n  - expanded lengths 94 and 95;\r\n  - a checksum computed over an uppercase human-readable part;\r\n  - a human-readable part longer than 83 characters.\r\n\r\nStrings using `ms` are unchanged.\r\n\r\n## Testing\r\n\r\nThe `codex32` checksum functions were checked against the previous `ms32`\r\nfunctions for `ms` over random data parts of every length from 0 through 1029\r\nsymbols, including both checksum variants, the 94–95 expanded-length gap, and\r\nlengths beyond 1023.\r\n\r\nThe new vectors were checked with both the specification's Python code and an\r\nindependent implementation, `python-codex32`. They agree except that\r\n`python-codex32` does not yet enforce the 83-character human-readable-part\r\nlimit.\r\n\r\nRefs: #2040, #2258, #2285",
     "labels": [],
     "created_at": "2026-10-01T19:45:13Z",
-    "updated_at": "2026-10-05T05:07:02Z",
+    "updated_at": "2026-10-05T06:03:23Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "618bf063716710e73e0f1f7754f7cfc9e9ffe667",
+    "merge_commit_sha": "e22d0911ba14c55f28d309efdc4d9b15f2f5b91f",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -55,7 +55,7 @@
     "head": {
       "label": "BenWestgate:bip93-generalize-hrp",
       "ref": "bip93-generalize-hrp",
-      "sha": "0bfb24da6cadf2463b661e989baedde944d4dc65",
+      "sha": "18919894e5bae2e0756ededdb54524644d8bfaab",
       "user": {
         "login": "BenWestgate",
         "id": 73506583,
@@ -168,7 +168,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-04T17:33:40Z",
+        "pushed_at": "2026-10-05T06:03:22Z",
         "created_at": "2025-08-19T15:04:43Z",
         "updated_at": "2026-10-01T08:47:09Z",
         "allow_forking": true
@@ -306,7 +306,7 @@
     "additions": 299,
     "deletions": 210,
     "changed_files": 1,
-    "commits": 9,
+    "commits": 11,
     "review_comments": 12,
     "comments": 0
   },
@@ -744,6 +744,86 @@
         "from": "BIP93: Allow other human-readable parts",
         "to": "[WIP] BIP93: Allow other human-readable parts"
       }
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDljNWE4ZDNjMTEyNTJmYWRjNTEwYWZhMzQ0M2Y1MDY4OWRhM2E0NGU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9c5a8d3c11252fadc510afa3443f50689da3a44e",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/9c5a8d3c11252fadc510afa3443f50689da3a44e",
+      "tree": {
+        "sha": "4be841c0b1cd6db6fcb4941d539fb51eea8a608d",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/4be841c0b1cd6db6fcb4941d539fb51eea8a608d"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/0bfb24da6cadf2463b661e989baedde944d4dc65",
+          "sha": "0bfb24da6cadf2463b661e989baedde944d4dc65",
+          "html_url": "https://github.com/bitcoin/bips/commit/0bfb24da6cadf2463b661e989baedde944d4dc65"
+        }
+      ],
+      "message": "bip93: Simplify checksum helper layering",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-10-05T05:43:49Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-10-05T05:43:49Z"
+      },
+      "sha": "9c5a8d3c11252fadc510afa3443f50689da3a44e"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDE4OTE5ODk0ZTViYWUyZTA3NTZlZGVkZGI1NDUyNDY0NGQ4YmZhYWI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/18919894e5bae2e0756ededdb54524644d8bfaab",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/18919894e5bae2e0756ededdb54524644d8bfaab",
+      "tree": {
+        "sha": "fc1afe7573cd1941e38da7a19f4cca16331f150b",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/fc1afe7573cd1941e38da7a19f4cca16331f150b"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9c5a8d3c11252fadc510afa3443f50689da3a44e",
+          "sha": "9c5a8d3c11252fadc510afa3443f50689da3a44e",
+          "html_url": "https://github.com/bitcoin/bips/commit/9c5a8d3c11252fadc510afa3443f50689da3a44e"
+        }
+      ],
+      "message": "bip93: Clarify application-specific HRP guidance",
+      "committer": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-10-05T05:46:46Z"
+      },
+      "author": {
+        "name": "Ben Westgate",
+        "email": "BenWestgate@protonmail.com",
+        "date": "2026-10-05T05:45:33Z"
+      },
+      "sha": "18919894e5bae2e0756ededdb54524644d8bfaab"
     }
   ],
   "comments": [
@@ -754,7 +834,7 @@
       "node_id": "PRRC_kwDOAN28mc73_p01",
       "diff_hunk": "@@ -68,24 +68,25 @@ efficient to read out loud, write, type or to put into QR codes.</ref> format ca\n A codex32 string is similar to a bech32 string defined in [https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki BIP-0173].\n It reuses the base-32 character set from BIP-0173, and consists of:\n \n-* A human-readable part, which is the string \"ms\" (or \"MS\").\n-* A separator, which is always \"1\".\n+* A human-readable part, as specified in BIP-0173. It identifies the application, which can further restrict validity.",
       "path": "bip-0093.mediawiki",
-      "position": 6,
+      "position": 1,
       "original_position": 6,
       "commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
       "original_commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
@@ -797,7 +877,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 71,
+      "line": null,
       "original_line": 71,
       "side": "RIGHT"
     },
@@ -808,9 +888,9 @@
       "node_id": "PRRC_kwDOAN28mc73_ttX",
       "diff_hunk": "@@ -68,24 +68,25 @@ efficient to read out loud, write, type or to put into QR codes.</ref> format ca\n A codex32 string is similar to a bech32 string defined in [https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki BIP-0173].\n It reuses the base-32 character set from BIP-0173, and consists of:\n \n-* A human-readable part, which is the string \"ms\" (or \"MS\").\n-* A separator, which is always \"1\".\n+* A human-readable part, as specified in BIP-0173. It identifies the application, which can further restrict validity.\n+* A separator, which is always \"1\". If the human-readable part contains \"1\", the last one in the string is the separator.",
       "path": "bip-0093.mediawiki",
-      "position": 7,
+      "position": 23,
       "original_position": 7,
-      "commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
+      "commit_id": "18919894e5bae2e0756ededdb54524644d8bfaab",
       "original_commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
       "in_reply_to_id": null,
       "user": {
@@ -862,7 +942,7 @@
       "node_id": "PRRC_kwDOAN28mc73_2hx",
       "diff_hunk": "@@ -68,24 +68,25 @@ efficient to read out loud, write, type or to put into QR codes.</ref> format ca\n A codex32 string is similar to a bech32 string defined in [https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki BIP-0173].\n It reuses the base-32 character set from BIP-0173, and consists of:\n \n-* A human-readable part, which is the string \"ms\" (or \"MS\").\n-* A separator, which is always \"1\".\n+* A human-readable part, as specified in BIP-0173. It identifies the application, which can further restrict validity.\n+* A separator, which is always \"1\". If the human-readable part contains \"1\", the last one in the string is the separator.\n * A data part which is in turn subdivided into:\n ** A header consisting of the first six data characters:\n *** A threshold parameter, which MUST be a single digit between \"2\" and \"9\", or the digit \"0\".\n **** If the threshold parameter is \"0\" then the share index, defined below, MUST have a value of \"s\" (or \"S\").\n *** An identifier consisting of 4 bech32 characters.\n *** A share index, which is any bech32 character. Note that a share index value of \"s\" (or \"S\") is special and denotes the unshared secret (see [[#Unshared_Secret|Unshared secret]]).\n-** A payload which is a sequence of up to 69 bech32 characters. (However, see [[#Long_Checksum|Long checksum]] below for an exception to this limit.)\n+** A payload which is a sequence of up to 73 - 2''n'' bech32 characters, where ''n'' is the length of the human-readable part. (However, see [[#Long_Checksum|Long checksum]] below for an exception to this limit.)\n ** A checksum which consists of 13 or 15 bech32 characters as described below.\n \n-See [[#Master_seed_format|Master seed format]] for the payload-length and payload-conversion requirements for BIP-0032 master seeds.\n+BIP-0032 master seeds and their shares use the human-readable part \"ms\"; see [[#Master_seed_format|Master seed format]] for their other requirements.\n+SatoshiLabs maintains a list of registered codex32 human-readable parts in [https://github.com/satoshilabs/slips/blob/master/slip-0173.md#uses-of-codex32 SLIP-0173].",
       "path": "bip-0093.mediawiki",
-      "position": 20,
+      "position": 1,
       "original_position": 20,
       "commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
       "original_commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
@@ -905,7 +985,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 83,
+      "line": null,
       "original_line": 83,
       "side": "RIGHT"
     },
@@ -916,7 +996,7 @@
       "node_id": "PRRC_kwDOAN28mc73_9xM",
       "diff_hunk": "@@ -68,24 +68,25 @@ efficient to read out loud, write, type or to put into QR codes.</ref> format ca\n A codex32 string is similar to a bech32 string defined in [https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki BIP-0173].\n It reuses the base-32 character set from BIP-0173, and consists of:\n \n-* A human-readable part, which is the string \"ms\" (or \"MS\").\n-* A separator, which is always \"1\".\n+* A human-readable part, as specified in BIP-0173. It identifies the application, which can further restrict validity.",
       "path": "bip-0093.mediawiki",
-      "position": 6,
+      "position": 1,
       "original_position": 6,
       "commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
       "original_commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
@@ -959,7 +1039,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 71,
+      "line": null,
       "original_line": 71,
       "side": "RIGHT"
     },
@@ -970,7 +1050,7 @@
       "node_id": "PRRC_kwDOAN28mc74AbY1",
       "diff_hunk": "@@ -104,59 +105,62 @@ The 4 character identifier also has no effect beyond aiding users in distinguish\n \n The last thirteen characters of a regular codex32 data part form a checksum and contain no information.\n Valid strings MUST pass the criteria for validity specified by the Python 3 code snippet below.\n-The function <code>ms32_verify_checksum</code> selects the checksum variant required by codex32 and MUST return true when its argument is the data part as a list of integers representing the characters converted using the bech32 character table from BIP-0173.\n-The functions <code>ms32_verify_regular_checksum</code> and <code>ms32_verify_long_checksum</code> verify only their respective checksum variants within their stated periods.\n+The function <code>codex32_verify_checksum</code> selects the checksum variant required by codex32 and MUST return true when its arguments are the human-readable part, converted to lowercase, and the data part as a list of integers representing the characters converted using the bech32 character table from BIP-0173.\n+The functions <code>codex32_verify_regular_checksum</code> and <code>codex32_verify_long_checksum</code> verify only their respective checksum variants within their stated periods.\n \n Checksum selection depends on the expanded codeword length: the BIP-0173 expansion of the human-readable part followed by the complete data part.\n-For the required human-readable part <code>ms</code>, the expansion contributes five values.\n+A human-readable part of ''n'' characters contributes 2''n'' + 1 values to the expansion, so <code>ms</code> contributes five.\n The regular checksum MUST be used when this length is at most 93, and the long checksum MUST be used when this length is between 96 and 1023, inclusive.\n Expanded lengths 94 and 95, and lengths greater than 1023, are invalid.\n \n-The functions <code>ms32_create_regular_checksum</code> and <code>ms32_create_long_checksum</code> construct the individual checksum variants.\n-To construct the checksum variant required by codex32 given the data-part characters (excluding the checksum), the <code>ms32_create_checksum</code> function can be used.\n+The functions <code>codex32_create_regular_checksum</code> and <code>codex32_create_long_checksum</code> construct the individual checksum variants.\n+To construct the checksum variant required by codex32 given the human-readable part and the data-part characters (excluding the checksum), the <code>codex32_create_checksum</code> function can be used.\n \n '''Regular checksum'''\n \n <source lang=\"python\">\n-MS32_CONST = 0x10ce0795c2fd1e62a\n-MS32_HRP_EXPANDED_LENGTH = 5                       # bech32_hrp_expand(\"ms\")\n+CODEX32_CONST = 0x10ce0795c2fd1e62a\n \n-def ms32_polymod(values):\n+def codex32_polymod(values):\n     GEN = [\n         0x19dc500ce73fde210,\n         0x1bfae00def77fe529,\n         0x1fbd920fffe7bee52,\n         0x1739640bdeee3fdad,\n         0x07729a039cfc75f5a,\n     ]\n-    residue = 0x23181b3\n+    residue = 1\n     for v in values:\n         b = (residue >> 60)\n         residue = (residue & 0x0fffffffffffffff) << 5 ^ v\n         for i in range(5):\n             residue ^= GEN[i] if ((b >> i) & 1) else 0\n     return residue\n \n-def ms32_verify_regular_checksum(data):\n-    if MS32_HRP_EXPANDED_LENGTH + len(data) > 93:\n+def bech32_hrp_expand(hrp):\n+    return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 31 for x in hrp]\n+\n+def codex32_verify_regular_checksum(hrp, data):\n+    values = bech32_hrp_expand(hrp) + data\n+    if len(values) > 93:\n         return False\n-    return ms32_polymod(data) == MS32_CONST\n+    return codex32_polymod(values) == CODEX32_CONST\n \n-def ms32_verify_checksum(data):\n-    expanded_length = MS32_HRP_EXPANDED_LENGTH + len(data)\n+def codex32_verify_checksum(hrp, data):\n+    expanded_length = len(bech32_hrp_expand(hrp)) + len(data)\n     if expanded_length >= 96:                       # See Long checksum\n-        return ms32_verify_long_checksum(data)\n-    return ms32_verify_regular_checksum(data)\n+        return codex32_verify_long_checksum(hrp, data)\n+    return codex32_verify_regular_checksum(hrp, data)\n \n-def ms32_create_regular_checksum(data):\n-    values = data\n-    polymod = ms32_polymod(values + [0] * 13) ^ MS32_CONST\n+def codex32_create_regular_checksum(hrp, data):\n+    values = bech32_hrp_expand(hrp) + data\n+    polymod = codex32_polymod(values + [0] * 13) ^ CODEX32_CONST\n     return [(polymod >> 5 * (12 - i)) & 31 for i in range(13)]\n \n-def ms32_create_checksum(data):\n-    if MS32_HRP_EXPANDED_LENGTH + len(data) + 13 > 93:  # See Long checksum\n-        return ms32_create_long_checksum(data)\n-    return ms32_create_regular_checksum(data)\n+def codex32_create_checksum(hrp, data):\n+    if len(bech32_hrp_expand(hrp)) + len(data) + 13 > 93:  # See Long checksum\n+        return codex32_create_long_checksum(hrp, data)\n+    return codex32_create_regular_checksum(hrp, data)",
       "path": "bip-0093.mediawiki",
-      "position": 113,
+      "position": 1,
       "original_position": 113,
       "commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
       "original_commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
@@ -1010,10 +1090,10 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2320"
         }
       },
-      "start_line": 143,
+      "start_line": null,
       "original_start_line": 143,
       "start_side": "RIGHT",
-      "line": 163,
+      "line": null,
       "original_line": 163,
       "side": "RIGHT"
     },
@@ -1024,7 +1104,7 @@
       "node_id": "PRRC_kwDOAN28mc74Af6o",
       "diff_hunk": "@@ -167,32 +171,33 @@ random errors.\n '''Long checksum'''\n \n <source lang=\"python\">\n-MS32_LONG_CONST = 0x43381e570bf4798ab26\n+CODEX32_LONG_CONST = 0x43381e570bf4798ab26\n \n-def ms32_long_polymod(values):\n+def codex32_long_polymod(values):\n     GEN = [\n         0x3d59d273535ea62d897,\n         0x7a9becb6361c6c51507,\n         0x543f9b7e6c38d8a2a0e,\n         0x0c577eaeccf1990d13c,\n         0x1887f74f8dc71b10651,\n     ]\n-    residue = 0x23181b3\n+    residue = 1\n     for v in values:\n         b = (residue >> 70)\n         residue = (residue & 0x3fffffffffffffffff) << 5 ^ v\n         for i in range(5):\n             residue ^= GEN[i] if ((b >> i) & 1) else 0\n     return residue\n \n-def ms32_verify_long_checksum(data):\n-    if MS32_HRP_EXPANDED_LENGTH + len(data) > 1023:\n+def codex32_verify_long_checksum(hrp, data):\n+    values = bech32_hrp_expand(hrp) + data\n+    if len(values) > 1023:\n         return False\n-    return ms32_long_polymod(data) == MS32_LONG_CONST\n+    return codex32_long_polymod(values) == CODEX32_LONG_CONST\n \n-def ms32_create_long_checksum(data):\n-    values = data\n-    polymod = ms32_long_polymod(values + [0] * 15) ^ MS32_LONG_CONST\n+def codex32_create_long_checksum(hrp, data):\n+    values = bech32_hrp_expand(hrp) + data\n+    polymod = codex32_long_polymod(values + [0] * 15) ^ CODEX32_LONG_CONST",
       "path": "bip-0093.mediawiki",
-      "position": 156,
+      "position": 1,
       "original_position": 156,
       "commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
       "original_commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
@@ -1064,10 +1144,10 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2320"
         }
       },
-      "start_line": 188,
+      "start_line": null,
       "original_start_line": 188,
       "start_side": "LEFT",
-      "line": 200,
+      "line": null,
       "original_line": 200,
       "side": "RIGHT"
     },
@@ -1118,10 +1198,10 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2320"
         }
       },
-      "start_line": 209,
+      "start_line": 205,
       "original_start_line": 209,
       "start_side": "RIGHT",
-      "line": 210,
+      "line": 150,
       "original_line": 210,
       "side": "LEFT"
     },
@@ -1172,10 +1252,10 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2320"
         }
       },
-      "start_line": 209,
+      "start_line": 205,
       "original_start_line": 209,
       "start_side": "RIGHT",
-      "line": 210,
+      "line": 150,
       "original_line": 210,
       "side": "LEFT"
     },
@@ -1186,7 +1266,7 @@
       "node_id": "PRRC_kwDOAN28mc74BwWa",
       "diff_hunk": "@@ -291,19 +299,22 @@ There are two ways to create an initial set of ''k'' valid codex32 strings, depe\n <span id=\"For_a_fresh_secret\"></span><span id=\"for-a-fresh-secret\"></span>\n '''For a fresh secret'''\n \n-In the case that the user wishes to generate a fresh secret, the user generates random initial shares, as follows:\n+In the case that the user wishes to generate a fresh secret, the user generates random initial shares, as follows.\n+This requires an application that accepts every payload of the chosen length as a secret, as the master seed format does.\n+An application that does not MAY use rejection sampling instead: retry with a fresh set of shares until the resulting secret qualifies.",
       "path": "bip-0093.mediawiki",
-      "position": 218,
+      "position": 1,
       "original_position": 218,
       "commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
       "original_commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
@@ -1226,10 +1306,10 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2320"
         }
       },
-      "start_line": 303,
+      "start_line": null,
       "original_start_line": 303,
       "start_side": "RIGHT",
-      "line": 304,
+      "line": null,
       "original_line": 304,
       "side": "RIGHT"
     },
@@ -1240,7 +1320,7 @@
       "node_id": "PRRC_kwDOAN28mc74BznZ",
       "diff_hunk": "@@ -291,19 +299,22 @@ There are two ways to create an initial set of ''k'' valid codex32 strings, depe\n <span id=\"For_a_fresh_secret\"></span><span id=\"for-a-fresh-secret\"></span>\n '''For a fresh secret'''\n \n-In the case that the user wishes to generate a fresh secret, the user generates random initial shares, as follows:\n+In the case that the user wishes to generate a fresh secret, the user generates random initial shares, as follows.\n+This requires an application that accepts every payload of the chosen length as a secret, as the master seed format does.\n+An application that does not MAY use rejection sampling instead: retry with a fresh set of shares until the resulting secret qualifies.\n \n-# Choose a bit size from 128, 160, 192, 224, 256, or 512\n+# Choose the human-readable part of the application and a payload length it accepts\n+#* For a master seed, use <code>ms</code>, choose a bit size ''bitlength'' from 128, 160, 192, 224, 256, or 512, and use a payload of ceil(''bitlength / 5'') characters",
       "path": "bip-0093.mediawiki",
-      "position": 222,
+      "position": 1,
       "original_position": 222,
       "commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
       "original_commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
@@ -1283,7 +1363,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 307,
+      "line": null,
       "original_line": 307,
       "side": "RIGHT"
     },
@@ -1294,9 +1374,9 @@
       "node_id": "PRRC_kwDOAN28mc74B4Ec",
       "diff_hunk": "@@ -313,14 +324,15 @@ With this set of ''k'' shares, new shares can be derived as discussed above. Thi\n Before generating shares for an existing secret, it first must be codex32-encoded.\n The conversion process consists of:\n \n+# Use the human-readable part of the application (<code>ms</code> for a master seed)\n # Choose a threshold value ''k'' between 2 and 9, inclusive\n # Choose a 4 bech32 character identifier\n #* We do not define how to choose the identifier, beyond noting that it SHOULD be distinct for every set of shares the user may need to disambiguate\n # Set the share index to <code>s</code>\n # Set the payload to a bech32 encoding of the application-specified secret payload bits; for a master seed, follow [[#Master_seed_format|Master seed format]].\n # Generate a valid checksum in accordance with the Checksum section",
       "path": "bip-0093.mediawiki",
-      "position": 249,
+      "position": 400,
       "original_position": 249,
-      "commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
+      "commit_id": "18919894e5bae2e0756ededdb54524644d8bfaab",
       "original_commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
       "in_reply_to_id": null,
       "user": {
@@ -1334,10 +1414,10 @@
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2320"
         }
       },
-      "start_line": 324,
+      "start_line": 320,
       "original_start_line": 324,
       "start_side": "RIGHT",
-      "line": 333,
+      "line": 329,
       "original_line": 333,
       "side": "RIGHT"
     },
@@ -1348,9 +1428,9 @@
       "node_id": "PRRC_kwDOAN28mc74B-Bw",
       "diff_hunk": "@@ -405,7 +417,11 @@ We define a long checksum to support the maximum seed size because its expanded\n While we could use the 15 character checksum for both cases, we prefer to keep the strings as short as possible for the more common cases of 128-bit and 256-bit master seeds.\n Longer strings mean more chances for transcription errors, so shorter strings are better.\n \n-If the prefix is damaged and a user is guessing that the data might be using this scheme, then the user can enter the available data explicitly using the suspected <code>MS1</code> prefix.",
       "path": "bip-0093.mediawiki",
-      "position": 280,
+      "position": 535,
       "original_position": 280,
-      "commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
+      "commit_id": "18919894e5bae2e0756ededdb54524644d8bfaab",
       "original_commit_id": "80a27cf13b895e80afce911e1376826f5be527bf",
       "in_reply_to_id": null,
       "user": {
@@ -1391,7 +1471,7 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 408,
+      "line": 429,
       "original_line": 408,
       "side": "LEFT"
     }
