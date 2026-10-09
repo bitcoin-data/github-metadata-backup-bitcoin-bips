@@ -43,7 +43,7 @@
     "body": "## Description\r\n\r\nThe BIP-346 reference implementation in `bip-0346/ref-impl` accepts truncated long-form `TxFieldSelector`s.\r\n\r\n`calculate_txhash` parsed the global byte and the input/output-fields byte, then treated the **input** and **output** selection bytes as optional: when absent it defaulted to an empty selection (NONE). As a result:\r\n\r\n- a 2-byte selector `[global, fields]` was silently treated as input=NONE, output=NONE\r\n- a 3-byte selector `[global, fields, input-selector]` was silently treated as output=NONE\r\n\r\nThis invents NONE semantics the spec does not define. bip-0346.md states (\"For both inputs and then outputs, expect an additional byte\") that both selection bytes belong to the long form, and the `OP_TXHASH` precondition requires the `TxFieldSelector` to be valid, failing otherwise.\r\n\r\n## Change\r\n\r\nMake the input and output selection bytes mandatory in `calculate_txhash`, returning an error when they are missing. The generated test vectors (`txhash_vectors.json`) and the vector generator were updated to use explicit 4-byte long-form selectors; all 150 `txhash` values are unchanged.\r\n\r\n## Test plan\r\n\r\n- Added `reject_truncated_long_form_txfs` regression test (2-byte and 3-byte selectors are rejected; an explicit 4-byte NONE/NONE selector is accepted).\r\n- `cargo test` passes; `cargo run` regenerates the vectors with identical hashes.\r\n",
     "labels": [],
     "created_at": "2026-10-07T04:46:32Z",
-    "updated_at": "2026-10-08T21:03:06Z",
+    "updated_at": "2026-10-09T09:20:13Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -275,8 +275,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6033,
-        "stargazers_count": 10954,
-        "watchers_count": 10954,
+        "stargazers_count": 10956,
+        "watchers_count": 10956,
         "size": 22752,
         "default_branch": "master",
         "open_issues_count": 67,
@@ -292,7 +292,7 @@
         "visibility": "public",
         "pushed_at": "2026-10-02T13:27:57Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-08T18:12:33Z",
+        "updated_at": "2026-10-09T06:37:57Z",
         "allow_forking": true
       }
     },
@@ -308,7 +308,7 @@
     "changed_files": 2,
     "commits": 1,
     "review_comments": 0,
-    "comments": 0
+    "comments": 1
   },
   "events": [
     {
@@ -350,6 +350,64 @@
         "date": "2026-10-07T04:45:39Z"
       },
       "sha": "e46d6d9928b40eba516afefe25d6d6ef6a631cd9"
+    },
+    {
+      "event": "commented",
+      "id": 6078088513,
+      "node_id": "IC_kwDOAN28mc8AAAABakhFQQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/6078088513",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-09T09:20:13Z",
+      "updated_at": "2026-10-09T09:20:13Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "The description says all 150 `txhash` values are unchanged, but 60 of them change. They are the vectors whose selector gets padded (`8000` becomes `80000000`) and has TXFS_CONTROL (0x80) set, since that bit commits the selector bytes to the hash. The code is consistent: `cargo run` regenerates this PR's file byte for byte.\n\nThe PR also rejects 2- and 3-byte selectors, which were accepted until now. That changes which selectors are valid, so I think the BIP authors should confirm it.\n",
+      "user": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2327#issuecomment-6078088513",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2327"
     }
   ],
   "comments": []
