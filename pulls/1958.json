@@ -17,7 +17,7 @@
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "BIP85: Add Codex32 as application 93'",
+    "title": "BIP85: Add codex32 as application 93'",
     "user": {
       "login": "BenWestgate",
       "id": 73506583,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "This allows wallets to derive codex32 secrets and codex32 shares from BIP-0032 root keys.\r\n\r\n**Summary of changes**\r\n- Add codex32 application `93'`\r\n- Add [BIP-0093](https://github.com/bitcoin/bips/blob/master/bip-0093.mediawiki) and [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) to references\r\n- Add [reference implementation](https://github.com/akarve/bipsea/pull/68)\r\n- Bump version to `2.2.0`\r\n\r\n**Rationale**\r\n\r\n- Mirrors the existing BIP-85 application for BIP-39.\r\n- Codex32 offers error correction, hand verification, identifiers, and secret sharing improvements vs BIP-39.\r\n- Deterministic generation produces auditable backups by avoiding reliance on local RNG, helping users who distrust device entropy.\r\n\r\n**Specification**\r\n\r\n- Adds **Application 93'** to BIP-0085 using derivation path:\r\n```matlab\r\nm/83696968'/93'/{profile}'/{payload_len}'/{index}'\r\n```\r\n- Profile `0` uses BIP93's `ms` human-readable part and Master seed format\r\n-  {payload_len} counts Bech32 payload characters\r\n- {index} serializes the six-character codex32 header into 30 bits\r\n- Threshold `0` derives secrets according to profile specific construction\r\n- A nonzero threshold derives one canonical initial share per path\r\n\r\n**Tests**\r\nReference tests included in the reference bipsea implementation:\r\nhttps://github.com/akarve/bipsea/pull/68/changes\r\n\r\n**Mailing List**\r\nDiscussion: https://groups.google.com/g/bitcoindev/c/--lHTAtq0Qc\r\n\r\n**Status**\r\nReady for renewed conceptual and approach review. This change is additive and does not modify existing BIP-85 behavior.",
+    "body": "This allows wallets to derive codex32 secrets and codex32 shares from BIP-0032 root keys.\r\n\r\n**Summary of changes**\r\n- Add codex32 application `93'`\r\n- Add [BIP-0093](https://github.com/bitcoin/bips/blob/master/bip-0093.mediawiki) and [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) to references\r\n- Add [reference implementation](https://github.com/akarve/bipsea/pull/68)\r\n- Bump version to `2.2.0`\r\n\r\n**Rationale**\r\n\r\n- Mirrors the existing BIP-85 application for BIP-39.\r\n- codex32 offers error correction, hand verification, identifiers, and secret sharing improvements vs BIP-39.\r\n- Deterministic generation produces auditable backups by avoiding reliance on local RNG, helping users who distrust device entropy.\r\n\r\n**Specification**\r\n\r\n- Adds **Application 93'** to BIP-0085 using derivation path:\r\n```matlab\r\nm/83696968'/93'/{profile}'/{payload_len}'/{index}'\r\n```\r\n- Profile `0` uses BIP93's `ms` human-readable part and Master seed format\r\n-  {payload_len} counts Bech32 payload characters\r\n- {index} serializes the six-character codex32 header into 30 bits\r\n- Threshold `0` derives secrets according to profile specific construction\r\n- A nonzero threshold derives one canonical initial share per path\r\n\r\n**Tests**\r\nReference tests included in the reference bipsea implementation:\r\nhttps://github.com/akarve/bipsea/pull/68/changes\r\n\r\n**Mailing List**\r\nDiscussion: https://groups.google.com/g/bitcoindev/c/--lHTAtq0Qc\r\n\r\n**Status**\r\nReady for renewed conceptual and approach review. This change is additive and does not modify existing BIP-85 behavior.",
     "labels": [
       {
         "id": 275846070,
@@ -62,7 +62,7 @@
       }
     ],
     "created_at": "2025-09-07T23:40:39Z",
-    "updated_at": "2026-10-12T01:29:02Z",
+    "updated_at": "2026-10-13T02:26:31Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -362,8 +362,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6032,
-        "stargazers_count": 10962,
-        "watchers_count": 10962,
+        "stargazers_count": 10966,
+        "watchers_count": 10966,
         "size": 22752,
         "default_branch": "master",
         "open_issues_count": 70,
@@ -379,7 +379,7 @@
         "visibility": "public",
         "pushed_at": "2026-10-02T13:27:57Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-11T16:31:05Z",
+        "updated_at": "2026-10-13T02:27:50Z",
         "allow_forking": true
       }
     },
@@ -6337,6 +6337,41 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-10-12T01:29:03Z"
+    },
+    {
+      "event": "renamed",
+      "id": 33095774421,
+      "node_id": "RTE_lADOAN28mc7KL750zwAAAAe0qXDV",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/33095774421",
+      "actor": {
+        "login": "BenWestgate",
+        "id": 73506583,
+        "node_id": "MDQ6VXNlcjczNTA2NTgz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/73506583?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/BenWestgate",
+        "html_url": "https://github.com/BenWestgate",
+        "followers_url": "https://api.github.com/users/BenWestgate/followers",
+        "following_url": "https://api.github.com/users/BenWestgate/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/BenWestgate/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/BenWestgate/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/BenWestgate/subscriptions",
+        "organizations_url": "https://api.github.com/users/BenWestgate/orgs",
+        "repos_url": "https://api.github.com/users/BenWestgate/repos",
+        "events_url": "https://api.github.com/users/BenWestgate/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/BenWestgate/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-13T02:23:50Z",
+      "rename": {
+        "from": "BIP85: Add Codex32 as application 93'",
+        "to": "BIP85: Add codex32 as application 93'"
+      }
     }
   ],
   "comments": [
