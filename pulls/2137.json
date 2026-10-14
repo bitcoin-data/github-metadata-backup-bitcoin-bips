@@ -61,13 +61,15 @@
       }
     ],
     "created_at": "2026-04-10T21:54:22Z",
-    "updated_at": "2026-09-18T18:58:24Z",
-    "mergeable_state": "unknown",
+    "updated_at": "2026-10-14T00:56:57Z",
+    "mergeable": true,
+    "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "f1f1f2b4ca70707bca6ce5f035a8cb0b58321040",
+    "merge_commit_sha": "eea2882d8b36b23c8436146ca60397fff74894e5",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
+    "rebaseable": true,
     "head": {
       "label": "fjahr:2026_utxo_set_share",
       "ref": "2026_utxo_set_share",
@@ -290,12 +292,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6023,
-        "stargazers_count": 10942,
-        "watchers_count": 10942,
-        "size": 22433,
+        "forks_count": 6030,
+        "stargazers_count": 10967,
+        "watchers_count": 10967,
+        "size": 22752,
         "default_branch": "master",
-        "open_issues_count": 62,
+        "open_issues_count": 70,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -306,9 +308,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-18T18:58:22Z",
+        "pushed_at": "2026-10-02T13:27:57Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-18T18:58:26Z",
+        "updated_at": "2026-10-13T09:33:28Z",
         "allow_forking": true
       }
     },
@@ -323,7 +325,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 67,
+    "review_comments": 68,
     "comments": 29
   },
   "events": [
@@ -7356,6 +7358,60 @@
       "start_side": null,
       "line": 44,
       "original_line": 44,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4265669367",
+      "pull_request_review_id": 5511834292,
+      "id": 4265669367,
+      "node_id": "PRRC_kwDOAN28mc7-QPL3",
+      "diff_hunk": "@@ -0,0 +1,244 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: P2P UTXO Set Sharing\n+  Authors: Fabian Jahr <fjahr@protonmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  Discussion: ?\n+  License: BSD-2-Clause\n+```\n+\n+## Abstract\n+\n+This BIP defines a P2P protocol extension for sharing full UTXO sets between peers. It introduces\n+a new service bit `NODE_UTXO_SET`, four new P2P messages (`getutxosetinfo`, `utxosetinfo`, `getutxoset`,\n+`utxoset`), and a Merkle-tree-based integrity scheme that enables per-chunk verification. This allows\n+nodes to bootstrap from a recent height by obtaining the required UTXO set directly from the P2P network\n+via mechanisms such as assumeutxo.\n+\n+## Motivation\n+\n+The assumeutxo feature (implemented in Bitcoin Core) allows nodes to begin operating from a serialized\n+UTXO set while validating\n+historical blocks in the background. However, there is currently no canonical source for obtaining this\n+data. Users must either generate one themselves from a fully synced node (using `dumptxoutset` in \n+Bitcoin Core), or download one from a third party.\n+\n+By enabling UTXO set sharing over the P2P network, new nodes can obtain the data directly from\n+peers, removing the dependency on external infrastructure.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"SHOULD\", \"SHOULD NOT\", and \"MAY\" in this document are to be\n+interpreted as described in RFC 2119.\n+\n+### Service Bit\n+\n+| Name | Bit | Description |\n+|------|-----|-------------|\n+| `NODE_UTXO_SET` | 12 (0x1000) | The node can serve complete UTXO set data for at least one height. |\n+\n+A node MUST NOT set this bit unless it has at least one full UTXO set available to serve.\n+A node signaling `NODE_UTXO_SET` MUST respond to `getutxosetinfo` messages and MUST be capable of\n+serving all UTXO sets it advertises in its `utxosetinfo` response. A node that fails to meet these\n+obligations SHOULD be disconnected.\n+\n+### Data Structures\n+\n+#### Serialized UTXO Set\n+\n+The serialized UTXO set uses the format established by the Bitcoin Core RPC `dumptxoutset` (as of PR #29612).\n+\n+**Header (55 bytes):**\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `magic` | `bytes` | 5 | `0x7574786fff` (ASCII `utxo` + `0xff`). |\n+| `version` | `uint16_t` | 2 | Format version. |\n+| `network_magic` | `bytes` | 4 | Network message start bytes. |\n+| `base_height` | `uint32_t` | 4 | Block height of the UTXO set. |\n+| `base_blockhash` | `uint256` | 32 | Block hash of the UTXO set. |\n+| `coins_count` | `uint64_t` | 8 | Total number of coins (UTXOs) in the set. |\n+\n+**Body (coin data):**\n+\n+Coins are grouped by transaction hash. For each group:\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `txid` | `uint256` | 32 | Transaction hash. |\n+| `num_coins` | `compact_size` | 1–9 | Number of outputs for this txid. |\n+\n+For each coin in the group:\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `vout_index` | `compact_size` | 1–9 | Output index. |\n+| `coin` | `Coin` | variable | Serialized coin (varint-encoded code for height/coinbase, then compressed txout). |\n+\n+Coins are ordered lexicographically by outpoint (txid, then vout index), matching the LevelDB iteration\n+order of the coins database.\n+\n+#### Chunk Merkle Tree\n+\n+The serialized UTXO set (header + body) is split into chunks of exactly 3,900,000 bytes (3.9 MB). The\n+last chunk contains the remaining bytes and may be smaller.\n+\n+The leaf hash for each chunk is `SHA256d(chunk_data)`. The tree is built as a balanced binary tree. When\n+the number of nodes at a level is odd, the last node is duplicated before hashing the next level.\n+Interior nodes are computed as `SHA256d(left_child || right_child)`.\n+\n+The Merkle proof for chunk `i` consists of sibling hashes along the path from leaf to root. The\n+verifier derives the path direction from the chunk index: at each level, if the current index is even\n+the proof hash is the right sibling; if odd, the left sibling.\n+\n+`SHA256d` denotes double-SHA256: `SHA256d(x) = SHA256(SHA256(x))`.\n+\n+#### Serialized Hash\n+\n+The serialized hash is the value that must match with a know value hash of the UTXO set at the respecitve\n+height. In Bitcoin Core, for example, the `hash_serialized` field is in the assumeutxo\n+parameters. It is computed by iterating over every coin in the set in lexicographic outpoint order and\n+feeding a serialized representation of each coin into a SHA256d hasher. The per-coin serialization is:\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `outpoint` | `COutPoint` | 36 | Transaction hash (32 bytes) + output index (4 bytes, little-endian). |\n+| `code` | `uint32_t` | 4 | `(height << 1) \\| coinbase_flag`, little-endian. `height` is the block height at which the coin was created. `coinbase_flag` is 1 if the coin originates from a coinbase transaction, 0 otherwise. |\n+| `txout` | `CTxOut` | variable | The transaction output: amount as `int64_t` (8 bytes, little-endian) followed by the scriptPubKey serialized with its `compact_size` length prefix. |\n+\n+All coin serializations are fed sequentially into a single SHA256d hasher. The resulting 32-byte digest\n+is the serialized hash.\n+\n+### Messages\n+\n+#### `getutxosetinfo`\n+\n+Sent to discover which UTXO sets a peer can serve. This message has an empty payload.\n+\n+A node that has advertised `NODE_UTXO_SET` MUST respond with `utxosetinfo`. A node that has not\n+advertised the service bit SHOULD ignore this message.\n+\n+#### `utxosetinfo`\n+\n+Sent in response to `getutxosetinfo`. Lists available UTXO sets.\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `count` | `compact_size` | 1–9 | Number of available UTXO sets. |\n+\n+For each available UTXO set:\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `height` | `uint32_t` | 4 | Block height. |\n+| `block_hash` | `uint256` | 32 | Block hash at that height. |\n+| `serialized_hash` | `uint256` | 32 | The UTXO set serialized hash. |\n+| `data_length` | `uint64_t` | 8 | Total size of the serialized UTXO set in bytes (header + body). |\n+| `merkle_root` | `uint256` | 32 | Root of the Merkle tree computed over chunk hashes. |\n+\n+A requesting node MUST ignore entries whose `serialized_hash` does not match a known\n+utxo set hash for the corresponding height.",
+      "path": "bip-XXXX.md",
+      "position": 1,
+      "original_position": 143,
+      "commit_id": "4bc39c8b17d1f794b00f55e915972ca3f5042934",
+      "original_commit_id": "4bc39c8b17d1f794b00f55e915972ca3f5042934",
+      "in_reply_to_id": 3067025367,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "> Hm, I find this a bit odd. For the purpose of this BIP we are connected to the network necessarily, so we can just as well fetch the headers over the network in the way we usually do and that should be simpler code-wise.\r\n\r\nThe benefit when you're connected to the network is that you already have a trust path to the headers you want, so you wouldn't need the header-presync phase. So something like:\r\n\r\n * give me metadata for block X (70kb, verified against hardcoded hash)\r\n * give me headers up to block X (44MB-80MB as 11 to 20 3.9MB messages, verified against metadata)\r\n * give me utxo set up to block X (9GB as 2400 3.9MB messages, verified against metadata)\r\n \r\nThe last two steps could be in parallel across many peers, unlike the ~160MB header presync/sync, so less vulnerable to an unlucky peer pick stalling you out.\r\n\r\nNot a big benefit though, so either way.",
+      "created_at": "2026-10-14T00:56:57Z",
+      "updated_at": "2026-10-14T00:56:57Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2137#discussion_r4265669367",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4265669367"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2137"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 143,
       "side": "RIGHT"
     }
   ]
