@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2314/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2314/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/58de753cb4c3c4072c2401998309b49615b691ae",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/3ff55feca0bece4d9eabb3df3a7675197759e63e",
     "number": 2314,
     "state": "open",
     "locked": false,
@@ -43,11 +43,11 @@
     "body": "While reading `bip-0346/ref-impl/src/main.rs` I found that the two-byte form of an individual\nin/output index can never work.\n\nIn `parse_inout_selection`, individual selection mode, an index byte whose highest bit is set means\nthe index spans two bytes. The composition is:\n\n```rust\n(((first & (1 << 7)) as usize) << 8) + next_byte as usize\n```\n\nInside that branch `first & 0x80` is always `0x80` — that is exactly the condition that got us\nthere. So the mask keeps the flag bit and discards the seven value bits, and every two-byte index\nevaluates to `0x8000 + next_byte`, i.e. 32768 or more.\n\nConcretely, on the existing test transaction (4 inputs), selecting absolute input index 1:\n\n* single-byte encoding, index byte `0x01` → `Ok(0x9973075dd63b8af73e73c9881eff129aa2051e1ce9d342d052f874f9bdd75b16)`\n* two-byte encoding of the same index, bytes `0x80 0x01` → `Err(\"selected index out of bounds\")`\n\nBoth spell the same selection, so they must produce the same TxHash. In absolute mode the bug makes\nevery two-byte index out of bounds, so valid selectors are rejected and the whole encoding is dead.\nIn relative mode it is quieter and worse: `read_i15` masks `0x7fff`, which erases the `0x8000` that\nwas just added, so an offset of 256 or more collapses onto its low 8 bits and commits to a\ndifferent input than the one the selector names, with no error.\n\nThe BIP text settles what the code should do — \"If that byte's highest bit is set to 1, **the\nremaining 7 bits**, together with the next byte's 8 bits represent the absolute index to select\"\n(and the same wording for the relative index) — and the Rationale states the encoding allows\n\"absolute indices up to ~32k\" and relative indices \"from -16382 to +16383\". Those ranges need 15\nvalue bits; as written, no index below 32768 is reachable through the two-byte form. The leading\nmode, twenty lines above, already composes its two-byte count the intended way, with\n`selection & TXFS_INOUT_SELECTION_MASK`.\n\nSo the fix is to mask the flag bit off instead of keeping only it.\n\nI added a test asserting that both encodings of the same absolute index yield the same TxHash; it\nfails before the change and passes after. Nothing else moves: `generate_vectors` only exercises\nsingle-byte indices (as its own TODO notes, testing index size needs more than 32 in/outputs), so\nthe patched branch was unreachable, and running the binary regenerates `txhash_vectors.json`\nbyte for byte identical (md5 `56b8499b66d20582ceba6a18544a0145` before and after).\n\nFound by a defect-hunting pipeline I build and run ([Dev-next-gen](https://github.com/Dev-next-gen)), using Claude Code with Anthropic's Claude Opus 5.\n\nNothing this pipeline produces is submitted without human approval. The entire pull request — the code change, the tests and this description — was reviewed by a human before the pipeline was allowed to submit it.\n",
     "labels": [],
     "created_at": "2026-09-29T08:56:12Z",
-    "updated_at": "2026-09-29T08:56:12Z",
+    "updated_at": "2026-10-13T23:31:27Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "483905d528289f68b437190d90f6f8df337bebf1",
+    "merge_commit_sha": "64dab429919d87c6a0bdb64c42ee3e6a0d48f1e4",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -55,7 +55,7 @@
     "head": {
       "label": "Dev-next-gen:bip346-two-byte-index",
       "ref": "bip346-two-byte-index",
-      "sha": "58de753cb4c3c4072c2401998309b49615b691ae",
+      "sha": "3ff55feca0bece4d9eabb3df3a7675197759e63e",
       "user": {
         "login": "Dev-next-gen",
         "id": 188639646,
@@ -152,9 +152,9 @@
         "svn_url": "https://github.com/Dev-next-gen/bips",
         "homepage": "",
         "forks_count": 0,
-        "stargazers_count": 0,
-        "watchers_count": 0,
-        "size": 22757,
+        "stargazers_count": 1,
+        "watchers_count": 1,
+        "size": 22758,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -167,9 +167,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-29T08:50:37Z",
+        "pushed_at": "2026-10-13T23:31:07Z",
         "created_at": "2026-09-29T08:50:28Z",
-        "updated_at": "2026-09-29T08:50:28Z",
+        "updated_at": "2026-10-13T18:03:46Z",
         "allow_forking": true
       }
     },
@@ -273,12 +273,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6028,
-        "stargazers_count": 10950,
-        "watchers_count": 10950,
-        "size": 22757,
+        "forks_count": 6030,
+        "stargazers_count": 10967,
+        "watchers_count": 10967,
+        "size": 22752,
         "default_branch": "master",
-        "open_issues_count": 58,
+        "open_issues_count": 70,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -289,9 +289,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-28T15:24:34Z",
+        "pushed_at": "2026-10-02T13:27:57Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-09-28T15:25:54Z",
+        "updated_at": "2026-10-13T09:33:28Z",
         "allow_forking": true
       }
     },
@@ -302,12 +302,12 @@
     },
     "author_association": "NONE",
     "draft": false,
-    "additions": 18,
-    "deletions": 1,
-    "changed_files": 1,
-    "commits": 1,
+    "additions": 39,
+    "deletions": 6,
+    "changed_files": 2,
+    "commits": 3,
     "review_comments": 0,
-    "comments": 0
+    "comments": 2
   },
   "events": [
     {
@@ -349,6 +349,202 @@
         "date": "2026-09-29T08:49:43Z"
       },
       "sha": "58de753cb4c3c4072c2401998309b49615b691ae"
+    },
+    {
+      "event": "commented",
+      "id": 6078251383,
+      "node_id": "IC_kwDOAN28mc8AAAABakrBdw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/6078251383",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-09T09:31:09Z",
+      "updated_at": "2026-10-09T09:31:09Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Tested ACK 58de753. I added a relative-mode case next to yours: index -1 written in one byte (`0x7f`) and in two bytes (`0xff 0xff`). Both now give the same hash. On master the two-byte form fails with \"selected index out of bounds\".\n\nWhile testing I noticed three places where the BIP text disagrees with the code. Relative indices run from -16384 to +16383, not -16382. The absolute and relative mode bullets say \"second highest bit\", but the flag is the third highest bit, as the line above them says. A 5-bit count allows at most 31 individually selected items, not 32.\n",
+      "user": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2314#issuecomment-6078251383",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2314"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDIxOWI3YzQyYTFlNmE2NWEzZmM1MDM2MjE0Y2ZhZDI2Nzk1NTY0NjI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/219b7c42a1e6a65a3fc5036214cfad2679556462",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/219b7c42a1e6a65a3fc5036214cfad2679556462",
+      "tree": {
+        "sha": "b7832679ba509d3c77a2028d6fb05920c44df954",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/b7832679ba509d3c77a2028d6fb05920c44df954"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree b7832679ba509d3c77a2028d6fb05920c44df954\nparent 58de753cb4c3c4072c2401998309b49615b691ae\nauthor leoca <leo.camus23@gmail.com> 1791934265 +0200\ncommitter leoca <leo.camus23@gmail.com> 1791934265 +0200\n\nBIP-346: test two-byte relative index in reference impl\n\nIndex -1 relative to input 1 written as one byte (0x7f) and as two\nbytes (0xff 0xff) must select the same input and give the same TxHash.\nBefore the previous commit the two-byte form fails with \"selected index\nout of bounds\". Case suggested by fametrano in review.\n",
+        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAglo8EGAjyXAHdAP58yJVA0eN23e\nJUvggy9qyGq1gkpQMAAAADZ2l0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5\nAAAAQP/QzvOZsKNz8AYSP2jI6h2vO18mO36oRWRE9RwJ43aIOGE4VpI1i6P7rmRD1hG9/D\nnJhnDY1yp/MlLUBXdB4AA=\n-----END SSH SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/58de753cb4c3c4072c2401998309b49615b691ae",
+          "sha": "58de753cb4c3c4072c2401998309b49615b691ae",
+          "html_url": "https://github.com/bitcoin/bips/commit/58de753cb4c3c4072c2401998309b49615b691ae"
+        }
+      ],
+      "message": "BIP-346: test two-byte relative index in reference impl\n\nIndex -1 relative to input 1 written as one byte (0x7f) and as two\nbytes (0xff 0xff) must select the same input and give the same TxHash.\nBefore the previous commit the two-byte form fails with \"selected index\nout of bounds\". Case suggested by fametrano in review.",
+      "committer": {
+        "name": "leoca",
+        "email": "leo.camus23@gmail.com",
+        "date": "2026-10-13T23:31:05Z"
+      },
+      "author": {
+        "name": "leoca",
+        "email": "leo.camus23@gmail.com",
+        "date": "2026-10-13T23:31:05Z"
+      },
+      "sha": "219b7c42a1e6a65a3fc5036214cfad2679556462"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDNmZjU1ZmVjYTBiZWNlNGQ5ZWFiYjNkZjNhNzY3NTE5Nzc1OWU2M2U",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/3ff55feca0bece4d9eabb3df3a7675197759e63e",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/3ff55feca0bece4d9eabb3df3a7675197759e63e",
+      "tree": {
+        "sha": "cf8748485a437c3a9c5ee6b4b3ccf30a9fd4c9b1",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/cf8748485a437c3a9c5ee6b4b3ccf30a9fd4c9b1"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree cf8748485a437c3a9c5ee6b4b3ccf30a9fd4c9b1\nparent 219b7c42a1e6a65a3fc5036214cfad2679556462\nauthor leoca <leo.camus23@gmail.com> 1791934266 +0200\ncommitter leoca <leo.camus23@gmail.com> 1791934266 +0200\n\nBIP-346: align individual-mode text with the reference impl\n\n- absolute/relative mode is chosen by the third highest bit\n  (TXFS_INOUT_INDIVIDUAL_MODE), not the second, as the line introducing\n  individual mode already says\n- a two-byte relative index is a 15-bit two's complement value, so it\n  ranges from -16384 to +16383, not -16382 (read_i15)\n- the count is the low 5 bits (TXFS_INOUT_SELECTION_MASK), so at most 31\n  individual in/outputs can be selected, not 32\n\nReported by fametrano in review.\n",
+        "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAglo8EGAjyXAHdAP58yJVA0eN23e\nJUvggy9qyGq1gkpQMAAAADZ2l0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5\nAAAAQAghNiTK+fSxBwAOXbkjtaywDDYeas7/OlhNwkHdZlzB6sl1eAyd8uObeJBSpff8v7\n5c9mW+qAwhTZ7mTObtRAM=\n-----END SSH SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/219b7c42a1e6a65a3fc5036214cfad2679556462",
+          "sha": "219b7c42a1e6a65a3fc5036214cfad2679556462",
+          "html_url": "https://github.com/bitcoin/bips/commit/219b7c42a1e6a65a3fc5036214cfad2679556462"
+        }
+      ],
+      "message": "BIP-346: align individual-mode text with the reference impl\n\n- absolute/relative mode is chosen by the third highest bit\n  (TXFS_INOUT_INDIVIDUAL_MODE), not the second, as the line introducing\n  individual mode already says\n- a two-byte relative index is a 15-bit two's complement value, so it\n  ranges from -16384 to +16383, not -16382 (read_i15)\n- the count is the low 5 bits (TXFS_INOUT_SELECTION_MASK), so at most 31\n  individual in/outputs can be selected, not 32\n\nReported by fametrano in review.",
+      "committer": {
+        "name": "leoca",
+        "email": "leo.camus23@gmail.com",
+        "date": "2026-10-13T23:31:06Z"
+      },
+      "author": {
+        "name": "leoca",
+        "email": "leo.camus23@gmail.com",
+        "date": "2026-10-13T23:31:06Z"
+      },
+      "sha": "3ff55feca0bece4d9eabb3df3a7675197759e63e"
+    },
+    {
+      "event": "commented",
+      "id": 6157410877,
+      "node_id": "IC_kwDOAN28mc8AAAABbwKiPQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/6157410877",
+      "actor": {
+        "login": "Dev-next-gen",
+        "id": 188639646,
+        "node_id": "U_kgDOCz5png",
+        "avatar_url": "https://avatars.githubusercontent.com/u/188639646?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Dev-next-gen",
+        "html_url": "https://github.com/Dev-next-gen",
+        "followers_url": "https://api.github.com/users/Dev-next-gen/followers",
+        "following_url": "https://api.github.com/users/Dev-next-gen/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Dev-next-gen/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Dev-next-gen/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Dev-next-gen/subscriptions",
+        "organizations_url": "https://api.github.com/users/Dev-next-gen/orgs",
+        "repos_url": "https://api.github.com/users/Dev-next-gen/repos",
+        "events_url": "https://api.github.com/users/Dev-next-gen/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Dev-next-gen/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-13T23:31:27Z",
+      "updated_at": "2026-10-13T23:31:27Z",
+      "author_association": "NONE",
+      "body": "Thanks for the tested ACK, and for taking the relative-mode path, which my test left alone. Index -1 as `0x7f` against `0xff 0xff` is a good probe because on master the second form goes through `read_i15` and turns into +255, so it only errors here because the test transaction is small.\n\nI added your case as `two_byte_relative_index_matches_single_byte` in 219b7c4 and fixed the text in 3ff55fe. All three points hold against the code: the absolute and relative bullets now say third highest bit, matching `TXFS_INOUT_INDIVIDUAL_MODE = 1 << 5`; `read_i15(0x4000)` gives -16384, so the summary range is now -16384 to +16383; and the count is `selection & TXFS_INOUT_SELECTION_MASK`, five bits, so 32 became 31 both in the summary and in the malleability section, which repeated the same number.\n\nOne caveat: there was no Rust toolchain where I pushed from, so the new test is the absolute one with only the selector bytes and input index changed, and I checked its expectation against a small port of `parse_inout_selection` rather than with `cargo test`. If your checkout is still around, a run would confirm it.\n\nFound by a defect-hunting pipeline I build and run ([Dev-next-gen](https://github.com/Dev-next-gen)), using Claude Code with Anthropic's Claude Opus 5.5.\n",
+      "user": {
+        "login": "Dev-next-gen",
+        "id": 188639646,
+        "node_id": "U_kgDOCz5png",
+        "avatar_url": "https://avatars.githubusercontent.com/u/188639646?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Dev-next-gen",
+        "html_url": "https://github.com/Dev-next-gen",
+        "followers_url": "https://api.github.com/users/Dev-next-gen/followers",
+        "following_url": "https://api.github.com/users/Dev-next-gen/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/Dev-next-gen/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/Dev-next-gen/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/Dev-next-gen/subscriptions",
+        "organizations_url": "https://api.github.com/users/Dev-next-gen/orgs",
+        "repos_url": "https://api.github.com/users/Dev-next-gen/repos",
+        "events_url": "https://api.github.com/users/Dev-next-gen/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/Dev-next-gen/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2314#issuecomment-6157410877",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2314"
     }
   ],
   "comments": []
