@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-04-10T21:54:22Z",
-    "updated_at": "2026-10-17T08:19:18Z",
+    "updated_at": "2026-10-17T10:04:45Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -3884,9 +3884,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-10-17T06:03:15Z",
-      "updated_at": "2026-10-17T08:19:18Z",
+      "updated_at": "2026-10-17T10:04:45Z",
       "author_association": "MEMBER",
-      "body": "I wonder if it makes sense to align the chunks with transaction-group boundaries, possibly combined with the smaller chunks proposed by @aj. [0]\r\n\r\nIt would make it easier to deserialize coins as they are downloaded. With larger transaction-groups you still need to wait for all its chunks before parsing.\r\n\r\nLocal (not p2p) testing resulted in a dramatic speedup of the final flush and verification, from 51 to 0.5 seconds (NVMe SSD, total processing took 3 minutes).\r\n\r\nOn a more speculative note, this would also enable just-in-time fetching of chunks. A node could start validating blocks even before the full utxo set is downloaded. Since the coins are sorted lexicographically, a binary search can be used to prioritize chunks for the block at hand. We still download the whole thing.\r\n\r\nWhether just-in-time fetching is worth the complexity would require some benchmarking. Coins are randomly distributed across the snapshot, so in practice we might still have to download a very large percentage before being able to validate the first block. But a format that allows it is nice to have.\r\n\r\n[0] https://groups.google.com/g/bitcoindev/c/rThmyI8ZN3Q/m/XQUAMEQpBQAJ",
+      "body": "I wonder if it makes sense to align the chunks with transaction-group boundaries, possibly combined with the smaller chunks proposed by @aj. [0]\r\n\r\nIt would make it easier to deserialize coins as they are downloaded. With larger transaction-groups you still need to wait for all its chunks before parsing.\r\n\r\nLocal (not p2p) testing resulted in a dramatic speedup of the final flush and verification, from 51 to 0.5 seconds (NVMe SSD, total processing took 3 minutes).\r\n\r\nOn a more speculative note, this would also enable just-in-time fetching of chunks. A node could start validating blocks even before the full utxo set is downloaded. Since the coins are sorted lexicographically, a binary search can be used to prioritize chunks for the block at hand. We still download the whole thing.\r\n\r\nWhether just-in-time fetching is worth the complexity would require some benchmarking. Coins are randomly distributed across the snapshot, so in practice we might still have to download a very large percentage before being able to validate the first block. But a format that allows it is nice to have.\r\n\r\n_Update_: based on the 965,000 mainnet snapshot and 64 KiB chunks, nodes have to download 1 GB worth of chunks to validate the first block - including for binary searches -  and by block 188 they'll have fetched 75% of chunks.\r\n\r\n[0] https://groups.google.com/g/bitcoindev/c/rThmyI8ZN3Q/m/XQUAMEQpBQAJ",
       "user": {
         "login": "Sjors",
         "id": 10217,
