@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-04-10T21:54:22Z",
-    "updated_at": "2026-10-18T05:59:54Z",
+    "updated_at": "2026-10-18T06:13:52Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -325,7 +325,7 @@
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 75,
+    "review_comments": 76,
     "comments": 31
   },
   "events": [
@@ -4004,9 +4004,9 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-10-18T05:59:54Z",
-      "updated_at": "2026-10-18T05:59:54Z",
+      "updated_at": "2026-10-18T06:00:57Z",
       "author_association": "CONTRIBUTOR",
-      "body": "> Local (not p2p) testing resulted in a dramatic speedup of the final flush and verification, from 51 to 0.5 seconds (NVMe SSD, total processing took 3 minutes).\r\n\r\nThat sounds like it's measuring inefficiencies in how a snapshot gets loaded into leveldb? Loading it in txid/vout order shouldn't require any caching, compaction or rewrites really, so I'd expect there's plenty of room to make that faster, but also that the optimal order to load records is in the dump order anyway.\r\n\r\nYeah, I think the main things are that going through coinsview puts coins in an unordered map that moderately throws away the ordering we already had which then has to be recovered, and then every write to the new database gets fsynced to disk.\r\n\r\nWith [this commit](https://github.com/ajtowns/bitcoin/commit/7a55ecca0b151762171c33d1c3d31e9cab785aeb) I get 1m20s (CPU bound on leveldb encoding) to construct the leveldb file and validate the dump against the hash from chainparams, and an additional 20s to fsync the db to RAIDed spinning disks before renaming it into place.\r\n\r\n```\r\n$ time ../build_rel/bin/bitcoind -nonetworkactive -loadtxoutset=/srv/space/aj/txoutset-935000\r\n...\r\n2026-10-18T05:50:33Z [snapshot] loading 164241311 coins from snapshot 0000000000000000000147034958af1652b2b91bba607beacc5e72a56f0fb5ee\r\n2026-10-18T05:50:33Z utxohash thread start\r\n2026-10-18T05:50:33Z utxowrite thread start\r\n2026-10-18T05:50:33Z utxoread thread start\r\n2026-10-18T05:50:37Z [snapshot] 10000000 coins read (6.09%)\r\n2026-10-18T05:50:41Z [snapshot] 20000000 coins read (12.18%)\r\n2026-10-18T05:50:46Z [snapshot] 30000000 coins read (18.27%)\r\n2026-10-18T05:50:50Z [snapshot] 40000000 coins read (24.35%)\r\n2026-10-18T05:50:54Z [snapshot] 50000000 coins read (30.44%)\r\n2026-10-18T05:50:59Z [snapshot] 60000000 coins read (36.53%)\r\n2026-10-18T05:51:04Z [snapshot] 70000000 coins read (42.62%)\r\n2026-10-18T05:51:08Z [snapshot] 80000000 coins read (48.71%)\r\n2026-10-18T05:51:12Z [snapshot] 90000000 coins read (54.80%)\r\n2026-10-18T05:51:17Z [snapshot] 100000000 coins read (60.89%)\r\n2026-10-18T05:51:21Z [snapshot] 110000000 coins read (66.97%)\r\n2026-10-18T05:51:26Z [snapshot] 120000000 coins read (73.06%)\r\n2026-10-18T05:51:31Z [snapshot] 130000000 coins read (79.15%)\r\n2026-10-18T05:51:35Z [snapshot] 140000000 coins read (85.24%)\r\n2026-10-18T05:51:39Z [snapshot] 150000000 coins read (91.33%)\r\n2026-10-18T05:51:44Z [snapshot] 160000000 coins read (97.42%)\r\n2026-10-18T05:51:46Z utxoread thread exit\r\n2026-10-18T05:51:46Z utxohash thread exit\r\n2026-10-18T05:51:46Z utxowrite thread exit\r\n2026-10-18T05:51:46Z [snapshot] syncing db files\r\n2026-10-18T05:52:03Z [snapshot] wrote 164241311 coins at height 935000 to /srv/space/hermes/.bitcoin/chainstate_snapshot\r\n2026-10-18T05:52:03Z The UTXO set snapshot is loaded. Restart without -loadtxoutset to use it.\r\n...\r\nreal    1m38.097s\r\nuser    2m58.599s\r\nsys     0m7.938s\r\n```\r\n\r\n> On a more speculative note, this would also enable just-in-time fetching of chunks. \r\n\r\nThat seems like a really bad idea to me -- you're breaking assumptions in consensus code (\"the utxo set is complete and consistent against the block it matches\"), you're making storage, validation, net all more complicated, and the bottleneck for syncing the utxo set is likely either net bandwidth, leveldb bandwidth, cpu, so adding the extra load of downloading and validating blocks is likely just going to slow your utxo sync further.",
+      "body": "> Local (not p2p) testing resulted in a dramatic speedup of the final flush and verification, from 51 to 0.5 seconds (NVMe SSD, total processing took 3 minutes).\r\n\r\nThat sounds like it's measuring inefficiencies in how a snapshot gets loaded into leveldb? Loading it in txid/vout order shouldn't require any caching, compaction or rewrites really, so I'd expect there's plenty of room to make that faster, but also that the optimal order to load records is in the dump order anyway.\r\n\r\nYeah, I think the main things are that going through coinsview puts coins in an unordered map that moderately throws away the ordering we already had which then has to be recovered, and then every write to the new database gets fsynced to disk.\r\n\r\nWith [this commit](https://github.com/ajtowns/bitcoin/commit/7a55ecca0b151762171c33d1c3d31e9cab785aeb) I get 1m20s (CPU bound on leveldb encoding) to construct the leveldb file and validate the dump against the hash from chainparams, and an additional 20s to fsync the db to RAIDed spinning disks before renaming it into place.\r\n\r\n```\r\n$ time ../build_rel/bin/bitcoind -nonetworkactive -loadtxoutset=/srv/space/aj/txoutset-935000\r\n...\r\n2026-10-18T05:50:33Z [snapshot] loading 164241311 coins from snapshot 0000000000000000000147034958af1652b2b91bba607beacc5e72a56f0fb5ee\r\n2026-10-18T05:50:33Z utxohash thread start\r\n2026-10-18T05:50:33Z utxowrite thread start\r\n2026-10-18T05:50:33Z utxoread thread start\r\n2026-10-18T05:50:37Z [snapshot] 10000000 coins read (6.09%)\r\n2026-10-18T05:50:41Z [snapshot] 20000000 coins read (12.18%)\r\n2026-10-18T05:50:46Z [snapshot] 30000000 coins read (18.27%)\r\n2026-10-18T05:50:50Z [snapshot] 40000000 coins read (24.35%)\r\n2026-10-18T05:50:54Z [snapshot] 50000000 coins read (30.44%)\r\n2026-10-18T05:50:59Z [snapshot] 60000000 coins read (36.53%)\r\n2026-10-18T05:51:04Z [snapshot] 70000000 coins read (42.62%)\r\n2026-10-18T05:51:08Z [snapshot] 80000000 coins read (48.71%)\r\n2026-10-18T05:51:12Z [snapshot] 90000000 coins read (54.80%)\r\n2026-10-18T05:51:17Z [snapshot] 100000000 coins read (60.89%)\r\n2026-10-18T05:51:21Z [snapshot] 110000000 coins read (66.97%)\r\n2026-10-18T05:51:26Z [snapshot] 120000000 coins read (73.06%)\r\n2026-10-18T05:51:31Z [snapshot] 130000000 coins read (79.15%)\r\n2026-10-18T05:51:35Z [snapshot] 140000000 coins read (85.24%)\r\n2026-10-18T05:51:39Z [snapshot] 150000000 coins read (91.33%)\r\n2026-10-18T05:51:44Z [snapshot] 160000000 coins read (97.42%)\r\n2026-10-18T05:51:46Z utxoread thread exit\r\n2026-10-18T05:51:46Z utxohash thread exit\r\n2026-10-18T05:51:46Z utxowrite thread exit\r\n2026-10-18T05:51:46Z [snapshot] syncing db files\r\n2026-10-18T05:52:03Z [snapshot] wrote 164241311 coins at height 935000 to /srv/space/hermes/.bitcoin/chainstate_snapshot\r\n2026-10-18T05:52:03Z The UTXO set snapshot is loaded. Restart without -loadtxoutset to use it.\r\n...\r\nreal    1m38.097s\r\nuser    2m58.599s\r\nsys     0m7.938s\r\n```\r\n\r\n(For comparison `loadtxoutset` RPC on the same dump took about 10 minutes)\r\n\r\n> On a more speculative note, this would also enable just-in-time fetching of chunks. \r\n\r\nThat seems like a really bad idea to me -- you're breaking assumptions in consensus code (\"the utxo set is complete and consistent against the block it matches\"), you're making storage, validation, net all more complicated, and the bottleneck for syncing the utxo set is likely either net bandwidth, leveldb bandwidth, cpu, so adding the extra load of downloading and validating blocks is likely just going to slow your utxo sync further.",
       "user": {
         "login": "ajtowns",
         "id": 127186,
@@ -8082,6 +8082,60 @@
       "start_side": null,
       "line": 179,
       "original_line": 179,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4305974123",
+      "pull_request_review_id": 5561706736,
+      "id": 4305974123,
+      "node_id": "PRRC_kwDOAN28mc8AAAABAKfzaw",
+      "diff_hunk": "@@ -0,0 +1,296 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: P2P UTXO Set Sharing\n+  Authors: Fabian Jahr <fjahr@protonmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-2-Clause\n+  Discussion: 2026-05-06: https://groups.google.com/g/bitcoindev/c/rThmyI8ZN3Q\n+  Version: 0.5.0\n+  Requires: 434\n+```\n+\n+## Abstract\n+\n+This BIP defines a P2P protocol extension for sharing full UTXO sets between peers. It introduces\n+a new service bit `NODE_UTXO_SET` advertising a deterministic schedule of served heights, four new\n+P2P messages (`getutxotree`, `utxotree`, `getutxoset`, `utxoset`) negotiated via a BIP 434 feature,\n+and a chunk-hash list anchored to a Merkle root known to the requesting node, enabling per-chunk\n+verification. This allows bootstrapping nodes to leapfrog to a recent height by obtaining the\n+required UTXO set directly from the P2P network via mechanisms such as assumeutxo.\n+\n+## Motivation\n+\n+The assumeutxo feature (implemented in Bitcoin Core) allows nodes to begin operating from a serialized\n+UTXO set while validating\n+historical blocks in the background. However, there is currently no canonical source for obtaining this\n+data. Users must either generate one themselves from a fully synced node (using `dumptxoutset` in \n+Bitcoin Core), or download one from a third party.\n+\n+By enabling UTXO set sharing over the P2P network, new nodes can obtain the data directly from\n+peers, removing the dependency on external infrastructure.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"SHOULD\", \"SHOULD NOT\", and \"MAY\" in this document are to be\n+interpreted as described in RFC 2119.\n+\n+### Service Bit\n+\n+| Name | Bit | Description |\n+|------|-----|-------------|\n+| `NODE_UTXO_SET` | 14 (0x4000) | The node serves complete UTXO set data for the scheduled heights (see [Scheduled UTXO Set Heights](#scheduled-utxo-set-heights)). |\n+\n+A node MUST NOT set this bit unless it can serve the UTXO sets at the scheduled heights defined below.\n+A node signaling `NODE_UTXO_SET` MUST be capable of responding to `getutxotree` and `getutxoset`\n+requests for the scheduled heights `H1` and `H2`, including the full chunk-hash list and every chunk of\n+those sets. It MAY additionally serve UTXO sets at other heights.\n+\n+### Scheduled UTXO Set Heights\n+\n+To make the `NODE_UTXO_SET` service bit meaningful for peer discovery, advertising nodes serve UTXO\n+sets at a deterministic schedule of block heights derived from the current tip. All heights refer to\n+blocks on the active most-work chain.\n+\n+Let:\n+\n+* `N` = height of the current chain tip\n+* `M = N - 2016` (the height as of approximately two weeks ago)\n+* `K = 14112` (7 difficulty adjustment periods, approximately three months)\n+* `H1 = M - (M mod K)` (the most recent multiple of `K` that is buried by at least 2016 blocks)\n+* `H2 = H1 - K` (the preceding multiple of `K`)\n+\n+A node advertising `NODE_UTXO_SET` MUST be able to serve the UTXO sets at heights `H1` and `H2` as\n+computed from the current tip. Serving two consecutive scheduled heights guarantees an overlap\n+window: when a new height becomes `H1`, the previous one remains available as `H2`, so an in-progress\n+download is not interrupted.\n+\n+The 2016-block offset ensures a height becomes scheduled only once it is buried by approximately two\n+weeks, which should make it safe from reorganization and gives serving nodes time to produce the\n+snapshot before it is requested.\n+\n+### Feature Negotiation\n+\n+Support for the messages in this document is negotiated per connection via the BIP 434 `feature`\n+message, using `featureid` `BIPXXXX` (TODO) and empty `featuredata`. A node implementing these\n+messages advertises this feature and MUST NOT send any of them to a peer that has not.\n+\n+Advertising the feature indicates only that a node implements the protocol while `NODE_UTXO_SET`\n+indicates it additionally serves the scheduled heights. A node setting `NODE_UTXO_SET` MUST also\n+advertise the feature.\n+\n+### Data Structures\n+\n+#### Serialized UTXO Set\n+\n+The serialized UTXO set uses the format established by the Bitcoin Core RPC `dumptxoutset` (as of Bitcoin Core v31).\n+\n+**Header (55 bytes):**\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `magic` | `bytes` | 5 | `0x7574786fff` (ASCII `utxo` + `0xff`). |\n+| `version` | `uint16_t` | 2 | Format version. |\n+| `network_magic` | `bytes` | 4 | Network message start bytes. |\n+| `base_height` | `uint32_t` | 4 | Block height of the UTXO set. |\n+| `base_blockhash` | `uint256` | 32 | Block hash of the UTXO set. |\n+| `coins_count` | `uint64_t` | 8 | Total number of coins (UTXOs) in the set. |\n+\n+**Body (coin data):**\n+\n+Coins are grouped by transaction hash. For each group:\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `txid` | `uint256` | 32 | Transaction hash. |\n+| `num_coins` | `compact_size` | 1–9 | Number of outputs for this txid. |\n+\n+For each coin in the group:\n+\n+| Field | Type | Size | Description |\n+|-------|------|------|-------------|\n+| `vout_index` | `compact_size` | 1–9 | Output index. |\n+| `coin` | `Coin` | variable | Serialized coin (varint-encoded code for height/coinbase, then compressed txout). |\n+\n+Coins are ordered lexicographically by outpoint (txid, then vout index), matching the LevelDB iteration\n+order of the coins database.\n+\n+#### Chunk Merkle Tree\n+\n+The serialized UTXO set (header + body) is split into chunks of exactly 3,900,000 bytes (3.9 MB). The\n+last chunk contains the remaining bytes and may be smaller. The chunks form the leaves of a binary\n+Merkle tree whose root commits to the entire UTXO set.\n+\n+The leaf hash for each chunk is `SHA256d(chunk_data)`. The tree is built as a balanced binary tree. When\n+the number of nodes at a level is odd, the last node is promoted unchanged to the next level.\n+Interior nodes are computed as `SHA256d(left_child || right_child)`.\n+\n+The leaves are delivered to the node in a single `utxotree` response. A node that knows",
+      "path": "bip-XXXX.md",
+      "position": 130,
+      "original_position": 130,
+      "commit_id": "23c4b35ce902095005ac8cd03b75e102a0cf8c9b",
+      "original_commit_id": "23c4b35ce902095005ac8cd03b75e102a0cf8c9b",
+      "in_reply_to_id": 4301458601,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Having `utxohashes` provide bundles of 2048 hashes multiple times removes this limit (and exercises the multiple-messages aspect as soon as the utxo dump is larger than 128MiB). See https://gnusha.org/pi/bitcoindev/atCSAVprBE-tAnN3@erisian.com.au/T/#m675357a55f762afbb64c7ccfee8f75e1b6b404e6",
+      "created_at": "2026-10-18T06:13:52Z",
+      "updated_at": "2026-10-18T06:13:52Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2137#discussion_r4305974123",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4305974123"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2137"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 130,
+      "original_line": 130,
       "side": "RIGHT"
     }
   ]
