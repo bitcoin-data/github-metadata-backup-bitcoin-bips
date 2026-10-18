@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-04-10T21:54:22Z",
-    "updated_at": "2026-10-17T10:04:45Z",
+    "updated_at": "2026-10-18T05:59:54Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -293,8 +293,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6031,
-        "stargazers_count": 10969,
-        "watchers_count": 10969,
+        "stargazers_count": 10971,
+        "watchers_count": 10971,
         "size": 22752,
         "default_branch": "master",
         "open_issues_count": 69,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2026-10-02T13:27:57Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-17T06:30:43Z",
+        "updated_at": "2026-10-18T05:38:41Z",
         "allow_forking": true
       }
     },
@@ -326,7 +326,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 75,
-    "comments": 30
+    "comments": 31
   },
   "events": [
     {
@@ -3973,6 +3973,64 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-10-17T06:03:16Z"
+    },
+    {
+      "event": "commented",
+      "id": 6246338114,
+      "node_id": "IC_kwDOAN28mc8AAAABdE-OQg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/6246338114",
+      "actor": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-18T05:59:54Z",
+      "updated_at": "2026-10-18T05:59:54Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> Local (not p2p) testing resulted in a dramatic speedup of the final flush and verification, from 51 to 0.5 seconds (NVMe SSD, total processing took 3 minutes).\r\n\r\nThat sounds like it's measuring inefficiencies in how a snapshot gets loaded into leveldb? Loading it in txid/vout order shouldn't require any caching, compaction or rewrites really, so I'd expect there's plenty of room to make that faster, but also that the optimal order to load records is in the dump order anyway.\r\n\r\nYeah, I think the main things are that going through coinsview puts coins in an unordered map that moderately throws away the ordering we already had which then has to be recovered, and then every write to the new database gets fsynced to disk.\r\n\r\nWith [this commit](https://github.com/ajtowns/bitcoin/commit/7a55ecca0b151762171c33d1c3d31e9cab785aeb) I get 1m20s (CPU bound on leveldb encoding) to construct the leveldb file and validate the dump against the hash from chainparams, and an additional 20s to fsync the db to RAIDed spinning disks before renaming it into place.\r\n\r\n```\r\n$ time ../build_rel/bin/bitcoind -nonetworkactive -loadtxoutset=/srv/space/aj/txoutset-935000\r\n...\r\n2026-10-18T05:50:33Z [snapshot] loading 164241311 coins from snapshot 0000000000000000000147034958af1652b2b91bba607beacc5e72a56f0fb5ee\r\n2026-10-18T05:50:33Z utxohash thread start\r\n2026-10-18T05:50:33Z utxowrite thread start\r\n2026-10-18T05:50:33Z utxoread thread start\r\n2026-10-18T05:50:37Z [snapshot] 10000000 coins read (6.09%)\r\n2026-10-18T05:50:41Z [snapshot] 20000000 coins read (12.18%)\r\n2026-10-18T05:50:46Z [snapshot] 30000000 coins read (18.27%)\r\n2026-10-18T05:50:50Z [snapshot] 40000000 coins read (24.35%)\r\n2026-10-18T05:50:54Z [snapshot] 50000000 coins read (30.44%)\r\n2026-10-18T05:50:59Z [snapshot] 60000000 coins read (36.53%)\r\n2026-10-18T05:51:04Z [snapshot] 70000000 coins read (42.62%)\r\n2026-10-18T05:51:08Z [snapshot] 80000000 coins read (48.71%)\r\n2026-10-18T05:51:12Z [snapshot] 90000000 coins read (54.80%)\r\n2026-10-18T05:51:17Z [snapshot] 100000000 coins read (60.89%)\r\n2026-10-18T05:51:21Z [snapshot] 110000000 coins read (66.97%)\r\n2026-10-18T05:51:26Z [snapshot] 120000000 coins read (73.06%)\r\n2026-10-18T05:51:31Z [snapshot] 130000000 coins read (79.15%)\r\n2026-10-18T05:51:35Z [snapshot] 140000000 coins read (85.24%)\r\n2026-10-18T05:51:39Z [snapshot] 150000000 coins read (91.33%)\r\n2026-10-18T05:51:44Z [snapshot] 160000000 coins read (97.42%)\r\n2026-10-18T05:51:46Z utxoread thread exit\r\n2026-10-18T05:51:46Z utxohash thread exit\r\n2026-10-18T05:51:46Z utxowrite thread exit\r\n2026-10-18T05:51:46Z [snapshot] syncing db files\r\n2026-10-18T05:52:03Z [snapshot] wrote 164241311 coins at height 935000 to /srv/space/hermes/.bitcoin/chainstate_snapshot\r\n2026-10-18T05:52:03Z The UTXO set snapshot is loaded. Restart without -loadtxoutset to use it.\r\n...\r\nreal    1m38.097s\r\nuser    2m58.599s\r\nsys     0m7.938s\r\n```\r\n\r\n> On a more speculative note, this would also enable just-in-time fetching of chunks. \r\n\r\nThat seems like a really bad idea to me -- you're breaking assumptions in consensus code (\"the utxo set is complete and consistent against the block it matches\"), you're making storage, validation, net all more complicated, and the bottleneck for syncing the utxo set is likely either net bandwidth, leveldb bandwidth, cpu, so adding the extra load of downloading and validating blocks is likely just going to slow your utxo sync further.",
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2137#issuecomment-6246338114",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2137"
     }
   ],
   "comments": [
