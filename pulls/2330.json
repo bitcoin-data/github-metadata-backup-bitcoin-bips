@@ -41,9 +41,28 @@
       "patch_url": null
     },
     "body": "I implemented BIP352 independently in btclib-wallet (Python). These six vectors cover cases its tests reach and the file does not. reference.py computes every expected value and passes on the whole file, and btclib-wallet agrees on all six.\n\n- P2WSH, P2MS, P2PK and empty-scriptPubKey inputs beside one P2PKH input: only the P2PKH key counts.\n- P2SH-P2WSH, P2TR with an empty witness, and P2TR whose output key is not on the curve, beside one P2PKH input: all are skipped.\n- A taproot script path spend with a non-NUMS internal key: its output key counts.\n- A P2PKH input whose pubkey hash matches 33 bytes that are not a valid key: it is skipped.\n- The largest label, 2^32 - 1.\n- An unlabeled and a labeled address of one recipient, with another recipient listed between them.\n\nThe P2WSH and P2SH-P2WSH witness script is also a valid compressed key, so an implementation that reads the last witness item as a key fails these vectors.\n\nThe changelog gets version 1.1.2. #2323 adds two other vectors at the same places in both files; I will rebase whichever lands second.\n\n*Assisted-by: my usual tools (LLM, Internet, computer). Mistakes are mine.*\n",
-    "labels": [],
+    "labels": [
+      {
+        "id": 275846070,
+        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
+        "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
+        "color": "5319e7",
+        "default": false
+      },
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
+      }
+    ],
     "created_at": "2026-10-10T23:28:23Z",
-    "updated_at": "2026-10-10T23:28:23Z",
+    "updated_at": "2026-10-18T21:23:38Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -155,7 +174,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22905,
+        "size": 23083,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -168,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-10T23:28:21Z",
+        "pushed_at": "2026-10-14T12:13:04Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-08-01T21:58:43Z",
         "allow_forking": true
@@ -274,12 +293,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6033,
-        "stargazers_count": 10958,
-        "watchers_count": 10958,
+        "forks_count": 6031,
+        "stargazers_count": 10972,
+        "watchers_count": 10972,
         "size": 22752,
         "default_branch": "master",
-        "open_issues_count": 70,
+        "open_issues_count": 68,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -292,7 +311,7 @@
         "visibility": "public",
         "pushed_at": "2026-10-02T13:27:57Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-10T15:25:28Z",
+        "updated_at": "2026-10-18T12:15:09Z",
         "allow_forking": true
       }
     },
@@ -390,6 +409,107 @@
         "date": "2026-10-10T23:20:26Z"
       },
       "sha": "5f76a1788a60d5e0d85757d6212e9f5bbf71193e"
+    },
+    {
+      "event": "subscribed",
+      "id": 33492743772,
+      "node_id": "SE_lADOAN28mc8AAAABWXtkCM8AAAAHzFK2XA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/33492743772",
+      "actor": {
+        "login": "mikwespinoza-ux",
+        "id": 279146035,
+        "node_id": "U_kgDOEKNuMw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/279146035?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/mikwespinoza-ux",
+        "html_url": "https://github.com/mikwespinoza-ux",
+        "followers_url": "https://api.github.com/users/mikwespinoza-ux/followers",
+        "following_url": "https://api.github.com/users/mikwespinoza-ux/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/mikwespinoza-ux/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/mikwespinoza-ux/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/mikwespinoza-ux/subscriptions",
+        "organizations_url": "https://api.github.com/users/mikwespinoza-ux/orgs",
+        "repos_url": "https://api.github.com/users/mikwespinoza-ux/repos",
+        "events_url": "https://api.github.com/users/mikwespinoza-ux/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/mikwespinoza-ux/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-16T23:59:10Z"
+    },
+    {
+      "event": "labeled",
+      "id": 33593010715,
+      "node_id": "LE_lADOAN28mc8AAAABWXtkCM8AAAAH0kyqGw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/33593010715",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-18T21:23:38Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 33593010771,
+      "node_id": "LE_lADOAN28mc8AAAABWXtkCM8AAAAH0kyqUw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/33593010771",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-18T21:23:38Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
     }
   ],
   "comments": []

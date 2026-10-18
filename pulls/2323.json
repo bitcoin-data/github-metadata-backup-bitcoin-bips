@@ -41,9 +41,19 @@
       "patch_url": null
     },
     "body": "This adds two test vectors, each with a p2pkh input whose scriptSig also pushes another valid pubkey.\n\nThe first uses the scriptSig from the test in bitcoin/bitcoin#36338 by @theStack: `<sig> <pubkey> <bogus_sig> OP_OVER OP_CHECKSIG OP_IF <other_pubkey> OP_ENDIF`. Evaluating this scriptSig with a checker that accepts any signature leaves `<other_pubkey>` on top of the stack. The existing malleated p2pkh vector does not cover this.\n\nThe second is the `<dummy> OP_DROP <sig> <pubkey>` case @jonatack suggested in that PR, with a valid pubkey as the dummy. It catches an extractor that takes the first 33-byte push without checking its hash.\n\nThe expected values come from reference.py. btclib-wallet's vector tests also pass on the new file.\n\nI ran Bitcoin Core's `bip352_tests` with the new file in place of its vendored copy:\n- at the head of #36338 (cdfaa534), all 30 vectors pass;\n- on master's code, the first new vector fails;\n- on #36338 without its Hash160 check, the second new vector fails.\n\nCore's test does not compare `input_pub_keys`, so each failure shows on the receiving side: the wrong key gives a wrong tweak, and no output is found.\n\n*Made with my usual tools: a computer, the Internet and an LLM. The mistakes, as usual, are all mine.*\n\n",
-    "labels": [],
+    "labels": [
+      {
+        "id": 10999942923,
+        "node_id": "LA_kwDOAN28mc8AAAACj6XPCw",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Fixups",
+        "name": "Fixups",
+        "description": "Minor fixups not worth bothering the BIP author(s) for",
+        "color": "052447",
+        "default": false
+      }
+    ],
     "created_at": "2026-10-02T07:48:30Z",
-    "updated_at": "2026-10-07T21:02:08Z",
+    "updated_at": "2026-10-18T21:28:18Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -155,7 +165,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22905,
+        "size": 23083,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -168,7 +178,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-03T19:28:17Z",
+        "pushed_at": "2026-10-14T12:13:04Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-08-01T21:58:43Z",
         "allow_forking": true
@@ -274,12 +284,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6035,
-        "stargazers_count": 10953,
-        "watchers_count": 10953,
+        "forks_count": 6031,
+        "stargazers_count": 10972,
+        "watchers_count": 10972,
         "size": 22752,
         "default_branch": "master",
-        "open_issues_count": 67,
+        "open_issues_count": 68,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -292,7 +302,7 @@
         "visibility": "public",
         "pushed_at": "2026-10-02T13:27:57Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-07T21:33:44Z",
+        "updated_at": "2026-10-18T12:15:09Z",
         "allow_forking": true
       }
     },
@@ -572,6 +582,41 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2323#issuecomment-6046784920",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2323"
+    },
+    {
+      "event": "labeled",
+      "id": 33593199331,
+      "node_id": "LE_lADOAN28mc8AAAABUjnmxM8AAAAH0k-K4w",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/33593199331",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-18T21:28:18Z",
+      "label": {
+        "name": "Fixups",
+        "color": "052447"
+      }
     }
   ],
   "comments": []

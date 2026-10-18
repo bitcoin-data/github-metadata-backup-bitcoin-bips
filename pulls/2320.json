@@ -41,9 +41,28 @@
       "patch_url": null
     },
     "body": "## Summary\r\n\r\nGeneralize codex32 so that the human-readable part is not restricted to\r\n`ms`.\r\n\r\nThis PR is based on top of behavior neutral #2285.\r\n\r\nBIP-32 master seeds and their shares continue to use `ms`, while other\r\napplications can use their own human-readable parts.\r\n\r\n## Changes\r\n\r\n- Specify the human-readable part as in BIP-173.\r\n- Include the human-readable part in checksum construction and verification.\r\n- Count its BIP-173 expansion toward the checksum length limits.\r\n- Rename the inline `ms32` checksum and interpolation helpers to `codex32`.\r\n- Require all shares in a set to use the same human-readable part.\r\n- Clarify that the interpolation helpers operate on the data part and do not\r\n  check the valid set conditions.\r\n- Limit fresh-secret generation to applications that accept every payload, or\r\n  require rejection sampling otherwise.\r\n- Do not recommend correcting errors in the human-readable part unless the\r\n  application specifies how.\r\n- Update the existing invalid vectors whose interpretation changes when other\r\n  human-readable parts become valid.\r\n- Add test vectors covering:\r\n  - the registered `cl` human-readable part used by Core Lightning;\r\n  - checksum selection affected by human-readable-part length;\r\n  - an 83-character human-readable part containing `1`;\r\n  - expanded lengths 94 and 95;\r\n  - a checksum computed over an uppercase human-readable part;\r\n  - a human-readable part longer than 83 characters.\r\n\r\nStrings using `ms` are unchanged.\r\n\r\n## Testing\r\n\r\nThe `codex32` checksum functions were checked against the previous `ms32`\r\nfunctions for `ms` over random data parts of every length from 0 through 1029\r\nsymbols, including both checksum variants, the 94–95 expanded-length gap, and\r\nlengths beyond 1023.\r\n\r\nThe new vectors were checked with both the specification's Python code and an\r\nindependent implementation, `python-codex32`. They agree except that\r\n`python-codex32` does not yet enforce the 83-character human-readable-part\r\nlimit.\r\n\r\nRefs: #2040, #2258, #2285",
-    "labels": [],
+    "labels": [
+      {
+        "id": 275846070,
+        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
+        "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
+        "color": "5319e7",
+        "default": false
+      },
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
+      }
+    ],
     "created_at": "2026-10-01T19:45:13Z",
-    "updated_at": "2026-10-05T08:42:52Z",
+    "updated_at": "2026-10-18T21:29:23Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -155,7 +174,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22870,
+        "size": 22883,
         "default_branch": "master",
         "open_issues_count": 3,
         "is_template": false,
@@ -168,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-05T06:03:22Z",
+        "pushed_at": "2026-10-07T04:37:20Z",
         "created_at": "2025-08-19T15:04:43Z",
         "updated_at": "2026-10-01T08:47:09Z",
         "allow_forking": true
@@ -274,12 +293,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6035,
-        "stargazers_count": 10952,
-        "watchers_count": 10952,
+        "forks_count": 6031,
+        "stargazers_count": 10972,
+        "watchers_count": 10972,
         "size": 22752,
         "default_branch": "master",
-        "open_issues_count": 65,
+        "open_issues_count": 68,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -292,7 +311,7 @@
         "visibility": "public",
         "pushed_at": "2026-10-02T13:27:57Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-05T08:58:32Z",
+        "updated_at": "2026-10-18T12:15:09Z",
         "allow_forking": true
       }
     },
@@ -902,6 +921,76 @@
       "submitted_at": "2026-10-05T08:38:58Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2320"
+    },
+    {
+      "event": "labeled",
+      "id": 33593240592,
+      "node_id": "LE_lADOAN28mc8AAAABUdjmfc8AAAAH0lAsEA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/33593240592",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-18T21:29:23Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 33593240622,
+      "node_id": "LE_lADOAN28mc8AAAABUdjmfc8AAAAH0lAsLg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/33593240622",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-18T21:29:23Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
     }
   ],
   "comments": [

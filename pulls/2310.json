@@ -41,9 +41,28 @@
       "patch_url": null
     },
     "body": "BIP375 requires constructors and signers to reject PSBTs that combine silent payment outputs with inputs spending SegWit v2+ outputs.\r\n\r\nThe reference validator currently performs this check only when the prevout is provided through `PSBT_IN_WITNESS_UTXO`. BIP174 also permits SegWit inputs to provide the full previous transaction through `PSBT_IN_NON_WITNESS_UTXO`, so an input containing only that field can currently bypass the SegWit-version check.\r\n\r\nReuse the existing `_script_pubkey_from_psbt_input()` helper when validating input eligibility. This extracts the referenced scriptPubKey from either UTXO field.\r\n\r\nAlso add an invalid test vector containing:\r\n\r\n- a silent payment output;\r\n- a SegWit v2 prevout supplied only through `PSBT_IN_NON_WITNESS_UTXO`;\r\n- a matching previous transaction ID and output index.\r\n",
-    "labels": [],
+    "labels": [
+      {
+        "id": 275846070,
+        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
+        "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
+        "color": "5319e7",
+        "default": false
+      },
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
+      }
+    ],
     "created_at": "2026-09-26T13:07:13Z",
-    "updated_at": "2026-10-10T00:15:26Z",
+    "updated_at": "2026-10-18T21:41:40Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -274,9 +293,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6034,
-        "stargazers_count": 10956,
-        "watchers_count": 10956,
+        "forks_count": 6031,
+        "stargazers_count": 10972,
+        "watchers_count": 10972,
         "size": 22752,
         "default_branch": "master",
         "open_issues_count": 68,
@@ -292,7 +311,7 @@
         "visibility": "public",
         "pushed_at": "2026-10-02T13:27:57Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-09T21:07:27Z",
+        "updated_at": "2026-10-18T12:15:09Z",
         "allow_forking": true
       }
     },
@@ -877,6 +896,76 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-10-10T00:15:28Z"
+    },
+    {
+      "event": "labeled",
+      "id": 33593719205,
+      "node_id": "LE_lADOAN28mc8AAAABTXC5UM8AAAAH0ld5pQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/33593719205",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-18T21:41:39Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 33593719239,
+      "node_id": "LE_lADOAN28mc8AAAABTXC5UM8AAAAH0ld5xw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/33593719239",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-18T21:41:40Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
     }
   ],
   "comments": [
