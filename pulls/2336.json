@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2336/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2336/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/c86595ba9b94779a37ca4ae8a9a78111bee6de88",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/99ece780c80af963cfd22eb23a46d3756f1d3a59",
     "number": 2336,
     "state": "open",
     "locked": false,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "BIP322's upgradeable rules do not name four taproot upgrade mechanisms, so a verifier that follows the text calls a signature using one of them valid. This adds one rule naming them: an unknown leaf version and the annex (BIP341), OP_SUCCESSx and an unknown public key type (BIP342). Such a signature then gets the inconclusive state, as reserved NOPs and segwit versions above 1 already do. The version becomes 3.0.0: as with 2.0.0 in #2188, some signatures that were valid no longer are.\n\nThe BIP322 library in [btcd#2521](https://github.com/btcsuite/btcd/pull/2521) already returns inconclusive for all four, and the gap was raised in its [review](https://github.com/btcsuite/btcd/pull/2521#discussion_r3343915648). I ran its test vectors through btclib-wallet, a verifier I maintain: it agreed on three of the four and called the annex case valid, as the current text says.\n\ncc @guggero @kallewoof\n",
+    "body": "BIP322's upgradeable rules do not name four taproot upgrade mechanisms, so a verifier that follows the text calls a signature using one of them valid. This adds one rule naming them: an unknown leaf version and the annex (BIP341), OP_SUCCESSx and an unknown public key type (BIP342). Such a signature then gets the inconclusive state, as reserved NOPs and segwit versions above 1 already do. The version becomes 2.1.0, as requested in review.\n\nThe BIP322 library in [btcd#2521](https://github.com/btcsuite/btcd/pull/2521) already returns inconclusive for all four, and the gap was raised in its [review](https://github.com/btcsuite/btcd/pull/2521#discussion_r3343915648). I ran its test vectors through btclib-wallet, a verifier I maintain: it agreed on three of the four and called the annex case valid, as the current text says.\n\ncc @guggero @kallewoof\n\n",
     "labels": [
       {
         "id": 275846070,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-10-23T04:33:57Z",
-    "updated_at": "2026-10-23T06:59:27Z",
+    "updated_at": "2026-10-23T15:10:52Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "66503b76bc3782a0a6337894c9cec71b01f6d281",
+    "merge_commit_sha": "60c02c9c1da280bc526a9bedc93b508aa43d1975",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "fametrano:bip322-taproot-upgradeable",
       "ref": "bip322-taproot-upgradeable",
-      "sha": "c86595ba9b94779a37ca4ae8a9a78111bee6de88",
+      "sha": "99ece780c80af963cfd22eb23a46d3756f1d3a59",
       "user": {
         "login": "fametrano",
         "id": 3296421,
@@ -187,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-23T04:33:52Z",
+        "pushed_at": "2026-10-23T15:09:33Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-08-01T21:58:43Z",
         "allow_forking": true
@@ -293,12 +293,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6032,
+        "forks_count": 6033,
         "stargazers_count": 10985,
         "watchers_count": 10985,
         "size": 22708,
         "default_branch": "master",
-        "open_issues_count": 70,
+        "open_issues_count": 72,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -326,50 +326,10 @@
     "deletions": 2,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 1,
+    "review_comments": 2,
     "comments": 2
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGM4NjU5NWJhOWI5NDc3OWEzN2NhNGFlOGE5YTc4MTExYmVlNmRlODg",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c86595ba9b94779a37ca4ae8a9a78111bee6de88",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/c86595ba9b94779a37ca4ae8a9a78111bee6de88",
-      "tree": {
-        "sha": "d3667a8841be0ed079a22c0bf02a32bbfc644955",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/d3667a8841be0ed079a22c0bf02a32bbfc644955"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree d3667a8841be0ed079a22c0bf02a32bbfc644955\nparent c0c5aea41e6a334d34db4ca87ae53bbfd7f268d1\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1792729107 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1792730012 +0200\n\nBIP-0322: name taproot upgrade mechanisms in the upgradeable rules\n\nThe upgradeable rules list the to_sign version, NOPs reserved for\nupgrades and segwit versions above 1. BIP341 and BIP342 also reserve\nunknown leaf versions, OP_SUCCESSx, unknown public key types and the\nannex for upgrades. A verifier that follows the BIP322 text calls a\nsignature using any of them valid. Name them, so that these give the\ninconclusive state like the other upgrade mechanisms.\n\nSome signatures that were valid become inconclusive, so bump the\nversion to 3.0.0, as #2188 did for 2.0.0, and add a changelog entry.\nAdd 342 to Requires.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCatrjnBsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyD56wEA7wz5suq9mVxwfdVsnvTw\n0iiSNmgekM83uh0Kbo5JdakA/0+moZnCc8gLdCSdXejTYf/0B76nHDWuNQ/1Fc0a\n2okI\n=B8qX\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c0c5aea41e6a334d34db4ca87ae53bbfd7f268d1",
-          "sha": "c0c5aea41e6a334d34db4ca87ae53bbfd7f268d1",
-          "html_url": "https://github.com/bitcoin/bips/commit/c0c5aea41e6a334d34db4ca87ae53bbfd7f268d1"
-        }
-      ],
-      "message": "BIP-0322: name taproot upgrade mechanisms in the upgradeable rules\n\nThe upgradeable rules list the to_sign version, NOPs reserved for\nupgrades and segwit versions above 1. BIP341 and BIP342 also reserve\nunknown leaf versions, OP_SUCCESSx, unknown public key types and the\nannex for upgrades. A verifier that follows the BIP322 text calls a\nsignature using any of them valid. Name them, so that these give the\ninconclusive state like the other upgrade mechanisms.\n\nSome signatures that were valid become inconclusive, so bump the\nversion to 3.0.0, as #2188 did for 2.0.0, and add a changelog entry.\nAdd 342 to Requires.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-10-23T04:33:32Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-10-23T04:18:27Z"
-      },
-      "sha": "c86595ba9b94779a37ca4ae8a9a78111bee6de88"
-    },
     {
       "event": "mentioned",
       "id": 34018538840,
@@ -842,6 +802,77 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2336#issuecomment-6359377633",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2336"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDk5ZWNlNzgwYzgwYWY5NjNjZmQyMmViMjNhNDZkMzc1NmYxZDNhNTk",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/99ece780c80af963cfd22eb23a46d3756f1d3a59",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/99ece780c80af963cfd22eb23a46d3756f1d3a59",
+      "tree": {
+        "sha": "baa637b4bc4ab9b8382e1719fae1e71def89350f",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/baa637b4bc4ab9b8382e1719fae1e71def89350f"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree baa637b4bc4ab9b8382e1719fae1e71def89350f\nparent c0c5aea41e6a334d34db4ca87ae53bbfd7f268d1\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1792729107 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1792767938 +0200\n\nBIP-0322: name taproot upgrade mechanisms in the upgradeable rules\n\nThe upgradeable rules list the to_sign version, NOPs reserved for\nupgrades and segwit versions above 1. BIP341 and BIP342 also reserve\nunknown leaf versions, OP_SUCCESSx, unknown public key types and the\nannex for upgrades. A verifier that follows the BIP322 text calls a\nsignature using any of them valid. Name them, so that these give the\ninconclusive state like the other upgrade mechanisms.\n\nBump the version to 2.1.0 and add a changelog entry.\nAdd 342 to Requires.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCatt3whsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyBLawD/Q6xiRzlTVnBh+JqFlfl5\n4Bf78D5s9n827bUxeZydLpIA/3DE/jk0e6szoqejhbNYVq8yqPqty8EQqMv/tSD2\nE2MN\n=gPrY\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c0c5aea41e6a334d34db4ca87ae53bbfd7f268d1",
+          "sha": "c0c5aea41e6a334d34db4ca87ae53bbfd7f268d1",
+          "html_url": "https://github.com/bitcoin/bips/commit/c0c5aea41e6a334d34db4ca87ae53bbfd7f268d1"
+        }
+      ],
+      "message": "BIP-0322: name taproot upgrade mechanisms in the upgradeable rules\n\nThe upgradeable rules list the to_sign version, NOPs reserved for\nupgrades and segwit versions above 1. BIP341 and BIP342 also reserve\nunknown leaf versions, OP_SUCCESSx, unknown public key types and the\nannex for upgrades. A verifier that follows the BIP322 text calls a\nsignature using any of them valid. Name them, so that these give the\ninconclusive state like the other upgrade mechanisms.\n\nBump the version to 2.1.0 and add a changelog entry.\nAdd 342 to Requires.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-10-23T15:05:38Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-10-23T04:18:27Z"
+      },
+      "sha": "99ece780c80af963cfd22eb23a46d3756f1d3a59"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 34064117587,
+      "node_id": "HRFPE_lADOAN28mc8AAAABZSW-FM8AAAAH7mEvUw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/34064117587",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "99ece780c80af963cfd22eb23a46d3756f1d3a59",
+      "commit_url": "https://api.github.com/repos/fametrano/bips/commits/99ece780c80af963cfd22eb23a46d3756f1d3a59",
+      "created_at": "2026-10-23T15:09:35Z"
     }
   ],
   "comments": [
@@ -852,7 +883,7 @@
       "node_id": "PRRC_kwDOAN28mc8AAAABA6z5IA",
       "diff_hunk": "@@ -491,6 +492,8 @@ and many others for their feedback on the specification.\n \n == Changelog ==\n \n+* '''3.0.0''' (2026-10-23):",
       "path": "bip-0322.mediawiki",
-      "position": 23,
+      "position": 1,
       "original_position": 23,
       "commit_id": "c86595ba9b94779a37ca4ae8a9a78111bee6de88",
       "original_commit_id": "c86595ba9b94779a37ca4ae8a9a78111bee6de88",
@@ -879,9 +910,9 @@
         "name": null,
         "patch_url": null
       },
-      "body": "IMHO we could go with a minor version change here.\nFrom BIP3:\n\n> The MINOR version is incremented whenever the specification of the BIP is changed or extended in a backward-compatible way.\n\nThe clarified taproot rules are themselves called \"upgrade mechanisms\", which, in the spirit of the spec as written, would implicitly fall into the `upgradeable rules` category.\nThis clarification just makes the rules explicit to avoid confusion.\n\nI will add/update the test vectors of BIP322 once the [Golang implementation](https://github.com/btcsuite/btcd/pull/2521) is finalized/merged. That implementation and vectors also share the current interpretation that this change turns into explicit rules.\n\nBut, since this is more about the BIP process that the content, I'm deferring to the maintainers' opinion (cc @murchandamus, @jonatack) here.",
+      "body": "IMHO we could go with a minor version change here.\r\nFrom BIP3:\r\n\r\n> The MINOR version is incremented whenever the specification of the BIP is changed or extended in a backward-compatible way.\r\n\r\nThe clarified taproot rules are themselves called \"upgrade mechanisms\", which, in the spirit of the spec as written, would implicitly fall into the `upgradeable rules` category.\r\nThis clarification just makes the rules explicit to avoid confusion.\r\n\r\nI will add/update the test vectors of BIP322 once the [Golang implementation](https://github.com/btcsuite/btcd/pull/2521) is finalized/merged. That implementation and vectors also share the current interpretation that this change turns into explicit rules.\r\n\r\nBut, since this is more about the BIP process than the content, I'm deferring to the maintainers' opinion (cc @murchandamus, @jonatack) here.",
       "created_at": "2026-10-23T06:05:04Z",
-      "updated_at": "2026-10-23T06:09:46Z",
+      "updated_at": "2026-10-23T07:03:18Z",
       "html_url": "https://github.com/bitcoin/bips/pull/2336#discussion_r4356634912",
       "author_association": "CONTRIBUTOR",
       "_links": {
@@ -895,7 +926,61 @@
       "start_line": null,
       "original_start_line": null,
       "start_side": null,
-      "line": 495,
+      "line": null,
+      "original_line": 495,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4361052705",
+      "pull_request_review_id": 5630305951,
+      "id": 4361052705,
+      "node_id": "PRRC_kwDOAN28mc8AAAABA_BiIQ",
+      "diff_hunk": "@@ -491,6 +492,8 @@ and many others for their feedback on the specification.\n \n == Changelog ==\n \n+* '''3.0.0''' (2026-10-23):",
+      "path": "bip-0322.mediawiki",
+      "position": 1,
+      "original_position": 23,
+      "commit_id": "c86595ba9b94779a37ca4ae8a9a78111bee6de88",
+      "original_commit_id": "c86595ba9b94779a37ca4ae8a9a78111bee6de88",
+      "in_reply_to_id": 4356634912,
+      "user": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Changed to 2.1.0 in 99ece78.\n",
+      "created_at": "2026-10-23T15:10:52Z",
+      "updated_at": "2026-10-23T15:10:52Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2336#discussion_r4361052705",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4361052705"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2336"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
       "original_line": 495,
       "side": "RIGHT"
     }

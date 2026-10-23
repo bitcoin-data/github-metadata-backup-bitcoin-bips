@@ -43,7 +43,7 @@
     "body": "Add a BIP-352 test vector where a taproot input is spent via the key path with an annex (2-item witness). The annex must be stripped before deciding between key-path and script-path spends, so the input is still eligible and all expected values match the plain key-path case.",
     "labels": [],
     "created_at": "2026-10-23T07:56:11Z",
-    "updated_at": "2026-10-23T09:35:02Z",
+    "updated_at": "2026-10-23T15:35:32Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -307,7 +307,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 1
+    "comments": 2
   },
   "events": [
     {
@@ -406,6 +406,64 @@
         "patch_url": null
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2337#issuecomment-6361922744",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2337"
+    },
+    {
+      "event": "commented",
+      "id": 6368598124,
+      "node_id": "IC_kwDOAN28mc8AAAABe5kYbA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/6368598124",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-10-23T15:35:32Z",
+      "updated_at": "2026-10-23T15:35:32Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "btclib-wallet, a BIP352 implementation I maintain, reproduces the new vector at 48493fa: sending and receiving both match the expected values.\n\nI ran its BIP352 tests at commit 3b88201 with this file in place of its copy of the vectors, and all tests on the new vector pass.\n\nThe vector does not catch a missing annex strip, though. With the strip removed from btclib-wallet, those tests still pass: the annex `0x5000` is taken for a control block, but not one with the NUMS internal key, so the input stays eligible. With the annex set to `0x50` followed by BIP341's NUMS key H, `0x5050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0`, the same change fails on both sending and receiving, and the unmodified code still matches the expected values. Only the witness changes; its signature has to be redone, since BIP341 signs the annex.\n",
+      "user": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2337#issuecomment-6368598124",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2337"
     }
   ],
