@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-09-24T00:24:28Z",
-    "updated_at": "2026-10-29T11:32:04Z",
+    "updated_at": "2026-10-29T16:47:38Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 1,
-    "review_comments": 17,
+    "review_comments": 18,
     "comments": 5
   },
   "events": [
@@ -1803,6 +1803,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4379557887"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2301"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 85,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4415251759",
+      "pull_request_review_id": 5701573699,
+      "id": 4415251759,
+      "node_id": "PRRC_kwDOAN28mc8AAAABBytlLw",
+      "diff_hunk": "@@ -0,0 +1,199 @@\n+```\n+  BIP: ?\n+  Layer: Peer Services\n+  Title: BIP324 One-Byte Message Type ID Alias Assignment\n+  Authors: Anthony Towns <aj@erisian.com.au>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-2-Clause\n+  Discussion: 2026-09-20: https://gnusha.org/pi/bitcoindev/aq9ADn7GscMHWc19@erisian.com.au/T/#u\n+  Requires: 324, 434\n+```\n+\n+## Abstract\n+\n+Provides a new `set324alias` message that permits peers using\n+[BIP-324][BIP324] encrypted transport to assign one-byte IDs as aliases\n+for 12-byte ASCII message types to improve bandwidth usage for their\n+outbound messages.\n+\n+## Motivation\n+\n+[BIP-324][BIP324] assigns one-byte IDs (aka one-byte message type IDs) via\n+a fixed table, and adding additional entries to the table requires global\n+coordination with the potential for conflicts. Allowing peers to choose\n+their own one-byte IDs at runtime for their own outgoing messages gives\n+the same benefit while avoiding the need for centralized coordination,\n+and increases flexibility for experimentation at the peer-to-peer layer.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\",\n+\"RECOMMENDED\", \"MAY\", and \"OPTIONAL\" in this document are to be\n+interpreted as described in RFC 2119.\n+\n+If a node violates a REQUIRED, MUST or MUST NOT directive, its peer MAY\n+close the connection; beyond that, this BIP does not specify the peer's\n+ongoing behaviour. If a node violates a RECOMMENDED, SHOULD or SHOULD\n+NOT directive, its peer SHOULD continue operation normally, but MAY close\n+the connection (eg if the violation creates resource usage concerns).\n+\n+### Feature advertisement\n+\n+Support for this feature is advertised via the [BIP-434][BIP434] `feature`\n+message.\n+\n+Nodes that support receiving `set324alias` messages MUST advertise\n+support for the feature by sending a `feature` message with `featureid`\n+**TBD** and an empty `featuredata` after sending the `version` message\n+and before sending the `verack` message.\n+\n+Nodes that support sending `set324alias` messages MUST treat the peer\n+as having advertised support for this BIP after receiving a `feature`\n+message with `featureid` **TBD** (with any BIP-434 compliant `featuredata`\n+value[^any-featuredata]) between `version` and `verack`.\n+\n+Nodes MAY selectively advertise support for this feature on only some\n+connections[^selective-advertise]. Nodes SHOULD NOT advertise support\n+for this feature on connections that do not support one-byte IDs.\n+\n+### `set324alias` message\n+\n+The `set324alias` message allows extending or modifying the set of\n+aliases defined by [BIP-324][BIP324].\n+\n+The payload of the `set324alias` message is serialized as a vector of\n+aliases, that is a `CompactSize` encoded number of aliases being defined,\n+followed by that number of aliases.\n+\n+| Type         | Name          | Description |\n+| ------------ | ------------- | ----------- |\n+| alias-vector | `aliases`     | The new aliases |\n+\n+Each alias is serialized as the one-byte ID (with value 1 to 255),\n+followed by the 12-byte ASCII message type it corresponds to.\n+\n+| Type          | Name          | Description |\n+| ------------- | ------------- | ----------- |\n+| `uint8_t`     | `id`          | The one-byte ID (1-255) |\n+| `uint8_t[12]` | `msg_type`    | The corresponding 12-byte ASCII message type as per BIP-324 |\n+\n+Nodes MUST NOT send `set324alias` before sending `verack`. Nodes MUST\n+NOT send `set324alias` to a peer that has not advertised support for\n+the feature. Nodes MUST NOT send more than 255 elements in `aliases`,\n+and MUST NOT define an alias with `id=0`.",
+      "path": "bip-ajtowns-set324alias.md",
+      "position": 1,
+      "original_position": 85,
+      "commit_id": "4cad2b479cf1f770138210fd54a642e06192665b",
+      "original_commit_id": "4cad2b479cf1f770138210fd54a642e06192665b",
+      "in_reply_to_id": 4379557887,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Added a rationale note.",
+      "created_at": "2026-10-29T16:47:37Z",
+      "updated_at": "2026-10-29T16:47:38Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2301#discussion_r4415251759",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4415251759"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2301"
