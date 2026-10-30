@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "## Summary\r\n\r\nGeneralize codex32 so that the human-readable part is not restricted to\r\n`ms`.\r\n\r\nThis PR is based on top of behavior neutral #2285.\r\n\r\nBIP-32 master seeds and their shares continue to use `ms`, while other\r\napplications can use their own human-readable parts.\r\n\r\n## Changes\r\n\r\n- Specify the human-readable part as in BIP-173.\r\n- Include the human-readable part in checksum construction and verification.\r\n- Count its BIP-173 expansion toward the checksum length limits.\r\n- Rename the inline `ms32` checksum and interpolation helpers to `codex32`.\r\n- Require all shares in a set to use the same human-readable part.\r\n- Clarify that the interpolation helpers operate on the data part and do not\r\n  check the valid set conditions.\r\n- Limit fresh-secret generation to applications that accept every payload, or\r\n  require rejection sampling otherwise.\r\n- Do not recommend correcting errors in the human-readable part unless the\r\n  application specifies how.\r\n- Update the existing invalid vectors whose interpretation changes when other\r\n  human-readable parts become valid.\r\n- Add test vectors covering:\r\n  - the registered `cl` human-readable part used by Core Lightning;\r\n  - checksum selection affected by human-readable-part length;\r\n  - an 83-character human-readable part containing `1`;\r\n  - expanded lengths 94 and 95;\r\n  - a checksum computed over an uppercase human-readable part;\r\n  - a human-readable part longer than 83 characters.\r\n\r\nStrings using `ms` are unchanged.\r\n\r\n## Testing\r\n\r\nThe `codex32` checksum functions were checked against the previous `ms32`\r\nfunctions for `ms` over random data parts of every length from 0 through 1029\r\nsymbols, including both checksum variants, the 94–95 expanded-length gap, and\r\nlengths beyond 1023.\r\n\r\nThe new vectors were checked with both the specification's Python code and an\r\nindependent implementation, `python-codex32`. They agree except that\r\n`python-codex32` does not yet enforce the 83-character human-readable-part\r\nlimit.\r\n\r\nRefs: #2040, #2258, #2285",
+    "body": "Summary\r\n-------\r\n\r\nGeneralize codex32 so that the human-readable part is not restricted to `ms`.\r\n\r\nThis PR is based on top of behavior neutral #2285.\r\n\r\nBIP-32 master seeds and their shares continue to use `ms`, while other applications can use their own human-readable parts.\r\n\r\nChanges\r\n-------\r\n\r\n* Specify the human-readable part as in BIP-173 and include it in checksum construction and verification.\r\n* Rename the inline `ms32` helpers to `codex32`. `codex32_encode` takes the human-readable part and `codex32_decode` returns it.\r\n* Leave master seed lengths to a master seed decoder, as BIP-173 leaves witness program rules to a segwit address decoder.\r\n* Require all shares in a set to use the same human-readable part.\r\n* Clarify that the interpolation helpers do not check the valid set conditions.\r\n* Limit fresh-secret generation to applications that accept every payload.\r\n  * Other applications MAY use rejection sampling on the last share.\r\n* Do not recommend correcting errors in the human-readable part unless the\r\n  application specifies how.\r\n* Update the existing invalid vectors whose interpretation changes when other\r\n  human-readable parts become valid, and list invalid master seeds separately\r\n  from invalid codex32 strings.\r\n* Add test vectors covering:\r\n  * the registered `cl` human-readable part used by Core Lightning;\r\n  * checksum selection affected by human-readable-part length;\r\n  * an 83-character human-readable part containing `1`;\r\n  * the shortest human-readable part with an empty payload;\r\n  * the longest string with each checksum (expanded lengths 93 and 1023);\r\n  * expanded lengths 94 and 95;\r\n  * a checksum computed over an uppercase human-readable part;\r\n  * a human-readable part longer than 83 characters.\r\n\r\nStrings using `ms` are unchanged.\r\n\r\nTesting\r\n-------\r\n\r\nThe `codex32` checksum functions were checked against the previous `ms32`\r\nfunctions for `ms` over random data parts, including both checksum variants.\r\n\r\nThe new vectors were checked with both the specification's Python code and an\r\nindependent implementation, `python-codex32`. They agree except that\r\n`python-codex32` does not yet enforce the 83-character human-readable-part\r\nlimit. The empty-payload and longest-string vectors were generated with the\r\nspecification's `codex32_encode` and checked with its `codex32_decode`.\r\n\r\nRefs: #2040, #2258, #2285\r\n",
     "labels": [
       {
         "id": 275846070,
@@ -62,7 +62,7 @@
       }
     ],
     "created_at": "2026-10-01T19:45:13Z",
-    "updated_at": "2026-10-29T10:05:39Z",
+    "updated_at": "2026-10-30T05:41:54Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -174,7 +174,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22804,
+        "size": 22811,
         "default_branch": "master",
         "open_issues_count": 6,
         "is_template": false,
@@ -293,9 +293,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6032,
-        "stargazers_count": 10997,
-        "watchers_count": 10997,
+        "forks_count": 6033,
+        "stargazers_count": 10998,
+        "watchers_count": 10998,
         "size": 22750,
         "default_branch": "master",
         "open_issues_count": 67,
@@ -311,7 +311,7 @@
         "visibility": "public",
         "pushed_at": "2026-10-27T02:41:58Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-29T09:54:00Z",
+        "updated_at": "2026-10-29T23:19:06Z",
         "allow_forking": true
       }
     },
