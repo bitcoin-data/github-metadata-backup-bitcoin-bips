@@ -53,11 +53,11 @@
       }
     ],
     "created_at": "2026-10-25T17:10:40Z",
-    "updated_at": "2026-10-26T13:52:57Z",
+    "updated_at": "2026-10-30T10:49:25Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "525f2b253057dde34297d7143b2edfa2485ac713",
+    "merge_commit_sha": "b7ce78aa715e8112a16e9d27711f6785e0023538",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -284,11 +284,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6033,
-        "stargazers_count": 10994,
-        "watchers_count": 10994,
-        "size": 22730,
+        "stargazers_count": 10998,
+        "watchers_count": 10998,
+        "size": 22750,
         "default_branch": "master",
-        "open_issues_count": 69,
+        "open_issues_count": 67,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -299,9 +299,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-24T15:11:13Z",
+        "pushed_at": "2026-10-27T02:41:58Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-26T13:36:46Z",
+        "updated_at": "2026-10-29T23:19:06Z",
         "allow_forking": true
       }
     },
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 2,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 2
   },
   "events": [
@@ -651,7 +651,101 @@
         "from": "Bip352: add invalid control block vector",
         "to": "Bip352: Add consensus-validity requirement to Scanning requirements"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 5711180759,
+      "node_id": "PRR_kwDOAN28mc8AAAABVGmz1w",
+      "url": null,
+      "actor": null,
+      "commit_id": "86b6ef4452916b04f423394b99b6ebe9ba2fb700",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-10-30T10:49:25Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "ACK modulo diff-could-be-smaller nit",
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2339#pullrequestreview-5711180759",
+      "submitted_at": "2026-10-30T10:49:25Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2339"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4422818726",
+      "pull_request_review_id": 5711180759,
+      "id": 4422818726,
+      "node_id": "PRRC_kwDOAN28mc8AAAABB57bpg",
+      "diff_hunk": "@@ -79,6 +83,9 @@ def get_pubkey_from_input(vin: VinInfo) -> GE:\n                 # Script-path spend\n                 control_block = witnessStack[-1]\n                 #  control block is <control byte> <32 byte internal key> and 0 or more <32 byte hash>\n+                assert len(control_block) >= TAPROOT_CONTROL_BASE_SIZE\n+                assert len(control_block) <= TAPROOT_CONTROL_MAX_SIZE\n+                assert (len(control_block) - TAPROOT_CONTROL_BASE_SIZE) % TAPROOT_CONTROL_NODE_SIZE == 0",
+      "path": "bip-0352/reference.py",
+      "position": 17,
+      "original_position": 17,
+      "commit_id": "f7b78df0244f8383ee5a0a1b43399b026d750f4f",
+      "original_commit_id": "f7b78df0244f8383ee5a0a1b43399b026d750f4f",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "theStack",
+        "id": 91535,
+        "node_id": "MDQ6VXNlcjkxNTM1",
+        "avatar_url": "https://avatars.githubusercontent.com/u/91535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/theStack",
+        "html_url": "https://github.com/theStack",
+        "followers_url": "https://api.github.com/users/theStack/followers",
+        "following_url": "https://api.github.com/users/theStack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/theStack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/theStack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/theStack/subscriptions",
+        "organizations_url": "https://api.github.com/users/theStack/orgs",
+        "repos_url": "https://api.github.com/users/theStack/repos",
+        "events_url": "https://api.github.com/users/theStack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/theStack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "it doesn't hurt to have those detailed checks, but for the sake of the pubkey extraction only the first one (`>= TAPROOT_CONTROL_BASE_SIZE`) is really relevant to avoid a out-of-bound access",
+      "created_at": "2026-10-30T10:48:38Z",
+      "updated_at": "2026-10-30T10:49:25Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2339#discussion_r4422818726",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4422818726"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2339"
+        }
+      },
+      "start_line": 87,
+      "original_start_line": 87,
+      "start_side": "RIGHT",
+      "line": 88,
+      "original_line": 88,
+      "side": "RIGHT"
+    }
+  ]
 }
