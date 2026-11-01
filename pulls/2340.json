@@ -1,0 +1,561 @@
+{
+  "type": "pull",
+  "pull": {
+    "url": "https://api.github.com/repos/bitcoin/bips/pulls/2340",
+    "id": 5105112345,
+    "node_id": "PR_kwDOAN28mc8AAAABMEnVGQ",
+    "html_url": "https://github.com/bitcoin/bips/pull/2340",
+    "diff_url": "https://github.com/bitcoin/bips/pull/2340.diff",
+    "patch_url": "https://github.com/bitcoin/bips/pull/2340.patch",
+    "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2340",
+    "commits_url": "https://api.github.com/repos/bitcoin/bips/pulls/2340/commits",
+    "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2340/comments",
+    "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
+    "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2340/comments",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/e18f81a2ac192f8c59da7fe9cc2795309b8dd343",
+    "number": 2340,
+    "state": "open",
+    "locked": false,
+    "maintainer_can_modify": false,
+    "title": "Add BIP: Unspendable Internal Keys for Wallet Policies",
+    "user": {
+      "login": "2099999997690000",
+      "id": 247321567,
+      "node_id": "U_kgDODr3T3w",
+      "avatar_url": "https://avatars.githubusercontent.com/u/247321567?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/2099999997690000",
+      "html_url": "https://github.com/2099999997690000",
+      "followers_url": "https://api.github.com/users/2099999997690000/followers",
+      "following_url": "https://api.github.com/users/2099999997690000/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/2099999997690000/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/2099999997690000/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/2099999997690000/subscriptions",
+      "organizations_url": "https://api.github.com/users/2099999997690000/orgs",
+      "repos_url": "https://api.github.com/users/2099999997690000/repos",
+      "events_url": "https://api.github.com/users/2099999997690000/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/2099999997690000/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
+    "body": "This proposes `_` as an unspendable Taproot internal-key placeholder in wallet policies. Wallets and signers can reproduce the internal key from the policy and derivation path, without keeping a separate random tweak.\n\nThe construction uses the BIP 341 NUMS point as the public key of a synthetic BIP 32 root. Its chain code commits to the normalized policy, including both the keys and the policy structure. Child keys are then derived using unhardened BIP 32 derivation.\n\nThis builds on the [Delving discussion](https://delvingbitcoin.org/t/unspendable-keys-in-descriptors/304) and the earlier work in #1746. I shared an earlier draft on the [Bitcoin Development Mailing List](https://groups.google.com/g/bitcoindev/c/se3TkNnbno4).\n\nI've included a Python reference implementation, fixed JSON test vectors, and instructions for running the checks. All 21 offline tests pass, and the export and derivation cross-check passes all 20 cases against Bitcoin Core 31.0.",
+    "labels": [],
+    "created_at": "2026-11-01T06:43:15Z",
+    "updated_at": "2026-11-01T06:43:15Z",
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "merged": false,
+    "merge_commit_sha": "958345bb6305f952b24d84eb85e941969c78992f",
+    "assignees": [],
+    "requested_reviewers": [],
+    "requested_teams": [],
+    "rebaseable": true,
+    "head": {
+      "label": "bitryonix:bip-unspendable-internal-keys",
+      "ref": "bip-unspendable-internal-keys",
+      "sha": "e18f81a2ac192f8c59da7fe9cc2795309b8dd343",
+      "user": {
+        "login": "bitryonix",
+        "id": 247300563,
+        "node_id": "O_kgDODr2B0w",
+        "avatar_url": "https://avatars.githubusercontent.com/u/247300563?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bitryonix",
+        "html_url": "https://github.com/bitryonix",
+        "followers_url": "https://api.github.com/users/bitryonix/followers",
+        "following_url": "https://api.github.com/users/bitryonix/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bitryonix/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bitryonix/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bitryonix/subscriptions",
+        "organizations_url": "https://api.github.com/users/bitryonix/orgs",
+        "repos_url": "https://api.github.com/users/bitryonix/repos",
+        "events_url": "https://api.github.com/users/bitryonix/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bitryonix/received_events",
+        "type": "Organization",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "repo": {
+        "id": 1359988981,
+        "node_id": "R_kgDOUQ_I9Q",
+        "name": "bips",
+        "full_name": "bitryonix/bips",
+        "owner": {
+          "login": "bitryonix",
+          "id": 247300563,
+          "node_id": "O_kgDODr2B0w",
+          "avatar_url": "https://avatars.githubusercontent.com/u/247300563?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/bitryonix",
+          "html_url": "https://github.com/bitryonix",
+          "followers_url": "https://api.github.com/users/bitryonix/followers",
+          "following_url": "https://api.github.com/users/bitryonix/following%7B/other_user%7D",
+          "gists_url": "https://api.github.com/users/bitryonix/gists%7B/gist_id%7D",
+          "starred_url": "https://api.github.com/users/bitryonix/starred%7B/owner%7D%7B/repo%7D",
+          "subscriptions_url": "https://api.github.com/users/bitryonix/subscriptions",
+          "organizations_url": "https://api.github.com/users/bitryonix/orgs",
+          "repos_url": "https://api.github.com/users/bitryonix/repos",
+          "events_url": "https://api.github.com/users/bitryonix/events%7B/privacy%7D",
+          "received_events_url": "https://api.github.com/users/bitryonix/received_events",
+          "type": "Organization",
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
+        },
+        "private": false,
+        "html_url": "https://github.com/bitryonix/bips",
+        "description": "Bitcoin Improvement Proposals",
+        "fork": true,
+        "url": "https://api.github.com/repos/bitryonix/bips",
+        "archive_url": "https://api.github.com/repos/bitryonix/bips/%7Barchive_format%7D%7B/ref%7D",
+        "assignees_url": "https://api.github.com/repos/bitryonix/bips/assignees%7B/user%7D",
+        "blobs_url": "https://api.github.com/repos/bitryonix/bips/git/blobs%7B/sha%7D",
+        "branches_url": "https://api.github.com/repos/bitryonix/bips/branches%7B/branch%7D",
+        "collaborators_url": "https://api.github.com/repos/bitryonix/bips/collaborators%7B/collaborator%7D",
+        "comments_url": "https://api.github.com/repos/bitryonix/bips/comments%7B/number%7D",
+        "commits_url": "https://api.github.com/repos/bitryonix/bips/commits%7B/sha%7D",
+        "compare_url": "https://api.github.com/repos/bitryonix/bips/compare/%7Bbase%7D...%7Bhead%7D",
+        "contents_url": "https://api.github.com/repos/bitryonix/bips/contents/%7B+path%7D",
+        "contributors_url": "https://api.github.com/repos/bitryonix/bips/contributors",
+        "deployments_url": "https://api.github.com/repos/bitryonix/bips/deployments",
+        "downloads_url": "https://api.github.com/repos/bitryonix/bips/downloads",
+        "events_url": "https://api.github.com/repos/bitryonix/bips/events",
+        "forks_url": "https://api.github.com/repos/bitryonix/bips/forks",
+        "git_commits_url": "https://api.github.com/repos/bitryonix/bips/git/commits%7B/sha%7D",
+        "git_refs_url": "https://api.github.com/repos/bitryonix/bips/git/refs%7B/sha%7D",
+        "git_tags_url": "https://api.github.com/repos/bitryonix/bips/git/tags%7B/sha%7D",
+        "git_url": "git://github.com/bitryonix/bips.git",
+        "issue_comment_url": "https://api.github.com/repos/bitryonix/bips/issues/comments%7B/number%7D",
+        "issue_events_url": "https://api.github.com/repos/bitryonix/bips/issues/events%7B/number%7D",
+        "issues_url": "https://api.github.com/repos/bitryonix/bips/issues%7B/number%7D",
+        "keys_url": "https://api.github.com/repos/bitryonix/bips/keys%7B/key_id%7D",
+        "labels_url": "https://api.github.com/repos/bitryonix/bips/labels%7B/name%7D",
+        "languages_url": "https://api.github.com/repos/bitryonix/bips/languages",
+        "merges_url": "https://api.github.com/repos/bitryonix/bips/merges",
+        "milestones_url": "https://api.github.com/repos/bitryonix/bips/milestones%7B/number%7D",
+        "notifications_url": "https://api.github.com/repos/bitryonix/bips/notifications%7B?since,all,participating}",
+        "pulls_url": "https://api.github.com/repos/bitryonix/bips/pulls%7B/number%7D",
+        "releases_url": "https://api.github.com/repos/bitryonix/bips/releases%7B/id%7D",
+        "ssh_url": "git@github.com:bitryonix/bips.git",
+        "stargazers_url": "https://api.github.com/repos/bitryonix/bips/stargazers",
+        "statuses_url": "https://api.github.com/repos/bitryonix/bips/statuses/%7Bsha%7D",
+        "subscribers_url": "https://api.github.com/repos/bitryonix/bips/subscribers",
+        "subscription_url": "https://api.github.com/repos/bitryonix/bips/subscription",
+        "tags_url": "https://api.github.com/repos/bitryonix/bips/tags",
+        "teams_url": "https://api.github.com/repos/bitryonix/bips/teams",
+        "trees_url": "https://api.github.com/repos/bitryonix/bips/git/trees%7B/sha%7D",
+        "clone_url": "https://github.com/bitryonix/bips.git",
+        "hooks_url": "https://api.github.com/repos/bitryonix/bips/hooks",
+        "svn_url": "https://github.com/bitryonix/bips",
+        "homepage": "",
+        "language": "Wikitext",
+        "forks_count": 0,
+        "stargazers_count": 1,
+        "watchers_count": 1,
+        "size": 22737,
+        "default_branch": "master",
+        "open_issues_count": 0,
+        "is_template": false,
+        "topics": [],
+        "has_issues": false,
+        "has_projects": true,
+        "has_wiki": true,
+        "has_pages": false,
+        "has_downloads": false,
+        "archived": false,
+        "disabled": false,
+        "visibility": "public",
+        "pushed_at": "2026-11-01T06:36:15Z",
+        "created_at": "2026-09-07T08:51:22Z",
+        "updated_at": "2026-10-31T07:12:45Z",
+        "allow_forking": true
+      }
+    },
+    "base": {
+      "label": "bitcoin:master",
+      "ref": "master",
+      "sha": "5aadddb511a5dcfe4599531bd8ae5e5b96d0f793",
+      "user": {
+        "login": "bitcoin",
+        "id": 528860,
+        "node_id": "MDEyOk9yZ2FuaXphdGlvbjUyODg2MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/528860?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/bitcoin",
+        "html_url": "https://github.com/bitcoin",
+        "followers_url": "https://api.github.com/users/bitcoin/followers",
+        "following_url": "https://api.github.com/users/bitcoin/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/bitcoin/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/bitcoin/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/bitcoin/subscriptions",
+        "organizations_url": "https://api.github.com/users/bitcoin/orgs",
+        "repos_url": "https://api.github.com/users/bitcoin/repos",
+        "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/bitcoin/received_events",
+        "type": "Organization",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "repo": {
+        "id": 14531737,
+        "node_id": "MDEwOlJlcG9zaXRvcnkxNDUzMTczNw==",
+        "name": "bips",
+        "full_name": "bitcoin/bips",
+        "owner": {
+          "login": "bitcoin",
+          "id": 528860,
+          "node_id": "MDEyOk9yZ2FuaXphdGlvbjUyODg2MA==",
+          "avatar_url": "https://avatars.githubusercontent.com/u/528860?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/bitcoin",
+          "html_url": "https://github.com/bitcoin",
+          "followers_url": "https://api.github.com/users/bitcoin/followers",
+          "following_url": "https://api.github.com/users/bitcoin/following%7B/other_user%7D",
+          "gists_url": "https://api.github.com/users/bitcoin/gists%7B/gist_id%7D",
+          "starred_url": "https://api.github.com/users/bitcoin/starred%7B/owner%7D%7B/repo%7D",
+          "subscriptions_url": "https://api.github.com/users/bitcoin/subscriptions",
+          "organizations_url": "https://api.github.com/users/bitcoin/orgs",
+          "repos_url": "https://api.github.com/users/bitcoin/repos",
+          "events_url": "https://api.github.com/users/bitcoin/events%7B/privacy%7D",
+          "received_events_url": "https://api.github.com/users/bitcoin/received_events",
+          "type": "Organization",
+          "site_admin": false,
+          "name": null,
+          "patch_url": null
+        },
+        "private": false,
+        "html_url": "https://github.com/bitcoin/bips",
+        "description": "Bitcoin Improvement Proposals",
+        "fork": false,
+        "url": "https://api.github.com/repos/bitcoin/bips",
+        "archive_url": "https://api.github.com/repos/bitcoin/bips/%7Barchive_format%7D%7B/ref%7D",
+        "assignees_url": "https://api.github.com/repos/bitcoin/bips/assignees%7B/user%7D",
+        "blobs_url": "https://api.github.com/repos/bitcoin/bips/git/blobs%7B/sha%7D",
+        "branches_url": "https://api.github.com/repos/bitcoin/bips/branches%7B/branch%7D",
+        "collaborators_url": "https://api.github.com/repos/bitcoin/bips/collaborators%7B/collaborator%7D",
+        "comments_url": "https://api.github.com/repos/bitcoin/bips/comments%7B/number%7D",
+        "commits_url": "https://api.github.com/repos/bitcoin/bips/commits%7B/sha%7D",
+        "compare_url": "https://api.github.com/repos/bitcoin/bips/compare/%7Bbase%7D...%7Bhead%7D",
+        "contents_url": "https://api.github.com/repos/bitcoin/bips/contents/%7B+path%7D",
+        "contributors_url": "https://api.github.com/repos/bitcoin/bips/contributors",
+        "deployments_url": "https://api.github.com/repos/bitcoin/bips/deployments",
+        "downloads_url": "https://api.github.com/repos/bitcoin/bips/downloads",
+        "events_url": "https://api.github.com/repos/bitcoin/bips/events",
+        "forks_url": "https://api.github.com/repos/bitcoin/bips/forks",
+        "git_commits_url": "https://api.github.com/repos/bitcoin/bips/git/commits%7B/sha%7D",
+        "git_refs_url": "https://api.github.com/repos/bitcoin/bips/git/refs%7B/sha%7D",
+        "git_tags_url": "https://api.github.com/repos/bitcoin/bips/git/tags%7B/sha%7D",
+        "git_url": "git://github.com/bitcoin/bips.git",
+        "issue_comment_url": "https://api.github.com/repos/bitcoin/bips/issues/comments%7B/number%7D",
+        "issue_events_url": "https://api.github.com/repos/bitcoin/bips/issues/events%7B/number%7D",
+        "issues_url": "https://api.github.com/repos/bitcoin/bips/issues%7B/number%7D",
+        "keys_url": "https://api.github.com/repos/bitcoin/bips/keys%7B/key_id%7D",
+        "labels_url": "https://api.github.com/repos/bitcoin/bips/labels%7B/name%7D",
+        "languages_url": "https://api.github.com/repos/bitcoin/bips/languages",
+        "merges_url": "https://api.github.com/repos/bitcoin/bips/merges",
+        "milestones_url": "https://api.github.com/repos/bitcoin/bips/milestones%7B/number%7D",
+        "notifications_url": "https://api.github.com/repos/bitcoin/bips/notifications%7B?since,all,participating}",
+        "pulls_url": "https://api.github.com/repos/bitcoin/bips/pulls%7B/number%7D",
+        "releases_url": "https://api.github.com/repos/bitcoin/bips/releases%7B/id%7D",
+        "ssh_url": "git@github.com:bitcoin/bips.git",
+        "stargazers_url": "https://api.github.com/repos/bitcoin/bips/stargazers",
+        "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/%7Bsha%7D",
+        "subscribers_url": "https://api.github.com/repos/bitcoin/bips/subscribers",
+        "subscription_url": "https://api.github.com/repos/bitcoin/bips/subscription",
+        "tags_url": "https://api.github.com/repos/bitcoin/bips/tags",
+        "teams_url": "https://api.github.com/repos/bitcoin/bips/teams",
+        "trees_url": "https://api.github.com/repos/bitcoin/bips/git/trees%7B/sha%7D",
+        "clone_url": "https://github.com/bitcoin/bips.git",
+        "hooks_url": "https://api.github.com/repos/bitcoin/bips/hooks",
+        "svn_url": "https://github.com/bitcoin/bips",
+        "homepage": "",
+        "language": "Wikitext",
+        "forks_count": 6034,
+        "stargazers_count": 11001,
+        "watchers_count": 11001,
+        "size": 22750,
+        "default_branch": "master",
+        "open_issues_count": 68,
+        "is_template": false,
+        "topics": [],
+        "has_issues": false,
+        "has_projects": false,
+        "has_wiki": true,
+        "has_pages": false,
+        "has_downloads": false,
+        "archived": false,
+        "disabled": false,
+        "visibility": "public",
+        "pushed_at": "2026-10-27T02:41:58Z",
+        "created_at": "2013-11-19T17:18:41Z",
+        "updated_at": "2026-11-01T02:02:46Z",
+        "allow_forking": true
+      }
+    },
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/bitcoin/bips/pulls/2340"
+      }
+    },
+    "author_association": "NONE",
+    "draft": false,
+    "additions": 5587,
+    "deletions": 0,
+    "changed_files": 17,
+    "commits": 6,
+    "review_comments": 0,
+    "comments": 0
+  },
+  "events": [
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDU2Nzg0OGNmYTRjMWUxMDU0Njk4MWM5Y2VkYjI2OTFkNDAxYWQ5Njk",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/567848cfa4c1e10546981c9cedb2691d401ad969",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/567848cfa4c1e10546981c9cedb2691d401ad969",
+      "tree": {
+        "sha": "0868ab37ff4736a617f2ca64c3e9bbcfb76f45cd",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/0868ab37ff4736a617f2ca64c3e9bbcfb76f45cd"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/09e21036a4001fe6c9ba65c1d3a39b737768132f",
+          "sha": "09e21036a4001fe6c9ba65c1d3a39b737768132f",
+          "html_url": "https://github.com/bitcoin/bips/commit/09e21036a4001fe6c9ba65c1d3a39b737768132f"
+        }
+      ],
+      "message": "first commit version 0.1.0",
+      "committer": {
+        "name": "NTL",
+        "email": "209999999769@proton.me",
+        "date": "2026-09-09T17:30:58Z"
+      },
+      "author": {
+        "name": "NTL",
+        "email": "209999999769@proton.me",
+        "date": "2026-09-09T17:30:58Z"
+      },
+      "sha": "567848cfa4c1e10546981c9cedb2691d401ad969"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGI2MzZiOGVjMDk3Y2UyZGVhYjllZWFiMTEwZWNjMjRhMDQyOGYyMzY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b636b8ec097ce2deab9eeab110ecc24a0428f236",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/b636b8ec097ce2deab9eeab110ecc24a0428f236",
+      "tree": {
+        "sha": "8f8ab0f257c1e7d758f20b75511ed57d85ff67e3",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/8f8ab0f257c1e7d758f20b75511ed57d85ff67e3"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/567848cfa4c1e10546981c9cedb2691d401ad969",
+          "sha": "567848cfa4c1e10546981c9cedb2691d401ad969",
+          "html_url": "https://github.com/bitcoin/bips/commit/567848cfa4c1e10546981c9cedb2691d401ad969"
+        }
+      ],
+      "message": "added bitcoindev link",
+      "committer": {
+        "name": "NTL",
+        "email": "209999999769@proton.me",
+        "date": "2026-09-09T18:27:55Z"
+      },
+      "author": {
+        "name": "NTL",
+        "email": "209999999769@proton.me",
+        "date": "2026-09-09T18:27:55Z"
+      },
+      "sha": "b636b8ec097ce2deab9eeab110ecc24a0428f236"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDJjOGEzYmEyMmRjODQxZmVmY2FlOTFiMzQ1OWNkODVhYjNhMmVmMzE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/2c8a3ba22dc841fefcae91b3459cd85ab3a2ef31",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/2c8a3ba22dc841fefcae91b3459cd85ab3a2ef31",
+      "tree": {
+        "sha": "2fdc82029934f6d2700a0e2cbf6f63d557b6a3bf",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/2fdc82029934f6d2700a0e2cbf6f63d557b6a3bf"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b636b8ec097ce2deab9eeab110ecc24a0428f236",
+          "sha": "b636b8ec097ce2deab9eeab110ecc24a0428f236",
+          "html_url": "https://github.com/bitcoin/bips/commit/b636b8ec097ce2deab9eeab110ecc24a0428f236"
+        }
+      ],
+      "message": "duplicated bitcoindev post to correct the bad title",
+      "committer": {
+        "name": "NTL",
+        "email": "209999999769@proton.me",
+        "date": "2026-09-09T18:48:34Z"
+      },
+      "author": {
+        "name": "NTL",
+        "email": "209999999769@proton.me",
+        "date": "2026-09-09T18:48:34Z"
+      },
+      "sha": "2c8a3ba22dc841fefcae91b3459cd85ab3a2ef31"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDcyYzhkNzdlYWQxMGRmODNkOWZiNDg4ZTQxMmYyYTUxYTU0NTY1NWQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/72c8d77ead10df83d9fb488e412f2a51a545655d",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/72c8d77ead10df83d9fb488e412f2a51a545655d",
+      "tree": {
+        "sha": "aea8dc024d876954f888e735a37918589508f7b4",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/aea8dc024d876954f888e735a37918589508f7b4"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree aea8dc024d876954f888e735a37918589508f7b4\nparent 2c8a3ba22dc841fefcae91b3459cd85ab3a2ef31\nparent 5aadddb511a5dcfe4599531bd8ae5e5b96d0f793\nauthor NTL <2099999997690000@proton.me> 1793430745 -0400\ncommitter GitHub <noreply@github.com> 1793430745 -0400\n\nMerge branch 'bitcoin:master' into bip-xxxx-unspendable-internal-keys\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq5ZTZCRC1aQ7uu5UhlAAAutcQACSXzrxow+MJ0nzzqNzP7YvL\nCIEpD8R6Ww2E+rHHPnTFQD9Yq3TOV/qPydN+4jmJIteEKWEmV14GiPql/bELcwWb\ndklPKuHWOq9gKO1Ka6BtB39Nc1RMZKQJrl+gBaCG1H5sf0H1tVU5GBLBJkvzCL7D\nk4PfmNWyBVqQDZEV4WW4Y7IzQ7ANrqdRNeg4aNyiZPpGbjSE0krcXAeFNrfcv7Wq\nzFn9kNy4jB+bXUSmtGnwTDEEjzyOOrMDbTOBieG/mwsqn7mDy7HvRu7bHtXvLW+d\nWmARX+dL0mHrn9eaC7JpsJ+nfmXXz9bCTvZKSKfmSCoTXPMp5J60RQ/rFIoIYIUl\niJP1PM/OfVl8mGdr1gLE8SK+mMHIzzG8iSLhuY7OUuYNZTkEEx/AroElQITfsyvY\n+IJy7UBD5qxsIUbKUGFtrhwwjHeNNYxkpJBBSQ4ccBWLNEjlvk/DaLlagfCuwtn6\ngDkHy+MQ6U4x9FYxarru0vGj3RV8YAqt5kgc1PE37kmLUqynmtcecf6VB7pCapFy\nje7jofXD4EOTLBunEGL4QXceEBpz+Z8JJGKR7Ey9Ww5iJ8DawR1Ab6qVuzTQZVMC\nCqhx01YL22hv3uPWIwgzCxn3CiEVJlesMZdtI+y9fyrCyQsFaZhQwC/vuYu27nOt\nZUuOR+EVM3UN4zaslv5J\n=GVuw\n-----END PGP SIGNATURE-----\n"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/2c8a3ba22dc841fefcae91b3459cd85ab3a2ef31",
+          "sha": "2c8a3ba22dc841fefcae91b3459cd85ab3a2ef31",
+          "html_url": "https://github.com/bitcoin/bips/commit/2c8a3ba22dc841fefcae91b3459cd85ab3a2ef31"
+        },
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5aadddb511a5dcfe4599531bd8ae5e5b96d0f793",
+          "sha": "5aadddb511a5dcfe4599531bd8ae5e5b96d0f793",
+          "html_url": "https://github.com/bitcoin/bips/commit/5aadddb511a5dcfe4599531bd8ae5e5b96d0f793"
+        }
+      ],
+      "message": "Merge branch 'bitcoin:master' into bip-xxxx-unspendable-internal-keys",
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2026-10-31T07:12:25Z"
+      },
+      "author": {
+        "name": "NTL",
+        "email": "2099999997690000@proton.me",
+        "date": "2026-10-31T07:12:25Z"
+      },
+      "sha": "72c8d77ead10df83d9fb488e412f2a51a545655d"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDBmNGJhYjI4ZjgzMzMyZjVkMjgwNDVmYjg2Njg5NTYyODViNGRhNjc",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/0f4bab28f83332f5d28045fb8668956285b4da67",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/0f4bab28f83332f5d28045fb8668956285b4da67",
+      "tree": {
+        "sha": "467e06def7497ee0ce5f4a312a42041c90945fab",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/467e06def7497ee0ce5f4a312a42041c90945fab"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/72c8d77ead10df83d9fb488e412f2a51a545655d",
+          "sha": "72c8d77ead10df83d9fb488e412f2a51a545655d",
+          "html_url": "https://github.com/bitcoin/bips/commit/72c8d77ead10df83d9fb488e412f2a51a545655d"
+        }
+      ],
+      "message": "reference implementation added and some editorial changes on the bip file",
+      "committer": {
+        "name": "2099999997690000",
+        "email": "2099999997690000@proton.me",
+        "date": "2026-11-01T06:12:03Z"
+      },
+      "author": {
+        "name": "2099999997690000",
+        "email": "2099999997690000@proton.me",
+        "date": "2026-11-01T06:02:09Z"
+      },
+      "sha": "0f4bab28f83332f5d28045fb8668956285b4da67"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGUxOGY4MWEyYWMxOTJmOGM1OWRhN2ZlOWNjMjc5NTMwOWI4ZGQzNDM",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e18f81a2ac192f8c59da7fe9cc2795309b8dd343",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/e18f81a2ac192f8c59da7fe9cc2795309b8dd343",
+      "tree": {
+        "sha": "12265079a58e39b260c70b48d286cf28b6130e40",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/12265079a58e39b260c70b48d286cf28b6130e40"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/0f4bab28f83332f5d28045fb8668956285b4da67",
+          "sha": "0f4bab28f83332f5d28045fb8668956285b4da67",
+          "html_url": "https://github.com/bitcoin/bips/commit/0f4bab28f83332f5d28045fb8668956285b4da67"
+        }
+      ],
+      "message": "corrected bip name",
+      "committer": {
+        "name": "2099999997690000",
+        "email": "2099999997690000@proton.me",
+        "date": "2026-11-01T06:35:01Z"
+      },
+      "author": {
+        "name": "2099999997690000",
+        "email": "2099999997690000@proton.me",
+        "date": "2026-11-01T06:35:01Z"
+      },
+      "sha": "e18f81a2ac192f8c59da7fe9cc2795309b8dd343"
+    }
+  ],
+  "comments": []
+}
