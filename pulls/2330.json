@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2330/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2330/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/5f76a1788a60d5e0d85757d6212e9f5bbf71193e",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/6e98c4935555f6e3027e7c68f4f007ff19902aa9",
     "number": 2330,
     "state": "open",
     "locked": false,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "I implemented BIP352 independently in btclib-wallet (Python). These six vectors cover cases its tests reach and the file does not. reference.py computes every expected value and passes on the whole file, and btclib-wallet agrees on all six.\n\n- P2WSH, P2MS, P2PK and empty-scriptPubKey inputs beside one P2PKH input: only the P2PKH key counts.\n- P2SH-P2WSH, P2TR with an empty witness, and P2TR whose output key is not on the curve, beside one P2PKH input: all are skipped.\n- A taproot script path spend with a non-NUMS internal key: its output key counts.\n- A P2PKH input whose pubkey hash matches 33 bytes that are not a valid key: it is skipped.\n- The largest label, 2^32 - 1.\n- An unlabeled and a labeled address of one recipient, with another recipient listed between them.\n\nThe P2WSH and P2SH-P2WSH witness script is also a valid compressed key, so an implementation that reads the last witness item as a key fails these vectors.\n\nThe changelog gets version 1.1.2. #2323 adds two other vectors at the same places in both files; I will rebase whichever lands second.\n\n*Assisted-by: my usual tools (LLM, Internet, computer). Mistakes are mine.*\n",
+    "body": "This adds five test vectors for BIP352 cases the file does not cover; the changelog entry names them. reference.py computes every expected value and passes on the whole file, and btclib-wallet, which I maintain, agrees on all five ([run](https://gist.github.com/fametrano/6fb7bb91c50fe1bad04a6494c25f844d/3b4d7cf0a99aae1ee6d4bd66cc121786fd0a8aac)). The version is 1.1.4 because #2323 takes 1.1.3; I will rebase whichever lands second.\n\nWas I right to remove three cases that cannot be consensus-valid, under the scope #2339 proposes? They are a P2PKH input whose pubkey hash matches 33 bytes that are not a valid key, a P2TR input with an empty witness, and a P2TR input whose output key is not on the curve. reference.py keeps code for all three, and no vector reaches it now. I kept inputs whose only flaw is a placeholder signature: the file has no spending transactions, and the ECDSA signatures these vectors reuse from it have no sighash byte.\n",
     "labels": [
       {
         "id": 275846070,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-10-10T23:28:23Z",
-    "updated_at": "2026-10-18T21:23:38Z",
+    "updated_at": "2026-11-01T18:22:13Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "6af5154b8b708d73d32e65604d57d58b2c4eedd9",
+    "merge_commit_sha": "c19f9b3781603eb367a174596aab77f3f13a3be0",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "fametrano:bip352-vectors",
       "ref": "bip352-vectors",
-      "sha": "5f76a1788a60d5e0d85757d6212e9f5bbf71193e",
+      "sha": "6e98c4935555f6e3027e7c68f4f007ff19902aa9",
       "user": {
         "login": "fametrano",
         "id": 3296421,
@@ -174,7 +174,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 23083,
+        "size": 23109,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -187,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-14T12:13:04Z",
+        "pushed_at": "2026-11-01T18:21:40Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-08-01T21:58:43Z",
         "allow_forking": true
@@ -196,7 +196,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "927b6de9915c9262615a6399de51b200f81e5aa4",
+      "sha": "5aadddb511a5dcfe4599531bd8ae5e5b96d0f793",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -293,10 +293,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6031,
-        "stargazers_count": 10972,
-        "watchers_count": 10972,
-        "size": 22752,
+        "forks_count": 6034,
+        "stargazers_count": 11003,
+        "watchers_count": 11003,
+        "size": 22750,
         "default_branch": "master",
         "open_issues_count": 68,
         "is_template": false,
@@ -309,9 +309,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-02T13:27:57Z",
+        "pushed_at": "2026-10-27T02:41:58Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-18T12:15:09Z",
+        "updated_at": "2026-11-01T15:46:10Z",
         "allow_forking": true
       }
     },
@@ -320,9 +320,9 @@
         "href": "https://api.github.com/repos/bitcoin/bips/pulls/2330"
       }
     },
-    "author_association": "CONTRIBUTOR",
+    "author_association": "NONE",
     "draft": false,
-    "additions": 842,
+    "additions": 686,
     "deletions": 1,
     "changed_files": 2,
     "commits": 2,
@@ -330,86 +330,6 @@
     "comments": 0
   },
   "events": [
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGY0YzUwZTM1MzUzZDdjOWQyOGU5ZjU5ZGU5MTlkZjEyZWFjNmJjMjg",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f4c50e35353d7c9d28e9f59de919df12eac6bc28",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/f4c50e35353d7c9d28e9f59de919df12eac6bc28",
-      "tree": {
-        "sha": "07ce47e0e8a4db16f8b15a85b2b9274e4079d23a",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/07ce47e0e8a4db16f8b15a85b2b9274e4079d23a"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 07ce47e0e8a4db16f8b15a85b2b9274e4079d23a\nparent 927b6de9915c9262615a6399de51b200f81e5aa4\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1791673555 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1791674413 +0200\n\nBIP-352: add test vectors for skipped inputs and label edge cases\n\nSix send and receive vectors for cases the file does not cover yet:\n- inputs of ineligible types (P2WSH, P2MS, P2PK, empty scriptPubKey)\n  beside an eligible one;\n- P2SH-P2WSH, P2TR with an empty witness, and a P2TR output key that is\n  not on the curve, all skipped;\n- a P2TR script path spend whose internal key is not NUMS, which counts;\n- a P2PKH whose pubkey hash matches 33 bytes that are not a valid key;\n- the largest label, 0xFFFFFFFF;\n- two recipients, one with a labeled address listed after the other\n  recipient, with a taproot and a non-taproot input.\n\nThe P2WSH and P2SH-P2WSH witness script is also a valid compressed key,\nso an implementation that reads the last witness item as a key fails.\n\nreference.py computed the expected values and passes on the whole file.\n\nAssisted-by: my usual tools (LLM, Internet, computer). Mistakes are mine.\nSigned-off-by: Ferdinando Ametrano <ferdinando@ametrano.net>\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmrKyC0bFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/FDbYP/i3sblHamEwVSC0brii1\nbwpS1k23Dx5OGAxZ2EydJl9qP2gLbrMvjTYE0/txEk+Q26e7UN9nUfhQd5/OKk8q\nTFIVo3RXEQkxpJmAYe5h0RhCMEz+NVUvxSapUHgeYRsd4ldVsZfmsCR32AzGv3nf\n1vBMyu2HK9cK6cLN4ZlgMq9iQHw1dyn3tB2mPEU+4UkDQJFWU+vvyU0bKf6+3p0T\nW4B+TlVuHJaxK4x7sfdidsr7eqXc5wuipKqZyCm2DeiWVmaanuH2tu5HysRi1Y/X\n52RNxmcWWECzJaSv0PclHCgmo5S2LHLskgTWjrJp1RUbEQEOGRylrvoSyaeEA3YV\nb4doSmu0ONnbt/THVt+AJPvp1ew1Crr6ZyRzsev/qo8PbCq9qlwdgmJLs7O2Uhg+\n7woVi5G72b/BAf71cA8oJLgtDCtGZDWvvs6AzmTL76QcfV5C3LTaCrFcnlsnMn77\nBYjVKgy/mXHjlz3b2yQr914XveSQYs2XrlQPA/Qn9yabNGr1I2g9KfYtg83I/2nh\nyZ15yfwdFEZmG+BGSW3qX6zmq/sISnTt9XJhfLIhwv8rPEnqoeeK7ReJplziKQZ4\nYCWwEY1IkfyJ+0CmRLUaxvB3Gd0UGodZUg4iH0qsCusnWSxAqwmueWkbPjDaMllh\ngTeElHmHP67vTKFtjEupTpbK\n=ApK1\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/927b6de9915c9262615a6399de51b200f81e5aa4",
-          "sha": "927b6de9915c9262615a6399de51b200f81e5aa4",
-          "html_url": "https://github.com/bitcoin/bips/commit/927b6de9915c9262615a6399de51b200f81e5aa4"
-        }
-      ],
-      "message": "BIP-352: add test vectors for skipped inputs and label edge cases\n\nSix send and receive vectors for cases the file does not cover yet:\n- inputs of ineligible types (P2WSH, P2MS, P2PK, empty scriptPubKey)\n  beside an eligible one;\n- P2SH-P2WSH, P2TR with an empty witness, and a P2TR output key that is\n  not on the curve, all skipped;\n- a P2TR script path spend whose internal key is not NUMS, which counts;\n- a P2PKH whose pubkey hash matches 33 bytes that are not a valid key;\n- the largest label, 0xFFFFFFFF;\n- two recipients, one with a labeled address listed after the other\n  recipient, with a taproot and a non-taproot input.\n\nThe P2WSH and P2SH-P2WSH witness script is also a valid compressed key,\nso an implementation that reads the last witness item as a key fails.\n\nreference.py computed the expected values and passes on the whole file.\n\nAssisted-by: my usual tools (LLM, Internet, computer). Mistakes are mine.\nSigned-off-by: Ferdinando Ametrano <ferdinando@ametrano.net>",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-10-10T23:20:13Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-10-10T23:05:55Z"
-      },
-      "sha": "f4c50e35353d7c9d28e9f59de919df12eac6bc28"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDVmNzZhMTc4OGE2MGQ1ZTBkODU3NTdkNjIxMmU5ZjViYmY3MTE5M2U",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5f76a1788a60d5e0d85757d6212e9f5bbf71193e",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/5f76a1788a60d5e0d85757d6212e9f5bbf71193e",
-      "tree": {
-        "sha": "5d6405b777df337babdf3d4b31391c2c2236a2f7",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/5d6405b777df337babdf3d4b31391c2c2236a2f7"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 5d6405b777df337babdf3d4b31391c2c2236a2f7\nparent f4c50e35353d7c9d28e9f59de919df12eac6bc28\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1791674426 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1791674426 +0200\n\nBIP-352: add version 1.1.2 to the changelog\n\nBump the version to 1.1.2 and list the six new test vectors.\n\nAssisted-by: my usual tools (LLM, Internet, computer). Mistakes are mine.\nSigned-off-by: Ferdinando Ametrano <ferdinando@ametrano.net>\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niQJPBAABCAA5FiEEsRUSBAxuhte14D3RTXHtOpqO38UFAmrKyDobFIAAAAAABAAO\nbWFudTIsMi41KzEuMTIsMCwzAAoJEE1x7Tqajt/FZ2QP/Rj2JM86Cgxubcx9Olv4\nV0esUado4Kpd87ZnKOrQ46vA+Mb4K9cVnbmRgbkpvrNAq/AF4o0xF4kt/pDeJPBy\nGYNE+qq4iiozuERMVQq9uaWyvcG93BOff0EuVm/Ppe2JfUEAPxGGuYmKpFMCeUpI\npgKY6OFzcMAGftIVv2c3BT/0sYqJTBSe4x+3s4cGKuGyxmyS5hHzfYtAJUVEv0bj\nRpXhC6nA585xtaqfJ3w9DWrYCnlMJ6/5xAuakoQ55bMwn+PadoggY7FnbSe7Dcoo\nPklSVsM0lrdsRCx/FKkop3PXYm3Zf0H2X3dZrDXtvXi651h+RbzVGsV1oDzVjc55\nME1GyPGvFJlz9EOapV2gqSgMojbArj1OqRMIdbQnA1Ou1qb1OoI/0pDe519lFMvb\nPnsh231J76+WP3vt+vT5dhU6zix1Pk4o7BNOduXW9k/vbsyJifChw7MPGf3GElRc\nGEGpS3XDtCQ/UPi/wvcyOv0rvSRtwzTaQ6zFjch7/niwYJMnqbPbr+d/YGUH6agE\nB8YkpX0n37d/1Yn4rqEODa2RvGg0otPArICG9zeGijSNjYNVzS2GE/xH8mejCUby\nMXWZrYQqCwZ3/J99wIXdYaLCnlkjRIPgHsdxFBfEV91Fz+TNjCCSwHgJU+hJXt7r\ngmNgHGcLQ6m1nGZx0pdl2qxu\n=wNp+\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f4c50e35353d7c9d28e9f59de919df12eac6bc28",
-          "sha": "f4c50e35353d7c9d28e9f59de919df12eac6bc28",
-          "html_url": "https://github.com/bitcoin/bips/commit/f4c50e35353d7c9d28e9f59de919df12eac6bc28"
-        }
-      ],
-      "message": "BIP-352: add version 1.1.2 to the changelog\n\nBump the version to 1.1.2 and list the six new test vectors.\n\nAssisted-by: my usual tools (LLM, Internet, computer). Mistakes are mine.\nSigned-off-by: Ferdinando Ametrano <ferdinando@ametrano.net>",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-10-10T23:20:26Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-10-10T23:20:26Z"
-      },
-      "sha": "5f76a1788a60d5e0d85757d6212e9f5bbf71193e"
-    },
     {
       "event": "subscribed",
       "id": 33492743772,
@@ -510,6 +430,117 @@
         "name": "Pending acceptance",
         "color": "fbca04"
       }
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGJjYTVhMjNjNGFhNDMyMTU2Y2JlMWMwMzAzMTMyMDJmNTc2NGEzNmU",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/bca5a23c4aa432156cbe1c030313202f5764a36e",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/bca5a23c4aa432156cbe1c030313202f5764a36e",
+      "tree": {
+        "sha": "e234f40593c6d5bf07c9e10334b7f62f980570b5",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/e234f40593c6d5bf07c9e10334b7f62f980570b5"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree e234f40593c6d5bf07c9e10334b7f62f980570b5\nparent 5aadddb511a5dcfe4599531bd8ae5e5b96d0f793\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1793520461 +0700\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1793520461 +0700\n\nBIP-352: add test vectors for skipped inputs and label edge cases\n\nFive send and receive vectors for cases the file does not cover yet:\n- inputs of ineligible types (P2WSH, P2MS, P2PK, empty scriptPubKey)\n  beside an eligible one;\n- a P2SH-P2WSH input beside an eligible one, which is skipped;\n- a P2TR script path spend whose internal key is not NUMS, which counts;\n- the largest label, 0xFFFFFFFF;\n- two recipients, one with a labeled address listed after the other\n  recipient, with a taproot and a non-taproot input.\n\nThe P2WSH and P2SH-P2WSH witness script is also a valid compressed key,\nso an implementation that reads the last witness item as a key fails.\n\nreference.py computed the expected values and passes on the whole file.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCaubzTRsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyCadwD+M2sw52BRFBubWx89v5gW\nodMjmiAjGx3L5Airn2ktEL8BANExcWCzSgAOODmahQj+MgoqtOvovjJbS6LKyO0N\nXx8I\n=vLSU\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5aadddb511a5dcfe4599531bd8ae5e5b96d0f793",
+          "sha": "5aadddb511a5dcfe4599531bd8ae5e5b96d0f793",
+          "html_url": "https://github.com/bitcoin/bips/commit/5aadddb511a5dcfe4599531bd8ae5e5b96d0f793"
+        }
+      ],
+      "message": "BIP-352: add test vectors for skipped inputs and label edge cases\n\nFive send and receive vectors for cases the file does not cover yet:\n- inputs of ineligible types (P2WSH, P2MS, P2PK, empty scriptPubKey)\n  beside an eligible one;\n- a P2SH-P2WSH input beside an eligible one, which is skipped;\n- a P2TR script path spend whose internal key is not NUMS, which counts;\n- the largest label, 0xFFFFFFFF;\n- two recipients, one with a labeled address listed after the other\n  recipient, with a taproot and a non-taproot input.\n\nThe P2WSH and P2SH-P2WSH witness script is also a valid compressed key,\nso an implementation that reads the last witness item as a key fails.\n\nreference.py computed the expected values and passes on the whole file.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-01T08:07:41Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-01T08:07:41Z"
+      },
+      "sha": "bca5a23c4aa432156cbe1c030313202f5764a36e"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDZlOThjNDkzNTU1NWY2ZTMwMjdlN2M2OGY0ZjAwN2ZmMTk5MDJhYTk",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6e98c4935555f6e3027e7c68f4f007ff19902aa9",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/6e98c4935555f6e3027e7c68f4f007ff19902aa9",
+      "tree": {
+        "sha": "16067d92f88b09ae611ff991c2196ef1a46e77af",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/16067d92f88b09ae611ff991c2196ef1a46e77af"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 16067d92f88b09ae611ff991c2196ef1a46e77af\nparent bca5a23c4aa432156cbe1c030313202f5764a36e\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1793520461 +0700\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1793520461 +0700\n\nBIP-352: add version 1.1.4 to the changelog\n\nBump the version to 1.1.4 and list the five new test vectors.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCaubzTRsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyDKfAD5AeUFGxxiyG1seE+sQ6iE\n0C58BYPQDQkLzjgASCMMeB0BAL1Wq7bpja9V90920JIratMHvb7e0hXbk+/tfLHz\nzkAA\n=kBy0\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/bca5a23c4aa432156cbe1c030313202f5764a36e",
+          "sha": "bca5a23c4aa432156cbe1c030313202f5764a36e",
+          "html_url": "https://github.com/bitcoin/bips/commit/bca5a23c4aa432156cbe1c030313202f5764a36e"
+        }
+      ],
+      "message": "BIP-352: add version 1.1.4 to the changelog\n\nBump the version to 1.1.4 and list the five new test vectors.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-01T08:07:41Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-01T08:07:41Z"
+      },
+      "sha": "6e98c4935555f6e3027e7c68f4f007ff19902aa9"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 34846832492,
+      "node_id": "HRFPE_lADOAN28mc8AAAABWXtkCM8AAAAIHQh3bA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/34846832492",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "6e98c4935555f6e3027e7c68f4f007ff19902aa9",
+      "commit_url": "https://api.github.com/repos/fametrano/bips/commits/6e98c4935555f6e3027e7c68f4f007ff19902aa9",
+      "created_at": "2026-11-01T18:21:42Z"
     }
   ],
   "comments": []
