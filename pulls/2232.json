@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2232/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2232/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/adbc31fe33e087c12c5eba655607b6b2a2788423",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/4daec02d1ed281b6a2fd26b6ea24c2138bd9bff9",
     "number": 2232,
     "state": "open",
     "locked": false,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "BIP 360's vectors stop at construction: a script tree goes in, leaf hashes, Merkle root, scriptPubKey, address and control blocks come out. There is nothing to spend, unlike BIP 341's wallet-test-vectors.json, so every implementation ends up writing its own spend coverage. This adds the spend-path vectors offered in the Delving write-up (https://delvingbitcoin.org/t/bip-360-p2mr-implemented-in-bitcoin-core-on-regtest-vector-results-measurements-spec-feedback/2751).\n\nThe schema mirrors bip-0341/wallet-test-vectors.json, adapted to an output type whose only spend path is the script path. One transaction with six inputs carries the valid cases, per-input `given`/`intermediary`/`expected` with the sighash midstates at group level. `invalidSpending` holds nine standalone transactions that must fail; `error` is a spec-level description for implementations to map onto their own codes, and several deliberately collapse onto one code in ours. Inputs spent without a signature have privkey/hashType/annex/sigMsg/sigHash null rather than absent.\n\nValid:\n\n- depth-1 leaf, SIGHASH_DEFAULT\n- depth-2 leaf of a three-leaf tree, SIGHASH_ALL (65-byte signature)\n- annex, covered by the signature\n- `p2mr_single_leaf_script_tree` at depth 0, no signature: the v0.12.0 anyone-can-spend rule\n- `p2mr_different_version_leaves` through its 0xfa leaf: unknown leaf versions are unencumbered\n- depth-128 leaf, control block at its 4097-byte maximum: the accepting side of the depth limit\n\nInvalid: flipped signature, tampered Merkle path, control byte with the last bit 0, single-element witness, two-element witness ending in an annex, no witness at all, and control blocks of 0, 34 and 4129 bytes, which is one too short for the control byte, one that is not `1 + 32*m`, and one at `m = 129`.\n\nBoth named trees come from p2mr_construction.json and are asserted against it when the file is generated, so the two files cross-check each other. Keys and prevout txids are derived deterministically and signing is BIP 340 with an all-zero aux, so the file regenerates from scratch.\n\nOne case takes a position the spec leaves open: `p2mr_spend_control_byte_low_bit_zero` expects failure when the last bit of `c[0]` is 0. Script Validation says that bit \"is unused and must be 1\" and the footnote says a faulty deserialization \"will cause an immediate error\", but that bullet states no failure condition, while the length rule above it does. If non-enforcement is the intended reading I am happy to drop the vector and the footnote could be reworded; either way it would help to have it explicit.\n\nVerified against a Bitcoin Core implementation of the BIP: every valid input passes VerifyScript and every invalid case fails with the expected script error (https://github.com/jeanpablojp/bitcoin/tree/p2mr-regtest, src/test/p2mr_vector_tests.cpp). The generator is test/functional/tool_p2mr_spend_vectors.py on the same branch.",
+    "body": "BIP 360's vectors stop at construction: a script tree goes in, leaf hashes, Merkle root, scriptPubKey, address and control blocks come out. There is nothing to spend, unlike BIP 341's wallet-test-vectors.json, so every implementation ends up writing its own spend coverage. This adds the spend-path vectors offered in the Delving write-up (https://delvingbitcoin.org/t/bip-360-p2mr-implemented-in-bitcoin-core-on-regtest-vector-results-measurements-spec-feedback/2751).\n\nThe schema mirrors bip-0341/wallet-test-vectors.json, adapted to an output type whose only spend path is the script path. Two transactions carry the valid cases, per-input `given`/`intermediary`/`expected` with the sighash midstates at group level. `invalidSpending` holds ten standalone transactions that must fail; `error` is a spec-level description for implementations to map onto their own codes, and several deliberately collapse onto one code in ours. Inputs spent without a signature have privkey/hashType/annex/sigMsg/sigHash null rather than absent.\n\nValid:\n\n- depth-1 leaf, SIGHASH_DEFAULT\n- depth-2 leaf of a three-leaf tree, SIGHASH_ALL (65-byte signature)\n- annex, covered by the signature\n- `p2mr_single_leaf_script_tree` at depth 0, no signature: the v0.12.0 anyone-can-spend rule\n- `p2mr_different_version_leaves` through its 0xfa leaf: unknown leaf versions are unencumbered\n- depth-128 leaf, control block at its 4097-byte maximum: the accepting side of the depth limit\n- a second transaction with one input for each of the other five hash types (SIGHASH_NONE, SIGHASH_SINGLE and the three ANYONECANPAY forms), with SINGLE|ANYONECANPAY at input 1 so it signs output 1 and not output 0\n\nInvalid: flipped signature, tampered Merkle path, control byte with the last bit 0, single-element witness, two-element witness ending in an annex, no witness at all, a signature with the undefined hash type 0x80, and control blocks of 0, 34 and 4129 bytes, which is one too short for the control byte, one that is not `1 + 32*m`, and one at `m = 129`.\n\nBoth named trees come from p2mr_construction.json and are asserted against it when the file is generated, so the two files cross-check each other. Keys and prevout txids are derived deterministically and signing is BIP 340 with an all-zero aux, so the file regenerates from scratch.\n\nOne case takes a position the spec leaves open: `p2mr_spend_control_byte_low_bit_zero` expects failure when the last bit of `c[0]` is 0. Script Validation says that bit \"is unused and must be 1\" and the footnote says a faulty deserialization \"will cause an immediate error\", but that bullet states no failure condition, while the length rule above it does. If non-enforcement is the intended reading I am happy to drop the vector and the footnote could be reworded; either way it would help to have it explicit.\n\nVerified against a Bitcoin Core implementation of the BIP: every valid input passes VerifyScript and every invalid case fails with the expected script error (https://github.com/jeanpablojp/bitcoin/tree/p2mr-regtest, src/test/p2mr_vector_tests.cpp). The generator is test/functional/tool_p2mr_spend_vectors.py on the same branch.",
     "labels": [
       {
         "id": 275846070,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-08-01T21:55:01Z",
-    "updated_at": "2026-11-01T13:04:59Z",
+    "updated_at": "2026-11-02T20:59:08Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "8432d7495442c9b791bcb9bc76ace88c3968cb0b",
+    "merge_commit_sha": "72c4a8fd4dffd504df41c96a0d91d5ef2e2717af",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "jeanpablojp:bip360-spend-vectors",
       "ref": "bip360-spend-vectors",
-      "sha": "adbc31fe33e087c12c5eba655607b6b2a2788423",
+      "sha": "4daec02d1ed281b6a2fd26b6ea24c2138bd9bff9",
       "user": {
         "login": "jeanpablojp",
         "id": 8968629,
@@ -186,7 +186,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-27T21:30:13Z",
+        "pushed_at": "2026-11-02T20:41:18Z",
         "created_at": "2026-07-27T20:39:06Z",
         "updated_at": "2026-07-27T20:39:06Z",
         "allow_forking": true
@@ -195,7 +195,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "658fe07449097ef6f9caa72b89df119dc16ce987",
+      "sha": "ada341963ab3916e74c98e6de4ba48babc024a75",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -292,10 +292,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6034,
-        "stargazers_count": 11002,
-        "watchers_count": 11002,
-        "size": 22750,
+        "forks_count": 6035,
+        "stargazers_count": 11007,
+        "watchers_count": 11007,
+        "size": 22761,
         "default_branch": "master",
         "open_issues_count": 68,
         "is_template": false,
@@ -308,9 +308,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-27T02:41:58Z",
+        "pushed_at": "2026-11-02T16:59:01Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-01T13:36:02Z",
+        "updated_at": "2026-11-02T18:15:12Z",
         "allow_forking": true
       }
     },
@@ -321,12 +321,12 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 1285,
+    "additions": 1539,
     "deletions": 0,
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 1
+    "comments": 2
   },
   "events": [
     {
@@ -551,46 +551,6 @@
       "created_at": "2026-08-13T23:10:14Z"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGFkYmMzMWZlMzNlMDg3YzEyYzVlYmE2NTU2MDdiNmIyYTI3ODg0MjM",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/adbc31fe33e087c12c5eba655607b6b2a2788423",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/adbc31fe33e087c12c5eba655607b6b2a2788423",
-      "tree": {
-        "sha": "23d43fdb1942cba1c678495085ce522f34b7417e",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/23d43fdb1942cba1c678495085ce522f34b7417e"
-      },
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "payload": null,
-        "signature": null
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b31410ca587cec1cfd880b6617cc6b7cb036e6d7",
-          "sha": "b31410ca587cec1cfd880b6617cc6b7cb036e6d7",
-          "html_url": "https://github.com/bitcoin/bips/commit/b31410ca587cec1cfd880b6617cc6b7cb036e6d7"
-        }
-      ],
-      "message": "bip360: add spend-path test vectors\n\nThe existing vectors are construction-only, so implementations have to\ninvent their own spend coverage. This adds a spending file in the shape\nof bip-0341/wallet-test-vectors.json, adapted to an output type whose\nonly spend path is the script path.\n\nOne transaction with six inputs covers the valid cases, with the five\nshared BIP 341 sighash hashes at the group level and per-input given,\nintermediary and expected fields. A separate invalidSpending array has\nnine self-contained transactions that must fail validation, with the\nreason in a short spec-level error string.\n\nPrivate keys are sha256(\"p2mr_spending/key/<n>\"), prevout txids are\nsha256(\"p2mr_spending/prevout/<n>\") in internal byte order, and signing\nis BIP 340 with an all-zero aux, so the signatures can be re-derived\nrather than trusted. Two of the inputs reuse trees from\np2mr_construction.json, which makes the two files cross-check each\nother.",
-      "committer": {
-        "name": "jeanpablojp",
-        "email": "me@jeanpablo.jp",
-        "date": "2026-08-15T18:34:21Z"
-      },
-      "author": {
-        "name": "jeanpablojp",
-        "email": "me@jeanpablo.jp",
-        "date": "2026-08-01T21:43:24Z"
-      },
-      "sha": "adbc31fe33e087c12c5eba655607b6b2a2788423"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 29505629352,
       "node_id": "HRFPE_lADOAN28mc8AAAABLFxC8M8AAAAG3qwsqA",
@@ -659,6 +619,135 @@
       "submitted_at": "2026-11-01T13:04:59Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2232"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDRkYWVjMDJkMWVkMjgxYjZhMmZkMjZiNmVhMjRjMjEzOGJkOWJmZjk",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/4daec02d1ed281b6a2fd26b6ea24c2138bd9bff9",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/4daec02d1ed281b6a2fd26b6ea24c2138bd9bff9",
+      "tree": {
+        "sha": "25417c13a85c28dfdb45d6d84d041d60e3ddfdad",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/25417c13a85c28dfdb45d6d84d041d60e3ddfdad"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b31410ca587cec1cfd880b6617cc6b7cb036e6d7",
+          "sha": "b31410ca587cec1cfd880b6617cc6b7cb036e6d7",
+          "html_url": "https://github.com/bitcoin/bips/commit/b31410ca587cec1cfd880b6617cc6b7cb036e6d7"
+        }
+      ],
+      "message": "bip360: add spend-path test vectors\n\nThe existing vectors are construction-only, so implementations have to\ninvent their own spend coverage. This adds a spending file in the shape\nof bip-0341/wallet-test-vectors.json, adapted to an output type whose\nonly spend path is the script path.\n\nTwo transactions cover the valid cases, each with the five shared\nBIP 341 sighash hashes at the group level and per-input given,\nintermediary and expected fields. The first has six inputs and signs\nonly with SIGHASH_DEFAULT and SIGHASH_ALL, the second has five, one for\neach of the other hash types. A separate invalidSpending array has ten\nself-contained transactions that must fail validation, with the reason\nin a short spec-level error string.\n\nPrivate keys are sha256(\"p2mr_spending/key/<n>\"), prevout txids are\nsha256(\"p2mr_spending/prevout/<n>\") in internal byte order, and signing\nis BIP 340 with an all-zero aux, so the signatures can be re-derived\nrather than trusted. Two of the inputs reuse trees from\np2mr_construction.json, which makes the two files cross-check each\nother.",
+      "committer": {
+        "name": "jeanpablojp",
+        "email": "me@jeanpablo.jp",
+        "date": "2026-11-02T20:05:01Z"
+      },
+      "author": {
+        "name": "jeanpablojp",
+        "email": "me@jeanpablo.jp",
+        "date": "2026-08-01T21:43:24Z"
+      },
+      "sha": "4daec02d1ed281b6a2fd26b6ea24c2138bd9bff9"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 34953241239,
+      "node_id": "HRFPE_lADOAN28mc8AAAABLFxC8M8AAAAII2Ailw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/34953241239",
+      "actor": {
+        "login": "jeanpablojp",
+        "id": 8968629,
+        "node_id": "MDQ6VXNlcjg5Njg2Mjk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8968629?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jeanpablojp",
+        "html_url": "https://github.com/jeanpablojp",
+        "followers_url": "https://api.github.com/users/jeanpablojp/followers",
+        "following_url": "https://api.github.com/users/jeanpablojp/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jeanpablojp/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jeanpablojp/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jeanpablojp/subscriptions",
+        "organizations_url": "https://api.github.com/users/jeanpablojp/orgs",
+        "repos_url": "https://api.github.com/users/jeanpablojp/repos",
+        "events_url": "https://api.github.com/users/jeanpablojp/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jeanpablojp/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "4daec02d1ed281b6a2fd26b6ea24c2138bd9bff9",
+      "commit_url": "https://api.github.com/repos/jeanpablojp/bips/commits/4daec02d1ed281b6a2fd26b6ea24c2138bd9bff9",
+      "created_at": "2026-11-02T20:41:19Z"
+    },
+    {
+      "event": "commented",
+      "id": 6588237728,
+      "node_id": "IC_kwDOAN28mc8AAAABiLCHoA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/6588237728",
+      "actor": {
+        "login": "jeanpablojp",
+        "id": 8968629,
+        "node_id": "MDQ6VXNlcjg5Njg2Mjk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8968629?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jeanpablojp",
+        "html_url": "https://github.com/jeanpablojp",
+        "followers_url": "https://api.github.com/users/jeanpablojp/followers",
+        "following_url": "https://api.github.com/users/jeanpablojp/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jeanpablojp/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jeanpablojp/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jeanpablojp/subscriptions",
+        "organizations_url": "https://api.github.com/users/jeanpablojp/orgs",
+        "repos_url": "https://api.github.com/users/jeanpablojp/repos",
+        "events_url": "https://api.github.com/users/jeanpablojp/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jeanpablojp/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-02T20:55:48Z",
+      "updated_at": "2026-11-02T20:59:08Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Right, nothing on the passing side reached NONE, SINGLE or ANYONECANPAY. I added a second transaction to `scriptPathSpending` with one input per remaining hash type, derived the same way as the rest of the file.\n\nI changed `SignatureHashSchnorr` three ways, to ignore ANYONECANPAY, to commit NONE to the outputs and to take output 0 for SINGLE. Each time the old file still passed and the new one failed.\n",
+      "user": {
+        "login": "jeanpablojp",
+        "id": 8968629,
+        "node_id": "MDQ6VXNlcjg5Njg2Mjk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/8968629?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jeanpablojp",
+        "html_url": "https://github.com/jeanpablojp",
+        "followers_url": "https://api.github.com/users/jeanpablojp/followers",
+        "following_url": "https://api.github.com/users/jeanpablojp/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jeanpablojp/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jeanpablojp/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jeanpablojp/subscriptions",
+        "organizations_url": "https://api.github.com/users/jeanpablojp/orgs",
+        "repos_url": "https://api.github.com/users/jeanpablojp/repos",
+        "events_url": "https://api.github.com/users/jeanpablojp/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jeanpablojp/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2232#issuecomment-6588237728",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2232"
     }
   ],
   "comments": []
