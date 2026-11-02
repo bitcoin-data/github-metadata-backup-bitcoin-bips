@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2026-11-01T06:43:15Z",
-    "updated_at": "2026-11-02T05:11:06Z",
+    "updated_at": "2026-11-02T09:25:17Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -795,6 +795,45 @@
         "date": "2026-11-02T04:46:52Z"
       },
       "sha": "a2175a1e336eddb80562173bc8863bbaf2269932"
+    },
+    {
+      "event": "reviewed",
+      "id": 5734401612,
+      "node_id": "PRR_kwDOAN28mc8AAAABVcwGTA",
+      "url": null,
+      "actor": null,
+      "commit_id": "a2175a1e336eddb80562173bc8863bbaf2269932",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-11-02T09:25:17Z",
+      "author_association": "NONE",
+      "body": "ACK a2175a1e336eddb80562173bc8863bbaf2269932\n\nSince e18f81a2 only the BIP text and `tests.py` changed; `reference.py`, `vectors.json` and `core-checks.json` are byte-identical, so the btclib-org reproduction in my earlier review still holds: https://gist.github.com/fametrano/d8966a1925a4f8d1800c05f2422d365a/d26bc4f8de24a38d6389cdfc3e7c2e4c7e4a5f40. On this head `tests.py` passes its 24 tests, `gen_vectors.py` still prints `vectors.json` byte for byte, and the three cases the new Backward compatibility paragraph lists are the ones BIP 388's Additional rules forbid.\n\nNot blocking: when the policy has keys, the export gives the root the last index but places it first, as in `tr(@2/**,{pk(@0/**),pk(@1/**)})`, while the same Additional rules say the key vector should be ordered so that `@0` appears first; the paragraph could say so. And \"Production implementations should use iterative parsing (or raise the limit)\" now comes before the `RecursionError` paragraph, so \"the limit\" is not yet defined there; it belongs after it.\n",
+      "user": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2340#pullrequestreview-5734401612",
+      "submitted_at": "2026-11-02T09:25:17Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2340"
     }
   ],
   "comments": [
