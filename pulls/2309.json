@@ -41,13 +41,32 @@
       "patch_url": null
     },
     "body": "`bip-0375/deps/dleq.py` copied dleq_* functions from `bip-0374/reference.py` and could go out of sync (#2262, #2304). Replace with a loader so the validator uses `bip-0374/reference.py`.\r\n\r\nTo run the tests:\r\n\r\n```bash\r\npython bip-0375/test_runner.py\r\n```",
-    "labels": [],
+    "labels": [
+      {
+        "id": 275846070,
+        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
+        "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
+        "color": "5319e7",
+        "default": false
+      },
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
+      }
+    ],
     "created_at": "2026-09-25T18:37:40Z",
-    "updated_at": "2026-10-09T10:08:12Z",
+    "updated_at": "2026-11-03T22:35:07Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "1b4b47db3b2334f8c6fe9a91f9ce63911f3fcbb3",
+    "merge_commit_sha": "889640e0706e55e9070d21a499496d0e753dfb4e",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -155,7 +174,7 @@
         "forks_count": 0,
         "stargazers_count": 3,
         "watchers_count": 3,
-        "size": 22779,
+        "size": 22703,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -168,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-09-28T05:32:47Z",
+        "pushed_at": "2026-10-19T21:36:27Z",
         "created_at": "2019-02-28T11:58:03Z",
         "updated_at": "2026-06-22T03:28:23Z",
         "allow_forking": true
@@ -274,10 +293,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6034,
-        "stargazers_count": 10956,
-        "watchers_count": 10956,
-        "size": 22752,
+        "forks_count": 6035,
+        "stargazers_count": 11011,
+        "watchers_count": 11011,
+        "size": 22804,
         "default_branch": "master",
         "open_issues_count": 67,
         "is_template": false,
@@ -290,9 +309,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-02T13:27:57Z",
+        "pushed_at": "2026-11-03T22:23:55Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-10-09T06:37:57Z",
+        "updated_at": "2026-11-03T22:24:29Z",
         "allow_forking": true
       }
     },
@@ -773,7 +792,7 @@
       "commit_url": null,
       "created_at": "2026-10-09T10:08:12Z",
       "updated_at": "2026-10-09T10:08:12Z",
-      "author_association": "CONTRIBUTOR",
+      "author_association": "NONE",
       "body": "I suggest also dropping `bip-0375/deps/secp256k1lab` in this PR, with its README entry, and pointing its path in `test_runner.py` to `bip-0374/secp256k1lab/src`. I tried this locally and the 43 tests pass. The path change is needed: with the copy dropped and the path unchanged, importing `validator.inputs` before `deps.dleq` fails with `ModuleNotFoundError: No module named 'secp256k1lab'`.\n\nAt 503119d that copy is no longer used. `deps/dleq.py` loads `bip-0374/reference.py`, which puts `bip-0374/secp256k1lab/src` at the front of `sys.path`. This happens before the validator's first `secp256k1lab` import. So the validator already runs on BIP-374's copy, as `python3 -v bip-0375/test_runner.py` shows. The tests pass either way because the two copies are identical today. If they drift apart, no test will notice, and the README will still list the unused copy as a dependency.\n",
       "user": {
         "login": "fametrano",
@@ -799,6 +818,76 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2309#issuecomment-6078790728",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2309"
+    },
+    {
+      "event": "labeled",
+      "id": 35071989178,
+      "node_id": "LE_lADOAN28mc8AAAABTQJtGc8AAAAIKnQVug",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35071989178",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-03T22:35:07Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 35071989246,
+      "node_id": "LE_lADOAN28mc8AAAABTQJtGc8AAAAIKnQV_g",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35071989246",
+      "actor": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-03T22:35:07Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
     }
   ],
   "comments": []
