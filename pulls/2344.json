@@ -43,7 +43,7 @@
     "body": "This is a follow-up from this discussion on the mailing list: https://groups.google.com/g/bitcoindev/c/T9s8nflvlK0\n\nIt is unclear what is the process when a consensus technical change is rendering impractical a class of bitcoin protocols (or making their efficiency advantage), such as \"forward block\" in the present situation. I don't have immediately in mind a precedent like this, when most of the time consensus changes has been careful to introduce upgradeability hooks to rather increase the design surface offered by the bitcoin network for protocol designers.\n\nHowever, in the present situation, we're facing a change where for one side of the technical community (the wide majority as expressed over the last years) it is considered as a technical fix and for another the risks of attacks mitigated by the fix as deemed as too low to be worthy of fixing, in view of the potential advantages brought by letting the technical design door open, even if it's years or decades down the road.\n\nFor my own technical view, see my email on the mailing list. To me, one technical disadvantage that is striking me as making the \"forward block\" idea as technically unworthy of its trade-offs (even if it's an intellectually stimulating line of research) is the necessity, if I'm understanding correctly the proposal, that the validating full-nodes have to verify (or dedicate processing ressources) twice some subset of transactions, the first time on the forward blockchain, the second time on the compatibility blockchain, whatever increase in their reward (though the proposal does not mention any fee reward increase for this duplicated processing work).\n\nIt should be noted that idea has been proposed for the first time in 2018 at Scaling Bitcoin in Tokyo, and since then it has not really attracted mindshare traction among the bitcoin technical experts. This is not a demonstration that the idea is unsound itself, though rather a hint that the advantages / disadvantages trade-offs for the networks are not appealing to many. With this caveat, I'm still inviting anyone to read the [\"forward block\" paper](https://freico.in/forward-blocks-scalingbitcoin-paper.pdf) to forge its own judgement on the idea.\n\nI'm thinking it's good to add a footnote about the technical outlaw of this idea, even if I'm very scrupulous and conscientious here, both for (a) explicitly acknowledging the idea has been considered in the design process of the BIP54's time-warp mitigation, though (b) for historical purpose years or decades down the road to enlighten to the technical community of this future day the existence of the \"forward block\" idea, if other insights from this design proposal can be useful at this future time (I'm minding how much sometimes some consensus design choices done by Satoshi are  sadly obscure to us, and we can only make conjecture). This is offer a one last time window of opportunity for any proponent of the \"forward block\" idea to substantiate a technical conversation about its merits.\n\ncc @darosior as BIP author cc @maaku as \"forward block\" idea author.\n\n(For more in-depth technical conversation, if people think strongly about it, inviting anyone to answer on the mailing list).",
     "labels": [],
     "created_at": "2026-11-04T04:22:35Z",
-    "updated_at": "2026-11-04T04:22:35Z",
+    "updated_at": "2026-11-04T09:56:52Z",
     "mergeable": true,
     "mergeable_state": "unstable",
     "merged": false,
@@ -155,7 +155,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 16512,
+        "size": 22942,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -292,7 +292,7 @@
         "visibility": "public",
         "pushed_at": "2026-11-04T03:42:17Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-04T03:42:22Z",
+        "updated_at": "2026-11-04T09:25:29Z",
         "allow_forking": true
       }
     },
@@ -308,7 +308,7 @@
     "changed_files": 1,
     "commits": 1,
     "review_comments": 0,
-    "comments": 0
+    "comments": 1
   },
   "events": [
     {
@@ -474,6 +474,64 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-11-04T04:22:38Z"
+    },
+    {
+      "event": "commented",
+      "id": 6627902447,
+      "node_id": "IC_kwDOAN28mc8AAAABiw3D7w",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/6627902447",
+      "actor": {
+        "login": "maaku",
+        "id": 69154,
+        "node_id": "MDQ6VXNlcjY5MTU0",
+        "avatar_url": "https://avatars.githubusercontent.com/u/69154?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/maaku",
+        "html_url": "https://github.com/maaku",
+        "followers_url": "https://api.github.com/users/maaku/followers",
+        "following_url": "https://api.github.com/users/maaku/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/maaku/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/maaku/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/maaku/subscriptions",
+        "organizations_url": "https://api.github.com/users/maaku/orgs",
+        "repos_url": "https://api.github.com/users/maaku/repos",
+        "events_url": "https://api.github.com/users/maaku/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/maaku/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-04T09:56:52Z",
+      "updated_at": "2026-11-04T09:56:52Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "> increase the technical complexity of a full-node by orders of magnitude\r\n\r\nThis is speculation, as far as I can tell. Unless there is an implementation somewhere I could review?\r\n\r\n> there are also significant uncertainties on the soundness of its game theory for the changes in the miners block reward it is proposing\r\n\r\nThis is an unsubstantiated claims.\r\n\r\n> it would require full-nodes to dedicate validation resources twice to all the transactions\r\n\r\nThis is an incorrect reading of the proposal. The same transaction appears twice, once in the forward block and once in the compatibility chain. There is no reason to validate it twice.\r\n\r\nIf it is valid in the forward block chain, it must also be valid in the compatibility chain, as the validation code is very nearly the same in the forward block chain, just with a more restricted view of the utxoset, with one difference noted in the paper. Upgraded nodes wouldn't even validate non-coinbase, non-block-final transactions the compatibility chain, just check the hashes against observed locations in the forward block chain. (Unless, as noted in the paper, lock time checks are imposed, in which case the forward block validation outputs a sidechar of small, trivial checks for when it hits the compatibility chain. This needs to be *tracked*, but validation is an integer comparison.)\r\n\r\nNon-upgraded nodes only check the compatibility chain, same as before.\r\n\r\n---\r\n\r\nAddressing the comments in the mailing group post, I believe you have confused the ~3,600x _limit_ in the paper with an actual proposed scaling curve. The paper works out that the timewarp + forward blocks combination can yield *up to* a +358,400x on-chain scaling factor. It is not a proposal to actually scale the bitcoin blockchain by that amount. An actual proposal could limit that scaling to 2x, or whatever scaling curve is deemed appropriate. BIP54, by contrast, would limit scaling to +0.6%, as you work out. That's a rounding error lost in the noise of regular hash rate fluctuations, so I don't think saying BIP54 cuts off forward block scaling is hyperbolic.",
+      "user": {
+        "login": "maaku",
+        "id": 69154,
+        "node_id": "MDQ6VXNlcjY5MTU0",
+        "avatar_url": "https://avatars.githubusercontent.com/u/69154?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/maaku",
+        "html_url": "https://github.com/maaku",
+        "followers_url": "https://api.github.com/users/maaku/followers",
+        "following_url": "https://api.github.com/users/maaku/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/maaku/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/maaku/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/maaku/subscriptions",
+        "organizations_url": "https://api.github.com/users/maaku/orgs",
+        "repos_url": "https://api.github.com/users/maaku/repos",
+        "events_url": "https://api.github.com/users/maaku/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/maaku/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2344#issuecomment-6627902447",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2344"
     }
   ],
   "comments": []
