@@ -71,13 +71,15 @@
       }
     ],
     "created_at": "2026-11-04T04:22:35Z",
-    "updated_at": "2026-11-04T15:06:32Z",
-    "mergeable_state": "unknown",
+    "updated_at": "2026-11-04T22:56:07Z",
+    "mergeable": true,
+    "mergeable_state": "unstable",
     "merged": false,
-    "merge_commit_sha": "3814da07d07b03659d3523f1bcb7732edad30ebb",
+    "merge_commit_sha": "eb0cf2002e4d081043058217cabcf4440ce7a608",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
+    "rebaseable": true,
     "head": {
       "label": "ariard:bip54-ruleout-forward-block",
       "ref": "bip54-ruleout-forward-block",
@@ -303,9 +305,9 @@
         "forks_count": 6035,
         "stargazers_count": 11011,
         "watchers_count": 11011,
-        "size": 22902,
+        "size": 22912,
         "default_branch": "master",
-        "open_issues_count": 68,
+        "open_issues_count": 66,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -316,9 +318,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-04T15:15:00Z",
+        "pushed_at": "2026-11-04T16:26:41Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-04T15:15:29Z",
+        "updated_at": "2026-11-04T16:27:17Z",
         "allow_forking": true
       }
     },
@@ -333,7 +335,7 @@
     "deletions": 1,
     "changed_files": 1,
     "commits": 1,
-    "review_comments": 0,
+    "review_comments": 1,
     "comments": 2
   },
   "events": [
@@ -721,7 +723,101 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2344#issuecomment-6634129385",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2344"
+    },
+    {
+      "event": "reviewed",
+      "id": 5776722236,
+      "node_id": "PRR_kwDOAN28mc8AAAABWFHJPA",
+      "url": null,
+      "actor": null,
+      "commit_id": "8dafcc142d6e01e8ee0667b79e679f044c9bc479",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-11-04T22:56:07Z",
+      "author_association": "MEMBER",
+      "body": "Concept ±0 on whether forward blocks should be mentioned more explicitly, the proposed text does not seem useful to me, though. Many readers may have no context, so the proposal should be linked and briefly introduced before detailed criticism would make sense.",
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2344#pullrequestreview-5776722236",
+      "submitted_at": "2026-11-04T22:56:07Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2344"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4474082158",
+      "pull_request_review_id": 5776722236,
+      "id": 4474082158,
+      "node_id": "PRRC_kwDOAN28mc8AAAABCq0Tbg",
+      "diff_hunk": "@@ -237,6 +237,16 @@ post]. A third workaround is to change the Merkle proof structure by requiring i\n provided as the single-SHA256 of their preimage, instead of the double-SHA256. See [here][Sergio\n MERKLEBLOCK] for a full description.\n [^14]: [Jeremy Rubin \"Prohibit Merkle Internal Node Preimages That Encode Minimal 64-Byte Transactions\" (mailing list)][Rubin node preimages].\n+[^15]: It is known that a substantial fix for reducing the timewarp attack prevents the usage\n+of the miners timestamp to support a family of on-chain scaling solutions known as \"forward\n+block\". Inconveniently, this scaling solution would not only increase the technical complexity\n+of a full-node by orders of magnitude, though there are also significant uncertainties on the\n+soundness of its game theory for the changes in the miners block reward it is proposing. More\n+prohibitive, it would require full-nodes to dedicate validation ressources twice to all the\n+transactions, or at the very least all the subset of the transactions being validated on the\n+forward blockchain. Based on those inconvenients, and in view of the risks brought by timewarp",
+      "path": "bip-0054.md",
+      "position": 20,
+      "original_position": 20,
+      "commit_id": "8dafcc142d6e01e8ee0667b79e679f044c9bc479",
+      "original_commit_id": "8dafcc142d6e01e8ee0667b79e679f044c9bc479",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Did you mean \"inconvenience\"?",
+      "created_at": "2026-11-04T22:21:33Z",
+      "updated_at": "2026-11-04T22:56:07Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2344#discussion_r4474082158",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4474082158"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2344"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 247,
+      "original_line": 247,
+      "side": "RIGHT"
+    }
+  ]
 }
