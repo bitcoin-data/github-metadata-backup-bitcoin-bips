@@ -12,12 +12,12 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2309/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2309/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/503119db2c3937719ec7dd53fc2823d864fa9054",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/ccdb9b68e6122825f1e4809e72d509c854912f32",
     "number": 2309,
     "state": "open",
     "locked": false,
     "maintainer_can_modify": true,
-    "title": "bip375: import DLEQ from BIP-374 instead of vendoring",
+    "title": "bip375: import DLEQ and secp256k1lab from BIP374 instead of vendoring",
     "user": {
       "login": "jonatack",
       "id": 2415484,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "`bip-0375/deps/dleq.py` copied dleq_* functions from `bip-0374/reference.py` and could go out of sync (#2262, #2304). Replace with a loader so the validator uses `bip-0374/reference.py`.\r\n\r\nTo run the tests:\r\n\r\n```bash\r\npython bip-0375/test_runner.py\r\n```",
+    "body": "`bip-0375/deps/dleq.py` copied the `dleq_*` functions from `bip-0374/reference.py` and could go out of sync (#2262, #2304). Replace it with a loader so the validator always uses the current `bip-0374/reference.py`.\r\n\r\nAfter that change, the local `bip-0375/deps/secp256k1lab` copy is unused. Drop the vendored tree, remove its README entry, and point `test_runner.py` at `bip-0374/secp256k1lab/src` with an existence check.\r\n\r\nThis leaves a single source of truth for both the DLEQ functions and the shared secp256k1lab dependency.\r\n\r\nTo run the tests:\r\n\r\n```bash\r\npython bip-0375/test_runner.py",
     "labels": [
       {
         "id": 275846070,
@@ -62,11 +62,11 @@
       }
     ],
     "created_at": "2026-09-25T18:37:40Z",
-    "updated_at": "2026-11-03T22:35:07Z",
+    "updated_at": "2026-11-04T01:20:44Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "889640e0706e55e9070d21a499496d0e753dfb4e",
+    "merge_commit_sha": "ccaabf7734bd7aa19289b404e491ea532d4399ba",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -74,7 +74,7 @@
     "head": {
       "label": "jonatack:2026-09-bip375-import-DLEQ-from-BIP374-instead-of-vendoring",
       "ref": "2026-09-bip375-import-DLEQ-from-BIP374-instead-of-vendoring",
-      "sha": "503119db2c3937719ec7dd53fc2823d864fa9054",
+      "sha": "ccdb9b68e6122825f1e4809e72d509c854912f32",
       "user": {
         "login": "jonatack",
         "id": 2415484,
@@ -187,7 +187,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-10-19T21:36:27Z",
+        "pushed_at": "2026-11-04T01:15:28Z",
         "created_at": "2019-02-28T11:58:03Z",
         "updated_at": "2026-06-22T03:28:23Z",
         "allow_forking": true
@@ -293,10 +293,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6035,
+        "forks_count": 6036,
         "stargazers_count": 11011,
         "watchers_count": 11011,
-        "size": 22804,
+        "size": 22821,
         "default_branch": "master",
         "open_issues_count": 67,
         "is_template": false,
@@ -322,12 +322,12 @@
     },
     "author_association": "MEMBER",
     "draft": false,
-    "additions": 24,
-    "deletions": 80,
-    "changed_files": 2,
-    "commits": 1,
+    "additions": 32,
+    "deletions": 762,
+    "changed_files": 16,
+    "commits": 2,
     "review_comments": 0,
-    "comments": 4
+    "comments": 5
   },
   "events": [
     {
@@ -887,6 +887,236 @@
       "label": {
         "name": "Pending acceptance",
         "color": "fbca04"
+      }
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGNjZGI5YjY4ZTYxMjI4MjVmMWU0ODA5ZTcyZDUwOWM4NTQ5MTJmMzI",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/ccdb9b68e6122825f1e4809e72d509c854912f32",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/ccdb9b68e6122825f1e4809e72d509c854912f32",
+      "tree": {
+        "sha": "237b17fe639762f8e48640e424b787db6065e582",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/237b17fe639762f8e48640e424b787db6065e582"
+      },
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "payload": null,
+        "signature": null
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/503119db2c3937719ec7dd53fc2823d864fa9054",
+          "sha": "503119db2c3937719ec7dd53fc2823d864fa9054",
+          "html_url": "https://github.com/bitcoin/bips/commit/503119db2c3937719ec7dd53fc2823d864fa9054"
+        }
+      ],
+      "message": "bip375: drop unused secp256k1lab copy; use that of BIP374\n\nAfter the dleq.py loader, the local secp256k1lab copy is unused.\nPoint test_runner.py at bip-0374/secp256k1lab/src (with existence check),\nremove the README entry, and delete the vendored tree. Tests still pass.\nSuggested by fametrano in #2309.\n\nCo-authored-by: Ferdinando Ametrano <ferdinando@ametrano.net>",
+      "committer": {
+        "name": "Jon Atack",
+        "email": "jon@atack.com",
+        "date": "2026-11-04T01:14:19Z"
+      },
+      "author": {
+        "name": "Jon Atack",
+        "email": "jon@atack.com",
+        "date": "2026-11-04T01:09:45Z"
+      },
+      "sha": "ccdb9b68e6122825f1e4809e72d509c854912f32"
+    },
+    {
+      "event": "commented",
+      "id": 6619862355,
+      "node_id": "IC_kwDOAN28mc8AAAABipMVUw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/6619862355",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-04T01:17:23Z",
+      "updated_at": "2026-11-04T01:17:23Z",
+      "author_association": "MEMBER",
+      "body": "@fametrano good suggestion; done.",
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2309#issuecomment-6619862355",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2309"
+    },
+    {
+      "event": "mentioned",
+      "id": 35082409658,
+      "node_id": "MEE_lADOAN28mc8AAAABTQJtGc8AAAAIKxMWug",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35082409658",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-04T01:17:25Z"
+    },
+    {
+      "event": "subscribed",
+      "id": 35082410144,
+      "node_id": "SE_lADOAN28mc8AAAABTQJtGc8AAAAIKxMYoA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35082410144",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-04T01:17:26Z"
+    },
+    {
+      "event": "renamed",
+      "id": 35082488690,
+      "node_id": "RTE_lADOAN28mc8AAAABTQJtGc8AAAAIKxRLcg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35082488690",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-04T01:18:49Z",
+      "rename": {
+        "from": "bip375: import DLEQ from BIP-374 instead of vendoring",
+        "to": "bip375: import DLEQ and secp256k1lab from BIP-374 instead of vendoring"
+      }
+    },
+    {
+      "event": "renamed",
+      "id": 35082502847,
+      "node_id": "RTE_lADOAN28mc8AAAABTQJtGc8AAAAIKxSCvw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35082502847",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-04T01:19:03Z",
+      "rename": {
+        "from": "bip375: import DLEQ and secp256k1lab from BIP-374 instead of vendoring",
+        "to": "bip375: import DLEQ and secp256k1lab from BIP374 instead of vendoring"
       }
     }
   ],
