@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-09-18T10:37:23Z",
-    "updated_at": "2026-11-04T21:57:40Z",
+    "updated_at": "2026-11-04T23:02:30Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -287,7 +287,7 @@
         "watchers_count": 11011,
         "size": 22912,
         "default_branch": "master",
-        "open_issues_count": 67,
+        "open_issues_count": 66,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 7,
-    "review_comments": 39,
+    "review_comments": 40,
     "comments": 10
   },
   "events": [
@@ -4054,6 +4054,60 @@
       "start_side": null,
       "line": 173,
       "original_line": 173,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4474439167",
+      "pull_request_review_id": 5777153491,
+      "id": 4474439167,
+      "node_id": "PRRC_kwDOAN28mc8AAAABCrKF_w",
+      "diff_hunk": "@@ -0,0 +1,425 @@\n+```\n+  BIP: 362\n+  Layer: Applications\n+  Title: Output Public Key Exposure Classification\n+  Authors: duncan0k <duncan0k@ark0.si>\n+  Status: Draft\n+  Type: Informational\n+  Assigned: 2026-11-02\n+  License: BSD-2-Clause OR CC0-1.0\n+  Discussion: 2026-09-03: https://delvingbitcoin.org/t/standardizing-an-exposure-classification-for-existing-outputs-pre-bip/2866\n+              2026-09-04: https://gnusha.org/pi/bitcoindev/010001a06dd4cdd9-b8082042-8750-4e9a-917e-2053c919e4c4-000000@email.amazonses.com/\n+  Version: 0.6.1\n+  Requires: 360\n+```\n+\n+## Abstract\n+\n+This document defines four exposure levels for Bitcoin outputs with respect to an adversary\n+holding a cryptographically relevant quantum computer (CRQC): `EXPOSED_AT_REST`,\n+`EXPOSED_ON_SPEND`, `NOT_EXPOSED` and `UNDETERMINED`. The first two are BIP 360's long exposure\n+and short exposure, applied to individual outputs. No deployed output type is `NOT_EXPOSED`.\n+Levels are derived from confirmed chain data only, so implementations that see the same chain\n+assign the same levels. When the data cannot distinguish two levels, the more exposed level is\n+assigned.\n+\n+## Motivation\n+\n+Published estimates of the supply exposed to a CRQC range from about 25% to over 34%. The\n+difference comes from definitional choices that are rarely stated:\n+\n+- A reused script that has been spent from and still holds funds. Its key is on the chain, but\n+  some tools report it as exposed only when next spent.\n+- P2TR. The output key is a public key, but some tools treat the output as protected because the\n+  internal key is hidden.\n+- P2SH and P2WSH outputs whose script has not been revealed.\n+- Keys disclosed off-chain, for example through an xpub or a spend on a fork.\n+- P2MR. It is not exposed at rest, but spending through a leaf that requires a signature reveals\n+  its key in the mempool.\n+\n+BIP 360 lists which output types are vulnerable to long exposure and notes that other types\n+become vulnerable once their script reveals a public key. It does not specify, for a given\n+output, what counts as revealed or what to report when the history is incomplete. A holder\n+checking an address, or a custodian deciding which outputs to move first, needs every tool to give\n+the same answer for the same output.\n+\n+This document specifies those rules, with test vectors. It does not score risk or recommend when\n+to migrate. Appendix A gives an informative minimum action for each level.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\", and \"MAY\" in this document\n+are to be interpreted as described in RFC 2119.\n+\n+### Terminology\n+\n+* **Key material**: a secp256k1 public key, compressed, uncompressed, or x-only as defined in\n+  [BIP 340](bip-0340.mediawiki). An x-only key is key material; the point with even `y` is\n+  recoverable from it.\n+* **Published**: included in a confirmed transaction, in a `scriptPubKey`, a `scriptSig` or a\n+  witness.\n+* **Spending key set** of an output: the public keys whose signatures are required to spend it.\n+  For a script-committing output it cannot be determined from the output alone; the committed\n+  script is needed.\n+* **Disclosed**: an output is disclosed if it meets the structural or derived condition of\n+  `EXPOSED_AT_REST`.\n+* **Long exposure** and **short exposure**: the two attacks defined in\n+  [BIP 360](bip-0360.mediawiki), on key material that is on the chain and on key material that is\n+  in the mempool while a spend is unconfirmed.\n+\n+Unconfirmed transactions MUST NOT be used to determine an exposure level. Mempool disclosure is\n+not a property of the chain and may never become one. Implementations MAY report it separately.\n+\n+### Exposure Levels\n+\n+Each output has exactly one level.\n+\n+#### `EXPOSED_AT_REST`\n+\n+An adversary can derive a private key offline and spend the output at any time, with no warning\n+to the owner. This is BIP 360's long exposure for a single output.\n+\n+An output is `EXPOSED_AT_REST` if it is disclosed, that is, if either condition holds:\n+\n+1. **Structural**: its `scriptPubKey` contains key material.\n+2. **Derived**: earlier transactions have published key material sufficient to spend it, together\n+   with any script or Merkle path needed to use that key material. For `m`-of-`n` multisig, any",
+      "path": "bip-0362.md",
+      "position": 86,
+      "original_position": 86,
+      "commit_id": "aaf470e8eb55ad3a5a18e388e33b285882b44fc9",
+      "original_commit_id": "aaf470e8eb55ad3a5a18e388e33b285882b44fc9",
+      "in_reply_to_id": 4469020761,
+      "user": {
+        "login": "conduition",
+        "id": 130806907,
+        "node_id": "U_kgDOB8v0ew",
+        "avatar_url": "https://avatars.githubusercontent.com/u/130806907?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/conduition",
+        "html_url": "https://github.com/conduition",
+        "followers_url": "https://api.github.com/users/conduition/followers",
+        "following_url": "https://api.github.com/users/conduition/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/conduition/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/conduition/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/conduition/subscriptions",
+        "organizations_url": "https://api.github.com/users/conduition/orgs",
+        "repos_url": "https://api.github.com/users/conduition/repos",
+        "events_url": "https://api.github.com/users/conduition/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/conduition/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "That's exactly my point - The BIP's definition for Derived exposure would cover _other addresses_ besides the one being spent from, which induces a whole boatload of issues and questions. So i'm suggesting the BIP should not be so broad, and focus instead only on the addresses that have actively been spent from. This makes it much simpler, at the price of less conservative classification coverage (i.e. we might mislabel some addresses as `EXPOSED_ON_SPEND` when in practice a trivial search would expose them)\r\n\r\nP.s. Brute-force searching would not be so hard. With 1 billion known pubkeys, a brute force search of every possible 2-of-2 combination of known keys would be on the order of $2^{61}$ hashing work. \r\n\r\n",
+      "created_at": "2026-11-04T23:02:29Z",
+      "updated_at": "2026-11-04T23:02:30Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2294#discussion_r4474439167",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4474439167"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2294"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 86,
+      "original_line": 86,
       "side": "RIGHT"
     }
   ]
