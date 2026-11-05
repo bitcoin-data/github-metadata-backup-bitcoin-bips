@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2317/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2317/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/f732a1c11f49118cfec63afbbfc47b2da2fbd379",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/9b63c304921c52aa08b2408f41f5b35287da4aec",
     "number": 2317,
     "state": "open",
     "locked": false,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "Depends on #2316 and contains its commit, so only the last commit is new.\n\n### What is wrong\n\nThe BIP-375 validator does not read `PSBT_IN_PARTIAL_SIG`. Nothing checks that a P2PKH, P2WPKH or P2SH-P2WPKH program commits to its signing key. So master's vectors pass the test runner, although none of their P2WPKH programs matches its key and none of their signatures verifies. #2316 fixes those vectors.\n\n### What this changes\n\nThe test runner runs `bip-0375/signatures.py` on every vector. It checks that:\n\n- a single-key program commits to the keys in `PSBT_IN_PARTIAL_SIG` and `PSBT_IN_BIP32_DERIVATION`;\n- a P2SH program commits to `PSBT_IN_REDEEM_SCRIPT`;\n- a signature's sighash byte equals `PSBT_IN_SIGHASH_TYPE`, if set;\n- each signature verifies: BIP 143 for P2WPKH and P2SH-P2WPKH, legacy for P2PKH and bare scripts.\n\nA signature the check cannot verify, such as one with no defined sighash, is a failure, not a skip. #2316 removed the two such signatures from the vectors.\n\nThe validator is unchanged. `hash160` uses the pure Python RIPEMD-160 from `bip-0352/`, because `hashlib` lacks it on some OpenSSL builds.\n\n### How it was tested\n\n- The runner reports 43 passed. Its `-vv` output is identical to #2316's.\n- On master's vectors, 39 of 43 fail.\n- One flipped byte in a P2PKH, P2WPKH, P2SH-P2WPKH or bare-script signature fails the vector. So does one flipped byte in a P2SH redeem script.\n- An empty signature fails the vector.\n\n#2256 and #2207 are built on master's vectors, so this check fails them until they are rebased onto #2316 and their P2WPKH inputs repaired.\n\n*Made with my usual tools: a computer, the Internet and an LLM. The mistakes, as usual, are all mine.*\n\n",
+    "body": "BIP-375's test runner does not check the signatures in the test vectors, so master's vectors pass although none of their signatures verifies. This PR adds `bip-0375/signatures.py`, which the runner applies to every vector. It checks that each P2PKH, P2WPKH and P2SH-P2WPKH program commits to its input's keys, that a P2SH program commits to its redeem script, that each sighash byte matches `PSBT_IN_SIGHASH_TYPE` where that field is set, and that each signature verifies. A signature whose sighash cannot be computed, such as one on a segwit v2 input, counts as a failure, not a skip. The validator is unchanged.\n\nThis PR depends on #2316, which fixes the vectors, and contains its commit: only the last commit is new. With #2316's vectors the runner reports 43 passed; with master's, 39 of 43 fail. `hash160` now uses a copy of `bip-0352/ripemd160.py`, because `hashlib` lacks RIPEMD-160 on some systems, as #1616 found for BIP-352.\n",
     "labels": [
       {
         "id": 10999942923,
@@ -53,11 +53,11 @@
       }
     ],
     "created_at": "2026-09-29T20:36:24Z",
-    "updated_at": "2026-11-04T23:09:40Z",
+    "updated_at": "2026-11-05T22:59:50Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "5e42920756cfe0248cffc479ce6eba64d2e145e7",
+    "merge_commit_sha": "4f6d8de2f9bf77385b224836f443594e571cce58",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -65,7 +65,7 @@
     "head": {
       "label": "fametrano:bip375-check-signatures-v2",
       "ref": "bip375-check-signatures-v2",
-      "sha": "f732a1c11f49118cfec63afbbfc47b2da2fbd379",
+      "sha": "9b63c304921c52aa08b2408f41f5b35287da4aec",
       "user": {
         "login": "fametrano",
         "id": 3296421,
@@ -165,7 +165,7 @@
         "forks_count": 1,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 23208,
+        "size": 23226,
         "default_branch": "master",
         "open_issues_count": 3,
         "is_template": false,
@@ -178,7 +178,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-04T23:36:33Z",
+        "pushed_at": "2026-11-05T22:50:20Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-11-02T17:03:43Z",
         "allow_forking": true
@@ -187,7 +187,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "a0c977f3755da6476b955677ca9318334a2432c4",
+      "sha": "a50f8f8cb9c62969971f3bc72f7c831a7df2bb4a",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -284,12 +284,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6035,
-        "stargazers_count": 11011,
-        "watchers_count": 11011,
-        "size": 22912,
+        "forks_count": 6037,
+        "stargazers_count": 11009,
+        "watchers_count": 11009,
+        "size": 22955,
         "default_branch": "master",
-        "open_issues_count": 66,
+        "open_issues_count": 62,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -300,9 +300,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-04T16:26:41Z",
+        "pushed_at": "2026-11-05T22:46:36Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-04T16:27:17Z",
+        "updated_at": "2026-11-05T22:47:04Z",
         "allow_forking": true
       }
     },
@@ -311,7 +311,7 @@
         "href": "https://api.github.com/repos/bitcoin/bips/pulls/2317"
       }
     },
-    "author_association": "NONE",
+    "author_association": "CONTRIBUTOR",
     "draft": false,
     "additions": 606,
     "deletions": 127,
@@ -388,86 +388,6 @@
       "created_at": "2026-10-25T22:41:44Z"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGM1M2FlZmQwNmNiOGZlMmNmODY0NDlkNDI5Y2MzMjY4ODEwMGFiYzk",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c53aefd06cb8fe2cf86449d429cc32688100abc9",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/c53aefd06cb8fe2cf86449d429cc32688100abc9",
-      "tree": {
-        "sha": "7b056fc695e4e868b2b3cf83443e8bdf10f5dd63",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/7b056fc695e4e868b2b3cf83443e8bdf10f5dd63"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 7b056fc695e4e868b2b3cf83443e8bdf10f5dd63\nparent a0c977f3755da6476b955677ca9318334a2432c4\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1790703606 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1793832970 +0100\n\nbip-0375: fix P2WPKH scriptPubKeys and signatures in test vectors\n\nThe P2WPKH inputs of the test vectors spend a witness program equal to\nSHA256(pubkey)[:20] instead of HASH160(pubkey), so the key each input\ncarries cannot spend it. None of the stored ECDSA signatures verifies\nagainst the transaction its PSBT describes, whatever the input type. The\nreference validator does not check signatures, so no test fails.\n\nSet every P2WPKH witness program to HASH160 of the input's public key,\nin PSBT_IN_WITNESS_UTXO and in the supplementary witness_utxo and\nprevout_scriptpubkey. Re-sign the PSBT_IN_PARTIAL_SIG signatures\ndeterministically (RFC 6979, low S): BIP 143 for P2WPKH and P2SH-P2WPKH,\nthe legacy signature hash for P2PKH and for the bare OP_2 input. Where\nan input sets PSBT_IN_SIGHASH_TYPE, its signature uses that type, as BIP\n174 requires.\n\nTwo vectors carried a signature with no defined signature hash: one on\na segwit v2 input, one in the vector whose output lacks PSBT_OUT_SCRIPT.\nRemove both signatures, and mark the segwit v2 input as not signed in\nthe supplementary material. Both vectors still fail for their stated\nreason.\n\nInside the PSBTs only PSBT_IN_WITNESS_UTXO and PSBT_IN_PARTIAL_SIG\nchange, and the test runner's result for every vector is unchanged.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCauu4ChsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyAnCAD/U3u6l2aW9IPjhOtwOpJc\nIP1q+iaboapEV2GCbfx6eM4BALJBVwLe2dZogMXa6CikHXeiahA1Isv3No2PNumB\nrpYC\n=XwIQ\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/a0c977f3755da6476b955677ca9318334a2432c4",
-          "sha": "a0c977f3755da6476b955677ca9318334a2432c4",
-          "html_url": "https://github.com/bitcoin/bips/commit/a0c977f3755da6476b955677ca9318334a2432c4"
-        }
-      ],
-      "message": "bip-0375: fix P2WPKH scriptPubKeys and signatures in test vectors\n\nThe P2WPKH inputs of the test vectors spend a witness program equal to\nSHA256(pubkey)[:20] instead of HASH160(pubkey), so the key each input\ncarries cannot spend it. None of the stored ECDSA signatures verifies\nagainst the transaction its PSBT describes, whatever the input type. The\nreference validator does not check signatures, so no test fails.\n\nSet every P2WPKH witness program to HASH160 of the input's public key,\nin PSBT_IN_WITNESS_UTXO and in the supplementary witness_utxo and\nprevout_scriptpubkey. Re-sign the PSBT_IN_PARTIAL_SIG signatures\ndeterministically (RFC 6979, low S): BIP 143 for P2WPKH and P2SH-P2WPKH,\nthe legacy signature hash for P2PKH and for the bare OP_2 input. Where\nan input sets PSBT_IN_SIGHASH_TYPE, its signature uses that type, as BIP\n174 requires.\n\nTwo vectors carried a signature with no defined signature hash: one on\na segwit v2 input, one in the vector whose output lacks PSBT_OUT_SCRIPT.\nRemove both signatures, and mark the segwit v2 input as not signed in\nthe supplementary material. Both vectors still fail for their stated\nreason.\n\nInside the PSBTs only PSBT_IN_WITNESS_UTXO and PSBT_IN_PARTIAL_SIG\nchange, and the test runner's result for every vector is unchanged.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-11-04T22:56:10Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-29T17:40:06Z"
-      },
-      "sha": "c53aefd06cb8fe2cf86449d429cc32688100abc9"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGY3MzJhMWMxMWY0OTExOGNmZWM2M2FmYmJmYzQ3YjJkYTJmYmQzNzk",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/f732a1c11f49118cfec63afbbfc47b2da2fbd379",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/f732a1c11f49118cfec63afbbfc47b2da2fbd379",
-      "tree": {
-        "sha": "ad443dc5bbd883a72d847b10149276b0b390450c",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/ad443dc5bbd883a72d847b10149276b0b390450c"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree ad443dc5bbd883a72d847b10149276b0b390450c\nparent c53aefd06cb8fe2cf86449d429cc32688100abc9\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1790708816 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1793832970 +0100\n\nbip-0375: check test vector signatures in the test runner\n\nThe validator does not read PSBT_IN_PARTIAL_SIG. Nothing checks that a\nP2PKH, P2WPKH or P2SH-P2WPKH program commits to its signing key. So the\nwrong programs and signatures that the parent commit corrects pass the\ntest runner.\n\nAdd signatures.py. The test runner applies it to every vector. It\nchecks that:\n- a single-key program commits to the keys in PSBT_IN_PARTIAL_SIG and\n  PSBT_IN_BIP32_DERIVATION;\n- a P2SH program commits to PSBT_IN_REDEEM_SCRIPT;\n- a signature's sighash byte equals PSBT_IN_SIGHASH_TYPE, if set;\n- each signature verifies: BIP 143 for P2WPKH and P2SH-P2WPKH, the\n  legacy sighash for P2PKH and bare scripts.\n\nA signature the check cannot verify is a failure. The validator is\nunchanged.\n\nhash160 uses the pure Python RIPEMD-160 from bip-0352. hashlib lacks\nRIPEMD-160 on some OpenSSL builds.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCauu4ChsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyBa1AD/YUQL0zy4zuVV5vP2Sq0d\nFiJO6GhIjat9Q9sa0RJQWHUBALswzsjkO2mDMUGQOz2RA+IzusEgDv+wG7wINALR\nBLUJ\n=uaMp\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/c53aefd06cb8fe2cf86449d429cc32688100abc9",
-          "sha": "c53aefd06cb8fe2cf86449d429cc32688100abc9",
-          "html_url": "https://github.com/bitcoin/bips/commit/c53aefd06cb8fe2cf86449d429cc32688100abc9"
-        }
-      ],
-      "message": "bip-0375: check test vector signatures in the test runner\n\nThe validator does not read PSBT_IN_PARTIAL_SIG. Nothing checks that a\nP2PKH, P2WPKH or P2SH-P2WPKH program commits to its signing key. So the\nwrong programs and signatures that the parent commit corrects pass the\ntest runner.\n\nAdd signatures.py. The test runner applies it to every vector. It\nchecks that:\n- a single-key program commits to the keys in PSBT_IN_PARTIAL_SIG and\n  PSBT_IN_BIP32_DERIVATION;\n- a P2SH program commits to PSBT_IN_REDEEM_SCRIPT;\n- a signature's sighash byte equals PSBT_IN_SIGHASH_TYPE, if set;\n- each signature verifies: BIP 143 for P2WPKH and P2SH-P2WPKH, the\n  legacy sighash for P2PKH and bare scripts.\n\nA signature the check cannot verify is a failure. The validator is\nunchanged.\n\nhash160 uses the pure Python RIPEMD-160 from bip-0352. hashlib lacks\nRIPEMD-160 on some OpenSSL builds.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-11-04T22:56:10Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-29T19:06:56Z"
-      },
-      "sha": "f732a1c11f49118cfec63afbbfc47b2da2fbd379"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 35184767280,
       "node_id": "HRFPE_lADOAN28mc8AAAABT_kt8M8AAAAIMSzxMA",
@@ -497,6 +417,117 @@
       "commit_id": "f732a1c11f49118cfec63afbbfc47b2da2fbd379",
       "commit_url": "https://api.github.com/repos/fametrano/bips/commits/f732a1c11f49118cfec63afbbfc47b2da2fbd379",
       "created_at": "2026-11-04T23:09:40Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDlkNjNhMTIzYWVjMmJhNTBhZTk2N2RjNmQyODQwNTM0YTg2Y2ZkMzM",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9d63a123aec2ba50ae967dc6d2840534a86cfd33",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/9d63a123aec2ba50ae967dc6d2840534a86cfd33",
+      "tree": {
+        "sha": "b200cf89198060d471c3911c3ae503d3e535d953",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/b200cf89198060d471c3911c3ae503d3e535d953"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree b200cf89198060d471c3911c3ae503d3e535d953\nparent d4dea2a230be9f91f89f789a79f4e53137fe5498\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1790703606 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1793917612 +0100\n\nbip-0375: fix P2WPKH scriptPubKeys and signatures in test vectors\n\nThe P2WPKH inputs of the test vectors spend a witness program equal to\nSHA256(pubkey)[:20] instead of HASH160(pubkey), so the key each input\ncarries cannot spend it. None of the stored ECDSA signatures verifies\nagainst the transaction its PSBT describes, whatever the input type. The\nreference validator does not check signatures, so no test fails.\n\nSet every P2WPKH witness program to HASH160 of the input's public key,\nin PSBT_IN_WITNESS_UTXO and in the supplementary witness_utxo and\nprevout_scriptpubkey. Re-sign the PSBT_IN_PARTIAL_SIG signatures\ndeterministically (RFC 6979, low S): BIP 143 for P2WPKH and P2SH-P2WPKH,\nthe legacy signature hash for P2PKH and for the bare OP_2 input. Where\nan input sets PSBT_IN_SIGHASH_TYPE, its signature uses that type, as BIP\n174 requires.\n\nTwo vectors carried a signature with no defined signature hash: one on\na segwit v2 input, one in the vector whose output lacks PSBT_OUT_SCRIPT.\nRemove both signatures, and mark the segwit v2 input as not signed in\nthe supplementary material. Both vectors still fail for their stated\nreason.\n\nInside the PSBTs only PSBT_IN_WITNESS_UTXO and PSBT_IN_PARTIAL_SIG\nchange, and the test runner's result for every vector is unchanged.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCau0CrBsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyAsZAD/d4nc7AaraI46bjykS68i\nVovuy2mxio6KyR2Am0b9+FEA/RJ72hoMgR6Jr8SqN4R6rimL58OeVULbANYqoVSP\njNIH\n=w27w\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d4dea2a230be9f91f89f789a79f4e53137fe5498",
+          "sha": "d4dea2a230be9f91f89f789a79f4e53137fe5498",
+          "html_url": "https://github.com/bitcoin/bips/commit/d4dea2a230be9f91f89f789a79f4e53137fe5498"
+        }
+      ],
+      "message": "bip-0375: fix P2WPKH scriptPubKeys and signatures in test vectors\n\nThe P2WPKH inputs of the test vectors spend a witness program equal to\nSHA256(pubkey)[:20] instead of HASH160(pubkey), so the key each input\ncarries cannot spend it. None of the stored ECDSA signatures verifies\nagainst the transaction its PSBT describes, whatever the input type. The\nreference validator does not check signatures, so no test fails.\n\nSet every P2WPKH witness program to HASH160 of the input's public key,\nin PSBT_IN_WITNESS_UTXO and in the supplementary witness_utxo and\nprevout_scriptpubkey. Re-sign the PSBT_IN_PARTIAL_SIG signatures\ndeterministically (RFC 6979, low S): BIP 143 for P2WPKH and P2SH-P2WPKH,\nthe legacy signature hash for P2PKH and for the bare OP_2 input. Where\nan input sets PSBT_IN_SIGHASH_TYPE, its signature uses that type, as BIP\n174 requires.\n\nTwo vectors carried a signature with no defined signature hash: one on\na segwit v2 input, one in the vector whose output lacks PSBT_OUT_SCRIPT.\nRemove both signatures, and mark the segwit v2 input as not signed in\nthe supplementary material. Both vectors still fail for their stated\nreason.\n\nInside the PSBTs only PSBT_IN_WITNESS_UTXO and PSBT_IN_PARTIAL_SIG\nchange, and the test runner's result for every vector is unchanged.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-05T22:26:52Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-29T17:40:06Z"
+      },
+      "sha": "9d63a123aec2ba50ae967dc6d2840534a86cfd33"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDliNjNjMzA0OTIxYzUyYWEwOGIyNDA4ZjQxZjViMzUyODdkYTRhZWM",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9b63c304921c52aa08b2408f41f5b35287da4aec",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/9b63c304921c52aa08b2408f41f5b35287da4aec",
+      "tree": {
+        "sha": "8b7c49425046c8018fb2d62a0812ed8a6d7005c9",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/8b7c49425046c8018fb2d62a0812ed8a6d7005c9"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 8b7c49425046c8018fb2d62a0812ed8a6d7005c9\nparent 9d63a123aec2ba50ae967dc6d2840534a86cfd33\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1790708816 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1793917626 +0100\n\nbip-0375: check test vector signatures in the test runner\n\nThe validator does not read PSBT_IN_PARTIAL_SIG. Nothing checks that a\nP2PKH, P2WPKH or P2SH-P2WPKH program commits to its signing key. So the\nwrong programs and signatures that the parent commit corrects pass the\ntest runner.\n\nAdd signatures.py. The test runner applies it to every vector. It\nchecks that:\n- a single-key program commits to the keys in PSBT_IN_PARTIAL_SIG and\n  PSBT_IN_BIP32_DERIVATION;\n- a P2SH program commits to PSBT_IN_REDEEM_SCRIPT;\n- a signature's sighash byte equals PSBT_IN_SIGHASH_TYPE, if set;\n- each signature verifies: BIP 143 for P2WPKH and P2SH-P2WPKH, the\n  legacy sighash for P2PKH and bare scripts.\n\nA signature the check cannot verify is a failure. The validator is\nunchanged.\n\nhash160 uses the pure Python RIPEMD-160 from bip-0352. hashlib lacks\nRIPEMD-160 on some OpenSSL builds.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCau0CuhsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyBAhwEA2KJ/KLettKxgscGMITbg\nOUphVHA+zTr/RtEdbGiJM6oA/0cbmvPEUN+Zf9uu5NEywIJ9hPtrG53ccDPyncAf\nussE\n=5e77\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9d63a123aec2ba50ae967dc6d2840534a86cfd33",
+          "sha": "9d63a123aec2ba50ae967dc6d2840534a86cfd33",
+          "html_url": "https://github.com/bitcoin/bips/commit/9d63a123aec2ba50ae967dc6d2840534a86cfd33"
+        }
+      ],
+      "message": "bip-0375: check test vector signatures in the test runner\n\nThe validator does not read PSBT_IN_PARTIAL_SIG. Nothing checks that a\nP2PKH, P2WPKH or P2SH-P2WPKH program commits to its signing key. So the\nwrong programs and signatures that the parent commit corrects pass the\ntest runner.\n\nAdd signatures.py. The test runner applies it to every vector. It\nchecks that:\n- a single-key program commits to the keys in PSBT_IN_PARTIAL_SIG and\n  PSBT_IN_BIP32_DERIVATION;\n- a P2SH program commits to PSBT_IN_REDEEM_SCRIPT;\n- a signature's sighash byte equals PSBT_IN_SIGHASH_TYPE, if set;\n- each signature verifies: BIP 143 for P2WPKH and P2SH-P2WPKH, the\n  legacy sighash for P2PKH and bare scripts.\n\nA signature the check cannot verify is a failure. The validator is\nunchanged.\n\nhash160 uses the pure Python RIPEMD-160 from bip-0352. hashlib lacks\nRIPEMD-160 on some OpenSSL builds.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-05T22:27:06Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-29T19:06:56Z"
+      },
+      "sha": "9b63c304921c52aa08b2408f41f5b35287da4aec"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 35294902300,
+      "node_id": "HRFPE_lADOAN28mc8AAAABT_kt8M8AAAAIN714HA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35294902300",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "9b63c304921c52aa08b2408f41f5b35287da4aec",
+      "commit_url": "https://api.github.com/repos/fametrano/bips/commits/9b63c304921c52aa08b2408f41f5b35287da4aec",
+      "created_at": "2026-11-05T22:50:21Z"
     }
   ],
   "comments": []

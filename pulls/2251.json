@@ -52,15 +52,13 @@
       }
     ],
     "created_at": "2026-08-12T11:10:36Z",
-    "updated_at": "2026-11-05T20:40:31Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
+    "updated_at": "2026-11-05T22:40:24Z",
+    "mergeable_state": "unknown",
     "merged": false,
     "merge_commit_sha": "1ed15d3605a4125b1c073fda72326f08ad55887f",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
     "head": {
       "label": "jeanpablojp:rawtr-descriptor",
       "ref": "rawtr-descriptor",
@@ -287,7 +285,7 @@
         "watchers_count": 11009,
         "size": 22955,
         "default_branch": "master",
-        "open_issues_count": 63,
+        "open_issues_count": 62,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -298,9 +296,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-05T18:05:55Z",
+        "pushed_at": "2026-11-05T22:46:36Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-05T18:06:23Z",
+        "updated_at": "2026-11-05T22:47:04Z",
         "allow_forking": true
       }
     },
@@ -315,7 +313,7 @@
     "deletions": 0,
     "changed_files": 3,
     "commits": 1,
-    "review_comments": 10,
+    "review_comments": 11,
     "comments": 3
   },
   "events": [
@@ -1976,6 +1974,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4485782216"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2251"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 44,
+      "original_line": 44,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4486930847",
+      "pull_request_review_id": 5793176912,
+      "id": 4486930847,
+      "node_id": "PRRC_kwDOAN28mc8AAAABC3Ehnw",
+      "diff_hunk": "@@ -0,0 +1,120 @@\n+<pre>\n+  BIP: 394\n+  Layer: Applications\n+  Title: rawtr() Output Script Descriptors\n+  Authors: jeanpablojp <me@jeanpablo.jp>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: 2026-09-09\n+  License: BSD-2-Clause\n+  Discussion: 2026-03-02: https://github.com/bitcoin/bips/pull/2050#issuecomment-3986205616\n+              2026-08-06: https://groups.google.com/g/bitcoindev/c/CCZN_qQ5C1s\n+  Requires: 341, 380\n+</pre>\n+\n+==Abstract==\n+\n+This document specifies <tt>rawtr()</tt> output script descriptors.\n+A <tt>rawtr()</tt> descriptor expresses a Pay-to-Taproot output by its output key directly, without stating an internal key or a script tree.\n+\n+==Motivation==\n+\n+A taproot output key is derived from an internal key and an optional script tree, as described in [[bip-0341.mediawiki|BIP 341]].\n+The <tt>tr()</tt> descriptor specified in [[bip-0386.mediawiki|BIP 386]] takes the internal key and the tree, and computes the output key from them.\n+There is no way to use <tt>tr()</tt> for an output whose internal structure isn't known, for example an output key received from another party, or one whose script tree the holder does not wish to reveal.\n+The <tt>rawtr()</tt> descriptor covers that case by taking the output key itself.\n+\n+This expression has been implemented in Bitcoin Core since version 24.0, and [[bip-0390.mediawiki|BIP 390]] permits <tt>musig()</tt> inside <tt>rawtr()</tt> and uses it in its test vectors.\n+This document gives the expression a specification of its own.\n+\n+==Specification==\n+\n+A new script expression is defined: <tt>rawtr()</tt>.\n+\n+The <tt>rawtr(KEY)</tt> expression can only be used as a top level descriptor.\n+It takes a single key expression as an argument and produces a P2TR output script.\n+Unlike <tt>tr()</tt>, it does not take a tree expression, and the key is used directly as the taproot output key, with no [[bip-0341.mediawiki|BIP 341]] tweak applied.\n+\n+The output script produced is:\n+<pre>\n+OP_1 <KEY>\n+</pre>\n+\n+Key expressions within a <tt>rawtr()</tt> expression must only create x-only public keys, as in <tt>tr()</tt> expressions.\n+Uncompressed public keys are not allowed, but compressed public keys would be implicitly converted to x-only public keys.",
+      "path": "bip-0394.mediawiki",
+      "position": 44,
+      "original_position": 44,
+      "commit_id": "a37df7cc79bc1d404db40294bbfb6ff1e02402be",
+      "original_commit_id": "a37df7cc79bc1d404db40294bbfb6ff1e02402be",
+      "in_reply_to_id": 4485782216,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I don’t see where a verb is missing, but the two statements do seem a bit disjoint. It might be a bit clearer as:\r\n\r\n```suggestion\r\nUncompressed public keys are not allowed. Compressed public keys are allowed, but will be implicitly converted to x-only public keys.\r\n```",
+      "created_at": "2026-11-05T22:40:24Z",
+      "updated_at": "2026-11-05T22:40:24Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2251#discussion_r4486930847",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4486930847"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2251"
