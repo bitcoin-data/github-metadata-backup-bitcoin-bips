@@ -52,15 +52,13 @@
       }
     ],
     "created_at": "2026-09-18T10:37:23Z",
-    "updated_at": "2026-11-05T07:06:21Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
+    "updated_at": "2026-11-05T17:19:02Z",
+    "mergeable_state": "unknown",
     "merged": false,
     "merge_commit_sha": "35c99887d2ba194e91b6f81a6b7c011b99262e21",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
     "head": {
       "label": "duncan0k:bip-output-pubkey-exposure-classification",
       "ref": "bip-output-pubkey-exposure-classification",
@@ -163,7 +161,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22502,
+        "size": 22518,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -282,12 +280,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6036,
-        "stargazers_count": 11011,
-        "watchers_count": 11011,
+        "forks_count": 6037,
+        "stargazers_count": 11009,
+        "watchers_count": 11009,
         "size": 22912,
         "default_branch": "master",
-        "open_issues_count": 66,
+        "open_issues_count": 64,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -298,9 +296,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-04T16:26:41Z",
+        "pushed_at": "2026-11-05T17:40:34Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-05T06:31:24Z",
+        "updated_at": "2026-11-05T17:41:07Z",
         "allow_forking": true
       }
     },
@@ -315,7 +313,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 8,
-    "review_comments": 51,
+    "review_comments": 52,
     "comments": 10
   },
   "events": [
@@ -4843,6 +4841,60 @@
       "start_side": "RIGHT",
       "line": null,
       "original_line": 317,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4483648361",
+      "pull_request_review_id": 5789047098,
+      "id": 4483648361,
+      "node_id": "PRRC_kwDOAN28mc8AAAABCz8LaQ",
+      "diff_hunk": "@@ -0,0 +1,425 @@\n+```\n+  BIP: 362\n+  Layer: Applications\n+  Title: Output Public Key Exposure Classification\n+  Authors: duncan0k <duncan0k@ark0.si>\n+  Status: Draft\n+  Type: Informational\n+  Assigned: 2026-11-02\n+  License: BSD-2-Clause OR CC0-1.0\n+  Discussion: 2026-09-03: https://delvingbitcoin.org/t/standardizing-an-exposure-classification-for-existing-outputs-pre-bip/2866\n+              2026-09-04: https://gnusha.org/pi/bitcoindev/010001a06dd4cdd9-b8082042-8750-4e9a-917e-2053c919e4c4-000000@email.amazonses.com/\n+  Version: 0.6.1\n+  Requires: 360\n+```\n+\n+## Abstract\n+\n+This document defines four exposure levels for Bitcoin outputs with respect to an adversary\n+holding a cryptographically relevant quantum computer (CRQC): `EXPOSED_AT_REST`,\n+`EXPOSED_ON_SPEND`, `NOT_EXPOSED` and `UNDETERMINED`. The first two are BIP 360's long exposure\n+and short exposure, applied to individual outputs. No deployed output type is `NOT_EXPOSED`.\n+Levels are derived from confirmed chain data only, so implementations that see the same chain\n+assign the same levels. When the data cannot distinguish two levels, the more exposed level is\n+assigned.\n+\n+## Motivation\n+\n+Published estimates of the supply exposed to a CRQC range from about 25% to over 34%. The\n+difference comes from definitional choices that are rarely stated:\n+\n+- A reused script that has been spent from and still holds funds. Its key is on the chain, but\n+  some tools report it as exposed only when next spent.\n+- P2TR. The output key is a public key, but some tools treat the output as protected because the\n+  internal key is hidden.\n+- P2SH and P2WSH outputs whose script has not been revealed.\n+- Keys disclosed off-chain, for example through an xpub or a spend on a fork.\n+- P2MR. It is not exposed at rest, but spending through a leaf that requires a signature reveals\n+  its key in the mempool.\n+\n+BIP 360 lists which output types are vulnerable to long exposure and notes that other types\n+become vulnerable once their script reveals a public key. It does not specify, for a given\n+output, what counts as revealed or what to report when the history is incomplete. A holder\n+checking an address, or a custodian deciding which outputs to move first, needs every tool to give\n+the same answer for the same output.\n+\n+This document specifies those rules, with test vectors. It does not score risk or recommend when\n+to migrate. Appendix A gives an informative minimum action for each level.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\", and \"MAY\" in this document\n+are to be interpreted as described in RFC 2119.\n+\n+### Terminology\n+\n+* **Key material**: a secp256k1 public key, compressed, uncompressed, or x-only as defined in\n+  [BIP 340](bip-0340.mediawiki). An x-only key is key material; the point with even `y` is\n+  recoverable from it.\n+* **Published**: included in a confirmed transaction, in a `scriptPubKey`, a `scriptSig` or a\n+  witness.\n+* **Spending key set** of an output: the public keys whose signatures are required to spend it.\n+  For a script-committing output it cannot be determined from the output alone; the committed\n+  script is needed.\n+* **Disclosed**: an output is disclosed if it meets the structural or derived condition of\n+  `EXPOSED_AT_REST`.\n+* **Long exposure** and **short exposure**: the two attacks defined in\n+  [BIP 360](bip-0360.mediawiki), on key material that is on the chain and on key material that is\n+  in the mempool while a spend is unconfirmed.\n+\n+Unconfirmed transactions MUST NOT be used to determine an exposure level. Mempool disclosure is\n+not a property of the chain and may never become one. Implementations MAY report it separately.\n+\n+### Exposure Levels\n+\n+Each output has exactly one level.\n+\n+#### `EXPOSED_AT_REST`\n+\n+An adversary can derive a private key offline and spend the output at any time, with no warning\n+to the owner. This is BIP 360's long exposure for a single output.\n+\n+An output is `EXPOSED_AT_REST` if it is disclosed, that is, if either condition holds:\n+\n+1. **Structural**: its `scriptPubKey` contains key material.\n+2. **Derived**: earlier transactions have published key material sufficient to spend it, together\n+   with any script or Merkle path needed to use that key material. For `m`-of-`n` multisig, any",
+      "path": "bip-0362.md",
+      "position": 1,
+      "original_position": 86,
+      "commit_id": "aaf470e8eb55ad3a5a18e388e33b285882b44fc9",
+      "original_commit_id": "aaf470e8eb55ad3a5a18e388e33b285882b44fc9",
+      "in_reply_to_id": 4469020761,
+      "user": {
+        "login": "murchandamus",
+        "id": 4060799,
+        "node_id": "MDQ6VXNlcjQwNjA3OTk=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/4060799?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/murchandamus",
+        "html_url": "https://github.com/murchandamus",
+        "followers_url": "https://api.github.com/users/murchandamus/followers",
+        "following_url": "https://api.github.com/users/murchandamus/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/murchandamus/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/murchandamus/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/murchandamus/subscriptions",
+        "organizations_url": "https://api.github.com/users/murchandamus/orgs",
+        "repos_url": "https://api.github.com/users/murchandamus/repos",
+        "events_url": "https://api.github.com/users/murchandamus/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/murchandamus/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "@conduition: My bad, I thought you were proposing exactly what you were criticizing. Good catch!",
+      "created_at": "2026-11-05T17:19:02Z",
+      "updated_at": "2026-11-05T17:19:02Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2294#discussion_r4483648361",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4483648361"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2294"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 86,
       "side": "RIGHT"
     }
   ]
