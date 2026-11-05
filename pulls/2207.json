@@ -14,9 +14,9 @@
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2207/comments",
     "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/d31236854b186d730b3e8e0a669019b88e32c956",
     "number": 2207,
-    "state": "open",
+    "state": "closed",
     "locked": false,
-    "maintainer_can_modify": true,
+    "maintainer_can_modify": false,
     "title": "BIP-375: correct labeled test vectors to include labeled-spend key in PSBT_OUT_SP_V0_INFO",
     "user": {
       "login": "macgyver13",
@@ -53,11 +53,34 @@
       }
     ],
     "created_at": "2026-07-07T15:46:53Z",
-    "updated_at": "2026-11-04T23:55:46Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
-    "merged": false,
-    "merge_commit_sha": "db7f9cfc3c2bd4ede425f0b4cc20ab600c745fc7",
+    "updated_at": "2026-11-05T18:05:55Z",
+    "closed_at": "2026-11-05T18:05:55Z",
+    "mergeable_state": "unknown",
+    "merged": true,
+    "merged_at": "2026-11-05T18:05:55Z",
+    "merged_by": {
+      "login": "jonatack",
+      "id": 2415484,
+      "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jonatack",
+      "html_url": "https://github.com/jonatack",
+      "followers_url": "https://api.github.com/users/jonatack/followers",
+      "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+      "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+      "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+      "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+      "organizations_url": "https://api.github.com/users/jonatack/orgs",
+      "repos_url": "https://api.github.com/users/jonatack/repos",
+      "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+      "received_events_url": "https://api.github.com/users/jonatack/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": null,
+      "patch_url": null
+    },
+    "merge_commit_sha": "d4dea2a230be9f91f89f789a79f4e53137fe5498",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -84,7 +107,6 @@
       }
     ],
     "requested_teams": [],
-    "rebaseable": true,
     "head": {
       "label": "macgyver13:bip375-labeled-spend",
       "ref": "bip375-labeled-spend",
@@ -188,7 +210,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 23199,
+        "size": 23348,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -307,12 +329,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6035,
-        "stargazers_count": 11011,
-        "watchers_count": 11011,
-        "size": 22912,
+        "forks_count": 6037,
+        "stargazers_count": 11009,
+        "watchers_count": 11009,
+        "size": 22955,
         "default_branch": "master",
-        "open_issues_count": 66,
+        "open_issues_count": 63,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -323,9 +345,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-04T16:26:41Z",
+        "pushed_at": "2026-11-05T18:05:55Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-04T16:27:17Z",
+        "updated_at": "2026-11-05T18:06:23Z",
         "allow_forking": true
       }
     },
@@ -340,7 +362,7 @@
     "deletions": 27,
     "changed_files": 3,
     "commits": 2,
-    "review_comments": 3,
+    "review_comments": 4,
     "comments": 9
   },
   "events": [
@@ -720,7 +742,7 @@
       "commit_url": null,
       "created_at": "2026-08-14T17:10:47Z",
       "updated_at": "2026-08-14T17:23:19Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "Implementer's note. btclib has a BIP375 implementation and currently\nassigns `k` in output index order, so this PR would change what it\nderives. Working notes and the full measurement are in\nhttps://github.com/btclib-org/btclib/issues/768.\n\n**Measured, in both directions**, with `bip-0375/test_runner.py` on\nPython 3.12:\n\n| tree | result |\n| --- | --- |\n| master `60f5b33b`, unchanged | 41 passed, 0 failed |\n| master, `validate_output_scripts` patched to assign `k` by ascending `PSBT_OUT_SP_V0_INFO` with output index as tie-break | 40 passed, 1 failed: `valid[8]`, \"two sp outputs - output 0 uses label=3 / output 1 uses label=1\" |\n| master's validator against this PR's vector file | 40 passed, 1 failed: \"three sp outputs (same scan key) - output 0 uses label=1, outputs 1 and 2 uses label=2\" |\n| this PR at `8f7b632f`, both halves | 41 passed, 0 failed |\n\nNo invalid vector changes verdict under either rule. The two invalid\nvectors named after ordering do not discriminate between the rules: in\n`invalid[20]` the spend keys are already ascending, so index and\nlexicographic order coincide, and each of the two carries a `k`\nassignment no ascending rule produces (the two values swapped in one,\nthree permuted in the other). So the discrepancy is confined to the\nlabeled multi-output vectors, and this PR closes it.\n\nTwo remarks, one per half of the PR.\n\n**The `PSBT_OUT_SP_V0_INFO` half looks unambiguous** — the field should\ncarry the labeled spend key — and is independent of the ordering\nquestion.\n\n**On the ordering half, a question about the rule rather than about which\nartefact is normative.** What the rule has to buy appears to be\ninter-party determinism only: the Signer sets `PSBT_OUT_SCRIPT` and the\nExtractor recomputes it, so both must land on the same bytes. Nothing\nelse seems to depend on it — a BIP352 receiver scans by deriving `P_k`\nfor k = 0, 1, 2 … and matching against the transaction's outputs, so it\nnever learns which output was assigned which `k`; and permuting `k`\nwithin a scan-key group still pays each recipient the same amount, since\nan output's script is derived from its own spend key. If that is right,\nany deterministic rule is equally correct and the choice is a matter of\ncost, where two things differ:\n\n- lexicographic order needs a canonical encoding of a \"code\" and a total\n  order on it. The prose says \"sort the codes\", which could be the\n  66-byte `PSBT_OUT_SP_V0_INFO`, the bech32m address string, or the\n  `(scan, spend)` pair; this PR picks the first, in code. Output indices\n  need no such definition and are already in the psbt;\n- the property lexicographic order would buy — invariance under output\n  reordering — looks unavailable here: L185 requires a Signer setting a\n  missing `PSBT_OUT_SCRIPT` to clear the Inputs Modifiable and Outputs\n  Modifiable flags, and a psbt carrying a script with\n  `PSBT_GLOBAL_TX_MODIFIABLE` non-zero is invalid (`invalid[4]`). Outputs\n  cannot be reordered once the scripts exist. The tie-break for identical\n  codes is output index in any case.\n\nSo index order looks like the cheaper rule, and it is what all three\nshipped artefacts did before this PR. That is an argument for amending\nthe two sentences at L240-241 instead, and reducing this PR to its\n`PSBT_OUT_SP_V0_INFO` half.\n\nWe have no stake beyond interoperability and will follow whichever way\nthis is settled. **If the lexicographic rule is kept, one edit would\nhelp**: have the prose name the sort key — the serialized\n`PSBT_OUT_SP_V0_INFO`, ascending, ties by output index, which is what\nthis PR implements. As written, \"the codes\" leaves the next implementer\nthe same choice that produced this divergence.\n\n**Unrelated and not touched here**, noted while checking the above: L149\nsays \"The PSBT_OUT_SP_V0_INFO should be serialized as a zero byte for the\nversion, followed by the 33 bytes of the scan key and then 33 bytes for\nthe spend key\", which names the field, whose table entry at L124 is\n`<33 byte scan key> <33 byte spend key>` — 66 bytes, which is what the\nvectors carry and what the validator requires (`invalid[1]` reports\n\"wrong length (65 bytes, expected 66)\"). Read in its own section the\nsentence is about the substitute output script used for unique\nidentification, where a version byte prefix contradicts nothing; that is\nhow btclib implemented it. Since the sentence names the field rather than\nthe substitution, one line of disambiguation would help. Glad to send it\nseparately.\n\n*Edited: the last paragraph originally called this an inconsistency about\nthe field's length. In its section it is a question of wording, not a\ncontradiction.*\n",
       "user": {
         "login": "fametrano",
@@ -898,7 +920,7 @@
       "commit_url": null,
       "created_at": "2026-09-07T14:51:25Z",
       "updated_at": "2026-09-07T14:51:25Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "@jonatack in short: I support the labeled-spend-key half of this PR, it looks right regardless of the ordering question. The sort half is the alternative to #2256, which changes the text to the index order the current validator and vectors already follow; either direction removes the contradiction, and the owners' preference decides which of the two lands. The measurement in both directions is reproducible from the diff posted on #2256.\n",
       "user": {
         "login": "fametrano",
@@ -1080,7 +1102,7 @@
       "commit_url": null,
       "created_at": "2026-09-09T07:27:51Z",
       "updated_at": "2026-09-09T07:27:51Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "**Partial nACK**, to make my note above explicit: nACK the ordering half, ACK the `PSBT_OUT_SP_V0_INFO` half.\n\n**ACK the labeled-spend-key fix.** Carrying the labeled spend key is correct and is needed whichever ordering rule wins; this half should land.\n\n**nACK the switch to lexicographic ordering.** As measured above: the *k* assignment is invisible to a BIP352 receiver and serves only Signer/Extractor determinism, so any deterministic rule is equally correct and the choice is one of cost. Lexicographic's one advantage — invariance under output reordering — is unavailable here: L185 makes a Signer clear Outputs Modifiable when it sets a script, and `invalid[4]` rejects a script carried under a non-zero `PSBT_GLOBAL_TX_MODIFIABLE`, so outputs cannot be reordered once the scripts exist. What is left is cost, and there output index is cheaper: \"sort the codes\" still needs a canonical encoding and total order that this PR pins only in code, while output index needs no such definition, is already in the psbt, and is the tie-break the lexicographic rule itself already falls back to for identical codes. It is also what the reference validator and the vectors do today, with only the prose dissenting; #2256 aligns the prose with them.\n\n**Could this be two PRs?** The two fixes are independent and only the ordering one is contested. Splitting them lets the `PSBT_OUT_SP_V0_INFO` correction merge now and leaves the ordering direction to the BIP owners on its own. Glad to help either way.\n",
       "user": {
         "login": "fametrano",
@@ -1748,7 +1770,7 @@
       "commit_url": null,
       "created_at": "2026-11-04T22:40:01Z",
       "updated_at": "2026-11-04T22:40:01Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "Yes, btclib, which I maintain, followed the vectors: it assigns k per scan key in output index order ([code](https://github.com/btclib-org/btclib-wallet/blob/6b3d8683009c71579b64434058d058700fa601cc/src/btclib_wallet/psbt/silent_payments.py#L517)). I ran this PR's vectors at 9514ecc through btclib's tests, and only the new three-output case fails. With k assigned by spend key, then output index, that case passes too and every invalid vector is still refused. btclib will switch to that order. I'm closing #2256 in favour of this PR and withdraw my objection to its ordering change.\n",
       "user": {
         "login": "fametrano",
@@ -1885,6 +1907,68 @@
       "commit_id": "d31236854b186d730b3e8e0a669019b88e32c956",
       "commit_url": "https://api.github.com/repos/macgyver13/bips/commits/d31236854b186d730b3e8e0a669019b88e32c956",
       "created_at": "2026-11-04T23:43:55Z"
+    },
+    {
+      "event": "merged",
+      "id": 35271504113,
+      "node_id": "ME_lADOAN28mc8AAAABH-UlF88AAAAINlhw8Q",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35271504113",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "d4dea2a230be9f91f89f789a79f4e53137fe5498",
+      "commit_url": "https://api.github.com/repos/bitcoin/bips/commits/d4dea2a230be9f91f89f789a79f4e53137fe5498",
+      "created_at": "2026-11-05T18:05:55Z"
+    },
+    {
+      "event": "closed",
+      "id": 35271504289,
+      "node_id": "CE_lADOAN28mc8AAAABH-UlF88AAAAINlhxoQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35271504289",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-05T18:05:55Z"
     }
   ],
   "comments": [
@@ -2038,6 +2122,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4474872951"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2207"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 242,
+      "original_line": 241,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4484134600",
+      "pull_request_review_id": 5789651988,
+      "id": 4484134600,
+      "node_id": "PRRC_kwDOAN28mc8AAAABC0Z2yA",
+      "diff_hunk": "",
+      "path": "bip-0375.mediawiki",
+      "position": 1,
+      "original_position": 1,
+      "commit_id": "9514ecce26ca804a2722c88d3d146b8e28fe7834",
+      "original_commit_id": "9514ecce26ca804a2722c88d3d146b8e28fe7834",
+      "in_reply_to_id": 4469825183,
+      "user": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "A one-line addition naming the 66-byte sort key might still be helpful, not sure and it can be deferred.",
+      "created_at": "2026-11-05T18:05:13Z",
+      "updated_at": "2026-11-05T18:05:13Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2207#discussion_r4484134600",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4484134600"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2207"
