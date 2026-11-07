@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-09-18T10:37:23Z",
-    "updated_at": "2026-11-07T08:50:40Z",
+    "updated_at": "2026-11-07T09:54:45Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -163,7 +163,7 @@
         "forks_count": 0,
         "stargazers_count": 0,
         "watchers_count": 0,
-        "size": 22462,
+        "size": 22469,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -315,7 +315,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 16,
-    "review_comments": 57,
+    "review_comments": 60,
     "comments": 11
   },
   "events": [
@@ -5646,6 +5646,168 @@
       "start_side": "RIGHT",
       "line": null,
       "original_line": 107,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4501141836",
+      "pull_request_review_id": 5811368373,
+      "id": 4501141836,
+      "node_id": "PRRC_kwDOAN28mc8AAAABDEn5TA",
+      "diff_hunk": "@@ -0,0 +1,425 @@\n+```\n+  BIP: 362\n+  Layer: Applications\n+  Title: Output Public Key Exposure Classification\n+  Authors: duncan0k <duncan0k@ark0.si>\n+  Status: Draft\n+  Type: Informational\n+  Assigned: 2026-11-02\n+  License: BSD-2-Clause OR CC0-1.0\n+  Discussion: 2026-09-03: https://delvingbitcoin.org/t/standardizing-an-exposure-classification-for-existing-outputs-pre-bip/2866\n+              2026-09-04: https://gnusha.org/pi/bitcoindev/010001a06dd4cdd9-b8082042-8750-4e9a-917e-2053c919e4c4-000000@email.amazonses.com/\n+  Version: 0.6.1\n+  Requires: 360\n+```\n+\n+## Abstract\n+\n+This document defines four exposure levels for Bitcoin outputs with respect to an adversary\n+holding a cryptographically relevant quantum computer (CRQC): `EXPOSED_AT_REST`,\n+`EXPOSED_ON_SPEND`, `NOT_EXPOSED` and `UNDETERMINED`. The first two are BIP 360's long exposure\n+and short exposure, applied to individual outputs. No deployed output type is `NOT_EXPOSED`.\n+Levels are derived from confirmed chain data only, so implementations that see the same chain\n+assign the same levels. When the data cannot distinguish two levels, the more exposed level is\n+assigned.\n+\n+## Motivation\n+\n+Published estimates of the supply exposed to a CRQC range from about 25% to over 34%. The\n+difference comes from definitional choices that are rarely stated:\n+\n+- A reused script that has been spent from and still holds funds. Its key is on the chain, but\n+  some tools report it as exposed only when next spent.\n+- P2TR. The output key is a public key, but some tools treat the output as protected because the\n+  internal key is hidden.\n+- P2SH and P2WSH outputs whose script has not been revealed.\n+- Keys disclosed off-chain, for example through an xpub or a spend on a fork.\n+- P2MR. It is not exposed at rest, but spending through a leaf that requires a signature reveals\n+  its key in the mempool.\n+\n+BIP 360 lists which output types are vulnerable to long exposure and notes that other types\n+become vulnerable once their script reveals a public key. It does not specify, for a given\n+output, what counts as revealed or what to report when the history is incomplete. A holder\n+checking an address, or a custodian deciding which outputs to move first, needs every tool to give\n+the same answer for the same output.\n+\n+This document specifies those rules, with test vectors. It does not score risk or recommend when\n+to migrate. Appendix A gives an informative minimum action for each level.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\", and \"MAY\" in this document\n+are to be interpreted as described in RFC 2119.\n+\n+### Terminology\n+\n+* **Key material**: a secp256k1 public key, compressed, uncompressed, or x-only as defined in\n+  [BIP 340](bip-0340.mediawiki). An x-only key is key material; the point with even `y` is\n+  recoverable from it.\n+* **Published**: included in a confirmed transaction, in a `scriptPubKey`, a `scriptSig` or a\n+  witness.\n+* **Spending key set** of an output: the public keys whose signatures are required to spend it.\n+  For a script-committing output it cannot be determined from the output alone; the committed\n+  script is needed.\n+* **Disclosed**: an output is disclosed if it meets the structural or derived condition of\n+  `EXPOSED_AT_REST`.\n+* **Long exposure** and **short exposure**: the two attacks defined in\n+  [BIP 360](bip-0360.mediawiki), on key material that is on the chain and on key material that is\n+  in the mempool while a spend is unconfirmed.\n+\n+Unconfirmed transactions MUST NOT be used to determine an exposure level. Mempool disclosure is\n+not a property of the chain and may never become one. Implementations MAY report it separately.\n+\n+### Exposure Levels\n+\n+Each output has exactly one level.\n+\n+#### `EXPOSED_AT_REST`\n+\n+An adversary can derive a private key offline and spend the output at any time, with no warning\n+to the owner. This is BIP 360's long exposure for a single output.\n+\n+An output is `EXPOSED_AT_REST` if it is disclosed, that is, if either condition holds:\n+\n+1. **Structural**: its `scriptPubKey` contains key material.\n+2. **Derived**: earlier transactions have published key material sufficient to spend it, together\n+   with any script or Merkle path needed to use that key material. For `m`-of-`n` multisig, any\n+   `m` of the `n` keys suffice. For P2MR this is a leaf script that requires a signature, its\n+   Merkle path and the keys it requires. This typically follows a spend from the same script or\n+   key.\n+\n+An output that meets the derived condition MUST NOT be assigned a lower level than one that meets\n+the structural condition. Where history is partial, the aggregate-count floor also assigns this\n+level without establishing disclosure; see\n+[Classification Under Partial History](#classification-under-partial-history).\n+\n+#### `EXPOSED_ON_SPEND`\n+\n+The output is not disclosed, and spending it is assumed to publish key material. There is no\n+offline attack. The exposure window opens when a spending transaction is broadcast and closes when\n+that transaction is confirmed and buried. An adversary who derives the key within the window can\n+replace the transaction. This is BIP 360's short exposure.\n+\n+Outputs that pay the same `scriptPubKey` share one window. It opens when a spend of any of them is\n+broadcast and closes when the spend of the last remaining one is confirmed and buried. Once a\n+confirmed spend has published key material that meets the derived condition, the other outputs\n+paying the script, and any paid to it later, are `EXPOSED_AT_REST`. Unconfirmed spends do not\n+change a level.\n+\n+#### `NOT_EXPOSED`\n+\n+The consensus rules of the output's type require a valid post-quantum signature on every spending\n+path. A hybrid scheme that also requires a secp256k1 signature qualifies; a path that can be\n+satisfied without a post-quantum signature does not. A derived secp256k1 private key alone cannot\n+spend such an output, so neither attack applies, and the level holds even where a condition of\n+`EXPOSED_AT_REST` is met. This level is a property of the output type. It MUST NOT be inferred for\n+a hash-committed script from the absence of information about the script.\n+\n+No deployed output type qualifies. P2MR ([BIP 360](bip-0360.mediawiki)) does not: its consensus\n+rules allow leaves that can be satisfied without a post-quantum signature. The level exists for\n+future output types built on post-quantum signature schemes.\n+\n+#### `UNDETERMINED`\n+\n+The implementation does not recognize the output's script semantics, and no sound statement about\n+its key material can be made. An output that cannot be classified MUST be assigned `UNDETERMINED`,\n+never `NOT_EXPOSED`. Outputs of types deployed after an implementation's release fall here.\n+\n+### Conservative Assignment\n+\n+Implementations MUST apply the **fail-closed rule**: where the available data cannot distinguish\n+two levels, the level indicating greater disclosure MUST be assigned. Under-reporting gives false\n+assurance; over-reporting costs an unneeded migration. The rule accepts the second error to avoid\n+the first.\n+\n+Consequences:\n+\n+* A script parse failure MUST NOT clear a level established by other evidence.\n+* Truncated or partial history MUST NOT yield `NOT_EXPOSED`; see\n+  [Classification Under Partial History](#classification-under-partial-history).\n+* Output types the implementation does not recognize MUST yield `UNDETERMINED`.\n+* `NOT_EXPOSED` is assigned by output type only. It MUST NOT be inferred from the contents of an\n+  unrevealed script.\n+\n+### Classification by Output Type\n+\n+The table gives the level of an output that no earlier transaction has disclosed. The derived\n+condition overrides every row.\n+\n+| Output type | On-chain commitment | Level absent prior disclosure |\n+| --- | --- | --- |\n+| P2PK | public key, in full | `EXPOSED_AT_REST` |\n+| P2MS (bare multisig) | all `n` public keys, in full | `EXPOSED_AT_REST` |\n+| P2PKH | `HASH160` of the key | `EXPOSED_ON_SPEND` |\n+| P2WPKH | `HASH160` of the key | `EXPOSED_ON_SPEND` |\n+| P2SH | `HASH160` of the redeem script | `EXPOSED_ON_SPEND` |\n+| P2WSH | `SHA256` of the witness script | `EXPOSED_ON_SPEND` |\n+| P2TR | 32-byte x-only output key | `EXPOSED_AT_REST` |\n+| P2MR ([BIP 360](bip-0360.mediawiki)) | 32-byte script tree Merkle root | `EXPOSED_ON_SPEND` |\n+| Other witness versions / programs | undetermined | `UNDETERMINED` |\n+| Non-standard or unparsable | undetermined | `UNDETERMINED` |\n+\n+**P2TR is `EXPOSED_AT_REST`, including script-path-only outputs.** The output key\n+`Q = P + H(P‖m)·G` is in the `scriptPubKey`. An adversary who computes the discrete logarithm of\n+`Q` can sign a key-path spend. Consensus does not check how `Q` was constructed, so a provably\n+unspendable (NUMS) internal key does not prevent this. `Q` alone does not reveal a BIP 341\n+output's internal key `P` or script tree, but neither limits key-path spending (see Rationale).\n+Implementations MAY report a holder-retained secret such as `P` as a separate attribute; they MUST\n+NOT let it lower the level.\n+\n+**P2SH and P2WSH are `EXPOSED_ON_SPEND`.** The script is unknown until spent. A spend reveals it,\n+together with any key material its signatures require. A script that requires no signature might\n+not publish any key material when spent, but that cannot be observed before the spend and MUST NOT\n+be assumed.",
+      "path": "bip-0362.md",
+      "position": 1,
+      "original_position": 173,
+      "commit_id": "aaf470e8eb55ad3a5a18e388e33b285882b44fc9",
+      "original_commit_id": "aaf470e8eb55ad3a5a18e388e33b285882b44fc9",
+      "in_reply_to_id": 4469375498,
+      "user": {
+        "login": "duncan0k",
+        "id": 323069825,
+        "node_id": "U_kgDOE0GngQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/323069825?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/duncan0k",
+        "html_url": "https://github.com/duncan0k",
+        "followers_url": "https://api.github.com/users/duncan0k/followers",
+        "following_url": "https://api.github.com/users/duncan0k/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/duncan0k/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/duncan0k/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/duncan0k/subscriptions",
+        "organizations_url": "https://api.github.com/users/duncan0k/orgs",
+        "repos_url": "https://api.github.com/users/duncan0k/repos",
+        "events_url": "https://api.github.com/users/duncan0k/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/duncan0k/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "231b36d takes murch's answer, so the other outputs committing to a revealed no-signature script are `EXPOSED_AT_REST`. The partial-history exception existed only for this case and is gone too, and the depth-zero P2MR tree now follows the same rule.",
+      "created_at": "2026-11-07T09:36:25Z",
+      "updated_at": "2026-11-07T09:36:26Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2294#discussion_r4501141836",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4501141836"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2294"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 173,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4501153579",
+      "pull_request_review_id": 5811381255,
+      "id": 4501153579,
+      "node_id": "PRRC_kwDOAN28mc8AAAABDEonKw",
+      "diff_hunk": "@@ -0,0 +1,425 @@\n+```\n+  BIP: 362\n+  Layer: Applications\n+  Title: Output Public Key Exposure Classification\n+  Authors: duncan0k <duncan0k@ark0.si>\n+  Status: Draft\n+  Type: Informational\n+  Assigned: 2026-11-02\n+  License: BSD-2-Clause OR CC0-1.0\n+  Discussion: 2026-09-03: https://delvingbitcoin.org/t/standardizing-an-exposure-classification-for-existing-outputs-pre-bip/2866\n+              2026-09-04: https://gnusha.org/pi/bitcoindev/010001a06dd4cdd9-b8082042-8750-4e9a-917e-2053c919e4c4-000000@email.amazonses.com/\n+  Version: 0.6.1\n+  Requires: 360\n+```\n+\n+## Abstract\n+\n+This document defines four exposure levels for Bitcoin outputs with respect to an adversary\n+holding a cryptographically relevant quantum computer (CRQC): `EXPOSED_AT_REST`,\n+`EXPOSED_ON_SPEND`, `NOT_EXPOSED` and `UNDETERMINED`. The first two are BIP 360's long exposure\n+and short exposure, applied to individual outputs. No deployed output type is `NOT_EXPOSED`.\n+Levels are derived from confirmed chain data only, so implementations that see the same chain\n+assign the same levels. When the data cannot distinguish two levels, the more exposed level is\n+assigned.\n+\n+## Motivation\n+\n+Published estimates of the supply exposed to a CRQC range from about 25% to over 34%. The\n+difference comes from definitional choices that are rarely stated:\n+\n+- A reused script that has been spent from and still holds funds. Its key is on the chain, but\n+  some tools report it as exposed only when next spent.\n+- P2TR. The output key is a public key, but some tools treat the output as protected because the\n+  internal key is hidden.\n+- P2SH and P2WSH outputs whose script has not been revealed.\n+- Keys disclosed off-chain, for example through an xpub or a spend on a fork.\n+- P2MR. It is not exposed at rest, but spending through a leaf that requires a signature reveals\n+  its key in the mempool.\n+\n+BIP 360 lists which output types are vulnerable to long exposure and notes that other types\n+become vulnerable once their script reveals a public key. It does not specify, for a given\n+output, what counts as revealed or what to report when the history is incomplete. A holder\n+checking an address, or a custodian deciding which outputs to move first, needs every tool to give\n+the same answer for the same output.\n+\n+This document specifies those rules, with test vectors. It does not score risk or recommend when\n+to migrate. Appendix A gives an informative minimum action for each level.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\", and \"MAY\" in this document\n+are to be interpreted as described in RFC 2119.\n+\n+### Terminology\n+\n+* **Key material**: a secp256k1 public key, compressed, uncompressed, or x-only as defined in\n+  [BIP 340](bip-0340.mediawiki). An x-only key is key material; the point with even `y` is\n+  recoverable from it.\n+* **Published**: included in a confirmed transaction, in a `scriptPubKey`, a `scriptSig` or a\n+  witness.\n+* **Spending key set** of an output: the public keys whose signatures are required to spend it.\n+  For a script-committing output it cannot be determined from the output alone; the committed\n+  script is needed.\n+* **Disclosed**: an output is disclosed if it meets the structural or derived condition of\n+  `EXPOSED_AT_REST`.\n+* **Long exposure** and **short exposure**: the two attacks defined in\n+  [BIP 360](bip-0360.mediawiki), on key material that is on the chain and on key material that is\n+  in the mempool while a spend is unconfirmed.\n+\n+Unconfirmed transactions MUST NOT be used to determine an exposure level. Mempool disclosure is\n+not a property of the chain and may never become one. Implementations MAY report it separately.\n+\n+### Exposure Levels\n+\n+Each output has exactly one level.\n+\n+#### `EXPOSED_AT_REST`\n+\n+An adversary can derive a private key offline and spend the output at any time, with no warning\n+to the owner. This is BIP 360's long exposure for a single output.\n+\n+An output is `EXPOSED_AT_REST` if it is disclosed, that is, if either condition holds:\n+\n+1. **Structural**: its `scriptPubKey` contains key material.\n+2. **Derived**: earlier transactions have published key material sufficient to spend it, together\n+   with any script or Merkle path needed to use that key material. For `m`-of-`n` multisig, any\n+   `m` of the `n` keys suffice. For P2MR this is a leaf script that requires a signature, its\n+   Merkle path and the keys it requires. This typically follows a spend from the same script or\n+   key.\n+\n+An output that meets the derived condition MUST NOT be assigned a lower level than one that meets\n+the structural condition. Where history is partial, the aggregate-count floor also assigns this\n+level without establishing disclosure; see\n+[Classification Under Partial History](#classification-under-partial-history).\n+\n+#### `EXPOSED_ON_SPEND`\n+\n+The output is not disclosed, and spending it is assumed to publish key material. There is no\n+offline attack. The exposure window opens when a spending transaction is broadcast and closes when\n+that transaction is confirmed and buried. An adversary who derives the key within the window can\n+replace the transaction. This is BIP 360's short exposure.\n+\n+Outputs that pay the same `scriptPubKey` share one window. It opens when a spend of any of them is\n+broadcast and closes when the spend of the last remaining one is confirmed and buried. Once a\n+confirmed spend has published key material that meets the derived condition, the other outputs\n+paying the script, and any paid to it later, are `EXPOSED_AT_REST`. Unconfirmed spends do not\n+change a level.\n+\n+#### `NOT_EXPOSED`\n+\n+The consensus rules of the output's type require a valid post-quantum signature on every spending\n+path. A hybrid scheme that also requires a secp256k1 signature qualifies; a path that can be\n+satisfied without a post-quantum signature does not. A derived secp256k1 private key alone cannot\n+spend such an output, so neither attack applies, and the level holds even where a condition of\n+`EXPOSED_AT_REST` is met. This level is a property of the output type. It MUST NOT be inferred for\n+a hash-committed script from the absence of information about the script.\n+\n+No deployed output type qualifies. P2MR ([BIP 360](bip-0360.mediawiki)) does not: its consensus\n+rules allow leaves that can be satisfied without a post-quantum signature. The level exists for\n+future output types built on post-quantum signature schemes.\n+\n+#### `UNDETERMINED`\n+\n+The implementation does not recognize the output's script semantics, and no sound statement about\n+its key material can be made. An output that cannot be classified MUST be assigned `UNDETERMINED`,\n+never `NOT_EXPOSED`. Outputs of types deployed after an implementation's release fall here.\n+\n+### Conservative Assignment\n+\n+Implementations MUST apply the **fail-closed rule**: where the available data cannot distinguish\n+two levels, the level indicating greater disclosure MUST be assigned. Under-reporting gives false\n+assurance; over-reporting costs an unneeded migration. The rule accepts the second error to avoid\n+the first.\n+\n+Consequences:\n+\n+* A script parse failure MUST NOT clear a level established by other evidence.\n+* Truncated or partial history MUST NOT yield `NOT_EXPOSED`; see\n+  [Classification Under Partial History](#classification-under-partial-history).\n+* Output types the implementation does not recognize MUST yield `UNDETERMINED`.\n+* `NOT_EXPOSED` is assigned by output type only. It MUST NOT be inferred from the contents of an\n+  unrevealed script.\n+\n+### Classification by Output Type\n+\n+The table gives the level of an output that no earlier transaction has disclosed. The derived\n+condition overrides every row.\n+\n+| Output type | On-chain commitment | Level absent prior disclosure |\n+| --- | --- | --- |\n+| P2PK | public key, in full | `EXPOSED_AT_REST` |\n+| P2MS (bare multisig) | all `n` public keys, in full | `EXPOSED_AT_REST` |\n+| P2PKH | `HASH160` of the key | `EXPOSED_ON_SPEND` |\n+| P2WPKH | `HASH160` of the key | `EXPOSED_ON_SPEND` |\n+| P2SH | `HASH160` of the redeem script | `EXPOSED_ON_SPEND` |\n+| P2WSH | `SHA256` of the witness script | `EXPOSED_ON_SPEND` |\n+| P2TR | 32-byte x-only output key | `EXPOSED_AT_REST` |\n+| P2MR ([BIP 360](bip-0360.mediawiki)) | 32-byte script tree Merkle root | `EXPOSED_ON_SPEND` |\n+| Other witness versions / programs | undetermined | `UNDETERMINED` |\n+| Non-standard or unparsable | undetermined | `UNDETERMINED` |\n+\n+**P2TR is `EXPOSED_AT_REST`, including script-path-only outputs.** The output key\n+`Q = P + H(P‖m)·G` is in the `scriptPubKey`. An adversary who computes the discrete logarithm of\n+`Q` can sign a key-path spend. Consensus does not check how `Q` was constructed, so a provably\n+unspendable (NUMS) internal key does not prevent this. `Q` alone does not reveal a BIP 341\n+output's internal key `P` or script tree, but neither limits key-path spending (see Rationale).\n+Implementations MAY report a holder-retained secret such as `P` as a separate attribute; they MUST\n+NOT let it lower the level.\n+\n+**P2SH and P2WSH are `EXPOSED_ON_SPEND`.** The script is unknown until spent. A spend reveals it,\n+together with any key material its signatures require. A script that requires no signature might\n+not publish any key material when spent, but that cannot be observed before the spend and MUST NOT\n+be assumed.\n+\n+**P2MR is `EXPOSED_ON_SPEND`.** P2MR has no key path, so no key material is on the chain before a\n+spend: it is not exposed at rest. A script-path spend publishes the leaf script and its Merkle path\n+and, if the leaf requires a signature, a secp256k1 signature and the key it verifies against.\n+While the spend is unconfirmed, an adversary who derives the key can spend the same output through\n+the same leaf, as with P2WSH. BIP 360 states that P2MR resists long exposure, and that resistance\n+to short exposure requires post-quantum signatures. The leaves of an unspent tree cannot be\n+observed, so an implementation MUST NOT assume a leaf that requires no signature.\n+\n+A confirmed spend through a leaf that requires a signature publishes that leaf's keys, script and\n+Merkle path, so every other output committing to the same tree is `EXPOSED_AT_REST` by the derived\n+condition. A published leaf key alone does not disclose a P2MR output, because spending it also\n+requires the leaf script and Merkle path.\n+\n+Two cases are spendable by anyone, which is not exposure to a quantum adversary. Before BIP 360\n+activates, a witness version 2, 32-byte output can be spent without key material; its level\n+describes it as P2MR after activation. After activation, so can a P2MR output whose tree has depth\n+zero once its leaf script has been revealed, since BIP 360 skips script execution at depth zero.\n+Implementations SHOULD flag both cases separately, in addition to the level.\n+\n+### Classification Under Partial History\n+\n+These rules apply to types whose level depends on spend history, those that are otherwise\n+`EXPOSED_ON_SPEND`. Structural levels need no history: P2PK, P2MS and P2TR are `EXPOSED_AT_REST`\n+from the `scriptPubKey` alone, and an unrecognized type is `UNDETERMINED` whatever its history.\n+\n+An implementation may be unable to retrieve a script's complete history, because of indexer\n+pagination, scan limits or pruning. An aggregate count of the script's confirmed spent outputs,\n+where available, is sufficient:\n+\n+> If the count is greater than zero, at least one confirmed spend has occurred. For every type in\n+> the table other than `UNDETERMINED`, a spend publishes what the script commits to: the key, the\n+> full script and its keys, or for P2MR the executed leaf with its Merkle path and keys. All of\n+> its outputs are therefore `EXPOSED_AT_REST`. A count of zero establishes only that no output",
+      "path": "bip-0362.md",
+      "position": 1,
+      "original_position": 207,
+      "commit_id": "aaf470e8eb55ad3a5a18e388e33b285882b44fc9",
+      "original_commit_id": "aaf470e8eb55ad3a5a18e388e33b285882b44fc9",
+      "in_reply_to_id": 4469407174,
+      "user": {
+        "login": "duncan0k",
+        "id": 323069825,
+        "node_id": "U_kgDOE0GngQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/323069825?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/duncan0k",
+        "html_url": "https://github.com/duncan0k",
+        "followers_url": "https://api.github.com/users/duncan0k/followers",
+        "following_url": "https://api.github.com/users/duncan0k/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/duncan0k/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/duncan0k/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/duncan0k/subscriptions",
+        "organizations_url": "https://api.github.com/users/duncan0k/orgs",
+        "repos_url": "https://api.github.com/users/duncan0k/repos",
+        "events_url": "https://api.github.com/users/duncan0k/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/duncan0k/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Gone in e4c72f2. Since the condition no longer looks at what the leaf requires, a spend count on a P2MR script works the same way as on P2SH or P2WSH. Once a spend reveals the leaf and path, every output with that root is `EXPOSED_AT_REST`.",
+      "created_at": "2026-11-07T09:41:37Z",
+      "updated_at": "2026-11-07T09:41:38Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2294#discussion_r4501153579",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4501153579"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2294"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": null,
+      "original_line": 207,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4501193987",
+      "pull_request_review_id": 5811434185,
+      "id": 4501193987,
+      "node_id": "PRRC_kwDOAN28mc8AAAABDErFAw",
+      "diff_hunk": "@@ -0,0 +1,425 @@\n+```\n+  BIP: 362\n+  Layer: Applications\n+  Title: Output Public Key Exposure Classification\n+  Authors: duncan0k <duncan0k@ark0.si>\n+  Status: Draft\n+  Type: Informational\n+  Assigned: 2026-11-02\n+  License: BSD-2-Clause OR CC0-1.0\n+  Discussion: 2026-09-03: https://delvingbitcoin.org/t/standardizing-an-exposure-classification-for-existing-outputs-pre-bip/2866\n+              2026-09-04: https://gnusha.org/pi/bitcoindev/010001a06dd4cdd9-b8082042-8750-4e9a-917e-2053c919e4c4-000000@email.amazonses.com/\n+  Version: 0.6.1\n+  Requires: 360\n+```\n+\n+## Abstract\n+\n+This document defines four exposure levels for Bitcoin outputs with respect to an adversary\n+holding a cryptographically relevant quantum computer (CRQC): `EXPOSED_AT_REST`,\n+`EXPOSED_ON_SPEND`, `NOT_EXPOSED` and `UNDETERMINED`. The first two are BIP 360's long exposure\n+and short exposure, applied to individual outputs. No deployed output type is `NOT_EXPOSED`.\n+Levels are derived from confirmed chain data only, so implementations that see the same chain\n+assign the same levels. When the data cannot distinguish two levels, the more exposed level is\n+assigned.\n+\n+## Motivation\n+\n+Published estimates of the supply exposed to a CRQC range from about 25% to over 34%. The\n+difference comes from definitional choices that are rarely stated:\n+\n+- A reused script that has been spent from and still holds funds. Its key is on the chain, but\n+  some tools report it as exposed only when next spent.\n+- P2TR. The output key is a public key, but some tools treat the output as protected because the\n+  internal key is hidden.\n+- P2SH and P2WSH outputs whose script has not been revealed.\n+- Keys disclosed off-chain, for example through an xpub or a spend on a fork.\n+- P2MR. It is not exposed at rest, but spending through a leaf that requires a signature reveals\n+  its key in the mempool.\n+\n+BIP 360 lists which output types are vulnerable to long exposure and notes that other types\n+become vulnerable once their script reveals a public key. It does not specify, for a given\n+output, what counts as revealed or what to report when the history is incomplete. A holder\n+checking an address, or a custodian deciding which outputs to move first, needs every tool to give\n+the same answer for the same output.\n+\n+This document specifies those rules, with test vectors. It does not score risk or recommend when\n+to migrate. Appendix A gives an informative minimum action for each level.\n+\n+## Specification\n+\n+The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHOULD\", \"SHOULD NOT\", and \"MAY\" in this document\n+are to be interpreted as described in RFC 2119.\n+\n+### Terminology\n+\n+* **Key material**: a secp256k1 public key, compressed, uncompressed, or x-only as defined in\n+  [BIP 340](bip-0340.mediawiki). An x-only key is key material; the point with even `y` is\n+  recoverable from it.\n+* **Published**: included in a confirmed transaction, in a `scriptPubKey`, a `scriptSig` or a\n+  witness.\n+* **Spending key set** of an output: the public keys whose signatures are required to spend it.\n+  For a script-committing output it cannot be determined from the output alone; the committed\n+  script is needed.\n+* **Disclosed**: an output is disclosed if it meets the structural or derived condition of\n+  `EXPOSED_AT_REST`.\n+* **Long exposure** and **short exposure**: the two attacks defined in\n+  [BIP 360](bip-0360.mediawiki), on key material that is on the chain and on key material that is\n+  in the mempool while a spend is unconfirmed.\n+\n+Unconfirmed transactions MUST NOT be used to determine an exposure level. Mempool disclosure is\n+not a property of the chain and may never become one. Implementations MAY report it separately.\n+\n+### Exposure Levels\n+\n+Each output has exactly one level.\n+\n+#### `EXPOSED_AT_REST`\n+\n+An adversary can derive a private key offline and spend the output at any time, with no warning\n+to the owner. This is BIP 360's long exposure for a single output.\n+\n+An output is `EXPOSED_AT_REST` if it is disclosed, that is, if either condition holds:\n+\n+1. **Structural**: its `scriptPubKey` contains key material.\n+2. **Derived**: earlier transactions have published key material sufficient to spend it, together\n+   with any script or Merkle path needed to use that key material. For `m`-of-`n` multisig, any\n+   `m` of the `n` keys suffice. For P2MR this is a leaf script that requires a signature, its\n+   Merkle path and the keys it requires. This typically follows a spend from the same script or\n+   key.\n+\n+An output that meets the derived condition MUST NOT be assigned a lower level than one that meets\n+the structural condition. Where history is partial, the aggregate-count floor also assigns this\n+level without establishing disclosure; see\n+[Classification Under Partial History](#classification-under-partial-history).\n+\n+#### `EXPOSED_ON_SPEND`\n+\n+The output is not disclosed, and spending it is assumed to publish key material. There is no\n+offline attack. The exposure window opens when a spending transaction is broadcast and closes when\n+that transaction is confirmed and buried. An adversary who derives the key within the window can\n+replace the transaction. This is BIP 360's short exposure.\n+\n+Outputs that pay the same `scriptPubKey` share one window. It opens when a spend of any of them is\n+broadcast and closes when the spend of the last remaining one is confirmed and buried. Once a\n+confirmed spend has published key material that meets the derived condition, the other outputs\n+paying the script, and any paid to it later, are `EXPOSED_AT_REST`. Unconfirmed spends do not\n+change a level.\n+\n+#### `NOT_EXPOSED`\n+\n+The consensus rules of the output's type require a valid post-quantum signature on every spending\n+path. A hybrid scheme that also requires a secp256k1 signature qualifies; a path that can be",
+      "path": "bip-0362.md",
+      "position": 1,
+      "original_position": 112,
+      "commit_id": "aaf470e8eb55ad3a5a18e388e33b285882b44fc9",
+      "original_commit_id": "aaf470e8eb55ad3a5a18e388e33b285882b44fc9",
+      "in_reply_to_id": 4469267031,
+      "user": {
+        "login": "duncan0k",
+        "id": 323069825,
+        "node_id": "U_kgDOE0GngQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/323069825?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/duncan0k",
+        "html_url": "https://github.com/duncan0k",
+        "followers_url": "https://api.github.com/users/duncan0k/followers",
+        "following_url": "https://api.github.com/users/duncan0k/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/duncan0k/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/duncan0k/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/duncan0k/subscriptions",
+        "organizations_url": "https://api.github.com/users/duncan0k/orgs",
+        "repos_url": "https://api.github.com/users/duncan0k/repos",
+        "events_url": "https://api.github.com/users/duncan0k/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/duncan0k/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "23c56f7 keeps the requirement of a post-quantum signature on every path and spells out the no-signature case. A type can meet it without every script branch calling a post-quantum opcode: consensus can check a post-quantum signature on every spend regardless of what the script does, or the type can have no script at all. Ruling out only classical-signature paths would leave room for a path with no signature, and the document treats such a path as `EXPOSED_AT_REST` once revealed (the line 173 thread). Since the leaves of an unspent tree can't be enumerated, the level has to stay a property of the type.",
+      "created_at": "2026-11-07T09:54:45Z",
+      "updated_at": "2026-11-07T09:54:45Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2294#discussion_r4501193987",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4501193987"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2294"
+        }
+      },
+      "start_line": 120,
+      "original_start_line": 111,
+      "start_side": "RIGHT",
+      "line": 121,
+      "original_line": 112,
       "side": "RIGHT"
     }
   ]
