@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2316/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2316/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/9d63a123aec2ba50ae967dc6d2840534a86cfd33",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/6d264ac5af30da4acba160f30e5e5c80757533ce",
     "number": 2316,
     "state": "open",
     "locked": false,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "The P2WPKH inputs in BIP-375's test vectors cannot be spent by the keys they carry, and none of the 42 signatures in the vectors verifies. Each P2WPKH program is `SHA256(pubkey)[:20]` instead of `HASH160(pubkey)`. The test runner does not check signatures, so it does not catch this.\n\nThis PR sets each P2WPKH program to `HASH160(pubkey)` and makes the signatures again: BIP 143 for P2WPKH and P2SH-P2WPKH, legacy for P2PKH and the bare `OP_2` input of valid[0]. The vector for a non-`SIGHASH_ALL` signature had a `SIGHASH_ALL` signature; it now has a `SIGHASH_NONE` one, matching its `PSBT_IN_SIGHASH_TYPE`. The two signatures with no defined sighash, on the segwit v2 input and in the vector without `PSBT_OUT_SCRIPT`, are removed. The other 40 now verify, and the test runner's output is unchanged: 43 passed. #2317 makes the runner check the signatures.\n",
+    "body": "The P2WPKH inputs in BIP-375's test vectors cannot be spent by the keys they carry, and none of the 43 signatures in the vectors verifies. Each P2WPKH program is `SHA256(pubkey)[:20]` instead of `HASH160(pubkey)`. The test runner does not check signatures, so it does not catch this.\n\nThis PR sets each P2WPKH program to `HASH160(pubkey)` and makes the signatures again: BIP 143 for P2WPKH and P2SH-P2WPKH, legacy for P2PKH and the bare `OP_2` input of valid[0]. The vector for a non-`SIGHASH_ALL` signature had a `SIGHASH_ALL` signature; it now has a `SIGHASH_NONE` one, matching its `PSBT_IN_SIGHASH_TYPE`. The three signatures with no defined sighash, on the two segwit v2 inputs and in the vector without `PSBT_OUT_SCRIPT`, are removed; the one in the vector #2310 added has a commit of its own. The other 40 now verify, and the test runner's output is unchanged: 44 passed. #2317 makes the runner check the signatures. #2315 replaces the bare `OP_2` vector that this PR re-signs, so the two conflict there: whichever lands second drops that vector when it rebases. A separate commit sets Version 0.1.4 with its changelog entry: each of my open BIP-375 pull requests (#2315, #2316, #2317, #2324) does the same, and whichever lands first keeps 0.1.4 while the others rebase to the next version.\n\n*Made with my usual tools: a computer, the Internet and an LLM. The mistakes, as usual, are all mine.*\n",
     "labels": [
       {
         "id": 286161898,
@@ -62,19 +62,18 @@
       }
     ],
     "created_at": "2026-09-29T18:39:58Z",
-    "updated_at": "2026-11-09T16:47:32Z",
-    "mergeable": true,
-    "mergeable_state": "clean",
+    "updated_at": "2026-11-10T22:25:23Z",
+    "mergeable": false,
+    "mergeable_state": "dirty",
     "merged": false,
-    "merge_commit_sha": "3927baedc856f2ba2323a872f79814f7667a4b2b",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": true,
+    "rebaseable": false,
     "head": {
       "label": "fametrano:bip375-p2wpkh-vectors",
       "ref": "bip375-p2wpkh-vectors",
-      "sha": "9d63a123aec2ba50ae967dc6d2840534a86cfd33",
+      "sha": "6d264ac5af30da4acba160f30e5e5c80757533ce",
       "user": {
         "login": "fametrano",
         "id": 3296421,
@@ -174,7 +173,7 @@
         "forks_count": 1,
         "stargazers_count": 1,
         "watchers_count": 1,
-        "size": 23145,
+        "size": 21142,
         "default_branch": "master",
         "open_issues_count": 3,
         "is_template": false,
@@ -187,7 +186,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-06T23:30:11Z",
+        "pushed_at": "2026-11-10T22:43:07Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-11-06T11:21:00Z",
         "allow_forking": true
@@ -196,7 +195,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "a50f8f8cb9c62969971f3bc72f7c831a7df2bb4a",
+      "sha": "d71d60687b4c250ae9c73c1cc29897dbd56e9903",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -293,10 +292,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6042,
-        "stargazers_count": 11015,
-        "watchers_count": 11015,
-        "size": 22923,
+        "forks_count": 6044,
+        "stargazers_count": 11016,
+        "watchers_count": 11016,
+        "size": 20953,
         "default_branch": "master",
         "open_issues_count": 58,
         "is_template": false,
@@ -309,9 +308,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-09T15:55:19Z",
+        "pushed_at": "2026-11-10T22:50:29Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-09T15:55:28Z",
+        "updated_at": "2026-11-10T21:17:50Z",
         "allow_forking": true
       }
     },
@@ -322,12 +321,12 @@
     },
     "author_association": "CONTRIBUTOR",
     "draft": false,
-    "additions": 122,
-    "deletions": 122,
-    "changed_files": 1,
-    "commits": 1,
+    "additions": 126,
+    "deletions": 124,
+    "changed_files": 2,
+    "commits": 3,
     "review_comments": 0,
-    "comments": 1
+    "comments": 2
   },
   "events": [
     {
@@ -544,46 +543,6 @@
       "created_at": "2026-11-05T18:37:56Z"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDlkNjNhMTIzYWVjMmJhNTBhZTk2N2RjNmQyODQwNTM0YTg2Y2ZkMzM",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/9d63a123aec2ba50ae967dc6d2840534a86cfd33",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/9d63a123aec2ba50ae967dc6d2840534a86cfd33",
-      "tree": {
-        "sha": "b200cf89198060d471c3911c3ae503d3e535d953",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/b200cf89198060d471c3911c3ae503d3e535d953"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree b200cf89198060d471c3911c3ae503d3e535d953\nparent d4dea2a230be9f91f89f789a79f4e53137fe5498\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1790703606 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1793917612 +0100\n\nbip-0375: fix P2WPKH scriptPubKeys and signatures in test vectors\n\nThe P2WPKH inputs of the test vectors spend a witness program equal to\nSHA256(pubkey)[:20] instead of HASH160(pubkey), so the key each input\ncarries cannot spend it. None of the stored ECDSA signatures verifies\nagainst the transaction its PSBT describes, whatever the input type. The\nreference validator does not check signatures, so no test fails.\n\nSet every P2WPKH witness program to HASH160 of the input's public key,\nin PSBT_IN_WITNESS_UTXO and in the supplementary witness_utxo and\nprevout_scriptpubkey. Re-sign the PSBT_IN_PARTIAL_SIG signatures\ndeterministically (RFC 6979, low S): BIP 143 for P2WPKH and P2SH-P2WPKH,\nthe legacy signature hash for P2PKH and for the bare OP_2 input. Where\nan input sets PSBT_IN_SIGHASH_TYPE, its signature uses that type, as BIP\n174 requires.\n\nTwo vectors carried a signature with no defined signature hash: one on\na segwit v2 input, one in the vector whose output lacks PSBT_OUT_SCRIPT.\nRemove both signatures, and mark the segwit v2 input as not signed in\nthe supplementary material. Both vectors still fail for their stated\nreason.\n\nInside the PSBTs only PSBT_IN_WITNESS_UTXO and PSBT_IN_PARTIAL_SIG\nchange, and the test runner's result for every vector is unchanged.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCau0CrBsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyAsZAD/d4nc7AaraI46bjykS68i\nVovuy2mxio6KyR2Am0b9+FEA/RJ72hoMgR6Jr8SqN4R6rimL58OeVULbANYqoVSP\njNIH\n=w27w\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d4dea2a230be9f91f89f789a79f4e53137fe5498",
-          "sha": "d4dea2a230be9f91f89f789a79f4e53137fe5498",
-          "html_url": "https://github.com/bitcoin/bips/commit/d4dea2a230be9f91f89f789a79f4e53137fe5498"
-        }
-      ],
-      "message": "bip-0375: fix P2WPKH scriptPubKeys and signatures in test vectors\n\nThe P2WPKH inputs of the test vectors spend a witness program equal to\nSHA256(pubkey)[:20] instead of HASH160(pubkey), so the key each input\ncarries cannot spend it. None of the stored ECDSA signatures verifies\nagainst the transaction its PSBT describes, whatever the input type. The\nreference validator does not check signatures, so no test fails.\n\nSet every P2WPKH witness program to HASH160 of the input's public key,\nin PSBT_IN_WITNESS_UTXO and in the supplementary witness_utxo and\nprevout_scriptpubkey. Re-sign the PSBT_IN_PARTIAL_SIG signatures\ndeterministically (RFC 6979, low S): BIP 143 for P2WPKH and P2SH-P2WPKH,\nthe legacy signature hash for P2PKH and for the bare OP_2 input. Where\nan input sets PSBT_IN_SIGHASH_TYPE, its signature uses that type, as BIP\n174 requires.\n\nTwo vectors carried a signature with no defined signature hash: one on\na segwit v2 input, one in the vector whose output lacks PSBT_OUT_SCRIPT.\nRemove both signatures, and mark the segwit v2 input as not signed in\nthe supplementary material. Both vectors still fail for their stated\nreason.\n\nInside the PSBTs only PSBT_IN_WITNESS_UTXO and PSBT_IN_PARTIAL_SIG\nchange, and the test runner's result for every vector is unchanged.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-11-05T22:26:52Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-09-29T17:40:06Z"
-      },
-      "sha": "9d63a123aec2ba50ae967dc6d2840534a86cfd33"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 35294900536,
       "node_id": "HRFPE_lADOAN28mc8AAAABT-OWoc8AAAAIN71xOA",
@@ -722,6 +681,215 @@
         "name": "Pending acceptance",
         "color": "fbca04"
       }
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDQ2ZGYzMTE2Njk4YjU5MmM1M2I3ZmRiYTlhNmU3NzM3YjQ3ODU0ZGY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/46df3116698b592c53b7fdba9a6e7737b47854df",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/46df3116698b592c53b7fdba9a6e7737b47854df",
+      "tree": {
+        "sha": "c0e24300cc8e3aec32e1c741318495fe8c94bc4c",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/c0e24300cc8e3aec32e1c741318495fe8c94bc4c"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree c0e24300cc8e3aec32e1c741318495fe8c94bc4c\nparent d71d60687b4c250ae9c73c1cc29897dbd56e9903\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1790703606 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1794344064 +0100\n\nbip-0375: fix P2WPKH scriptPubKeys and signatures in test vectors\n\nThe P2WPKH inputs of the test vectors spend a witness program equal to\nSHA256(pubkey)[:20] instead of HASH160(pubkey), so the key each input\ncarries cannot spend it. None of the stored ECDSA signatures verifies\nagainst the transaction its PSBT describes, whatever the input type. The\nreference validator does not check signatures, so no test fails.\n\nSet every P2WPKH witness program to HASH160 of the input's public key,\nin PSBT_IN_WITNESS_UTXO and in the supplementary witness_utxo and\nprevout_scriptpubkey. Re-sign the PSBT_IN_PARTIAL_SIG signatures\ndeterministically (RFC 6979, low S): BIP 143 for P2WPKH and P2SH-P2WPKH,\nthe legacy signature hash for P2PKH and for the bare OP_2 input. Where\nan input sets PSBT_IN_SIGHASH_TYPE, its signature uses that type, as BIP\n174 requires.\n\nTwo vectors carried a signature with no defined signature hash: one on\na segwit v2 input, one in the vector whose output lacks PSBT_OUT_SCRIPT.\nRemove both signatures, and mark the segwit v2 input as not signed in\nthe supplementary material. Both vectors still fail for their stated\nreason.\n\nInside the PSBTs only PSBT_IN_WITNESS_UTXO and PSBT_IN_PARTIAL_SIG\nchange, and the test runner's result for every vector is unchanged.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCavOEgBsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyDGiAEA/PON/g3PDouM7mzC/EU1\nlAdgacxDnQA4yZZOOIZ8GdMBAMVQpzP4vJKGxL/epXEPueVG02MO5G/dj0Tsku/P\n0oYE\n=l71h\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d71d60687b4c250ae9c73c1cc29897dbd56e9903",
+          "sha": "d71d60687b4c250ae9c73c1cc29897dbd56e9903",
+          "html_url": "https://github.com/bitcoin/bips/commit/d71d60687b4c250ae9c73c1cc29897dbd56e9903"
+        }
+      ],
+      "message": "bip-0375: fix P2WPKH scriptPubKeys and signatures in test vectors\n\nThe P2WPKH inputs of the test vectors spend a witness program equal to\nSHA256(pubkey)[:20] instead of HASH160(pubkey), so the key each input\ncarries cannot spend it. None of the stored ECDSA signatures verifies\nagainst the transaction its PSBT describes, whatever the input type. The\nreference validator does not check signatures, so no test fails.\n\nSet every P2WPKH witness program to HASH160 of the input's public key,\nin PSBT_IN_WITNESS_UTXO and in the supplementary witness_utxo and\nprevout_scriptpubkey. Re-sign the PSBT_IN_PARTIAL_SIG signatures\ndeterministically (RFC 6979, low S): BIP 143 for P2WPKH and P2SH-P2WPKH,\nthe legacy signature hash for P2PKH and for the bare OP_2 input. Where\nan input sets PSBT_IN_SIGHASH_TYPE, its signature uses that type, as BIP\n174 requires.\n\nTwo vectors carried a signature with no defined signature hash: one on\na segwit v2 input, one in the vector whose output lacks PSBT_OUT_SCRIPT.\nRemove both signatures, and mark the segwit v2 input as not signed in\nthe supplementary material. Both vectors still fail for their stated\nreason.\n\nInside the PSBTs only PSBT_IN_WITNESS_UTXO and PSBT_IN_PARTIAL_SIG\nchange, and the test runner's result for every vector is unchanged.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-10T20:54:24Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-09-29T17:40:06Z"
+      },
+      "sha": "46df3116698b592c53b7fdba9a6e7737b47854df"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDhlOWVhNmZkNWYzNGFmOGM1YTMyYWZlYjQ0MTA0MzJiYTIyMjk1MTY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/8e9ea6fd5f34af8c5a32afeb4410432ba2229516",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/8e9ea6fd5f34af8c5a32afeb4410432ba2229516",
+      "tree": {
+        "sha": "f5c9cb7916112d0c11a1b66de2c9a19a46af19b9",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/f5c9cb7916112d0c11a1b66de2c9a19a46af19b9"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree f5c9cb7916112d0c11a1b66de2c9a19a46af19b9\nparent 46df3116698b592c53b7fdba9a6e7737b47854df\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1794344172 +0100\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1794344179 +0100\n\nbip-0375: drop the segwit v2 signature from the non-witness UTXO vector\n\nNo signature hash is defined for segwit v2. The previous commit removed\nthe same signature from the other segwit v2 vector. The validator still\nrejects the input for its segwit version.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCavOE8xsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyCZEQEA/uIbDi55psmZ02FH1tU6\ncLcMJP+XcnQh0ZFg1DD+x+IBAPf6kOdCNMUq33Tnmhpj1c4Q+L66Z8f2LyELEIg3\nnJEC\n=3caK\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/46df3116698b592c53b7fdba9a6e7737b47854df",
+          "sha": "46df3116698b592c53b7fdba9a6e7737b47854df",
+          "html_url": "https://github.com/bitcoin/bips/commit/46df3116698b592c53b7fdba9a6e7737b47854df"
+        }
+      ],
+      "message": "bip-0375: drop the segwit v2 signature from the non-witness UTXO vector\n\nNo signature hash is defined for segwit v2. The previous commit removed\nthe same signature from the other segwit v2 vector. The validator still\nrejects the input for its segwit version.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-10T20:56:19Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-10T20:56:12Z"
+      },
+      "sha": "8e9ea6fd5f34af8c5a32afeb4410432ba2229516"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDZkMjY0YWM1YWYzMGRhNGFjYmExNjBmMzBlNWU1YzgwNzU3NTMzY2U",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/6d264ac5af30da4acba160f30e5e5c80757533ce",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/6d264ac5af30da4acba160f30e5e5c80757533ce",
+      "tree": {
+        "sha": "dc3d4ff8bd57578c064ddaa1730e885e9b2d312a",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/dc3d4ff8bd57578c064ddaa1730e885e9b2d312a"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree dc3d4ff8bd57578c064ddaa1730e885e9b2d312a\nparent 8e9ea6fd5f34af8c5a32afeb4410432ba2229516\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1794341604 +0100\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1794344180 +0100\n\nbip-0375: add 0.1.4 changelog for P2WPKH test vector fix\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCavOE9BsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyD4wwEA1Xm1xKpk8HsX/a+FJK8U\nYYM31Zavq1Om4lQ8+vCXrLwA+wRVhHvWSsAO81DfkB67Xiq1ntPv+bLys+IVXKRQ\neeYM\n=h3r2\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/8e9ea6fd5f34af8c5a32afeb4410432ba2229516",
+          "sha": "8e9ea6fd5f34af8c5a32afeb4410432ba2229516",
+          "html_url": "https://github.com/bitcoin/bips/commit/8e9ea6fd5f34af8c5a32afeb4410432ba2229516"
+        }
+      ],
+      "message": "bip-0375: add 0.1.4 changelog for P2WPKH test vector fix",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-10T20:56:20Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-10T20:13:24Z"
+      },
+      "sha": "6d264ac5af30da4acba160f30e5e5c80757533ce"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 35736585932,
+      "node_id": "HRFPE_lADOAN28mc8AAAABT-OWoc8AAAAIUhEGzA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35736585932",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "6d264ac5af30da4acba160f30e5e5c80757533ce",
+      "commit_url": "https://api.github.com/repos/fametrano/bips/commits/6d264ac5af30da4acba160f30e5e5c80757533ce",
+      "created_at": "2026-11-10T22:24:47Z"
+    },
+    {
+      "event": "commented",
+      "id": 6780949465,
+      "node_id": "IC_kwDOAN28mc8AAAABlC0T2Q",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/comments/6780949465",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-10T22:25:23Z",
+      "updated_at": "2026-11-10T22:25:23Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Added 0.1.4 with a changelog entry here, and #2317 adds its line to the same entry; this push also drops the segwit v2 signature from #2310's new vector, in its own commit, since no sighash is defined for it.\n",
+      "user": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2316#issuecomment-6780949465",
+      "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2316"
     }
   ],
   "comments": []
