@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2324/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2324/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/4176399ba4722001595aa4cfaf378e31b4b18126",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/5c03926bad9896f1f77f4839684d6e54e7caf9ed",
     "number": 2324,
     "state": "open",
     "locked": false,
@@ -40,7 +40,7 @@
       "name": null,
       "patch_url": null
     },
-    "body": "The BIP-375 reference validator crashes with an `AssertionError`, instead of rejecting the PSBT, on three malformed inputs: no `PSBT_IN_WITNESS_UTXO` and no `PSBT_IN_NON_WITNESS_UTXO`; `PSBT_IN_OUTPUT_INDEX` past the end of the non-witness UTXO; a P2SH scriptPubKey without `PSBT_IN_REDEEM_SCRIPT`. All three reach the asserts in `validator/inputs.py` from `is_input_eligible`. Measured on master `d71d6068` by mutating one valid vector at a time.\n\nThe first commit raises `ValueError` there and lets `validate_bip375_psbt` report it as a failed check; `test_runner.py` still passes 44 of 44. The second adds one invalid vector per case, listed in the BIP table under ECDH Coverage, the check that rejects them: 47 of 47 with the fix, and each vector alone crashes the master validator. A separate commit sets Version 0.1.4 with its changelog entry: each of my open BIP-375 pull requests (#2315, #2316, #2317, #2324) does the same, and whichever lands first keeps 0.1.4 while the others rebase to the next version.\n\n*Made with my usual tools: a computer, the Internet and an LLM. The mistakes, as usual, are all mine.*\n",
+    "body": "The BIP-375 reference validator crashes with an `AssertionError`, instead of rejecting the PSBT, on three malformed inputs: no `PSBT_IN_WITNESS_UTXO` and no `PSBT_IN_NON_WITNESS_UTXO`; `PSBT_IN_OUTPUT_INDEX` past the end of the non-witness UTXO; a P2SH scriptPubKey without `PSBT_IN_REDEEM_SCRIPT`. All three reach the asserts in `validator/inputs.py` from `is_input_eligible`. Measured on master `b34d9f75`.\n\nThe first commit raises `ValueError` there and lets `validate_bip375_psbt` report it as a failed check; `test_runner.py` still passes master's 44 of 44. The second adds one invalid vector per case, listed in the BIP table under ECDH Coverage, the check that rejects them: 47 of 47 with the fix, and each vector alone fails the master validator with an `AssertionError`. A separate commit sets Version 0.1.6 with its changelog entry: 0.1.5 is #2316's, and whichever of the two lands second rebases its version if needed.\n\n*Made with my usual tools: a computer, the Internet and an LLM. The mistakes, as usual, are all mine.*\n",
     "labels": [
       {
         "id": 286161898,
@@ -71,18 +71,19 @@
       }
     ],
     "created_at": "2026-10-03T19:35:49Z",
-    "updated_at": "2026-11-10T22:25:25Z",
-    "mergeable": false,
-    "mergeable_state": "dirty",
+    "updated_at": "2026-11-11T02:18:32Z",
+    "mergeable": true,
+    "mergeable_state": "unstable",
     "merged": false,
+    "merge_commit_sha": "7aa8b12ebfe0b45bc1e6ff88707140670c6cffb7",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
-    "rebaseable": false,
+    "rebaseable": true,
     "head": {
       "label": "fametrano:bip375-validator-malformed-inputs",
       "ref": "bip375-validator-malformed-inputs",
-      "sha": "4176399ba4722001595aa4cfaf378e31b4b18126",
+      "sha": "5c03926bad9896f1f77f4839684d6e54e7caf9ed",
       "user": {
         "login": "fametrano",
         "id": 3296421,
@@ -195,7 +196,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-10T22:43:07Z",
+        "pushed_at": "2026-11-11T02:20:44Z",
         "created_at": "2017-10-20T08:52:01Z",
         "updated_at": "2026-11-06T11:21:00Z",
         "allow_forking": true
@@ -204,7 +205,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "d71d60687b4c250ae9c73c1cc29897dbd56e9903",
+      "sha": "b34d9f751791d4feb22feff4f2ed00bcac83961b",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -319,7 +320,7 @@
         "visibility": "public",
         "pushed_at": "2026-11-10T22:50:29Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-10T21:17:50Z",
+        "updated_at": "2026-11-10T23:50:36Z",
         "allow_forking": true
       }
     },
@@ -696,126 +697,6 @@
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2324"
     },
     {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKGUzN2U4MjI3NmNiZDBjOWMyNjgxNjkxOTZjYmIyOTllZTc0MzlkYmI",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e37e82276cbd0c9c268169196cbb299ee7439dbb",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/e37e82276cbd0c9c268169196cbb299ee7439dbb",
-      "tree": {
-        "sha": "6e4e890cae446a6ecf28406a5af1eba4bd5c921e",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/6e4e890cae446a6ecf28406a5af1eba4bd5c921e"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 6e4e890cae446a6ecf28406a5af1eba4bd5c921e\nparent d71d60687b4c250ae9c73c1cc29897dbd56e9903\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1791053662 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1794344070 +0100\n\nBIP375: reject inputs with missing UTXO or redeem script\n\nThe reference validator hit an assert, and crashed, on an input with no\nUTXO, a PSBT_IN_OUTPUT_INDEX past the end of its non-witness UTXO, or a\nP2SH scriptPubKey without PSBT_IN_REDEEM_SCRIPT. Raise ValueError\ninstead and report it from validate_bip375_psbt as a failed check.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCavOEhhsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyD1WAEA2uLoFICNVvPnyZTvRL7x\nqSA10QZMRNtMKNztxV8FevEBAOXY0PPhgvRonmlYsvUwwwMM2tUi3N1aFqNUcXrN\npZwG\n=9qYa\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/d71d60687b4c250ae9c73c1cc29897dbd56e9903",
-          "sha": "d71d60687b4c250ae9c73c1cc29897dbd56e9903",
-          "html_url": "https://github.com/bitcoin/bips/commit/d71d60687b4c250ae9c73c1cc29897dbd56e9903"
-        }
-      ],
-      "message": "BIP375: reject inputs with missing UTXO or redeem script\n\nThe reference validator hit an assert, and crashed, on an input with no\nUTXO, a PSBT_IN_OUTPUT_INDEX past the end of its non-witness UTXO, or a\nP2SH scriptPubKey without PSBT_IN_REDEEM_SCRIPT. Raise ValueError\ninstead and report it from validate_bip375_psbt as a failed check.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-11-10T20:54:30Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-10-03T18:54:22Z"
-      },
-      "sha": "e37e82276cbd0c9c268169196cbb299ee7439dbb"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDI4MzAxMjI5ODhhZDllZWFkNDgyZjEyNWI3MzBlMzllMjhiZmZiMWM",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/2830122988ad9eead482f125b730e39e28bffb1c",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/2830122988ad9eead482f125b730e39e28bffb1c",
-      "tree": {
-        "sha": "7a4da7474702ec6802aaccfe70063c1a5dbd82ec",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/7a4da7474702ec6802aaccfe70063c1a5dbd82ec"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree 7a4da7474702ec6802aaccfe70063c1a5dbd82ec\nparent e37e82276cbd0c9c268169196cbb299ee7439dbb\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1791055196 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1794344071 +0100\n\nBIP375: add invalid vectors for missing UTXO and redeem script\n\nOne vector per case the reference validator now rejects: no UTXO field,\nPSBT_IN_OUTPUT_INDEX past the end of the non-witness UTXO, and a P2SH\ninput without PSBT_IN_REDEEM_SCRIPT. The ECDH coverage check rejects\neach. List them in the BIP table.\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCavOEhxsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyB4uQEAi+X2NnSs6j/ISP2ncK1K\nDCD2Sd2PgylT0FIT8C2p7LIA/1nWx1WrBlYx1lpC01dC+SXyv94lWmLoUiLw2Bpf\n9oIN\n=iRy2\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e37e82276cbd0c9c268169196cbb299ee7439dbb",
-          "sha": "e37e82276cbd0c9c268169196cbb299ee7439dbb",
-          "html_url": "https://github.com/bitcoin/bips/commit/e37e82276cbd0c9c268169196cbb299ee7439dbb"
-        }
-      ],
-      "message": "BIP375: add invalid vectors for missing UTXO and redeem script\n\nOne vector per case the reference validator now rejects: no UTXO field,\nPSBT_IN_OUTPUT_INDEX past the end of the non-witness UTXO, and a P2SH\ninput without PSBT_IN_REDEEM_SCRIPT. The ECDH coverage check rejects\neach. List them in the BIP table.",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-11-10T20:54:31Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-10-03T19:19:56Z"
-      },
-      "sha": "2830122988ad9eead482f125b730e39e28bffb1c"
-    },
-    {
-      "event": "committed",
-      "id": null,
-      "node_id": "C_kwDOAN28mdoAKDQxNzYzOTliYTQ3MjIwMDE1OTVhYTRjZmFmMzc4ZTMxYjRiMTgxMjY",
-      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/4176399ba4722001595aa4cfaf378e31b4b18126",
-      "actor": null,
-      "commit_id": null,
-      "commit_url": null,
-      "created_at": null,
-      "html_url": "https://github.com/bitcoin/bips/commit/4176399ba4722001595aa4cfaf378e31b4b18126",
-      "tree": {
-        "sha": "ba9a316d7a360577bbd2bf2203b26494f0432550",
-        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/ba9a316d7a360577bbd2bf2203b26494f0432550"
-      },
-      "verification": {
-        "verified": true,
-        "reason": "valid",
-        "payload": "tree ba9a316d7a360577bbd2bf2203b26494f0432550\nparent 2830122988ad9eead482f125b730e39e28bffb1c\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1794341640 +0100\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1794344071 +0100\n\nBIP375: add 0.1.4 changelog for missing UTXO and redeem script\n",
-        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCavOEhxsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyDtbwD9Fl/9Ukgk9UN/vvaLnj1A\n9OI9Lq/oxI8Uk6YXBa/PsmIBANcJdGqYDLbzyRvh+jh/SeZt7SMyBtEkuJ5POcpZ\nG5MO\n=1jkL\n-----END PGP SIGNATURE-----"
-      },
-      "parents": [
-        {
-          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/2830122988ad9eead482f125b730e39e28bffb1c",
-          "sha": "2830122988ad9eead482f125b730e39e28bffb1c",
-          "html_url": "https://github.com/bitcoin/bips/commit/2830122988ad9eead482f125b730e39e28bffb1c"
-        }
-      ],
-      "message": "BIP375: add 0.1.4 changelog for missing UTXO and redeem script",
-      "committer": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-11-10T20:54:31Z"
-      },
-      "author": {
-        "name": "Ferdinando Ametrano",
-        "email": "ferdinando@ametrano.net",
-        "date": "2026-11-10T20:14:00Z"
-      },
-      "sha": "4176399ba4722001595aa4cfaf378e31b4b18126"
-    },
-    {
       "event": "head_ref_force_pushed",
       "id": 35736590856,
       "node_id": "HRFPE_lADOAN28mc8AAAABU1Jy7c8AAAAIUhEaCA",
@@ -903,6 +784,157 @@
       },
       "html_url": "https://github.com/bitcoin/bips/pull/2324#issuecomment-6780950105",
       "issue_url": "https://api.github.com/repos/bitcoin/bips/issues/2324"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDRmYThlZDI1NmJiMzQ3ZDdmNjM2MDcwMjJjNTE2ZDBkNzExNGYwNzE",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/4fa8ed256bb347d7f63607022c516d0d7114f071",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/4fa8ed256bb347d7f63607022c516d0d7114f071",
+      "tree": {
+        "sha": "cc02d5cad0fa27c3a61b19fae6c320f295742f3e",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/cc02d5cad0fa27c3a61b19fae6c320f295742f3e"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree cc02d5cad0fa27c3a61b19fae6c320f295742f3e\nparent b34d9f751791d4feb22feff4f2ed00bcac83961b\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1791053662 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1794362437 +0100\n\nBIP375: reject inputs with missing UTXO or redeem script\n\nThe reference validator hit an assert, and crashed, on an input with no\nUTXO, a PSBT_IN_OUTPUT_INDEX past the end of its non-witness UTXO, or a\nP2SH scriptPubKey without PSBT_IN_REDEEM_SCRIPT. Raise ValueError\ninstead and report it from validate_bip375_psbt as a failed check.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCavPMRRsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyDxKgEA42xBff9iKOx1lN9Zc/VT\nUTmH/o/plFiiHtAJBZRvaVcA/ROvDsh6vOgIxztmf4lHZzH7mxj4c5c1pN9YjhEF\nYzkN\n=6t+p\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/b34d9f751791d4feb22feff4f2ed00bcac83961b",
+          "sha": "b34d9f751791d4feb22feff4f2ed00bcac83961b",
+          "html_url": "https://github.com/bitcoin/bips/commit/b34d9f751791d4feb22feff4f2ed00bcac83961b"
+        }
+      ],
+      "message": "BIP375: reject inputs with missing UTXO or redeem script\n\nThe reference validator hit an assert, and crashed, on an input with no\nUTXO, a PSBT_IN_OUTPUT_INDEX past the end of its non-witness UTXO, or a\nP2SH scriptPubKey without PSBT_IN_REDEEM_SCRIPT. Raise ValueError\ninstead and report it from validate_bip375_psbt as a failed check.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-11T02:00:37Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-10-03T18:54:22Z"
+      },
+      "sha": "4fa8ed256bb347d7f63607022c516d0d7114f071"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDFhZmVlYzljMWI3ZTdhYzU3MWJiZmZkNTBlYTk1MjBhZDMwYjNmYzY",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1afeec9c1b7e7ac571bbffd50ea9520ad30b3fc6",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/1afeec9c1b7e7ac571bbffd50ea9520ad30b3fc6",
+      "tree": {
+        "sha": "e0a520cfdedb90baa10d8924194602878753fbb4",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/e0a520cfdedb90baa10d8924194602878753fbb4"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree e0a520cfdedb90baa10d8924194602878753fbb4\nparent 4fa8ed256bb347d7f63607022c516d0d7114f071\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1791055196 +0200\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1794362438 +0100\n\nBIP375: add invalid vectors for missing UTXO and redeem script\n\nOne vector per case the reference validator now rejects: no UTXO field,\nPSBT_IN_OUTPUT_INDEX past the end of the non-witness UTXO, and a P2SH\ninput without PSBT_IN_REDEEM_SCRIPT. The ECDH coverage check rejects\neach. List them in the BIP table.\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCavPMRhsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyDabQEArGbjYLJEru/F9CmOg2u0\njY2ufY52tMgWivmRFfIKSWMA/A0Cf0aV8E98Hj0vdoPYzfdgJAO7D1Pvwqu0obwN\nGSwC\n=Hyo/\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/4fa8ed256bb347d7f63607022c516d0d7114f071",
+          "sha": "4fa8ed256bb347d7f63607022c516d0d7114f071",
+          "html_url": "https://github.com/bitcoin/bips/commit/4fa8ed256bb347d7f63607022c516d0d7114f071"
+        }
+      ],
+      "message": "BIP375: add invalid vectors for missing UTXO and redeem script\n\nOne vector per case the reference validator now rejects: no UTXO field,\nPSBT_IN_OUTPUT_INDEX past the end of the non-witness UTXO, and a P2SH\ninput without PSBT_IN_REDEEM_SCRIPT. The ECDH coverage check rejects\neach. List them in the BIP table.",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-11T02:00:38Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-10-03T19:19:56Z"
+      },
+      "sha": "1afeec9c1b7e7ac571bbffd50ea9520ad30b3fc6"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKDVjMDM5MjZiYWQ5ODk2ZjFmNzdmNDgzOTY4NGQ2ZTU0ZTdjYWY5ZWQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/5c03926bad9896f1f77f4839684d6e54e7caf9ed",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/5c03926bad9896f1f77f4839684d6e54e7caf9ed",
+      "tree": {
+        "sha": "21978a4b7dfecca4cf85a4035c808b046fe600a8",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/21978a4b7dfecca4cf85a4035c808b046fe600a8"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 21978a4b7dfecca4cf85a4035c808b046fe600a8\nparent 1afeec9c1b7e7ac571bbffd50ea9520ad30b3fc6\nauthor Ferdinando Ametrano <ferdinando@ametrano.net> 1794362471 +0100\ncommitter Ferdinando Ametrano <ferdinando@ametrano.net> 1794362951 +0100\n\nBIP375: add 0.1.6 changelog for missing UTXO and redeem script\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\niJEEABYKADkWIQRJ5SMZs3eEinN+Lb4iedqLwmlHIAUCavPORxsUgAAAAAAEAA5t\nYW51MiwyLjUrMS4xMiwwLDMACgkQInnai8JpRyB2kQEAmNTfr8HZYVAvhLUPW7MA\n1+4xAdpN7E6r4VYwrxFN/28A/1puz/oSLU8GozAOPkRDss3qz6StxPviaol3YiHk\nGDsJ\n=YU8y\n-----END PGP SIGNATURE-----"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/1afeec9c1b7e7ac571bbffd50ea9520ad30b3fc6",
+          "sha": "1afeec9c1b7e7ac571bbffd50ea9520ad30b3fc6",
+          "html_url": "https://github.com/bitcoin/bips/commit/1afeec9c1b7e7ac571bbffd50ea9520ad30b3fc6"
+        }
+      ],
+      "message": "BIP375: add 0.1.6 changelog for missing UTXO and redeem script",
+      "committer": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-11T02:09:11Z"
+      },
+      "author": {
+        "name": "Ferdinando Ametrano",
+        "email": "ferdinando@ametrano.net",
+        "date": "2026-11-11T02:01:11Z"
+      },
+      "sha": "5c03926bad9896f1f77f4839684d6e54e7caf9ed"
+    },
+    {
+      "event": "head_ref_force_pushed",
+      "id": 35753113100,
+      "node_id": "HRFPE_lADOAN28mc8AAAABU1Jy7c8AAAAIUw02DA",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/35753113100",
+      "actor": {
+        "login": "fametrano",
+        "id": 3296421,
+        "node_id": "MDQ6VXNlcjMyOTY0MjE=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/3296421?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/fametrano",
+        "html_url": "https://github.com/fametrano",
+        "followers_url": "https://api.github.com/users/fametrano/followers",
+        "following_url": "https://api.github.com/users/fametrano/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/fametrano/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/fametrano/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/fametrano/subscriptions",
+        "organizations_url": "https://api.github.com/users/fametrano/orgs",
+        "repos_url": "https://api.github.com/users/fametrano/repos",
+        "events_url": "https://api.github.com/users/fametrano/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/fametrano/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": "5c03926bad9896f1f77f4839684d6e54e7caf9ed",
+      "commit_url": "https://api.github.com/repos/fametrano/bips/commits/5c03926bad9896f1f77f4839684d6e54e7caf9ed",
+      "created_at": "2026-11-11T02:18:31Z"
     }
   ],
   "comments": []
