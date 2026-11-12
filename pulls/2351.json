@@ -61,7 +61,7 @@
       }
     ],
     "created_at": "2026-11-10T16:10:17Z",
-    "updated_at": "2026-11-10T22:58:08Z",
+    "updated_at": "2026-11-12T14:54:19Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -293,11 +293,11 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6044,
-        "stargazers_count": 11016,
-        "watchers_count": 11016,
+        "stargazers_count": 11020,
+        "watchers_count": 11020,
         "size": 20953,
         "default_branch": "master",
-        "open_issues_count": 58,
+        "open_issues_count": 59,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -310,7 +310,7 @@
         "visibility": "public",
         "pushed_at": "2026-11-10T22:50:29Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-10T21:17:50Z",
+        "updated_at": "2026-11-12T11:48:01Z",
         "allow_forking": true
       }
     },
@@ -325,7 +325,7 @@
     "deletions": 12,
     "changed_files": 8,
     "commits": 7,
-    "review_comments": 0,
+    "review_comments": 4,
     "comments": 1
   },
   "events": [
@@ -806,7 +806,263 @@
       "submitted_at": "2026-11-10T22:58:08Z",
       "state": "COMMENTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2351"
+    },
+    {
+      "event": "reviewed",
+      "id": 5876510905,
+      "node_id": "PRR_kwDOAN28mc8AAAABXkRwuQ",
+      "url": null,
+      "actor": null,
+      "commit_id": "2061baf3313a69f35eebca714389f03dc817fd07",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-11-12T14:54:18Z",
+      "author_association": "CONTRIBUTOR",
+      "body": "Concept ACK 2061baf3313a69f35eebca714389f03dc817fd07\n\nI ran `reference.py` and `gen_vectors_helper.py` at this commit: the tests pass, and the generated sig_agg vectors match the JSON.\n\n\n I also applied the mistakes that the rationales of the new `Sign` error vectors name to `reference.py`, one at a time, and recorded which vectors detect each mistake. Every new vector detects the mistake its rationale names, but two rationales name a mistake that another new vector also detects (see inline), as does the rationale of the 4-byte `extra_in` vector that fametrano pointed out. I think this is fine for test vectors, but it contradicts the new requirement that each test vector detect a mistake that no other test vector detects, so I suggest dropping that requirement (see inline).\n\n(Reviewed with the help of Claude Opus 5.5)\n",
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2351#pullrequestreview-5876510905",
+      "submitted_at": "2026-11-12T14:54:18Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2351"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4552022804",
+      "pull_request_review_id": 5876510905,
+      "id": 4552022804,
+      "node_id": "PRRC_kwDOAN28mc8AAAABD1JbFA",
+      "diff_hunk": "@@ -527,6 +527,9 @@ We provide a naive, highly inefficient, and non-constant time [[bip-0327/referen\n \n Standalone JSON test vectors are also available in the [[bip-0327|same directory]], to facilitate porting the test vectors into other implementations.\n \n+Each test vector should detect a plausible implementation mistake that no other test vector detects.",
+      "path": "bip-0327.mediawiki",
+      "position": 13,
+      "original_position": 13,
+      "commit_id": "2061baf3313a69f35eebca714389f03dc817fd07",
+      "original_commit_id": "2061baf3313a69f35eebca714389f03dc817fd07",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I suggest dropping this requirement. The existing test vectors probably do not meet it, and three of the new ones do not either: the 4-byte `extra_in` vector (see fametrano's review) and two `Sign` error vectors (see my other comments). Checking it requires comparing each vector against all others, which makes it hard to maintain whenever a vector is added. A rationale that names a mistake the vector detects is useful without it.\n\n```suggestion\n```",
+      "created_at": "2026-11-12T14:51:41Z",
+      "updated_at": "2026-11-12T14:54:18Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2351#discussion_r4552022804",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4552022804"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2351"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 530,
+      "original_line": 530,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4552022845",
+      "pull_request_review_id": 5876510905,
+      "id": 4552022845,
+      "node_id": "PRRC_kwDOAN28mc8AAAABD1JbPQ",
+      "diff_hunk": "@@ -782,6 +785,9 @@ An exception to this rule is <code>MAJOR</code> version zero (0.y.z) which is fo\n The <code>MINOR</code> version is incremented whenever the inputs or the output of an algorithm changes in a backward-compatible way or new backward-compatible functionality is added.\n The <code>PATCH</code> version is incremented for other changes that are noteworthy (bug fixes, test vectors, important clarifications, etc.).\n \n+* '''1.0.5''' (2026-11-10):\n+** Add test vectors that detect implementation mistakes the previous test vectors missed, and improve a ''PartialSigVerify'' test vector.\n+** Describe the purpose and scope of the test vectors, and state in a new <code>rationale</code> field which mistake each new test vector detects.",
+      "path": "bip-0327.mediawiki",
+      "position": 25,
+      "original_position": 25,
+      "commit_id": "2061baf3313a69f35eebca714389f03dc817fd07",
+      "original_commit_id": "2061baf3313a69f35eebca714389f03dc817fd07",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "If the uniqueness requirement is dropped (see the comment on the description of the test vectors):\n\n```suggestion\n** Describe the scope of the test vectors, and state in a new <code>rationale</code> field which mistake each new test vector detects.\n```",
+      "created_at": "2026-11-12T14:51:41Z",
+      "updated_at": "2026-11-12T14:54:18Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2351#discussion_r4552022845",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4552022845"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2351"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 790,
+      "original_line": 790,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4552022862",
+      "pull_request_review_id": 5876510905,
+      "id": 4552022862,
+      "node_id": "PRRC_kwDOAN28mc8AAAABD1JbTg",
+      "diff_hunk": "@@ -153,6 +171,66 @@\n                 \"message\": \"first secnonce value is out of range.\"\n             },\n             \"comment\": \"Secnonce is invalid which may indicate nonce reuse\"\n+        },\n+        {\n+            \"key_indices\": [0, 1, 2],\n+            \"aggnonce_index\": 0,\n+            \"msg_index\": 0,\n+            \"secnonce_index\": 2,\n+            \"error\": {\n+                \"type\": \"value\",\n+                \"message\": \"second secnonce value is out of range.\"\n+            },\n+            \"comment\": \"Secnonce is invalid because its second half is zero\",\n+            \"rationale\": \"Detects implementations that check only the first secnonce value\"",
+      "path": "bip-0327/vectors/sign_verify_vectors.json",
+      "position": 65,
+      "original_position": 65,
+      "commit_id": "2061baf3313a69f35eebca714389f03dc817fd07",
+      "original_commit_id": "2061baf3313a69f35eebca714389f03dc817fd07",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "The vectors with k2' = n and k2' > n also detect this mistake: an implementation that checks only k1' signs both without an error. The mistake that only this vector detects is a missing check that k2' is nonzero. If the requirement that each test vector detect a mistake that no other test vector detects stays, the rationale should name that one.\n\n```suggestion\n            \"rationale\": \"Detects implementations that check only that k2' < n\"\n```",
+      "created_at": "2026-11-12T14:51:42Z",
+      "updated_at": "2026-11-12T14:54:18Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2351#discussion_r4552022862",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4552022862"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2351"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 185,
+      "original_line": 185,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4552022874",
+      "pull_request_review_id": 5876510905,
+      "id": 4552022874,
+      "node_id": "PRRC_kwDOAN28mc8AAAABD1JbWg",
+      "diff_hunk": "@@ -153,6 +171,66 @@\n                 \"message\": \"first secnonce value is out of range.\"\n             },\n             \"comment\": \"Secnonce is invalid which may indicate nonce reuse\"\n+        },\n+        {\n+            \"key_indices\": [0, 1, 2],\n+            \"aggnonce_index\": 0,\n+            \"msg_index\": 0,\n+            \"secnonce_index\": 2,\n+            \"error\": {\n+                \"type\": \"value\",\n+                \"message\": \"second secnonce value is out of range.\"\n+            },\n+            \"comment\": \"Secnonce is invalid because its second half is zero\",\n+            \"rationale\": \"Detects implementations that check only the first secnonce value\"\n+        },\n+        {\n+            \"key_indices\": [0, 1, 2],\n+            \"aggnonce_index\": 0,\n+            \"msg_index\": 0,\n+            \"secnonce_index\": 3,\n+            \"error\": {\n+                \"type\": \"value\",\n+                \"message\": \"Public key does not match nonce_gen argument\"\n+            },\n+            \"comment\": \"Secnonce was generated for another signer's public key\",\n+            \"rationale\": \"Detects implementations that do not compare secnonce[64:97] with the signer's public key\"",
+      "path": "bip-0327/vectors/sign_verify_vectors.json",
+      "position": 77,
+      "original_position": 77,
+      "commit_id": "2061baf3313a69f35eebca714389f03dc817fd07",
+      "original_commit_id": "2061baf3313a69f35eebca714389f03dc817fd07",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "real-or-random",
+        "id": 1071625,
+        "node_id": "MDQ6VXNlcjEwNzE2MjU=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/1071625?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/real-or-random",
+        "html_url": "https://github.com/real-or-random",
+        "followers_url": "https://api.github.com/users/real-or-random/followers",
+        "following_url": "https://api.github.com/users/real-or-random/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/real-or-random/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/real-or-random/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/real-or-random/subscriptions",
+        "organizations_url": "https://api.github.com/users/real-or-random/orgs",
+        "repos_url": "https://api.github.com/users/real-or-random/repos",
+        "events_url": "https://api.github.com/users/real-or-random/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/real-or-random/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "The vector with the negated public key below also detects this mistake. The mistakes that only this vector detects are using secnonce[64:97] as the signer's public key, and checking only that secnonce[64:97] is one of the public keys: this secnonce's public key belongs to the second signer, while the negated key in the other vector belongs to no signer. If the requirement that each test vector detect a mistake that no other test vector detects stays, the rationale should name those.\n\n```suggestion\n            \"rationale\": \"Detects implementations that check only that secnonce[64:97] is one of the public keys, or that use secnonce[64:97] instead of the public key of sk\"\n```",
+      "created_at": "2026-11-12T14:51:42Z",
+      "updated_at": "2026-11-12T14:54:18Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2351#discussion_r4552022874",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4552022874"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2351"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 197,
+      "original_line": 197,
+      "side": "RIGHT"
+    }
+  ]
 }
