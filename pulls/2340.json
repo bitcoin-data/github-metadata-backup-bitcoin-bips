@@ -12,7 +12,7 @@
     "review_comments_url": "https://api.github.com/repos/bitcoin/bips/pulls/2340/comments",
     "review_comment_url": "https://api.github.com/repos/bitcoin/bips/pulls/comments%7B/number%7D",
     "comments_url": "https://api.github.com/repos/bitcoin/bips/issues/2340/comments",
-    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/54321b4b6ef4147edcd4d9d6d1fc3adf9dfeb368",
+    "statuses_url": "https://api.github.com/repos/bitcoin/bips/statuses/eacc0d0f54f5f76c04f0dd8757693de4a621c1a4",
     "number": 2340,
     "state": "open",
     "locked": false,
@@ -52,11 +52,11 @@
       }
     ],
     "created_at": "2026-11-01T06:43:15Z",
-    "updated_at": "2026-11-14T14:31:28Z",
+    "updated_at": "2026-11-17T12:02:37Z",
     "mergeable": true,
-    "mergeable_state": "clean",
+    "mergeable_state": "unstable",
     "merged": false,
-    "merge_commit_sha": "2eaa34b6888b7f40f31867806711f9a210eb929a",
+    "merge_commit_sha": "8d1a036fd4abf11b99fe886f16e58ceca89ba396",
     "assignees": [],
     "requested_reviewers": [],
     "requested_teams": [],
@@ -64,7 +64,7 @@
     "head": {
       "label": "bitryonix:bip-unspendable-internal-keys",
       "ref": "bip-unspendable-internal-keys",
-      "sha": "54321b4b6ef4147edcd4d9d6d1fc3adf9dfeb368",
+      "sha": "eacc0d0f54f5f76c04f0dd8757693de4a621c1a4",
       "user": {
         "login": "bitryonix",
         "id": 247300563,
@@ -177,7 +177,7 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-07T04:47:53Z",
+        "pushed_at": "2026-11-17T12:03:14Z",
         "created_at": "2026-09-07T08:51:22Z",
         "updated_at": "2026-10-31T07:12:45Z",
         "allow_forking": true
@@ -186,7 +186,7 @@
     "base": {
       "label": "bitcoin:master",
       "ref": "master",
-      "sha": "f9cff97a6baa76ad213fbc4acfb286e016efdbef",
+      "sha": "e373a69b96c03329cbf4196cb236a2dec4353154",
       "user": {
         "login": "bitcoin",
         "id": 528860,
@@ -283,10 +283,10 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6045,
-        "stargazers_count": 11024,
-        "watchers_count": 11024,
-        "size": 20953,
+        "forks_count": 6051,
+        "stargazers_count": 11034,
+        "watchers_count": 11034,
+        "size": 21710,
         "default_branch": "master",
         "open_issues_count": 60,
         "is_template": false,
@@ -299,9 +299,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-10T22:50:29Z",
+        "pushed_at": "2026-11-17T10:19:27Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-14T10:30:28Z",
+        "updated_at": "2026-11-17T11:50:40Z",
         "allow_forking": true
       }
     },
@@ -315,7 +315,7 @@
     "additions": 5921,
     "deletions": 0,
     "changed_files": 18,
-    "commits": 13,
+    "commits": 14,
     "review_comments": 14,
     "comments": 16
   },
@@ -719,7 +719,7 @@
       "commit_url": null,
       "created_at": null,
       "updated_at": "2026-11-02T01:12:04Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "ACK e18f81a2ac192f8c59da7fe9cc2795309b8dd343\n\nI implemented normalization, the commitment and the export from the BIP text, without the reference code, on btclib-org's BIP 32 and hashing code (btclib-wallet, btclib, ecc), which I maintain. This adds to the runs of `tests.py` and `check_core.py` above an implementation that shares no code with the reference. It reproduces every intermediate value of all 51 valid vectors, the 105 internal keys and the 51 exports, agrees with the 11 equivalent groups and 13 distinct pairs, and rejects the 50 invalid vectors at their stated stage. btclib-wallet's descriptor parser reads back the exports of 42 valid vectors and derives the same 86 internal keys; it refuses the leaves of the other 9 as not sane or not satisfiable. Its addresses match the 20 Bitcoin Core results in `core-checks.json`, and `gen_vectors.py` prints `vectors.json` byte for byte. Scripts and output: https://gist.github.com/fametrano/d8966a1925a4f8d1800c05f2422d365a/d26bc4f8de24a38d6389cdfc3e7c2e4c7e4a5f40\n",
       "user": {
         "login": "fametrano",
@@ -798,7 +798,7 @@
       "commit_url": null,
       "created_at": null,
       "updated_at": "2026-11-02T09:25:17Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "ACK a2175a1e336eddb80562173bc8863bbaf2269932\n\nSince e18f81a2 only the BIP text and `tests.py` changed; `reference.py`, `vectors.json` and `core-checks.json` are byte-identical, so the btclib-org reproduction in my earlier review still holds: https://gist.github.com/fametrano/d8966a1925a4f8d1800c05f2422d365a/d26bc4f8de24a38d6389cdfc3e7c2e4c7e4a5f40. On this head `tests.py` passes its 24 tests, `gen_vectors.py` still prints `vectors.json` byte for byte, and the three cases the new Backward compatibility paragraph lists are the ones BIP 388's Additional rules forbid.\n\nNot blocking: when the policy has keys, the export gives the root the last index but places it first, as in `tr(@2/**,{pk(@0/**),pk(@1/**)})`, while the same Additional rules say the key vector should be ordered so that `@0` appears first; the paragraph could say so. And \"Production implementations should use iterative parsing (or raise the limit)\" now comes before the `RecursionError` paragraph, so \"the limit\" is not yet defined there; it belongs after it.\n",
       "user": {
         "login": "fametrano",
@@ -1268,7 +1268,7 @@
       "commit_url": null,
       "created_at": null,
       "updated_at": "2026-11-04T08:01:55Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "Concept ACK\n\nOne issue should be fixed before merge: the Export section does not say how the exported placeholders are numbered, and the exported templates and key vectors in `vectors.json` depend on it.\n\nBoth points of my previous review are addressed. Since a2175a1e, `vectors.json` changes only in the exported templates and key vectors, in 42 of the 51 valid cases; the other 9 have no key but the root. The exported descriptors, intermediate values and derivations are unchanged. On this head `tests.py` passes its 25 tests and `gen_vectors.py` prints `vectors.json` byte for byte. My btclib-org reproduction, written from the text, matches none of the 42 changed exports; with the reference's numbering it matches all 51. Scripts and outputs: https://gist.github.com/fametrano/d8966a1925a4f8d1800c05f2422d365a/4930f34468b34971a06ea52153de72d84b60a703\n\nOne sentence in Export would close it: after `_` is replaced, the root is `@0`, the other placeholders are renumbered by first appearance, and the key vector follows that order, with unreferenced items last, in their input order.\n",
       "user": {
         "login": "fametrano",
@@ -1463,7 +1463,7 @@
       "commit_url": null,
       "created_at": null,
       "updated_at": "2026-11-04T23:27:46Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "ACK 68bdb208c8c649f0220429bea65247c80fb8a897\n\nThe new Export paragraph is enough to reproduce the vectors. I rewrote the `export()` of my btclib-org reproduction from it, and it now matches all 51 exported templates and key vectors in `vectors.json`; the version written from the previous text failed 42 of them. The rest still passes: 105 derivations, 50 of 50 invalid vectors rejected at the stated stage, and the 20 recorded Bitcoin Core addresses. Only `bip-0395.mediawiki` changed since 69875aa2, so the reference code and vectors are the ones I checked there. Script, commands and output: https://gist.github.com/fametrano/d8966a1925a4f8d1800c05f2422d365a/6b4edd1ed4d7524247e26a892468d8696f194f6d\n",
       "user": {
         "login": "fametrano",
@@ -1723,7 +1723,7 @@
       "commit_url": null,
       "created_at": null,
       "updated_at": "2026-11-07T14:50:07Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "ACK 54321b4b\n\nMy reproduction, written from the text, matches all 55 valid vectors on this head, the four new ones and the two new equivalent groups included, and rejects the 50 invalid vectors at their stated stage. Writing every hardened marker as `h` is the only rule it needed: the version that matched 68bdb208 fails exactly `hardened-leaf-syntax`, `hardened-leaf-apostrophe` and their group. The scripts, commands and outputs are in https://gist.github.com/fametrano/d8966a1925a4f8d1800c05f2422d365a/f67efbcfc2eed400f6050fced6fa02cfc21d7b49",
       "user": {
         "login": "fametrano",
@@ -1841,7 +1841,7 @@
       "commit_url": null,
       "created_at": "2026-11-10T20:13:32Z",
       "updated_at": "2026-11-10T20:13:32Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "A keys-only commitment gives the same internal key to 11 of the 13 pairs that `vectors.json` lists as distinct. Four of them differ in key expressions, such as the same xpub at another path.\n\nI measured this on 54321b4b to put numbers on @bigspider's point. The whole normalization is 20% of the reference code and 35% of the Specification's words.\n\nI suggest committing to each key expression with its derivation path. Only policies with the same key expressions, which already share leaf keys, would share an internal key, and the 31 pairs `vectors.json` lists as equivalent stay together. It still needs MuSig participants sorted, equal records merged and one spelling per path, so part of normalization stays. The trade: the other 7 pairs (threshold, key order, tree shape, repetition, timelock and hashlock changes) would share one, and the Rationale's coordinator-reuse concern stays open. Scripts and outputs are at https://gist.github.com/fametrano/1a363003e55795b5d1a4e39e3c42c81e/2a76db0c3fb67863b9f5cbe7033ebc3cb83aab27.\n",
       "user": {
         "login": "fametrano",
@@ -2081,7 +2081,7 @@
       "commit_url": null,
       "created_at": "2026-11-11T23:17:43Z",
       "updated_at": "2026-11-11T23:17:43Z",
-      "author_association": "NONE",
+      "author_association": "CONTRIBUTOR",
       "body": "Keys-only is acceptable to me. Whether it suits a signer is a question for @bigspider, who wrote BIP 388 and the Ledger Bitcoin app.\n",
       "user": {
         "login": "fametrano",
@@ -2827,6 +2827,51 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-11-14T14:31:31Z"
+    },
+    {
+      "event": "committed",
+      "id": null,
+      "node_id": "C_kwDOAN28mdoAKGVhY2MwZDBmNTRmNWY3NmMwNGYwZGQ4NzU3NjkzZGU0YTYyMWMxYTQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/git/commits/eacc0d0f54f5f76c04f0dd8757693de4a621c1a4",
+      "actor": null,
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": null,
+      "html_url": "https://github.com/bitcoin/bips/commit/eacc0d0f54f5f76c04f0dd8757693de4a621c1a4",
+      "tree": {
+        "sha": "3454cce51de39cfe37141d002393e3a21aed6316",
+        "url": "https://api.github.com/repos/bitcoin/bips/git/trees/3454cce51de39cfe37141d002393e3a21aed6316"
+      },
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "payload": "tree 3454cce51de39cfe37141d002393e3a21aed6316\nparent 54321b4b6ef4147edcd4d9d6d1fc3adf9dfeb368\nparent e373a69b96c03329cbf4196cb236a2dec4353154\nauthor NTL <2099999997690000@proton.me> 1794916955 -0500\ncommitter GitHub <noreply@github.com> 1794916955 -0500\n\nMerge branch 'bitcoin:master' into bip-unspendable-internal-keys\n",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq/EJbCRC1aQ7uu5UhlAAA/bgQACnjoSUHcGjMVw8beRZRdDpu\nzIP2s2gYJ5a2EfQF8dSnMkLIui8VT+puRJZb16p/usx5D7RraUB8ZR1w4p93Sl2o\nZKz149CczHkGH6yDprQ23E8/Z6+rjbCZRjqa5S3UIeZEyzTc21PC9/gUTLimMG3z\nT/Nu3ctEiySwz6qOrjsQMYbiKfdExHarhWxkRDDMhcva3UKpTHr8gM4S8wHLvnyM\nZL+AwQRlLx2kxkHJYFKVn++cDPZyh2xR8hfOXV3X9K5Ogv+efZPXg9W6fN170zfS\noGO6qOZaU1yQotaNEI1vtU1qWv2N0obws0eC4qqd/W4o9w/hWbeFIJ2JsncrkbuA\n3m/A0Lu55MHMGxkLACMBte+GAw6fQrE2rzCXkM+xgBz9W6K0sHuXVqA2vytiMOZI\nmLrcgnPbjnmNLqeL17oHBK4QpRpNiq8sKtjS4ijY12nXMB7bMBPno9jzJdLSb+jq\n+ZtJGcckERp4vSOALFIdhoZd8KH5oeg4IlPubGejIu3HXtexHrWZkRhd9MesyCcJ\nVfIBRHwB79F8ta5LAZaHxNBpgeBd95mQlQoEmb+VA97vqBFoUH86I8O4UqWoK+7A\nq5gYBgfRdtEn5Jt7dCXBBamKMEfEaVsR/RM1EAODlMe5BLp8g3+4ieg70lqAaHAp\nNqIUKhyMys+Jz5lesujj\n=f5pb\n-----END PGP SIGNATURE-----\n"
+      },
+      "parents": [
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/54321b4b6ef4147edcd4d9d6d1fc3adf9dfeb368",
+          "sha": "54321b4b6ef4147edcd4d9d6d1fc3adf9dfeb368",
+          "html_url": "https://github.com/bitcoin/bips/commit/54321b4b6ef4147edcd4d9d6d1fc3adf9dfeb368"
+        },
+        {
+          "url": "https://api.github.com/repos/bitcoin/bips/git/commits/e373a69b96c03329cbf4196cb236a2dec4353154",
+          "sha": "e373a69b96c03329cbf4196cb236a2dec4353154",
+          "html_url": "https://github.com/bitcoin/bips/commit/e373a69b96c03329cbf4196cb236a2dec4353154"
+        }
+      ],
+      "message": "Merge branch 'bitcoin:master' into bip-unspendable-internal-keys",
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2026-11-17T12:02:35Z"
+      },
+      "author": {
+        "name": "NTL",
+        "email": "2099999997690000@proton.me",
+        "date": "2026-11-17T12:02:35Z"
+      },
+      "sha": "eacc0d0f54f5f76c04f0dd8757693de4a621c1a4"
     }
   ],
   "comments": [
@@ -2839,7 +2884,7 @@
       "path": "bip-0395.mediawiki",
       "position": 30,
       "original_position": 30,
-      "commit_id": "54321b4b6ef4147edcd4d9d6d1fc3adf9dfeb368",
+      "commit_id": "eacc0d0f54f5f76c04f0dd8757693de4a621c1a4",
       "original_commit_id": "e18f81a2ac192f8c59da7fe9cc2795309b8dd343",
       "in_reply_to_id": null,
       "user": {
@@ -3001,7 +3046,7 @@
       "path": "bip-0395.mediawiki",
       "position": 30,
       "original_position": 30,
-      "commit_id": "54321b4b6ef4147edcd4d9d6d1fc3adf9dfeb368",
+      "commit_id": "eacc0d0f54f5f76c04f0dd8757693de4a621c1a4",
       "original_commit_id": "e18f81a2ac192f8c59da7fe9cc2795309b8dd343",
       "in_reply_to_id": 4437342578,
       "user": {
@@ -3325,7 +3370,7 @@
       "path": "bip-0395.mediawiki",
       "position": 68,
       "original_position": 68,
-      "commit_id": "54321b4b6ef4147edcd4d9d6d1fc3adf9dfeb368",
+      "commit_id": "eacc0d0f54f5f76c04f0dd8757693de4a621c1a4",
       "original_commit_id": "68bdb208c8c649f0220429bea65247c80fb8a897",
       "in_reply_to_id": null,
       "user": {
@@ -3541,7 +3586,7 @@
       "path": "bip-0395.mediawiki",
       "position": 68,
       "original_position": 68,
-      "commit_id": "54321b4b6ef4147edcd4d9d6d1fc3adf9dfeb368",
+      "commit_id": "eacc0d0f54f5f76c04f0dd8757693de4a621c1a4",
       "original_commit_id": "68bdb208c8c649f0220429bea65247c80fb8a897",
       "in_reply_to_id": 4493895378,
       "user": {
