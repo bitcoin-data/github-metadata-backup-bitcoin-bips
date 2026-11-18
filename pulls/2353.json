@@ -60,7 +60,7 @@
       }
     ],
     "created_at": "2026-11-12T08:38:27Z",
-    "updated_at": "2026-11-18T16:41:44Z",
+    "updated_at": "2026-11-18T17:57:38Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -323,7 +323,7 @@
     "deletions": 0,
     "changed_files": 10,
     "commits": 7,
-    "review_comments": 0,
+    "review_comments": 6,
     "comments": 0
   },
   "events": [
@@ -777,7 +777,371 @@
         "date": "2026-11-18T00:51:12Z"
       },
       "sha": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b"
+    },
+    {
+      "event": "reviewed",
+      "id": 5960252859,
+      "node_id": "PRR_kwDOAN28mc8AAAABY0I9uw",
+      "url": null,
+      "actor": null,
+      "commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-11-18T17:57:38Z",
+      "author_association": "MEMBER",
+      "body": "Reviewed 383f7c7c7e6c1f2afdfbd1260610d7c07e09050b - I gave a first read and left a few ideas.\n\nI think the BIP is well specified, but sometimes the reading order isn't very helpful to the reader, sometimes terms are used but then specified only later (one example: `POR` is used on L212 but specified on L506).\n\nWhat do you think of adding an overview section, to give a high level explanation of the BIP, before jumping into the specification? \n\nI asked claude to generate one, I think is a good start (but please double check that it's correct, and rewrite/remove any part you don't like): https://github.com/danielabrozzoni/bips/commit/729ac8a298fa41c5bb7f1d55a030dfeeebe0ae39",
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2353#pullrequestreview-5960252859",
+      "submitted_at": "2026-11-18T17:57:38Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2353"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4617595424",
+      "pull_request_review_id": 5960252859,
+      "id": 4617595424,
+      "node_id": "PRRC_kwDOAN28mc8AAAABEzrqIA",
+      "diff_hunk": "@@ -0,0 +1,913 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: Signing message encoding\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-2-Clause\n+  Discussion: 2026-04-28: https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464\n+              2026-11-12: https://groups.google.com/g/bitcoindev/c/gmHOr6JRJyU/m/kkWnI_NAAgAJ\n+  Requires: 32, 174, 321, 327, 340, 341, 352, 370, 373, 374, 375, 376, 380, 388, 390\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This document defines the byte encoding of the messages exchanged between a\n+**coordinator** (online software) and a **signer** (signing device), for wallets\n+described by output script descriptors (BIP-380) or wallet policies (BIP-388),\n+miniscript and MuSig2 included, and for silent payment wallets (BIP-352).\n+\n+The encoding is **transport agnostic**: a `MESSAGE` is a self-contained byte string,\n+and how it is delivered (animated QR, USB, NFC, a file, etc.) is out of scope.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+No standard defines the messages a coordinator exchanges with an external signer. A\n+PSBT (BIP-174, BIP-370) carries the transaction, but signing needs more messages\n+around it: identify the signer and what it supports, export its keys, register a\n+descriptor or wallet policy (BIP-380, BIP-388), verify an address on its screen, and\n+return signatures. Without a common encoding for them, a coordinator implements one\n+format per signer.\n+\n+This work is based on a former specification targeting QR codes, discussed in\n+[QR-based signing flow payloads in Miniscript context](https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464).\n+Nothing in its messages is specific to QR codes, so the scope was extended to any\n+external signer, whatever carries the bytes (USB, NFC, a file, etc.).\n+\n+This BIP defines one binary encoding for these messages. It covers miniscript\n+descriptors, BIP-388 wallet policies, MuSig2 (BIP-373) and silent payment sends\n+(BIP-375) and spends (BIP-376), so any coordinator implementing it can drive any\n+signer implementing it.\n+\n+## Specification\n+\n+### Integer Encodings\n+\n+All variable-length integers (the `COUNT` and `LENGTH` fields below) are encoded as\n+[compact size](https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer).\n+All fixed-width multi-byte integers are big-endian.\n+\n+### Optional Fields\n+\n+An OPTIONAL field is encoded as a 1-byte `PRESENCE` (`0x00` absent, `0x01`\n+present), followed by the field's encoding only when `PRESENCE` is `0x01`. Any\n+other `PRESENCE` value MUST be rejected.\n+\n+### Vectors\n+\n+A vector of some element type is encoded as a `COUNT` (compact size) followed by\n+`COUNT` elements back to back.\n+\n+### Common Field Encodings\n+\n+`BOOL`: 1-byte unsigned integer, `0x00` false or `0x01` true. Any other value MUST\n+be rejected.\n+\n+`BYTES`: a `LENGTH` (compact size) followed by `LENGTH` raw bytes.\n+\n+`STRING`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content MUST be\n+valid UTF-8 and MUST NOT contain a nul byte.\n+\n+`DESCRIPTOR_ALIAS`: a `STRING` whose encoded length MUST be at most 32 bytes.\n+\n+`FINGERPRINT`: 4 bytes, the BIP-32 master key fingerprint.\n+\n+`EXTENDED_KEY`: 78 bytes, the BIP-32 serialization of an extended public or private\n+key (4 version + 1 depth + 4 parent fingerprint + 4 child number + 32 chain code +\n+33 key). A private key carries `0x00` followed by its 32-byte key in place of the\n+33-byte public key, and its own version bytes, so both have the same length.",
+      "path": "bip-signing.md",
+      "position": 89,
+      "original_position": 89,
+      "commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "original_commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "What do you mean by \"and its own version bytes\"? It's tripping me up a little bit. I thought you were saying \"the private key has 0x00 + the 32 byte key, so it's the same length as the 33 bytes public key\", what does the version have with it? ",
+      "created_at": "2026-11-18T16:46:07Z",
+      "updated_at": "2026-11-18T17:57:38Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2353#discussion_r4617595424",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4617595424"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2353"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 89,
+      "original_line": 89,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4617853929",
+      "pull_request_review_id": 5960252859,
+      "id": 4617853929,
+      "node_id": "PRRC_kwDOAN28mc8AAAABEz7b6Q",
+      "diff_hunk": "@@ -0,0 +1,913 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: Signing message encoding\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-2-Clause\n+  Discussion: 2026-04-28: https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464\n+              2026-11-12: https://groups.google.com/g/bitcoindev/c/gmHOr6JRJyU/m/kkWnI_NAAgAJ\n+  Requires: 32, 174, 321, 327, 340, 341, 352, 370, 373, 374, 375, 376, 380, 388, 390\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This document defines the byte encoding of the messages exchanged between a\n+**coordinator** (online software) and a **signer** (signing device), for wallets\n+described by output script descriptors (BIP-380) or wallet policies (BIP-388),\n+miniscript and MuSig2 included, and for silent payment wallets (BIP-352).\n+\n+The encoding is **transport agnostic**: a `MESSAGE` is a self-contained byte string,\n+and how it is delivered (animated QR, USB, NFC, a file, etc.) is out of scope.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+No standard defines the messages a coordinator exchanges with an external signer. A\n+PSBT (BIP-174, BIP-370) carries the transaction, but signing needs more messages\n+around it: identify the signer and what it supports, export its keys, register a\n+descriptor or wallet policy (BIP-380, BIP-388), verify an address on its screen, and\n+return signatures. Without a common encoding for them, a coordinator implements one\n+format per signer.\n+\n+This work is based on a former specification targeting QR codes, discussed in\n+[QR-based signing flow payloads in Miniscript context](https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464).\n+Nothing in its messages is specific to QR codes, so the scope was extended to any\n+external signer, whatever carries the bytes (USB, NFC, a file, etc.).\n+\n+This BIP defines one binary encoding for these messages. It covers miniscript\n+descriptors, BIP-388 wallet policies, MuSig2 (BIP-373) and silent payment sends\n+(BIP-375) and spends (BIP-376), so any coordinator implementing it can drive any\n+signer implementing it.\n+\n+## Specification\n+\n+### Integer Encodings\n+\n+All variable-length integers (the `COUNT` and `LENGTH` fields below) are encoded as\n+[compact size](https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer).\n+All fixed-width multi-byte integers are big-endian.\n+\n+### Optional Fields\n+\n+An OPTIONAL field is encoded as a 1-byte `PRESENCE` (`0x00` absent, `0x01`\n+present), followed by the field's encoding only when `PRESENCE` is `0x01`. Any\n+other `PRESENCE` value MUST be rejected.\n+\n+### Vectors\n+\n+A vector of some element type is encoded as a `COUNT` (compact size) followed by\n+`COUNT` elements back to back.\n+\n+### Common Field Encodings\n+\n+`BOOL`: 1-byte unsigned integer, `0x00` false or `0x01` true. Any other value MUST\n+be rejected.\n+\n+`BYTES`: a `LENGTH` (compact size) followed by `LENGTH` raw bytes.\n+\n+`STRING`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content MUST be\n+valid UTF-8 and MUST NOT contain a nul byte.\n+\n+`DESCRIPTOR_ALIAS`: a `STRING` whose encoded length MUST be at most 32 bytes.\n+\n+`FINGERPRINT`: 4 bytes, the BIP-32 master key fingerprint.\n+\n+`EXTENDED_KEY`: 78 bytes, the BIP-32 serialization of an extended public or private\n+key (4 version + 1 depth + 4 parent fingerprint + 4 child number + 32 chain code +\n+33 key). A private key carries `0x00` followed by its 32-byte key in place of the\n+33-byte public key, and its own version bytes, so both have the same length.\n+\n+`PSBT`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content is the\n+binary serialization of a version 0 (BIP-174) or version 2 (BIP-370) PSBT. Base64 is\n+NOT used on the wire.\n+\n+`DERIVATION_PATH` follows this format:\n+\n+`CHILD_COUNT` `CHILD` `...` `CHILD`\n+\n+`CHILD_COUNT`: 1-byte unsigned integer (0–255), the number of children.\n+`CHILD`: 4-byte big-endian unsigned integer, a child index per BIP-32 (a hardened\n+step has bit 31 set, `index | 0x80000000`).\n+\n+`DESCRIPTOR_BODY` follows this format:\n+\n+`FORM` `BODY`\n+\n+`FORM`: 1-byte unsigned integer selecting the descriptor form.\n+\n+```\n++-------+-----------------------+\n+| Value | Definition            |\n++-------+-----------------------+\n+| 0x00  | Reserved              |\n+| 0x01  | BIP-380 descriptor    |\n+| 0x02  | BIP-388 wallet policy |\n+| 0x03  | Silent payment keys   |\n++-------+-----------------------+\n+```\n+\n+`BODY` depends on `FORM`:\n+- `0x01`: a `STRING`, the BIP-380 descriptor text.\n+- `0x02`: `KEYS` `POLICY`, the BIP-388 wallet policy. BIP-388 defines no byte\n+  encoding, so it is serialized here as its two components:\n+  - `KEYS`: a vector of `STRING`, the key information, each a BIP-388 `KEY_INFO`\n+    expression: an extended public key with optional key origin, no trailing\n+    derivation. Entry `i` is the key that `@i` refers to in `POLICY`, so the\n+    vector MUST be in `@0`, `@1`, ... order.\n+  - `POLICY`: a `STRING`, the descriptor template with `@i` key placeholders.\n+\n+- `0x03`: `FINGERPRINT` `SPEND_PATH` `SCAN_PATH` `SCAN_KEY`, a silent payment\n+  account's keys:\n+  - `FINGERPRINT`: the `FINGERPRINT` of the master key.\n+  - `SPEND_PATH`: a `DERIVATION_PATH`, the path of the BIP-352 spend key from the\n+    master key.\n+  - `SCAN_PATH`: OPTIONAL `DERIVATION_PATH`, the path of the BIP-352 scan key from\n+    the master key, when the scan key is the signer's.\n+  - `SCAN_KEY`: OPTIONAL, 32 bytes, the BIP-352 scan private key as a big-endian\n+    scalar, when the scan key is not the signer's. The private key, not the public\n+    one: the BIP-352 label tweak of a labelled address is computed from it, so\n+    verifying one requires it. A scan private key carries no signing power, so\n+    leaking one has the same effect as leaking an xpub: it reveals the wallet's\n+    payments, nothing more.\n+\n+  Exactly one of `SCAN_PATH` and `SCAN_KEY` MUST be present: a reader MUST reject\n+  the form when both or neither are.\n+\n+`VENDOR`: `STRING`, the device vendor.\n+\n+`MODEL`: `STRING`, the device model.\n+\n+`VERSION`: in a response body, 8 bytes of device firmware version, `MAJOR` `MINOR`\n+`PATCH` `FLAG` (the message's protocol `VERSION` is defined under Encoding). `MAJOR`\n+and `MINOR` are 2-byte big-endian unsigned integers, `PATCH` is a 3-byte big-endian\n+unsigned integer, and `FLAG` is a 1-byte pre-release channel.\n+\n+```\n++--------+-------------------+\n+| `FLAG` | Pre-release       |\n++--------+-------------------+\n+| 0x00   | Stable (final)    |\n+| 0x01   | Alpha             |\n+| 0x02   | Beta              |\n+| 0x03   | Release candidate |",
+      "path": "bip-signing.md",
+      "position": 163,
+      "original_position": 163,
+      "commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "original_commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Usually release candidates carry a number too - rc1 vs rc2 etc, this should be specified too ",
+      "created_at": "2026-11-18T17:05:07Z",
+      "updated_at": "2026-11-18T17:57:38Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2353#discussion_r4617853929",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4617853929"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2353"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 163,
+      "original_line": 163,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4617860140",
+      "pull_request_review_id": 5960252859,
+      "id": 4617860140,
+      "node_id": "PRRC_kwDOAN28mc8AAAABEz70LA",
+      "diff_hunk": "@@ -0,0 +1,913 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: Signing message encoding\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-2-Clause\n+  Discussion: 2026-04-28: https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464\n+              2026-11-12: https://groups.google.com/g/bitcoindev/c/gmHOr6JRJyU/m/kkWnI_NAAgAJ\n+  Requires: 32, 174, 321, 327, 340, 341, 352, 370, 373, 374, 375, 376, 380, 388, 390\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This document defines the byte encoding of the messages exchanged between a\n+**coordinator** (online software) and a **signer** (signing device), for wallets\n+described by output script descriptors (BIP-380) or wallet policies (BIP-388),\n+miniscript and MuSig2 included, and for silent payment wallets (BIP-352).\n+\n+The encoding is **transport agnostic**: a `MESSAGE` is a self-contained byte string,\n+and how it is delivered (animated QR, USB, NFC, a file, etc.) is out of scope.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+No standard defines the messages a coordinator exchanges with an external signer. A\n+PSBT (BIP-174, BIP-370) carries the transaction, but signing needs more messages\n+around it: identify the signer and what it supports, export its keys, register a\n+descriptor or wallet policy (BIP-380, BIP-388), verify an address on its screen, and\n+return signatures. Without a common encoding for them, a coordinator implements one\n+format per signer.\n+\n+This work is based on a former specification targeting QR codes, discussed in\n+[QR-based signing flow payloads in Miniscript context](https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464).\n+Nothing in its messages is specific to QR codes, so the scope was extended to any\n+external signer, whatever carries the bytes (USB, NFC, a file, etc.).\n+\n+This BIP defines one binary encoding for these messages. It covers miniscript\n+descriptors, BIP-388 wallet policies, MuSig2 (BIP-373) and silent payment sends\n+(BIP-375) and spends (BIP-376), so any coordinator implementing it can drive any\n+signer implementing it.\n+\n+## Specification\n+\n+### Integer Encodings\n+\n+All variable-length integers (the `COUNT` and `LENGTH` fields below) are encoded as\n+[compact size](https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer).\n+All fixed-width multi-byte integers are big-endian.\n+\n+### Optional Fields\n+\n+An OPTIONAL field is encoded as a 1-byte `PRESENCE` (`0x00` absent, `0x01`\n+present), followed by the field's encoding only when `PRESENCE` is `0x01`. Any\n+other `PRESENCE` value MUST be rejected.\n+\n+### Vectors\n+\n+A vector of some element type is encoded as a `COUNT` (compact size) followed by\n+`COUNT` elements back to back.\n+\n+### Common Field Encodings\n+\n+`BOOL`: 1-byte unsigned integer, `0x00` false or `0x01` true. Any other value MUST\n+be rejected.\n+\n+`BYTES`: a `LENGTH` (compact size) followed by `LENGTH` raw bytes.\n+\n+`STRING`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content MUST be\n+valid UTF-8 and MUST NOT contain a nul byte.\n+\n+`DESCRIPTOR_ALIAS`: a `STRING` whose encoded length MUST be at most 32 bytes.\n+\n+`FINGERPRINT`: 4 bytes, the BIP-32 master key fingerprint.\n+\n+`EXTENDED_KEY`: 78 bytes, the BIP-32 serialization of an extended public or private\n+key (4 version + 1 depth + 4 parent fingerprint + 4 child number + 32 chain code +\n+33 key). A private key carries `0x00` followed by its 32-byte key in place of the\n+33-byte public key, and its own version bytes, so both have the same length.\n+\n+`PSBT`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content is the\n+binary serialization of a version 0 (BIP-174) or version 2 (BIP-370) PSBT. Base64 is\n+NOT used on the wire.\n+\n+`DERIVATION_PATH` follows this format:\n+\n+`CHILD_COUNT` `CHILD` `...` `CHILD`\n+\n+`CHILD_COUNT`: 1-byte unsigned integer (0–255), the number of children.\n+`CHILD`: 4-byte big-endian unsigned integer, a child index per BIP-32 (a hardened\n+step has bit 31 set, `index | 0x80000000`).\n+\n+`DESCRIPTOR_BODY` follows this format:\n+\n+`FORM` `BODY`\n+\n+`FORM`: 1-byte unsigned integer selecting the descriptor form.\n+\n+```\n++-------+-----------------------+\n+| Value | Definition            |\n++-------+-----------------------+\n+| 0x00  | Reserved              |\n+| 0x01  | BIP-380 descriptor    |\n+| 0x02  | BIP-388 wallet policy |\n+| 0x03  | Silent payment keys   |\n++-------+-----------------------+\n+```\n+\n+`BODY` depends on `FORM`:\n+- `0x01`: a `STRING`, the BIP-380 descriptor text.\n+- `0x02`: `KEYS` `POLICY`, the BIP-388 wallet policy. BIP-388 defines no byte\n+  encoding, so it is serialized here as its two components:\n+  - `KEYS`: a vector of `STRING`, the key information, each a BIP-388 `KEY_INFO`\n+    expression: an extended public key with optional key origin, no trailing\n+    derivation. Entry `i` is the key that `@i` refers to in `POLICY`, so the\n+    vector MUST be in `@0`, `@1`, ... order.\n+  - `POLICY`: a `STRING`, the descriptor template with `@i` key placeholders.\n+\n+- `0x03`: `FINGERPRINT` `SPEND_PATH` `SCAN_PATH` `SCAN_KEY`, a silent payment\n+  account's keys:\n+  - `FINGERPRINT`: the `FINGERPRINT` of the master key.\n+  - `SPEND_PATH`: a `DERIVATION_PATH`, the path of the BIP-352 spend key from the\n+    master key.\n+  - `SCAN_PATH`: OPTIONAL `DERIVATION_PATH`, the path of the BIP-352 scan key from\n+    the master key, when the scan key is the signer's.\n+  - `SCAN_KEY`: OPTIONAL, 32 bytes, the BIP-352 scan private key as a big-endian\n+    scalar, when the scan key is not the signer's. The private key, not the public\n+    one: the BIP-352 label tweak of a labelled address is computed from it, so\n+    verifying one requires it. A scan private key carries no signing power, so\n+    leaking one has the same effect as leaking an xpub: it reveals the wallet's\n+    payments, nothing more.\n+\n+  Exactly one of `SCAN_PATH` and `SCAN_KEY` MUST be present: a reader MUST reject\n+  the form when both or neither are.\n+\n+`VENDOR`: `STRING`, the device vendor.\n+\n+`MODEL`: `STRING`, the device model.\n+\n+`VERSION`: in a response body, 8 bytes of device firmware version, `MAJOR` `MINOR`\n+`PATCH` `FLAG` (the message's protocol `VERSION` is defined under Encoding). `MAJOR`\n+and `MINOR` are 2-byte big-endian unsigned integers, `PATCH` is a 3-byte big-endian",
+      "path": "bip-signing.md",
+      "position": 153,
+      "original_position": 153,
+      "commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "original_commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Why are you reserving 3 bytes for patch? I can understand 2 bytes for major/minor (1 byte is 0-255 and might not be enough), but 2 seem enough for patch too... ",
+      "created_at": "2026-11-18T17:05:35Z",
+      "updated_at": "2026-11-18T17:57:38Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2353#discussion_r4617860140",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4617860140"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2353"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 153,
+      "original_line": 153,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4617889333",
+      "pull_request_review_id": 5960252859,
+      "id": 4617889333,
+      "node_id": "PRRC_kwDOAN28mc8AAAABEz9mNQ",
+      "diff_hunk": "@@ -0,0 +1,913 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: Signing message encoding\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-2-Clause\n+  Discussion: 2026-04-28: https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464\n+              2026-11-12: https://groups.google.com/g/bitcoindev/c/gmHOr6JRJyU/m/kkWnI_NAAgAJ\n+  Requires: 32, 174, 321, 327, 340, 341, 352, 370, 373, 374, 375, 376, 380, 388, 390\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This document defines the byte encoding of the messages exchanged between a\n+**coordinator** (online software) and a **signer** (signing device), for wallets\n+described by output script descriptors (BIP-380) or wallet policies (BIP-388),\n+miniscript and MuSig2 included, and for silent payment wallets (BIP-352).\n+\n+The encoding is **transport agnostic**: a `MESSAGE` is a self-contained byte string,\n+and how it is delivered (animated QR, USB, NFC, a file, etc.) is out of scope.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+No standard defines the messages a coordinator exchanges with an external signer. A\n+PSBT (BIP-174, BIP-370) carries the transaction, but signing needs more messages\n+around it: identify the signer and what it supports, export its keys, register a\n+descriptor or wallet policy (BIP-380, BIP-388), verify an address on its screen, and\n+return signatures. Without a common encoding for them, a coordinator implements one\n+format per signer.\n+\n+This work is based on a former specification targeting QR codes, discussed in\n+[QR-based signing flow payloads in Miniscript context](https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464).\n+Nothing in its messages is specific to QR codes, so the scope was extended to any\n+external signer, whatever carries the bytes (USB, NFC, a file, etc.).\n+\n+This BIP defines one binary encoding for these messages. It covers miniscript\n+descriptors, BIP-388 wallet policies, MuSig2 (BIP-373) and silent payment sends\n+(BIP-375) and spends (BIP-376), so any coordinator implementing it can drive any\n+signer implementing it.\n+\n+## Specification\n+\n+### Integer Encodings\n+\n+All variable-length integers (the `COUNT` and `LENGTH` fields below) are encoded as\n+[compact size](https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer).\n+All fixed-width multi-byte integers are big-endian.\n+\n+### Optional Fields\n+\n+An OPTIONAL field is encoded as a 1-byte `PRESENCE` (`0x00` absent, `0x01`\n+present), followed by the field's encoding only when `PRESENCE` is `0x01`. Any\n+other `PRESENCE` value MUST be rejected.\n+\n+### Vectors\n+\n+A vector of some element type is encoded as a `COUNT` (compact size) followed by\n+`COUNT` elements back to back.\n+\n+### Common Field Encodings\n+\n+`BOOL`: 1-byte unsigned integer, `0x00` false or `0x01` true. Any other value MUST\n+be rejected.\n+\n+`BYTES`: a `LENGTH` (compact size) followed by `LENGTH` raw bytes.\n+\n+`STRING`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content MUST be\n+valid UTF-8 and MUST NOT contain a nul byte.\n+\n+`DESCRIPTOR_ALIAS`: a `STRING` whose encoded length MUST be at most 32 bytes.\n+\n+`FINGERPRINT`: 4 bytes, the BIP-32 master key fingerprint.\n+\n+`EXTENDED_KEY`: 78 bytes, the BIP-32 serialization of an extended public or private\n+key (4 version + 1 depth + 4 parent fingerprint + 4 child number + 32 chain code +\n+33 key). A private key carries `0x00` followed by its 32-byte key in place of the\n+33-byte public key, and its own version bytes, so both have the same length.\n+\n+`PSBT`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content is the\n+binary serialization of a version 0 (BIP-174) or version 2 (BIP-370) PSBT. Base64 is\n+NOT used on the wire.\n+\n+`DERIVATION_PATH` follows this format:\n+\n+`CHILD_COUNT` `CHILD` `...` `CHILD`\n+\n+`CHILD_COUNT`: 1-byte unsigned integer (0–255), the number of children.\n+`CHILD`: 4-byte big-endian unsigned integer, a child index per BIP-32 (a hardened\n+step has bit 31 set, `index | 0x80000000`).\n+\n+`DESCRIPTOR_BODY` follows this format:\n+\n+`FORM` `BODY`\n+\n+`FORM`: 1-byte unsigned integer selecting the descriptor form.\n+\n+```\n++-------+-----------------------+\n+| Value | Definition            |\n++-------+-----------------------+\n+| 0x00  | Reserved              |\n+| 0x01  | BIP-380 descriptor    |\n+| 0x02  | BIP-388 wallet policy |\n+| 0x03  | Silent payment keys   |\n++-------+-----------------------+\n+```\n+\n+`BODY` depends on `FORM`:\n+- `0x01`: a `STRING`, the BIP-380 descriptor text.\n+- `0x02`: `KEYS` `POLICY`, the BIP-388 wallet policy. BIP-388 defines no byte\n+  encoding, so it is serialized here as its two components:\n+  - `KEYS`: a vector of `STRING`, the key information, each a BIP-388 `KEY_INFO`\n+    expression: an extended public key with optional key origin, no trailing\n+    derivation. Entry `i` is the key that `@i` refers to in `POLICY`, so the\n+    vector MUST be in `@0`, `@1`, ... order.\n+  - `POLICY`: a `STRING`, the descriptor template with `@i` key placeholders.\n+\n+- `0x03`: `FINGERPRINT` `SPEND_PATH` `SCAN_PATH` `SCAN_KEY`, a silent payment\n+  account's keys:\n+  - `FINGERPRINT`: the `FINGERPRINT` of the master key.\n+  - `SPEND_PATH`: a `DERIVATION_PATH`, the path of the BIP-352 spend key from the\n+    master key.\n+  - `SCAN_PATH`: OPTIONAL `DERIVATION_PATH`, the path of the BIP-352 scan key from\n+    the master key, when the scan key is the signer's.\n+  - `SCAN_KEY`: OPTIONAL, 32 bytes, the BIP-352 scan private key as a big-endian\n+    scalar, when the scan key is not the signer's. The private key, not the public\n+    one: the BIP-352 label tweak of a labelled address is computed from it, so\n+    verifying one requires it. A scan private key carries no signing power, so\n+    leaking one has the same effect as leaking an xpub: it reveals the wallet's\n+    payments, nothing more.\n+\n+  Exactly one of `SCAN_PATH` and `SCAN_KEY` MUST be present: a reader MUST reject\n+  the form when both or neither are.\n+\n+`VENDOR`: `STRING`, the device vendor.\n+\n+`MODEL`: `STRING`, the device model.\n+\n+`VERSION`: in a response body, 8 bytes of device firmware version, `MAJOR` `MINOR`\n+`PATCH` `FLAG` (the message's protocol `VERSION` is defined under Encoding). `MAJOR`\n+and `MINOR` are 2-byte big-endian unsigned integers, `PATCH` is a 3-byte big-endian\n+unsigned integer, and `FLAG` is a 1-byte pre-release channel.\n+\n+```\n++--------+-------------------+\n+| `FLAG` | Pre-release       |\n++--------+-------------------+\n+| 0x00   | Stable (final)    |\n+| 0x01   | Alpha             |\n+| 0x02   | Beta              |\n+| 0x03   | Release candidate |\n++--------+-------------------+\n+```\n+\n+Values `0x04`–`0xFF` are reserved. A reader SHOULD treat an unknown `FLAG` as an\n+unspecified pre-release rather than reject.\n+\n+`CAPABILITIES`: 4-byte big-endian bitfield of the capabilities the signer supports.\n+Bit 0 is the LSB.\n+\n+```\n++-------+------------------------------------------+\n+| Bit   | Capability                               |\n++-------+------------------------------------------+\n+| 0     | BIP-380 descriptors (`FORM` `0x01`)      |\n+| 1     | BIP-388 wallet policies (`FORM` `0x02`)  |\n+| 2     | Miniscript, SegWit v0                    |\n+| 3     | Miniscript, Taproot (v1)                 |\n+| 4     | Silent payment sends (BIP-375)           |\n+| 5     | Silent payment accounts (`FORM` `0x03`)  |\n+| 6     | Unregister Descriptor                    |\n+| 7     | MuSig2                                   |\n+| 8–30  | Reserved for future capabilities         |\n+| 31    | Upgrade signal (MSB)                     |\n++-------+------------------------------------------+\n+```\n+\n+Bits 0 and 1 name the descriptor forms the signer takes, in Register Descriptor and\n+in any request carrying a `DESCRIPTOR_BODY`. A signer MUST set the bit of each form\n+it takes, so a coordinator picks the form before it sends one: a BIP-388 wallet\n+policy always converts to a BIP-380 descriptor, while a descriptor converts to a\n+wallet policy only when it fits BIP-388's restrictions.\n+\n+A signer taking bit 0 or bit 1 handles the basic descriptors whatever its other\n+bits: `pkh`, `wpkh`, `sh(wpkh)`, `tr` with a key and no script tree, and `multi` /\n+`sortedmulti` under `sh`, `wsh` and `sh(wsh)`. Bit 2 extends this to any miniscript\n+under `wsh` and `sh(wsh)`, bit 3 to `tr` with a script tree of miniscript leaves.\n+\n+Bit 4 means the signer can sign a transaction paying silent payment outputs: it\n+answers with the BIP-375 ECDH shares and DLEQ proofs (see Signing), whatever wallet\n+its inputs belong to.\n+\n+Bit 5 means the signer holds silent payment accounts: it takes `FORM` `0x03`,\n+verifies their addresses (see Address Verification) and spends the outputs they\n+received (BIP-376). It also answers Get Keys `KIND` `0x01` at its BIP-352 scan key\n+path, so a coordinator can scan for the account; the user MAY still refuse the\n+export (`ERROR` `0x0C`).\n+\n+Bit 6 means the signer implements Unregister Descriptor. A signer that only issues\n+a `POR` never sets it.\n+\n+Bit 7 means the signer is a BIP-327 MuSig2 participant for BIP-390 `musig()` keys,\n+and MAY answer with `SIG_KIND` `0x04` / `0x05` (see Signing).\n+\n+Bits 8–30 are reserved for future capabilities and MUST be `0` in this\n+version; a reader MUST ignore an unknown capability bit rather than reject, so a\n+newer signer can advertise capabilities an older coordinator does not know. Bit 31\n+(the MSB) MUST be `0` in this version; a `1` signals that the signer exposes\n+capabilities beyond this bitfield and the coordinator should upgrade to interpret\n+them.\n+\n+A signer MUST answer a request needing a capability it does not advertise with\n+`ERROR` `0x0F` (unsupported operation), e.g. a Taproot miniscript descriptor without\n+bit 3, a silent payment send without bit 4, a silent payment spend without bit 5, an\n+Unregister Descriptor request without bit 6, or a `musig()` key without bit 7. A\n+`FORM` that needs a capability the signer does not advertise, such as `FORM` `0x01`\n+without bit 0 or `FORM` `0x03` without bit 5, is the exception: it gets `ERROR`\n+`0x06` (see Error response body).",
+      "path": "bip-signing.md",
+      "position": 230,
+      "original_position": 230,
+      "commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "original_commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This should link to the \"Error response\" paragraph below\n\n(Both here and in the other 3 places with the same sentence)",
+      "created_at": "2026-11-18T17:07:54Z",
+      "updated_at": "2026-11-18T17:57:38Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2353#discussion_r4617889333",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4617889333"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2353"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 230,
+      "original_line": 230,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4617989167",
+      "pull_request_review_id": 5960252859,
+      "id": 4617989167,
+      "node_id": "PRRC_kwDOAN28mc8AAAABE0DsLw",
+      "diff_hunk": "@@ -0,0 +1,913 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: Signing message encoding\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-2-Clause\n+  Discussion: 2026-04-28: https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464\n+              2026-11-12: https://groups.google.com/g/bitcoindev/c/gmHOr6JRJyU/m/kkWnI_NAAgAJ\n+  Requires: 32, 174, 321, 327, 340, 341, 352, 370, 373, 374, 375, 376, 380, 388, 390\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This document defines the byte encoding of the messages exchanged between a\n+**coordinator** (online software) and a **signer** (signing device), for wallets\n+described by output script descriptors (BIP-380) or wallet policies (BIP-388),\n+miniscript and MuSig2 included, and for silent payment wallets (BIP-352).\n+\n+The encoding is **transport agnostic**: a `MESSAGE` is a self-contained byte string,\n+and how it is delivered (animated QR, USB, NFC, a file, etc.) is out of scope.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+No standard defines the messages a coordinator exchanges with an external signer. A\n+PSBT (BIP-174, BIP-370) carries the transaction, but signing needs more messages\n+around it: identify the signer and what it supports, export its keys, register a\n+descriptor or wallet policy (BIP-380, BIP-388), verify an address on its screen, and\n+return signatures. Without a common encoding for them, a coordinator implements one\n+format per signer.\n+\n+This work is based on a former specification targeting QR codes, discussed in\n+[QR-based signing flow payloads in Miniscript context](https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464).\n+Nothing in its messages is specific to QR codes, so the scope was extended to any\n+external signer, whatever carries the bytes (USB, NFC, a file, etc.).\n+\n+This BIP defines one binary encoding for these messages. It covers miniscript\n+descriptors, BIP-388 wallet policies, MuSig2 (BIP-373) and silent payment sends\n+(BIP-375) and spends (BIP-376), so any coordinator implementing it can drive any\n+signer implementing it.\n+\n+## Specification\n+\n+### Integer Encodings\n+\n+All variable-length integers (the `COUNT` and `LENGTH` fields below) are encoded as\n+[compact size](https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer).\n+All fixed-width multi-byte integers are big-endian.\n+\n+### Optional Fields\n+\n+An OPTIONAL field is encoded as a 1-byte `PRESENCE` (`0x00` absent, `0x01`\n+present), followed by the field's encoding only when `PRESENCE` is `0x01`. Any\n+other `PRESENCE` value MUST be rejected.\n+\n+### Vectors\n+\n+A vector of some element type is encoded as a `COUNT` (compact size) followed by\n+`COUNT` elements back to back.\n+\n+### Common Field Encodings\n+\n+`BOOL`: 1-byte unsigned integer, `0x00` false or `0x01` true. Any other value MUST\n+be rejected.\n+\n+`BYTES`: a `LENGTH` (compact size) followed by `LENGTH` raw bytes.\n+\n+`STRING`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content MUST be\n+valid UTF-8 and MUST NOT contain a nul byte.\n+\n+`DESCRIPTOR_ALIAS`: a `STRING` whose encoded length MUST be at most 32 bytes.\n+\n+`FINGERPRINT`: 4 bytes, the BIP-32 master key fingerprint.\n+\n+`EXTENDED_KEY`: 78 bytes, the BIP-32 serialization of an extended public or private\n+key (4 version + 1 depth + 4 parent fingerprint + 4 child number + 32 chain code +\n+33 key). A private key carries `0x00` followed by its 32-byte key in place of the\n+33-byte public key, and its own version bytes, so both have the same length.\n+\n+`PSBT`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content is the\n+binary serialization of a version 0 (BIP-174) or version 2 (BIP-370) PSBT. Base64 is\n+NOT used on the wire.\n+\n+`DERIVATION_PATH` follows this format:\n+\n+`CHILD_COUNT` `CHILD` `...` `CHILD`\n+\n+`CHILD_COUNT`: 1-byte unsigned integer (0–255), the number of children.\n+`CHILD`: 4-byte big-endian unsigned integer, a child index per BIP-32 (a hardened\n+step has bit 31 set, `index | 0x80000000`).\n+\n+`DESCRIPTOR_BODY` follows this format:\n+\n+`FORM` `BODY`\n+\n+`FORM`: 1-byte unsigned integer selecting the descriptor form.\n+\n+```\n++-------+-----------------------+\n+| Value | Definition            |\n++-------+-----------------------+\n+| 0x00  | Reserved              |\n+| 0x01  | BIP-380 descriptor    |\n+| 0x02  | BIP-388 wallet policy |\n+| 0x03  | Silent payment keys   |\n++-------+-----------------------+\n+```\n+\n+`BODY` depends on `FORM`:\n+- `0x01`: a `STRING`, the BIP-380 descriptor text.\n+- `0x02`: `KEYS` `POLICY`, the BIP-388 wallet policy. BIP-388 defines no byte\n+  encoding, so it is serialized here as its two components:\n+  - `KEYS`: a vector of `STRING`, the key information, each a BIP-388 `KEY_INFO`\n+    expression: an extended public key with optional key origin, no trailing\n+    derivation. Entry `i` is the key that `@i` refers to in `POLICY`, so the\n+    vector MUST be in `@0`, `@1`, ... order.\n+  - `POLICY`: a `STRING`, the descriptor template with `@i` key placeholders.\n+\n+- `0x03`: `FINGERPRINT` `SPEND_PATH` `SCAN_PATH` `SCAN_KEY`, a silent payment\n+  account's keys:\n+  - `FINGERPRINT`: the `FINGERPRINT` of the master key.\n+  - `SPEND_PATH`: a `DERIVATION_PATH`, the path of the BIP-352 spend key from the\n+    master key.\n+  - `SCAN_PATH`: OPTIONAL `DERIVATION_PATH`, the path of the BIP-352 scan key from\n+    the master key, when the scan key is the signer's.\n+  - `SCAN_KEY`: OPTIONAL, 32 bytes, the BIP-352 scan private key as a big-endian\n+    scalar, when the scan key is not the signer's. The private key, not the public\n+    one: the BIP-352 label tweak of a labelled address is computed from it, so\n+    verifying one requires it. A scan private key carries no signing power, so\n+    leaking one has the same effect as leaking an xpub: it reveals the wallet's\n+    payments, nothing more.\n+\n+  Exactly one of `SCAN_PATH` and `SCAN_KEY` MUST be present: a reader MUST reject\n+  the form when both or neither are.\n+\n+`VENDOR`: `STRING`, the device vendor.\n+\n+`MODEL`: `STRING`, the device model.\n+\n+`VERSION`: in a response body, 8 bytes of device firmware version, `MAJOR` `MINOR`\n+`PATCH` `FLAG` (the message's protocol `VERSION` is defined under Encoding). `MAJOR`\n+and `MINOR` are 2-byte big-endian unsigned integers, `PATCH` is a 3-byte big-endian\n+unsigned integer, and `FLAG` is a 1-byte pre-release channel.\n+\n+```\n++--------+-------------------+\n+| `FLAG` | Pre-release       |\n++--------+-------------------+\n+| 0x00   | Stable (final)    |\n+| 0x01   | Alpha             |\n+| 0x02   | Beta              |\n+| 0x03   | Release candidate |\n++--------+-------------------+\n+```\n+\n+Values `0x04`–`0xFF` are reserved. A reader SHOULD treat an unknown `FLAG` as an\n+unspecified pre-release rather than reject.\n+\n+`CAPABILITIES`: 4-byte big-endian bitfield of the capabilities the signer supports.\n+Bit 0 is the LSB.\n+\n+```\n++-------+------------------------------------------+\n+| Bit   | Capability                               |\n++-------+------------------------------------------+\n+| 0     | BIP-380 descriptors (`FORM` `0x01`)      |\n+| 1     | BIP-388 wallet policies (`FORM` `0x02`)  |\n+| 2     | Miniscript, SegWit v0                    |\n+| 3     | Miniscript, Taproot (v1)                 |\n+| 4     | Silent payment sends (BIP-375)           |\n+| 5     | Silent payment accounts (`FORM` `0x03`)  |\n+| 6     | Unregister Descriptor                    |\n+| 7     | MuSig2                                   |\n+| 8–30  | Reserved for future capabilities         |\n+| 31    | Upgrade signal (MSB)                     |\n++-------+------------------------------------------+\n+```\n+\n+Bits 0 and 1 name the descriptor forms the signer takes, in Register Descriptor and\n+in any request carrying a `DESCRIPTOR_BODY`. A signer MUST set the bit of each form\n+it takes, so a coordinator picks the form before it sends one: a BIP-388 wallet\n+policy always converts to a BIP-380 descriptor, while a descriptor converts to a\n+wallet policy only when it fits BIP-388's restrictions.\n+\n+A signer taking bit 0 or bit 1 handles the basic descriptors whatever its other",
+      "path": "bip-signing.md",
+      "position": 196,
+      "original_position": 196,
+      "commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "original_commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "\"taking\" and \"whatever\" read a bit weird here, I would say:\n> A signer that sets bit 0 or bit 1 handles the basic descriptors regardless of its other bits: ...",
+      "created_at": "2026-11-18T17:15:31Z",
+      "updated_at": "2026-11-18T17:57:38Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2353#discussion_r4617989167",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4617989167"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2353"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 196,
+      "original_line": 196,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4618053771",
+      "pull_request_review_id": 5960252859,
+      "id": 4618053771,
+      "node_id": "PRRC_kwDOAN28mc8AAAABE0Hoiw",
+      "diff_hunk": "@@ -0,0 +1,913 @@\n+```\n+  BIP: ?\n+  Layer: Applications\n+  Title: Signing message encoding\n+  Authors: Pyth <pythcoiner@wizardsardine.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-2-Clause\n+  Discussion: 2026-04-28: https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464\n+              2026-11-12: https://groups.google.com/g/bitcoindev/c/gmHOr6JRJyU/m/kkWnI_NAAgAJ\n+  Requires: 32, 174, 321, 327, 340, 341, 352, 370, 373, 374, 375, 376, 380, 388, 390\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This document defines the byte encoding of the messages exchanged between a\n+**coordinator** (online software) and a **signer** (signing device), for wallets\n+described by output script descriptors (BIP-380) or wallet policies (BIP-388),\n+miniscript and MuSig2 included, and for silent payment wallets (BIP-352).\n+\n+The encoding is **transport agnostic**: a `MESSAGE` is a self-contained byte string,\n+and how it is delivered (animated QR, USB, NFC, a file, etc.) is out of scope.\n+\n+### Copyright\n+\n+This BIP is licensed under the BSD 2-Clause License.  \n+Redistribution and use in source and binary forms, with or without modification, are\n+permitted provided that the above copyright notice and this permission notice appear\n+in all copies.\n+\n+### Motivation\n+\n+No standard defines the messages a coordinator exchanges with an external signer. A\n+PSBT (BIP-174, BIP-370) carries the transaction, but signing needs more messages\n+around it: identify the signer and what it supports, export its keys, register a\n+descriptor or wallet policy (BIP-380, BIP-388), verify an address on its screen, and\n+return signatures. Without a common encoding for them, a coordinator implements one\n+format per signer.\n+\n+This work is based on a former specification targeting QR codes, discussed in\n+[QR-based signing flow payloads in Miniscript context](https://delvingbitcoin.org/t/qr-based-signing-flow-payloads-in-miniscript-context/2464).\n+Nothing in its messages is specific to QR codes, so the scope was extended to any\n+external signer, whatever carries the bytes (USB, NFC, a file, etc.).\n+\n+This BIP defines one binary encoding for these messages. It covers miniscript\n+descriptors, BIP-388 wallet policies, MuSig2 (BIP-373) and silent payment sends\n+(BIP-375) and spends (BIP-376), so any coordinator implementing it can drive any\n+signer implementing it.\n+\n+## Specification\n+\n+### Integer Encodings\n+\n+All variable-length integers (the `COUNT` and `LENGTH` fields below) are encoded as\n+[compact size](https://en.bitcoin.it/wiki/Protocol_documentation#Variable_length_integer).\n+All fixed-width multi-byte integers are big-endian.\n+\n+### Optional Fields\n+\n+An OPTIONAL field is encoded as a 1-byte `PRESENCE` (`0x00` absent, `0x01`\n+present), followed by the field's encoding only when `PRESENCE` is `0x01`. Any\n+other `PRESENCE` value MUST be rejected.\n+\n+### Vectors\n+\n+A vector of some element type is encoded as a `COUNT` (compact size) followed by\n+`COUNT` elements back to back.\n+\n+### Common Field Encodings\n+\n+`BOOL`: 1-byte unsigned integer, `0x00` false or `0x01` true. Any other value MUST\n+be rejected.\n+\n+`BYTES`: a `LENGTH` (compact size) followed by `LENGTH` raw bytes.\n+\n+`STRING`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content MUST be\n+valid UTF-8 and MUST NOT contain a nul byte.\n+\n+`DESCRIPTOR_ALIAS`: a `STRING` whose encoded length MUST be at most 32 bytes.\n+\n+`FINGERPRINT`: 4 bytes, the BIP-32 master key fingerprint.\n+\n+`EXTENDED_KEY`: 78 bytes, the BIP-32 serialization of an extended public or private\n+key (4 version + 1 depth + 4 parent fingerprint + 4 child number + 32 chain code +\n+33 key). A private key carries `0x00` followed by its 32-byte key in place of the\n+33-byte public key, and its own version bytes, so both have the same length.\n+\n+`PSBT`: a `BYTES` (`LENGTH` followed by `LENGTH` raw bytes) whose content is the\n+binary serialization of a version 0 (BIP-174) or version 2 (BIP-370) PSBT. Base64 is\n+NOT used on the wire.\n+\n+`DERIVATION_PATH` follows this format:\n+\n+`CHILD_COUNT` `CHILD` `...` `CHILD`\n+\n+`CHILD_COUNT`: 1-byte unsigned integer (0–255), the number of children.\n+`CHILD`: 4-byte big-endian unsigned integer, a child index per BIP-32 (a hardened\n+step has bit 31 set, `index | 0x80000000`).\n+\n+`DESCRIPTOR_BODY` follows this format:\n+\n+`FORM` `BODY`\n+\n+`FORM`: 1-byte unsigned integer selecting the descriptor form.\n+\n+```\n++-------+-----------------------+\n+| Value | Definition            |\n++-------+-----------------------+\n+| 0x00  | Reserved              |\n+| 0x01  | BIP-380 descriptor    |\n+| 0x02  | BIP-388 wallet policy |\n+| 0x03  | Silent payment keys   |\n++-------+-----------------------+\n+```\n+\n+`BODY` depends on `FORM`:\n+- `0x01`: a `STRING`, the BIP-380 descriptor text.\n+- `0x02`: `KEYS` `POLICY`, the BIP-388 wallet policy. BIP-388 defines no byte\n+  encoding, so it is serialized here as its two components:\n+  - `KEYS`: a vector of `STRING`, the key information, each a BIP-388 `KEY_INFO`\n+    expression: an extended public key with optional key origin, no trailing\n+    derivation. Entry `i` is the key that `@i` refers to in `POLICY`, so the\n+    vector MUST be in `@0`, `@1`, ... order.\n+  - `POLICY`: a `STRING`, the descriptor template with `@i` key placeholders.\n+\n+- `0x03`: `FINGERPRINT` `SPEND_PATH` `SCAN_PATH` `SCAN_KEY`, a silent payment\n+  account's keys:\n+  - `FINGERPRINT`: the `FINGERPRINT` of the master key.\n+  - `SPEND_PATH`: a `DERIVATION_PATH`, the path of the BIP-352 spend key from the\n+    master key.\n+  - `SCAN_PATH`: OPTIONAL `DERIVATION_PATH`, the path of the BIP-352 scan key from\n+    the master key, when the scan key is the signer's.\n+  - `SCAN_KEY`: OPTIONAL, 32 bytes, the BIP-352 scan private key as a big-endian\n+    scalar, when the scan key is not the signer's. The private key, not the public\n+    one: the BIP-352 label tweak of a labelled address is computed from it, so\n+    verifying one requires it. A scan private key carries no signing power, so\n+    leaking one has the same effect as leaking an xpub: it reveals the wallet's\n+    payments, nothing more.\n+\n+  Exactly one of `SCAN_PATH` and `SCAN_KEY` MUST be present: a reader MUST reject\n+  the form when both or neither are.\n+\n+`VENDOR`: `STRING`, the device vendor.\n+\n+`MODEL`: `STRING`, the device model.\n+\n+`VERSION`: in a response body, 8 bytes of device firmware version, `MAJOR` `MINOR`",
+      "path": "bip-signing.md",
+      "position": 151,
+      "original_position": 151,
+      "commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "original_commit_id": "383f7c7c7e6c1f2afdfbd1260610d7c07e09050b",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "danielabrozzoni",
+        "id": 25042473,
+        "node_id": "MDQ6VXNlcjI1MDQyNDcz",
+        "avatar_url": "https://avatars.githubusercontent.com/u/25042473?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/danielabrozzoni",
+        "html_url": "https://github.com/danielabrozzoni",
+        "followers_url": "https://api.github.com/users/danielabrozzoni/followers",
+        "following_url": "https://api.github.com/users/danielabrozzoni/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/danielabrozzoni/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/danielabrozzoni/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/danielabrozzoni/subscriptions",
+        "organizations_url": "https://api.github.com/users/danielabrozzoni/orgs",
+        "repos_url": "https://api.github.com/users/danielabrozzoni/repos",
+        "events_url": "https://api.github.com/users/danielabrozzoni/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/danielabrozzoni/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I think this should be called `FW_VERSION`, `DEVICE_VERSION`, or equivalent, so when reading the BIP we don't confuse it with the protocol version specified below",
+      "created_at": "2026-11-18T17:19:11Z",
+      "updated_at": "2026-11-18T17:57:38Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2353#discussion_r4618053771",
+      "author_association": "MEMBER",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4618053771"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2353"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 151,
+      "original_line": 151,
+      "side": "RIGHT"
+    }
+  ]
 }
