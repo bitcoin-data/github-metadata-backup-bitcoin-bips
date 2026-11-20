@@ -41,9 +41,28 @@
       "patch_url": null
     },
     "body": "[BIP 3](https://github.com/bitcoin/bips/blob/master/bip-0003.md#overview) limits the Title header to 50 characters. However, buildtable.pl reads the preamble without decoding UTF-8, so length() counts bytes and rejects some titles within that limit.\n\nFor example, the existing BIP 450 title, `Formosa—Seed encoding by themed mnemonic stories`, contains 48 characters and 50 UTF-8 bytes. Appending `!` produces 49 characters but 51 bytes, which the current validator rejects:\n\n    bip-0450.mediawiki has too-long Title (51 > 50 char max)\n\nDecode UTF-8 only for the length check. Use FB_CROAK to reject malformed UTF-8 and LEAVE_SRC to preserve the original title bytes for table output.\n\nAdd regression tests for both MediaWiki and Markdown preambles, covering ASCII and UTF-8 length boundaries, the BIP 450 example, malformed UTF-8, and preservation of output bytes. Run these tests in the existing Build-Table-Checks job.\n\nValidation:\n- `prove scripts/buildtable.t` — all 24 subtests pass.\n- `perl -c scripts/buildtable.pl`\n- `scripts/link-format-chk.sh`\n- `scripts/diffcheck.sh`\n- `typos`\n- Generated table output and diagnostics for all existing BIPs are byte-for-byte identical before and after the change.",
-    "labels": [],
+    "labels": [
+      {
+        "id": 6924377447,
+        "node_id": "LA_kwDOAN28mc8AAAABnLmdZw",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/PR%20Author%20action%20required",
+        "name": "PR Author action required",
+        "description": "Needs updates, has unaddressed review comments, or is otherwise waiting for PR author",
+        "color": "e99695",
+        "default": false
+      },
+      {
+        "id": 9045094857,
+        "node_id": "LA_kwDOAN28mc8AAAACGyExyQ",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/CI",
+        "name": "CI",
+        "description": "",
+        "color": "ec4d64",
+        "default": false
+      }
+    ],
     "created_at": "2026-11-15T09:50:48Z",
-    "updated_at": "2026-11-18T18:12:14Z",
+    "updated_at": "2026-11-19T23:52:03Z",
     "mergeable": true,
     "mergeable_state": "blocked",
     "merged": false,
@@ -274,9 +293,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6052,
-        "stargazers_count": 11036,
-        "watchers_count": 11036,
+        "forks_count": 6053,
+        "stargazers_count": 11042,
+        "watchers_count": 11042,
         "size": 21717,
         "default_branch": "master",
         "open_issues_count": 59,
@@ -292,7 +311,7 @@
         "visibility": "public",
         "pushed_at": "2026-11-17T22:26:06Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-18T16:55:24Z",
+        "updated_at": "2026-11-19T20:57:18Z",
         "allow_forking": true
       }
     },
@@ -389,6 +408,76 @@
       "submitted_at": "2026-11-18T18:12:14Z",
       "state": "CHANGES_REQUESTED",
       "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2357"
+    },
+    {
+      "event": "labeled",
+      "id": 36713709907,
+      "node_id": "LE_lADOAN28mc8AAAABfZ7cRc8AAAAIjE7BUw",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/36713709907",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-19T23:52:03Z",
+      "label": {
+        "name": "PR Author action required",
+        "color": "e99695"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 36713709954,
+      "node_id": "LE_lADOAN28mc8AAAABfZ7cRc8AAAAIjE7Bgg",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/36713709954",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-19T23:52:03Z",
+      "label": {
+        "name": "CI",
+        "color": "ec4d64"
+      }
     }
   ],
   "comments": []
