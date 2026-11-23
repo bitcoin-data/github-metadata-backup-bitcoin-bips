@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-11-22T17:04:33Z",
-    "updated_at": "2026-11-23T04:21:26Z",
+    "updated_at": "2026-11-23T05:12:54Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -284,8 +284,8 @@
         "homepage": "",
         "language": "Wikitext",
         "forks_count": 6055,
-        "stargazers_count": 11046,
-        "watchers_count": 11046,
+        "stargazers_count": 11047,
+        "watchers_count": 11047,
         "size": 21719,
         "default_branch": "master",
         "open_issues_count": 59,
@@ -301,7 +301,7 @@
         "visibility": "public",
         "pushed_at": "2026-11-20T18:06:34Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-22T22:22:42Z",
+        "updated_at": "2026-11-23T05:08:30Z",
         "allow_forking": true
       }
     },
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 3,
     "commits": 3,
-    "review_comments": 0,
+    "review_comments": 7,
     "comments": 0
   },
   "events": [
@@ -474,7 +474,424 @@
         "name": "New BIP",
         "color": "5319e7"
       }
+    },
+    {
+      "event": "reviewed",
+      "id": 6016262818,
+      "node_id": "PRR_kwDOAN28mc8AAAABZpjiog",
+      "url": null,
+      "actor": null,
+      "commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "commit_url": null,
+      "created_at": null,
+      "updated_at": "2026-11-23T05:12:54Z",
+      "author_association": "CONTRIBUTOR",
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "html_url": "https://github.com/bitcoin/bips/pull/2360#pullrequestreview-6016262818",
+      "submitted_at": "2026-11-23T05:12:54Z",
+      "state": "COMMENTED",
+      "pull_request_url": "https://api.github.com/repos/bitcoin/bips/pulls/2360"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661553742",
+      "pull_request_review_id": 6016262818,
+      "id": 4661553742,
+      "node_id": "PRRC_kwDOAN28mc8AAAABFdmqTg",
+      "diff_hunk": "@@ -0,0 +1,210 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reusable Macros in Tapleaf 0xc2\n+  Authors: Julian Moik <julianmoik@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Version: 0.1.0\n+  Requires: 440, 441\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines two new opcodes for Tapleaf 0xc2, OP_MACRO and OP_CALLMACRO, which let a script declare instruction sequences once, at the start of the script, and reference them wherever they are needed.  Before execution, every reference is replaced by the instructions it names.  The resulting unrolled script then executes under the ordinary Tapleaf 0xc2 rules, so a script that uses macros behaves exactly as the same script written out inline.\n+\n+### Copyright\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+### Motivation\n+\n+Repeated instructions occupy block space each time they appear in a script.  Macros let a script store a repeated instruction sequence once and reference it from many places.  This can reduce transaction weight and fees for scripts with substantial repeated logic, without adding protocol-specific consensus operations.\n+\n+BIP 440 funds a transaction's varops budget from its weight, and that budget exists to limit validation time.  Many scripts are limited by their weight long before their budget: a proof verifier built from repeated field arithmetic, for example, written out inline, uses only a small fraction of the varops its weight funds.  Macros let such scripts spend that headroom on block space instead.  A script can be compressed until its execution, together with the unrolling charge this BIP adds, uses the whole budget its transaction's reduced weight still funds.  A script compressed further would exceed its budget and fail, so validation time stays limited as for any other script.\n+\n+Macros are not runtime functions.  Functions defined and called during execution let the witness supply code, let the called function be computed, and allow recursion, so they need call frames and make a script's behavior depend on more than its committed bytes.  Macros only compress: every body and reference is fixed in the committed script, which is unrolled into an ordinary Tapscript before execution, so the interpreter itself stays unchanged.\n+\n+## Specification\n+\n+These opcodes apply only to Tapleaf 0xc2 as defined by [BIP 441](bip-0441.mediawiki).  The *committed script* is the Tapscript as serialized in the witness and committed to by the Tapleaf hash.\n+\n+### Opcode Assignments\n+\n+| Opcode | Value | Previous `0xc2` meaning | Role |\n+| --- | --- | --- | --- |\n+| OP_MACRO | `0xd0` | OP_SUCCESS208 | Starts a declaration; declarations precede the main script |\n+| OP_CALLMACRO | `0xd1` | OP_SUCCESS209 | References a declared body, replaced by that body during unrolling |\n+\n+Neither opcode ever executes.  Both belong to the encoding of the committed script, and neither appears as an opcode in the unrolled script.\n+\n+### Encoding\n+\n+A committed script is laid out as follows:\n+\n+```text\n+OP_MACRO <length> <body 0>     # declarations: zero or more\n+OP_MACRO <length> <body 1>\n+...\n+<main script>                  # the rest of the script\n+```\n+\n+Each *declaration* is OP_MACRO, the length of its body as a CompactSize, and the body.  Bodies are numbered from 0 in the order they appear.  Everything after the last declaration is the *main script*; without declarations, the whole script is the main script.\n+\n+A *reference*, `OP_CALLMACRO <index>` with the index as a CompactSize, names a body by its number.  References can appear in bodies and in the main script.\n+\n+Lengths and indices are CompactSize integers, as in Bitcoin's transaction serialization, and must use the shortest encoding.  For example, 5 must be encoded as `05`; its longer encoding `fd 05 00` makes the scan fail.",
+      "path": "bip-unknown-reusable-macros.md",
+      "position": 60,
+      "original_position": 60,
+      "commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "original_commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I think this should be `OP_MACRO [push]` rather than `compactsize + length`, with push being minimal, but at least two bytes of data (because a zero or one byte macro would be pointless and that removes ambiguity with op_1 etc), which makes it easier for existing parsers to parse the new scripts. That's one byte longer for 76-252 byte macros and one byte shorter for 253-255 byte macros, and everything else is the same, I think.\r\n\r\nDitto for `OP_CALLMACRO [pushnum]` to make parsing sensible. Since number pushes are all treated as unsigned per bip 441, that imposes a +1 byte cost for each call for macros 17-127 and also 128-252.\r\n\r\nI think this would also avoid introducing CompactSize parsing into script interpretation.",
+      "created_at": "2026-11-23T03:33:24Z",
+      "updated_at": "2026-11-23T05:12:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2360#discussion_r4661553742",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661553742"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2360"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 60,
+      "original_line": 60,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661598031",
+      "pull_request_review_id": 6016262818,
+      "id": 4661598031,
+      "node_id": "PRRC_kwDOAN28mc8AAAABFdpXTw",
+      "diff_hunk": "@@ -0,0 +1,210 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reusable Macros in Tapleaf 0xc2\n+  Authors: Julian Moik <julianmoik@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Version: 0.1.0\n+  Requires: 440, 441\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines two new opcodes for Tapleaf 0xc2, OP_MACRO and OP_CALLMACRO, which let a script declare instruction sequences once, at the start of the script, and reference them wherever they are needed.  Before execution, every reference is replaced by the instructions it names.  The resulting unrolled script then executes under the ordinary Tapleaf 0xc2 rules, so a script that uses macros behaves exactly as the same script written out inline.\n+\n+### Copyright\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+### Motivation\n+\n+Repeated instructions occupy block space each time they appear in a script.  Macros let a script store a repeated instruction sequence once and reference it from many places.  This can reduce transaction weight and fees for scripts with substantial repeated logic, without adding protocol-specific consensus operations.\n+\n+BIP 440 funds a transaction's varops budget from its weight, and that budget exists to limit validation time.  Many scripts are limited by their weight long before their budget: a proof verifier built from repeated field arithmetic, for example, written out inline, uses only a small fraction of the varops its weight funds.  Macros let such scripts spend that headroom on block space instead.  A script can be compressed until its execution, together with the unrolling charge this BIP adds, uses the whole budget its transaction's reduced weight still funds.  A script compressed further would exceed its budget and fail, so validation time stays limited as for any other script.\n+\n+Macros are not runtime functions.  Functions defined and called during execution let the witness supply code, let the called function be computed, and allow recursion, so they need call frames and make a script's behavior depend on more than its committed bytes.  Macros only compress: every body and reference is fixed in the committed script, which is unrolled into an ordinary Tapscript before execution, so the interpreter itself stays unchanged.\n+\n+## Specification\n+\n+These opcodes apply only to Tapleaf 0xc2 as defined by [BIP 441](bip-0441.mediawiki).  The *committed script* is the Tapscript as serialized in the witness and committed to by the Tapleaf hash.\n+\n+### Opcode Assignments\n+\n+| Opcode | Value | Previous `0xc2` meaning | Role |\n+| --- | --- | --- | --- |\n+| OP_MACRO | `0xd0` | OP_SUCCESS208 | Starts a declaration; declarations precede the main script |\n+| OP_CALLMACRO | `0xd1` | OP_SUCCESS209 | References a declared body, replaced by that body during unrolling |\n+\n+Neither opcode ever executes.  Both belong to the encoding of the committed script, and neither appears as an opcode in the unrolled script.\n+\n+### Encoding\n+\n+A committed script is laid out as follows:\n+\n+```text\n+OP_MACRO <length> <body 0>     # declarations: zero or more\n+OP_MACRO <length> <body 1>\n+...\n+<main script>                  # the rest of the script\n+```\n+\n+Each *declaration* is OP_MACRO, the length of its body as a CompactSize, and the body.  Bodies are numbered from 0 in the order they appear.  Everything after the last declaration is the *main script*; without declarations, the whole script is the main script.\n+\n+A *reference*, `OP_CALLMACRO <index>` with the index as a CompactSize, names a body by its number.  References can appear in bodies and in the main script.\n+\n+Lengths and indices are CompactSize integers, as in Bitcoin's transaction serialization, and must use the shortest encoding.  For example, 5 must be encoded as `05`; its longer encoding `fd 05 00` makes the scan fail.\n+\n+An *instruction* is an opcode together with the bytes that belong to it: a push opcode's length bytes and payload, or OP_CALLMACRO's index, which is therefore never an opcode and never a stack value.  Every other opcode is a one-byte instruction.  Every instruction lies entirely within one body or entirely within the main script: a push payload or an OP_CALLMACRO index cannot continue past the end of a body into the bytes that follow it.\n+\n+### Scan\n+\n+The BIP 342 OP_SUCCESSx scan is extended to macro declarations and references: it reads the committed script once, from its first byte to its last, without following references.  The first rule below that makes the scan succeed or fail decides whether the script is valid; if the scan reaches the end without either, the script is *well-formed*.\n+\n+1. **Declarations.**  While the next unread byte is OP_MACRO, consume it and read a CompactSize length `L`.  If the length is missing, truncated or not in its shortest encoding, or `L` exceeds the number of remaining bytes, the scan **fails**.  Otherwise, scan the next `L` bytes as the next body, then continue after it.\n+2. **Main script.**  Scan all remaining bytes as the main script.\n+\n+A body or the main script is scanned by reading its instructions in order until it ends:\n+\n+- An instruction that is cut off by the end of the body or main script being scanned causes the scan to **fail**: a push whose length bytes or payload, or an OP_CALLMACRO whose index, would need bytes beyond that end.\n+- An OP_SUCCESSx opcode causes the scan to **succeed**: the script is valid, as specified by [BIP 342](bip-0342.mediawiki) for OP_SUCCESSx.\n+- An OP_MACRO inside a body or the main script causes the scan to **fail**: declarations exist only at the start of the script.\n+- OP_CALLMACRO reads its CompactSize index.  The index must use the shortest encoding and must name a body declared earlier in the committed script: in a body, a body declared before it; in the main script, any body.  Otherwise the scan **fails**.\n+- Any other instruction is accepted, and the scan continues.  An opcode that fails only when executed, such as OP_RETURN, does not make the scan fail.  Nor does OP_VERIF, which fails whenever it is reached, even in an unexecuted branch.\n+\n+**Size limit.**  The scan also tracks the *unrolled length* of the body or main script being scanned: the number of bytes it unrolls to, up to the current instruction.  A reference adds the unrolled length of the body it names, recorded when that body was scanned; an accepted instruction adds its own size in bytes.  As soon as the unrolled length exceeds 4,000,000 bytes, the scan **fails**.  The limit applies to every body, referenced or not, and to the main script, with or without declarations.\n+\n+### Unrolling\n+\n+The *unrolled script* is the main script with every reference replaced by the body it names, repeated until no references remain.  Because a body can reference only earlier declarations, unrolling is finite.  The unrolled script contains no declarations and no references; unreferenced bodies do not contribute to it.\n+\n+Unrolling a well-formed committed script takes place after the initial stack checks, just before execution, and proceeds as follows:\n+\n+1. **Totals.**  Three totals of the unrolled script are determined:\n+   - *unrolled length*: its size in bytes;\n+   - *substituted instructions*: the number of its instructions that come from bodies rather than directly from the main script;\n+   - *references visited*: the number of references replaced during unrolling, where a reference inside a body counts once each time that body is substituted.\n+\n+   The totals are computed before the unrolled script is constructed, and can be recorded during the scan.  For each body in declaration order, record its unrolled length, instruction count and references visited, using the recorded values of the bodies it references; then do the same for the main script, whose substituted instructions are the instruction counts of the bodies it references.  The size limit of the scan bounds every total except references visited, which can be large without adding any bytes.  Implementations may cap references visited at any value large enough that a script reaching the cap still exceeds the budget.\n+2. **Unrolling charge.**  If the committed script has at least one declaration, it is charged `BASE * (substituted instructions + references visited) + WRITE(unrolled length)` varops, where `BASE` and `WRITE` are BIP 440's fixed per-opcode charge and write charge.  If the charge exceeds the remaining budget, the script **fails**.\n+3. **Construction.**  The unrolled script is constructed.\n+\n+A script with declarations but no references still pays `WRITE(unrolled length)`, because its unrolled script is constructed as a copy of its main script.\n+\n+### Execution\n+\n+The unrolled script is executed as the Tapscript under every BIP 441 rule, as amended by other deployed Tapleaf 0xc2 proposals.  The only exception is data that identifies the script itself: the Tapleaf hash, and with it every signature message, and OP_TX's `CURRENT_TAPSCRIPT` use the committed script.  Opcode positions, used for OP_CODESEPARATOR in signature messages and by OP_TX, are positions in the unrolled script.  Conditionals may cross body boundaries, because only the unrolled script is executed.\n+\n+**Equivalence.**  Executing a well-formed committed script and executing its unrolled script, written out as an inline Tapscript, give the same result, final stack and opcode positions for any initial stack and transaction context, except that:\n+\n+1. anything that commits to the script bytes differs, as stated above;\n+2. the transaction weight differs and the committed script pays the unrolling charge, so one of the two may exhaust the varops budget where the other does not.\n+\n+Benchmarks of unrolled scripts with inactive references confirm that the unrolling charge, together with the ordinary charges of executing the unrolled script, covers unrolling, per script and across the inputs of a block ([METHODOLOGY.md](https://github.com/jmoik/varopsData/blob/master/METHODOLOGY.md)).\n+\n+## Rationale\n+\n+**Unrolling before execution.**  Replacing references before execution keeps macros out of the interpreter entirely.  The interpreter executes one opcode at a time, as it always has, and never meets OP_MACRO or OP_CALLMACRO.  Equivalence with the inline script holds by construction rather than by careful specification of how references behave during execution.  Conditionals, OP_CODESEPARATOR positions and error behavior need no macro-specific rules.  The cost is that the unrolled script must be built in memory, which requires the size limit below.\n+\n+**Static macros.**  Every executable body and every reference target is fixed by the committed script.  Witness data can supply values and influence ordinary conditional execution, but cannot supply executable code or choose a reference target.  This avoids the static-analysis problems of dynamic code evaluation, as in the OP_EVAL of [BIP 12](bip-0012.mediawiki), and of runtime-defined functions.  A reference index taken from the stack would not be known until execution, so the committed script could not be unrolled before execution.\n+\n+**One scan.**  Scanning the whole committed script once, in serialized order, makes the scan result depend only on the committed script, keeps the BIP 342 OP_SUCCESSx rule in its simplest form, and takes linear time.  Counting OP_SUCCESSx in unreferenced bodies matches BIP 342, where an OP_SUCCESSx in a branch that never executes also makes the script succeed, and preserves the most room for future soft forks to redefine OP_SUCCESSx inside bodies.\n+\n+**Size limit.**  Nested references can grow the unrolled script exponentially in the size of the committed script, and the unrolled script is held in memory.  The budget does not limit that memory, because it prices time: a standard-size transaction could pay to write hundreds of megabytes of unrolled script.  A separate limit is therefore needed, just as BIP 441 keeps explicit stack limits alongside the budget.  It equals the block weight limit, which also applies to every script written inline, so macros reduce a program's weight but do not let it grow past that limit.  It is also the limit on the size of a stack element.  The scan applies the limit at the instruction that crosses it, rather than to the finished totals, so it is a local rule like every other scan failure and the first success or failure in serialized order still decides.  A body over the limit could never be part of a valid unrolled script, so the scan rejects it even when it is not referenced, and the totals stay within the limit without saturating arithmetic, except for references visited.\n+\n+**Varops charge.**  Weight pays for the instructions of the main script but not for instructions substituted from bodies, so the unrolling charge prices the work of unrolling itself.  Each substituted instruction pays `BASE`, including instructions that execution later skips in an inactive branch; otherwise a single reference inside an inactive branch could make validators process up to 4,000,000 instructions per script without charge.  Each reference visited also pays `BASE`, because nesting can make their number large without adding any bytes.  `BASE` per instruction does not cover copying large pushes: a body holding one push of 3,997 bytes is one instruction but copies 4,000 bytes, and a block full of such scripts would copy far more bytes than BIP 440 funds.  Constructing the unrolled script copies `unrolled length` bytes into new storage, which is what BIP 440 prices with `WRITE`, so the charge adds `WRITE(unrolled length)`.\n+\n+**Lower-index references.**  Requiring every body reference to name an earlier declaration prevents direct and indirect recursion with a check during the scan.  Recursion could never be valid anyway: references are unrolled before execution, whether or not their branch would run, so a recursive body would unroll without end.  The rule also lets the scan validate each body in a single pass and lets the totals be computed in declaration order.\n+\n+## Examples\n+\n+### Reusing Field Arithmetic\n+\n+A proof verifier repeatedly multiplies numbers modulo the same prime `p`.  Let `<multiply-mod-p body>` be the serialized instructions `OP_MUL <p> OP_MOD`, with the 32-byte modulus pushed as part of the body:\n+\n+```text\n+OP_MACRO 23 <multiply-mod-p body>  # body 0\n+<a> <b> OP_CALLMACRO 00            # main script\n+<c> <d> OP_CALLMACRO 00\n+```\n+\n+The 32-byte `p` makes the serialized body 35 bytes, so its CompactSize length is the single byte `23`.  The two references leave `a*b mod p` and `c*d mod p` on the stack, exactly like the inline script with the body written out twice.  Each reference takes 2 bytes instead of 35 and the declaration takes 37, so `n` references save `33n - 37` bytes: 29 here, and 3,263 for 100 references.  Unrolling substitutes 6 instructions and visits 2 references, so the unrolling charge is `(6 + 2) * BASE` plus `WRITE` of the unrolled length; the arithmetic and both pushes of `p` then pay their ordinary charges.\n+\n+### Nested Bodies\n+\n+Bodies can extend one another.  Writing `<ref n>` for `OP_CALLMACRO n`, a compiler might emit:\n+\n+```text\n+body 230:  OP_PICK OP_MUL OP_ADD OP_ADD OP_ADD OP_ADD   # referenced from 10 places\n+body 509:  <ref 230> OP_ADD OP_10 OP_ROLL OP_10\n+body 510:  <ref 509> OP_ROLL\n+```\n+\n+`<ref 510>`, OP_CALLMACRO and a 3-byte index, is 4 bytes and unrolls to:\n+\n+```text\n+OP_PICK OP_MUL OP_ADD OP_ADD OP_ADD OP_ADD OP_ADD OP_10 OP_ROLL OP_10 OP_ROLL\n+```\n+\n+An arity opcode such as OP_MULTI, letting OP_ADD take several operands, would shorten the run of five OP_ADDs; macros store such runs once without a new opcode.\n+\n+### Scan\n+\n+The scan checks every body, referenced or not, before anything runs.  This script fails, although body 0 is never referenced:\n+\n+```text\n+OP_MACRO 01 OP_PUSHDATA1     # body 0: the push needs a length byte past the body's end\n+OP_1                         # main script\n+```\n+\n+This one succeeds, because an OP_SUCCESSx counts in any body:\n+\n+```text\n+OP_MACRO 01 OP_SUCCESS80     # body 0\n+OP_1                         # main script\n+```\n+\n+The first success or failure in serialized order decides, so this one succeeds too:\n+\n+```text\n+OP_MACRO 01 OP_SUCCESS80     # body 0: succeeds here\n+OP_MACRO 01 OP_PUSHDATA1     # body 1: would fail, but comes later\n+```\n+\n+The size limit is part of the scan, so this one fails in body 22, which is never referenced, before the scan reaches the OP_SUCCESSx:\n+\n+```text\n+OP_MACRO 01 OP_NOP            # body 0: unrolls to 1 byte\n+OP_MACRO 04 <ref 0> <ref 0>   # body 1: 2 bytes\n+...                           # body n references body n - 1 twice: 2^n bytes\n+OP_MACRO 04 <ref 21> <ref 21> # body 22: fails at its second reference, at 4,194,304 bytes\n+OP_SUCCESS80                  # main script\n+```\n+\n+## Security Considerations\n+\n+Nested references let a small committed script describe a large unrolled script, so script weight alone no longer limits the number of executed operations.  The size limit bounds the unrolled script's memory to 4,000,000 bytes per script.  This assumes the unrolled script is written in one pass that follows each reference into its body, in time linear in the unrolled length and references visited.  Unrolling each body separately first would hold every intermediate expansion, which is subject to neither the limit nor the charge.  The unrolling charge is computed and paid before the unrolled script is constructed, so unrolling work is metered even when the unrolled script is tiny.  Execution of the unrolled script is metered by BIP 440 as for any script.",
+      "path": "bip-unknown-reusable-macros.md",
+      "position": 190,
+      "original_position": 190,
+      "commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "original_commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This seems somewhat inconsistent with the bip440 varops budget which describes the varops budget being set as a fixed multiple of the transaction weight -- so script weight alone presumably does still limit the number of executed operations.\r\n\r\nThere's possibly something of conflicting goals there -- you want the script to have minimal varops usage when executed, then you want to compress the script to reduce the weight, but you don't want to compress the script so far that the executed varops ends up exceeding the reduced weight.",
+      "created_at": "2026-11-23T03:42:45Z",
+      "updated_at": "2026-11-23T05:12:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2360#discussion_r4661598031",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661598031"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2360"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 190,
+      "original_line": 190,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661622206",
+      "pull_request_review_id": 6016262818,
+      "id": 4661622206,
+      "node_id": "PRRC_kwDOAN28mc8AAAABFdq1vg",
+      "diff_hunk": "@@ -0,0 +1,210 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reusable Macros in Tapleaf 0xc2\n+  Authors: Julian Moik <julianmoik@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Version: 0.1.0\n+  Requires: 440, 441\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines two new opcodes for Tapleaf 0xc2, OP_MACRO and OP_CALLMACRO, which let a script declare instruction sequences once, at the start of the script, and reference them wherever they are needed.  Before execution, every reference is replaced by the instructions it names.  The resulting unrolled script then executes under the ordinary Tapleaf 0xc2 rules, so a script that uses macros behaves exactly as the same script written out inline.\n+\n+### Copyright\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+### Motivation\n+\n+Repeated instructions occupy block space each time they appear in a script.  Macros let a script store a repeated instruction sequence once and reference it from many places.  This can reduce transaction weight and fees for scripts with substantial repeated logic, without adding protocol-specific consensus operations.\n+\n+BIP 440 funds a transaction's varops budget from its weight, and that budget exists to limit validation time.  Many scripts are limited by their weight long before their budget: a proof verifier built from repeated field arithmetic, for example, written out inline, uses only a small fraction of the varops its weight funds.  Macros let such scripts spend that headroom on block space instead.  A script can be compressed until its execution, together with the unrolling charge this BIP adds, uses the whole budget its transaction's reduced weight still funds.  A script compressed further would exceed its budget and fail, so validation time stays limited as for any other script.\n+\n+Macros are not runtime functions.  Functions defined and called during execution let the witness supply code, let the called function be computed, and allow recursion, so they need call frames and make a script's behavior depend on more than its committed bytes.  Macros only compress: every body and reference is fixed in the committed script, which is unrolled into an ordinary Tapscript before execution, so the interpreter itself stays unchanged.\n+\n+## Specification\n+\n+These opcodes apply only to Tapleaf 0xc2 as defined by [BIP 441](bip-0441.mediawiki).  The *committed script* is the Tapscript as serialized in the witness and committed to by the Tapleaf hash.\n+\n+### Opcode Assignments\n+\n+| Opcode | Value | Previous `0xc2` meaning | Role |\n+| --- | --- | --- | --- |\n+| OP_MACRO | `0xd0` | OP_SUCCESS208 | Starts a declaration; declarations precede the main script |\n+| OP_CALLMACRO | `0xd1` | OP_SUCCESS209 | References a declared body, replaced by that body during unrolling |\n+\n+Neither opcode ever executes.  Both belong to the encoding of the committed script, and neither appears as an opcode in the unrolled script.\n+\n+### Encoding\n+\n+A committed script is laid out as follows:\n+\n+```text\n+OP_MACRO <length> <body 0>     # declarations: zero or more\n+OP_MACRO <length> <body 1>\n+...\n+<main script>                  # the rest of the script\n+```\n+\n+Each *declaration* is OP_MACRO, the length of its body as a CompactSize, and the body.  Bodies are numbered from 0 in the order they appear.  Everything after the last declaration is the *main script*; without declarations, the whole script is the main script.\n+\n+A *reference*, `OP_CALLMACRO <index>` with the index as a CompactSize, names a body by its number.  References can appear in bodies and in the main script.\n+\n+Lengths and indices are CompactSize integers, as in Bitcoin's transaction serialization, and must use the shortest encoding.  For example, 5 must be encoded as `05`; its longer encoding `fd 05 00` makes the scan fail.\n+\n+An *instruction* is an opcode together with the bytes that belong to it: a push opcode's length bytes and payload, or OP_CALLMACRO's index, which is therefore never an opcode and never a stack value.  Every other opcode is a one-byte instruction.  Every instruction lies entirely within one body or entirely within the main script: a push payload or an OP_CALLMACRO index cannot continue past the end of a body into the bytes that follow it.\n+\n+### Scan\n+\n+The BIP 342 OP_SUCCESSx scan is extended to macro declarations and references: it reads the committed script once, from its first byte to its last, without following references.  The first rule below that makes the scan succeed or fail decides whether the script is valid; if the scan reaches the end without either, the script is *well-formed*.\n+\n+1. **Declarations.**  While the next unread byte is OP_MACRO, consume it and read a CompactSize length `L`.  If the length is missing, truncated or not in its shortest encoding, or `L` exceeds the number of remaining bytes, the scan **fails**.  Otherwise, scan the next `L` bytes as the next body, then continue after it.\n+2. **Main script.**  Scan all remaining bytes as the main script.\n+\n+A body or the main script is scanned by reading its instructions in order until it ends:\n+\n+- An instruction that is cut off by the end of the body or main script being scanned causes the scan to **fail**: a push whose length bytes or payload, or an OP_CALLMACRO whose index, would need bytes beyond that end.\n+- An OP_SUCCESSx opcode causes the scan to **succeed**: the script is valid, as specified by [BIP 342](bip-0342.mediawiki) for OP_SUCCESSx.\n+- An OP_MACRO inside a body or the main script causes the scan to **fail**: declarations exist only at the start of the script.\n+- OP_CALLMACRO reads its CompactSize index.  The index must use the shortest encoding and must name a body declared earlier in the committed script: in a body, a body declared before it; in the main script, any body.  Otherwise the scan **fails**.\n+- Any other instruction is accepted, and the scan continues.  An opcode that fails only when executed, such as OP_RETURN, does not make the scan fail.  Nor does OP_VERIF, which fails whenever it is reached, even in an unexecuted branch.\n+\n+**Size limit.**  The scan also tracks the *unrolled length* of the body or main script being scanned: the number of bytes it unrolls to, up to the current instruction.  A reference adds the unrolled length of the body it names, recorded when that body was scanned; an accepted instruction adds its own size in bytes.  As soon as the unrolled length exceeds 4,000,000 bytes, the scan **fails**.  The limit applies to every body, referenced or not, and to the main script, with or without declarations.\n+\n+### Unrolling\n+\n+The *unrolled script* is the main script with every reference replaced by the body it names, repeated until no references remain.  Because a body can reference only earlier declarations, unrolling is finite.  The unrolled script contains no declarations and no references; unreferenced bodies do not contribute to it.\n+\n+Unrolling a well-formed committed script takes place after the initial stack checks, just before execution, and proceeds as follows:\n+\n+1. **Totals.**  Three totals of the unrolled script are determined:\n+   - *unrolled length*: its size in bytes;\n+   - *substituted instructions*: the number of its instructions that come from bodies rather than directly from the main script;\n+   - *references visited*: the number of references replaced during unrolling, where a reference inside a body counts once each time that body is substituted.\n+\n+   The totals are computed before the unrolled script is constructed, and can be recorded during the scan.  For each body in declaration order, record its unrolled length, instruction count and references visited, using the recorded values of the bodies it references; then do the same for the main script, whose substituted instructions are the instruction counts of the bodies it references.  The size limit of the scan bounds every total except references visited, which can be large without adding any bytes.  Implementations may cap references visited at any value large enough that a script reaching the cap still exceeds the budget.\n+2. **Unrolling charge.**  If the committed script has at least one declaration, it is charged `BASE * (substituted instructions + references visited) + WRITE(unrolled length)` varops, where `BASE` and `WRITE` are BIP 440's fixed per-opcode charge and write charge.  If the charge exceeds the remaining budget, the script **fails**.\n+3. **Construction.**  The unrolled script is constructed.\n+\n+A script with declarations but no references still pays `WRITE(unrolled length)`, because its unrolled script is constructed as a copy of its main script.\n+\n+### Execution\n+\n+The unrolled script is executed as the Tapscript under every BIP 441 rule, as amended by other deployed Tapleaf 0xc2 proposals.  The only exception is data that identifies the script itself: the Tapleaf hash, and with it every signature message, and OP_TX's `CURRENT_TAPSCRIPT` use the committed script.  Opcode positions, used for OP_CODESEPARATOR in signature messages and by OP_TX, are positions in the unrolled script.  Conditionals may cross body boundaries, because only the unrolled script is executed.\n+\n+**Equivalence.**  Executing a well-formed committed script and executing its unrolled script, written out as an inline Tapscript, give the same result, final stack and opcode positions for any initial stack and transaction context, except that:\n+\n+1. anything that commits to the script bytes differs, as stated above;\n+2. the transaction weight differs and the committed script pays the unrolling charge, so one of the two may exhaust the varops budget where the other does not.\n+\n+Benchmarks of unrolled scripts with inactive references confirm that the unrolling charge, together with the ordinary charges of executing the unrolled script, covers unrolling, per script and across the inputs of a block ([METHODOLOGY.md](https://github.com/jmoik/varopsData/blob/master/METHODOLOGY.md)).\n+\n+## Rationale\n+\n+**Unrolling before execution.**  Replacing references before execution keeps macros out of the interpreter entirely.  The interpreter executes one opcode at a time, as it always has, and never meets OP_MACRO or OP_CALLMACRO.  Equivalence with the inline script holds by construction rather than by careful specification of how references behave during execution.  Conditionals, OP_CODESEPARATOR positions and error behavior need no macro-specific rules.  The cost is that the unrolled script must be built in memory, which requires the size limit below.\n+\n+**Static macros.**  Every executable body and every reference target is fixed by the committed script.  Witness data can supply values and influence ordinary conditional execution, but cannot supply executable code or choose a reference target.  This avoids the static-analysis problems of dynamic code evaluation, as in the OP_EVAL of [BIP 12](bip-0012.mediawiki), and of runtime-defined functions.  A reference index taken from the stack would not be known until execution, so the committed script could not be unrolled before execution.\n+\n+**One scan.**  Scanning the whole committed script once, in serialized order, makes the scan result depend only on the committed script, keeps the BIP 342 OP_SUCCESSx rule in its simplest form, and takes linear time.  Counting OP_SUCCESSx in unreferenced bodies matches BIP 342, where an OP_SUCCESSx in a branch that never executes also makes the script succeed, and preserves the most room for future soft forks to redefine OP_SUCCESSx inside bodies.\n+\n+**Size limit.**  Nested references can grow the unrolled script exponentially in the size of the committed script, and the unrolled script is held in memory.  The budget does not limit that memory, because it prices time: a standard-size transaction could pay to write hundreds of megabytes of unrolled script.  A separate limit is therefore needed, just as BIP 441 keeps explicit stack limits alongside the budget.  It equals the block weight limit, which also applies to every script written inline, so macros reduce a program's weight but do not let it grow past that limit.  It is also the limit on the size of a stack element.  The scan applies the limit at the instruction that crosses it, rather than to the finished totals, so it is a local rule like every other scan failure and the first success or failure in serialized order still decides.  A body over the limit could never be part of a valid unrolled script, so the scan rejects it even when it is not referenced, and the totals stay within the limit without saturating arithmetic, except for references visited.\n+\n+**Varops charge.**  Weight pays for the instructions of the main script but not for instructions substituted from bodies, so the unrolling charge prices the work of unrolling itself.  Each substituted instruction pays `BASE`, including instructions that execution later skips in an inactive branch; otherwise a single reference inside an inactive branch could make validators process up to 4,000,000 instructions per script without charge.  Each reference visited also pays `BASE`, because nesting can make their number large without adding any bytes.  `BASE` per instruction does not cover copying large pushes: a body holding one push of 3,997 bytes is one instruction but copies 4,000 bytes, and a block full of such scripts would copy far more bytes than BIP 440 funds.  Constructing the unrolled script copies `unrolled length` bytes into new storage, which is what BIP 440 prices with `WRITE`, so the charge adds `WRITE(unrolled length)`.\n+\n+**Lower-index references.**  Requiring every body reference to name an earlier declaration prevents direct and indirect recursion with a check during the scan.  Recursion could never be valid anyway: references are unrolled before execution, whether or not their branch would run, so a recursive body would unroll without end.  The rule also lets the scan validate each body in a single pass and lets the totals be computed in declaration order.\n+\n+## Examples\n+\n+### Reusing Field Arithmetic\n+\n+A proof verifier repeatedly multiplies numbers modulo the same prime `p`.  Let `<multiply-mod-p body>` be the serialized instructions `OP_MUL <p> OP_MOD`, with the 32-byte modulus pushed as part of the body:\n+\n+```text\n+OP_MACRO 23 <multiply-mod-p body>  # body 0\n+<a> <b> OP_CALLMACRO 00            # main script\n+<c> <d> OP_CALLMACRO 00\n+```\n+\n+The 32-byte `p` makes the serialized body 35 bytes, so its CompactSize length is the single byte `23`.  The two references leave `a*b mod p` and `c*d mod p` on the stack, exactly like the inline script with the body written out twice.  Each reference takes 2 bytes instead of 35 and the declaration takes 37, so `n` references save `33n - 37` bytes: 29 here, and 3,263 for 100 references.  Unrolling substitutes 6 instructions and visits 2 references, so the unrolling charge is `(6 + 2) * BASE` plus `WRITE` of the unrolled length; the arithmetic and both pushes of `p` then pay their ordinary charges.\n+\n+### Nested Bodies\n+\n+Bodies can extend one another.  Writing `<ref n>` for `OP_CALLMACRO n`, a compiler might emit:\n+\n+```text\n+body 230:  OP_PICK OP_MUL OP_ADD OP_ADD OP_ADD OP_ADD   # referenced from 10 places\n+body 509:  <ref 230> OP_ADD OP_10 OP_ROLL OP_10\n+body 510:  <ref 509> OP_ROLL\n+```\n+\n+`<ref 510>`, OP_CALLMACRO and a 3-byte index, is 4 bytes and unrolls to:\n+\n+```text\n+OP_PICK OP_MUL OP_ADD OP_ADD OP_ADD OP_ADD OP_ADD OP_10 OP_ROLL OP_10 OP_ROLL\n+```\n+\n+An arity opcode such as OP_MULTI, letting OP_ADD take several operands, would shorten the run of five OP_ADDs; macros store such runs once without a new opcode.\n+\n+### Scan\n+\n+The scan checks every body, referenced or not, before anything runs.  This script fails, although body 0 is never referenced:\n+\n+```text\n+OP_MACRO 01 OP_PUSHDATA1     # body 0: the push needs a length byte past the body's end\n+OP_1                         # main script\n+```\n+\n+This one succeeds, because an OP_SUCCESSx counts in any body:\n+\n+```text\n+OP_MACRO 01 OP_SUCCESS80     # body 0\n+OP_1                         # main script\n+```\n+\n+The first success or failure in serialized order decides, so this one succeeds too:\n+\n+```text\n+OP_MACRO 01 OP_SUCCESS80     # body 0: succeeds here\n+OP_MACRO 01 OP_PUSHDATA1     # body 1: would fail, but comes later\n+```\n+\n+The size limit is part of the scan, so this one fails in body 22, which is never referenced, before the scan reaches the OP_SUCCESSx:\n+\n+```text\n+OP_MACRO 01 OP_NOP            # body 0: unrolls to 1 byte\n+OP_MACRO 04 <ref 0> <ref 0>   # body 1: 2 bytes\n+...                           # body n references body n - 1 twice: 2^n bytes\n+OP_MACRO 04 <ref 21> <ref 21> # body 22: fails at its second reference, at 4,194,304 bytes\n+OP_SUCCESS80                  # main script\n+```\n+\n+## Security Considerations\n+\n+Nested references let a small committed script describe a large unrolled script, so script weight alone no longer limits the number of executed operations.  The size limit bounds the unrolled script's memory to 4,000,000 bytes per script.  This assumes the unrolled script is written in one pass that follows each reference into its body, in time linear in the unrolled length and references visited.  Unrolling each body separately first would hold every intermediate expansion, which is subject to neither the limit nor the charge.  The unrolling charge is computed and paid before the unrolled script is constructed, so unrolling work is metered even when the unrolled script is tiny.  Execution of the unrolled script is metered by BIP 440 as for any script.\n+\n+Only committed bodies can be executed, and literal references prevent witness-supplied code and computed references.  References go only to earlier declarations, so there is no recursion.  The scan is unmetered but linear in the committed script's length, which weight funds.\n+\n+If scripts compressed with macros become common, mean block validation time could rise, because such scripts use much more of the varops budget their weight funds than typical transactions do.  It still stays within the worst case that existing script versions, including Tapleaf 0xc0, already allow, which BIP 440 calibrates the budget not to exceed.",
+      "path": "bip-unknown-reusable-macros.md",
+      "position": 194,
+      "original_position": 194,
+      "commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "original_commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This seems [another](https://delvingbitcoin.org/t/benchmarking-bitcoin-script-evaluation-for-the-varops-budget-great-script-restoration/2094/7) argument to ensure the varops budget is targetting a sensible worst-case.",
+      "created_at": "2026-11-23T03:48:17Z",
+      "updated_at": "2026-11-23T05:12:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2360#discussion_r4661622206",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661622206"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2360"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 194,
+      "original_line": 194,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661802836",
+      "pull_request_review_id": 6016262818,
+      "id": 4661802836,
+      "node_id": "PRRC_kwDOAN28mc8AAAABFd13VA",
+      "diff_hunk": "@@ -0,0 +1,210 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reusable Macros in Tapleaf 0xc2\n+  Authors: Julian Moik <julianmoik@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Version: 0.1.0\n+  Requires: 440, 441\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines two new opcodes for Tapleaf 0xc2, OP_MACRO and OP_CALLMACRO, which let a script declare instruction sequences once, at the start of the script, and reference them wherever they are needed.  Before execution, every reference is replaced by the instructions it names.  The resulting unrolled script then executes under the ordinary Tapleaf 0xc2 rules, so a script that uses macros behaves exactly as the same script written out inline.\n+\n+### Copyright\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+### Motivation\n+\n+Repeated instructions occupy block space each time they appear in a script.  Macros let a script store a repeated instruction sequence once and reference it from many places.  This can reduce transaction weight and fees for scripts with substantial repeated logic, without adding protocol-specific consensus operations.\n+\n+BIP 440 funds a transaction's varops budget from its weight, and that budget exists to limit validation time.  Many scripts are limited by their weight long before their budget: a proof verifier built from repeated field arithmetic, for example, written out inline, uses only a small fraction of the varops its weight funds.  Macros let such scripts spend that headroom on block space instead.  A script can be compressed until its execution, together with the unrolling charge this BIP adds, uses the whole budget its transaction's reduced weight still funds.  A script compressed further would exceed its budget and fail, so validation time stays limited as for any other script.\n+\n+Macros are not runtime functions.  Functions defined and called during execution let the witness supply code, let the called function be computed, and allow recursion, so they need call frames and make a script's behavior depend on more than its committed bytes.  Macros only compress: every body and reference is fixed in the committed script, which is unrolled into an ordinary Tapscript before execution, so the interpreter itself stays unchanged.\n+\n+## Specification\n+\n+These opcodes apply only to Tapleaf 0xc2 as defined by [BIP 441](bip-0441.mediawiki).  The *committed script* is the Tapscript as serialized in the witness and committed to by the Tapleaf hash.\n+\n+### Opcode Assignments\n+\n+| Opcode | Value | Previous `0xc2` meaning | Role |\n+| --- | --- | --- | --- |\n+| OP_MACRO | `0xd0` | OP_SUCCESS208 | Starts a declaration; declarations precede the main script |\n+| OP_CALLMACRO | `0xd1` | OP_SUCCESS209 | References a declared body, replaced by that body during unrolling |\n+\n+Neither opcode ever executes.  Both belong to the encoding of the committed script, and neither appears as an opcode in the unrolled script.\n+\n+### Encoding\n+\n+A committed script is laid out as follows:\n+\n+```text\n+OP_MACRO <length> <body 0>     # declarations: zero or more\n+OP_MACRO <length> <body 1>\n+...\n+<main script>                  # the rest of the script\n+```\n+\n+Each *declaration* is OP_MACRO, the length of its body as a CompactSize, and the body.  Bodies are numbered from 0 in the order they appear.  Everything after the last declaration is the *main script*; without declarations, the whole script is the main script.\n+\n+A *reference*, `OP_CALLMACRO <index>` with the index as a CompactSize, names a body by its number.  References can appear in bodies and in the main script.\n+\n+Lengths and indices are CompactSize integers, as in Bitcoin's transaction serialization, and must use the shortest encoding.  For example, 5 must be encoded as `05`; its longer encoding `fd 05 00` makes the scan fail.\n+\n+An *instruction* is an opcode together with the bytes that belong to it: a push opcode's length bytes and payload, or OP_CALLMACRO's index, which is therefore never an opcode and never a stack value.  Every other opcode is a one-byte instruction.  Every instruction lies entirely within one body or entirely within the main script: a push payload or an OP_CALLMACRO index cannot continue past the end of a body into the bytes that follow it.\n+\n+### Scan\n+\n+The BIP 342 OP_SUCCESSx scan is extended to macro declarations and references: it reads the committed script once, from its first byte to its last, without following references.  The first rule below that makes the scan succeed or fail decides whether the script is valid; if the scan reaches the end without either, the script is *well-formed*.\n+\n+1. **Declarations.**  While the next unread byte is OP_MACRO, consume it and read a CompactSize length `L`.  If the length is missing, truncated or not in its shortest encoding, or `L` exceeds the number of remaining bytes, the scan **fails**.  Otherwise, scan the next `L` bytes as the next body, then continue after it.\n+2. **Main script.**  Scan all remaining bytes as the main script.\n+\n+A body or the main script is scanned by reading its instructions in order until it ends:\n+\n+- An instruction that is cut off by the end of the body or main script being scanned causes the scan to **fail**: a push whose length bytes or payload, or an OP_CALLMACRO whose index, would need bytes beyond that end.\n+- An OP_SUCCESSx opcode causes the scan to **succeed**: the script is valid, as specified by [BIP 342](bip-0342.mediawiki) for OP_SUCCESSx.\n+- An OP_MACRO inside a body or the main script causes the scan to **fail**: declarations exist only at the start of the script.\n+- OP_CALLMACRO reads its CompactSize index.  The index must use the shortest encoding and must name a body declared earlier in the committed script: in a body, a body declared before it; in the main script, any body.  Otherwise the scan **fails**.\n+- Any other instruction is accepted, and the scan continues.  An opcode that fails only when executed, such as OP_RETURN, does not make the scan fail.  Nor does OP_VERIF, which fails whenever it is reached, even in an unexecuted branch.\n+\n+**Size limit.**  The scan also tracks the *unrolled length* of the body or main script being scanned: the number of bytes it unrolls to, up to the current instruction.  A reference adds the unrolled length of the body it names, recorded when that body was scanned; an accepted instruction adds its own size in bytes.  As soon as the unrolled length exceeds 4,000,000 bytes, the scan **fails**.  The limit applies to every body, referenced or not, and to the main script, with or without declarations.\n+\n+### Unrolling\n+\n+The *unrolled script* is the main script with every reference replaced by the body it names, repeated until no references remain.  Because a body can reference only earlier declarations, unrolling is finite.  The unrolled script contains no declarations and no references; unreferenced bodies do not contribute to it.\n+\n+Unrolling a well-formed committed script takes place after the initial stack checks, just before execution, and proceeds as follows:\n+\n+1. **Totals.**  Three totals of the unrolled script are determined:\n+   - *unrolled length*: its size in bytes;\n+   - *substituted instructions*: the number of its instructions that come from bodies rather than directly from the main script;\n+   - *references visited*: the number of references replaced during unrolling, where a reference inside a body counts once each time that body is substituted.\n+\n+   The totals are computed before the unrolled script is constructed, and can be recorded during the scan.  For each body in declaration order, record its unrolled length, instruction count and references visited, using the recorded values of the bodies it references; then do the same for the main script, whose substituted instructions are the instruction counts of the bodies it references.  The size limit of the scan bounds every total except references visited, which can be large without adding any bytes.  Implementations may cap references visited at any value large enough that a script reaching the cap still exceeds the budget.\n+2. **Unrolling charge.**  If the committed script has at least one declaration, it is charged `BASE * (substituted instructions + references visited) + WRITE(unrolled length)` varops, where `BASE` and `WRITE` are BIP 440's fixed per-opcode charge and write charge.  If the charge exceeds the remaining budget, the script **fails**.\n+3. **Construction.**  The unrolled script is constructed.\n+\n+A script with declarations but no references still pays `WRITE(unrolled length)`, because its unrolled script is constructed as a copy of its main script.\n+\n+### Execution\n+\n+The unrolled script is executed as the Tapscript under every BIP 441 rule, as amended by other deployed Tapleaf 0xc2 proposals.  The only exception is data that identifies the script itself: the Tapleaf hash, and with it every signature message, and OP_TX's `CURRENT_TAPSCRIPT` use the committed script.  Opcode positions, used for OP_CODESEPARATOR in signature messages and by OP_TX, are positions in the unrolled script.  Conditionals may cross body boundaries, because only the unrolled script is executed.\n+\n+**Equivalence.**  Executing a well-formed committed script and executing its unrolled script, written out as an inline Tapscript, give the same result, final stack and opcode positions for any initial stack and transaction context, except that:\n+\n+1. anything that commits to the script bytes differs, as stated above;\n+2. the transaction weight differs and the committed script pays the unrolling charge, so one of the two may exhaust the varops budget where the other does not.\n+\n+Benchmarks of unrolled scripts with inactive references confirm that the unrolling charge, together with the ordinary charges of executing the unrolled script, covers unrolling, per script and across the inputs of a block ([METHODOLOGY.md](https://github.com/jmoik/varopsData/blob/master/METHODOLOGY.md)).\n+\n+## Rationale\n+\n+**Unrolling before execution.**  Replacing references before execution keeps macros out of the interpreter entirely.  The interpreter executes one opcode at a time, as it always has, and never meets OP_MACRO or OP_CALLMACRO.  Equivalence with the inline script holds by construction rather than by careful specification of how references behave during execution.  Conditionals, OP_CODESEPARATOR positions and error behavior need no macro-specific rules.  The cost is that the unrolled script must be built in memory, which requires the size limit below.\n+\n+**Static macros.**  Every executable body and every reference target is fixed by the committed script.  Witness data can supply values and influence ordinary conditional execution, but cannot supply executable code or choose a reference target.  This avoids the static-analysis problems of dynamic code evaluation, as in the OP_EVAL of [BIP 12](bip-0012.mediawiki), and of runtime-defined functions.  A reference index taken from the stack would not be known until execution, so the committed script could not be unrolled before execution.\n+\n+**One scan.**  Scanning the whole committed script once, in serialized order, makes the scan result depend only on the committed script, keeps the BIP 342 OP_SUCCESSx rule in its simplest form, and takes linear time.  Counting OP_SUCCESSx in unreferenced bodies matches BIP 342, where an OP_SUCCESSx in a branch that never executes also makes the script succeed, and preserves the most room for future soft forks to redefine OP_SUCCESSx inside bodies.\n+\n+**Size limit.**  Nested references can grow the unrolled script exponentially in the size of the committed script, and the unrolled script is held in memory.  The budget does not limit that memory, because it prices time: a standard-size transaction could pay to write hundreds of megabytes of unrolled script.  A separate limit is therefore needed, just as BIP 441 keeps explicit stack limits alongside the budget.  It equals the block weight limit, which also applies to every script written inline, so macros reduce a program's weight but do not let it grow past that limit.  It is also the limit on the size of a stack element.  The scan applies the limit at the instruction that crosses it, rather than to the finished totals, so it is a local rule like every other scan failure and the first success or failure in serialized order still decides.  A body over the limit could never be part of a valid unrolled script, so the scan rejects it even when it is not referenced, and the totals stay within the limit without saturating arithmetic, except for references visited.\n+\n+**Varops charge.**  Weight pays for the instructions of the main script but not for instructions substituted from bodies, so the unrolling charge prices the work of unrolling itself.  Each substituted instruction pays `BASE`, including instructions that execution later skips in an inactive branch; otherwise a single reference inside an inactive branch could make validators process up to 4,000,000 instructions per script without charge.  Each reference visited also pays `BASE`, because nesting can make their number large without adding any bytes.  `BASE` per instruction does not cover copying large pushes: a body holding one push of 3,997 bytes is one instruction but copies 4,000 bytes, and a block full of such scripts would copy far more bytes than BIP 440 funds.  Constructing the unrolled script copies `unrolled length` bytes into new storage, which is what BIP 440 prices with `WRITE`, so the charge adds `WRITE(unrolled length)`.",
+      "path": "bip-unknown-reusable-macros.md",
+      "position": 119,
+      "original_position": 119,
+      "commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "original_commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "What does a script that looks like:\r\n\r\n```\r\nMACRO [OP_TRUE]\r\nMACRO [CALL_MACRO 0 CALL_MACRO 0]\r\nMACRO [CALL_MACRO 1 CALL_MACRO 1]\r\nMACRO [CALL_MACRO 2 CALL_MACRO 2]\r\n...\r\nMACRO [CALL_MACRO 21 CALL_MACRO 21]\r\nOP_TRUE\r\n```\r\n\r\ncost? I believe you could efficiently compute each macros' unrolled size as you go (1, 2, 4, 8, .., 4M), and then lazily unroll them if/when they're referenced from the main script, storing a span of the unrolled value so that it's just a memcpy to unroll any future occurrences of the same macro. Is that implementation essentially mandatory?",
+      "created_at": "2026-11-23T04:21:47Z",
+      "updated_at": "2026-11-23T05:12:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2360#discussion_r4661802836",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661802836"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2360"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 119,
+      "original_line": 119,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661977344",
+      "pull_request_review_id": 6016262818,
+      "id": 4661977344,
+      "node_id": "PRRC_kwDOAN28mc8AAAABFeAhAA",
+      "diff_hunk": "@@ -0,0 +1,210 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reusable Macros in Tapleaf 0xc2\n+  Authors: Julian Moik <julianmoik@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Version: 0.1.0\n+  Requires: 440, 441\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines two new opcodes for Tapleaf 0xc2, OP_MACRO and OP_CALLMACRO, which let a script declare instruction sequences once, at the start of the script, and reference them wherever they are needed.  Before execution, every reference is replaced by the instructions it names.  The resulting unrolled script then executes under the ordinary Tapleaf 0xc2 rules, so a script that uses macros behaves exactly as the same script written out inline.\n+\n+### Copyright\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+### Motivation\n+\n+Repeated instructions occupy block space each time they appear in a script.  Macros let a script store a repeated instruction sequence once and reference it from many places.  This can reduce transaction weight and fees for scripts with substantial repeated logic, without adding protocol-specific consensus operations.\n+\n+BIP 440 funds a transaction's varops budget from its weight, and that budget exists to limit validation time.  Many scripts are limited by their weight long before their budget: a proof verifier built from repeated field arithmetic, for example, written out inline, uses only a small fraction of the varops its weight funds.  Macros let such scripts spend that headroom on block space instead.  A script can be compressed until its execution, together with the unrolling charge this BIP adds, uses the whole budget its transaction's reduced weight still funds.  A script compressed further would exceed its budget and fail, so validation time stays limited as for any other script.\n+\n+Macros are not runtime functions.  Functions defined and called during execution let the witness supply code, let the called function be computed, and allow recursion, so they need call frames and make a script's behavior depend on more than its committed bytes.  Macros only compress: every body and reference is fixed in the committed script, which is unrolled into an ordinary Tapscript before execution, so the interpreter itself stays unchanged.",
+      "path": "bip-unknown-reusable-macros.md",
+      "position": 30,
+      "original_position": 30,
+      "commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "original_commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "I'm still skeptical that avoiding runtime recursion of this form has any value. Note that even bounded iteration looks more like recursion in this model, eg naive fibonacci up to F(128) or so:\r\n\r\n```\r\nMACRO [DUP 0 GREATERTHAN IF 1SUB TOALTSTACK DUP ROT ADD FROMALTSTACK ENDIF]\r\nMACRO [CALLMACRO 0 CALLMACRO 0]\r\nMACRO [CALLMACRO 1 CALLMACRO 1]\r\nMACRO [CALLMACRO 2 CALLMACRO 2]\r\nMACRO [CALLMACRO 3 CALLMACRO 3]\r\nMACRO [CALLMACRO 4 CALLMACRO 4]\r\nMACRO [CALLMACRO 5 CALLMACRO 5]\r\nMACRO [CALLMACRO 6 CALLMACRO 6]\r\n0 1 OVER CALLMACRO 7 NOT VERIFY DROP\r\n```\r\n\r\nDoing macros as simple `#define` style textual replacements of code, with no parametrisation, is simple enough I suppose, but is only statically-analysable in the \"do all the replacements then analyse it\" sense.",
+      "created_at": "2026-11-23T04:58:11Z",
+      "updated_at": "2026-11-23T05:12:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2360#discussion_r4661977344",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661977344"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2360"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 30,
+      "original_line": 30,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661992835",
+      "pull_request_review_id": 6016262818,
+      "id": 4661992835,
+      "node_id": "PRRC_kwDOAN28mc8AAAABFeBdgw",
+      "diff_hunk": "@@ -0,0 +1,210 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reusable Macros in Tapleaf 0xc2\n+  Authors: Julian Moik <julianmoik@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Version: 0.1.0\n+  Requires: 440, 441\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines two new opcodes for Tapleaf 0xc2, OP_MACRO and OP_CALLMACRO, which let a script declare instruction sequences once, at the start of the script, and reference them wherever they are needed.  Before execution, every reference is replaced by the instructions it names.  The resulting unrolled script then executes under the ordinary Tapleaf 0xc2 rules, so a script that uses macros behaves exactly as the same script written out inline.\n+\n+### Copyright\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+### Motivation\n+\n+Repeated instructions occupy block space each time they appear in a script.  Macros let a script store a repeated instruction sequence once and reference it from many places.  This can reduce transaction weight and fees for scripts with substantial repeated logic, without adding protocol-specific consensus operations.\n+\n+BIP 440 funds a transaction's varops budget from its weight, and that budget exists to limit validation time.  Many scripts are limited by their weight long before their budget: a proof verifier built from repeated field arithmetic, for example, written out inline, uses only a small fraction of the varops its weight funds.  Macros let such scripts spend that headroom on block space instead.  A script can be compressed until its execution, together with the unrolling charge this BIP adds, uses the whole budget its transaction's reduced weight still funds.  A script compressed further would exceed its budget and fail, so validation time stays limited as for any other script.\n+\n+Macros are not runtime functions.  Functions defined and called during execution let the witness supply code, let the called function be computed, and allow recursion, so they need call frames and make a script's behavior depend on more than its committed bytes.  Macros only compress: every body and reference is fixed in the committed script, which is unrolled into an ordinary Tapscript before execution, so the interpreter itself stays unchanged.\n+\n+## Specification\n+\n+These opcodes apply only to Tapleaf 0xc2 as defined by [BIP 441](bip-0441.mediawiki).  The *committed script* is the Tapscript as serialized in the witness and committed to by the Tapleaf hash.\n+\n+### Opcode Assignments\n+\n+| Opcode | Value | Previous `0xc2` meaning | Role |\n+| --- | --- | --- | --- |\n+| OP_MACRO | `0xd0` | OP_SUCCESS208 | Starts a declaration; declarations precede the main script |\n+| OP_CALLMACRO | `0xd1` | OP_SUCCESS209 | References a declared body, replaced by that body during unrolling |\n+\n+Neither opcode ever executes.  Both belong to the encoding of the committed script, and neither appears as an opcode in the unrolled script.\n+\n+### Encoding\n+\n+A committed script is laid out as follows:\n+\n+```text\n+OP_MACRO <length> <body 0>     # declarations: zero or more\n+OP_MACRO <length> <body 1>\n+...\n+<main script>                  # the rest of the script\n+```\n+\n+Each *declaration* is OP_MACRO, the length of its body as a CompactSize, and the body.  Bodies are numbered from 0 in the order they appear.  Everything after the last declaration is the *main script*; without declarations, the whole script is the main script.\n+\n+A *reference*, `OP_CALLMACRO <index>` with the index as a CompactSize, names a body by its number.  References can appear in bodies and in the main script.\n+\n+Lengths and indices are CompactSize integers, as in Bitcoin's transaction serialization, and must use the shortest encoding.  For example, 5 must be encoded as `05`; its longer encoding `fd 05 00` makes the scan fail.\n+\n+An *instruction* is an opcode together with the bytes that belong to it: a push opcode's length bytes and payload, or OP_CALLMACRO's index, which is therefore never an opcode and never a stack value.  Every other opcode is a one-byte instruction.  Every instruction lies entirely within one body or entirely within the main script: a push payload or an OP_CALLMACRO index cannot continue past the end of a body into the bytes that follow it.\n+\n+### Scan\n+\n+The BIP 342 OP_SUCCESSx scan is extended to macro declarations and references: it reads the committed script once, from its first byte to its last, without following references.  The first rule below that makes the scan succeed or fail decides whether the script is valid; if the scan reaches the end without either, the script is *well-formed*.\n+\n+1. **Declarations.**  While the next unread byte is OP_MACRO, consume it and read a CompactSize length `L`.  If the length is missing, truncated or not in its shortest encoding, or `L` exceeds the number of remaining bytes, the scan **fails**.  Otherwise, scan the next `L` bytes as the next body, then continue after it.\n+2. **Main script.**  Scan all remaining bytes as the main script.\n+\n+A body or the main script is scanned by reading its instructions in order until it ends:",
+      "path": "bip-unknown-reusable-macros.md",
+      "position": 71,
+      "original_position": 71,
+      "commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "original_commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "Would be better to say \"A macro body\" consistently, rather than just \"a body\" probably.",
+      "created_at": "2026-11-23T05:01:26Z",
+      "updated_at": "2026-11-23T05:12:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2360#discussion_r4661992835",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4661992835"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2360"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 71,
+      "original_line": 71,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4662046493",
+      "pull_request_review_id": 6016262818,
+      "id": 4662046493,
+      "node_id": "PRRC_kwDOAN28mc8AAAABFeEvHQ",
+      "diff_hunk": "@@ -0,0 +1,210 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reusable Macros in Tapleaf 0xc2\n+  Authors: Julian Moik <julianmoik@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Version: 0.1.0\n+  Requires: 440, 441\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines two new opcodes for Tapleaf 0xc2, OP_MACRO and OP_CALLMACRO, which let a script declare instruction sequences once, at the start of the script, and reference them wherever they are needed.  Before execution, every reference is replaced by the instructions it names.  The resulting unrolled script then executes under the ordinary Tapleaf 0xc2 rules, so a script that uses macros behaves exactly as the same script written out inline.\n+\n+### Copyright\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+### Motivation\n+\n+Repeated instructions occupy block space each time they appear in a script.  Macros let a script store a repeated instruction sequence once and reference it from many places.  This can reduce transaction weight and fees for scripts with substantial repeated logic, without adding protocol-specific consensus operations.\n+\n+BIP 440 funds a transaction's varops budget from its weight, and that budget exists to limit validation time.  Many scripts are limited by their weight long before their budget: a proof verifier built from repeated field arithmetic, for example, written out inline, uses only a small fraction of the varops its weight funds.  Macros let such scripts spend that headroom on block space instead.  A script can be compressed until its execution, together with the unrolling charge this BIP adds, uses the whole budget its transaction's reduced weight still funds.  A script compressed further would exceed its budget and fail, so validation time stays limited as for any other script.\n+\n+Macros are not runtime functions.  Functions defined and called during execution let the witness supply code, let the called function be computed, and allow recursion, so they need call frames and make a script's behavior depend on more than its committed bytes.  Macros only compress: every body and reference is fixed in the committed script, which is unrolled into an ordinary Tapscript before execution, so the interpreter itself stays unchanged.\n+\n+## Specification\n+\n+These opcodes apply only to Tapleaf 0xc2 as defined by [BIP 441](bip-0441.mediawiki).  The *committed script* is the Tapscript as serialized in the witness and committed to by the Tapleaf hash.\n+\n+### Opcode Assignments\n+\n+| Opcode | Value | Previous `0xc2` meaning | Role |\n+| --- | --- | --- | --- |\n+| OP_MACRO | `0xd0` | OP_SUCCESS208 | Starts a declaration; declarations precede the main script |\n+| OP_CALLMACRO | `0xd1` | OP_SUCCESS209 | References a declared body, replaced by that body during unrolling |\n+\n+Neither opcode ever executes.  Both belong to the encoding of the committed script, and neither appears as an opcode in the unrolled script.\n+\n+### Encoding\n+\n+A committed script is laid out as follows:\n+\n+```text\n+OP_MACRO <length> <body 0>     # declarations: zero or more\n+OP_MACRO <length> <body 1>\n+...\n+<main script>                  # the rest of the script\n+```\n+\n+Each *declaration* is OP_MACRO, the length of its body as a CompactSize, and the body.  Bodies are numbered from 0 in the order they appear.  Everything after the last declaration is the *main script*; without declarations, the whole script is the main script.\n+\n+A *reference*, `OP_CALLMACRO <index>` with the index as a CompactSize, names a body by its number.  References can appear in bodies and in the main script.\n+\n+Lengths and indices are CompactSize integers, as in Bitcoin's transaction serialization, and must use the shortest encoding.  For example, 5 must be encoded as `05`; its longer encoding `fd 05 00` makes the scan fail.\n+\n+An *instruction* is an opcode together with the bytes that belong to it: a push opcode's length bytes and payload, or OP_CALLMACRO's index, which is therefore never an opcode and never a stack value.  Every other opcode is a one-byte instruction.  Every instruction lies entirely within one body or entirely within the main script: a push payload or an OP_CALLMACRO index cannot continue past the end of a body into the bytes that follow it.\n+\n+### Scan\n+\n+The BIP 342 OP_SUCCESSx scan is extended to macro declarations and references: it reads the committed script once, from its first byte to its last, without following references.  The first rule below that makes the scan succeed or fail decides whether the script is valid; if the scan reaches the end without either, the script is *well-formed*.\n+\n+1. **Declarations.**  While the next unread byte is OP_MACRO, consume it and read a CompactSize length `L`.  If the length is missing, truncated or not in its shortest encoding, or `L` exceeds the number of remaining bytes, the scan **fails**.  Otherwise, scan the next `L` bytes as the next body, then continue after it.\n+2. **Main script.**  Scan all remaining bytes as the main script.\n+\n+A body or the main script is scanned by reading its instructions in order until it ends:\n+\n+- An instruction that is cut off by the end of the body or main script being scanned causes the scan to **fail**: a push whose length bytes or payload, or an OP_CALLMACRO whose index, would need bytes beyond that end.\n+- An OP_SUCCESSx opcode causes the scan to **succeed**: the script is valid, as specified by [BIP 342](bip-0342.mediawiki) for OP_SUCCESSx.",
+      "path": "bip-unknown-reusable-macros.md",
+      "position": 74,
+      "original_position": 74,
+      "commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "original_commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "in_reply_to_id": null,
+      "user": {
+        "login": "ajtowns",
+        "id": 127186,
+        "node_id": "MDQ6VXNlcjEyNzE4Ng==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/127186?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ajtowns",
+        "html_url": "https://github.com/ajtowns",
+        "followers_url": "https://api.github.com/users/ajtowns/followers",
+        "following_url": "https://api.github.com/users/ajtowns/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/ajtowns/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/ajtowns/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/ajtowns/subscriptions",
+        "organizations_url": "https://api.github.com/users/ajtowns/orgs",
+        "repos_url": "https://api.github.com/users/ajtowns/repos",
+        "events_url": "https://api.github.com/users/ajtowns/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/ajtowns/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This seems to be:\r\n\r\n * parse the macro body: if it ends in an incomplete push, fail immediately. otherwise, record if there's an op_success. otherwise record if there was a `CALLMACRO x` where x is invalid or higher than the current macros id, or if there was a `MACRO` call within the macro body.\r\n * once all macro bodies have parsed, if any had op_success, succeed.\r\n * if any had an invalid macro/callmacro call, fail.\r\n * expand the macros in the main script\r\n \r\n I don't think this quite works for op_success opcodes that change the parsing -- eg OP_THREEBYTE that consumes the next two bytes as part of determining how it behaviours, then continue parsing as normal, if included in a macro could be interpreted as:\r\n \r\n  * post-fork: ` OP_THREEBYTE[0x04 0x01] OP_TRUE` -- probably success\r\n  * pre-fork: `OP_SUCCESSxx PUSH4[ 0x01 0x51 ]` -- 4-byte push with only two data items, so failure\r\n \r\nSo using such an OP_SUCCESS implementation in a macro would be invalid, and this wouldn't be a soft-fork. Having an opcode read three bytes is pretty similar to the `OP_MACRO 0xFD 0x00 0x10 [256-byte macro]` this text is currently proposing.\r\n\r\nI think this sort of complexity is probably a natural result of macro-like code reconstruction without meaningful structural awareness.",
+      "created_at": "2026-11-23T05:12:37Z",
+      "updated_at": "2026-11-23T05:12:54Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2360#discussion_r4662046493",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4662046493"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2360"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 74,
+      "original_line": 74,
+      "side": "RIGHT"
+    }
+  ]
 }
