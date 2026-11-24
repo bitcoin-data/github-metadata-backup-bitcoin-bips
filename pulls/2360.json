@@ -52,7 +52,7 @@
       }
     ],
     "created_at": "2026-11-22T17:04:33Z",
-    "updated_at": "2026-11-24T08:44:17Z",
+    "updated_at": "2026-11-24T10:51:10Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -316,7 +316,7 @@
     "deletions": 0,
     "changed_files": 3,
     "commits": 3,
-    "review_comments": 14,
+    "review_comments": 15,
     "comments": 0
   },
   "events": [
@@ -1269,6 +1269,60 @@
       "start_side": null,
       "line": 194,
       "original_line": 194,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4678894431",
+      "pull_request_review_id": 6037877598,
+      "id": 4678894431,
+      "node_id": "PRRC_kwDOAN28mc8AAAABFuJDXw",
+      "diff_hunk": "@@ -0,0 +1,210 @@\n+```\n+  BIP: ?\n+  Layer: Consensus (soft fork)\n+  Title: Reusable Macros in Tapleaf 0xc2\n+  Authors: Julian Moik <julianmoik@gmail.com>\n+  Status: Draft\n+  Type: Specification\n+  Assigned: ?\n+  License: BSD-3-Clause\n+  Version: 0.1.0\n+  Requires: 440, 441\n+```\n+\n+## Introduction\n+\n+### Abstract\n+\n+This BIP defines two new opcodes for Tapleaf 0xc2, OP_MACRO and OP_CALLMACRO, which let a script declare instruction sequences once, at the start of the script, and reference them wherever they are needed.  Before execution, every reference is replaced by the instructions it names.  The resulting unrolled script then executes under the ordinary Tapleaf 0xc2 rules, so a script that uses macros behaves exactly as the same script written out inline.\n+\n+### Copyright\n+\n+This document is licensed under the 3-clause BSD license.\n+\n+### Motivation\n+\n+Repeated instructions occupy block space each time they appear in a script.  Macros let a script store a repeated instruction sequence once and reference it from many places.  This can reduce transaction weight and fees for scripts with substantial repeated logic, without adding protocol-specific consensus operations.\n+\n+BIP 440 funds a transaction's varops budget from its weight, and that budget exists to limit validation time.  Many scripts are limited by their weight long before their budget: a proof verifier built from repeated field arithmetic, for example, written out inline, uses only a small fraction of the varops its weight funds.  Macros let such scripts spend that headroom on block space instead.  A script can be compressed until its execution, together with the unrolling charge this BIP adds, uses the whole budget its transaction's reduced weight still funds.  A script compressed further would exceed its budget and fail, so validation time stays limited as for any other script.\n+\n+Macros are not runtime functions.  Functions defined and called during execution let the witness supply code, let the called function be computed, and allow recursion, so they need call frames and make a script's behavior depend on more than its committed bytes.  Macros only compress: every body and reference is fixed in the committed script, which is unrolled into an ordinary Tapscript before execution, so the interpreter itself stays unchanged.\n+\n+## Specification\n+\n+These opcodes apply only to Tapleaf 0xc2 as defined by [BIP 441](bip-0441.mediawiki).  The *committed script* is the Tapscript as serialized in the witness and committed to by the Tapleaf hash.\n+\n+### Opcode Assignments\n+\n+| Opcode | Value | Previous `0xc2` meaning | Role |\n+| --- | --- | --- | --- |\n+| OP_MACRO | `0xd0` | OP_SUCCESS208 | Starts a declaration; declarations precede the main script |\n+| OP_CALLMACRO | `0xd1` | OP_SUCCESS209 | References a declared body, replaced by that body during unrolling |\n+\n+Neither opcode ever executes.  Both belong to the encoding of the committed script, and neither appears as an opcode in the unrolled script.\n+\n+### Encoding\n+\n+A committed script is laid out as follows:\n+\n+```text\n+OP_MACRO <length> <body 0>     # declarations: zero or more\n+OP_MACRO <length> <body 1>\n+...\n+<main script>                  # the rest of the script\n+```\n+\n+Each *declaration* is OP_MACRO, the length of its body as a CompactSize, and the body.  Bodies are numbered from 0 in the order they appear.  Everything after the last declaration is the *main script*; without declarations, the whole script is the main script.\n+\n+A *reference*, `OP_CALLMACRO <index>` with the index as a CompactSize, names a body by its number.  References can appear in bodies and in the main script.\n+\n+Lengths and indices are CompactSize integers, as in Bitcoin's transaction serialization, and must use the shortest encoding.  For example, 5 must be encoded as `05`; its longer encoding `fd 05 00` makes the scan fail.\n+\n+An *instruction* is an opcode together with the bytes that belong to it: a push opcode's length bytes and payload, or OP_CALLMACRO's index, which is therefore never an opcode and never a stack value.  Every other opcode is a one-byte instruction.  Every instruction lies entirely within one body or entirely within the main script: a push payload or an OP_CALLMACRO index cannot continue past the end of a body into the bytes that follow it.\n+\n+### Scan\n+\n+The BIP 342 OP_SUCCESSx scan is extended to macro declarations and references: it reads the committed script once, from its first byte to its last, without following references.  The first rule below that makes the scan succeed or fail decides whether the script is valid; if the scan reaches the end without either, the script is *well-formed*.\n+\n+1. **Declarations.**  While the next unread byte is OP_MACRO, consume it and read a CompactSize length `L`.  If the length is missing, truncated or not in its shortest encoding, or `L` exceeds the number of remaining bytes, the scan **fails**.  Otherwise, scan the next `L` bytes as the next body, then continue after it.\n+2. **Main script.**  Scan all remaining bytes as the main script.\n+\n+A body or the main script is scanned by reading its instructions in order until it ends:\n+\n+- An instruction that is cut off by the end of the body or main script being scanned causes the scan to **fail**: a push whose length bytes or payload, or an OP_CALLMACRO whose index, would need bytes beyond that end.\n+- An OP_SUCCESSx opcode causes the scan to **succeed**: the script is valid, as specified by [BIP 342](bip-0342.mediawiki) for OP_SUCCESSx.",
+      "path": "bip-unknown-reusable-macros.md",
+      "position": 74,
+      "original_position": 74,
+      "commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "original_commit_id": "0fc081eb991d832f27cf9c8221b1626edf3be2d7",
+      "in_reply_to_id": 4662046493,
+      "user": {
+        "login": "jmoik",
+        "id": 63734881,
+        "node_id": "MDQ6VXNlcjYzNzM0ODgx",
+        "avatar_url": "https://avatars.githubusercontent.com/u/63734881?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jmoik",
+        "html_url": "https://github.com/jmoik",
+        "followers_url": "https://api.github.com/users/jmoik/followers",
+        "following_url": "https://api.github.com/users/jmoik/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jmoik/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jmoik/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jmoik/subscriptions",
+        "organizations_url": "https://api.github.com/users/jmoik/orgs",
+        "repos_url": "https://api.github.com/users/jmoik/repos",
+        "events_url": "https://api.github.com/users/jmoik/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jmoik/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "The scan reads the committed script in serialized order and stops at the first instruction that makes the scan either succeed or fail, rather than parsing each body fully and then applying the rules in the order they’re listed. So your example succeeds at OP_SUCCESS and never reaches the cut-off push. Bytes after an OP_SUCCESS never affect the result, so redefining it, even as a multi-byte opcode, should only restrict. Also the main script doesn't get any special priority, only the position in the committed script decides, and all declarations come before the main script. I think that already matches closely what you suggest here, I just need to clarify the procedure.",
+      "created_at": "2026-11-24T10:51:10Z",
+      "updated_at": "2026-11-24T10:51:10Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2360#discussion_r4678894431",
+      "author_association": "NONE",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4678894431"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2360"
+        }
+      },
+      "start_line": null,
+      "original_start_line": null,
+      "start_side": null,
+      "line": 74,
+      "original_line": 74,
       "side": "RIGHT"
     }
   ]
