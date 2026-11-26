@@ -52,11 +52,11 @@
       }
     ],
     "created_at": "2026-09-18T10:37:23Z",
-    "updated_at": "2026-11-25T05:29:25Z",
+    "updated_at": "2026-11-26T00:37:30Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
-    "merge_commit_sha": "a041904a3562d199f6a8519cc18e73a80ab1ec3e",
+    "merge_commit_sha": "ad3a66291b684f016e6ef6603caa6ae6c38128c9",
     "assignees": [],
     "requested_reviewers": [
       {
@@ -305,12 +305,12 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6054,
+        "forks_count": 6056,
         "stargazers_count": 11051,
         "watchers_count": 11051,
-        "size": 21676,
+        "size": 21677,
         "default_branch": "master",
-        "open_issues_count": 65,
+        "open_issues_count": 67,
         "is_template": false,
         "topics": [],
         "has_issues": false,
@@ -321,9 +321,9 @@
         "archived": false,
         "disabled": false,
         "visibility": "public",
-        "pushed_at": "2026-11-24T15:51:44Z",
+        "pushed_at": "2026-11-25T14:24:35Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-24T17:52:59Z",
+        "updated_at": "2026-11-25T20:07:29Z",
         "allow_forking": true
       }
     },
@@ -338,7 +338,7 @@
     "deletions": 0,
     "changed_files": 2,
     "commits": 37,
-    "review_comments": 86,
+    "review_comments": 87,
     "comments": 12
   },
   "events": [
@@ -8237,6 +8237,60 @@
       "_links": {
         "self": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4690778007"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/2294"
+        }
+      },
+      "start_line": 18,
+      "original_start_line": 18,
+      "start_side": "RIGHT",
+      "line": 24,
+      "original_line": 24,
+      "side": "RIGHT"
+    },
+    {
+      "url": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4702563930",
+      "pull_request_review_id": 6066972899,
+      "id": 4702563930,
+      "node_id": "PRRC_kwDOAN28mc8AAAABGEtuWg",
+      "diff_hunk": "@@ -0,0 +1,456 @@\n+```\n+  BIP: 362\n+  Layer: Applications\n+  Title: Output Public Key Exposure Classification\n+  Authors: duncan0k <duncan0k@ark0.si>\n+  Status: Draft\n+  Type: Informational\n+  Assigned: 2026-11-02\n+  License: BSD-2-Clause OR CC0-1.0\n+  Discussion: 2026-09-03: https://delvingbitcoin.org/t/standardizing-an-exposure-classification-for-existing-outputs-pre-bip/2866\n+              2026-09-04: https://gnusha.org/pi/bitcoindev/010001a06dd4cdd9-b8082042-8750-4e9a-917e-2053c919e4c4-000000@email.amazonses.com/\n+  Version: 0.7.0\n+  Requires: 360\n+```\n+\n+## Abstract\n+\n+This document defines four exposure levels for Bitcoin outputs with respect to an adversary\n+holding a cryptographically relevant quantum computer (CRQC): `EXPOSED_AT_REST`,\n+`EXPOSED_ON_SPEND`, `NOT_EXPOSED` and `UNDETERMINED`. The first two are BIP 360's long exposure\n+and short exposure, applied to individual outputs. No deployed output type is `NOT_EXPOSED`.\n+Levels are derived from confirmed chain data only, so implementations that see the same chain\n+assign the same levels. An implementation that lacks the data to establish a level assigns\n+`UNDETERMINED`.",
+      "path": "bip-0362.md",
+      "position": 24,
+      "original_position": 24,
+      "commit_id": "9a9def264c80be2591b64d27149d8ce9bf0d66e8",
+      "original_commit_id": "9a9def264c80be2591b64d27149d8ce9bf0d66e8",
+      "in_reply_to_id": 4677819727,
+      "user": {
+        "login": "cryptoquick",
+        "id": 285690,
+        "node_id": "MDQ6VXNlcjI4NTY5MA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/285690?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/cryptoquick",
+        "html_url": "https://github.com/cryptoquick",
+        "followers_url": "https://api.github.com/users/cryptoquick/followers",
+        "following_url": "https://api.github.com/users/cryptoquick/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/cryptoquick/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/cryptoquick/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/cryptoquick/subscriptions",
+        "organizations_url": "https://api.github.com/users/cryptoquick/orgs",
+        "repos_url": "https://api.github.com/users/cryptoquick/repos",
+        "events_url": "https://api.github.com/users/cryptoquick/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/cryptoquick/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "body": "This is also complicated by hybrid/multi-algorithmic approaches. Some leaves combine vulnerable keys but they're not unsafe if they are also coupled with a secure signature algorithm check on the witness stack.\r\n\r\nAlso, in my opinion, we shouldn't constrain this kind of work solely to public key exposure, but vulnerabilities of various kinds, their differing severity levels, and we should be mindful that a poorly communicated, thoughtless blanket wallet notification could tank markets if also timed poorly.\r\n\r\nWe should be mindful of the risks, not let perfect be the enemy of the good, and honestly and thoughtfully document all gaps of what we can plan for at this time.\r\n\r\nThere are multiple dimensions here, to be clear:\r\n\r\n1. Transaction includes the input and witness fields, and also the outputs. A UTXO can commit to a scriptPubKey that includes a SegWit version corresponding to a specified witness program.\r\n1a. Some more nuance; if there ever is a consensus change, a soft fork activation, then this picture is also complicated.\r\n2. The witness program commits to a binary merkle tree computed by tagged SHA-256. For P2MR, SegWit v2 is reserved specifically for this purpose.\r\n3. The merkle tree has varous leaves that can be spent in exclusion to each other. Once an output is spent, it can't be spent again. Leaves give you spent time optionality if your wallet supports them at the time of address creation, but if you want multi-algorithmic agility, you must combine the useful subset of signature schemes into individual leaves in a combinatorial way. Multiple can be combined in a witness script, committed to in the leaf and in the witness program, though that work was never finished or specified, sadly.\r\n4. Once that's done, we also must consider how multi-algorithmic multisig can be efficiently, deterministically, and securely accomplished.\r\n\r\nIt's a difficult problem, and I've unfortunately been called to work on other things. Sadly, whatever BTC stakeholders have been out there have been unwilling to compensate me for my time and work, and so I will secure other forks and chains and work against them instead of for them.\r\n\r\nGood luck!",
+      "created_at": "2026-11-26T00:37:29Z",
+      "updated_at": "2026-11-26T00:37:30Z",
+      "html_url": "https://github.com/bitcoin/bips/pull/2294#discussion_r4702563930",
+      "author_association": "CONTRIBUTOR",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/bitcoin/bips/pulls/comments/4702563930"
         },
         "pull_request": {
           "href": "https://api.github.com/repos/bitcoin/bips/pulls/2294"
