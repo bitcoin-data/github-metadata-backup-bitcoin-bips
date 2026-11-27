@@ -41,9 +41,28 @@
       "patch_url": null
     },
     "body": "BIP352 currently says wallets MAY use the BIP32 derivation paths it defines, and its rationale already notes that hardened derivation makes it safe to export the scan private key. This PR makes two changes so that this holds in practice:\n\n1. Wallet software deriving the scan key from a BIP32 master key MUST use `m/352'/coin_type'/account'/1'/0`.\n2. Wallet software, including signing devices, MUST NOT use any key under `m/352'/coin_type'/account'/1'` for any purpose other than as a silent payments scan key, including for signing.\n\n**Why**\n\nThe scan private key must be exported to wherever scanning takes place, so it is the one private key a silent payments wallet is designed to give out. A scan key derived at any other path may also be used for signing, or allow other private keys to be derived, so exporting it could expose them. Requiring the defined path, which is hardened, and reserving its branch ensures that exporting the scan key exposes nothing else. A signing device can then allow exporting the scan private key at this path while refusing to export any other private key. This gives hardware signers a narrow, auditable rule for supporting silent payments receiving without a separate derivation scheme.\n\nA single path also keeps funds recoverable from a seed alone. All silent payment addresses share one format, so unlike bc1q and bc1p, an address cannot suggest to a wallet which derivation created it. If a second scan key derivation came into use, recovery would require scanning with each candidate scan key. Scanning is the most expensive part of silent payments recovery, so this cost would fall on every user permanently. Seeds also move between hot wallets and signing devices, so any derivation used by only one kind of wallet breaks portability.\n\n**Compatibility**\n\nNeither change alters sending, receiving or scanning. Wallets that already follow the defined paths are unaffected. The requirements apply only to scan keys derived from a BIP32 master key: scan keys created in other ways remain allowed, and nothing changes for spend keys, which may still be derived differently or be, for example, a MuSig2 aggregate key. Under BIP43 the purpose `352'` already belongs to this BIP, and I am not aware of any other use of the scan key branch, so the second change codifies existing practice. BIP375 and BIP376 never sign with the scan key, so neither conflicts with the reservation.\n\nI have bumped the version to 1.2.0 as a backward-compatible change to the specification, in keeping with the BIP3 guidance that a Complete BIP may backfill omissions found during adoption.\n\ncc @josibake @RubenSomsen @theStack\n",
-    "labels": [],
+    "labels": [
+      {
+        "id": 275846070,
+        "node_id": "MDU6TGFiZWwyNzU4NDYwNzA=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Proposed%20BIP%20modification",
+        "name": "Proposed BIP modification",
+        "description": "PR by non-owner to update BIP content",
+        "color": "5319e7",
+        "default": false
+      },
+      {
+        "id": 286161898,
+        "node_id": "MDU6TGFiZWwyODYxNjE4OTg=",
+        "url": "https://api.github.com/repos/bitcoin/bips/labels/Pending%20acceptance",
+        "name": "Pending acceptance",
+        "description": "This BIP modification requires sign-off by the champion of the BIP being modified",
+        "color": "fbca04",
+        "default": false
+      }
+    ],
     "created_at": "2026-11-27T08:47:08Z",
-    "updated_at": "2026-11-27T08:47:08Z",
+    "updated_at": "2026-11-27T12:07:39Z",
     "mergeable": true,
     "mergeable_state": "clean",
     "merged": false,
@@ -155,7 +174,7 @@
         "forks_count": 0,
         "stargazers_count": 6,
         "watchers_count": 6,
-        "size": 22969,
+        "size": 21722,
         "default_branch": "master",
         "open_issues_count": 0,
         "is_template": false,
@@ -274,9 +293,9 @@
         "svn_url": "https://github.com/bitcoin/bips",
         "homepage": "",
         "language": "Wikitext",
-        "forks_count": 6056,
-        "stargazers_count": 11053,
-        "watchers_count": 11053,
+        "forks_count": 6055,
+        "stargazers_count": 11052,
+        "watchers_count": 11052,
         "size": 21677,
         "default_branch": "master",
         "open_issues_count": 69,
@@ -292,7 +311,7 @@
         "visibility": "public",
         "pushed_at": "2026-11-25T14:24:35Z",
         "created_at": "2013-11-19T17:18:41Z",
-        "updated_at": "2026-11-27T07:30:56Z",
+        "updated_at": "2026-11-27T12:39:33Z",
         "allow_forking": true
       }
     },
@@ -536,6 +555,76 @@
       "commit_id": null,
       "commit_url": null,
       "created_at": "2026-11-27T08:47:13Z"
+    },
+    {
+      "event": "labeled",
+      "id": 37467459068,
+      "node_id": "LE_lADOAN28mc8AAAABi_U6q88AAAAIuTwN_A",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/37467459068",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-27T12:07:39Z",
+      "label": {
+        "name": "Proposed BIP modification",
+        "color": "5319e7"
+      }
+    },
+    {
+      "event": "labeled",
+      "id": 37467459141,
+      "node_id": "LE_lADOAN28mc8AAAABi_U6q88AAAAIuTwORQ",
+      "url": "https://api.github.com/repos/bitcoin/bips/issues/events/37467459141",
+      "actor": {
+        "login": "jonatack",
+        "id": 2415484,
+        "node_id": "MDQ6VXNlcjI0MTU0ODQ=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/2415484?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/jonatack",
+        "html_url": "https://github.com/jonatack",
+        "followers_url": "https://api.github.com/users/jonatack/followers",
+        "following_url": "https://api.github.com/users/jonatack/following%7B/other_user%7D",
+        "gists_url": "https://api.github.com/users/jonatack/gists%7B/gist_id%7D",
+        "starred_url": "https://api.github.com/users/jonatack/starred%7B/owner%7D%7B/repo%7D",
+        "subscriptions_url": "https://api.github.com/users/jonatack/subscriptions",
+        "organizations_url": "https://api.github.com/users/jonatack/orgs",
+        "repos_url": "https://api.github.com/users/jonatack/repos",
+        "events_url": "https://api.github.com/users/jonatack/events%7B/privacy%7D",
+        "received_events_url": "https://api.github.com/users/jonatack/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": null,
+        "patch_url": null
+      },
+      "commit_id": null,
+      "commit_url": null,
+      "created_at": "2026-11-27T12:07:39Z",
+      "label": {
+        "name": "Pending acceptance",
+        "color": "fbca04"
+      }
     }
   ],
   "comments": []
